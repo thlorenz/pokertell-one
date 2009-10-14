@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="PokerTell.PokerHand.Views.HandHistoriesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Design="clr-namespace:PokerTell.PokerHand.ViewModels.Design"
+    xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
+    xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
+    >
+  
+        
+            <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoriesViewModel}"
+          MaxWidth="500"
+                 >
+                <ItemsControl ItemsSource="{Binding HandHistoryViewModels}"  >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Views:HandHistoryView DataContext="{Binding}" Margin="10"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+       
+    
+</UserControl>
