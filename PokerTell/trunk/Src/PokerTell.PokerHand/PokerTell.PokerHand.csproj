@@ -123,6 +123,7 @@
     <Compile Include="ViewModels\HandHistoryRow.cs" />
     <Compile Include="ViewModels\HandHistoryViewModel.cs" />
     <Compile Include="ViewModels\HoleCardsViewModel.cs" />
+    <Compile Include="ViewModels\IHandHistoriesViewModel.cs" />
     <Compile Include="ViewModels\Suits.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>

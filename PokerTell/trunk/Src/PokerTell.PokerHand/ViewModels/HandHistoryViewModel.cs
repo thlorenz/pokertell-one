@@ -17,7 +17,7 @@ namespace PokerTell.PokerHand.ViewModels
     {
         #region Constants and Fields
 
-        private readonly bool _showPreflopFolds;
+        private bool _showPreflopFolds;
 
         private IConvertedPokerHand _hand;
 
@@ -36,10 +36,17 @@ namespace PokerTell.PokerHand.ViewModels
 
         public HandHistoryViewModel(bool showPreflopFolds)
         {
+            Initialize(showPreflopFolds);
+        }
+
+        public IHandHistoryViewModel Initialize(bool showPreflopFolds)
+        {
             _showPreflopFolds = showPreflopFolds;
 
             PlayerRows = new ObservableCollection<HandHistoryRow>();
             Board = new BoardViewModel();
+
+            return this;
         }
 
         #endregion
@@ -109,18 +116,18 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        DelegateCommand<IPokerHandCondition> _adjustToConditionCommand;
+        protected Action<IPokerHandCondition> _adjustToConditionAction;
 
-        public DelegateCommand<IPokerHandCondition> AdjustToConditionCommand
+        public Action<IPokerHandCondition> AdjustToConditionAction
         {
             get
             {
-                if (_adjustToConditionCommand == null)
+                if (_adjustToConditionAction == null)
                 {
-                    _adjustToConditionCommand = new DelegateCommand<IPokerHandCondition>(AdjustToCondition);
+                    _adjustToConditionAction = new Action<IPokerHandCondition>(AdjustToCondition);
                 }
 
-                return _adjustToConditionCommand;
+                return _adjustToConditionAction;
             }
         }
 
@@ -145,7 +152,7 @@ namespace PokerTell.PokerHand.ViewModels
             return sb.ToString();
         }
 
-        public void UpdateWith(IConvertedPokerHand hand)
+        public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
         {
             _hand = hand;
            
@@ -168,6 +175,8 @@ namespace PokerTell.PokerHand.ViewModels
             RaisePropertyChanged(() => Ante);
             RaisePropertyChanged(() => TotalPlayers);
             RaisePropertyChanged(() => TimeStamp);
+
+            return this;
         }
 
         #endregion

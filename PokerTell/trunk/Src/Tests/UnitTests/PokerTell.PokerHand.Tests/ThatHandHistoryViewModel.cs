@@ -118,25 +118,25 @@ namespace PokerTell.PokerHand.Tests
         }
 
         [Test]
-        public void AdjustToConditionCommand_ConditionIsFullFilledReturnsFalse_SetsVisibleToFalse()
+        public void AdjustToConditionAction_ConditionIsFullFilledReturnsFalse_SetsVisibleToFalse()
         {
             _handHistoryViewModel = new HandHistoryViewModel { Visible = true };
 
             var conditionStub = new StubCondition { FullFill = false };
 
-            _handHistoryViewModel.AdjustToConditionCommand.Execute(conditionStub);
+            _handHistoryViewModel.AdjustToConditionAction.Invoke(conditionStub);
 
             Assert.That(_handHistoryViewModel.Visible, Is.False);
         }
 
         [Test]
-        public void AdjustToConditionCommand_ConditionIsFullFilledReturnsTrue_SetsVisibleToTrue()
+        public void AdjustToConditionAction_ConditionIsFullFilledReturnsTrue_SetsVisibleToTrue()
         {
             _handHistoryViewModel = new HandHistoryViewModel { Visible = false };
 
             var conditionStub = new StubCondition { FullFill = true };
 
-            _handHistoryViewModel.AdjustToConditionCommand.Execute(conditionStub);
+            _handHistoryViewModel.AdjustToConditionAction.Invoke(conditionStub);
 
             Assert.That(_handHistoryViewModel.Visible, Is.True);
         }

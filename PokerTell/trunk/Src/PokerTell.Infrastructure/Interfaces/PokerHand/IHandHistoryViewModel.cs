@@ -1,5 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System;
+
     public interface IHandHistoryViewModel
     {
         string Ante { get; }
@@ -22,6 +24,10 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         IBoardViewModel Board { get; }
 
-        void UpdateWith(IConvertedPokerHand hand);
+        Action<IPokerHandCondition> AdjustToConditionAction { get; }
+
+        IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand);
+
+        IHandHistoryViewModel Initialize(bool showPreflopFolds);
     }
 }
