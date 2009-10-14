@@ -1,0 +1,209 @@
+<UserControl x:Class="PokerTell.PokerHand.Views.HandHistoryView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools"
+    xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
+    xmlns:Design="clr-namespace:PokerTell.PokerHand.ViewModels.Design"
+    xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
+    xmlns:Properties="clr-namespace:PokerTell.PokerHand.Properties"
+    xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+   
+   >
+    <UserControl.Resources>
+        <Converters:VisibilityConverter x:Key="VisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
+        <Grid.Resources>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="Margin" Value="3,1"/>
+            </Style>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="23" />
+            <RowDefinition Height="Auto" MinHeight="23" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+
+        <!-- HandHeader-->
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Right">
+                    <!-- Tournament Id -->
+                    <StackPanel Grid.Row="0"  Orientation="Horizontal" Background="LightGreen"
+                        Visibility="{Binding IsTournament, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock Text="T:"/>
+                        <TextBlock Text="{Binding TournamentId}"/>
+                    </StackPanel>
+
+                    <!-- Game Id -->
+                    <StackPanel  Orientation="Horizontal" Background="Bisque">
+                        <TextBlock Text="G:"/>
+                        <TextBlock Text="{Binding GameId}"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding TimeStamp}" Background="LightBlue"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <!-- Board -->
+                    <Views:BoardView Grid.Row="1" DataContext="{Binding Board}"/>
+
+                    <!-- Blinds -->
+                    <StackPanel   Orientation="Horizontal" Background="#FFBED4B5" >
+                        <TextBlock Text="{Binding BigBlind}"/>
+                        <TextBlock Text="/" Margin="0" />
+                        <TextBlock Text="{Binding SmallBlind}" Margin="0,1"/>
+                    </StackPanel>
+
+                    <!-- Ante -->
+                    <StackPanel   Orientation="Horizontal" Background="#FFBED4B5"
+                        Visibility="{Binding HasAnte, Converter={StaticResource VisibilityConverter}}">
+                        <TextBlock Text="("/>
+                        <TextBlock Text="{Binding Ante}" Margin="0,1"/>
+                        <TextBlock Text=")" Margin="0,1"/>
+                    </StackPanel>
+
+                    <!-- Total Players -->
+                    <StackPanel   Orientation="Horizontal" Background="BlanchedAlmond" >
+                        <TextBlock Text="TP:" />
+                        <TextBlock Text="{Binding TotalPlayers}"/>
+                    </StackPanel>
+                </StackPanel>
+
+        <dg:DataGrid
+        Grid.Row="2"
+      
+        Background="White"
+        ItemsSource="{Binding PlayerRows}"
+        HeadersVisibility="None"
+        AutoGenerateColumns="False"
+        HorizontalScrollBarVisibility="Auto" 
+        SelectionMode="Extended"
+        SelectionUnit="Cell"
+        CanUserAddRows="False" 
+        CanUserDeleteRows="False"
+        CanUserResizeRows="False" 
+        CanUserSortColumns="False"
+        AreRowDetailsFrozen="True"
+        GridLinesVisibility="Horizontal"
+        IsReadOnly="True" 
+        VerticalAlignment="Top"
+        HorizontalGridLinesBrush="Lavender"
+        MouseEnter="DataGrid_MouseEnter"
+        MouseLeave="DataGrid_MouseLeave"     
+        >
+            <dg:DataGrid.Columns>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_Position_Header}" >
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding Position}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" 
+                                      />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_PlayerName_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding PlayerName}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
+                                      />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Views:HoleCardsView DataContext="{Binding HoleCards}"
+                                                 ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"/>
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_M_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding M}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" 
+                                      />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_Preflop_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding Preflop}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
+                                       Background="LightGray"  
+                                      />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_Flop_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding Flop}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
+                                       Background="Beige" />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_Turn_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding Turn}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
+                                       Background="LightGreen"  />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+                <dg:DataGridTemplateColumn
+                    Header="{x:Static Properties:Resources.HandHistoryView_River_Header}">
+                    <dg:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock DataContext="{Binding River}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
+                                       Background="LightBlue"  />
+                        </DataTemplate>
+                    </dg:DataGridTemplateColumn.CellTemplate>
+                </dg:DataGridTemplateColumn>
+
+            </dg:DataGrid.Columns>
+
+        </dg:DataGrid>
+    </Grid>
+</UserControl>
+<!--
+    <dg:DataGrid.RowHeaderTemplate>
+    <DataTemplate>
+        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+                    AncestorType={x:Type dg:DataGridRow}}, 
+                    Path= Item.PlayerName}"
+                 />
+    </DataTemplate>
+    </dg:DataGrid.RowHeaderTemplate>
+
+    
+
+    -->

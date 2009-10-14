@@ -1,0 +1,17 @@
+<UserControl x:Class="PokerTell.PokerHand.Views.HandHistoriesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
+    >
+    <StackPanel Orientation="Horizontal">
+        <Views:HandHistoryView DataContext="{Binding CurrentHandHistory}"/>
+        <ScrollBar Orientation="Vertical"
+                   Value="{Binding SelectedIndex}"
+                   SmallChange="1"
+                   LargeChange="5"
+                   Minimum="0"
+                   Maximum="{Binding LastHandIndex}"
+                   MouseWheel="ScrollBar_MouseWheel"
+                   />
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tools</RootNamespace>
+    <AssemblyName>Tools</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Log4Net\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Interactivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Expression\Microsoft.Expression.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ExecuteProcess.cs" />
+    <Compile Include="Extensions\ArrayComparer.cs" />
+    <Compile Include="Extensions\NullSafe.cs" />
+    <Compile Include="Extensions\ResExtension.cs" />
+    <Compile Include="Extensions\TranslateExtension.cs" />
+    <Compile Include="GenericRanges\BlinkingColorCodedRange.cs" />
+    <Compile Include="GenericRanges\ColorCodedGenericRangeList.cs" />
+    <Compile Include="GenericRanges\ColorCodedRange.cs" />
+    <Compile Include="GenericRanges\GenericRange.cs" />
+    <Compile Include="GenericRanges\IColorCodedRange.cs" />
+    <Compile Include="GenericRanges\IGenericRange.cs" />
+    <Compile Include="GenericUtilities\CompositeAction.cs" />
+    <Compile Include="GenericUtilities\DoubleKeyDictionary.cs" />
+    <Compile Include="GenericUtilities\GenericEventArgs.cs" />
+    <Compile Include="GenericUtilities\GuiProperty.cs" />
+    <Compile Include="GenericUtilities\Member.cs" />
+    <Compile Include="GenericUtilities\Reflect.cs" />
+    <Compile Include="GenericUtilities\RelativeLocation.cs" />
+    <Compile Include="IDispatcherTimer.cs" />
+    <Compile Include="ITimer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Localization\LocalizationSettings.cs" />
+    <Compile Include="Localization\WpfUtils.cs" />
+    <Compile Include="Log4NetAppenders.cs" />
+    <Compile Include="Normalizer.cs" />
+    <Compile Include="Serialization\Serializers.cs" />
+    <Compile Include="StaticMethods.cs" />
+    <Compile Include="WPF\Command\CommandAction.cs" />
+    <Compile Include="WPF\Command\CommandBehavior.cs" />
+    <Compile Include="WPF\Command\CommandBehaviorNoParam.cs" />
+    <Compile Include="WPF\Command\EventCommand.cs" />
+    <Compile Include="WPF\Command\IWPFCommand.cs" />
+    <Compile Include="WPF\Command\SimpleCommand.cs" />
+    <Compile Include="WPF\Controls\ColorPicker\ColorPicker.cs" />
+    <Compile Include="WPF\Controls\ColorPicker\ColorPickerDialog.xaml.cs">
+      <DependentUpon>ColorPickerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\ColorPicker.cs" />
+    <Compile Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\ColorPickerDialog.xaml.cs">
+      <DependentUpon>ColorPickerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\Properties\AssemblyInfo.cs" />
+    <Compile Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\SupportingClasses.cs" />
+    <Compile Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\SampleViewer.xaml.cs">
+      <DependentUpon>SampleViewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\Controls\ColorPicker\SupportingClasses.cs" />
+    <Compile Include="WPF\Controls\CommandButton.xaml.cs">
+      <DependentUpon>CommandButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WPF\Controls\DragCanvas.cs" />
+    <Compile Include="WPF\ConvertColor.cs" />
+    <Compile Include="WPF\Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="WPF\Converters\VisibilityConverter.cs" />
+    <Compile Include="WPF\DesignAndRunTimeDataContext.cs" />
+    <Compile Include="WPF\DesignTimeHelper.cs" />
+    <Compile Include="WPF\EventBehaviourFactory\ControlBehavior.cs" />
+    <Compile Include="WPF\EventBehaviourFactory\EventBehaviourFactory.cs" />
+    <Compile Include="WPF\EventBehaviourFactory\TextBoxBehaviour.cs" />
+    <Compile Include="WPF\InterActicityHack.cs" />
+    <Compile Include="WPF\Interfaces\IViewModel.cs" />
+    <Compile Include="WPF\Utilities.cs" />
+    <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
+    <Compile Include="WPF\ViewModels\CommandViewModel.cs" />
+    <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />
+    <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
+    <Compile Include="WPF\ViewModels\ViewModel.cs" />
+    <Compile Include="Wrappers\CallWindowProc.cs" />
+    <Compile Include="Wrappers\HandHistoryReader.cs" />
+    <Compile Include="Wrappers\HotKey.cs" />
+    <Compile Include="Wrappers\Kernel32.cs" />
+    <Compile Include="Wrappers\ProcessMemoryReader.cs" />
+    <Compile Include="Wrappers\SetWindowPos.cs" />
+    <Compile Include="Wrappers\User32.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Controls\ColorPicker\ColorPickerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\ColorPickerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\Themes\generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\app.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\SampleViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WPF\Controls\CommandButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerLib\ColorPicker.csproj" />
+    <Content Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\ColorPickerSampleApplication.csproj" />
+    <Content Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\ColorPickerSampleApplication.sln" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
