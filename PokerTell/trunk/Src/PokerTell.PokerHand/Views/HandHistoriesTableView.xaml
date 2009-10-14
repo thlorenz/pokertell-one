@@ -1,4 +1,4 @@
-<UserControl x:Class="PokerTell.PokerHand.Views.HandHistoriesView"
+<UserControl x:Class="PokerTell.PokerHand.Views.HandHistoriesTableView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"

@@ -1,6 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System;
+    using System.Collections.Generic;
 
     public interface IHandHistoryViewModel
     {
@@ -25,6 +26,12 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         IBoardViewModel Board { get; }
 
         Action<IPokerHandCondition> AdjustToConditionAction { get; }
+
+        string[] Note { get; set; }
+
+        IList<IHandHistoryRow> PlayerRows { get; }
+
+        bool Visible { get; set; }
 
         IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand);
 

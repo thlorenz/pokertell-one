@@ -13,8 +13,6 @@ namespace PokerTell.PokerHand.Tests
 
     using NUnit.Framework;
 
-    using UnitTests;
-
     using ViewModels;
 
     [TestFixture]
@@ -28,7 +26,7 @@ namespace PokerTell.PokerHand.Tests
         }
 
         private IConvertedPokerHand _pokerHand;
-        private HandHistoryViewModel _handHistoryViewModel;
+        private IHandHistoryViewModel _handHistoryViewModel;
 
         StubBuilder _stub;
 
@@ -139,6 +137,22 @@ namespace PokerTell.PokerHand.Tests
             _handHistoryViewModel.AdjustToConditionAction.Invoke(conditionStub);
 
             Assert.That(_handHistoryViewModel.Visible, Is.True);
+        }
+
+        [Test]
+        public void Note_IsSet_SetsNoteOnContainedHand()
+        {
+            var hand = new ConvertedPokerHand();
+            _handHistoryViewModel = new HandHistoryViewModel()
+                .UpdateWith(hand);
+            
+            const string line1 = "Test Line1";
+            const string line2 = "Test Line2";
+            var newNote = new[] { line1, line2 };
+
+            _handHistoryViewModel.Note = newNote;
+
+            Assert.That(hand.Note, Is.EqualTo(newNote));
         }
     }
 }

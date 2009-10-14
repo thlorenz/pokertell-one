@@ -1,8 +1,6 @@
-namespace PokerTell.PokerHand.ViewModels
+namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System.Collections.Generic;
-
-    using Infrastructure.Interfaces.PokerHand;
 
     using Tools.GenericUtilities;
 

@@ -86,6 +86,8 @@
     <Compile Include="Interfaces\PokerHand\IConvertedPokerHand.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerPlayer.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerRound.cs" />
+    <Compile Include="Interfaces\PokerHand\IHandHistoriesViewModel.cs" />
+    <Compile Include="Interfaces\PokerHand\IHandHistoryRow.cs" />
     <Compile Include="Interfaces\PokerHand\IHandHistoryViewModel.cs" />
     <Compile Include="Interfaces\PokerHand\IHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerAction.cs" />

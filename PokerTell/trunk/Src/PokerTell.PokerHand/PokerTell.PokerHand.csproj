@@ -74,6 +74,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -117,16 +120,20 @@
     <Compile Include="Services\PokerRoundsConverter.cs" />
     <Compile Include="Conditions\SawFlopCondition.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\Design\DesignHelper.cs" />
+    <Compile Include="ViewModels\Design\HandHistoriesViewModel.cs" />
     <Compile Include="ViewModels\Design\HandHistoryViewModel.cs" />
     <Compile Include="ViewModels\HandHistoriesTableViewModel.cs" />
     <Compile Include="ViewModels\HandHistoriesViewModel.cs" />
     <Compile Include="ViewModels\HandHistoryRow.cs" />
     <Compile Include="ViewModels\HandHistoryViewModel.cs" />
     <Compile Include="ViewModels\HoleCardsViewModel.cs" />
-    <Compile Include="ViewModels\IHandHistoriesViewModel.cs" />
     <Compile Include="ViewModels\Suits.cs" />
     <Compile Include="Views\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HandHistoriesTableView.xaml.cs">
+      <DependentUpon>HandHistoriesTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HandHistoriesView.xaml.cs">
       <DependentUpon>HandHistoriesView.xaml</DependentUpon>
@@ -136,6 +143,9 @@
     </Compile>
     <Compile Include="Views\HoleCardsView.xaml.cs">
       <DependentUpon>HoleCardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TestWindow.xaml.cs">
+      <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -166,15 +176,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\HandHistoriesView.xaml">
+    <Page Include="Views\HandHistoriesTableView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HandHistoriesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\HandHistoryView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HoleCardsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TestWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

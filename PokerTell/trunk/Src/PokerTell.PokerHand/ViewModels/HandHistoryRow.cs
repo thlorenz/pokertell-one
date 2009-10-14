@@ -2,18 +2,18 @@ namespace PokerTell.PokerHand.ViewModels
 {
     using System.Text;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.GenericUtilities;
 
-    public class HandHistoryRow
+    public class HandHistoryRow : IHandHistoryRow
     {
         #region Constants and Fields
 
-        private const string Indent = "___     ";
+        const string Indent = "___     ";
 
-        private readonly IConvertedPokerPlayer _pokerPlayer;
+        readonly IConvertedPokerPlayer _pokerPlayer;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         public HandHistoryRow(IConvertedPokerPlayer pokerPlayer)
         {
-            this._pokerPlayer = pokerPlayer;
+            _pokerPlayer = pokerPlayer;
         }
 
         #endregion
@@ -30,71 +30,53 @@ namespace PokerTell.PokerHand.ViewModels
 
         public string Flop
         {
-            get
-            {
-                return this.GetActionsFor(Streets.Flop);
-            }
+            get { return GetActionsFor(Streets.Flop); }
         }
 
-        public HoleCardsViewModel HoleCards
+        public IHoleCardsViewModel HoleCards
         {
             get
             {
                 var hcvm = new HoleCardsViewModel();
-                hcvm.UpdateWith(this._pokerPlayer.Holecards);
+                hcvm.UpdateWith(_pokerPlayer.Holecards);
                 return hcvm;
             }
         }
 
         public string M
         {
-            get
-            {
-                return this._pokerPlayer.MBefore.ToString();
-            }
+            get { return _pokerPlayer.MBefore.ToString(); }
         }
 
         public string PlayerName
         {
-            get
-            {
-                return this._pokerPlayer.Name;
-            }
+            get { return _pokerPlayer.Name; }
         }
 
         public string Position
         {
-            get
-            {
-                return this._pokerPlayer.StrategicPosition.ToString();
-            }
+            get { return _pokerPlayer.StrategicPosition.ToString(); }
         }
 
         public string Preflop
         {
             get
             {
-                return this._pokerPlayer.StrategicPosition == StrategicPositions.SB ||
-                       this._pokerPlayer.StrategicPosition == StrategicPositions.BB
-                           ? Indent + this.GetActionsFor(Streets.PreFlop)
-                           : this.GetActionsFor(Streets.PreFlop);
+                return _pokerPlayer.StrategicPosition == StrategicPositions.SB ||
+                       _pokerPlayer.StrategicPosition == StrategicPositions.BB
+                           ? Indent + GetActionsFor(Streets.PreFlop)
+                           : GetActionsFor(Streets.PreFlop);
             }
         }
 
         public string River
         {
-            get
-            {
-                return this.GetActionsFor(Streets.River);
-            }
+            get { return GetActionsFor(Streets.River); }
         }
 
         public string Turn
         {
-            get
-            {
-                return this.GetActionsFor(Streets.Turn);
-            }
+            get { return GetActionsFor(Streets.Turn); }
         }
 
         #endregion
@@ -104,12 +86,12 @@ namespace PokerTell.PokerHand.ViewModels
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.Append(Member.State(() => this.Position) + "  :  ");
-            sb.Append(Member.State(() => this.PlayerName) + "  :  ");
-            sb.Append(Member.State(() => this.Preflop) + "  :  ");
-            sb.Append(Member.State(() => this.Flop) + "  :  ");
-            sb.Append(Member.State(() => this.Turn) + "  :  ");
-            sb.Append(Member.State(() => this.River) + "  :  ");
+            sb.Append(Member.State(() => Position) + "  :  ");
+            sb.Append(Member.State(() => PlayerName) + "  :  ");
+            sb.Append(Member.State(() => Preflop) + "  :  ");
+            sb.Append(Member.State(() => Flop) + "  :  ");
+            sb.Append(Member.State(() => Turn) + "  :  ");
+            sb.Append(Member.State(() => River) + "  :  ");
             return sb.ToString();
         }
 
@@ -117,10 +99,10 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region Methods
 
-        private string GetActionsFor(Streets street)
+        string GetActionsFor(Streets street)
         {
-            return this._pokerPlayer.Count > (int)street && this._pokerPlayer[street] != null
-                       ? this._pokerPlayer[street].ToString()
+            return _pokerPlayer.Count > (int)street && _pokerPlayer[street] != null
+                       ? _pokerPlayer[street].ToString()
                        : string.Empty;
         }
 

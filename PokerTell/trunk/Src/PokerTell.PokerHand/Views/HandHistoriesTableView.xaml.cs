@@ -14,18 +14,18 @@ namespace PokerTell.PokerHand.Views
     using ViewModels;
 
     /// <summary>
-    /// Interaction logic for HandHistoriesView.xaml
+    /// Interaction logic for HandHistoriesTableView.xaml
     /// </summary>
-    public partial class HandHistoriesView
+    public partial class HandHistoriesTableView
     {
         #region Constructors and Destructors
 
-        public HandHistoriesView()
+        public HandHistoriesTableView()
             : this(CreateSampleHandHistoriesViewModel())
         {
         }
 
-        public HandHistoriesView(HandHistoriesTableViewModel viewModel)
+        public HandHistoriesTableView(HandHistoriesTableViewModel viewModel)
         {
             viewModel.SelectedIndex = viewModel.LastHandIndex;
             DataContext = viewModel;

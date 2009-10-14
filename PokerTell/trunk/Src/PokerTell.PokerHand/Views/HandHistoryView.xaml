@@ -13,7 +13,8 @@
         <Converters:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
-    <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
+    <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}"
+           Background="LightGray" Margin="10">
         <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="Margin" Value="3,1"/>
@@ -24,51 +25,91 @@
             <RowDefinition Height="Auto" MinHeight="23" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
 
         <!-- HandHeader-->
 
-                <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Right">
-                    <!-- Tournament Id -->
-                    <StackPanel Grid.Row="0"  Orientation="Horizontal" Background="LightGreen"
+        <Grid Grid.Row="0"  HorizontalAlignment="Right"
+             >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <!-- Tournament Id -->
+            <Grid Grid.Row="0" Grid.Column="0" Background="LightGreen"
                         Visibility="{Binding IsTournament, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="T:"/>
-                        <TextBlock Text="{Binding TournamentId}"/>
-                    </StackPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="T:"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TournamentId}"/>
+            </Grid>
 
-                    <!-- Game Id -->
-                    <StackPanel  Orientation="Horizontal" Background="Bisque">
-                        <TextBlock Text="G:"/>
-                        <TextBlock Text="{Binding GameId}"/>
-                    </StackPanel>
-                    <TextBlock Text="{Binding TimeStamp}" Background="LightBlue"/>
-                </StackPanel>
+            <!-- Game Id -->
+            <Grid Grid.Row="0" Grid.Column="1" Background="Bisque">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="G:"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding GameId}"/>
+            </Grid>
+            <TextBlock Text="{Binding TimeStamp}" Background="LightBlue"/>
+        </Grid>
 
-                <StackPanel Grid.Row="1" Orientation="Horizontal">
-                    <!-- Board -->
-                    <Views:BoardView Grid.Row="1" DataContext="{Binding Board}"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Board -->
+            <Views:BoardView Grid.Row="0" Grid.Column="0" DataContext="{Binding Board}"/>
 
-                    <!-- Blinds -->
-                    <StackPanel   Orientation="Horizontal" Background="#FFBED4B5" >
-                        <TextBlock Text="{Binding BigBlind}"/>
-                        <TextBlock Text="/" Margin="0" />
-                        <TextBlock Text="{Binding SmallBlind}" Margin="0,1"/>
-                    </StackPanel>
+            <!-- Blinds -->
+            <Grid Grid.Row="0" Grid.Column="1"  Background="#FFBED4B5" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                 </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding BigBlind}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="/" Margin="0" />
+                <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding SmallBlind}" Margin="0,1"/>
+            </Grid>
 
-                    <!-- Ante -->
-                    <StackPanel   Orientation="Horizontal" Background="#FFBED4B5"
+            <!-- Ante -->
+            <Grid  Grid.Row="0" Grid.Column="2" Background="#FFBED4B5"
                         Visibility="{Binding HasAnte, Converter={StaticResource VisibilityConverter}}">
-                        <TextBlock Text="("/>
-                        <TextBlock Text="{Binding Ante}" Margin="0,1"/>
-                        <TextBlock Text=")" Margin="0,1"/>
-                    </StackPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
 
-                    <!-- Total Players -->
-                    <StackPanel   Orientation="Horizontal" Background="BlanchedAlmond" >
-                        <TextBlock Text="TP:" />
-                        <TextBlock Text="{Binding TotalPlayers}"/>
-                    </StackPanel>
-                </StackPanel>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="("/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Ante}" Margin="0,1"/>
+                <TextBlock Grid.Row="0" Grid.Column="2" Text=")" Margin="0,1"/>
+            </Grid>
+
+            <!-- Total Players -->
+            <Grid  Grid.Row="0" Grid.Column="3" Background="BlanchedAlmond" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="TP:" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalPlayers}"/>
+            </Grid>
+        </Grid>
 
         <dg:DataGrid
         Grid.Row="2"

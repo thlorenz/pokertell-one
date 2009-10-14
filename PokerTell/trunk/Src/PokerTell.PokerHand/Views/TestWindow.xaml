@@ -1,0 +1,28 @@
+<Window x:Class="PokerTell.PokerHand.Views.TestWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
+    xmlns:Design="clr-namespace:PokerTell.PokerHand.ViewModels.Design"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    Width="500" Height="200" >
+    
+        
+            
+            <Views:HandHistoriesView DataContext="{Binding}"/>
+         
+       
+</Window>
+    
+    
+    <!-- Make it transparent
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ShowInTaskbar="False"  
+    
+         Background="Black"
+        -->
+<!-- 
+    <Views:PostFlopDataGrid DataContext="{Binding}" FontSize="12.5"/>
+     <Views:StatisticsAnalyzerView x:Name="StatisticsAnalyzerView" />
+    -->

@@ -3,11 +3,9 @@ namespace PokerTell.PokerHand.Tests
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     using Analyzation;
 
-    using Infrastructure.Interfaces;
     using Infrastructure.Services;
 
     using Microsoft.Practices.Unity;
@@ -19,6 +17,8 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Tests.Fakes;
     using PokerTell.PokerHand.ViewModels;
+
+    using Views;
 
     public class ThatHandHistoriesViewModel
     {
@@ -128,6 +128,12 @@ namespace PokerTell.PokerHand.Tests
             viewModel.ApplyFilterCompositeAction.Invoke(_stub.Out<IPokerHandCondition>());
 
             Assert.That(wasInvoked);
+        }
+
+        [Test]
+        public void Show_HandHIstoriesView_InTestWindow()
+        {
+            new TestWindow().ShowDialog();
         }
 
         #endregion

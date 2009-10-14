@@ -23,8 +23,6 @@ namespace PokerTell.PokerHand.ViewModels
 
         bool _visible;
 
-        ICommand _checkForConditionCommand;
-
         #endregion
 
         #region Constructors and Destructors
@@ -43,7 +41,7 @@ namespace PokerTell.PokerHand.ViewModels
         {
             _showPreflopFolds = showPreflopFolds;
 
-            PlayerRows = new ObservableCollection<HandHistoryRow>();
+            PlayerRows = new ObservableCollection<IHandHistoryRow>();
             Board = new BoardViewModel();
 
             return this;
@@ -68,7 +66,7 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _hand.GameId.ToString(); }
         }
 
-        public IList<HandHistoryRow> PlayerRows { get; private set; }
+        public IList<IHandHistoryRow> PlayerRows { get; private set; }
 
         public string SmallBlind
         {
@@ -129,6 +127,12 @@ namespace PokerTell.PokerHand.ViewModels
 
                 return _adjustToConditionAction;
             }
+        }
+
+        public string[] Note
+        {
+            get { return _hand.Note; }
+            set { _hand.Note = value; }
         }
 
         void AdjustToCondition(IPokerHandCondition condition)

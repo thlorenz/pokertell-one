@@ -5,10 +5,37 @@
     xmlns:themes="clr-namespace:WPF.Themes;assembly=WPF.Themes"
     themes:ThemeManager.Theme="ExpressionDark"
     Title="Shell" Height="300" Width="300">
-    <StackPanel>
-        <ItemsControl x:Name="ShellMainRegion"
+    
+     <TabControl>
+        <TabItem Header="Session">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer Grid.Column="0" 
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          >
+                    <ItemsControl x:Name="ShellMainRegion"
                   cal:RegionManager.RegionName="Shell.MainRegion" />
-
-        <Button Content="ClickMe" Height="Auto" FontSize="18"/>
-    </StackPanel>
+                </ScrollViewer>
+                <ScrollViewer Grid.Column="1" 
+                          HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto"
+                          >
+                    <ItemsControl x:Name="ShellRightSideRegion"
+                  cal:RegionManager.RegionName="Shell.RightSideRegion" />
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+    </TabControl>
+    <!--
+    <TabControl
+        x:Name="MainRegionTab"
+                    SelectedIndex="0"  
+                    VerticalAlignment="Stretch"
+                    cal:RegionManager.RegionName="Shell.MainRegion"
+                />
+    -->
 </Window>
