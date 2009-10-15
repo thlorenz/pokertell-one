@@ -5,19 +5,23 @@
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
     xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
     >
-  
-        
+    <ScrollViewer>
+        <Border CornerRadius="10" Margin="5, 20, 5, 10" Background="White">
+
             <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoriesViewModel}"
           MaxWidth="500"
                  >
                 <ItemsControl ItemsSource="{Binding HandHistoryViewModels}"  >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Views:HandHistoryView DataContext="{Binding}" Margin="10"/>
+                            <Border CornerRadius="5" Background="AntiqueWhite" Margin="5">
+                                <Views:HandHistoryView DataContext="{Binding}" Margin="5"/>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-       
-    
+
+        </Border>
+    </ScrollViewer>
 </UserControl>

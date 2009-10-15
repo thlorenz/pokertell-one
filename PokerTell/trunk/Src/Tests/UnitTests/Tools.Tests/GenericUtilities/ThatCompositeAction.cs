@@ -1,4 +1,4 @@
-﻿namespace Tools.Tests.GenericUtilities
+namespace Tools.Tests.GenericUtilities
 {
     using System;
     using System.Collections.Generic;
@@ -27,7 +27,7 @@
         [Test]
         public void Execute_NoActionsRegistered_DoesNotThrow()
         {
-            Assert.DoesNotThrow(() => _actions.Execute(_stub.Some<int>()));
+            Assert.DoesNotThrow(() => _actions.Invoke(_stub.Some<int>()));
         }
 
         [Test]
@@ -83,7 +83,7 @@
 
             _actions
                 .RegisterAction(action)
-                .Execute(_stub.Some<int>());
+                .Invoke(_stub.Some<int>());
 
             Assert.That(actionExecuted, Is.True);
         }
@@ -100,7 +100,7 @@
             _actions
                 .RegisterAction(action1)
                 .RegisterAction(action2)
-                .Execute(_stub.Some<int>());
+                .Invoke(_stub.Some<int>());
 
             var bothExecuted = actionExecuted1 && actionExecuted2;
             Assert.That(bothExecuted, Is.True);
@@ -156,7 +156,7 @@
             _actions
                 .RegisterAction(action1)
                 .RegisterAction(action2)
-                .Execute(0);
+                .Invoke(0);
 
             Assert.That(passedToAction2, Is.EqualTo(0));
         }
@@ -177,7 +177,7 @@
             refActions
                 .RegisterAction(action1)
                 .RegisterAction(action2)
-                .Execute(new ReferenceType(originalIdentity));
+                .Invoke(new ReferenceType(originalIdentity));
 
             Assert.That(passedToAction2.Identity, Is.EqualTo(newIdentity));
         }
@@ -191,7 +191,7 @@
 
             _actions
                 .RegisterAction(action)
-                .Execute(arg);
+                .Invoke(arg);
 
             Assert.That(passedArg, Is.EqualTo(arg));
         }

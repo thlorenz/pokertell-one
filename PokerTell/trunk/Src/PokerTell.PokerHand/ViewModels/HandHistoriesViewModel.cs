@@ -7,8 +7,9 @@ namespace PokerTell.PokerHand.ViewModels
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.GenericUtilities;
+    using Tools.WPF.ViewModels;
 
-    public class HandHistoriesViewModel : IHandHistoriesViewModel
+    public class HandHistoriesViewModel : ViewModel, IHandHistoriesViewModel
     {
         #region Constants and Fields
 
@@ -17,6 +18,8 @@ namespace PokerTell.PokerHand.ViewModels
         readonly IConstructor<IHandHistoryViewModel> _handHistoryViewModelMake;
 
         readonly ObservableCollection<IHandHistoryViewModel> _handHistoryViewModels;
+
+        string _headerInfo;
 
         #endregion
 
@@ -42,6 +45,16 @@ namespace PokerTell.PokerHand.ViewModels
         public IEnumerable<IHandHistoryViewModel> HandHistoryViewModels
         {
             get { return _handHistoryViewModels; }
+        }
+
+        public string HeaderInfo
+        {
+            get { return _headerInfo; }
+            set
+            {
+                _headerInfo = value;
+                RaisePropertyChanged(() => HeaderInfo);
+            }
         }
 
         #endregion

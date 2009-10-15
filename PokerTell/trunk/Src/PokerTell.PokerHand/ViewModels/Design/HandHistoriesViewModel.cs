@@ -23,7 +23,10 @@ namespace PokerTell.PokerHand.ViewModels.Design
             {
                 hands.Add(designHelper.CreateSamplePokerHand(i));
             }
+
             InitializeWith(hands);
+
+            HeaderInfo = "SessionReview";
         }
     }
 }

@@ -47,9 +47,10 @@ namespace PokerTell.PokerHand
             RegisterViewsAndServices();
             try
             {
-               // _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoryView>());
                 _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoriesView>());
-               
+                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoryView>());
+                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoriesView>());
+                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoriesView>());
             }
             catch (Exception excep)
             {

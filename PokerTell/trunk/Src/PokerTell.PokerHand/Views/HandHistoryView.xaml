@@ -13,8 +13,7 @@
         <Converters:VisibilityConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
-    <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}"
-           Background="LightGray" Margin="10">
+    <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
         <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="Margin" Value="3,1"/>

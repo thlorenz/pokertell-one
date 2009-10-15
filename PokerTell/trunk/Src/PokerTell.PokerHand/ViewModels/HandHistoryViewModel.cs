@@ -88,6 +88,11 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _hand.TournamentId != 0 ? _hand.TournamentId.ToString() : string.Empty; }
         }
 
+        public string HeaderInfo
+        {
+            get { return "Hand:" + _hand.GameId; }
+        }
+
         public bool IsTournament
         {
             get { return _hand.TournamentId > 0; }

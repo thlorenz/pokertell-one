@@ -1,4 +1,4 @@
-﻿namespace Tools.GenericUtilities
+namespace Tools.GenericUtilities
 {
     using System;
     using System.Collections.Generic;
@@ -31,7 +31,7 @@
 
         #region Public Methods
 
-        public void Execute(T parameter)
+        public void Invoke(T parameter)
         {
             foreach (Action<T> action in RegisteredActions)
             {
@@ -100,16 +100,16 @@
         // }
         // /// <summary>
         // /// Only added to conform to ICommand, use strongly typed
-        // /// <code> <![CDATA[Execute(T parameter)]]></code> instead
+        // /// <code> <![CDATA[Invoke(T parameter)]]></code> instead
         // /// </summary>
         // /// <param name="parameter">Parameter to pass, must be of type T</param>
-        // public void Execute(object parameter)
+        // public void Invoke(object parameter)
         // {
         // if (parameter.GetType() != typeof(T))
         // {
         // throw new ArgumentException("parameter must be of type " + typeof(T));
         // }
-        // Execute((T)parameter);
+        // Invoke((T)parameter);
         // }
 
         // /// <summary>

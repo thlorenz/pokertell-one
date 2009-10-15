@@ -22,6 +22,7 @@ namespace PokerTell
         protected override DependencyObject CreateShell()
         {
             var shell = Container.Resolve<Shell>();
+            Application.Current.MainWindow = shell;
             shell.Show();
             return shell;
         }
