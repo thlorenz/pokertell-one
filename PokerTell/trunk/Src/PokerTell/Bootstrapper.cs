@@ -7,6 +7,8 @@ namespace PokerTell
 
     using PokerHand;
 
+    using SessionReview;
+
     public class Bootstrapper : UnityBootstrapper
     {
         protected override IModuleCatalog GetModuleCatalog()
@@ -14,7 +16,8 @@ namespace PokerTell
             var catalog = new ModuleCatalog();
 
             catalog
-                .AddModule(typeof(PokerHandModule));
+                .AddModule(typeof(PokerHandModule))
+                .AddModule(typeof(SessionReviewModule), typeof(PokerHandModule).Name);
          
             return catalog;
         }

@@ -47,17 +47,21 @@ namespace PokerTell.PokerHand
             RegisterViewsAndServices();
             try
             {
-                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoriesView>());
-                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoryView>());
-                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoriesView>());
-                _regionManager.AddToRegion("Shell.MainRegion", _container.Resolve<HandHistoriesView>());
+                _regionManager
+                    .AddToRegion(
+                    "Shell.MainRegion", _container.Resolve<HandHistoryView>());
+
+                var historiesView = _container.Resolve<IHandHistoriesView>();
+                _regionManager
+                    .AddToRegion("Shell.MainRegion", historiesView)
+                    .Regions["Shell.MainRegion"].Activate(historiesView);
             }
             catch (Exception excep)
             {
                 Log.Error("Resolving", excep);
             }
-          
-            Log.Info("Initialized PokerHandModule");
+
+            Log.Info("got initialized.");
         }
 
         #endregion
@@ -83,7 +87,8 @@ namespace PokerTell.PokerHand
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IBoardViewModel, BoardViewModel>()
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, ViewModels.Design.HandHistoryViewModel>()
-                .RegisterType<IHandHistoriesViewModel, ViewModels.Design.HandHistoriesViewModel>();
+                .RegisterType<IHandHistoriesViewModel, ViewModels.Design.HandHistoriesViewModel>()
+                .RegisterType<IHandHistoriesView, HandHistoriesView>();
         }
 
         #endregion

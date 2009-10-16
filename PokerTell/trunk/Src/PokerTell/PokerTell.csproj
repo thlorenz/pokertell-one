@@ -149,6 +149,37 @@
       <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
       <Name>PokerTell.PokerHand</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.SessionReview\PokerTell.SessionReview.csproj">
+      <Project>{B6317324-CBC1-4FB9-BC5A-9EDF807BFD16}</Project>
+      <Name>PokerTell.SessionReview</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CloseIconRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MinimizeIconRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MinimizeIconAntique.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CloseIconAntique.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\CloseIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MinimizeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\MaximizeIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NormalizeIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -7,7 +7,7 @@
     /// <summary>
     /// Interaction logic for HandHistoriesView.xaml
     /// </summary>
-    public partial class HandHistoriesView : UserControl
+    public partial class HandHistoriesView : UserControl, IHandHistoriesView
     {
         public HandHistoriesView()
         {
@@ -18,6 +18,11 @@
             : this()
         {
             DataContext = viewModel;
+        }
+
+        public IHandHistoriesViewModel ViewModel
+        {
+            get { return (IHandHistoriesViewModel)DataContext; }
         }
     }
 }

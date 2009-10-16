@@ -8,10 +8,11 @@ namespace PokerTell.SessionReview
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using PokerTell.SessionReview.Views;
+
     public class SessionReviewModule : IModule
     {
-        
-         #region Constants and Fields
+        #region Constants and Fields
 
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
@@ -31,19 +32,22 @@ namespace PokerTell.SessionReview
         }
 
         #endregion
-        
+
+        #region Implemented Interfaces
+
+        #region IModule
+
         public void Initialize()
         {
-            
-        }
+            var sessionReviewMenuItem = _container.Resolve<SessionReviewMenuItemFactory>().Create();
+            _regionManager.Regions["Shell.MainMenuRegion"].Add(sessionReviewMenuItem);
 
-        #region Methods
-
-        protected void RegisterViewsAndServices()
-        {
-           
+            Log.Info("got initialized.");
         }
 
         #endregion
-    }
+
+        #endregion
+
+       }
 }

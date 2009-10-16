@@ -5,7 +5,7 @@
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
     xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
     >
-    <ScrollViewer>
+        <ScrollViewer Margin="5"> 
         <Border CornerRadius="10" Margin="5, 20, 5, 10" Background="White">
 
             <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoriesViewModel}"
