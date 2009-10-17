@@ -135,7 +135,7 @@
     <Compile Include="WPF\Controls\DragCanvas.cs" />
     <Compile Include="WPF\ConvertColor.cs" />
     <Compile Include="WPF\Converters\ColorToSolidColorBrushConverter.cs" />
-    <Compile Include="WPF\Converters\VisibilityConverter.cs" />
+    <Compile Include="WPF\Converters\Bool2VisibleOrCollapsedConverter.cs" />
     <Compile Include="WPF\DesignAndRunTimeDataContext.cs" />
     <Compile Include="WPF\DesignTimeHelper.cs" />
     <Compile Include="WPF\EventBehaviourFactory\ControlBehavior.cs" />

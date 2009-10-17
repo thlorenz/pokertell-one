@@ -4,7 +4,7 @@
     xmlns:converters="clr-namespace:Tools.WPF.Converters;assembly=Tools" >
 
     <UserControl.Resources>
-        <converters:VisibilityConverter x:Key="VisibilityConverter"/>
+        <converters:Bool2VisibleOrCollapsedConverter x:Key="VisibilityConverter"/>
 
         <Style x:Key="BoardFieldStyle" TargetType="{x:Type Control}" >
             <Setter Property="Foreground" Value="Black" />

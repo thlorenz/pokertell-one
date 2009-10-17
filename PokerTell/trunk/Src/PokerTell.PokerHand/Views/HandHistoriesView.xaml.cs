@@ -1,13 +1,11 @@
 ﻿namespace PokerTell.PokerHand.Views
 {
-    using System.Windows.Controls;
-
     using Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Interaction logic for HandHistoriesView.xaml
     /// </summary>
-    public partial class HandHistoriesView : UserControl, IHandHistoriesView
+    public partial class HandHistoriesView : IHandHistoriesView
     {
         public HandHistoriesView()
         {

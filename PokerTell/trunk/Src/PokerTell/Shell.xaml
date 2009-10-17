@@ -8,9 +8,10 @@
  
     
         WindowStyle="None"
-        AllowsTransparency="True"
-        Background="Transparent"
-        ResizeMode="CanResizeWithGrip"
+        Background="LightGray"
+        ResizeMode="CanResize"
+       
+        WindowState="{Binding WindowState}"
     >
 
 
@@ -30,7 +31,7 @@
             </Grid.RowDefinitions>
 
             <!-- TitleBar -->
-            
+
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -44,15 +45,23 @@
                             HorizontalAlignment="Right"  
                             Margin="5">
 
+
                     <Button
-                        Click="MinimizeButton_Click"
-                        HorizontalAlignment="Right" MaxWidth="20" MaxHeight="20">
-                        <Image Source="Resources/MinimizeIcon.png" Margin="1" />
+                        Command="{Binding MinimizeWindowCommand}"
+                        MaxWidth="20" MaxHeight="20">
+                        <Image Source="Resources/MinimizeIcon.png" />
                     </Button>
                     <Button
-                        Click="MaiximizeButton_Click"
-                        HorizontalAlignment="Right" MaxWidth="20" MaxHeight="20">
-                        <Image Source="Resources/MaximizeIcon.png" Margin="1" />
+                        Command="{Binding NormalizeWindowCommand}"
+                        Visibility="{Binding ShowNormalize, Converter={StaticResource Bool2VisibleOrCollapsedConverter}, Mode=OneWay}"
+                        MaxWidth="20" MaxHeight="20">
+                        <Image Source="Resources/NormalizeIcon.png" />
+                    </Button>
+                    <Button
+                        Command="{Binding MaximizeWindowCommand}"
+                        Visibility="{Binding ShowMaximize, Converter={StaticResource Bool2VisibleOrCollapsedConverter}, Mode=OneWay}"
+                        MaxWidth="20" MaxHeight="20">
+                        <Image Source="Resources/MaximizeIcon.png" />
                     </Button>
                     <Button 
                         Click="CloseButton_Click"
@@ -65,47 +74,48 @@
 
 
             <!-- Menu -->
-            
+
             <Border Grid.Row="1"
                     Padding="5" 
                     Margin="5" 
-                    CornerRadius="5" 
+                    CornerRadius="5, 5, 0, 0" 
                     Background="{StaticResource ControlBackgroundBrush}">
                 <Menu 
                       cal:RegionManager.RegionName="Shell.MainMenuRegion"
-                      Height="22"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Top"
                  >
-                    <MenuItem Header="Main">
-                        <MenuItem Header="_Open" IsCheckable="true"/>
-                        <MenuItem Header="_Close" IsCheckable="true"/>
-                        <MenuItem Header="_Save" IsCheckable="true"/>
+                    
+                    <MenuItem Header="Main" >
+                        <MenuItem Header="_Development" Command="{Binding DevelopmentCommand}"  />
+                        <MenuItem Header="_Close" />
+                        <MenuItem Header="_Save" />
                     </MenuItem>
-
+                  
 
                 </Menu>
             </Border>
 
             <!-- MainRegion-->
-            
+
             <Border Grid.Row="2"
                     Padding="5" 
                     Margin="5" 
-                    CornerRadius="5" 
+                    CornerRadius="2" 
                     Background="{StaticResource ControlBackgroundBrush}">
                 <TabControl 
                     cal:RegionManager.RegionName="Shell.MainRegion" 
                     ItemContainerStyle="{StaticResource ShellTabItemStyle}"
+                    SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
                     Margin="3" />
             </Border>
 
-           
+
             <!-- StatusBar -->
 
             <Border Grid.Row="3"
                     Margin="5, 5, 5, 0" 
-                    CornerRadius="5" 
+                    CornerRadius="0, 0, 5, 5" 
                     Background="{StaticResource ControlBackgroundBrush}">
                 <StackPanel Grid.Column="2" 
                             Orientation="Horizontal" 
@@ -114,7 +124,7 @@
                     <Label Content="Ready" />
                 </StackPanel>
             </Border>
-            
+
         </Grid>
     </Border>
 
@@ -123,5 +133,9 @@
     
    xmlns:themes="clr-namespace:WPF.Themes;assembly=WPF.Themes"
     themes:ThemeManager.Theme="ExpressionDark"
-  
+   
+    cal:RegionManager.RegionName="Shell.MainMenuRegion"
+    
+       AllowsTransparency="True"
+        Background="Transparent"              
     -->

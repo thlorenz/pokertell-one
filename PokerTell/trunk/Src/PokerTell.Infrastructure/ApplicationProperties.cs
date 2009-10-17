@@ -55,5 +55,10 @@ namespace PokerTell.Infrastructure
             Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US", false);
         }
+
+        public const string ShellMainRegion = "Shell.MainRegion";
+        public const string ShellMainMenuRegion = "Shell.MainMenuRegion";
+        public const string ShellStatusRegion = "Shell.StatusRegion";
+
     }
 }

@@ -8,11 +8,20 @@
     /// </summary>
     public partial class Shell : Window
     {
-        #region Constructors and Destructors
+        readonly IShellViewModel _viewModel;
 
+        #region Constructors and Destructors
+        
         public Shell()
         {
             InitializeComponent();
+        }
+
+        public Shell(IShellViewModel shellViewModel)
+            : this()
+        {
+            _viewModel = (IShellViewModel)shellViewModel;
+            DataContext = _viewModel;
         }
 
         #endregion
@@ -22,17 +31,6 @@
         void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
-        }
-
-        void MaiximizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-
-        }
-
-        void MinimizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = WindowState.Minimized;
         }
 
         void WindowBorder_MouseDown(object sender, MouseButtonEventArgs e)

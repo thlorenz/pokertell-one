@@ -10,7 +10,7 @@
    
    >
     <UserControl.Resources>
-        <Converters:VisibilityConverter x:Key="VisibilityConverter" />
+        <Converters:Bool2VisibleOrCollapsedConverter x:Key="VisibilityConverter" />
     </UserControl.Resources>
 
     <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">

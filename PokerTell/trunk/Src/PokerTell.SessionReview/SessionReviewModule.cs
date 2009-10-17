@@ -10,6 +10,8 @@ namespace PokerTell.SessionReview
 
     using PokerTell.SessionReview.Views;
 
+    using ViewModels;
+
     public class SessionReviewModule : IModule
     {
         #region Constants and Fields
@@ -39,6 +41,8 @@ namespace PokerTell.SessionReview
 
         public void Initialize()
         {
+            _container.RegisterType<ISessionReviewViewModel, SessionReviewViewModel>();
+
             var sessionReviewMenuItem = _container.Resolve<SessionReviewMenuItemFactory>().Create();
             _regionManager.Regions["Shell.MainMenuRegion"].Add(sessionReviewMenuItem);
 

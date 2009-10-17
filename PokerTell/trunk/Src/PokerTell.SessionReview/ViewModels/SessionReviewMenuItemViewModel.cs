@@ -2,20 +2,37 @@ namespace PokerTell.SessionReview.ViewModels
 {
     using System.Reflection;
     using System.Windows.Controls;
+    using System.Windows.Input;
 
-    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure;
 
     using log4net;
 
-    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+
+    using Tools.WPF;
+
+    using Views;
+
     public class SessionReviewMenuItemViewModel : MenuItem
     {
+        #region Constants and Fields
+
+        protected IUnityContainer _container;
+
+        protected IRegionManager _regionManager;
+
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
 
+        ICommand _openReviewCommand;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         public SessionReviewMenuItemViewModel(IUnityContainer container, IRegionManager regionManager)
         {
@@ -23,63 +40,42 @@ namespace PokerTell.SessionReview.ViewModels
             _container = container;
         }
 
-        protected IUnityContainer _container;
+        #endregion
 
-        protected IRegionManager _regionManager;
+        #region Properties
 
-        DelegateCommand<string> _openReviewCommand;
-
-        DelegateCommand<string> _saveReviewCommand;
-
-        public DelegateCommand<string> OpenReviewCommand
+        public ICommand OpenReviewCommand
         {
             get
             {
-                if (_openReviewCommand == null)
-                {
-                    _openReviewCommand = new DelegateCommand<string>(OpenReview, CanOpenReview);
-                }
-
-                return _openReviewCommand;
+                return _openReviewCommand ?? (_openReviewCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = OpenReview
+                    });
             }
         }
 
-        public DelegateCommand<string> SaveReviewCommand
+        public ICommand SaveReviewCommand
         {
             get
             {
-                if (_saveReviewCommand == null)
-                {
-                    _saveReviewCommand = new DelegateCommand<string>(SaveReview, CanSaveReview);
-                }
-
-                return _saveReviewCommand;
+                return Commands.SaveSessionReviewCommand;
             }
         }
+       
+        #endregion
 
-        public bool CanOpenReview(string arg)
+        #region Public Methods
+
+        public void OpenReview(object arg)
         {
-            return true;
+            var reviewView = _container.Resolve<SessionReviewView>();
+            var region = _regionManager.Regions[ApplicationProperties.ShellMainRegion];
+            region.Add(reviewView);
+            region.Activate(reviewView);
+           
         }
 
-        public bool CanSaveReview(string arg)
-        {
-            return true;
-        }
-
-        public void OpenReview(string arg)
-        {
-            var historiesView = _container.Resolve<IHandHistoriesView>();
-            _regionManager
-                .AddToRegion("Shell.MainRegion", historiesView)
-                .Regions["Shell.MainRegion"].Activate(historiesView);
-
-            Log.Info("Opening new Review");
-        }
-
-        public void SaveReview(string arg)
-        {
-            Log.Info("Saving Review");
-        }
+        #endregion
     }
 }

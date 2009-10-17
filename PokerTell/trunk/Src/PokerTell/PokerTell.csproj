@@ -94,6 +94,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Resources\ConvertersResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\ExpressionDarkTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -113,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="IShellViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -126,6 +131,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ShellViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -156,18 +162,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Icon.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\CloseIconRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\MinimizeIconRed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\MinimizeIconAntique.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\CloseIconAntique.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\CloseIcon.png" />

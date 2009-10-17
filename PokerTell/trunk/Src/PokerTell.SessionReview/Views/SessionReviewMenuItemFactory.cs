@@ -19,7 +19,7 @@
         {
             var menuItem = new MenuItem { Header = "SessionReview" };
             menuItem.Items.Add(new MenuItem { Header = "_Open", Command = _viewModel.OpenReviewCommand });
-            menuItem.Items.Add(new MenuItem { Header = "_Save", Command = _viewModel.SaveReviewCommand });
+            menuItem.Items.Add(new MenuItem { Header = "_Save", Command = Commands.SaveSessionReviewCommand });
 
             return menuItem;
         }

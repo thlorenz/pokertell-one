@@ -9,11 +9,15 @@ namespace PokerTell.PokerHand
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Aquisition;
     using PokerTell.PokerHand.ViewModels;
     using PokerTell.PokerHand.Views;
+
+    using HandHistoriesViewModel = PokerTell.PokerHand.ViewModels.Design.HandHistoriesViewModel;
+    using HandHistoryViewModel = PokerTell.PokerHand.ViewModels.Design.HandHistoryViewModel;
 
     public class PokerHandModule : IModule
     {
@@ -47,14 +51,10 @@ namespace PokerTell.PokerHand
             RegisterViewsAndServices();
             try
             {
+                var handHistoryView = _container.Resolve<HandHistoryView>();
                 _regionManager
-                    .AddToRegion(
-                    "Shell.MainRegion", _container.Resolve<HandHistoryView>());
-
-                var historiesView = _container.Resolve<IHandHistoriesView>();
-                _regionManager
-                    .AddToRegion("Shell.MainRegion", historiesView)
-                    .Regions["Shell.MainRegion"].Activate(historiesView);
+                    .AddToRegion(ApplicationProperties.ShellMainRegion, handHistoryView)
+                    .Regions[ApplicationProperties.ShellMainRegion].Activate(handHistoryView);
             }
             catch (Exception excep)
             {
@@ -82,12 +82,11 @@ namespace PokerTell.PokerHand
                 .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
                 .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
-                .RegisterTypeAndConstructor<IHandHistoryViewModel, ViewModels.Design.HandHistoryViewModel>()
-
+                .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IBoardViewModel, BoardViewModel>()
-                .RegisterTypeAndConstructor<IHandHistoryViewModel, ViewModels.Design.HandHistoryViewModel>()
-                .RegisterType<IHandHistoriesViewModel, ViewModels.Design.HandHistoriesViewModel>()
+                .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
+                .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>()
                 .RegisterType<IHandHistoriesView, HandHistoriesView>();
         }
 
