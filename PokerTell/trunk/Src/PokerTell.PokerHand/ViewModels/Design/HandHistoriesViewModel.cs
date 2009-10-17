@@ -25,8 +25,6 @@ namespace PokerTell.PokerHand.ViewModels.Design
             }
 
             InitializeWith(hands);
-
-            HeaderInfo = "SessionReview";
         }
     }
 }

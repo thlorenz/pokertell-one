@@ -4,16 +4,13 @@ namespace PokerTell.PokerHand.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Text;
-    using System.Windows.Input;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
-    using Microsoft.Practices.Composite.Presentation.Commands;
-
     using Tools.WPF.ViewModels;
 
-    public class HandHistoryViewModel : ViewModel, IHandHistoryViewModel
+    public class HandHistoryViewModel : ItemsRegionViewModel, IHandHistoryViewModel
     {
         #region Constants and Fields
 
@@ -43,6 +40,7 @@ namespace PokerTell.PokerHand.ViewModels
 
             PlayerRows = new ObservableCollection<IHandHistoryRow>();
             Board = new BoardViewModel();
+            HeaderInfo = "HandHistory";
 
             return this;
         }
@@ -88,11 +86,6 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _hand.TournamentId != 0 ? _hand.TournamentId.ToString() : string.Empty; }
         }
 
-        public string HeaderInfo
-        {
-            get { return "Hand:" + _hand.GameId; }
-        }
-
         public bool IsTournament
         {
             get { return _hand.TournamentId > 0; }
@@ -100,14 +93,14 @@ namespace PokerTell.PokerHand.ViewModels
 
         public bool HasAnte
         {
-            get { return _hand.Ante > 0;  }
+            get { return _hand.Ante > 0; }
         }
 
         public IBoardViewModel Board { get; private set; }
 
         public bool Visible
         {
-            get 
+            get
             {
                 return _visible;
             }
@@ -164,9 +157,9 @@ namespace PokerTell.PokerHand.ViewModels
         public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
         {
             _hand = hand;
-           
+
             Board.UpdateWith(hand.Board);
-            
+
             PlayerRows.Clear();
 
             foreach (IConvertedPokerPlayer player in hand)
@@ -176,6 +169,8 @@ namespace PokerTell.PokerHand.ViewModels
                     PlayerRows.Add(new HandHistoryRow(player));
                 }
             }
+
+            HeaderInfo = "HandHistory:" + _hand.GameId;
 
             RaisePropertyChanged(() => TournamentId);
             RaisePropertyChanged(() => GameId);

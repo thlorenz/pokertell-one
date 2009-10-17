@@ -4,4 +4,6 @@
   xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools">
 
     <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
+    <Converters:HeaderInfoToHeaderConverter x:Key="HeaderInfoToHeaderConverter"/>
+    
 </ResourceDictionary>

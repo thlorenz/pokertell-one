@@ -60,5 +60,6 @@ namespace PokerTell.Infrastructure
         public const string ShellMainMenuRegion = "Shell.MainMenuRegion";
         public const string ShellStatusRegion = "Shell.StatusRegion";
 
+        public const string HandHistoriesRegion = "HandHistoriesRegion";
     }
 }

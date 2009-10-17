@@ -1,7 +1,8 @@
 namespace PokerTell.PokerHand
 {
-    using System;
     using System.Reflection;
+
+    using Conditions;
 
     using log4net;
 
@@ -49,17 +50,6 @@ namespace PokerTell.PokerHand
         public void Initialize()
         {
             RegisterViewsAndServices();
-            try
-            {
-                var handHistoryView = _container.Resolve<HandHistoryView>();
-                _regionManager
-                    .AddToRegion(ApplicationProperties.ShellMainRegion, handHistoryView)
-                    .Regions[ApplicationProperties.ShellMainRegion].Activate(handHistoryView);
-            }
-            catch (Exception excep)
-            {
-                Log.Error("Resolving", excep);
-            }
 
             Log.Info("got initialized.");
         }
@@ -70,7 +60,7 @@ namespace PokerTell.PokerHand
 
         #region Methods
 
-        protected void RegisterViewsAndServices()
+        void RegisterViewsAndServices()
         {
             _container
                 .RegisterConstructor<IAquiredPokerAction, AquiredPokerAction>()
@@ -82,12 +72,18 @@ namespace PokerTell.PokerHand
                 .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
                 .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
+                .RegisterType<IInvestedMoneyCondition, InvestedMoneyCondition>(new ContainerControlledLifetimeManager())
+                .RegisterType<ISawFlopCondition, SawFlopCondition>(new ContainerControlledLifetimeManager())
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IBoardViewModel, BoardViewModel>()
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>()
                 .RegisterType<IHandHistoriesView, HandHistoriesView>();
+
+            _regionManager
+                .RegisterViewWithRegion(
+                ApplicationProperties.HandHistoriesRegion, () => _container.Resolve<IHandHistoriesView>());
         }
 
         #endregion

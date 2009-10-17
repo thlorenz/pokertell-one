@@ -2,22 +2,26 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cal="http://www.codeplex.com/CompositeWPF"
-    Title="PokerTell"  
+    xmlns:Infrastructure="clr-namespace:PokerTell.Infrastructure;assembly=PokerTell.Infrastructure"
+        
+        
+     Left="0"
     Width="900" Height="563"
     MinWidth="600" MinHeight="375"
  
     
         WindowStyle="None"
-        Background="LightGray"
+       
         ResizeMode="CanResize"
        
         WindowState="{Binding WindowState}"
+        Title="{Binding WindowTitle}" 
     >
 
 
     <Window.Resources>
         <Style x:Key="ShellTabItemStyle" TargetType="{x:Type TabItem}" BasedOn="{StaticResource TabItemThemeStyle}">
-            <Setter Property="Header" Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self}}" />
+            <Setter Property="Header" Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self}, Converter={StaticResource HeaderInfoToHeaderConverter}}" />
         </Style>
     </Window.Resources>
 
@@ -39,7 +43,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Source="Resources/Icon.jpg" MaxWidth="20" MaxHeight="20" Margin="5"/>
-                <Label Grid.Column="1" Content="PokerTell"  Margin="5" />
+                <Label Grid.Column="1" Content="{Binding WindowTitle}"  Margin="5" />
                 <StackPanel Grid.Column="2" 
                             Orientation="Horizontal" 
                             HorizontalAlignment="Right"  
@@ -81,7 +85,7 @@
                     CornerRadius="5, 5, 0, 0" 
                     Background="{StaticResource ControlBackgroundBrush}">
                 <Menu 
-                      cal:RegionManager.RegionName="Shell.MainMenuRegion"
+                      cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainMenuRegion}"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Top"
                  >
@@ -103,11 +107,29 @@
                     Margin="5" 
                     CornerRadius="2" 
                     Background="{StaticResource ControlBackgroundBrush}">
-                <TabControl 
-                    cal:RegionManager.RegionName="Shell.MainRegion" 
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    
+                    <Button Grid.Row="0"
+                        Command="{Binding MainRegionCloseSelectedItemCommand}"    
+                        MaxWidth="15" MaxHeight="15"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Margin="5" Padding="0">
+                        
+                        <Image Source="Resources/CloseIcon.png"/>
+                    </Button>
+
+                    <TabControl Grid.Row="1"
+                    cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainRegion}" 
                     ItemContainerStyle="{StaticResource ShellTabItemStyle}"
                     SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
-                    Margin="3" />
+                    Margin="3"
+                    Background="{StaticResource ControlBackgroundBrush}"/>
+                    </Grid>
             </Border>
 
 
@@ -121,7 +143,7 @@
                             Orientation="Horizontal" 
                             HorizontalAlignment="Left"  
                             Margin="5">
-                    <Label Content="Ready" />
+                    <Label Content="{Binding Status}" />
                 </StackPanel>
             </Border>
 

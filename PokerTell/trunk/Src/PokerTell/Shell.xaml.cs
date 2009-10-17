@@ -20,7 +20,7 @@
         public Shell(IShellViewModel shellViewModel)
             : this()
         {
-            _viewModel = (IShellViewModel)shellViewModel;
+            _viewModel = shellViewModel;
             DataContext = _viewModel;
         }
 

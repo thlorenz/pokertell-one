@@ -1,21 +1,23 @@
 ﻿namespace PokerTell.SessionReview.ViewModels
 {
-    using System;
     using System.Reflection;
 
     using log4net;
 
-    using Microsoft.Practices.Composite;
     using Microsoft.Practices.Composite.Presentation.Commands;
 
-    internal class SessionReviewViewModel : IActiveAware, ISessionReviewViewModel
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+
+    using Tools.WPF.ViewModels;
+
+    internal class SessionReviewViewModel : ItemsRegionViewModel, ISessionReviewViewModel
     {
         #region Constants and Fields
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        bool _isActive;
+        readonly IHandHistoriesViewModel _handHistoriesViewModel;
 
         DelegateCommand<object> _saveCommand;
 
@@ -23,31 +25,17 @@
 
         #region Constructors and Destructors
 
-        public SessionReviewViewModel()
+        public SessionReviewViewModel(IHandHistoriesViewModel handHistoriesViewModel)
         {
+            _handHistoriesViewModel = handHistoriesViewModel;
+
             Commands.SaveSessionReviewCommand.RegisterCommand(SaveCommand);
-            
+            HeaderInfo = "SessionReview " + GetHashCode();
         }
-
-        #endregion
-
-        #region Events
-
-        public event EventHandler IsActiveChanged = delegate { };
 
         #endregion
 
         #region Properties
-
-        public bool IsActive
-        {
-            get { return _isActive; }
-            set
-            {
-                _isActive = value;
-                SaveCommand.IsActive = value;
-            }
-        }
 
         public DelegateCommand<object> SaveCommand
         {
@@ -62,6 +50,11 @@
             }
         }
 
+        public IHandHistoriesViewModel HandHistoriesViewModel
+        {
+            get { return _handHistoriesViewModel; }
+        }
+
         #endregion
 
         #region Public Methods
@@ -73,7 +66,16 @@
 
         public void Save(object arg)
         {
-            Log.Info("SessionReview->Saving");
+            Log.InfoFormat("SessionReview->Saving: {0}", GetHashCode());
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override void OnIsActiveChanged()
+        {
+            SaveCommand.IsActive = IsActive;
         }
 
         #endregion

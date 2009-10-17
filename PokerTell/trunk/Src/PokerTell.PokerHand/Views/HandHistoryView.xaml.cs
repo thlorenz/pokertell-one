@@ -1,18 +1,18 @@
 namespace PokerTell.PokerHand.Views
 {
-    using System.Windows.Controls;
+    using System;
     using System.Windows.Input;
 
     using Infrastructure.Interfaces.PokerHand;
 
     using Microsoft.Windows.Controls;
 
-    using ViewModels;
+    using Tools.WPF.Interfaces;
 
     /// <summary>
     /// Interaction logic for HandHistoryView.xaml
     /// </summary>
-    public partial class HandHistoryView : UserControl
+    public partial class HandHistoryView : IItemsRegionView
     {
         #region Constructors and Destructors
 
@@ -42,5 +42,18 @@ namespace PokerTell.PokerHand.Views
         }
 
         #endregion
+
+        public bool IsActive
+        {
+            get { return ((IHandHistoryViewModel) DataContext).IsActive; }
+            set { ((IHandHistoryViewModel)DataContext).IsActive = value; }
+        }
+
+        public event EventHandler IsActiveChanged;
+
+        public IItemsRegionViewModel ActiveAwareViewModel
+        {
+            get { return (IItemsRegionViewModel) DataContext; }
+        }
     }
 }

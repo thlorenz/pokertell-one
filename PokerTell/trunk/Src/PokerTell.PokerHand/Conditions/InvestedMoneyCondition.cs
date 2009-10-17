@@ -5,7 +5,7 @@ namespace PokerTell.PokerHand.Conditions
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
-    public class InvestedMoneyCondition : PokerHandCondition
+    public class InvestedMoneyCondition : PokerHandCondition, IInvestedMoneyCondition
     {
         public override bool IsFullFilledBy(IConvertedPokerHand hand)
         {

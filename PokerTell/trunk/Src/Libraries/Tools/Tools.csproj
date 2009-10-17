@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\Microsoft.Expression\Microsoft.Expression.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
@@ -136,18 +140,22 @@
     <Compile Include="WPF\ConvertColor.cs" />
     <Compile Include="WPF\Converters\ColorToSolidColorBrushConverter.cs" />
     <Compile Include="WPF\Converters\Bool2VisibleOrCollapsedConverter.cs" />
+    <Compile Include="WPF\Converters\HeaderInfoToHeaderConverter.cs" />
     <Compile Include="WPF\DesignAndRunTimeDataContext.cs" />
     <Compile Include="WPF\DesignTimeHelper.cs" />
     <Compile Include="WPF\EventBehaviourFactory\ControlBehavior.cs" />
     <Compile Include="WPF\EventBehaviourFactory\EventBehaviourFactory.cs" />
     <Compile Include="WPF\EventBehaviourFactory\TextBoxBehaviour.cs" />
     <Compile Include="WPF\InterActicityHack.cs" />
+    <Compile Include="WPF\Interfaces\IItemsRegionView.cs" />
+    <Compile Include="WPF\Interfaces\IItemsRegionViewModel.cs" />
     <Compile Include="WPF\Interfaces\IViewModel.cs" />
     <Compile Include="WPF\Utilities.cs" />
     <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
     <Compile Include="WPF\ViewModels\CommandViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
+    <Compile Include="WPF\ViewModels\ItemsRegionViewModel.cs" />
     <Compile Include="WPF\ViewModels\ViewModel.cs" />
     <Compile Include="Wrappers\CallWindowProc.cs" />
     <Compile Include="Wrappers\HandHistoryReader.cs" />

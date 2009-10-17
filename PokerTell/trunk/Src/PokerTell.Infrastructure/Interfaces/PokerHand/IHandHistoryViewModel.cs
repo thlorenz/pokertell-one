@@ -3,7 +3,9 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System;
     using System.Collections.Generic;
 
-    public interface IHandHistoryViewModel
+    using Tools.WPF.Interfaces;
+
+    public interface IHandHistoryViewModel : IItemsRegionViewModel
     {
         string Ante { get; }
 

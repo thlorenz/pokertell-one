@@ -1,6 +1,7 @@
 namespace PokerTell
 {
     using System;
+    using System.Linq;
     using System.Reflection;
     using System.Windows;
     using System.Windows.Input;
@@ -12,6 +13,7 @@ namespace PokerTell
     using PokerTell.Infrastructure;
 
     using Tools.WPF;
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class ShellViewModel : ViewModel, IShellViewModel
@@ -22,6 +24,8 @@ namespace PokerTell
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IRegionManager _regionManager;
+
+        ICommand _mainRegionCloseSelectedItemCommand;
 
         ICommand _developmentCommand;
 
@@ -40,10 +44,11 @@ namespace PokerTell
         public ShellViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-          
+
             try
             {
                 WindowState = WindowState.Normal;
+                WindowTitle = ApplicationProperties.ApplicationName;
             }
             catch (Exception excep)
             {
@@ -55,6 +60,34 @@ namespace PokerTell
 
         #region Properties
 
+        string _status;
+
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                RaisePropertyChanged(() => Status);
+            }
+        }
+
+        public ICommand MainRegionCloseSelectedItemCommand
+        {
+            get
+            {
+                return _mainRegionCloseSelectedItemCommand ?? (_mainRegionCloseSelectedItemCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            IRegion region = _regionManager.Regions[ApplicationProperties.ShellMainRegion];
+                            region.Remove(MainRegionSelectedItem);
+                            Status = string.Format("{0} views in MainRegion", region.Views.Count());
+                        }, 
+                        CanExecuteDelegate = arg => MainRegionSelectedItem != null
+                    });
+            }
+        }
+
         public ICommand DevelopmentCommand
         {
             get
@@ -64,6 +97,34 @@ namespace PokerTell
                         ExecuteDelegate = arg => ListActiveViewsOfRegion(ApplicationProperties.ShellMainRegion), 
                         CanExecuteDelegate = arg => true
                     });
+            }
+        }
+
+        IItemsRegionView _mainRegionSelectedItem;
+
+        public IItemsRegionView MainRegionSelectedItem
+        {
+            get { return _mainRegionSelectedItem; }
+            set
+            {
+                _mainRegionSelectedItem = value;
+                if (_mainRegionSelectedItem != null)
+                {
+                    WindowTitle = _mainRegionSelectedItem.ActiveAwareViewModel.HeaderInfo;
+                }
+            }
+        }
+
+        string _windowTitle;
+
+        public string WindowTitle
+        {
+            get { return _windowTitle; }
+            set
+            {
+                _windowTitle = value;
+                Log.Info("Title: " + WindowTitle);
+                RaisePropertyChanged(() => WindowTitle);
             }
         }
 

@@ -5,13 +5,12 @@ namespace PokerTell.SessionReview.ViewModels
     using System.Windows.Input;
 
     using Infrastructure;
+    using Infrastructure.Interfaces.PokerHand;
 
     using log4net;
 
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
-
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.WPF;
 
@@ -21,9 +20,9 @@ namespace PokerTell.SessionReview.ViewModels
     {
         #region Constants and Fields
 
-        protected IUnityContainer _container;
+        readonly IUnityContainer _container;
 
-        protected IRegionManager _regionManager;
+        readonly IRegionManager _regionManager;
 
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
@@ -69,11 +68,19 @@ namespace PokerTell.SessionReview.ViewModels
 
         public void OpenReview(object arg)
         {
-            var reviewView = _container.Resolve<SessionReviewView>();
+            // SessionReviewViewModel and SessionReviewSettingsViewModel need to get the same HandHistoriesView
+            var childContainer = _container.CreateChildContainer()
+                .RegisterInstance(_container.Resolve<IHandHistoriesViewModel>());
+
+            var reviewView = childContainer.Resolve<SessionReviewView>();
+            var settingsView = childContainer.Resolve<SessionReviewSettingsView>();
+
             var region = _regionManager.Regions[ApplicationProperties.ShellMainRegion];
-            region.Add(reviewView);
+            const bool createRegionManagerScope = true;
+            var scopedRegion = region.Add(reviewView, null, createRegionManagerScope);
+            scopedRegion.Regions["ReviewSettingsRegion"].Add(settingsView);
+
             region.Activate(reviewView);
-           
         }
 
         #endregion

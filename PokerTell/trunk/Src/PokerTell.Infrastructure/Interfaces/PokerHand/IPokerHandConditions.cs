@@ -6,4 +6,12 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         bool IsFullFilledBy(IConvertedPokerHand hand);
     }
+
+    public interface IInvestedMoneyCondition : IPokerHandCondition
+    {
+    }
+
+    public interface ISawFlopCondition : IPokerHandCondition
+    {
+    }
 }

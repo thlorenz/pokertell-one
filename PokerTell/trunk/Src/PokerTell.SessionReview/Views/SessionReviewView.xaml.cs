@@ -1,20 +1,33 @@
-﻿namespace PokerTell.SessionReview.Views
+namespace PokerTell.SessionReview.Views
 {
     using System;
-    using System.Windows.Controls;
+    using System.Reflection;
+
+    using log4net;
 
     using Microsoft.Practices.Composite;
 
-    using ViewModels;
+    using PokerTell.SessionReview.ViewModels;
+
+    using Tools.WPF.Interfaces;
 
     /// <summary>
     /// Interaction logic for SessionReviewView.xaml
     /// </summary>
-    public partial class SessionReviewView : IActiveAware
+    public partial class SessionReviewView : IItemsRegionView
     {
-        #region Constructors and Destructors
+        #region Constants and Fields
+
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        readonly ISessionReviewViewModel _viewModel;
 
         bool _isActive;
+
+        #endregion
+
+        #region Constructors and Destructors
 
         public SessionReviewView()
         {
@@ -22,15 +35,34 @@
         }
 
         public SessionReviewView(ISessionReviewViewModel viewModel)
+            : this()
         {
-            DataContext = viewModel;
+            _viewModel = viewModel;
+
+            DataContext = _viewModel;
+
+            Unloaded += (send, arg) => Log.InfoFormat("SessionReviewView {0} unloaded", GetHashCode());
         }
 
         #endregion
 
+        #region Events
+
+        public event EventHandler IsActiveChanged = delegate { };
+
+        #endregion
+
+        #region Properties
+
+        public IItemsRegionViewModel ActiveAwareViewModel
+        {
+            get { return _viewModel; }
+        }
+
         public bool IsActive
         {
             get { return _isActive; }
+
             set
             {
                 _isActive = value;
@@ -42,6 +74,11 @@
             }
         }
 
-        public event EventHandler IsActiveChanged = delegate { };
+        public ISessionReviewViewModel ViewModel
+        {
+            get { return _viewModel; }
+        }
+
+        #endregion
     }
 }

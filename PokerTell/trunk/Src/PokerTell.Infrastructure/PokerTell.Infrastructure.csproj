@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Log4Net\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Composite.Presentation, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
@@ -98,7 +102,7 @@
     <Compile Include="Interfaces\PokerHand\IHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerAction.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerHand.cs" />
-    <Compile Include="Interfaces\PokerHand\IPokerHandCondition.cs" />
+    <Compile Include="Interfaces\PokerHand\IPokerHandConditions.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerHandConverter.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerHandFactory.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerHands.cs" />
