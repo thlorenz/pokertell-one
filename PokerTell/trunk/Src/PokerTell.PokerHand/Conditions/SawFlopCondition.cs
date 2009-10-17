@@ -4,7 +4,7 @@ namespace PokerTell.PokerHand.Conditions
 
     using Infrastructure.Interfaces.PokerHand;
 
-    public class SawFlopCondition : PokerHandCondition
+    public class SawFlopCondition : PokerHandCondition, ISawFlopCondition
     {
         public override bool IsFullFilledBy(IConvertedPokerHand hand)
         {
