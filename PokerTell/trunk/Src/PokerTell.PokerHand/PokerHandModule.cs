@@ -74,16 +74,13 @@ namespace PokerTell.PokerHand
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
                 .RegisterType<IInvestedMoneyCondition, InvestedMoneyCondition>(new ContainerControlledLifetimeManager())
                 .RegisterType<ISawFlopCondition, SawFlopCondition>(new ContainerControlledLifetimeManager())
+                .RegisterType<IAlwaysTrueCondition, AlwaysTrueCondition>(new ContainerControlledLifetimeManager())
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IBoardViewModel, BoardViewModel>()
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>()
                 .RegisterType<IHandHistoriesView, HandHistoriesView>();
-
-            _regionManager
-                .RegisterViewWithRegion(
-                ApplicationProperties.HandHistoriesRegion, () => _container.Resolve<IHandHistoriesView>());
         }
 
         #endregion

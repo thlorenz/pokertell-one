@@ -13,7 +13,6 @@
         WindowStyle="None"
        
         ResizeMode="CanResize"
-       
         WindowState="{Binding WindowState}"
         Title="{Binding WindowTitle}" 
     >
@@ -21,7 +20,9 @@
 
     <Window.Resources>
         <Style x:Key="ShellTabItemStyle" TargetType="{x:Type TabItem}" BasedOn="{StaticResource TabItemThemeStyle}">
-            <Setter Property="Header" Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self}, Converter={StaticResource HeaderInfoToHeaderConverter}}" />
+            <Setter Property="Header" 
+                    Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self},
+                            Converter={StaticResource HeaderInfoToHeaderConverter}, ConverterParameter=18}" />
         </Style>
     </Window.Resources>
 
@@ -90,8 +91,10 @@
                       VerticalAlignment="Top"
                  >
                     
-                    <MenuItem Header="Main" >
+                    <MenuItem Header="Main">
+                       
                         <MenuItem Header="_Development" Command="{Binding DevelopmentCommand}"  />
+                        <Separator />
                         <MenuItem Header="_Close" />
                         <MenuItem Header="_Save" />
                     </MenuItem>

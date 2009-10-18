@@ -4,24 +4,31 @@
     xmlns:Design="clr-namespace:PokerTell.PokerHand.ViewModels.Design"
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
     xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
+    xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools"
     >
+    <UserControl.Resources>
+        <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
+    </UserControl.Resources>
         <ScrollViewer Margin="5"> 
         <Border CornerRadius="10" Margin="5, 20, 5, 10" Background="White">
-
             <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoriesViewModel}"
-          MaxWidth="500"
-                 >
-                <ItemsControl ItemsSource="{Binding HandHistoryViewModels}"  >
+                MaxWidth="500"
+                >
+                <ItemsControl ItemsSource="{Binding HandHistoryViewModels}" >
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border CornerRadius="5" Background="AntiqueWhite" Margin="5">
+                            <Border CornerRadius="5" Background="DarkGray" Margin="5">
                                 <Views:HandHistoryView DataContext="{Binding}" Margin="5"/>
                             </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type ContentPresenter}">
+                            <Setter Property ="Visibility" Value ="{Binding Visible, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
                 </ItemsControl>
             </Grid>
-
         </Border>
     </ScrollViewer>
 </UserControl>

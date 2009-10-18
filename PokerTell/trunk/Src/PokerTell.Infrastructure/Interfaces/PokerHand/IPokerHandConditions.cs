@@ -4,7 +4,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     {
         IPokerHandCondition AppliesTo(string playerName);
 
-        bool IsFullFilledBy(IConvertedPokerHand hand);
+        bool IsMetBy(IConvertedPokerHand hand);
     }
 
     public interface IInvestedMoneyCondition : IPokerHandCondition
@@ -12,6 +12,10 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     }
 
     public interface ISawFlopCondition : IPokerHandCondition
+    {
+    }
+
+    public interface IAlwaysTrueCondition : IPokerHandCondition
     {
     }
 }

@@ -6,7 +6,7 @@ namespace PokerTell.PokerHand.Conditions
 
     public class SawFlopCondition : PokerHandCondition, ISawFlopCondition
     {
-        public override bool IsFullFilledBy(IConvertedPokerHand hand)
+        public override bool IsMetBy(IConvertedPokerHand hand)
         {
             if (hand == null)
             {

@@ -68,17 +68,19 @@ namespace PokerTell.SessionReview.ViewModels
 
         public void OpenReview(object arg)
         {
-            // SessionReviewViewModel and SessionReviewSettingsViewModel need to get the same HandHistoriesView
-            var childContainer = _container.CreateChildContainer()
-                .RegisterInstance(_container.Resolve<IHandHistoriesViewModel>());
-
+            // All need to get same HandHistoriesViewModel
+            var childContainer = _container.CreateChildContainer();
+            childContainer.RegisterInstance(_container.Resolve<IHandHistoriesViewModel>());
+         
             var reviewView = childContainer.Resolve<SessionReviewView>();
+            var handHistoriesView = childContainer.Resolve<IHandHistoriesView>();
             var settingsView = childContainer.Resolve<SessionReviewSettingsView>();
 
             var region = _regionManager.Regions[ApplicationProperties.ShellMainRegion];
-            const bool createRegionManagerScope = true;
-            var scopedRegion = region.Add(reviewView, null, createRegionManagerScope);
-            scopedRegion.Regions["ReviewSettingsRegion"].Add(settingsView);
+           
+            var scopedRegionManager = region.Add(reviewView, null, true);
+            scopedRegionManager.Regions[ApplicationProperties.HandHistoriesRegion].Add(handHistoriesView);
+            scopedRegionManager.Regions["ReviewSettingsRegion"].Add(settingsView);
 
             region.Activate(reviewView);
         }

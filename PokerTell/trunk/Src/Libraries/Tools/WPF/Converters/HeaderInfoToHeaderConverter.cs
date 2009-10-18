@@ -13,14 +13,23 @@ namespace Tools.WPF.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            const int maxLength = 18;
+           
+            const int defaultMaxLength = 20;
+
+            int maxLength = defaultMaxLength;
+            if (parameter != null)
+            {
+                int.TryParse(parameter.ToString(), out maxLength);
+            }
+           
             var header = (string)value;
             if (header.Length > maxLength)
-            {
-                return header.Substring(0, maxLength) + "...";
-            }
+                {
+                    return header.Substring(0, maxLength) + "...";
+                }
 
-            return header;
+                return header;
+            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -1,20 +1,21 @@
 namespace PokerTell.SessionReview.ViewModels
 {
     using System.Reflection;
-    using System.Windows.Input;
 
     using log4net;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class SessionReviewSettingsViewModel : ViewModel
     {
+        #region Constants and Fields
+
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        #region Constants and Fields
+
+        readonly IAlwaysTrueCondition _alwaysTrueCondition;
 
         readonly IHandHistoriesViewModel _handHistoriesViewModel;
 
@@ -24,6 +25,14 @@ namespace PokerTell.SessionReview.ViewModels
 
         string _heroName;
 
+        bool _showAll;
+
+        bool _showMoneyInvested;
+
+        bool _showSawFlop;
+
+        bool _showSelectedOnly;
+
         #endregion
 
         #region Constructors and Destructors
@@ -31,11 +40,16 @@ namespace PokerTell.SessionReview.ViewModels
         public SessionReviewSettingsViewModel(
             IHandHistoriesViewModel handHistoriesViewModel, 
             IInvestedMoneyCondition investedMoneyCondition, 
-            ISawFlopCondition sawFlopCondition)
+            ISawFlopCondition sawFlopCondition, 
+            IAlwaysTrueCondition alwaysTrueCondition)
         {
+            _alwaysTrueCondition = alwaysTrueCondition;
             _sawFlopCondition = sawFlopCondition;
             _investedMoneyCondition = investedMoneyCondition;
+
             _handHistoriesViewModel = handHistoriesViewModel;
+            HeroName = "hero";
+            ShowAll = true;
         }
 
         #endregion
@@ -52,34 +66,66 @@ namespace PokerTell.SessionReview.ViewModels
             }
         }
 
-        public ICommand MoneyInvestedCommand
+        public bool ShowAll
         {
-            get
+            get { return _showAll; }
+            set
             {
-                return new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => {
-                            _investedMoneyCondition.AppliesTo(HeroName);
-                            _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_investedMoneyCondition);
-                        }
-                    };
+                _showAll = value;
+                if (_showAll && _handHistoriesViewModel != null)
+                {
+                    _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_alwaysTrueCondition);
+                }
             }
         }
 
-        public ICommand SawFlopCommand
+        public bool ShowMoneyInvested
         {
-            get
+            get { return _showMoneyInvested; }
+            set
             {
-                return new SimpleCommand
+                _showMoneyInvested = value;
+                if (_showMoneyInvested && _handHistoriesViewModel != null)
                 {
-                    ExecuteDelegate = arg =>
-                    {
-//                        _sawFlopCondition.AppliesTo(HeroName);
-//                        _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_sawFlopCondition);
+                    _investedMoneyCondition.AppliesTo(HeroName);
+                    _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_investedMoneyCondition);
+                }
+            }
+        }
 
-                        Log.Info("SawFlop " + _handHistoriesViewModel.GetHashCode());
-                    }
-                };
+        public bool ShowPreflopFolds
+        {
+            get { return _handHistoriesViewModel.ShowPreflopFolds; }
+            set { _handHistoriesViewModel.ShowPreflopFolds = value; }
+        }
+
+        public bool ShowSawFlop
+        {
+            get { return _showSawFlop; }
+            set
+            {
+                _showSawFlop = value;
+                if (_showSawFlop && _handHistoriesViewModel != null)
+                {
+                    _sawFlopCondition.AppliesTo(HeroName);
+                    _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_sawFlopCondition);
+                }
+            }
+        }
+
+        public bool ShowSelectedOnly
+        {
+            get { return _showSelectedOnly; }
+            set
+            {
+                _showSelectedOnly = value;
+
+                if (_handHistoriesViewModel != null)
+                {
+                    _handHistoriesViewModel.ShowSelectedOnly = value;
+                }
+
+                RaisePropertyChanged(() => ShowSelectedOnly);
             }
         }
 

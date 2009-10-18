@@ -6,15 +6,29 @@
    >
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*" MinWidth="350"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <ContentControl Grid.Column="0"
-            cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.HandHistoriesRegion}"/>
-       <ContentControl Grid.Column="1"
-            cal:RegionManager.RegionName="ReviewSettingsRegion"/>
-    </Grid>
+            cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.HandHistoriesRegion}"
+                        />
+        
+        <GridSplitter
+             Grid.Column="1"
+             Grid.Row="0"
+             Width="3"
+             HorizontalAlignment="Stretch"
+             Margin="5, 0"
+             ResizeDirection="Columns"
+            />
        
-    
+        <ContentControl Grid.Column="2"
+                        cal:RegionManager.RegionName="ReviewSettingsRegion"
+                        VerticalAlignment="Top"
+                        />
+    </Grid>
+
+
 </UserControl>

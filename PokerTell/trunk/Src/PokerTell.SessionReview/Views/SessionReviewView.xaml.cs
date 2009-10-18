@@ -40,8 +40,6 @@ namespace PokerTell.SessionReview.Views
             _viewModel = viewModel;
 
             DataContext = _viewModel;
-
-            Unloaded += (send, arg) => Log.InfoFormat("SessionReviewView {0} unloaded", GetHashCode());
         }
 
         #endregion

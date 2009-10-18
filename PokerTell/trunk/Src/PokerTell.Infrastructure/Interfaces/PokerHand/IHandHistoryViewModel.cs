@@ -35,6 +35,12 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         bool Visible { get; set; }
 
+        bool ShowSelectOption { get; set; }
+
+        bool IsSelected { get; set; }
+
+        bool ShowPreflopFolds { set; }
+
         IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand);
 
         IHandHistoryViewModel Initialize(bool showPreflopFolds);

@@ -12,7 +12,7 @@ namespace PokerTell.PokerHand.Conditions
             return this;
         }
 
-        public abstract bool IsFullFilledBy(IConvertedPokerHand hand);
+        public abstract bool IsMetBy(IConvertedPokerHand hand);
         
     }
 }

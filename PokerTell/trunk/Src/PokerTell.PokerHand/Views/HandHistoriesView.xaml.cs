@@ -1,12 +1,14 @@
 ﻿namespace PokerTell.PokerHand.Views
 {
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Interaction logic for HandHistoriesView.xaml
     /// </summary>
     public partial class HandHistoriesView : IHandHistoriesView
     {
+        #region Constructors and Destructors
+
         public HandHistoriesView()
         {
             InitializeComponent();
@@ -18,9 +20,15 @@
             DataContext = viewModel;
         }
 
+        #endregion
+
+        #region Properties
+
         public IHandHistoriesViewModel ViewModel
         {
             get { return (IHandHistoriesViewModel)DataContext; }
         }
+
+        #endregion
     }
 }

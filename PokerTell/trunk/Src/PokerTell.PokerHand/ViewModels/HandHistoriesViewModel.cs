@@ -9,7 +9,7 @@ namespace PokerTell.PokerHand.ViewModels
     using Tools.GenericUtilities;
     using Tools.WPF.ViewModels;
 
-    public class HandHistoriesViewModel : IHandHistoriesViewModel
+    public class HandHistoriesViewModel : ViewModel, IHandHistoriesViewModel
     {
         #region Constants and Fields
 
@@ -18,6 +18,10 @@ namespace PokerTell.PokerHand.ViewModels
         readonly IConstructor<IHandHistoryViewModel> _handHistoryViewModelMake;
 
         readonly ObservableCollection<IHandHistoryViewModel> _handHistoryViewModels;
+
+        string _hashCode;
+
+        bool _showPreflopFolds;
 
         #endregion
 
@@ -29,6 +33,7 @@ namespace PokerTell.PokerHand.ViewModels
             _handHistoryViewModels = new ObservableCollection<IHandHistoryViewModel>();
 
             _applyFilterCompositeAction = new CompositeAction<IPokerHandCondition>();
+            HashCode = "Not Set";
         }
 
         #endregion
@@ -45,6 +50,51 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _handHistoryViewModels; }
         }
 
+        public string HashCode
+        {
+            get { return _hashCode; }
+            set
+            {
+                _hashCode = value;
+                RaisePropertyChanged(() => HashCode);
+            }
+        }
+
+        public bool ShowPreflopFolds
+        {
+            get { return _showPreflopFolds; }
+            set
+            {
+                _showPreflopFolds = value;
+                foreach (IHandHistoryViewModel model in HandHistoryViewModels)
+                {
+                    model.ShowPreflopFolds = value;
+                }
+            }
+        }
+
+        public bool ShowSelectedOnly
+        {
+            set
+            {
+                foreach (IHandHistoryViewModel model in HandHistoryViewModels)
+                {
+                    model.Visible = (! value) || model.IsSelected;
+                }
+            }
+        }
+
+        public bool ShowSelectOption
+        {
+            set
+            {
+                foreach (IHandHistoryViewModel model in HandHistoryViewModels)
+                {
+                    model.ShowSelectOption = value;
+                }
+            }
+        }
+
         #endregion
 
         #region Implemented Interfaces
@@ -58,12 +108,14 @@ namespace PokerTell.PokerHand.ViewModels
                 IHandHistoryViewModel handHistoryViewModel = _handHistoryViewModelMake.New;
 
                 handHistoryViewModel
-                    .Initialize(false)
+                    .Initialize(_showPreflopFolds)
                     .UpdateWith(hand);
+
+                ApplyFilterCompositeAction.RegisterAction(handHistoryViewModel.AdjustToConditionAction);
 
                 _handHistoryViewModels.Add(handHistoryViewModel);
 
-                ApplyFilterCompositeAction.RegisterAction(handHistoryViewModel.AdjustToConditionAction);
+                HashCode = GetHashCode().ToString();
             }
 
             return this;
@@ -72,6 +124,5 @@ namespace PokerTell.PokerHand.ViewModels
         #endregion
 
         #endregion
-
     }
 }

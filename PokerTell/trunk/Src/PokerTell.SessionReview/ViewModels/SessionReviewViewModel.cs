@@ -29,8 +29,11 @@
         {
             _handHistoriesViewModel = handHistoriesViewModel;
 
+            _handHistoriesViewModel.ShowSelectOption = true;
+
             Commands.SaveSessionReviewCommand.RegisterCommand(SaveCommand);
-            HeaderInfo = "SessionReview " + GetHashCode();
+            
+            HeaderInfo = "SessionReview " + GetHashCode() + " for: " + _handHistoriesViewModel.GetHashCode();
         }
 
         #endregion

@@ -21,7 +21,14 @@ namespace PokerTell.PokerHand.ViewModels.Design
 
             for (int i = 0; i < 15; i++)
             {
-                hands.Add(designHelper.CreateSamplePokerHand(i));
+                var hand = designHelper.CreateSamplePokerHand(i);
+                if (i % 3 == 0)
+                {
+                    hand[0].Name = "hero";
+                }
+
+                hands.Add(hand);
+                
             }
 
             InitializeWith(hands);
