@@ -22,6 +22,14 @@ namespace PokerTell.PokerHand.ViewModels
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        IConvertedPokerHand _hand;
+
+        bool _isSelected;
+
+        string _note;
+
+        int _selectedRow;
+
         bool _showPreflopFolds;
 
         bool _showSelectOption;
@@ -81,23 +89,6 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _hand.Ante > 0; }
         }
 
-        public bool IsTournament
-        {
-            get { return _hand.TournamentId > 0; }
-        }
-
-        public string[] Note
-        {
-            get { return _hand.Note; }
-            set { _hand.Note = value; }
-        }
-
-        public IList<IHandHistoryRow> PlayerRows { get; private set; }
-
-        bool _isSelected;
-
-        IConvertedPokerHand _hand;
-
         public bool IsSelected
         {
             get { return _isSelected; }
@@ -105,6 +96,46 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 _isSelected = value;
                 RaisePropertyChanged(() => IsSelected);
+            }
+        }
+
+        public bool IsTournament
+        {
+            get { return _hand.TournamentId > 0; }
+        }
+
+        public string Note
+        {
+            get { return _note; }
+            set
+            {
+                _note = value;
+                RaisePropertyChanged(() => Note);
+            }
+        }
+
+        public IList<IHandHistoryRow> PlayerRows { get; private set; }
+
+        public int SelectedRow
+        {
+            get { return _selectedRow; }
+            set
+            {
+                _selectedRow = value;
+                RaisePropertyChanged(() => SelectedRow);
+            }
+        }
+
+        public bool ShowPreflopFolds
+        {
+            set
+            {
+                _showPreflopFolds = value;
+
+                if (_hand != null)
+                {
+                    FillPlayerRows(_hand);
+                }
             }
         }
 
@@ -149,19 +180,6 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        public bool ShowPreflopFolds
-        {
-            set
-            {
-                _showPreflopFolds = value;
-
-                if (_hand != null)
-                {
-                    FillPlayerRows(_hand);
-                }
-            }
-        }
-
         #endregion
 
         #region Public Methods
@@ -193,9 +211,35 @@ namespace PokerTell.PokerHand.ViewModels
             HeaderInfo = "HandHistory";
 
             ShowSelectOption = false;
+            SelectedRow = -1;
             IsSelected = false;
             Visible = true;
             return this;
+        }
+
+        /// <summary>
+        /// Selects Player with given name
+        /// If name is null selection will be cleared
+        /// </summary>
+        /// <param name="playerName"></param>
+        public void SelectRowOfPlayer(string playerName)
+        {
+            // If player not found or null set to -1 which will tell DataGrid to select no row
+            int rowToSelect = -1;
+           
+            if (playerName != null)
+            {
+                for (int i = 0; i < PlayerRows.Count; i++)
+                {
+                    if (PlayerRows[i].PlayerName == playerName)
+                    {
+                        rowToSelect = i;
+                        break;
+                    }
+                }
+            }
+
+            SelectedRow = rowToSelect;
         }
 
         public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
@@ -219,6 +263,17 @@ namespace PokerTell.PokerHand.ViewModels
             return this;
         }
 
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        void AdjustToCondition(IPokerHandCondition condition)
+        {
+            Visible = condition.IsMetBy(_hand);
+        }
+
         void FillPlayerRows(IConvertedPokerHand hand)
         {
             PlayerRows.Clear();
@@ -230,17 +285,6 @@ namespace PokerTell.PokerHand.ViewModels
                     PlayerRows.Add(new HandHistoryRow(player));
                 }
             }
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
-
-        void AdjustToCondition(IPokerHandCondition condition)
-        {
-            Visible = condition.IsMetBy(_hand);
         }
 
         #endregion

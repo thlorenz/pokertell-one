@@ -29,7 +29,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         Action<IPokerHandCondition> AdjustToConditionAction { get; }
 
-        string[] Note { get; set; }
+        string Note { get; set; }
 
         IList<IHandHistoryRow> PlayerRows { get; }
 
@@ -41,8 +41,17 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         bool ShowPreflopFolds { set; }
 
+        int SelectedRow { get; set; }
+
         IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand);
 
         IHandHistoryViewModel Initialize(bool showPreflopFolds);
+
+        /// <summary>
+        /// Selects Player with given name
+        /// If name is null selection will be cleared
+        /// </summary>
+        /// <param name="playerName"></param>
+        void SelectRowOfPlayer(string playerName);
     }
 }

@@ -27,7 +27,7 @@
                   Width="Auto"
                   Header="Display">
             <StackPanel>
-                <CheckBox Content="Mark Hero"/>
+                <CheckBox Content="Select Hero" IsChecked="{Binding SelectHero}"/>
                 <CheckBox Content="Inactive Players" IsChecked="{Binding ShowPreflopFolds}"/>
             </StackPanel>
         </GroupBox>

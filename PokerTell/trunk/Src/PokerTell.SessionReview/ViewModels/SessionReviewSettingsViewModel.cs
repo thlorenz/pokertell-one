@@ -25,6 +25,8 @@ namespace PokerTell.SessionReview.ViewModels
 
         string _heroName;
 
+        bool _selectHero;
+
         bool _showAll;
 
         bool _showMoneyInvested;
@@ -62,7 +64,25 @@ namespace PokerTell.SessionReview.ViewModels
             set
             {
                 _heroName = value;
+
+                UpdateSelectedPlayer();
+                UpdateShowMoneyInvested();
+                UpdateSawFlop();
+
                 RaisePropertyChanged(() => HeroName);
+            }
+        }
+
+        public bool SelectHero
+        {
+            get { return _selectHero; }
+            set
+            {
+                _selectHero = value;
+
+                UpdateSelectedPlayer();
+               
+                RaisePropertyChanged(() => SelectHero);
             }
         }
 
@@ -85,11 +105,7 @@ namespace PokerTell.SessionReview.ViewModels
             set
             {
                 _showMoneyInvested = value;
-                if (_showMoneyInvested && _handHistoriesViewModel != null)
-                {
-                    _investedMoneyCondition.AppliesTo(HeroName);
-                    _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_investedMoneyCondition);
-                }
+                UpdateShowMoneyInvested();
             }
         }
 
@@ -105,11 +121,7 @@ namespace PokerTell.SessionReview.ViewModels
             set
             {
                 _showSawFlop = value;
-                if (_showSawFlop && _handHistoriesViewModel != null)
-                {
-                    _sawFlopCondition.AppliesTo(HeroName);
-                    _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_sawFlopCondition);
-                }
+                UpdateSawFlop();
             }
         }
 
@@ -126,6 +138,37 @@ namespace PokerTell.SessionReview.ViewModels
                 }
 
                 RaisePropertyChanged(() => ShowSelectedOnly);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        void UpdateSawFlop()
+        {
+            if (_showSawFlop && _handHistoriesViewModel != null)
+            {
+                _sawFlopCondition.AppliesTo(HeroName);
+                _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_sawFlopCondition);
+            }
+        }
+
+        void UpdateSelectedPlayer()
+        {
+            if (_handHistoriesViewModel != null)
+            {
+                // Null will clear selection
+                _handHistoriesViewModel.SelectPlayer(_selectHero ? HeroName : null);
+            }
+        }
+
+        void UpdateShowMoneyInvested()
+        {
+            if (_showMoneyInvested && _handHistoriesViewModel != null)
+            {
+                _investedMoneyCondition.AppliesTo(HeroName);
+                _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_investedMoneyCondition);
             }
         }
 

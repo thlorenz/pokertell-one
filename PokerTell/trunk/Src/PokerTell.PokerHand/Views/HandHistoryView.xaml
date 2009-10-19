@@ -23,6 +23,7 @@
             <RowDefinition Height="Auto" MinHeight="23" />
             <RowDefinition Height="Auto" MinHeight="23" />
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"    />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -52,7 +53,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
+
             <!-- Tournament Id -->
             <Grid Grid.Row="0" 
                   Grid.Column="0" Background="LightGreen"
@@ -61,7 +62,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="T:"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TournamentId}"/>
             </Grid>
@@ -74,11 +75,11 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="G:"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding GameId}"/>
             </Grid>
-            
+
             <TextBlock 
                  Grid.Row="0"
                 Grid.Column="2"
@@ -95,7 +96,7 @@
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            
+
             <!-- Board -->
             <Views:BoardView Grid.Row="0" Grid.Column="0" DataContext="{Binding Board}"/>
 
@@ -105,8 +106,8 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
-                 </Grid.ColumnDefinitions>
-                
+                </Grid.ColumnDefinitions>
+
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding BigBlind}"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="/" Margin="0" />
                 <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding SmallBlind}" Margin="0,1"/>
@@ -132,14 +133,14 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                
+
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="TP:" />
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalPlayers}"/>
             </Grid>
         </Grid>
 
         <dg:DataGrid
-             Grid.Row="2"
+            Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Background="White"
@@ -148,7 +149,7 @@
             AutoGenerateColumns="False"
             HorizontalScrollBarVisibility="Auto" 
             SelectionMode="Extended"
-            SelectionUnit="Cell"
+            SelectionUnit="FullRow"
             CanUserAddRows="False" 
             CanUserDeleteRows="False"
             CanUserResizeRows="False" 
@@ -158,6 +159,7 @@
             IsReadOnly="True" 
             VerticalAlignment="Top"
             HorizontalGridLinesBrush="Lavender"
+            SelectedIndex="{Binding SelectedRow}"
             MouseEnter="DataGrid_MouseEnter"
             MouseLeave="DataGrid_MouseLeave"     
         >
@@ -261,6 +263,22 @@
             </dg:DataGrid.Columns>
 
         </dg:DataGrid>
+
+        <!-- HandNote -->
+
+        <Border Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                CornerRadius="5"
+                Background="AntiqueWhite"
+                Padding="5">
+            <TextBox 
+                    Text="{Binding Note}"
+                    Background="WhiteSmoke"
+                    Foreground="Black"
+                    MinHeight="20" 
+                    AcceptsReturn="True"/>
+        </Border>
     </Grid>
 </UserControl>
 <!--

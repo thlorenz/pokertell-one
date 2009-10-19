@@ -6,7 +6,7 @@ namespace PokerTell.PokerHand.Tests.Fakes
 
     internal class StubCondition : PokerHandCondition
     {
-        public override bool IsFullFilledBy(IConvertedPokerHand hand)
+        public override bool IsMetBy(IConvertedPokerHand hand)
         {
             return FullFill;
         }

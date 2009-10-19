@@ -130,12 +130,6 @@ namespace PokerTell.PokerHand.Tests
             Assert.That(wasInvoked);
         }
 
-        [Test]
-        public void Show_HandHIstoriesView_InTestWindow()
-        {
-            new TestWindow().ShowDialog();
-        }
-
         #endregion
     }
 }

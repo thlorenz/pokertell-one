@@ -49,7 +49,7 @@ namespace PokerTell.PokerHand.Tests
         [Test]
         public void IsFullFilledBy_HandHasNoPlayers_ReturnsFalse()
         {
-            bool result = _sawFlopCondition.IsFullFilledBy(_convertedHand);
+            bool result = _sawFlopCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -57,7 +57,7 @@ namespace PokerTell.PokerHand.Tests
         [Test]
         public void IsFullFilledBy_HandIsNull_ReturnsFalse()
         {
-            bool result = _sawFlopCondition.IsFullFilledBy(null);
+            bool result = _sawFlopCondition.IsMetBy(null);
 
             Assert.That(result, Is.False);
         }
@@ -71,7 +71,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _sawFlopCondition.IsFullFilledBy(_convertedHand);
+            bool result = _sawFlopCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -82,7 +82,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _sawFlopCondition.IsFullFilledBy(_convertedHand);
+            bool result = _sawFlopCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -104,7 +104,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _sawFlopCondition.IsFullFilledBy(_convertedHand);
+            bool result = _sawFlopCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -119,7 +119,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _sawFlopCondition.IsFullFilledBy(_convertedHand);
+            bool result = _sawFlopCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.True);
         }

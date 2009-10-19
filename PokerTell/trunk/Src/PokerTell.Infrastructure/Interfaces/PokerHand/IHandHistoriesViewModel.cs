@@ -11,8 +11,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         IEnumerable<IHandHistoryViewModel> HandHistoryViewModels { get; }
 
-        string HashCode { get; set; }
-
         bool ShowSelectOption { set; }
 
         bool ShowSelectedOnly { set; }
@@ -20,5 +18,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         bool ShowPreflopFolds { get; set; }
 
         IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
+
+        void SelectPlayer(string name);
     }
 }

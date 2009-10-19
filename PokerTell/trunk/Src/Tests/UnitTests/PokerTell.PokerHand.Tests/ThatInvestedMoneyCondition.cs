@@ -59,7 +59,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _investedMoneyCondition.IsFullFilledBy(_convertedHand);
+            bool result = _investedMoneyCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -70,7 +70,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _investedMoneyCondition.IsFullFilledBy(_convertedHand);
+            bool result = _investedMoneyCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -88,7 +88,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _investedMoneyCondition.IsFullFilledBy(_convertedHand);
+            bool result = _investedMoneyCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.True);
         }
@@ -110,7 +110,7 @@ namespace PokerTell.PokerHand.Tests
 
             _convertedHand.AddPlayer(opponent);
 
-            bool result = _investedMoneyCondition.IsFullFilledBy(_convertedHand);
+            bool result = _investedMoneyCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }
@@ -129,7 +129,7 @@ namespace PokerTell.PokerHand.Tests
             _convertedHand
                 .AddPlayer(_heroPlayer);
 
-            bool result = _investedMoneyCondition.IsFullFilledBy(_convertedHand);
+            bool result = _investedMoneyCondition.IsMetBy(_convertedHand);
 
             Assert.That(result, Is.False);
         }

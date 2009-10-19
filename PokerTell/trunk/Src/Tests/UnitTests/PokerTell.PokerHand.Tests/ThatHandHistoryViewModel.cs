@@ -138,21 +138,5 @@ namespace PokerTell.PokerHand.Tests
 
             Assert.That(_handHistoryViewModel.Visible, Is.True);
         }
-
-        [Test]
-        public void Note_IsSet_SetsNoteOnContainedHand()
-        {
-            var hand = new ConvertedPokerHand();
-            _handHistoryViewModel = new HandHistoryViewModel()
-                .UpdateWith(hand);
-            
-            const string line1 = "Test Line1";
-            const string line2 = "Test Line2";
-            var newNote = new[] { line1, line2 };
-
-            _handHistoryViewModel.Note = newNote;
-
-            Assert.That(hand.Note, Is.EqualTo(newNote));
-        }
     }
 }

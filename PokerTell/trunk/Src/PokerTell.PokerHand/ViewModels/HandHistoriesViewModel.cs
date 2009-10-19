@@ -33,7 +33,6 @@ namespace PokerTell.PokerHand.ViewModels
             _handHistoryViewModels = new ObservableCollection<IHandHistoryViewModel>();
 
             _applyFilterCompositeAction = new CompositeAction<IPokerHandCondition>();
-            HashCode = "Not Set";
         }
 
         #endregion
@@ -48,16 +47,6 @@ namespace PokerTell.PokerHand.ViewModels
         public IEnumerable<IHandHistoryViewModel> HandHistoryViewModels
         {
             get { return _handHistoryViewModels; }
-        }
-
-        public string HashCode
-        {
-            get { return _hashCode; }
-            set
-            {
-                _hashCode = value;
-                RaisePropertyChanged(() => HashCode);
-            }
         }
 
         public bool ShowPreflopFolds
@@ -111,14 +100,20 @@ namespace PokerTell.PokerHand.ViewModels
                     .Initialize(_showPreflopFolds)
                     .UpdateWith(hand);
 
-                ApplyFilterCompositeAction.RegisterAction(handHistoryViewModel.AdjustToConditionAction);
+                 ApplyFilterCompositeAction.RegisterAction(handHistoryViewModel.AdjustToConditionAction);
 
                 _handHistoryViewModels.Add(handHistoryViewModel);
-
-                HashCode = GetHashCode().ToString();
             }
 
             return this;
+        }
+
+        public void SelectPlayer(string name)
+        {
+            foreach (var handHistoryViewModel in _handHistoryViewModels)
+            {
+                handHistoryViewModel.SelectRowOfPlayer(name);
+            }
         }
 
         #endregion
