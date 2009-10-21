@@ -6,6 +6,8 @@
 
     using log4net;
 
+    using PokerHand.Views;
+
     using Tools;
 
     /// <summary>
@@ -19,11 +21,18 @@
         {
             base.OnStartup(e);
 
-            RunInDebugMode();
+          RunTestWindow();
+
+           // RunInDebugMode();
 
             Log.Info("Started PokerTell");
 
             ShutdownMode = ShutdownMode.OnMainWindowClose;
+        }
+
+        void RunTestWindow()
+        {
+            new TestWindow().Show();
         }
 
         static void RunInDebugMode()
@@ -54,7 +63,8 @@
             }
 
             Log.Error("An unhandled error occurred", excep);
-            Environment.Exit(1);
+           
+            // Environment.Exit(1);
         }
     }
 }

@@ -4,7 +4,8 @@
     xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
     xmlns:Design="clr-namespace:PokerTell.PokerHand.ViewModels.Design"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
-    Width="500" Height="200" >
+    Background="Bisque"    
+    Width="500" Height="400" >
     
         
             

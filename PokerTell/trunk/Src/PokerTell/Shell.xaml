@@ -9,21 +9,21 @@
     Width="900" Height="563"
     MinWidth="600" MinHeight="375"
  
-    
+     
         WindowStyle="None"
        
         ResizeMode="CanResize"
         WindowState="{Binding WindowState}"
         Title="{Binding WindowTitle}" 
     >
-
-
+   
     <Window.Resources>
-        <Style x:Key="ShellTabItemStyle" TargetType="{x:Type TabItem}" BasedOn="{StaticResource TabItemThemeStyle}">
-            <Setter Property="Header" 
-                    Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self},
-                            Converter={StaticResource HeaderInfoToHeaderConverter}, ConverterParameter=18}" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                 <ResourceDictionary Source="Resources/Theme/MainColors.xaml"/>
+                 <ResourceDictionary Source="Resources/Theme/PokerTellTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <Border Padding="15,5,15,15" CornerRadius="10" Background="DimGray" Opacity="0.98" MouseDown="WindowBorder_MouseDown">
@@ -128,7 +128,7 @@
 
                     <TabControl Grid.Row="1"
                     cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainRegion}" 
-                    ItemContainerStyle="{StaticResource ShellTabItemStyle}"
+                    
                     SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
                     Margin="3"
                     Background="{StaticResource ControlBackgroundBrush}"/>

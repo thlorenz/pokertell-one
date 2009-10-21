@@ -86,7 +86,7 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel.InitializeWith(hands);
 
-            Assert.That(_viewModel.HandHistoryViewModels.Count(), Is.EqualTo(0));
+            Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(0));
         }
 
         [Test]
@@ -98,11 +98,11 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel.InitializeWith(hands);
 
-            Assert.That(_viewModel.HandHistoryViewModels.Count(), Is.EqualTo(1));
+            Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(1));
         }
 
         [Test]
-        public void InitializeWith_TwoHands_AddsTwoHandHistoryViewModel()
+        public void InitializeWith_TwoHands_AddsTwoHandHistoryViewModels()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -111,7 +111,7 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel.InitializeWith(hands);
 
-            Assert.That(_viewModel.HandHistoryViewModels.Count(), Is.EqualTo(2));
+            Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(2));
         }
 
         [Test]

@@ -9,7 +9,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     {
         CompositeAction<IPokerHandCondition> ApplyFilterCompositeAction { get; }
 
-        IEnumerable<IHandHistoryViewModel> HandHistoryViewModels { get; }
+        ObservableCollection<IHandHistoryViewModel> HandHistoryViewModelsOnPage { get; }
 
         bool ShowSelectOption { set; }
 
@@ -20,5 +20,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
 
         void SelectPlayer(string name);
+
+        IHandHistoriesViewModel InitializeWith(
+            IEnumerable<IConvertedPokerHand> convertedPokerHands, int itemsPerPage);
     }
 }

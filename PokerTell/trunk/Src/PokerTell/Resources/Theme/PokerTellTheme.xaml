@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="MainColors.xaml" />
+
+        <ResourceDictionary Source="ButtonStyle.xaml" />
+        <ResourceDictionary Source="CheckBoxStyle.xaml" />
+        <ResourceDictionary Source="ComboBoxItemStyle.xaml" />
+        <ResourceDictionary Source="ComboBoxStyle.xaml" />
+        <ResourceDictionary Source="ExpanderStyle.xaml" />
+        <ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
+        <ResourceDictionary Source="GroupBoxStyle.xaml" />
+        <ResourceDictionary Source="LabelStyle.xaml" />
+        <ResourceDictionary Source="ListBoxItemStyle.xaml" />
+        <ResourceDictionary Source="ListBoxStyle.xaml" />
+       
+        <!--  -->
+        <ResourceDictionary Source="ListViewItemStyle.xaml" />
+        <ResourceDictionary Source="ListViewStyle.xaml" />
+        
+        <ResourceDictionary Source="MenuItemStyle.xaml" />
+        <ResourceDictionary Source="MenuStyle.xaml" />
+        <ResourceDictionary Source="NuclearScrollViewerStyle.xaml" />
+        <ResourceDictionary Source="PasswordBoxStyle.xaml" />
+        <ResourceDictionary Source="ProgressBarStyle.xaml" />
+        <ResourceDictionary Source="RadioButtonStyle.xaml" />
+        <ResourceDictionary Source="RepeatButtonStyle.xaml" />
+        <ResourceDictionary Source="RichTextBoxStyle.xaml" />
+        <ResourceDictionary Source="ScrollBarStyle.xaml" />
+        <ResourceDictionary Source="SeparatorStyle.xaml" />
+        <ResourceDictionary Source="SliderStyle.xaml" />
+        <ResourceDictionary Source="TabControlStyle.xaml" />
+        <ResourceDictionary Source="TabItemStyle.xaml" />
+        <ResourceDictionary Source="TextBoxStyle.xaml" />
+        <ResourceDictionary Source="ToogleButtonStyle.xaml" />
+        <ResourceDictionary Source="ToolBarStyle.xaml" />
+        <ResourceDictionary Source="TreeViewItemStyle.xaml" />
+        <ResourceDictionary Source="TreeViewStyle.xaml" />
+
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
+
+<!-- 
+    <ResourceDictionary Source="ListViewItemStyle.xaml" /> 
+    <ResourceDictionary Source="ListViewStyle.xaml" />
+    
+     <ResourceDictionary Source="../ExpressionDark.xaml" />
+    
+    
+    <ResourceDictionary Source="MainColors.xaml" />
+        
+        <ResourceDictionary Source="ButtonStyle.xaml" />
+        <ResourceDictionary Source="CheckBoxStyle.xaml" />
+        <ResourceDictionary Source="ComboBoxItemStyle.xaml" />
+        <ResourceDictionary Source="ComboBoxStyle.xaml" />
+        <ResourceDictionary Source="ExpanderStyle.xaml" />
+        <ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
+        <ResourceDictionary Source="GroupBoxStyle.xaml" />
+        <ResourceDictionary Source="LabelStyle.xaml" />
+        <ResourceDictionary Source="ListBoxItemStyle.xaml" />
+        <ResourceDictionary Source="ListBoxStyle.xaml" />
+        <ResourceDictionary Source="ListViewItemStyle.xaml" />
+        <ResourceDictionary Source="ListViewStyle.xaml" />
+        <ResourceDictionary Source="MenuItemStyle.xaml" />
+        <ResourceDictionary Source="MenuStyle.xaml" />
+        <ResourceDictionary Source="NuclearScrollViewerStyle.xaml" />
+        <ResourceDictionary Source="PasswordBoxStyle.xaml" />
+        <ResourceDictionary Source="ProgressBarStyle.xaml" />
+        <ResourceDictionary Source="RadioButtonStyle.xaml" />
+        <ResourceDictionary Source="RepeatButtonStyle.xaml" />
+        <ResourceDictionary Source="RichTextBoxStyle.xaml" />
+        <ResourceDictionary Source="ScrollBarStyle.xaml" />
+        <ResourceDictionary Source="SeparatorStyle.xaml" />
+        <ResourceDictionary Source="SliderStyle.xaml" />
+        <ResourceDictionary Source="TabControlStyle.xaml" />
+        <ResourceDictionary Source="TabItemStyle.xaml" />
+        <ResourceDictionary Source="TextBoxStyle.xaml" />
+        <ResourceDictionary Source="ToogleButtonStyle.xaml" />
+        <ResourceDictionary Source="ToolBarStyle.xaml" />
+        <ResourceDictionary Source="TreeViewItemStyle.xaml" />
+        <ResourceDictionary Source="TreeViewStyle.xaml" />
+    -->

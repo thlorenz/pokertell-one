@@ -24,7 +24,7 @@ namespace PokerTell.PokerHand.ViewModels.Design
             var designHelper = new DesignHelper();
             var hands = new List<IConvertedPokerHand>();
 
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 15; i++)
             {
                 var hand = designHelper.CreateSamplePokerHand(i);
                 if (i % 3 == 0)

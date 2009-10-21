@@ -18,6 +18,7 @@
             : this()
         {
             DataContext = viewModel;
+            InitializeComponent();
         }
 
         #endregion

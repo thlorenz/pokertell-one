@@ -36,6 +36,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Accessibility" />
@@ -111,6 +112,7 @@
     <Compile Include="Localization\WpfUtils.cs" />
     <Compile Include="Log4NetAppenders.cs" />
     <Compile Include="Normalizer.cs" />
+    <Compile Include="PageNavigator.cs" />
     <Compile Include="Serialization\Serializers.cs" />
     <Compile Include="StaticMethods.cs" />
     <Compile Include="WPF\Command\CommandAction.cs" />

@@ -11,8 +11,8 @@
    >
     <UserControl.Resources>
         <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
+        
     </UserControl.Resources>
-
     <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
         <Grid.Resources>
             <Style TargetType="{x:Type TextBlock}">
@@ -139,7 +139,128 @@
             </Grid>
         </Grid>
 
-        <dg:DataGrid
+        <ListView  
+            Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            ItemsSource="{Binding PlayerRows}"
+            SelectedIndex="{Binding SelectedRow}"
+           >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn 
+                        Header="{x:Static Properties:Resources.HandHistoryView_Position_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding Position}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" 
+                                      />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                         Header="{x:Static Properties:Resources.HandHistoryView_PlayerName_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding PlayerName}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
+                                      />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Views:HoleCardsView DataContext="{Binding HoleCards}" MinWidth="50"
+                                                 ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="{x:Static Properties:Resources.HandHistoryView_M_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding M}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" 
+                                      />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="{x:Static Properties:Resources.HandHistoryView_Preflop_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding Preflop}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
+                                       Background="SlateBlue"  
+                                      />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="{x:Static Properties:Resources.HandHistoryView_Flop_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding Flop}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
+                                       Background="DarkRed" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="{x:Static Properties:Resources.HandHistoryView_Turn_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding Turn}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
+                                       Background="DarkGray"  />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn
+                        Header="{x:Static Properties:Resources.HandHistoryView_River_Header}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock DataContext="{Binding River}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
+                                       Background="DarkGreen"  />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    
+
+
+        <!-- HandNote -->
+
+        <Border Grid.Row="3"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                CornerRadius="5"
+                Background="AntiqueWhite"
+                Padding="5">
+            <TextBox 
+                    Text="{Binding Note}"
+                    Background="WhiteSmoke"
+                    Foreground="Black"
+                    MinHeight="20" 
+                    AcceptsReturn="True"/>
+        </Border>
+    </Grid>
+</UserControl>
+<!--
+    
+     <dg:DataGrid
             Grid.Row="2"
             Grid.Column="0"
             Grid.ColumnSpan="2"
@@ -263,25 +384,46 @@
             </dg:DataGrid.Columns>
 
         </dg:DataGrid>
+    
+    <TextBlock Grid.Column="1"
+                            DataContext="{Binding PlayerName}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
+                                      />
+                        <Views:HoleCardsView Grid.Column="2"
+                            DataContext="{Binding HoleCards}"
+                                                 ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"/>
 
-        <!-- HandNote -->
+                        <TextBlock Grid.Column="3"
+                            DataContext="{Binding M}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" />
 
-        <Border Grid.Row="3"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                CornerRadius="5"
-                Background="AntiqueWhite"
-                Padding="5">
-            <TextBox 
-                    Text="{Binding Note}"
-                    Background="WhiteSmoke"
-                    Foreground="Black"
-                    MinHeight="20" 
-                    AcceptsReturn="True"/>
-        </Border>
-    </Grid>
-</UserControl>
-<!--
+                        <TextBlock Grid.Column="4"
+                            DataContext="{Binding Preflop}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
+                                       Background="LightGray"  
+                                      />
+
+                        <TextBlock Grid.Column="5"
+                            DataContext="{Binding Flop}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
+                                       Background="Beige" />
+
+                        <TextBlock Grid.Column="6"
+                            DataContext="{Binding Turn}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
+                                       Background="LightGreen"  />
+
+                        <TextBlock Grid.Column="7"
+                            DataContext="{Binding River}" 
+                                       Text="{Binding}"
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
+                                       Background="LightBlue"  />
+    
     <dg:DataGrid.RowHeaderTemplate>
     <DataTemplate>
         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,

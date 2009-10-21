@@ -74,6 +74,7 @@
     <Compile Include="Serialization\ThatSerializers.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ThatPageNavigator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">

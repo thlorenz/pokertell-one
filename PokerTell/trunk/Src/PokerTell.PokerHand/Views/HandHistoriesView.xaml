@@ -5,11 +5,77 @@
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
     xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
     xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools"
+    xmlns:Properties="clr-namespace:PokerTell.PokerHand.Properties"
+             
     >
     <UserControl.Resources>
         <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
+        <DataTemplate x:Key="HandHistoryTemplate">
+            
+            <Border 
+                Visibility="{Binding Visible, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}"
+                CornerRadius="15" 
+                Background="{DynamicResource ControlBackgroundBrush}" Margin="5">
+                <Views:HandHistoryView DataContext="{Binding}" Margin="5"/>
+            </Border>
+        </DataTemplate>
+  
+
     </UserControl.Resources>
-        <ScrollViewer Margin="5"> 
+
+    <ScrollViewer Margin="5" >
+        <Border CornerRadius="10" Margin="5, 20, 5, 10" Background="White">
+            <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoriesViewModel}"
+                MaxWidth="500"
+                >
+                <ItemsControl ItemsSource="{Binding HandHistoryViewModelsOnPage}" >
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border CornerRadius="5" Background="DarkGray" Margin="5">
+                                <Views:HandHistoryView DataContext="{Binding}" Margin="5"/>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type ContentPresenter}">
+                            <Setter Property ="Visibility" Value ="{Binding Visible, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}" />
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                </ItemsControl>
+            </Grid>
+        </Border>
+    </ScrollViewer>
+</UserControl>
+
+<!-- 
+    
+    <ListView 
+                      ItemsSource="{Binding HandHistoryViewModels}" 
+                      ItemTemplate="{StaticResource HandHistoryTemplate}"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                       VirtualizingStackPanel.VirtualizationMode="Recycling"
+                      />
+
+    
+    <Border HorizontalAlignment="Left" 
+          VerticalAlignment="Top" 
+          BorderBrush="Black" 
+          BorderThickness="2">
+        <ScrollViewer>
+            <StackPanel>
+                <ListBox 
+                       VirtualizingStackPanel.IsVirtualizing="True" 
+                       VirtualizingStackPanel.VirtualizationMode="Recycling"
+                       ItemsSource="{Binding HandHistoryViewModels}" 
+                       ItemTemplate="{DynamicResource HandHistoryTemplate}"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Border>
+
+    
+    
+    <ScrollViewer Margin="5" >
+
         <Border CornerRadius="10" Margin="5, 20, 5, 10" Background="White">
             <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoriesViewModel}"
                 MaxWidth="500"
@@ -31,4 +97,74 @@
             </Grid>
         </Border>
     </ScrollViewer>
-</UserControl>
+    
+    
+    
+   ++++++++++++++++ Solution From Web  ++++++++++++++++++++
+    
+    <Style x:Key="PhotoListBoxStyle" TargetType="{x:Type ListBox}">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type ListBox}">
+            <Border Background="{TemplateBinding Panel.Background}"
+                BorderBrush="{TemplateBinding Border.BorderBrush}"
+                BorderThickness="{TemplateBinding Border.BorderThickness}">
+              <ScrollViewer HorizontalScrollBarVisibility="Auto" Template="{DynamicResource ScrollViewerControlTemplate1}">
+                <local:VirtualizingStackPanelEnh IsItemsHost="True" Orientation="Horizontal"/>
+              </ScrollViewer>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    
+    ++ Worked but no nice:
+    
+    <UserControl.Resources>
+        <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
+        <DataTemplate x:Key="HandHistoryTemplate">
+            
+            <Border 
+                Visibility="{Binding Visible, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}"
+                CornerRadius="15" 
+                Background="{DynamicResource ControlBackgroundBrush}" Margin="5">
+                <Views:HandHistoryView DataContext="{Binding}" Margin="5"/>
+            </Border>
+        </DataTemplate>
+  
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border Background="{TemplateBinding Panel.Background}"
+                                BorderBrush="{TemplateBinding Border.BorderBrush}"
+                                BorderThickness="{TemplateBinding Border.BorderThickness}">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <VirtualizingStackPanel 
+                                    IsItemsHost="True" 
+                                    Orientation="Vertical"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+    <Border CornerRadius="10" Margin="5, 20, 5, 10" Padding="5,10" Background="White">
+        <ListBox 
+            ItemsSource="{Binding HandHistoryViewModels}" 
+            ItemTemplate="{StaticResource HandHistoryTemplate}"
+            ScrollViewer.CanContentScroll="True"
+            VirtualizingStackPanel.IsVirtualizing="True"
+            VirtualizingStackPanel.VirtualizationMode="Standard"
+            Background="{DynamicResource ControlBackgroundBrush}"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            SelectionMode="Single"
+            />
+    </Border>
+
+    -->
