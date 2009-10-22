@@ -4,48 +4,74 @@
  * 
  */
 
-#region Using Directives
-
-using System;
-using System.ComponentModel;
-using System.Timers;
-using System.Windows.Threading;
-
-#endregion
-
-namespace Tools
+namespace Tools.Interfaces
 {
+    using System;
+    using System.ComponentModel;
+    using System.Timers;
+
     public interface ITimer : IDisposable
     {
-        bool Enabled { get; set; }
-        double Interval { get; set; }
-        void Start();
-        void Stop();
+        #region Events
 
         event ElapsedEventHandler Elapsed;
+
+        #endregion
+
+        #region Properties
+
+        bool Enabled { get; set; }
+
+        double Interval { get; set; }
+
+        #endregion
+
+        #region Public Methods
+
+        void Start();
+
+        void Stop();
+
+        #endregion
     }
 
     public class FireOnStartTimer : Timer, ITimer
     {
+        #region Constructors and Destructors
+
         public FireOnStartTimer()
         {
             EnableOverride = false;
             Enabled = true;
         }
 
-        public FireOnStartTimer(double interval, ISynchronizeInvoke syncObject) : this()
+        public FireOnStartTimer(double interval, ISynchronizeInvoke syncObject)
+            : this()
         {
             SynchronizingObject = syncObject;
             AutoReset = false;
             Interval = interval;
         }
 
-        public bool Stopped { get; set; }
-        public bool EnableOverride { get; set; }
+        #endregion
 
-        #region ITimer Members
+        #region Events
 
         public new event ElapsedEventHandler Elapsed;
+
+        #endregion
+
+        #region Properties
+
+        public bool EnableOverride { get; set; }
+
+        public bool Stopped { get; set; }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region ITimer
 
         public new void Start()
         {
@@ -62,6 +88,8 @@ namespace Tools
         }
 
         #endregion
+
+        #endregion
     }
 
     /// <summary>
@@ -69,9 +97,17 @@ namespace Tools
     /// </summary> 
     public class SystemTimerAdapter : Timer, ITimer
     {
-        public SystemTimerAdapter() {}
-        public SystemTimerAdapter(double interval) : base(interval) {}
-    }
+        #region Constructors and Destructors
 
-    
+        public SystemTimerAdapter()
+        {
+        }
+
+        public SystemTimerAdapter(double interval)
+            : base(interval)
+        {
+        }
+
+        #endregion
+    }
 }

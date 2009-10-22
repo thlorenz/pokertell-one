@@ -2,26 +2,27 @@ namespace PokerTell.PokerHand.ViewModels
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows.Input;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    using Tools.GenericUtilities;
+    using Tools.Interfaces;
+    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class HandHistoriesViewModel : ViewModel, IHandHistoriesViewModel
     {
         #region Constants and Fields
 
-        readonly CompositeAction<IPokerHandCondition> _applyFilterCompositeAction;
-
         readonly IConstructor<IHandHistoryViewModel> _handHistoryViewModelMake;
 
-        readonly IList<IHandHistoryViewModel> _handHistoryViewModels;
+        readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
 
-        readonly ObservableCollection<IHandHistoryViewModel> _handHistoryViewModelsOnPage;
+        ICommand _navigateBackwardCommand;
 
-        int _itemsPerPage;
+        ICommand _navigateForwardCommand;
 
         bool _showPreflopFolds;
 
@@ -29,27 +30,73 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region Constructors and Destructors
 
-        public HandHistoriesViewModel(IConstructor<IHandHistoryViewModel> handHistoryViewModelMake)
+        public HandHistoriesViewModel(
+            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake, 
+            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager)
         {
+            _itemsPagesManager = itemsPagesManager;
             _handHistoryViewModelMake = handHistoryViewModelMake;
-            _handHistoryViewModelsOnPage = new ObservableCollection<IHandHistoryViewModel>();
-            _handHistoryViewModels = new List<IHandHistoryViewModel>();
-
-            _applyFilterCompositeAction = new CompositeAction<IPokerHandCondition>();
+            _pageIndex = 0;
         }
 
         #endregion
 
         #region Properties
 
-        public CompositeAction<IPokerHandCondition> ApplyFilterCompositeAction
+        int[] _pages;
+
+        public int[] Pages
         {
-            get { return _applyFilterCompositeAction; }
+            get { return new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }; }
+            set
+            {
+                _pages = value;
+                RaisePropertyChanged(() => Pages);
+            }
+        }
+
+        uint _pageIndex;
+        public uint PageIndex
+        {
+            get { return _pageIndex;  }
+            set { _pageIndex = value; 
+                 RaisePropertyChanged(() => PageIndex);
+            }
         }
 
         public ObservableCollection<IHandHistoryViewModel> HandHistoryViewModelsOnPage
         {
-            get { return _handHistoryViewModelsOnPage; }
+            get { return _itemsPagesManager.ItemsOnCurrentPage; }
+        }
+
+        public ICommand NavigateBackwardCommand
+        {
+            get
+            {
+                return _navigateBackwardCommand ?? (_navigateBackwardCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            _itemsPagesManager.NavigateBackward();
+                            _pageIndex = _itemsPagesManager.CurrentPage - 1;
+                        }, 
+                        CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateBackward
+                    });
+            }
+        }
+
+        public ICommand NavigateForwardCommand
+        {
+            get
+            {
+                return _navigateForwardCommand ?? (_navigateForwardCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            _itemsPagesManager.NavigateForward();
+                            _pageIndex = _itemsPagesManager.CurrentPage - 1;
+                        },
+                        CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateForward
+                    });
+            }
         }
 
         public bool ShowPreflopFolds
@@ -58,7 +105,7 @@ namespace PokerTell.PokerHand.ViewModels
             set
             {
                 _showPreflopFolds = value;
-                foreach (IHandHistoryViewModel model in HandHistoryViewModelsOnPage)
+                foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
                 {
                     model.ShowPreflopFolds = value;
                 }
@@ -67,20 +114,14 @@ namespace PokerTell.PokerHand.ViewModels
 
         public bool ShowSelectedOnly
         {
-            set
-            {
-                foreach (IHandHistoryViewModel model in HandHistoryViewModelsOnPage)
-                {
-                    model.Visible = (! value) || model.IsSelected;
-                }
-            }
+            set { _itemsPagesManager.FilterItems(model => ((!value) || model.IsSelected)); }
         }
 
         public bool ShowSelectOption
         {
             set
             {
-                foreach (IHandHistoryViewModel model in HandHistoryViewModelsOnPage)
+                foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
                 {
                     model.ShowSelectOption = value;
                 }
@@ -89,13 +130,27 @@ namespace PokerTell.PokerHand.ViewModels
 
         #endregion
 
-        #region Public Methods
+        #region Implemented Interfaces
+
+        #region IHandHistoriesViewModel
+
+        public IHandHistoriesViewModel ApplyFilter(IPokerHandCondition condition)
+        {
+            _itemsPagesManager
+                .FilterItems(
+                handHistoryViewModel => {
+                    handHistoryViewModel.AdjustToConditionAction(condition);
+                    return handHistoryViewModel.Visible;
+                });
+
+            return this;
+        }
 
         public IHandHistoriesViewModel InitializeWith(
             IEnumerable<IConvertedPokerHand> convertedPokerHands, int itemsPerPage)
         {
-            _itemsPerPage = itemsPerPage;
-            
+            var handHistoryViewModels = new List<IHandHistoryViewModel>();
+
             foreach (IConvertedPokerHand hand in convertedPokerHands)
             {
                 IHandHistoryViewModel handHistoryViewModel = _handHistoryViewModelMake.New;
@@ -104,22 +159,13 @@ namespace PokerTell.PokerHand.ViewModels
                     .Initialize(_showPreflopFolds)
                     .UpdateWith(hand);
 
-                ApplyFilterCompositeAction.RegisterAction(handHistoryViewModel.AdjustToConditionAction);
-
-                _handHistoryViewModels.Add(handHistoryViewModel);
+                handHistoryViewModels.Add(handHistoryViewModel);
             }
 
-           // NavigateToPage(0);
+            _itemsPagesManager.InitializeWith((uint)itemsPerPage, handHistoryViewModels);
 
             return this;
         }
-
-        
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IHandHistoriesViewModel
 
         public IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands)
         {
@@ -129,7 +175,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         public void SelectPlayer(string name)
         {
-            foreach (IHandHistoryViewModel handHistoryViewModel in _handHistoryViewModelsOnPage)
+            foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
             {
                 handHistoryViewModel.SelectRowOfPlayer(name);
             }

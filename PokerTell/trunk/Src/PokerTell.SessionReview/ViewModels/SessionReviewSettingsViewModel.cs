@@ -50,6 +50,8 @@ namespace PokerTell.SessionReview.ViewModels
             _investedMoneyCondition = investedMoneyCondition;
 
             _handHistoriesViewModel = handHistoriesViewModel;
+            _handHistoriesViewModel.ShowSelectOption = true;
+
             HeroName = "hero";
             ShowAll = true;
         }
@@ -94,7 +96,7 @@ namespace PokerTell.SessionReview.ViewModels
                 _showAll = value;
                 if (_showAll && _handHistoriesViewModel != null)
                 {
-                    _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_alwaysTrueCondition);
+                    _handHistoriesViewModel.ApplyFilter(_alwaysTrueCondition);
                 }
             }
         }
@@ -150,7 +152,7 @@ namespace PokerTell.SessionReview.ViewModels
             if (_showSawFlop && _handHistoriesViewModel != null)
             {
                 _sawFlopCondition.AppliesTo(HeroName);
-                _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_sawFlopCondition);
+                _handHistoriesViewModel.ApplyFilter(_sawFlopCondition);
             }
         }
 
@@ -168,7 +170,7 @@ namespace PokerTell.SessionReview.ViewModels
             if (_showMoneyInvested && _handHistoriesViewModel != null)
             {
                 _investedMoneyCondition.AppliesTo(HeroName);
-                _handHistoriesViewModel.ApplyFilterCompositeAction.Invoke(_investedMoneyCondition);
+                _handHistoriesViewModel.ApplyFilter(_investedMoneyCondition);
             }
         }
 

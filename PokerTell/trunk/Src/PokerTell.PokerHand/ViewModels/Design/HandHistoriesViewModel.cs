@@ -9,22 +9,30 @@ namespace PokerTell.PokerHand.ViewModels.Design
 
     using log4net;
 
+    using Tools;
+    using Tools.Interfaces;
+
     public class HandHistoriesViewModel : ViewModels.HandHistoriesViewModel
     {
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public HandHistoriesViewModel()
-            : this(new Constructor<IHandHistoryViewModel>(() => new HandHistoryViewModel()))
+            : this(
+                new Constructor<IHandHistoryViewModel>(() => new HandHistoryViewModel()),
+                new ItemsPagesManager<IHandHistoryViewModel>())
         {
         }
         
-        public HandHistoriesViewModel(IConstructor<IHandHistoryViewModel> handHistoryViewModelMake)
-            : base(handHistoryViewModelMake)
+        public HandHistoriesViewModel(
+            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake,
+            IItemsPagesManager<IHandHistoryViewModel> itemsPageManager)
+            : base(handHistoryViewModelMake, itemsPageManager)
         {
             var designHelper = new DesignHelper();
             var hands = new List<IConvertedPokerHand>();
 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 30; i++)
             {
                 var hand = designHelper.CreateSamplePokerHand(i);
                 if (i % 3 == 0)
@@ -35,9 +43,7 @@ namespace PokerTell.PokerHand.ViewModels.Design
                 hands.Add(hand);
             }
             
-            InitializeWith(hands);
-            
-            Log.Info("Done");
+            InitializeWith(hands, 5);
         }
     }
 }

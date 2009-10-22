@@ -18,6 +18,9 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Tests.Fakes;
     using PokerTell.PokerHand.ViewModels;
 
+    using Tools;
+    using Tools.Interfaces;
+
     using Views;
 
     public class ThatHandHistoriesViewModel
@@ -37,48 +40,12 @@ namespace PokerTell.PokerHand.Tests
 
             _container = new UnityContainer()
                 .RegisterConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
+                .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>()
                 .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>();
 
             _viewModel = _container.Resolve<IHandHistoriesViewModel>();
         }
         
-        [Test]
-        public void ExecutingApplyFilter_HasRegisteredCommands_ExecutesRegisteredCommands()
-        {
-            bool action1Executed = false;
-            bool action2Executed = false;
-
-            var action1 = new Action<IPokerHandCondition>(c => action1Executed = true);
-            var action2 = new Action<IPokerHandCondition>(c => action2Executed = true);
-
-             _viewModel.ApplyFilterCompositeAction
-                .RegisterAction(action1)
-                .RegisterAction(action2);
-
-            _viewModel.ApplyFilterCompositeAction.Invoke(null);
-
-            bool bothCommandsExecuted = action1Executed && action2Executed;
-
-            Assert.That(bothCommandsExecuted, Is.True);
-        }
-
-        [Test]
-        public void ExecutingApplyFilter_WithPokerHandCondition_PassesConditionToChildCommands()
-        {
-            const string player = "player1";
-
-            IPokerHandCondition condition = new StubCondition().AppliesTo(player);
-            IPokerHandCondition passedCondition = null;
-
-            var action1 = new Action<IPokerHandCondition>(c => passedCondition = c);
-
-            _viewModel.ApplyFilterCompositeAction
-                .RegisterAction(action1)
-                .Invoke(condition);
-
-            Assert.That(passedCondition, Is.EqualTo(condition));
-        }
-
         [Test]
         public void InitializeWith_EmptyHands_KeepsHandHistoryViewModelsEmpty()
         {
@@ -112,22 +79,6 @@ namespace PokerTell.PokerHand.Tests
             _viewModel.InitializeWith(hands);
 
             Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(2));
-        }
-
-        [Test]
-        public void ApplyFilter_ContainsOneHandHistoryViewModel_InvokesAdjustToConditionActionOnIt()
-        {
-            bool wasInvoked = false;
-            var modelMock = new MockHandHistoryViewModel();
-            modelMock.SetAdjustToConditionAction(p => wasInvoked = true);
-
-            var mockConstructor = new Constructor<IHandHistoryViewModel>(() => modelMock);
-            var viewModel = new HandHistoriesViewModel(mockConstructor);
-            viewModel.InitializeWith(new[] { new ConvertedPokerHand() });
-
-            viewModel.ApplyFilterCompositeAction.Invoke(_stub.Out<IPokerHandCondition>());
-
-            Assert.That(wasInvoked);
         }
 
         #endregion

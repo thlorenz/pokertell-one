@@ -17,6 +17,9 @@ namespace PokerTell.PokerHand
     using PokerTell.PokerHand.ViewModels;
     using PokerTell.PokerHand.Views;
 
+    using Tools;
+    using Tools.Interfaces;
+
     using HandHistoriesViewModel = PokerTell.PokerHand.ViewModels.Design.HandHistoriesViewModel;
     using HandHistoryViewModel = PokerTell.PokerHand.ViewModels.Design.HandHistoryViewModel;
 
@@ -80,7 +83,8 @@ namespace PokerTell.PokerHand
                 .RegisterType<IBoardViewModel, BoardViewModel>()
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>()
-                .RegisterType<IHandHistoriesView, HandHistoriesView>();
+                .RegisterType<IHandHistoriesView, HandHistoriesView>()
+                .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>();
         }
 
         #endregion

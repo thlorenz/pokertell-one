@@ -134,17 +134,11 @@
     <Compile Include="ViewModels\HandHistoryViewModel.cs" />
     <Compile Include="ViewModels\HoleCardsViewModel.cs" />
     <Compile Include="ViewModels\Suits.cs" />
-    <Compile Include="Views\BoardView.xaml.cs">
-      <DependentUpon>BoardView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\HandHistoriesTableView.xaml.cs">
       <DependentUpon>HandHistoriesTableView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HandHistoriesView.xaml.cs">
       <DependentUpon>HandHistoriesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\HandHistoryView.xaml.cs">
-      <DependentUpon>HandHistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HoleCardsView.xaml.cs">
       <DependentUpon>HoleCardsView.xaml</DependentUpon>
@@ -177,10 +171,6 @@
     <Resource Include="Images\unknown.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\BoardView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\HandHistoriesTableView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -188,10 +178,6 @@
     <Page Include="Views\HandHistoriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\HandHistoryView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HoleCardsView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -201,6 +187,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\NavigateBackwardIcon.png" />
+    <Resource Include="Resources\NavigateForwardIcon.png" />
+    <Resource Include="Views\BoardViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
+    <Resource Include="Views\HandHistoryViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

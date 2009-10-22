@@ -227,7 +227,6 @@ namespace ColorPickerSampleApplication
                     
                     Canvas.SetLeft(s, dropPoint.X - shapeClickPoint.X);
                     Canvas.SetTop(s, dropPoint.Y - shapeClickPoint.Y);
-                    s.BitmapEffect = null;
                 }
             }
             else if (DrawingMode == DrawingMode.DrawRectangle)

@@ -21,9 +21,9 @@
         {
             base.OnStartup(e);
 
-          RunTestWindow();
+           // RunTestWindow();
 
-           // RunInDebugMode();
+           RunInDebugMode();
 
             Log.Info("Started PokerTell");
 

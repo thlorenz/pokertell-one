@@ -8,6 +8,8 @@ using NUnit.Framework;
 
 namespace Tools.Tests.CustomComponents
 {
+    using Interfaces;
+
     [TestFixture]
     public class ThatFireOnStartTimer
     {

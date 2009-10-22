@@ -8,6 +8,8 @@ using Tools;
 
 namespace Tools.Tests.CustomComponents
 {
+    using Interfaces;
+
     [TestFixture]
     public class ThatSystemTimerAdapter
     {

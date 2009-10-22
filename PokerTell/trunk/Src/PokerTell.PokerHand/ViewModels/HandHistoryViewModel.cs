@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand.ViewModels
 
     using Tools.WPF.ViewModels;
 
-    public class HandHistoryViewModel : ItemsRegionViewModel, IHandHistoryViewModel
+    public class HandHistoryViewModel : ViewModel, IHandHistoryViewModel
     {
         #region Constants and Fields
 
@@ -208,7 +208,6 @@ namespace PokerTell.PokerHand.ViewModels
 
             PlayerRows = new ObservableCollection<IHandHistoryRow>();
             Board = new BoardViewModel();
-            HeaderInfo = "HandHistory";
 
             ShowSelectOption = false;
             SelectedRow = -1;
@@ -249,8 +248,6 @@ namespace PokerTell.PokerHand.ViewModels
             Board.UpdateWith(hand.Board);
 
             FillPlayerRows(hand);
-
-            HeaderInfo = "HandHistory:" + _hand.GameId;
 
             RaisePropertyChanged(() => TournamentId);
             RaisePropertyChanged(() => GameId);

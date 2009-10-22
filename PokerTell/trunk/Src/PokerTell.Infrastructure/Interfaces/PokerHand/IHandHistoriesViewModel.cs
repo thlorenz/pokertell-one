@@ -7,7 +7,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
     public interface IHandHistoriesViewModel
     {
-        CompositeAction<IPokerHandCondition> ApplyFilterCompositeAction { get; }
+        IHandHistoriesViewModel ApplyFilter(IPokerHandCondition condition);
 
         ObservableCollection<IHandHistoryViewModel> HandHistoryViewModelsOnPage { get; }
 

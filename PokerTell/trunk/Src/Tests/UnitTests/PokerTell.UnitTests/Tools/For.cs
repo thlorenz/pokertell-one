@@ -22,6 +22,7 @@ namespace PokerTell.UnitTests
         Ratio,
         PlayerId,
         Position,
-        Condition
+        Condition,
+        NumberOfItems
     }
 }

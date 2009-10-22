@@ -104,15 +104,16 @@
     <Compile Include="GenericUtilities\Member.cs" />
     <Compile Include="GenericUtilities\Reflect.cs" />
     <Compile Include="GenericUtilities\RelativeLocation.cs" />
-    <Compile Include="IDispatcherTimer.cs" />
-    <Compile Include="ITimer.cs">
+    <Compile Include="Interfaces\IDispatcherTimer.cs" />
+    <Compile Include="Interfaces\IItemsPagesManager.cs" />
+    <Compile Include="Interfaces\ITimer.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Localization\LocalizationSettings.cs" />
     <Compile Include="Localization\WpfUtils.cs" />
     <Compile Include="Log4NetAppenders.cs" />
     <Compile Include="Normalizer.cs" />
-    <Compile Include="PageNavigator.cs" />
+    <Compile Include="ItemsPagesManager.cs" />
     <Compile Include="Serialization\Serializers.cs" />
     <Compile Include="StaticMethods.cs" />
     <Compile Include="WPF\Command\CommandAction.cs" />

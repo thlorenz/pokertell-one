@@ -26,6 +26,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
 
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="5,2,5,2" />
 
         <!--
          <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Margin="0,2,0,2" VerticalAlignment="Stretch" />
