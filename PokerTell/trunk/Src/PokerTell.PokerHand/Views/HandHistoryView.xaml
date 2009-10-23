@@ -1,23 +1,21 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"
+    xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools"
     xmlns:Design="clr-namespace:PokerTell.PokerHand.ViewModels.Design"
-    xmlns:Views="clr-namespace:PokerTell.PokerHand.Views"
-    xmlns:Properties="clr-namespace:PokerTell.PokerHand.Properties">
+    xmlns:Properties="clr-namespace:PokerTell.PokerHand.Properties"
+    xmlns:ViewModels="clr-namespace:PokerTell.PokerHand.ViewModels">
 
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="BoardViewTemplate.xaml" />
-        
-    </ResourceDictionary.MergedDictionaries>
-    
-    <ControlTemplate x:Key="HandHistoryViewTemplate">
-
-        <ControlTemplate.Resources>
-            <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
-        </ControlTemplate.Resources>
-
+    <DataTemplate DataType="{x:Type ViewModels:HandHistoryViewModel}">
+        <DataTemplate.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="BoardView.xaml" />
+                    <ResourceDictionary Source="HoleCardsView.xaml" />
+                </ResourceDictionary.MergedDictionaries>
+                <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter"/>
+            </ResourceDictionary>
+        </DataTemplate.Resources>
 
         <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
             <Grid.Resources>
@@ -35,7 +33,6 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-
 
             <!-- Select Checkbox -->
             <CheckBox 
@@ -104,11 +101,11 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Board -->
-                <ItemsControl 
-                Grid.Row="0" 
-                Grid.Column="0" 
-                DataContext="{Binding Board}"
-                Template="{StaticResource BoardViewTemplate}"/>
+                <ContentControl 
+                        Grid.Row="0" 
+                        Grid.Column="0" 
+                        
+                        Content="{Binding Board}"/>
 
                 <!-- Blinds -->
                 <Grid Grid.Row="0" Grid.Column="1"  Background="#FFBED4B5" >
@@ -150,12 +147,11 @@
             </Grid>
 
             <ListView  
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            ItemsSource="{Binding PlayerRows}"
-            SelectedIndex="{Binding SelectedRow}"
-           >
+                Grid.Row="2"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                ItemsSource="{Binding PlayerRows}"
+                SelectedIndex="{Binding SelectedRow}">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn 
@@ -164,8 +160,7 @@
                                 <DataTemplate>
                                     <TextBlock DataContext="{Binding Position}" 
                                        Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" 
-                                      />
+                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -181,11 +176,11 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn
-                        Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
+                                Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}"
+                               >
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Views:HoleCardsView DataContext="{Binding HoleCards}" MinWidth="50"
-                                                 ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"/>
+                                    <ContentControl Content="{Binding HoleCards}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -249,8 +244,6 @@
                 </ListView.View>
             </ListView>
 
-
-
             <!-- HandNote -->
 
             <Border Grid.Row="3"
@@ -267,185 +260,6 @@
                     AcceptsReturn="True"/>
             </Border>
         </Grid>
-    </ControlTemplate>
-</ResourceDictionary>
-
-
-<!--
-    
-     <dg:DataGrid
-            Grid.Row="2"
-            Grid.Column="0"
-            Grid.ColumnSpan="2"
-            Background="White"
-            ItemsSource="{Binding PlayerRows}"
-            HeadersVisibility="None"
-            AutoGenerateColumns="False"
-            HorizontalScrollBarVisibility="Auto" 
-            SelectionMode="Extended"
-            SelectionUnit="FullRow"
-            CanUserAddRows="False" 
-            CanUserDeleteRows="False"
-            CanUserResizeRows="False" 
-            CanUserSortColumns="False"
-            AreRowDetailsFrozen="True"
-            GridLinesVisibility="Horizontal"
-            IsReadOnly="True" 
-            VerticalAlignment="Top"
-            HorizontalGridLinesBrush="Lavender"
-            SelectedIndex="{Binding SelectedRow}"
-            MouseEnter="DataGrid_MouseEnter"
-            MouseLeave="DataGrid_MouseLeave"     
-        >
-            <dg:DataGrid.Columns>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_Position_Header}" >
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding Position}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" 
-                                      />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_PlayerName_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding PlayerName}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
-                                      />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Views:HoleCardsView DataContext="{Binding HoleCards}"
-                                                 ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"/>
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_M_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding M}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" 
-                                      />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_Preflop_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding Preflop}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
-                                       Background="LightGray"  
-                                      />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_Flop_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding Flop}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
-                                       Background="Beige" />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_Turn_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding Turn}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
-                                       Background="LightGreen"  />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-                <dg:DataGridTemplateColumn
-                    Header="{x:Static Properties:Resources.HandHistoryView_River_Header}">
-                    <dg:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock DataContext="{Binding River}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
-                                       Background="LightBlue"  />
-                        </DataTemplate>
-                    </dg:DataGridTemplateColumn.CellTemplate>
-                </dg:DataGridTemplateColumn>
-
-            </dg:DataGrid.Columns>
-
-        </dg:DataGrid>
-    
-    <TextBlock Grid.Column="1"
-                            DataContext="{Binding PlayerName}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
-                                      />
-                        <Views:HoleCardsView Grid.Column="2"
-                            DataContext="{Binding HoleCards}"
-                                                 ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"/>
-
-                        <TextBlock Grid.Column="3"
-                            DataContext="{Binding M}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" />
-
-                        <TextBlock Grid.Column="4"
-                            DataContext="{Binding Preflop}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
-                                       Background="LightGray"  
-                                      />
-
-                        <TextBlock Grid.Column="5"
-                            DataContext="{Binding Flop}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
-                                       Background="Beige" />
-
-                        <TextBlock Grid.Column="6"
-                            DataContext="{Binding Turn}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
-                                       Background="LightGreen"  />
-
-                        <TextBlock Grid.Column="7"
-                            DataContext="{Binding River}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
-                                       Background="LightBlue"  />
-    
-    <dg:DataGrid.RowHeaderTemplate>
-    <DataTemplate>
-        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                    AncestorType={x:Type dg:DataGridRow}}, 
-                    Path= Item.PlayerName}"
-                 />
     </DataTemplate>
-    </dg:DataGrid.RowHeaderTemplate>
 
-    
-
-    -->
+</ResourceDictionary>

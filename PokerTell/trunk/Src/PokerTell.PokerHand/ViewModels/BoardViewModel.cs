@@ -5,7 +5,7 @@ namespace PokerTell.PokerHand.ViewModels
     using System.Windows;
     using System.Windows.Controls;
 
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.GenericUtilities;
     using Tools.WPF.ViewModels;
@@ -14,31 +14,31 @@ namespace PokerTell.PokerHand.ViewModels
     {
         #region Constants and Fields
 
-        private const string PatBoardCard = @"(?<rank>" + PatRank + ")(?<suit>" + PatSuit + ")";
+        const string PatBoardCard = @"(?<rank>" + PatRank + ")(?<suit>" + PatSuit + ")";
 
-        private const string PatRank = @"[2-9TJQKA]";
+        const string PatRank = @"[2-9TJQKA]";
 
-        private const string PatSuit = @"[cdhs]";
+        const string PatSuit = @"[cdhs]";
 
-        private string _rank1;
+        string _rank1;
 
-        private string _rank2;
+        string _rank2;
 
-        private string _rank3;
+        string _rank3;
 
-        private string _rank4;
+        string _rank4;
 
-        private string _rank5;
+        string _rank5;
 
-        private Image _suit1;
+        Image _suit1;
 
-        private Image _suit2;
+        Image _suit2;
 
-        private Image _suit3;
+        Image _suit3;
 
-        private Image _suit4;
+        Image _suit4;
 
-        private Image _suit5;
+        Image _suit5;
 
         #endregion
 
@@ -46,12 +46,12 @@ namespace PokerTell.PokerHand.ViewModels
 
         public BoardViewModel(Point location)
         {
-            this.Left = location.X;
-            this.Top = location.Y;
+            Left = location.X;
+            Top = location.Y;
 
-            this.CreateEmptyBoard();
+            CreateEmptyBoard();
 
-            this.Visible = false;
+            Visible = false;
         }
 
         public BoardViewModel()
@@ -65,141 +65,111 @@ namespace PokerTell.PokerHand.ViewModels
 
         public string Rank1
         {
-            get
-            {
-                return this._rank1;
-            }
+            get { return _rank1; }
 
             set
             {
-                this._rank1 = value;
-                this.RaisePropertyChanged(() => this.Rank1);
+                _rank1 = value;
+                RaisePropertyChanged(() => Rank1);
             }
         }
 
         public string Rank2
         {
-            get
-            {
-                return this._rank2;
-            }
+            get { return _rank2; }
 
             set
             {
-                this._rank2 = value;
-                this.RaisePropertyChanged(() => this.Rank2);
+                _rank2 = value;
+                RaisePropertyChanged(() => Rank2);
             }
         }
 
         public string Rank3
         {
-            get
-            {
-                return this._rank3;
-            }
+            get { return _rank3; }
 
             set
             {
-                this._rank3 = value;
-                this.RaisePropertyChanged(() => this.Rank3);
+                _rank3 = value;
+                RaisePropertyChanged(() => Rank3);
             }
         }
 
         public string Rank4
         {
-            get
-            {
-                return this._rank4;
-            }
+            get { return _rank4; }
 
             set
             {
-                this._rank4 = value;
-                this.RaisePropertyChanged(() => this.Rank4);
+                _rank4 = value;
+                RaisePropertyChanged(() => Rank4);
             }
         }
 
         public string Rank5
         {
-            get
-            {
-                return this._rank5;
-            }
+            get { return _rank5; }
 
             set
             {
-                this._rank5 = value;
-                this.RaisePropertyChanged(() => this.Rank5);
+                _rank5 = value;
+                RaisePropertyChanged(() => Rank5);
             }
         }
 
         public Image Suit1
         {
-            get
-            {
-                return this._suit1;
-            }
+            get { return _suit1; }
 
             set
             {
-                this._suit1 = value;
-                this.RaisePropertyChanged(() => this.Suit1);
+                _suit1 = value;
+                RaisePropertyChanged(() => Suit1);
             }
         }
 
         public Image Suit2
         {
-            get
-            {
-                return this._suit2;
-            }
+            get { return _suit2; }
 
             set
             {
-                this._suit2 = value;
-                this.RaisePropertyChanged(() => this.Suit2);
+                _suit2 = value;
+                RaisePropertyChanged(() => Suit2);
             }
         }
 
         public Image Suit3
         {
-            get
-            {
-                return this._suit3;
-            }
+            get { return _suit3; }
 
             set
             {
-                this._suit3 = value;
-                this.RaisePropertyChanged(() => this.Suit3);
+                _suit3 = value;
+                RaisePropertyChanged(() => Suit3);
             }
         }
 
         public Image Suit4
         {
-            get
-            {
-                return this._suit4;
-            }
+            get { return _suit4; }
 
             set
             {
-                this._suit4 = value;
-                this.RaisePropertyChanged(() => this.Suit4);
+                _suit4 = value;
+                RaisePropertyChanged(() => Suit4);
             }
         }
 
         public Image Suit5
         {
-            get
-            {
-                return this._suit5;
-            }
+            get { return _suit5; }
 
             set
             {
-                this._suit5 = value;
-                this.RaisePropertyChanged(() => this.Suit5);
+                _suit5 = value;
+                RaisePropertyChanged(() => Suit5);
             }
         }
 
@@ -219,7 +189,7 @@ namespace PokerTell.PokerHand.ViewModels
                 return true;
             }
 
-            return this.GetHashCode().Equals(other.GetHashCode());
+            return GetHashCode().Equals(other.GetHashCode());
         }
 
         public override bool Equals(object obj)
@@ -239,23 +209,23 @@ namespace PokerTell.PokerHand.ViewModels
                 return false;
             }
 
-            return this.Equals((BoardViewModel)obj);
+            return Equals((BoardViewModel)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int result = this._rank1 != null ? this._rank1.GetHashCode() : 0;
-                result = (result * 397) ^ (this._rank2 != null ? this._rank2.GetHashCode() : 0);
-                result = (result * 397) ^ (this._rank3 != null ? this._rank3.GetHashCode() : 0);
-                result = (result * 397) ^ (this._rank4 != null ? this._rank4.GetHashCode() : 0);
-                result = (result * 397) ^ (this._rank5 != null ? this._rank5.GetHashCode() : 0);
-                result = (result * 397) ^ (this._suit1 != null ? this._suit1.Source.ToString().GetHashCode() : 0);
-                result = (result * 397) ^ (this._suit2 != null ? this._suit2.Source.ToString().GetHashCode() : 0);
-                result = (result * 397) ^ (this._suit3 != null ? this._suit3.Source.ToString().GetHashCode() : 0);
-                result = (result * 397) ^ (this._suit4 != null ? this._suit4.Source.ToString().GetHashCode() : 0);
-                result = (result * 397) ^ (this._suit5 != null ? this._suit5.Source.ToString().GetHashCode() : 0);
+                int result = _rank1 != null ? _rank1.GetHashCode() : 0;
+                result = (result * 397) ^ (_rank2 != null ? _rank2.GetHashCode() : 0);
+                result = (result * 397) ^ (_rank3 != null ? _rank3.GetHashCode() : 0);
+                result = (result * 397) ^ (_rank4 != null ? _rank4.GetHashCode() : 0);
+                result = (result * 397) ^ (_rank5 != null ? _rank5.GetHashCode() : 0);
+                result = (result * 397) ^ (_suit1 != null ? _suit1.Source.ToString().GetHashCode() : 0);
+                result = (result * 397) ^ (_suit2 != null ? _suit2.Source.ToString().GetHashCode() : 0);
+                result = (result * 397) ^ (_suit3 != null ? _suit3.Source.ToString().GetHashCode() : 0);
+                result = (result * 397) ^ (_suit4 != null ? _suit4.Source.ToString().GetHashCode() : 0);
+                result = (result * 397) ^ (_suit5 != null ? _suit5.Source.ToString().GetHashCode() : 0);
                 return result;
             }
         }
@@ -263,28 +233,34 @@ namespace PokerTell.PokerHand.ViewModels
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendLine(Member.State(() => this._rank1));
-            sb.AppendLine(Member.State(() => this._suit1.Source));
+            sb.AppendLine(Member.State(() => _rank1));
+            sb.AppendLine(Member.State(() => _suit1.Source));
 
-            sb.AppendLine(Member.State(() => this._rank2));
-            sb.AppendLine(Member.State(() => this._suit2.Source));
+            sb.AppendLine(Member.State(() => _rank2));
+            sb.AppendLine(Member.State(() => _suit2.Source));
 
-            sb.AppendLine(Member.State(() => this._rank3));
-            sb.AppendLine(Member.State(() => this._suit3.Source));
+            sb.AppendLine(Member.State(() => _rank3));
+            sb.AppendLine(Member.State(() => _suit3.Source));
 
-            sb.AppendLine(Member.State(() => this._rank4));
-            sb.AppendLine(Member.State(() => this._suit4.Source));
+            sb.AppendLine(Member.State(() => _rank4));
+            sb.AppendLine(Member.State(() => _suit4.Source));
 
-            sb.AppendLine(Member.State(() => this._rank5));
-            sb.AppendLine(Member.State(() => this._suit5.Source));
+            sb.AppendLine(Member.State(() => _rank5));
+            sb.AppendLine(Member.State(() => _suit5.Source));
             return sb.ToString();
         }
 
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IPositionedViewModel<string>
+
         public override void UpdateWith(string boardString)
         {
-            this.Visible = string.IsNullOrEmpty(boardString) ? false : true;
+            Visible = string.IsNullOrEmpty(boardString) ? false : true;
 
-            this.CreateEmptyBoard();
+            CreateEmptyBoard();
 
             if (boardString != null)
             {
@@ -298,36 +274,36 @@ namespace PokerTell.PokerHand.ViewModels
                     {
                         case 0:
                             {
-                                this.Rank1 = m.Groups["rank"].ToString();
-                                this.Suit1 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
+                                Rank1 = m.Groups["rank"].ToString();
+                                Suit1 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
                                 break;
                             }
 
                         case 1:
                             {
-                                this.Rank2 = m.Groups["rank"].ToString();
-                                this.Suit2 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
+                                Rank2 = m.Groups["rank"].ToString();
+                                Suit2 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
                                 break;
                             }
 
                         case 2:
                             {
-                                this.Rank3 = m.Groups["rank"].ToString();
-                                this.Suit3 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
+                                Rank3 = m.Groups["rank"].ToString();
+                                Suit3 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
                                 break;
                             }
 
                         case 3:
                             {
-                                this.Rank4 = m.Groups["rank"].ToString();
-                                this.Suit4 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
+                                Rank4 = m.Groups["rank"].ToString();
+                                Suit4 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
                                 break;
                             }
 
                         case 4:
                             {
-                                this.Rank5 = m.Groups["rank"].ToString();
-                                this.Suit5 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
+                                Rank5 = m.Groups["rank"].ToString();
+                                Suit5 = Suits.GetSuitImageFrom(m.Groups["suit"].ToString());
                                 break;
                             }
                     }
@@ -339,21 +315,23 @@ namespace PokerTell.PokerHand.ViewModels
 
         #endregion
 
+        #endregion
+
         #region Methods
 
-        private void CreateEmptyBoard()
+        void CreateEmptyBoard()
         {
-            this.Suit1 = Suits.Unknown;
-            this.Suit2 = Suits.Unknown;
-            this.Suit3 = Suits.Unknown;
-            this.Suit4 = Suits.Unknown;
-            this.Suit5 = Suits.Unknown;
+            Suit1 = Suits.Unknown;
+            Suit2 = Suits.Unknown;
+            Suit3 = Suits.Unknown;
+            Suit4 = Suits.Unknown;
+            Suit5 = Suits.Unknown;
 
-            this.Rank1 = string.Empty;
-            this.Rank2 = string.Empty;
-            this.Rank3 = string.Empty;
-            this.Rank4 = string.Empty;
-            this.Rank5 = string.Empty;
+            Rank1 = string.Empty;
+            Rank2 = string.Empty;
+            Rank3 = string.Empty;
+            Rank4 = string.Empty;
+            Rank5 = string.Empty;
         }
 
         #endregion

@@ -16,6 +16,8 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -125,6 +127,7 @@
     <Compile Include="Services\PokerRoundsConverter.cs" />
     <Compile Include="Conditions\SawFlopCondition.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\Design\BoardViewModel.cs" />
     <Compile Include="ViewModels\Design\DesignHelper.cs" />
     <Compile Include="ViewModels\Design\HandHistoriesViewModel.cs" />
     <Compile Include="ViewModels\Design\HandHistoryViewModel.cs" />
@@ -139,9 +142,6 @@
     </Compile>
     <Compile Include="Views\HandHistoriesView.xaml.cs">
       <DependentUpon>HandHistoriesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\HoleCardsView.xaml.cs">
-      <DependentUpon>HoleCardsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
@@ -171,17 +171,25 @@
     <Resource Include="Images\unknown.gif" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\HandHistoriesTableView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HandHistoryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HoleCardsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HandHistoriesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\HoleCardsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TestWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -191,14 +199,6 @@
   <ItemGroup>
     <Resource Include="Resources\NavigateBackwardIcon.png" />
     <Resource Include="Resources\NavigateForwardIcon.png" />
-    <Resource Include="Views\BoardViewTemplate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
-    <Resource Include="Views\HandHistoryViewTemplate.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

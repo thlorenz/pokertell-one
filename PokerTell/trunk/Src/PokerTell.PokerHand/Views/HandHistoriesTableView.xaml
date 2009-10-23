@@ -6,7 +6,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="HandHistoryViewTemplate.xaml" />
+                <ResourceDictionary Source="HandHistoryView.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -14,8 +14,7 @@
     <StackPanel Orientation="Horizontal">
         
         <ContentControl 
-            DataContext="{Binding CurrentHandHistory}"
-            Template="{StaticResource HandHistoryViewTemplate}" />
+            DataContext="{Binding CurrentHandHistory}" />
         
         <ScrollBar Orientation="Vertical"
                    Value="{Binding SelectedIndex}"

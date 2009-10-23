@@ -56,6 +56,7 @@ namespace PokerTell.PokerHand.ViewModels
         }
 
         uint _pageIndex;
+
         public uint PageIndex
         {
             get { return _pageIndex;  }
@@ -64,7 +65,7 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        public ObservableCollection<IHandHistoryViewModel> HandHistoryViewModelsOnPage
+        public ObservableCollection<IHandHistoryViewModel> HandHistoriesOnPage
         {
             get { return _itemsPagesManager.ItemsOnCurrentPage; }
         }
