@@ -3,21 +3,21 @@ namespace PokerTell.PokerHand
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Reflection;
-
-    using Infrastructure.Interfaces.PokerHand;
+    using System.Xml.Serialization;
 
     using log4net;
+
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Defines one Round of Betting in a Poker Hand.
     /// </summary>
-    public abstract class PokerRound : IPokerRound
+    public class PokerRound : IPokerRound
     {
         #region Constants and Fields
 
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         #endregion
 
@@ -25,38 +25,22 @@ namespace PokerTell.PokerHand
 
         public PokerRound()
         {
-            _actions = new List<IPokerAction>();
+            Actions = new List<IPokerAction>();
         }
 
         #endregion
 
-        // Will contain all actions in this Betting Round
         #region Properties
-
-        public ReadOnlyCollection<IPokerAction> Actions
-        {
-            get { return _actions.AsReadOnly(); }
-        }
+        public IList<IPokerAction> Actions { get; set; }
 
         /// <summary>
         /// Number of actions in this round
         /// </summary>
+        [XmlIgnore]
         public int Count
         {
-            get
-            {
-                if (_actions != null)
-                {
-                    return _actions.Count;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
+            get { return Actions != null ? Actions.Count : 0; }
         }
-
-        protected List<IPokerAction> _actions { get; set; }
 
         #endregion
 
@@ -78,19 +62,6 @@ namespace PokerTell.PokerHand
             return theHashCode;
         }
 
-        public IPokerAction GetPokerActionAtIndex(int index)
-        {
-            if (Actions[index] != null)
-            {
-                return Actions[index];
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(
-                    "PokerAction at index " + index + "is null" + "Count is " + _actions.Count);
-            }
-        }
-
         /// <summary>
         /// Removes an action at a certain index
         /// Currently only used by PokerHandConverter to remove posting actions
@@ -100,7 +71,7 @@ namespace PokerTell.PokerHand
         {
             try
             {
-                _actions.RemoveAt(Index);
+                Actions.RemoveAt(Index);
             }
             catch (IndexOutOfRangeException excep)
             {
@@ -116,23 +87,7 @@ namespace PokerTell.PokerHand
         /// <returns>true if it was removed</returns>
         public bool RemoveAction(IPokerAction theAction)
         {
-            return _actions.Remove(theAction);
-        }
-
-        /// <summary>
-        /// Gives a string representation of the round
-        /// </summary>
-        /// <returns>String representation of the round, including info about all actions</returns>
-        public override string ToString()
-        {
-            string act_str = string.Empty;
-
-            foreach (IPokerAction iA in this)
-            {
-                act_str = act_str + iA.ToString() + " ";
-            }
-
-            return act_str;
+            return Actions.Remove(theAction);
         }
 
         #endregion
@@ -147,7 +102,55 @@ namespace PokerTell.PokerHand
         /// <returns>Enumerator of actions in round</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _actions.GetEnumerator();
+            return Actions.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IPokerRound
+
+        public IPokerAction GetPokerActionAtIndex(int index)
+        {
+            if (Actions[index] != null)
+            {
+                return Actions[index];
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(
+                    "PokerAction at index " + index + "is null" + "Count is " + Actions.Count);
+            }
+        }
+
+        /// <summary>
+        /// Gives a string representation of the round
+        /// </summary>
+        /// <returns>String representation of the round, including info about all actions</returns>
+        public override string ToString()
+        {
+            string actStr = string.Empty;
+
+            foreach (IPokerAction iA in this)
+            {
+                actStr = actStr + iA.ToString() + " ";
+            }
+
+            return actStr;
+        }
+
+        /// <summary>
+        /// To enable XmlSerialization
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public IPokerRound Add(object obj)
+        {
+            if (obj != null && obj is IPokerAction)
+            {
+                Add(obj);
+            }
+
+            return this;
         }
 
         #endregion

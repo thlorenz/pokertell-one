@@ -2,6 +2,9 @@ namespace PokerTell.PokerHand
 {
     using System;
     using System.Reflection;
+    using System.Xml.Serialization;
+
+    using Analyzation;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
@@ -11,7 +14,7 @@ namespace PokerTell.PokerHand
     /// <summary>
     /// General PokerAction
     /// </summary>
-    public abstract class PokerAction : IPokerAction
+    public class PokerAction : IPokerAction
     {
         #region Constants and Fields
 
@@ -27,7 +30,7 @@ namespace PokerTell.PokerHand
         /// This constructor is only usefull to create a dummy action in order to
         /// allow a method to access it's methods
         /// </summary>
-        protected PokerAction()
+        public PokerAction()
         {
             What = ActionTypes.N;
             Ratio = 0;
@@ -41,10 +44,10 @@ namespace PokerTell.PokerHand
         /// The amount connected to the action in relation to the pot
         /// for calling and betting or in relation to the amount to call for raising
         /// </summary>
-        public double Ratio { get; protected set; }
+        public double Ratio { get; set; }
 
         /// <summary>The kind of action (call, fold etc.)</summary>
-        public ActionTypes What { get; protected set; }
+        public ActionTypes What { get; set; }
 
         #endregion
 

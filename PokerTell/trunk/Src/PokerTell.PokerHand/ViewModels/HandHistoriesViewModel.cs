@@ -1,5 +1,6 @@
 namespace PokerTell.PokerHand.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -20,6 +21,8 @@ namespace PokerTell.PokerHand.ViewModels
 
         readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
 
+        readonly ObservableCollection<int> _pageNumbers;
+
         ICommand _navigateBackwardCommand;
 
         ICommand _navigateForwardCommand;
@@ -36,32 +39,26 @@ namespace PokerTell.PokerHand.ViewModels
         {
             _itemsPagesManager = itemsPagesManager;
             _handHistoryViewModelMake = handHistoryViewModelMake;
-            _pageIndex = 0;
+            _pageNumbers = new ObservableCollection<int>();
         }
+
+        #endregion
+
+        #region Events
+
+        public event Action PageTurn;
 
         #endregion
 
         #region Properties
 
-        int[] _pages;
-
-        public int[] Pages
+        public int CurrentPage
         {
-            get { return new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }; }
+            get { return (int)_itemsPagesManager.CurrentPage; }
             set
             {
-                _pages = value;
-                RaisePropertyChanged(() => Pages);
-            }
-        }
-
-        uint _pageIndex;
-
-        public uint PageIndex
-        {
-            get { return _pageIndex;  }
-            set { _pageIndex = value; 
-                 RaisePropertyChanged(() => PageIndex);
+                _itemsPagesManager.NavigateToPage((uint)value);
+                UpdatePageInfo();
             }
         }
 
@@ -69,6 +66,8 @@ namespace PokerTell.PokerHand.ViewModels
         {
             get { return _itemsPagesManager.ItemsOnCurrentPage; }
         }
+
+        public string HeroName { get; set; }
 
         public ICommand NavigateBackwardCommand
         {
@@ -78,7 +77,7 @@ namespace PokerTell.PokerHand.ViewModels
                     {
                         ExecuteDelegate = arg => {
                             _itemsPagesManager.NavigateBackward();
-                            _pageIndex = _itemsPagesManager.CurrentPage - 1;
+                            UpdatePageInfo();
                         }, 
                         CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateBackward
                     });
@@ -93,10 +92,30 @@ namespace PokerTell.PokerHand.ViewModels
                     {
                         ExecuteDelegate = arg => {
                             _itemsPagesManager.NavigateForward();
-                            _pageIndex = _itemsPagesManager.CurrentPage - 1;
-                        },
+                            UpdatePageInfo();
+                        }, 
                         CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateForward
                     });
+            }
+        }
+
+        public string PageNavigationInfo
+        {
+            get { return string.Format("{0}/{1}", _itemsPagesManager.CurrentPage, _itemsPagesManager.NumberOfPages); }
+        }
+
+        public ObservableCollection<int> PageNumbers
+        {
+            get { return _pageNumbers; }
+        }
+
+        public IEnumerable<IHandHistoryViewModel> SelectedHandHistories
+        {
+            get
+            {
+                return from historyViewModel in _itemsPagesManager.AllItems
+                       where historyViewModel.IsSelected
+                       select historyViewModel;
             }
         }
 
@@ -115,7 +134,11 @@ namespace PokerTell.PokerHand.ViewModels
 
         public bool ShowSelectedOnly
         {
-            set { _itemsPagesManager.FilterItems(model => ((!value) || model.IsSelected)); }
+            set
+            {
+                _itemsPagesManager.FilterItems(model => ((!value) || model.IsSelected));
+                UpdatePageInfo();
+            }
         }
 
         public bool ShowSelectOption
@@ -143,6 +166,9 @@ namespace PokerTell.PokerHand.ViewModels
                     handHistoryViewModel.AdjustToConditionAction(condition);
                     return handHistoryViewModel.Visible;
                 });
+
+            _itemsPagesManager.NavigateToPage(1);
+            UpdatePageInfo();
 
             return this;
         }
@@ -174,15 +200,41 @@ namespace PokerTell.PokerHand.ViewModels
             return this;
         }
 
-        public void SelectPlayer(string name)
+        public void SelectPlayer(bool clearSelection)
         {
             foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
             {
-                handHistoryViewModel.SelectRowOfPlayer(name);
+                handHistoryViewModel.SelectRowOfPlayer(clearSelection ? null : HeroName);
             }
         }
 
         #endregion
+
+        #endregion
+
+        #region Methods
+
+        void InvokePageTurn()
+        {
+            Action changed = PageTurn;
+            if (changed != null)
+            {
+                changed();
+            }
+        }
+
+        void UpdatePageInfo()
+        {
+            RaisePropertyChanged(() => PageNavigationInfo);
+            RaisePropertyChanged(() => CurrentPage);
+            InvokePageTurn();
+
+            _pageNumbers.Clear();
+            for (int i = 0; i < _itemsPagesManager.NumberOfPages; i++)
+            {
+                _pageNumbers.Add(i + 1);
+            }
+        }
 
         #endregion
     }

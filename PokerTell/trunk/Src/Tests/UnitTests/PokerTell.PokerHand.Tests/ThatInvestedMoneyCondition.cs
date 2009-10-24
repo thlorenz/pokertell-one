@@ -54,7 +54,7 @@ namespace PokerTell.PokerHand.Tests
             _heroPlayer
                 .AddRound(
                 new ConvertedPokerRound()
-                    .AddAction(new ConvertedPokerAction(ActionTypes.F, 1.0)));
+                    .Add(new ConvertedPokerAction(ActionTypes.F, 1.0)));
 
             _convertedHand
                 .AddPlayer(_heroPlayer);
@@ -83,7 +83,7 @@ namespace PokerTell.PokerHand.Tests
             _heroPlayer
                 .AddRound(
                 new ConvertedPokerRound()
-                    .AddAction(new ConvertedPokerAction(actionType, 1.0)));
+                    .Add(new ConvertedPokerAction(actionType, 1.0)));
 
             _convertedHand
                 .AddPlayer(_heroPlayer);
@@ -106,7 +106,7 @@ namespace PokerTell.PokerHand.Tests
                     _stub.Valid(For.HoleCards, string.Empty))
                     .AddRound(
                     new ConvertedPokerRound()
-                        .AddAction(new ConvertedPokerAction(ActionTypes.C, 1.0)));
+                        .Add(new ConvertedPokerAction(ActionTypes.C, 1.0)));
 
             _convertedHand.AddPlayer(opponent);
 
@@ -124,7 +124,7 @@ namespace PokerTell.PokerHand.Tests
             _heroPlayer
                 .AddRound(
                 new ConvertedPokerRound()
-                    .AddAction(new ConvertedPokerAction(actionType, 1.0)));
+                    .Add(new ConvertedPokerAction(actionType, 1.0)));
 
             _convertedHand
                 .AddPlayer(_heroPlayer);

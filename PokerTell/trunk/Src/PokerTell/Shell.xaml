@@ -5,7 +5,7 @@
     xmlns:Infrastructure="clr-namespace:PokerTell.Infrastructure;assembly=PokerTell.Infrastructure"
         
         
-     Left="0"
+    Left="0"
     Width="900" Height="563"
     MinWidth="600" MinHeight="375"
  
@@ -15,18 +15,14 @@
         ResizeMode="CanResize"
         WindowState="{Binding WindowState}"
         Title="{Binding WindowTitle}" 
+        Icon="Resources/Icon.jpg"
     >
-   
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                 <ResourceDictionary Source="Resources/Theme/MainColors.xaml"/>
-                 <ResourceDictionary Source="Resources/Theme/PokerTellTheme.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-
-    <Border Padding="15,5,15,15" CornerRadius="10" Background="DimGray" Opacity="0.98" MouseDown="WindowBorder_MouseDown">
+    <Border 
+        Padding="15,5,15,15"
+        CornerRadius="10" 
+        Background="DimGray" 
+        Opacity="0.98" 
+        MouseDown="WindowBorder_MouseDown">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -43,8 +39,25 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="Resources/Icon.jpg" MaxWidth="20" MaxHeight="20" Margin="5"/>
+
+                <StackPanel Grid.Column="0"
+                            Margin="5"
+                            Orientation="Horizontal">
+                    <Border BorderBrush="{StaticResource SolidBorderBrush}"  
+                            BorderThickness="1" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                            >
+                        <Image Source="Resources/Icon.jpg" MaxWidth="20" MaxHeight="20" Margin="5"
+                               Stretch="Fill" />
+                        <Border.RenderTransform>
+                            <SkewTransform CenterX="0" CenterY="0" AngleX="0" AngleY="-10" />
+                        </Border.RenderTransform>
+                    </Border>
+                </StackPanel>
+               
                 <Label Grid.Column="1" Content="{Binding WindowTitle}"  Margin="5" />
+                
                 <StackPanel Grid.Column="2" 
                             Orientation="Horizontal" 
                             HorizontalAlignment="Right"  
@@ -90,16 +103,14 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Top"
                  >
-                    
+
                     <MenuItem Header="Main">
-                       
+
                         <MenuItem Header="_Development" Command="{Binding DevelopmentCommand}"  />
                         <Separator />
                         <MenuItem Header="_Close" />
                         <MenuItem Header="_Save" />
                     </MenuItem>
-                  
-
                 </Menu>
             </Border>
 
@@ -110,29 +121,38 @@
                     Margin="5" 
                     CornerRadius="2" 
                     Background="{StaticResource ControlBackgroundBrush}">
-                <Grid >
+                <Grid>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    
+
                     <Button Grid.Row="0"
                         Command="{Binding MainRegionCloseSelectedItemCommand}"    
-                        MaxWidth="15" MaxHeight="15"
+                        MaxWidth="18" MaxHeight="18"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
                         Margin="5" Padding="0">
-                        
+
                         <Image Source="Resources/CloseIcon.png"/>
                     </Button>
 
-                    <TabControl Grid.Row="1"
-                    cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainRegion}" 
-                    
-                    SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
-                    Margin="3"
-                    Background="{StaticResource ControlBackgroundBrush}"/>
-                    </Grid>
+                    <TabControl 
+                        Grid.Row="1"
+                        cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainRegion}" 
+                        SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
+                        Margin="3"
+                        Background="{StaticResource ControlBackgroundBrush}">
+                        <TabControl.Resources>
+                            <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+                                <Setter Property="Header" 
+                                        Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self},
+                                                Converter={StaticResource HeaderInfoToHeaderConverter}, ConverterParameter=18}" />
+                            </Style>
+                        </TabControl.Resources>
+                    </TabControl>
+                </Grid>
             </Border>
 
 

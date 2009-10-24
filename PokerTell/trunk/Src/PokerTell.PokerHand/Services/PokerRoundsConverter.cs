@@ -224,7 +224,7 @@ namespace PokerTell.PokerHand.Services
                         _actionConverter.Convert(
                             aquiredPokerRound[ActionCount], ref Pot, ref ToCall, _aquiredHand.TotalPot);
 
-                    SequenceForCurrentRound.AddAction(
+                    SequenceForCurrentRound.Add(
                         _convertedActionWithId.New.InitializeWith(convertedAction, convertedPlayer.Position));
 
                     SetActionSequenceAndAddActionTo(convertedPlayer, convertedAction, street);
@@ -246,7 +246,7 @@ namespace PokerTell.PokerHand.Services
                 convertedPlayer.AddRound();
             }
 
-            convertedPlayer[street].AddAction(convertedAction);
+            convertedPlayer[street].Add(convertedAction);
         }
 
         #endregion

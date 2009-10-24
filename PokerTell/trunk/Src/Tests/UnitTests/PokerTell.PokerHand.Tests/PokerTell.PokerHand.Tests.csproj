@@ -115,6 +115,8 @@
   <ItemGroup>
     <Compile Include="Fakes\MockHandHistoryViewModel.cs" />
     <Compile Include="Fakes\StubCondition.cs" />
+    <Compile Include="ThatConvertedPokerAction.cs" />
+    <Compile Include="ThatConvertedPokerRound.cs" />
     <Compile Include="ThatSawFlopCondition.cs" />
     <Compile Include="ThatHandHistoriesViewModel.cs" />
     <Compile Include="ThatInvestedMoneyCondition.cs" />

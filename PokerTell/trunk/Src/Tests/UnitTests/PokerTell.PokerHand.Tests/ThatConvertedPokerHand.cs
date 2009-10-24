@@ -191,7 +191,7 @@ namespace PokerTell.PokerHand.Tests
                 new ConvertedPokerPlayer()
                     .AddRound(
                     new ConvertedPokerRound()
-                        .AddAction(new ConvertedPokerAction(ActionTypes.F, 1.0)));
+                        .Add(new ConvertedPokerAction(ActionTypes.F, 1.0)));
                     
             _convertedHand
                 .AddPlayer(convertedPlayer)

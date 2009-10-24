@@ -43,6 +43,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         int SelectedRow { get; set; }
 
+        IConvertedPokerHand Hand { get; }
+
         IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand);
 
         IHandHistoryViewModel Initialize(bool showPreflopFolds);

@@ -6,7 +6,7 @@
 
     using log4net;
 
-    using PokerHand.Views;
+    using PokerTell.PokerHand.Views;
 
     using Tools;
 
@@ -15,29 +15,46 @@
     /// </summary>
     public partial class App : Application
     {
+        #region Constants and Fields
+
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        
+
+        #endregion
+
+        #region Methods
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-           // RunTestWindow();
+            // RunTestWindow();
+            RunInDebugMode();
 
-           RunInDebugMode();
-
-            Log.Info("Started PokerTell");
+//            Current.DispatcherUnhandledException += (sender, args) => {
+//                Log.Error(args.Exception);
+//                args.Handled = true;
+//            };
 
             ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
-        void RunTestWindow()
+        static void HandleException(Exception excep)
         {
-            new TestWindow().Show();
+            if (excep == null)
+            {
+                return;
+            }
+
+            Log.Error("An unhandled error occurred", excep);
+
+            Environment.Exit(1);
         }
 
         static void RunInDebugMode()
         {
-            AppDomain.CurrentDomain.UnhandledException += AppDomainUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException +=
+                (sender, e) => HandleException(e.ExceptionObject as Exception);
+
             Log4NetAppenders.InitializeDebugAppender();
 
             try
@@ -47,24 +64,14 @@
             catch (Exception excep)
             {
                 HandleException(excep);
-            }  
-        }
-
-        private static void AppDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            HandleException(e.ExceptionObject as Exception);
-        }
-
-        private static void HandleException(Exception excep)
-        {
-            if (excep == null)
-            {
-                return;
             }
-
-            Log.Error("An unhandled error occurred", excep);
-           
-            // Environment.Exit(1);
         }
+
+        void RunTestWindow()
+        {
+            new TestWindow().Show();
+        }
+
+        #endregion
     }
 }

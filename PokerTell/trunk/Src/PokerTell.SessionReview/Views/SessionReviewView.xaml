@@ -1,8 +1,9 @@
-﻿<UserControl x:Class="PokerTell.SessionReview.Views.SessionReviewView"
+<Views:ItemsRegionView x:Class="PokerTell.SessionReview.Views.SessionReviewView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cal="http://www.codeplex.com/CompositeWPF"
     xmlns:Infrastructure="clr-namespace:PokerTell.Infrastructure;assembly=PokerTell.Infrastructure"
+    xmlns:Views="clr-namespace:Tools.WPF.Views;assembly=Tools"
    >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -31,4 +32,4 @@
     </Grid>
 
 
-</UserControl>
+</Views:ItemsRegionView>

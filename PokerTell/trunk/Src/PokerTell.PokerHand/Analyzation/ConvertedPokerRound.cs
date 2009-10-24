@@ -1,12 +1,14 @@
 namespace PokerTell.PokerHand.Analyzation
 {
     using System;
+    using System.Collections.Generic;
 
     using Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// PokerRound used for analysing a Poker Hand
     /// </summary>
+    [Serializable]
     public class ConvertedPokerRound : PokerRound, IConvertedPokerRound
     {
         #region Indexers
@@ -34,11 +36,11 @@ namespace PokerTell.PokerHand.Analyzation
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// </exception>
-        public IConvertedPokerRound AddAction(IConvertedPokerAction theAction)
+        public IConvertedPokerRound Add(IConvertedPokerAction theAction)
         {
             if (theAction != null)
             {
-                _actions.Add(theAction);
+                Actions.Add(theAction);
             }
             else
             {
@@ -49,5 +51,6 @@ namespace PokerTell.PokerHand.Analyzation
         }
 
         #endregion
+
     }
 }

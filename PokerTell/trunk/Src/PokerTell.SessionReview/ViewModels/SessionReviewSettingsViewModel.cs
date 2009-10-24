@@ -23,8 +23,6 @@ namespace PokerTell.SessionReview.ViewModels
 
         readonly ISawFlopCondition _sawFlopCondition;
 
-        string _heroName;
-
         bool _selectHero;
 
         bool _showAll;
@@ -62,10 +60,10 @@ namespace PokerTell.SessionReview.ViewModels
 
         public string HeroName
         {
-            get { return _heroName; }
+            get { return _handHistoriesViewModel.HeroName; }
             set
             {
-                _heroName = value;
+                _handHistoriesViewModel.HeroName = value;
 
                 UpdateSelectedPlayer();
                 UpdateShowMoneyInvested();
@@ -160,8 +158,7 @@ namespace PokerTell.SessionReview.ViewModels
         {
             if (_handHistoriesViewModel != null)
             {
-                // Null will clear selection
-                _handHistoriesViewModel.SelectPlayer(_selectHero ? HeroName : null);
+                _handHistoriesViewModel.SelectPlayer(! _selectHero);
             }
         }
 

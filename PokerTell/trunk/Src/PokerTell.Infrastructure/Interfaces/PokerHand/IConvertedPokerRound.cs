@@ -23,6 +23,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </param>
         /// <exception cref="ArgumentNullException">
         /// </exception>
-        IConvertedPokerRound AddAction(IConvertedPokerAction theAction);
+        IConvertedPokerRound Add(IConvertedPokerAction theAction);
     }
 }

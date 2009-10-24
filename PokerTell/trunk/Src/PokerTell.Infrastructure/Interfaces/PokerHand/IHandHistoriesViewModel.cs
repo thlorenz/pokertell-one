@@ -1,5 +1,6 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -9,7 +10,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     {
         IHandHistoriesViewModel ApplyFilter(IPokerHandCondition condition);
 
-        ObservableCollection<IHandHistoryViewModel> HandHistoryViewModelsOnPage { get; }
+        ObservableCollection<IHandHistoryViewModel> HandHistoriesOnPage { get; }
 
         bool ShowSelectOption { set; }
 
@@ -17,11 +18,17 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         bool ShowPreflopFolds { get; set; }
 
+        string HeroName { get; set; }
+
+        IEnumerable<IHandHistoryViewModel> SelectedHandHistories { get; }
+
         IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
 
-        void SelectPlayer(string name);
+        void SelectPlayer(bool clearSelection);
 
         IHandHistoriesViewModel InitializeWith(
             IEnumerable<IConvertedPokerHand> convertedPokerHands, int itemsPerPage);
+
+        event Action PageTurn;
     }
 }

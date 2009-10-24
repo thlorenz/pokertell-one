@@ -52,6 +52,5 @@ namespace PokerTell.SessionReview
         #endregion
 
         #endregion
-
        }
 }

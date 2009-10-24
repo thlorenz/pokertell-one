@@ -22,8 +22,6 @@ namespace PokerTell.PokerHand.ViewModels
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        IConvertedPokerHand _hand;
-
         bool _isSelected;
 
         string _note;
@@ -69,24 +67,24 @@ namespace PokerTell.PokerHand.ViewModels
 
         public string Ante
         {
-            get { return _hand.Ante.ToString(); }
+            get { return Hand.Ante.ToString(); }
         }
 
         public string BigBlind
         {
-            get { return _hand.BB.ToString(); }
+            get { return Hand.BB.ToString(); }
         }
 
         public IBoardViewModel Board { get; private set; }
 
         public string GameId
         {
-            get { return _hand.GameId.ToString(); }
+            get { return Hand.GameId.ToString(); }
         }
 
         public bool HasAnte
         {
-            get { return _hand.Ante > 0; }
+            get { return Hand.Ante > 0; }
         }
 
         public bool IsSelected
@@ -101,7 +99,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         public bool IsTournament
         {
-            get { return _hand.TournamentId > 0; }
+            get { return Hand.TournamentId > 0; }
         }
 
         public string Note
@@ -132,9 +130,9 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 _showPreflopFolds = value;
 
-                if (_hand != null)
+                if (Hand != null)
                 {
-                    FillPlayerRows(_hand);
+                    FillPlayerRows(Hand);
                 }
             }
         }
@@ -151,22 +149,22 @@ namespace PokerTell.PokerHand.ViewModels
 
         public string SmallBlind
         {
-            get { return _hand.SB.ToString(); }
+            get { return Hand.SB.ToString(); }
         }
 
         public string TimeStamp
         {
-            get { return _hand.TimeStamp.ToString(); }
+            get { return Hand.TimeStamp.ToString(); }
         }
 
         public string TotalPlayers
         {
-            get { return _hand.TotalPlayers.ToString(); }
+            get { return Hand.TotalPlayers.ToString(); }
         }
 
         public string TournamentId
         {
-            get { return _hand.TournamentId != 0 ? _hand.TournamentId.ToString() : string.Empty; }
+            get { return Hand.TournamentId != 0 ? Hand.TournamentId.ToString() : string.Empty; }
         }
 
         public bool Visible
@@ -179,6 +177,8 @@ namespace PokerTell.PokerHand.ViewModels
                 RaisePropertyChanged(() => Visible);
             }
         }
+
+        public IConvertedPokerHand Hand { get; private set; }
 
         #endregion
 
@@ -243,7 +243,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
         {
-            _hand = hand;
+            Hand = hand;
 
             Board.UpdateWith(hand.Board);
 
@@ -268,7 +268,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         void AdjustToCondition(IPokerHandCondition condition)
         {
-            Visible = condition.IsMetBy(_hand);
+            Visible = condition.IsMetBy(Hand);
         }
 
         void FillPlayerRows(IConvertedPokerHand hand)

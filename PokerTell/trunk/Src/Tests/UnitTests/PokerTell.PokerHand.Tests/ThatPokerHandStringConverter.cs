@@ -54,8 +54,8 @@ namespace PokerTell.PokerHand.Tests
                 actionType1.ToString() + ratio1;
 
             _round
-                .AddAction(new ConvertedPokerAction(actionType1, ratio1))
-                .AddAction(new ConvertedPokerAction(actionType2, ratio2));
+                .Add(new ConvertedPokerAction(actionType1, ratio1))
+                .Add(new ConvertedPokerAction(actionType2, ratio2));
 
             string result = _converter.BuildSqlStringFrom(_round);
 
@@ -75,8 +75,8 @@ namespace PokerTell.PokerHand.Tests
                 actionType2.ToString() + ratio2;
 
             _round
-                .AddAction(new ConvertedPokerAction(actionType1, ratio1))
-                .AddAction(new ConvertedPokerAction(actionType2, ratio2));
+                .Add(new ConvertedPokerAction(actionType1, ratio1))
+                .Add(new ConvertedPokerAction(actionType2, ratio2));
 
             string result = _converter.BuildSqlStringFrom(_round);
 
@@ -92,7 +92,7 @@ namespace PokerTell.PokerHand.Tests
 
             string expectedResult = actionType.ToString() + ratio;
 
-            _round.AddAction(new ConvertedPokerAction(actionType, ratio));
+            _round.Add(new ConvertedPokerAction(actionType, ratio));
 
             string result = _converter.BuildSqlStringFrom(_round);
 
@@ -109,7 +109,7 @@ namespace PokerTell.PokerHand.Tests
 
             string expectedResult = "[" + playerId + "]" + actionType + ratio;
 
-            _round.AddAction(
+            _round.Add(
                 new ConvertedPokerActionWithId(new ConvertedPokerAction(actionType, ratio), playerId));
 
             string result = _converter.BuildSqlStringFrom(_round);
@@ -126,7 +126,7 @@ namespace PokerTell.PokerHand.Tests
 
             string expectedResult = actionType.ToString();
 
-            _round.AddAction(new ConvertedPokerAction(actionType, ratio));
+            _round.Add(new ConvertedPokerAction(actionType, ratio));
 
             string result = _converter.BuildSqlStringFrom(_round);
 
@@ -142,7 +142,7 @@ namespace PokerTell.PokerHand.Tests
 
             string expectedResult = string.Empty;
 
-            _round.AddAction(new ConvertedPokerAction(actionType, ratio));
+            _round.Add(new ConvertedPokerAction(actionType, ratio));
 
             string result = _converter.BuildSqlStringFrom(_round);
 
@@ -163,8 +163,8 @@ namespace PokerTell.PokerHand.Tests
                 actionType2 + ratio2;
 
             _round
-                .AddAction(new ConvertedPokerAction(actionType1, ratio1))
-                .AddAction(new ConvertedPokerAction(actionType2, ratio2));
+                .Add(new ConvertedPokerAction(actionType1, ratio1))
+                .Add(new ConvertedPokerAction(actionType2, ratio2));
 
             string result = _converter.BuildSqlStringFrom(_round);
 
@@ -178,7 +178,7 @@ namespace PokerTell.PokerHand.Tests
 
             IConvertedPokerRound round = _converter.ConvertedRoundFrom(csvString);
 
-            Assert.That(round.Count, Is.EqualTo(0));
+            Assert.That(round.Actions.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -188,7 +188,7 @@ namespace PokerTell.PokerHand.Tests
             const double ratio = 0.5;
             string csvString = actionType.ToString() + ratio;
             IConvertedPokerRound expectedRound = new ConvertedPokerRound()
-                .AddAction(new ConvertedPokerAction(actionType, ratio));
+                .Add(new ConvertedPokerAction(actionType, ratio));
 
             IConvertedPokerRound round = _converter.ConvertedRoundFrom(csvString);
 
@@ -203,7 +203,7 @@ namespace PokerTell.PokerHand.Tests
 
             string csvString = actionType.ToString();
             IConvertedPokerRound expectedRound = new ConvertedPokerRound()
-                .AddAction(new ConvertedPokerAction(actionType, _stub.Out<double>(For.Ratio)));
+                .Add(new ConvertedPokerAction(actionType, _stub.Out<double>(For.Ratio)));
 
             IConvertedPokerRound round = _converter.ConvertedRoundFrom(csvString);
 
@@ -256,8 +256,8 @@ namespace PokerTell.PokerHand.Tests
                 actionType2 + ratio2;
 
             IConvertedPokerRound expectedRound = new ConvertedPokerRound()
-                .AddAction(new ConvertedPokerAction(actionType1, ratio1))
-                .AddAction(new ConvertedPokerAction(actionType2, ratio2));
+                .Add(new ConvertedPokerAction(actionType1, ratio1))
+                .Add(new ConvertedPokerAction(actionType2, ratio2));
 
             IConvertedPokerRound round = _converter.ConvertedRoundFrom(csvString);
 

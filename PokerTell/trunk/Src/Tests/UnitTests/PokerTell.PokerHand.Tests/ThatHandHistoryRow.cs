@@ -32,12 +32,12 @@ namespace PokerTell.PokerHand.Tests
         {
             _pokerPlayer = new ConvertedPokerPlayer("hero", 10, 5, 2, 9, "As Kd");
             _pokerPlayer.AddRound(new ConvertedPokerRound());
-            _pokerPlayer[Streets.PreFlop].AddAction(new ConvertedPokerAction(ActionTypes.R, 3.4));
-            _pokerPlayer[Streets.PreFlop].AddAction(new ConvertedPokerAction(ActionTypes.R, 2.4));
-            _pokerPlayer[Streets.PreFlop].AddAction(new ConvertedPokerAction(ActionTypes.C, 0.3));
+            _pokerPlayer[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.R, 3.4));
+            _pokerPlayer[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.R, 2.4));
+            _pokerPlayer[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.3));
 
             _pokerPlayer.AddRound(new ConvertedPokerRound());
-            _pokerPlayer[Streets.Flop].AddAction(new ConvertedPokerAction(ActionTypes.B, 0.4));
+            _pokerPlayer[Streets.Flop].Add(new ConvertedPokerAction(ActionTypes.B, 0.4));
 
             _handHistoryRow = new HandHistoryRow(_pokerPlayer);
         }
@@ -49,9 +49,9 @@ namespace PokerTell.PokerHand.Tests
         {
             _pokerPlayer = new ConvertedPokerPlayer("hero", 10, 5, 0, 9, "As Kd");
             _pokerPlayer.AddRound(new ConvertedPokerRound());
-            _pokerPlayer[Streets.PreFlop].AddAction(new ConvertedPokerAction(ActionTypes.R, 3.4));
-            _pokerPlayer[Streets.PreFlop].AddAction(new ConvertedPokerAction(ActionTypes.R, 2.4));
-            _pokerPlayer[Streets.PreFlop].AddAction(new ConvertedPokerAction(ActionTypes.C, 0.3));
+            _pokerPlayer[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.R, 3.4));
+            _pokerPlayer[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.R, 2.4));
+            _pokerPlayer[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.3));
 
             _handHistoryRow = new HandHistoryRow(_pokerPlayer);
         }

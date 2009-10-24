@@ -114,7 +114,9 @@
     <Compile Include="Log4NetAppenders.cs" />
     <Compile Include="Normalizer.cs" />
     <Compile Include="ItemsPagesManager.cs" />
-    <Compile Include="Serialization\Serializers.cs" />
+    <Compile Include="Serialization\BinarySerializer.cs" />
+    <Compile Include="Serialization\SoapSerializer.cs" />
+    <Compile Include="Serialization\XmlStandardSerializer.cs" />
     <Compile Include="StaticMethods.cs" />
     <Compile Include="WPF\Command\CommandAction.cs" />
     <Compile Include="WPF\Command\CommandBehavior.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\ItemsRegionViewModel.cs" />
     <Compile Include="WPF\ViewModels\ViewModel.cs" />
+    <Compile Include="WPF\Views\ItemsRegionView.cs" />
     <Compile Include="Wrappers\CallWindowProc.cs" />
     <Compile Include="Wrappers\HandHistoryReader.cs" />
     <Compile Include="Wrappers\HotKey.cs" />

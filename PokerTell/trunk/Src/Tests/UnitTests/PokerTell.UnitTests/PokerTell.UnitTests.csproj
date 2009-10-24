@@ -72,6 +72,7 @@
     <Compile Include="Tools\ThatStubBuilder.cs" />
     <Compile Include="Tools\ValueInfo.cs" />
     <Compile Include="Tools\ValueSetup.cs" />
+    <Compile Include="Tools\TestXmlSerialization.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">

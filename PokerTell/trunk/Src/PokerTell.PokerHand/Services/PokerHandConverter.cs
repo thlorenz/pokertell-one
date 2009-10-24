@@ -226,8 +226,6 @@ namespace PokerTell.PokerHand.Services
             return false;
         }
 
-        
-
         #endregion
     }
 }

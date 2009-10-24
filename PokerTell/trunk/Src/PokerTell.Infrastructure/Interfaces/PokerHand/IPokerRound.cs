@@ -1,11 +1,11 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System.Collections;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
 
     public interface IPokerRound : IEnumerable
     {
-        ReadOnlyCollection<IPokerAction> Actions { get; }
+        IList<IPokerAction> Actions { get; }
 
         /// <summary>
         /// Number of actions in this round

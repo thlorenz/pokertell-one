@@ -8,12 +8,16 @@
 
 namespace PokerTell.PokerHand.Analyzation
 {
+    using System;
+    using System.Xml.Serialization;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Contains Info about a Poker Action
     /// </summary>
+    [Serializable]
     public class ConvertedPokerAction : PokerAction, IConvertedPokerAction
     {
         #region Constructors and Destructors

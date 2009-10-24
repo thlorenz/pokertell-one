@@ -7,6 +7,8 @@ namespace Tools.Tests.Serialization
 
     using NUnit.Framework;
 
+    using PokerTell.UnitTests.Tools;
+
     using Tools.Serialization;
 
     /// <summary>
@@ -144,8 +146,7 @@ namespace Tools.Tests.Serialization
         {
             try
             {
-                var infLoad =
-                    (InfoToSaveClass)SoapSerializer.DeserializeObjectGraph("DoesntExist.soap", typeof(InfoToSaveClass));
+                SoapSerializer.DeserializeObjectGraph("DoesntExist.soap", typeof(InfoToSaveClass));
             }
             catch (FileNotFoundException)
             {
@@ -158,28 +159,13 @@ namespace Tools.Tests.Serialization
         [Test]
         public void Xml_CanSerializeAndDeserialize()
         {
-            XmlStandardSerializer.SerializeObjectGraph(_infoSaved, "SaveAndLoad.xml");
-
-            var loadInfo =
-                (InfoToSaveClass)
-                XmlStandardSerializer.DeserializeObjectGraph("SaveAndLoad.xml", typeof(InfoToSaveClass));
-
-            Assert.That(loadInfo, Is.EqualTo(_infoSaved));
+            Assert.That(_infoSaved.DeserializedInMemory(), Is.EqualTo(_infoSaved));
         }
 
         [Test]
         public void Xml_CanSerializeAndDeserializeAGenericList()
         {
-            XmlStandardSerializer.SerializeObjectGraph(_lstInfoToSave, "SaveAndLoad.xml");
-
-            var lstLoad =
-                (List<InfoToSaveClass>)
-                XmlStandardSerializer.DeserializeObjectGraph("SaveAndLoad.xml", typeof(List<InfoToSaveClass>));
-
-            for (int i = 0; i < _lstInfoToSave.Count; i++)
-            {
-                Assert.That(lstLoad[i].Equals(_lstInfoToSave[i]));
-            }
+            Assert.That(_lstInfoToSave.DeserializedInMemory(), Is.EqualTo(_lstInfoToSave));
         }
 
         [Test]
@@ -199,19 +185,8 @@ namespace Tools.Tests.Serialization
         [Test]
         public void Xml_SerializingFromNonExistingFileThrowsFileNotFoundException()
         {
-            var infDefault = new InfoToSaveClass();
-            try
-            {
-                var infLoad =
-                    (InfoToSaveClass)
-                    XmlStandardSerializer.DeserializeObjectGraph("DoesntExist.xml", typeof(InfoToSaveClass));
-            }
-            catch (FileNotFoundException)
-            {
-                Assert.Pass();
-            }
-
-            Assert.Fail("Should have thrown FileNotFoundException");
+            Assert.Throws<FileNotFoundException>(
+                () => XmlStandardSerializer.DeserializeObjectGraph("DoesntExist.xml", typeof(InfoToSaveClass)));
         }
 
         #endregion

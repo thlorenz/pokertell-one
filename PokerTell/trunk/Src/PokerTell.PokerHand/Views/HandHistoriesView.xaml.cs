@@ -1,5 +1,11 @@
 ﻿namespace PokerTell.PokerHand.Views
 {
+    using System;
+    using System.Reflection;
+    using System.Windows.Controls;
+
+    using log4net;
+
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
@@ -7,6 +13,9 @@
     /// </summary>
     public partial class HandHistoriesView : IHandHistoriesView
     {
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Constructors and Destructors
 
         public HandHistoriesView()
@@ -18,7 +27,11 @@
             : this()
         {
             DataContext = viewModel;
+
+            viewModel.PageTurn += () => HandsScrollViewer.ScrollToHome();
+           
             InitializeComponent();
+           
         }
 
         #endregion

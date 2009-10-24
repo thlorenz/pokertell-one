@@ -14,16 +14,12 @@ namespace PokerTell.SessionReview.Views
     /// <summary>
     /// Interaction logic for SessionReviewView.xaml
     /// </summary>
-    public partial class SessionReviewView : IItemsRegionView
+    public partial class SessionReviewView
     {
         #region Constants and Fields
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        readonly ISessionReviewViewModel _viewModel;
-
-        bool _isActive;
 
         #endregion
 
@@ -37,44 +33,20 @@ namespace PokerTell.SessionReview.Views
         public SessionReviewView(ISessionReviewViewModel viewModel)
             : this()
         {
-            _viewModel = viewModel;
-
-            DataContext = _viewModel;
+            DataContext = viewModel;
         }
 
         #endregion
 
         #region Events
 
-        public event EventHandler IsActiveChanged = delegate { };
-
         #endregion
 
         #region Properties
 
-        public IItemsRegionViewModel ActiveAwareViewModel
-        {
-            get { return _viewModel; }
-        }
-
-        public bool IsActive
-        {
-            get { return _isActive; }
-
-            set
-            {
-                _isActive = value;
-                var vmAware = DataContext as IActiveAware;
-                if (vmAware != null)
-                {
-                    vmAware.IsActive = value;
-                }
-            }
-        }
-
         public ISessionReviewViewModel ViewModel
         {
-            get { return _viewModel; }
+            get { return (ISessionReviewViewModel)DataContext; }
         }
 
         #endregion

@@ -266,50 +266,5 @@ namespace PokerTell.PokerHand.Properties {
                 return ResourceManager.GetString("SB", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to club.gif.
-        /// </summary>
-        public static string Url_Suits_Club {
-            get {
-                return ResourceManager.GetString("Url_Suits_Club", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to diamond.gif.
-        /// </summary>
-        public static string Url_Suits_Diamond {
-            get {
-                return ResourceManager.GetString("Url_Suits_Diamond", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to heart.gif.
-        /// </summary>
-        public static string Url_Suits_Heart {
-            get {
-                return ResourceManager.GetString("Url_Suits_Heart", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to http://www.flopturnriver.com/phpBB2/images/smiles/.
-        /// </summary>
-        public static string Url_Suits_Path {
-            get {
-                return ResourceManager.GetString("Url_Suits_Path", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to spade.gif.
-        /// </summary>
-        public static string Url_Suits_Spade {
-            get {
-                return ResourceManager.GetString("Url_Suits_Spade", resourceCulture);
-            }
-        }
     }
 }

@@ -16,250 +16,270 @@
                 <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter"/>
             </ResourceDictionary>
         </DataTemplate.Resources>
-
-        <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
-            <Grid.Resources>
-                <Style TargetType="{x:Type TextBlock}">
-                    <Setter Property="Margin" Value="3,1"/>
-                </Style>
-            </Grid.Resources>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" MinHeight="23" />
-                <RowDefinition Height="Auto" MinHeight="23" />
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"    />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-
-            <!-- Select Checkbox -->
-            <CheckBox 
-                Grid.Row="0"
-                Grid.Column="0"
-                Width="Auto"
-                HorizontalAlignment="Left"
-                Content="Select"
-                Foreground="Black"
-                IsChecked="{Binding IsSelected}"
-                Visibility="{Binding ShowSelectOption, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}"/>
-
-            <!-- HandHeader-->
-
-            <Grid Grid.Row="0" 
-              Grid.Column="1"
-              HorizontalAlignment="Right"
-             >
+        <Border
+            CornerRadius="5"
+            Background="{DynamicResource ControlBackgroundBrush}"
+            Margin="5, 15"
+            Padding="5"
+            HorizontalAlignment="Center">
+            <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Margin" Value="3,1"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="23" />
+                    <RowDefinition Height="Auto" MinHeight="23" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"    />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Tournament Id -->
+                <!-- Select Checkbox -->
+                <CheckBox 
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Width="Auto"
+                    HorizontalAlignment="Left"
+                    Content="Select"
+                    Foreground="Black"
+                    IsChecked="{Binding IsSelected}"
+                    Visibility="{Binding ShowSelectOption, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}"/>
+
+                <!-- HandHeader-->
+
                 <Grid Grid.Row="0" 
+                  Grid.Column="1"
+                  HorizontalAlignment="Right">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Tournament Id -->
+                    <Grid Grid.Row="0" 
                   Grid.Column="0" Background="LightGreen"
                         Visibility="{Binding IsTournament, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="T:"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TournamentId}"/>
-                </Grid>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="T:"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TournamentId}"/>
+                    </Grid>
 
-                <!-- Game Id -->
-                <Grid Grid.Row="0" 
+                    <!-- Game Id -->
+                    <Grid Grid.Row="0" 
                   Grid.Column="1" 
                   Background="Bisque">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="G:"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding GameId}"/>
-                </Grid>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="G:"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding GameId}"/>
+                    </Grid>
 
-                <TextBlock 
+                    <TextBlock 
                  Grid.Row="0"
                 Grid.Column="2"
                 Text="{Binding TimeStamp}" Background="LightBlue"/>
-            </Grid>
+                </Grid>
 
-            <Grid 
+                <Grid 
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <!-- Board -->
-                <ContentControl 
+                    <!-- Board -->
+                    <ContentControl 
                         Grid.Row="0" 
                         Grid.Column="0" 
                         
                         Content="{Binding Board}"/>
 
-                <!-- Blinds -->
-                <Grid Grid.Row="0" Grid.Column="1"  Background="#FFBED4B5" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                    <!-- Blinds -->
+                    <Grid Grid.Row="0" Grid.Column="1"  Background="#FFBED4B5" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding BigBlind}"/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="/" Margin="0" />
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding SmallBlind}" Margin="0,1"/>
-                </Grid>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding BigBlind}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="/" Margin="0" />
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding SmallBlind}" Margin="0,1"/>
+                    </Grid>
 
-                <!-- Ante -->
-                <Grid  Grid.Row="0" Grid.Column="2" Background="#FFBED4B5"
+                    <!-- Ante -->
+                    <Grid  Grid.Row="0" Grid.Column="2" Background="#FFBED4B5"
                         Visibility="{Binding HasAnte, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="("/>
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Ante}" Margin="0,1"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text=")" Margin="0,1"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="("/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Ante}" Margin="0,1"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text=")" Margin="0,1"/>
+                    </Grid>
+
+                    <!-- Total Players -->
+                    <Grid  Grid.Row="0" Grid.Column="3" Background="BlanchedAlmond" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="TP:" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalPlayers}"/>
+                    </Grid>
                 </Grid>
 
-                <!-- Total Players -->
-                <Grid  Grid.Row="0" Grid.Column="3" Background="BlanchedAlmond" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Row="0" Grid.Column="0" Text="TP:" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding TotalPlayers}"/>
-                </Grid>
-            </Grid>
-
-            <ListView  
-                Grid.Row="2"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                ItemsSource="{Binding PlayerRows}"
-                SelectedIndex="{Binding SelectedRow}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn 
-                        Header="{x:Static Properties:Resources.HandHistoryView_Position_Header}">
-                            <GridViewColumn.CellTemplate>
+                <ListView  
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    ItemsSource="{Binding PlayerRows}"
+                    SelectedIndex="{Binding SelectedRow}">
+                    <ListView.View>
+                        <GridView 
+                            AllowsColumnReorder="False">
+                           
+                            <GridView.ColumnHeaderTemplate>
                                 <DataTemplate>
-                                    <TextBlock DataContext="{Binding Position}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" />
+                                    <Label 
+                                        Content="{Binding}" 
+                                        FontSize="9"
+                                        Padding="0"
+                                        Margin="0"/>
                                 </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                         Header="{x:Static Properties:Resources.HandHistoryView_PlayerName_Header}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock DataContext="{Binding PlayerName}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
+                            </GridView.ColumnHeaderTemplate>
+                          
+                            
+                            <GridViewColumn 
+                                 Header="{x:Static Properties:Resources.HandHistoryView_Position_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            DataContext="{Binding Position}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                Header="{x:Static Properties:Resources.HandHistoryView_PlayerName_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            DataContext="{Binding PlayerName}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"
                                       />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                                Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}"
-                               >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ContentControl Content="{Binding HoleCards}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                        Header="{x:Static Properties:Resources.HandHistoryView_M_Header}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock DataContext="{Binding M}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" 
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ContentControl Content="{Binding HoleCards}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                Header="{x:Static Properties:Resources.HandHistoryView_M_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            DataContext="{Binding M}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" 
                                       />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                        Header="{x:Static Properties:Resources.HandHistoryView_Preflop_Header}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock DataContext="{Binding Preflop}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
-                                       Background="SlateBlue"  
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                Header="{x:Static Properties:Resources.HandHistoryView_Preflop_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            DataContext="{Binding Preflop}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
+                                            Background="SlateBlue"  
                                       />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                        Header="{x:Static Properties:Resources.HandHistoryView_Flop_Header}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock DataContext="{Binding Flop}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
-                                       Background="DarkRed" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                        Header="{x:Static Properties:Resources.HandHistoryView_Turn_Header}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock DataContext="{Binding Turn}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
-                                       Background="DarkGray"  />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn
-                        Header="{x:Static Properties:Resources.HandHistoryView_River_Header}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock DataContext="{Binding River}" 
-                                       Text="{Binding}"
-                                       ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
-                                       Background="DarkGreen"  />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                Header="{x:Static Properties:Resources.HandHistoryView_Flop_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            DataContext="{Binding Flop}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
+                                            Background="DarkRed" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                 Header="{x:Static Properties:Resources.HandHistoryView_Turn_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            DataContext="{Binding Turn}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
+                                            Background="DarkGray"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn
+                                Header="{x:Static Properties:Resources.HandHistoryView_River_Header}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock 
+                                            DataContext="{Binding River}" 
+                                            Text="{Binding}"
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
+                                            Background="DarkGreen"  />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
 
-            <!-- HandNote -->
-
-            <Border Grid.Row="3"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
-                CornerRadius="5"
-                Background="AntiqueWhite"
-                Padding="5">
+                <!-- HandNote -->
                 <TextBox 
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0, 5"
                     Text="{Binding Note}"
                     Background="WhiteSmoke"
                     Foreground="Black"
                     MinHeight="20" 
                     AcceptsReturn="True"/>
-            </Border>
-        </Grid>
+            </Grid>
+        </Border>
     </DataTemplate>
 
 </ResourceDictionary>

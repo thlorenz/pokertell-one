@@ -53,7 +53,7 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel.InitializeWith(hands);
 
-            Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(0));
+            Assert.That(_viewModel.HandHistoriesOnPage.Count(), Is.EqualTo(0));
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel.InitializeWith(hands);
 
-            Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(1));
+            Assert.That(_viewModel.HandHistoriesOnPage.Count(), Is.EqualTo(1));
         }
 
         [Test]
@@ -78,7 +78,7 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel.InitializeWith(hands);
 
-            Assert.That(_viewModel.HandHistoryViewModelsOnPage.Count(), Is.EqualTo(2));
+            Assert.That(_viewModel.HandHistoriesOnPage.Count(), Is.EqualTo(2));
         }
 
         #endregion

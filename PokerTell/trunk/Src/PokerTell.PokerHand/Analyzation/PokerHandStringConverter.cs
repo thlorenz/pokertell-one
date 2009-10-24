@@ -78,11 +78,11 @@ namespace PokerTell.PokerHand.Analyzation
                 {
                     if (actionsContainId)
                     {
-                        convertedRound.AddAction(ConvertedActionWithIdFrom(sqlActionString));
+                        convertedRound.Add(ConvertedActionWithIdFrom(sqlActionString));
                     }
                     else
                     {
-                        convertedRound.AddAction(ConvertedActionFrom(sqlActionString));
+                        convertedRound.Add(ConvertedActionFrom(sqlActionString));
                     }
                 }
             }

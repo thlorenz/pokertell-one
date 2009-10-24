@@ -32,7 +32,7 @@ namespace PokerTell.PokerHand.ViewModels.Design
             var designHelper = new DesignHelper();
             var hands = new List<IConvertedPokerHand>();
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 100; i++)
             {
                 var hand = designHelper.CreateSamplePokerHand(i);
                 if (i % 3 == 0)
@@ -43,7 +43,7 @@ namespace PokerTell.PokerHand.ViewModels.Design
                 hands.Add(hand);
             }
             
-            InitializeWith(hands, 5);
+            InitializeWith(hands, 10);
         }
     }
 }

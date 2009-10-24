@@ -117,81 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BB" xml:space="preserve">
-    <value>the big blind</value>
+  <data name="Url_Suits_Club" xml:space="preserve">
+    <value>club.gif</value>
   </data>
-  <data name="BU" xml:space="preserve">
-    <value>the button</value>
+  <data name="Url_Suits_Diamond" xml:space="preserve">
+    <value>diamond.gif</value>
   </data>
-  <data name="CO" xml:space="preserve">
-    <value>the cutoff seat</value>
+  <data name="Url_Suits_Heart" xml:space="preserve">
+    <value>heart.gif</value>
   </data>
-  <data name="EA" xml:space="preserve">
-    <value>early position</value>
+  <data name="Url_Suits_Path" xml:space="preserve">
+    <value>http://www.flopturnriver.com/phpBB2/images/smiles/</value>
   </data>
-  <data name="HandHistoryView_Cards_Header" xml:space="preserve">
-    <value>Cards</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_Cards_ToolTip" xml:space="preserve">
-    <value>Player's HoleCards</value>
-  </data>
-  <data name="HandHistoryView_Flop_Header" xml:space="preserve">
-    <value>Flop</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_Flop_ToolTip" xml:space="preserve">
-    <value>Flop Actions</value>
-  </data>
-  <data name="HandHistoryView_M_Header" xml:space="preserve">
-    <value>M</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_M_ToolTip" xml:space="preserve">
-    <value>Player's M at start of hand</value>
-  </data>
-  <data name="HandHistoryView_PlayerName_Header" xml:space="preserve">
-    <value>Name</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_PlayerName_ToolTip" xml:space="preserve">
-    <value>Name of Player</value>
-  </data>
-  <data name="HandHistoryView_Position_Header" xml:space="preserve">
-    <value>Pos</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_Position_ToolTip" xml:space="preserve">
-    <value>Player's Position</value>
-  </data>
-  <data name="HandHistoryView_Preflop_Header" xml:space="preserve">
-    <value>Preflop</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_Preflop_ToolTip" xml:space="preserve">
-    <value>Preflop Actions</value>
-  </data>
-  <data name="HandHistoryView_River_Header" xml:space="preserve">
-    <value>River</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_River_ToolTip" xml:space="preserve">
-    <value>River Actions</value>
-  </data>
-  <data name="HandHistoryView_Turn_Header" xml:space="preserve">
-    <value>Turn</value>
-    <comment>keep Name short to not waste space</comment>
-  </data>
-  <data name="HandHistoryView_Turn_ToolTip" xml:space="preserve">
-    <value>Turn Actions</value>
-  </data>
-  <data name="LT" xml:space="preserve">
-    <value>late position</value>
-  </data>
-  <data name="MI" xml:space="preserve">
-    <value>middle position</value>
-  </data>
-  <data name="SB" xml:space="preserve">
-    <value>the small blind</value>
+  <data name="Url_Suits_Spade" xml:space="preserve">
+    <value>spade.gif</value>
   </data>
 </root>

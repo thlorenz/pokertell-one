@@ -34,7 +34,7 @@ namespace PokerTell.PokerHand.Aquisition
         {
             if (theAction != null)
             {
-                _actions.Add(theAction);
+                Actions.Add(theAction);
             }
             else
             {

@@ -2,13 +2,13 @@
 
 namespace PokerTell.UnitTests
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-
-    using Moq;
+//    using System;
+//    using System.Collections.Generic;
+//
+//    using Infrastructure.Enumerations.PokerHand;
+//    using Infrastructure.Interfaces.PokerHand;
+//
+//    using Moq;
 
 //  TODO: ReImplement
 //    using PokerTell.Datalayer;
@@ -130,7 +130,7 @@ namespace PokerTell.UnitTests
 //
 //            hand.AddPlayer(CreatePlayer(hero, 9));
 //            var round = new ConvertedPokerRound();
-//            round.AddAction(new ConvertedPokerActionWithId(new ConvertedPokerAction(ActionTypes.B, 1.0), 0));
+//            round.Add(new ConvertedPokerActionWithId(new ConvertedPokerAction(ActionTypes.B, 1.0), 0));
 //
 //            for (var street = (int)Streets.PreFlop; street <= (int)Streets.River; street++)
 //            {
