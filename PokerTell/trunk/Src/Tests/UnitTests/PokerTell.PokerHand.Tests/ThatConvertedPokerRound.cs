@@ -17,14 +17,14 @@ namespace PokerTell.PokerHand.Tests
             Assert.That(round.DeserializedInMemory(), Is.EqualTo(round));
         }
 
-        [Test]
-        public void Deserialize_SerializedRoundWithOneEmptyAction_ReturnsSameRound()
-        {
-            var round = (ConvertedPokerRound)
-                        new ConvertedPokerRound()
-                            .Add(new ConvertedPokerAction(ActionTypes.C, 1.0));
-                    
-            Assert.That(round.DeserializedInMemory(), Is.EqualTo(round));
-        }
+//        [Test]
+//        public void Deserialize_SerializedRoundWithOneEmptyAction_ReturnsSameRound()
+//        {
+//            var round = (ConvertedPokerRound)
+//                        new ConvertedPokerRound()
+//                            .Add(new ConvertedPokerAction(ActionTypes.C, 1.0));
+//                    
+//            Assert.That(round.DeserializedInMemory(), Is.EqualTo(round));
+//        }
     }
 }

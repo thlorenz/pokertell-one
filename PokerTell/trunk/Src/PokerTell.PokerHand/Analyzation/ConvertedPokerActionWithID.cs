@@ -11,14 +11,17 @@ namespace PokerTell.PokerHand.Analyzation
 {
     using System;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Extends the functionality of PokerAction 
     /// It includes and identifier (e.g. PlayerId) as a property
     /// </summary>
-    public class ConvertedPokerActionWithId : ConvertedPokerAction, IEquatable<IConvertedPokerActionWithId>, IConvertedPokerActionWithId
+    public class ConvertedPokerActionWithId : IEquatable<IConvertedPokerActionWithId>, IConvertedPokerActionWithId
     {
+        IConvertedPokerAction _convertedAction;
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -88,19 +91,31 @@ namespace PokerTell.PokerHand.Analyzation
         /// </returns>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                {
-                    return (base.GetHashCode() * 397) ^ Id;
-                }
-            }
+           return _convertedAction.GetHashCode() ^ Id;
         }
 
         public IConvertedPokerActionWithId InitializeWith(IConvertedPokerAction convertedAction, int id)
         {
-            base.InitializeWith(convertedAction.What, convertedAction.Ratio);
+            _convertedAction = convertedAction;
+            
             Id = id;
+           
             return this;
+        }
+
+        /// <summary>
+        /// The amount connected to the action in relation to the pot
+        /// for calling and betting or in relation to the amount to call for raising
+        /// </summary>
+        public double Ratio
+        {
+            get { return _convertedAction.Ratio; }
+        }
+
+        /// <summary>The kind of action (call, fold etc.)</summary>
+        public ActionTypes What
+        {
+            get { return _convertedAction.What; }
         }
 
         /// <summary>
@@ -111,7 +126,12 @@ namespace PokerTell.PokerHand.Analyzation
         /// </returns>
         public override string ToString()
         {
-            return string.Format("[{0}]{1}", Id, base.ToString());
+            return string.Format("[{0}]{1}", Id, _convertedAction.ToString());
+        }
+
+        public IConvertedPokerAction InitializeWith(ActionTypes what, double ratio)
+        {
+            return _convertedAction.InitializeWith(what, ratio);
         }
 
         #endregion
@@ -141,10 +161,11 @@ namespace PokerTell.PokerHand.Analyzation
                 return true;
             }
 
-            return base.Equals(other) && other.Id == Id;
+            return GetHashCode().Equals(other.GetHashCode());
         }
 
         #endregion
+
 
         #endregion
     }

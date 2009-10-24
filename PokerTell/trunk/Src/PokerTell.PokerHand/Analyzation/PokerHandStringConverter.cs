@@ -121,7 +121,7 @@ namespace PokerTell.PokerHand.Analyzation
         static string BuildSqlStringFrom(IConvertedPokerActionWithId convertedActionWithId)
         {
             return string.Format(
-                "[{0}]{1}", convertedActionWithId.Id, BuildSqlStringFrom(convertedActionWithId as ConvertedPokerAction));
+                "[{0}]{1}", convertedActionWithId.Id, BuildSqlStringFrom(convertedActionWithId as IConvertedPokerAction));
         }
 
         static IConvertedPokerAction ConvertedActionFrom(string sqlAction)

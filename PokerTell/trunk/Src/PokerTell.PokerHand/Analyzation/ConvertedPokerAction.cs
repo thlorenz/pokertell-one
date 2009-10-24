@@ -18,8 +18,10 @@ namespace PokerTell.PokerHand.Analyzation
     /// Contains Info about a Poker Action
     /// </summary>
     [Serializable]
-    public class ConvertedPokerAction : PokerAction, IConvertedPokerAction
+    public class ConvertedPokerAction : IConvertedPokerAction, IPokerAction
     {
+        readonly PokerAction _pokerAction;
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -27,6 +29,7 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public ConvertedPokerAction()
         {
+            _pokerAction = new PokerAction();
         }
 
         /// <summary>
@@ -39,6 +42,7 @@ namespace PokerTell.PokerHand.Analyzation
         /// The ratio.
         /// </param>
         public ConvertedPokerAction(ActionTypes what, double ratio)
+            : this()
         {
             InitializeWith(what, ratio);
         }
@@ -47,10 +51,40 @@ namespace PokerTell.PokerHand.Analyzation
 
         public IConvertedPokerAction InitializeWith(ActionTypes what, double ratio)
         {
-            What = what;
-            Ratio = ratio;
+            _pokerAction.What = what;
+            _pokerAction.Ratio = ratio;
             
             return this;
+        }
+
+        /// <summary>
+        /// The amount connected to the action in relation to the pot
+        /// for calling and betting or in relation to the amount to call for raising
+        /// </summary>
+        public double Ratio
+        {
+            get { return _pokerAction.Ratio; }
+        }
+
+        /// <summary>The kind of action (call, fold etc.)</summary>
+        public ActionTypes What
+        {
+            get { return _pokerAction.What; }
+        }
+
+        public override string ToString()
+        {
+            return _pokerAction.ToString();
+        }
+
+        public override bool Equals(object obj)
+        {
+            return _pokerAction.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return _pokerAction.GetHashCode();
         }
     }
 }
