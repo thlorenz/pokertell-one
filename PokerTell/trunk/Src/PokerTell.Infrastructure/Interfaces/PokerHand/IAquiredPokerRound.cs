@@ -1,14 +1,11 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
-    public interface IAquiredPokerRound : IPokerRound
+    using System;
+
+    public interface IAquiredPokerRound : IPokerRound<IAquiredPokerAction>
     {
         double ChipsGained { get; }
-
-        IAquiredPokerAction this[int index]
-        {
-            get;
-        }
-
+       
         IAquiredPokerRound AddAction(IAquiredPokerAction theAction);
 
         /// <summary>
@@ -23,6 +20,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </summary>
         /// <param name="theAction">Action to remove</param>
         /// <returns>true if it was removed</returns>
-        bool RemoveAction(IPokerAction theAction);
+        bool RemoveAction(IAquiredPokerAction theAction);
+
+        /// <summary>
+        /// The add action.
+        /// </summary>
+        /// <param name="action">
+        /// The the action.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        IAquiredPokerRound Add(IAquiredPokerAction action);
     }
 }

@@ -9,7 +9,6 @@
 namespace PokerTell.PokerHand.Analyzation
 {
     using System;
-    using System.Xml.Serialization;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
@@ -18,10 +17,8 @@ namespace PokerTell.PokerHand.Analyzation
     /// Contains Info about a Poker Action
     /// </summary>
     [Serializable]
-    public class ConvertedPokerAction : IConvertedPokerAction
+    public class ConvertedPokerAction : PokerAction, IConvertedPokerAction
     {
-        readonly PokerAction _pokerAction;
-
         #region Constructors and Destructors
 
         /// <summary>
@@ -29,7 +26,6 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public ConvertedPokerAction()
         {
-            _pokerAction = new PokerAction();
         }
 
         /// <summary>
@@ -51,42 +47,10 @@ namespace PokerTell.PokerHand.Analyzation
 
         public IConvertedPokerAction InitializeWith(ActionTypes what, double ratio)
         {
-            _pokerAction.What = what;
-            _pokerAction.Ratio = ratio;
+            What = what;
+            Ratio = ratio;
             
             return this;
-        }
-
-        /// <summary>
-        /// The amount connected to the action in relation to the pot
-        /// for calling and betting or in relation to the amount to call for raising
-        /// </summary>
-        public double Ratio
-        {
-            get { return _pokerAction.Ratio; }
-            set { _pokerAction.Ratio = value; }
-        }
-
-        /// <summary>The kind of action (call, fold etc.)</summary>
-        public ActionTypes What
-        {
-            get { return _pokerAction.What; }
-            set { _pokerAction.What = value; }
-        }
-
-        public override string ToString()
-        {
-            return _pokerAction.ToString();
-        }
-
-        public override bool Equals(object obj)
-        {
-            return _pokerAction.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return _pokerAction.GetHashCode();
         }
     }
 }

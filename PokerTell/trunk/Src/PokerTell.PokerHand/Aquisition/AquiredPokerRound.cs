@@ -8,22 +8,13 @@ namespace PokerTell.PokerHand.Aquisition
     /// <summary>
     /// Description of PokeRound.
     /// </summary>
-    public class AquiredPokerRound : PokerRound, IAquiredPokerRound
+    public class AquiredPokerRound : PokerRound<IAquiredPokerAction>, IAquiredPokerRound
     {
         #region Properties
 
         public double ChipsGained
         {
             get { return CalculateChipsGain(); }
-        }
-
-        #endregion
-
-        #region Indexers
-
-        public IAquiredPokerAction this[int index]
-        {
-            get { return (IAquiredPokerAction)Actions[index]; }
         }
 
         #endregion
@@ -60,5 +51,27 @@ namespace PokerTell.PokerHand.Aquisition
         }
 
         #endregion
+
+        /// <summary>
+        /// The add action.
+        /// </summary>
+        /// <param name="action">
+        /// The the action.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        public IAquiredPokerRound Add(IAquiredPokerAction action)
+        {
+            if (action != null)
+            {
+                Actions.Add(action);
+            }
+            else
+            {
+                throw new ArgumentNullException("action");
+            }
+
+            return this;
+        }
     }
 }

@@ -4,7 +4,6 @@ namespace PokerTell.PokerHand
     using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
-    using System.Xml.Serialization;
 
     using log4net;
 
@@ -13,7 +12,8 @@ namespace PokerTell.PokerHand
     /// <summary>
     /// Defines one Round of Betting in a Poker Hand.
     /// </summary>
-    public class PokerRound : IPokerRound
+    public abstract class PokerRound<TAction>
+        where TAction : class
     {
         #region Constants and Fields
 
@@ -25,21 +25,36 @@ namespace PokerTell.PokerHand
 
         public PokerRound()
         {
-            Actions = new List<IPokerAction>();
+            Actions = new List<TAction>();
         }
 
         #endregion
 
         #region Properties
-        public IList<IPokerAction> Actions { get; set; }
+
+        public IList<TAction> Actions { get; set; }
 
         /// <summary>
         /// Number of actions in this round
         /// </summary>
-        [XmlIgnore]
         public int Count
         {
             get { return Actions != null ? Actions.Count : 0; }
+        }
+
+        #endregion
+
+        #region Indexers
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        public TAction this[int index]
+        {
+            get { return Actions[index]; }
         }
 
         #endregion
@@ -51,12 +66,17 @@ namespace PokerTell.PokerHand
             return GetHashCode().Equals(obj.GetHashCode());
         }
 
+        public IEnumerator GetEnumerator()
+        {
+            return Actions.GetEnumerator();
+        }
+
         public override int GetHashCode()
         {
             int theHashCode = 0;
-            foreach (PokerAction theAction in Actions)
+            foreach (TAction action in Actions)
             {
-                theHashCode ^= theAction.GetHashCode();
+                theHashCode ^= action.GetHashCode();
             }
 
             return theHashCode;
@@ -66,16 +86,16 @@ namespace PokerTell.PokerHand
         /// Removes an action at a certain index
         /// Currently only used by PokerHandConverter to remove posting actions
         /// </summary>
-        /// <param name="Index">Index at which action will be removed</param>
-        public void RemoveAction(int Index)
+        /// <param name="index">Index at which action will be removed</param>
+        public void RemoveAction(int index)
         {
             try
             {
-                Actions.RemoveAt(Index);
+                Actions.RemoveAt(index);
             }
             catch (IndexOutOfRangeException excep)
             {
-                excep.Data.Add("Index: " + Index + " Count: ", Count);
+                excep.Data.Add("index: " + index + " Count: ", Count);
                 Log.Error("Didn't remove the action", excep);
             }
         }
@@ -85,16 +105,10 @@ namespace PokerTell.PokerHand
         /// </summary>
         /// <param name="theAction">Action to remove</param>
         /// <returns>true if it was removed</returns>
-        public bool RemoveAction(IPokerAction theAction)
+        public bool RemoveAction(TAction theAction)
         {
             return Actions.Remove(theAction);
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPokerRound
 
         /// <summary>
         /// Gives a string representation of the round
@@ -111,23 +125,6 @@ namespace PokerTell.PokerHand
 
             return actStr;
         }
-
-        /// <summary>
-        /// To enable XmlSerialization
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public IPokerRound Add(object obj)
-        {
-            if (obj != null && obj is IPokerAction)
-            {
-                Add(obj);
-            }
-
-            return this;
-        }
-
-        #endregion
 
         #endregion
     }

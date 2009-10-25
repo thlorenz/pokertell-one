@@ -23,14 +23,12 @@ namespace PokerTell.PokerHand
 
         #endregion
 
-
         #region Properties
 
         /// <summary>
         /// Absolute seat number of player as stated in the Hand History
         /// </summary>
         public int AbsSeatNum { get; set; }
-
 
         /// <summary>
         /// Players Hole Cards - set to "??" when unknown
@@ -144,7 +142,7 @@ namespace PokerTell.PokerHand
             try
             {
                 // Iterate through rounds pre-flop to river
-                foreach (IPokerRound iB in this)
+                foreach (var iB in this)
                 {
                     betting += "| " + iB;
                 }
@@ -162,7 +160,7 @@ namespace PokerTell.PokerHand
         /// Retrieves the PokerRound at the index 
         /// If it finds the PokerRound to be null it returns a default PokerRound
         /// </summary>
-        protected IPokerRound GetPokerRoundAtIndex(int index)
+        protected IAquiredPokerRound GetPokerRoundAtIndex(int index)
         {
             if (Rounds[index] != null)
             {

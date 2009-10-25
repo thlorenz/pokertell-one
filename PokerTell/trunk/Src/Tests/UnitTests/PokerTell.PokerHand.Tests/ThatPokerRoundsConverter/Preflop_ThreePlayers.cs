@@ -84,12 +84,12 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
             var action6 = new ConvertedPokerActionWithId(bigBlindPlayer[Streets.PreFlop][1], bigBlindPlayer.Position);
 
             IConvertedPokerRound expectedPreflopSequence = new ConvertedPokerRound()
-                .AddAction(action1)
-                .AddAction(action2)
-                .AddAction(action3)
-                .AddAction(action4)
-                .AddAction(action5)
-                .AddAction(action6);
+                .Add(action1)
+                .Add(action2)
+                .Add(action3)
+                .Add(action4)
+                .Add(action5)
+                .Add(action6);
 
             Assert.That(expectedPreflopSequence, Is.EqualTo(convHand.Sequences[(int)Streets.PreFlop]));
         }

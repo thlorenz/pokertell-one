@@ -11,7 +11,7 @@ namespace PokerTell.PokerHand
     /// <summary>
     /// General PokerAction
     /// </summary>
-    public class PokerAction : IPokerAction
+    public abstract class PokerAction : IPokerAction
     {
         #region Constants and Fields
 
@@ -27,7 +27,7 @@ namespace PokerTell.PokerHand
         /// This constructor is only usefull to create a dummy action in order to
         /// allow a method to access it's methods
         /// </summary>
-        public PokerAction()
+        protected PokerAction()
         {
             What = ActionTypes.N;
             Ratio = 0;

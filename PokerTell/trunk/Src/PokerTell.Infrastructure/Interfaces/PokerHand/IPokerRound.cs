@@ -3,8 +3,13 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System.Collections;
     using System.Collections.Generic;
 
-    public interface IPokerRound
+    public interface IPokerRound<TAction> : IEnumerable
     {
-        IList<IPokerAction> Actions { get; }
+        IList<TAction> Actions { get; }
+
+        TAction this[int index]
+        {
+            get;
+        }
     }
 }
