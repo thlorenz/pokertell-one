@@ -18,7 +18,7 @@ namespace PokerTell.PokerHand.Analyzation
     /// <summary>
     /// Description of PokerPlayer.
     /// </summary>
-    public class ConvertedPokerPlayer : PokerPlayer, IConvertedPokerPlayer
+    public class ConvertedPokerPlayer : IConvertedPokerPlayer
     {
         #region Constants and Fields
 
@@ -26,6 +26,8 @@ namespace PokerTell.PokerHand.Analyzation
         /// The Log.
         /// </summary>
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        readonly PokerPlayer _pokerPlayer;
 
         #endregion
 
@@ -36,6 +38,7 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public ConvertedPokerPlayer()
         {
+            _pokerPlayer = new PokerPlayer();
             Initialize();
         }
 
@@ -375,6 +378,56 @@ namespace PokerTell.PokerHand.Analyzation
             }
         }
 
+        public int CompareTo(IConvertedPokerPlayer other)
+        {
+            return _pokerPlayer.CompareTo(other);
+        }
+
+        /// <summary>
+        /// Absolute seat number of player as stated in the Hand History
+        /// </summary>
+        public int AbsSeatNum
+        {
+            get { return _pokerPlayer.AbsSeatNum;  }
+            set { _pokerPlayer.AbsSeatNum = value; }
+        }
+
+        /// <summary>
+        /// Players Hole Cards - set to "??" when unknown
+        /// </summary>
+        public string Holecards
+        {
+            get { return _pokerPlayer.Holecards; }
+            set { _pokerPlayer.Holecards = value; }
+        }
+
+        /// <summary>
+        /// Nickname of the player
+        /// </summary>
+        public string Name
+        {
+            get { return _pokerPlayer.Name; }
+            set { _pokerPlayer.Name = value; }
+        }
+
+        /// <summary>
+        /// Id of player in Database
+        /// </summary>
+        public long PlayerId
+        {
+            get { return _pokerPlayer.PlayerId; }
+            set { _pokerPlayer.PlayerId = value; }
+        }
+
+        /// <summary>
+        /// Position: SB=0, BB=1, Button=totalplrs (-1 when yet unknown)
+        /// </summary>
+        public int Position
+        {
+            get { return _pokerPlayer.Position; }
+            set { _pokerPlayer.Position = value; }
+        }
+
         /// <summary>
         /// Gives string representation of Players info and actions
         /// </summary>
@@ -391,7 +444,7 @@ namespace PokerTell.PokerHand.Analyzation
                     Name, 
                     MBefore, 
                     MAfter, 
-                    BettingRoundsToString(), 
+                    _pokerPlayer.BettingRoundsToString(), 
                     Holecards);
             }
             catch (ArgumentNullException excep)
@@ -501,5 +554,16 @@ namespace PokerTell.PokerHand.Analyzation
         }
 
         #endregion
+
+        public override bool Equals(object obj)
+        {
+            return _pokerPlayer.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return _pokerPlayer.GetHashCode();
+        }
     }
+
 }

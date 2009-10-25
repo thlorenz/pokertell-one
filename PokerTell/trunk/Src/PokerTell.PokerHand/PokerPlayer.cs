@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand
     /// <summary>
     /// Contains Information about a player
     /// </summary>
-    public abstract class PokerPlayer : IPokerPlayer, IEnumerable
+    public class PokerPlayer : IPokerPlayer, IEnumerable, IComparable<IPokerPlayer>
     {
         #region Constants and Fields
 
@@ -138,7 +138,7 @@ namespace PokerTell.PokerHand
 
         #region Methods
 
-        protected string BettingRoundsToString()
+        protected internal string BettingRoundsToString()
         {
             string betting = string.Empty;
             try

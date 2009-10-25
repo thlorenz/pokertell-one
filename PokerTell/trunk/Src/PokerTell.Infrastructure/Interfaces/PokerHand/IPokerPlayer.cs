@@ -2,7 +2,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System;
 
-    public interface IPokerPlayer : IComparable<IPokerPlayer>
+    public interface IPokerPlayer
     {
         /// <summary>
         /// Absolute seat number of player as stated in the Hand History

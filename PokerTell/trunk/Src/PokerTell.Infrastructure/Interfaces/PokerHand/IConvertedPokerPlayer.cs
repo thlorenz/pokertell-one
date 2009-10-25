@@ -1,11 +1,12 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
     using Enumerations.PokerHand;
 
-    public interface IConvertedPokerPlayer : IPokerPlayer, IEnumerable
+    public interface IConvertedPokerPlayer : IPokerPlayer, IEnumerable, IComparable<IConvertedPokerPlayer>
     {
         /// <summary>
         /// Is player in position on Flop, Turn or River? 0 = yes, 1 = no
