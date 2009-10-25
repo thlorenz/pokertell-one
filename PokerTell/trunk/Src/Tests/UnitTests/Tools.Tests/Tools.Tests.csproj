@@ -74,9 +74,11 @@
     <Compile Include="Serialization\InfoToSaveClassOtherNamespace.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Serialization\ThatSerializers.cs">
+    <Compile Include="Serialization\ThatBinarySerializer.cs" />
+    <Compile Include="Serialization\ThatXmlSerializer.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Serialization\ThatSoapSerializer.cs" />
     <Compile Include="ThatItemsPagesManager.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,11 +1,8 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System.Collections;
-    using System.Collections.Generic;
 
-    using Enumerations.PokerHand;
-
-    public interface IAquiredPokerPlayer : IPokerPlayer, IEnumerable
+    public interface IAquiredPokerPlayer : IPokerPlayer<IAquiredPokerRound>, IEnumerable
     {
         #region Properties
 
@@ -26,30 +23,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// Determined by the Parser from the Hand History
         /// </summary>
         double StackBefore { get; set; }
-
-        /// <summary>
-        /// List of all Poker Rounds for current hand Preflop Flop
-        /// </summary>
-        IList<IAquiredPokerRound> Rounds { get; }
-
-        /// <summary>
-        /// Number of Rounds that player saw
-        /// </summary>
-        int Count { get; }
-
-        #endregion
-
-        #region Indexers
-
-        IAquiredPokerRound this[Streets theStreet]
-        {
-            get;
-        }
-
-        IAquiredPokerRound this[int index]
-        {
-            get;
-        }
 
         #endregion
 

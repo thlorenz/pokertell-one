@@ -5,6 +5,7 @@ namespace PokerTell.PokerHand.Analyzation
     using System.Collections.Generic;
     using System.Reflection;
     using System.Text.RegularExpressions;
+    using System.Xml.Serialization;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
@@ -18,7 +19,9 @@ namespace PokerTell.PokerHand.Analyzation
     /// <summary>
     /// Description of PokerPlayer.
     /// </summary>
-    public class ConvertedPokerPlayer : IConvertedPokerPlayer
+    [Serializable]
+    [XmlInclude(typeof(ConvertedPokerRound))]
+    public class ConvertedPokerPlayer : PokerPlayer<IConvertedPokerRound>, IConvertedPokerPlayer
     {
         #region Constants and Fields
 
@@ -26,8 +29,6 @@ namespace PokerTell.PokerHand.Analyzation
         /// The Log.
         /// </summary>
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        readonly PokerPlayer _pokerPlayer;
 
         #endregion
 
@@ -38,7 +39,6 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public ConvertedPokerPlayer()
         {
-            _pokerPlayer = new PokerPlayer();
             Initialize();
         }
 
@@ -111,45 +111,6 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public StrategicPositions StrategicPosition { get; private set; }
 
-        /// <summary>
-        /// List of all Poker Rounds for current hand Preflop Flop
-        /// </summary>
-        public IList<IConvertedPokerRound> Rounds { get; private set; }
-
-        /// <summary>
-        /// Number of Rounds that player saw
-        /// </summary>
-        public int Count
-        {
-            get { return Rounds.Count; }
-        }
-
-        #endregion
-
-        #region Indexers
-
-        /// <summary>
-        /// The this.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        public IConvertedPokerRound this[int index]
-        {
-            get { return (IConvertedPokerRound)Rounds[index]; }
-        }
-
-        /// <summary>
-        /// The this.
-        /// </summary>
-        /// <param name="theStreet">
-        /// The the street.
-        /// </param>
-        public IConvertedPokerRound this[Streets theStreet]
-        {
-            get { return this[(int)theStreet]; }
-        }
-
         #endregion
 
         #region Public Methods
@@ -157,9 +118,9 @@ namespace PokerTell.PokerHand.Analyzation
         /// <summary>
         /// Add a new Poker Round to the player
         /// </summary>
-        public IConvertedPokerPlayer AddRound()
+        public IConvertedPokerPlayer Add()
         {
-            AddRound(new ConvertedPokerRound());
+            Add(new ConvertedPokerRound());
 
             return this;
         }
@@ -170,7 +131,7 @@ namespace PokerTell.PokerHand.Analyzation
         /// <param name="convertedRound">
         /// The converted Round.
         /// </param>
-        public IConvertedPokerPlayer AddRound(IConvertedPokerRound convertedRound)
+        public IConvertedPokerPlayer Add(IConvertedPokerRound convertedRound)
         {
             try
             {
@@ -380,52 +341,7 @@ namespace PokerTell.PokerHand.Analyzation
 
         public int CompareTo(IConvertedPokerPlayer other)
         {
-            return _pokerPlayer.CompareTo(other);
-        }
-
-        /// <summary>
-        /// Absolute seat number of player as stated in the Hand History
-        /// </summary>
-        public int AbsSeatNum
-        {
-            get { return _pokerPlayer.AbsSeatNum;  }
-            set { _pokerPlayer.AbsSeatNum = value; }
-        }
-
-        /// <summary>
-        /// Players Hole Cards - set to "??" when unknown
-        /// </summary>
-        public string Holecards
-        {
-            get { return _pokerPlayer.Holecards; }
-            set { _pokerPlayer.Holecards = value; }
-        }
-
-        /// <summary>
-        /// Nickname of the player
-        /// </summary>
-        public string Name
-        {
-            get { return _pokerPlayer.Name; }
-            set { _pokerPlayer.Name = value; }
-        }
-
-        /// <summary>
-        /// Id of player in Database
-        /// </summary>
-        public long PlayerId
-        {
-            get { return _pokerPlayer.PlayerId; }
-            set { _pokerPlayer.PlayerId = value; }
-        }
-
-        /// <summary>
-        /// Position: SB=0, BB=1, Button=totalplrs (-1 when yet unknown)
-        /// </summary>
-        public int Position
-        {
-            get { return _pokerPlayer.Position; }
-            set { _pokerPlayer.Position = value; }
+            return base.CompareTo(other);
         }
 
         /// <summary>
@@ -444,7 +360,7 @@ namespace PokerTell.PokerHand.Analyzation
                     Name, 
                     MBefore, 
                     MAfter, 
-                    _pokerPlayer.BettingRoundsToString(), 
+                    BettingRoundsToString(), 
                     Holecards);
             }
             catch (ArgumentNullException excep)
@@ -557,13 +473,12 @@ namespace PokerTell.PokerHand.Analyzation
 
         public override bool Equals(object obj)
         {
-            return _pokerPlayer.Equals(obj);
+            return base.Equals(obj);
         }
 
         public override int GetHashCode()
         {
-            return _pokerPlayer.GetHashCode();
+            return base.GetHashCode();
         }
-    }
-
+   }
 }

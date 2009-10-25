@@ -66,7 +66,7 @@ namespace PokerTell.PokerHand.Tests
         public void IsFullFilledBy_HeroWithOneRound_ReturnsFalse()
         {
             _heroPlayer
-                .AddRound();
+                .Add();
 
             _convertedHand
                 .AddPlayer(_heroPlayer);
@@ -98,8 +98,8 @@ namespace PokerTell.PokerHand.Tests
                     _stub.Valid(For.Position, 0),
                     _stub.Valid(For.TotalPlayers, 2),
                     _stub.Valid(For.HoleCards, string.Empty))
-                    .AddRound()
-                    .AddRound();
+                    .Add()
+                    .Add();
 
             _convertedHand
                 .AddPlayer(_heroPlayer);
@@ -113,8 +113,8 @@ namespace PokerTell.PokerHand.Tests
         public void IsFullFilledBy_HeroWithTwoRounds_ReturnsTrue()
         {
             _heroPlayer
-                .AddRound()
-                .AddRound();
+                .Add()
+                .Add();
 
             _convertedHand
                 .AddPlayer(_heroPlayer);

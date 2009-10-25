@@ -174,7 +174,7 @@ namespace PokerTell.PokerHand.Tests
         {
             var convertedPlayer =
                 new ConvertedPokerPlayer()
-                    .AddRound();
+                    .Add();
 
             _convertedHand
                 .AddPlayer(convertedPlayer)
@@ -189,7 +189,7 @@ namespace PokerTell.PokerHand.Tests
         {
             var convertedPlayer =
                 new ConvertedPokerPlayer()
-                    .AddRound(
+                    .Add(
                     new ConvertedPokerRound()
                         .Add(new ConvertedPokerAction(ActionTypes.F, 1.0)));
                     
@@ -205,9 +205,9 @@ namespace PokerTell.PokerHand.Tests
         public void SetNumberOfPlayersInEachRound_ThreePreflopPlayers_SetsPlayersInPreflopRoundToThree()
         {
             _convertedHand
-                .AddPlayer(new ConvertedPokerPlayer().AddRound())
-                .AddPlayer(new ConvertedPokerPlayer().AddRound())
-                .AddPlayer(new ConvertedPokerPlayer().AddRound())
+                .AddPlayer(new ConvertedPokerPlayer().Add())
+                .AddPlayer(new ConvertedPokerPlayer().Add())
+                .AddPlayer(new ConvertedPokerPlayer().Add())
                 .SetNumOfPlayersInEachRound();
 
             Assert.That(_convertedHand.PlayersInRound[(int)Streets.PreFlop], Is.EqualTo(3));
@@ -217,9 +217,9 @@ namespace PokerTell.PokerHand.Tests
         public void SetNumberOfPlayersInEachRound_ThreePlayersTwoHaveFlopRound_SetsPlayersInFlopRoundToTwo()
         {
             _convertedHand
-               .AddPlayer(new ConvertedPokerPlayer().AddRound().AddRound())
-               .AddPlayer(new ConvertedPokerPlayer().AddRound())
-               .AddPlayer(new ConvertedPokerPlayer().AddRound().AddRound())
+               .AddPlayer(new ConvertedPokerPlayer().Add().Add())
+               .AddPlayer(new ConvertedPokerPlayer().Add())
+               .AddPlayer(new ConvertedPokerPlayer().Add().Add())
 
                .SetNumOfPlayersInEachRound();
 
@@ -229,8 +229,8 @@ namespace PokerTell.PokerHand.Tests
         [Test]
         public void SetWhoHasPositionInEachRound_TwoPlayersPreflop_SetsSecondPlayerInPositionPreflopToOne()
         {
-            var player1 = new ConvertedPokerPlayer().AddRound();
-            var player2 = new ConvertedPokerPlayer().AddRound();
+            var player1 = new ConvertedPokerPlayer().Add();
+            var player2 = new ConvertedPokerPlayer().Add();
 
             _convertedHand
                 .AddPlayer(player1)
@@ -244,8 +244,8 @@ namespace PokerTell.PokerHand.Tests
         [Test]
         public void SetWhoHasPositionInEachRound_TwoPlayersPreflop_SetsFirstPlayerInPositionPreflopToZero()
         {
-            var player1 = new ConvertedPokerPlayer().AddRound();
-            var player2 = new ConvertedPokerPlayer().AddRound();
+            var player1 = new ConvertedPokerPlayer().Add();
+            var player2 = new ConvertedPokerPlayer().Add();
 
             _convertedHand
                 .AddPlayer(player1)

@@ -12,7 +12,7 @@ namespace PokerTell.PokerHand.Aquisition
     /// <summary>
     /// Description of PokerPlayer.
     /// </summary>
-    public class AquiredPokerPlayer : PokerPlayer, IAquiredPokerPlayer
+    public class AquiredPokerPlayer : PokerPlayer<IAquiredPokerRound>, IAquiredPokerPlayer
     {
         #region Constants and Fields
 
@@ -51,13 +51,13 @@ namespace PokerTell.PokerHand.Aquisition
         /// when using this constructor positions, position names, playernames need to be set later
         /// </summary>
         /// <param name="playerId">
-        /// <see cref="PokerPlayer.PlayerId"></see>
+        /// <see cref="AquiredPokerPlayer.PlayerId"></see>
         /// </param>
         /// <param name="seatNum">
-        /// <see cref="PokerPlayer.AbsSeatNum"></see>
+        /// <see cref="AquiredPokerPlayer.AbsSeatNum"></see>
         /// </param>
         /// <param name="holecards">
-        /// <see cref="PokerPlayer.Holecards"></see>
+        /// <see cref="AquiredPokerPlayer.Holecards"></see>
         /// </param>
         public AquiredPokerPlayer(long playerId, int seatNum, string holecards)
             : this()
@@ -89,28 +89,6 @@ namespace PokerTell.PokerHand.Aquisition
         /// Determined by the Parser from the Hand History
         /// </summary>
         public double StackBefore { get; set; }
-
-        #endregion
-
-        #region Indexers
-
-        /// <summary>
-        /// Number of Rounds that player saw
-        /// </summary>
-        public int Count
-        {
-            get { return Rounds.Count;  }
-        }
-
-        public IAquiredPokerRound this[Streets theStreet]
-        {
-            get { return this[(int)theStreet]; }
-        }
-
-        public IAquiredPokerRound this[int index]
-        {
-            get { return Rounds[index]; }
-        }
 
         #endregion
 

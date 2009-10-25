@@ -3,17 +3,22 @@ namespace PokerTell.PokerHand
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Reflection;
+    using System.Xml.Serialization;
+
+    using Analyzation;
 
     using log4net;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Contains Information about a player
     /// </summary>
-    public class PokerPlayer : IPokerPlayer, IEnumerable, IComparable<IPokerPlayer>
+    [Serializable]
+    public class PokerPlayer<TRound> : IPokerPlayer<TRound>, IEnumerable, IComparable<IPokerPlayer<TRound>>
+        where TRound : class
     {
         #region Constants and Fields
 
@@ -31,6 +36,14 @@ namespace PokerTell.PokerHand
         public int AbsSeatNum { get; set; }
 
         /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        public int Count
+        {
+            get { return Rounds.Count; }
+        }
+
+        /// <summary>
         /// Players Hole Cards - set to "??" when unknown
         /// </summary>
         public string Holecards
@@ -43,12 +56,19 @@ namespace PokerTell.PokerHand
         /// <summary>
         /// Nickname of the player
         /// </summary>
+        [XmlAttribute]
         public string Name { get; set; }
 
         /// <summary>
         /// Id of player in Database
         /// </summary>
+        [XmlAttribute]
         public long PlayerId { get; set; }
+
+        public PokerPlayer()
+        {
+            Position = 4;
+        }
 
         /// <summary>
         /// Position: SB=0, BB=1, Button=totalplrs (-1 when yet unknown)
@@ -58,34 +78,108 @@ namespace PokerTell.PokerHand
         /// <summary>
         /// List of all Poker Rounds for current hand Preflop Flop
         /// </summary>
-        public IList<IAquiredPokerRound> Rounds { get; set; }
+        public IList<TRound> Rounds { get; set; }
+
+        #endregion
+
+        #region Indexers
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        public TRound this[int index]
+        {
+            get { return Rounds[index]; }
+        }
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="theStreet">
+        /// The the street.
+        /// </param>
+        public TRound this[Streets theStreet]
+        {
+            get { return this[(int)theStreet]; }
+        }
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Necessary for XmlSerialization
+        /// </summary>
+        /// <param name="obj"></param>
+        public void Add(object obj)
+        {
+            if (obj != null)
+            {
+                var action = (TRound)obj;
+                Rounds.Add(action);
+            }
+        }
+
         public override bool Equals(object obj)
         {
-            if (obj == null || !(obj is IPokerPlayer))
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
 
-            return GetHashCode().Equals(obj.GetHashCode());
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != typeof(PokerPlayer<TRound>))
+            {
+                return false;
+            }
+
+            return Equals((PokerPlayer<TRound>)obj);
+        }
+
+        public bool Equals(PokerPlayer<TRound> other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(other._holecards, _holecards) && other.AbsSeatNum == AbsSeatNum && Equals(other.Name, Name) &&
+                   other.PlayerId == PlayerId && other.Position == Position && Equals(other.Rounds, Rounds);
         }
 
         public override int GetHashCode()
         {
-            return Name.GetHashCode();
+            unchecked
+            {
+                int result = _holecards != null ? _holecards.GetHashCode() : 0;
+                result = (result * 397) ^ AbsSeatNum;
+                result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+                result = (result * 397) ^ PlayerId.GetHashCode();
+                result = (result * 397) ^ Position;
+                result = (result * 397) ^ (Rounds != null ? Rounds.GetHashCode() : 0);
+                return result;
+            }
         }
 
         #endregion
 
         #region Implemented Interfaces
 
-        #region IComparable<IPokerPlayer>
+        #region IComparable<IPokerPlayer<TRound>>
 
-        public int CompareTo(IPokerPlayer other)
+        public int CompareTo(IPokerPlayer<TRound> other)
         {
             if (Position < other.Position)
             {
@@ -111,7 +205,7 @@ namespace PokerTell.PokerHand
 
         #endregion
 
-        #region IPokerPlayer
+        #region IPokerPlayer<TRound>
 
         /// <summary>
         /// Gives string representation of Players info and actions
@@ -142,7 +236,7 @@ namespace PokerTell.PokerHand
             try
             {
                 // Iterate through rounds pre-flop to river
-                foreach (var iB in this)
+                foreach (object iB in this)
                 {
                     betting += "| " + iB;
                 }
@@ -160,7 +254,7 @@ namespace PokerTell.PokerHand
         /// Retrieves the PokerRound at the index 
         /// If it finds the PokerRound to be null it returns a default PokerRound
         /// </summary>
-        protected IAquiredPokerRound GetPokerRoundAtIndex(int index)
+        protected TRound GetPokerRoundAtIndex(int index)
         {
             if (Rounds[index] != null)
             {
@@ -168,7 +262,8 @@ namespace PokerTell.PokerHand
             }
             else
             {
-                throw new IndexOutOfRangeException("Round of index " + index + "doesn't exist" + " Max is " + Rounds.Count);
+                throw new IndexOutOfRangeException(
+                    "Round of index " + index + "doesn't exist" + " Max is " + Rounds.Count);
             }
         }
 

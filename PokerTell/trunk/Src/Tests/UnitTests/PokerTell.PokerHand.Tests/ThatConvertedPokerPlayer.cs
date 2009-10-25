@@ -1,13 +1,20 @@
 namespace PokerTell.PokerHand.Tests
 {
     using System;
+    using System.IO;
+    using System.Xml.Serialization;
 
     using Analyzation;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.PokerHand;
 
     using NUnit.Framework;
-    
+
+    using Tools.Serialization;
+
+    using UnitTests.Tools;
+
     [TestFixture]
     internal class ThatConvertedPokerPlayer
     {
@@ -18,6 +25,8 @@ namespace PokerTell.PokerHand.Tests
         const int NinePlayers = 9;
         
         const int SixPlayers = 6;
+
+        const bool WriteXmlToConsole = true;
 
         ConvertedPokerPlayer _convertedPlayer;
 
@@ -91,6 +100,21 @@ namespace PokerTell.PokerHand.Tests
 
             // Logs the error and sets default Position
             Assert.That(_convertedPlayer.StrategicPosition, Is.EqualTo(StrategicPositions.EA));
+        }
+
+        [Test]
+        public void Deserialize_SerializedEmptyPlayer_ReturnsSamePlayer()
+        {
+            Assert.That(_convertedPlayer.DeserializedInMemory(WriteXmlToConsole), Is.EqualTo(_convertedPlayer));
+        }
+
+        [Test]
+        public void Deserialize_SerializedPlayerWithOneEmptyRound_ReturnsSamePlayer()
+        {
+            _convertedPlayer
+                .Add(new ConvertedPokerRound());
+
+            Assert.That(_convertedPlayer.DeserializedInMemory(WriteXmlToConsole), Is.EqualTo(_convertedPlayer));
         }
 
         #endregion

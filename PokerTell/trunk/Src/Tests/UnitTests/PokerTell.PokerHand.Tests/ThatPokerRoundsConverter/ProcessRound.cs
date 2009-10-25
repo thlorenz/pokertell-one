@@ -119,7 +119,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
         {
             const int playerPosition = 1;
             IConvertedPokerPlayer playerStub = new ConvertedPokerPlayer()
-                .AddRound();
+                .Add();
             playerStub.Position = playerPosition;
 
             IAquiredPokerRound aquiredRound =
@@ -160,7 +160,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
             IAquiredPokerRound aquiredRound = new AquiredPokerRound()
                 .AddAction(new AquiredPokerAction(someActionType, someRatio));
 
-            IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer().AddRound();
+            IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer().Add();
 
             _converter.InvokeProcessRound(Streets.PreFlop, aquiredRound, convertedPlayer);
 
@@ -182,7 +182,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                 .AddAction(new AquiredPokerAction(firstActionType, someRatio))
                 .AddAction(new AquiredPokerAction(secondActionType, someRatio));
 
-            IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer().AddRound();
+            IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer().Add();
 
             _converter.ActionCountProp = 1;
             _converter.InvokeProcessRound(Streets.PreFlop, aquiredRound, convertedPlayer);

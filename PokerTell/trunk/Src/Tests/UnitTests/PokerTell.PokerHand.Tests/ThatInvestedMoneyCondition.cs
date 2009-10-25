@@ -52,7 +52,7 @@ namespace PokerTell.PokerHand.Tests
         public void IsFullFilledBy_FoldingHero_ReturnsFalse()
         {
             _heroPlayer
-                .AddRound(
+                .Add(
                 new ConvertedPokerRound()
                     .Add(new ConvertedPokerAction(ActionTypes.F, 1.0)));
 
@@ -81,7 +81,7 @@ namespace PokerTell.PokerHand.Tests
             [Values(ActionTypes.C, ActionTypes.R, ActionTypes.X)] ActionTypes actionType)
         {
             _heroPlayer
-                .AddRound(
+                .Add(
                 new ConvertedPokerRound()
                     .Add(new ConvertedPokerAction(actionType, 1.0)));
 
@@ -104,7 +104,7 @@ namespace PokerTell.PokerHand.Tests
                     _stub.Valid(For.Position, 0), 
                     _stub.Valid(For.TotalPlayers, 2), 
                     _stub.Valid(For.HoleCards, string.Empty))
-                    .AddRound(
+                    .Add(
                     new ConvertedPokerRound()
                         .Add(new ConvertedPokerAction(ActionTypes.C, 1.0)));
 
@@ -122,7 +122,7 @@ namespace PokerTell.PokerHand.Tests
                 ActionTypes.W)] ActionTypes actionType)
         {
             _heroPlayer
-                .AddRound(
+                .Add(
                 new ConvertedPokerRound()
                     .Add(new ConvertedPokerAction(actionType, 1.0)));
 

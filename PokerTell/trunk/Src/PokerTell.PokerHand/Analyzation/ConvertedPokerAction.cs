@@ -16,7 +16,7 @@ namespace PokerTell.PokerHand.Analyzation
     /// <summary>
     /// Contains Info about a Poker Action
     /// </summary>
-    [Serializable]
+    
     public class ConvertedPokerAction : PokerAction, IConvertedPokerAction
     {
         #region Constructors and Destructors

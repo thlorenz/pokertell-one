@@ -243,7 +243,7 @@ namespace PokerTell.PokerHand.Services
 
             if (convertedPlayer.Count < (int)street + 1)
             {
-                convertedPlayer.AddRound();
+                convertedPlayer.Add();
             }
 
             convertedPlayer[street].Add(convertedAction);

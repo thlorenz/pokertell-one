@@ -9,18 +9,20 @@ namespace PokerTell.PokerHand.Tests
 
     public class ThatConvertedPokerAction
     {
+        const bool WriteXmlToConsole = false;
+        
         [Test]
         public void Deserialize_SerializedLegalAction_ReturnsSerializedAction()
         {
             var legalAction = new ConvertedPokerAction(ActionTypes.B, 2.0);
-            Assert.That(legalAction.DeserializedInMemory(), Is.EqualTo(legalAction));
+            Assert.That(legalAction.DeserializedInMemory(WriteXmlToConsole), Is.EqualTo(legalAction));
         }
 
         [Test]
         public void Deserialize_SerializedIllegalAction_ReturnsSerializedAction()
         {
             var illegalAction = new ConvertedPokerAction(ActionTypes.E, 1.0);
-            Assert.That(illegalAction.DeserializedInMemory(), Is.EqualTo(illegalAction));
+            Assert.That(illegalAction.DeserializedInMemory(WriteXmlToConsole), Is.EqualTo(illegalAction));
         }
     }
 }

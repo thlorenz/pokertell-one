@@ -10,7 +10,7 @@ namespace PokerTell.PokerHand.Tests
 
     public class ThatConvertedPokerRound
     {
-        const bool WriteXmlToConsole = true;
+        const bool WriteXmlToConsole = false;
         
         [Test]
         public void Deserialize_SerializedEmptyRound_ReturnsSameRound()

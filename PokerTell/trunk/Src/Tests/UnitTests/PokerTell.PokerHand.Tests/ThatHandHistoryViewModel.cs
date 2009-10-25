@@ -33,27 +33,27 @@ namespace PokerTell.PokerHand.Tests
         private void InitConvertedPokerHand()
         {
             var player1 = new ConvertedPokerPlayer("player1", 10, 5, 0, 6, "As Kd");
-            player1.AddRound(new ConvertedPokerRound());
+            player1.Add(new ConvertedPokerRound());
             player1[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.2));
 
             var player2 = new ConvertedPokerPlayer("player2", 12, 4, 1, 6, "?? ??");
-            player2.AddRound(new ConvertedPokerRound());
+            player2.Add(new ConvertedPokerRound());
             player2[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.X, 1.0));
 
             var player3 = new ConvertedPokerPlayer("player3", 13, 2, 2, 6, "?? ??");
-            player3.AddRound(new ConvertedPokerRound());
+            player3.Add(new ConvertedPokerRound());
             player3[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.3));
 
             var player4 = new ConvertedPokerPlayer("player4", 14, 4, 3, 6, "?? ??");
-            player4.AddRound(new ConvertedPokerRound());
+            player4.Add(new ConvertedPokerRound());
             player4[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
 
             var player5 = new ConvertedPokerPlayer("player5", 15, 3, 4, 6, "?? ??");
-            player5.AddRound(new ConvertedPokerRound());
+            player5.Add(new ConvertedPokerRound());
             player5[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.3));
 
             var player6 = new ConvertedPokerPlayer("player6", 16, 14, 5, 6, "?? ??");
-            player6.AddRound(new ConvertedPokerRound());
+            player6.Add(new ConvertedPokerRound());
             player6[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
 
             _pokerHand = new ConvertedPokerHand("PokerStars", 1234, DateTime.Now, 200, 100, 6);
