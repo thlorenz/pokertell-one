@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand
     /// <summary>
     /// Contains Information about a player
     /// </summary>
-    public abstract class PokerPlayer : IPokerPlayer
+    public abstract class PokerPlayer : IPokerPlayer, IEnumerable
     {
         #region Constants and Fields
 
@@ -23,14 +23,6 @@ namespace PokerTell.PokerHand
 
         #endregion
 
-        #region Constructors and Destructors
-
-        public PokerPlayer()
-        {
-            _rounds = new List<IPokerRound>();
-        }
-
-        #endregion
 
         #region Properties
 
@@ -39,13 +31,6 @@ namespace PokerTell.PokerHand
         /// </summary>
         public int AbsSeatNum { get; set; }
 
-        /// <summary>
-        /// Number of Rounds that player saw
-        /// </summary>
-        public int Count
-        {
-            get { return _rounds.Count; }
-        }
 
         /// <summary>
         /// Players Hole Cards - set to "??" when unknown
@@ -75,12 +60,7 @@ namespace PokerTell.PokerHand
         /// <summary>
         /// List of all Poker Rounds for current hand Preflop Flop
         /// </summary>
-        public ReadOnlyCollection<IPokerRound> Rounds
-        {
-            get { return _rounds.AsReadOnly(); }
-        }
-
-        protected List<IPokerRound> _rounds { get; set; }
+        public IList<IAquiredPokerRound> Rounds { get; set; }
 
         #endregion
 
@@ -128,7 +108,7 @@ namespace PokerTell.PokerHand
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _rounds.GetEnumerator();
+            return Rounds.GetEnumerator();
         }
 
         #endregion
@@ -171,7 +151,7 @@ namespace PokerTell.PokerHand
             }
             catch (ArgumentNullException excep)
             {
-                excep.Data.Add("betRoundCount = ", Count);
+                excep.Data.Add("betRoundCount = ", Rounds.Count);
                 Log.Error("Returning betting Rounds I go so far", excep);
             }
 
@@ -184,13 +164,13 @@ namespace PokerTell.PokerHand
         /// </summary>
         protected IPokerRound GetPokerRoundAtIndex(int index)
         {
-            if (_rounds[index] != null)
+            if (Rounds[index] != null)
             {
-                return _rounds[index];
+                return Rounds[index];
             }
             else
             {
-                throw new IndexOutOfRangeException("Round of index " + index + "doesn't exist" + " Max is " + Count);
+                throw new IndexOutOfRangeException("Round of index " + index + "doesn't exist" + " Max is " + Rounds.Count);
             }
         }
 

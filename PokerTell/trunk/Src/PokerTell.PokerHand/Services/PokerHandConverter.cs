@@ -196,7 +196,7 @@ namespace PokerTell.PokerHand.Services
             try
             {
                 // if no action in round initiate Player removal
-                if (aquiredPokerRound.Count < 1)
+                if (aquiredPokerRound.Actions.Count < 1)
                 {
                     return true;
                 }
@@ -211,7 +211,7 @@ namespace PokerTell.PokerHand.Services
                     aquiredPokerRound.RemoveAction(0);
 
                     // If no action left initiate Player removal
-                    if (aquiredPokerRound.Count < 1)
+                    if (aquiredPokerRound.Actions.Count < 1)
                     {
                         return true;
                     }

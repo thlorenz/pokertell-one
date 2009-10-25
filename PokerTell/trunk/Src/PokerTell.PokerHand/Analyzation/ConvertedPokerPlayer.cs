@@ -2,6 +2,7 @@ namespace PokerTell.PokerHand.Analyzation
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Reflection;
     using System.Text.RegularExpressions;
 
@@ -107,6 +108,19 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public StrategicPositions StrategicPosition { get; private set; }
 
+        /// <summary>
+        /// List of all Poker Rounds for current hand Preflop Flop
+        /// </summary>
+        public IList<IConvertedPokerRound> Rounds { get; private set; }
+
+        /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        public int Count
+        {
+            get { return Rounds.Count; }
+        }
+
         #endregion
 
         #region Indexers
@@ -164,7 +178,7 @@ namespace PokerTell.PokerHand.Analyzation
 
                 if (Count < 4)
                 {
-                    _rounds.Add(convertedRound);
+                    Rounds.Add(convertedRound);
                 }
                 else
                 {
@@ -412,6 +426,8 @@ namespace PokerTell.PokerHand.Analyzation
 
         void Initialize()
         {
+            Rounds = new List<IConvertedPokerRound>();
+           
             InitializeSequence();
             InitializeInPosition();
         }

@@ -18,7 +18,7 @@ namespace PokerTell.PokerHand.Analyzation
     /// Contains Info about a Poker Action
     /// </summary>
     [Serializable]
-    public class ConvertedPokerAction : IConvertedPokerAction, IPokerAction
+    public class ConvertedPokerAction : IConvertedPokerAction
     {
         readonly PokerAction _pokerAction;
 
@@ -64,12 +64,14 @@ namespace PokerTell.PokerHand.Analyzation
         public double Ratio
         {
             get { return _pokerAction.Ratio; }
+            set { _pokerAction.Ratio = value; }
         }
 
         /// <summary>The kind of action (call, fold etc.)</summary>
         public ActionTypes What
         {
             get { return _pokerAction.What; }
+            set { _pokerAction.What = value; }
         }
 
         public override string ToString()

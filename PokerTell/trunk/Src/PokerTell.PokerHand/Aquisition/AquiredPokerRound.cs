@@ -23,7 +23,7 @@ namespace PokerTell.PokerHand.Aquisition
 
         public IAquiredPokerAction this[int index]
         {
-            get { return (IAquiredPokerAction)GetPokerActionAtIndex(index); }
+            get { return (IAquiredPokerAction)Actions[index]; }
         }
 
         #endregion

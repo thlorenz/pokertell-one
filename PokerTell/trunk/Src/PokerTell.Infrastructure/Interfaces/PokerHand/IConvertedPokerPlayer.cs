@@ -1,8 +1,11 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
     using Enumerations.PokerHand;
 
-    public interface IConvertedPokerPlayer : IPokerPlayer
+    public interface IConvertedPokerPlayer : IPokerPlayer, IEnumerable
     {
         /// <summary>
         /// Is player in position on Flop, Turn or River? 0 = yes, 1 = no
@@ -36,6 +39,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// Position of Player in relation to Button (SB - BU)
         /// </summary>
         StrategicPositions StrategicPosition { get; }
+
+        /// <summary>
+        /// List of all Poker Rounds for current hand Preflop Flop
+        /// </summary>
+        IList<IConvertedPokerRound> Rounds { get; }
+
+        /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        int Count { get; }
 
         /// <summary>
         /// The this.

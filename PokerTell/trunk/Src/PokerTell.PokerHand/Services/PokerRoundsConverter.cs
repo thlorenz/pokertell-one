@@ -186,7 +186,7 @@ namespace PokerTell.PokerHand.Services
                     IAquiredPokerPlayer aquiredPlayer = _aquiredHand[playerIndex];
 
                     if (aquiredPlayer.Count > (int)street
-                        && aquiredPlayer[street].Count > ActionCount)
+                        && aquiredPlayer[street].Actions.Count > ActionCount)
                     {
                         ProcessRound(street, aquiredPlayer[street], _convertedHand[playerIndex]);
                     }
@@ -201,7 +201,7 @@ namespace PokerTell.PokerHand.Services
                     IAquiredPokerPlayer aquiredPlayer = _aquiredHand[playerIndex];
 
                     if (aquiredPlayer.Count > (int)street
-                        && aquiredPlayer[street].Count > ActionCount)
+                        && aquiredPlayer[street].Actions.Count > ActionCount)
                     {
                         ProcessRound(street, aquiredPlayer[street], _convertedHand[playerIndex]);
                     }

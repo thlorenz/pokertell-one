@@ -54,7 +54,7 @@ namespace PokerTell.PokerHand
         public override int GetHashCode()
         {
             int theHashCode = 0;
-            foreach (PokerAction theAction in this)
+            foreach (PokerAction theAction in Actions)
             {
                 theHashCode ^= theAction.GetHashCode();
             }
@@ -94,33 +94,7 @@ namespace PokerTell.PokerHand
 
         #region Implemented Interfaces
 
-        #region IEnumerable
-
-        /// <summary>
-        /// Inumerate the Round
-        /// </summary>
-        /// <returns>Enumerator of actions in round</returns>
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return Actions.GetEnumerator();
-        }
-
-        #endregion
-
         #region IPokerRound
-
-        public IPokerAction GetPokerActionAtIndex(int index)
-        {
-            if (Actions[index] != null)
-            {
-                return Actions[index];
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException(
-                    "PokerAction at index " + index + "is null" + "Count is " + Actions.Count);
-            }
-        }
 
         /// <summary>
         /// Gives a string representation of the round
@@ -130,7 +104,7 @@ namespace PokerTell.PokerHand
         {
             string actStr = string.Empty;
 
-            foreach (IPokerAction iA in this)
+            foreach (IPokerAction iA in Actions)
             {
                 actStr = actStr + iA.ToString() + " ";
             }

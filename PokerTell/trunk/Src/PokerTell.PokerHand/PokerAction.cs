@@ -2,9 +2,6 @@ namespace PokerTell.PokerHand
 {
     using System;
     using System.Reflection;
-    using System.Xml.Serialization;
-
-    using Analyzation;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;

@@ -1,8 +1,7 @@
-//Date: 5/2/2009
-
 namespace PokerTell.PokerHand.Aquisition
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
 
     using Infrastructure.Enumerations.PokerHand;
@@ -25,6 +24,7 @@ namespace PokerTell.PokerHand.Aquisition
 
         public AquiredPokerPlayer()
         {
+            Rounds = new List<IAquiredPokerRound>();
         }
 
         /// <summary>
@@ -33,12 +33,13 @@ namespace PokerTell.PokerHand.Aquisition
         /// Used when parsing a hand
         /// </summary>
         /// <param name="name">
-        /// <see cref="Name"></see>
+        /// <see cref="name"></see>
         /// </param>
         /// <param name="stack">
         /// <see cref="stack"></see>
         /// </param>
         public AquiredPokerPlayer(string name, double stack)
+            : this()
         {
             InitializeWith(name, stack);
         }
@@ -49,18 +50,19 @@ namespace PokerTell.PokerHand.Aquisition
         /// Used when adding a hand from Poker Office
         /// when using this constructor positions, position names, playernames need to be set later
         /// </summary>
-        /// <param name="playerID">
+        /// <param name="playerId">
         /// <see cref="PokerPlayer.PlayerId"></see>
         /// </param>
-        /// <param name="seat_num">
+        /// <param name="seatNum">
         /// <see cref="PokerPlayer.AbsSeatNum"></see>
         /// </param>
         /// <param name="holecards">
         /// <see cref="PokerPlayer.Holecards"></see>
         /// </param>
-        public AquiredPokerPlayer(long playerID, int seat_num, string holecards)
+        public AquiredPokerPlayer(long playerId, int seatNum, string holecards)
+            : this()
         {
-            InitializeWith(seat_num, holecards, playerID);
+            InitializeWith(seatNum, holecards, playerId);
         }
 
         #endregion
@@ -92,6 +94,14 @@ namespace PokerTell.PokerHand.Aquisition
 
         #region Indexers
 
+        /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        public int Count
+        {
+            get { return Rounds.Count;  }
+        }
+
         public IAquiredPokerRound this[Streets theStreet]
         {
             get { return this[(int)theStreet]; }
@@ -99,7 +109,7 @@ namespace PokerTell.PokerHand.Aquisition
 
         public IAquiredPokerRound this[int index]
         {
-            get { return (IAquiredPokerRound)Rounds[index]; }
+            get { return Rounds[index]; }
         }
 
         #endregion
@@ -133,7 +143,7 @@ namespace PokerTell.PokerHand.Aquisition
 
                 if (Count < 4)
                 {
-                    _rounds.Add(aquiredRound);
+                    Rounds.Add(aquiredRound);
                 }
                 else
                 {
@@ -145,6 +155,7 @@ namespace PokerTell.PokerHand.Aquisition
             {
                 Log.Error("Unexpected", excep);
             }
+
             return this;
         }
 
