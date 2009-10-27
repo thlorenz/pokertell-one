@@ -2,6 +2,8 @@ namespace PokerTell.PokerHand.Tests
 {
     using System;
 
+    using Factories;
+
     using Infrastructure.Enumerations.PokerHand;
 
     using Moq;
@@ -15,7 +17,9 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Aquisition;
     using PokerTell.UnitTests;
 
-    public class ThatConvertedPokerHand //: TestWithLog
+    using UnitTests.Tools;
+
+    public class ThatConvertedPokerHand : TestWithLog
     {
         #region Constants and Fields
 
@@ -40,8 +44,8 @@ namespace PokerTell.PokerHand.Tests
                 _stub.Valid(For.Site, "site"),
                 _stub.Out<ulong>(For.GameId),
                 _stub.Out<DateTime>(For.TimeStamp),
-                _stub.Out<double>(For.SB),
-                _stub.Out<double>(For.BB),
+                _stub.Valid(For.SB, 1.0),
+                _stub.Valid(For.BB, 2.0),
                 _stub.Valid(For.TotalPlayers, 2));
 
             _convertedHand = new ConvertedPokerHand(_aquiredHand);
@@ -255,6 +259,176 @@ namespace PokerTell.PokerHand.Tests
 
             Assert.That(player1.InPosition[(int)Streets.PreFlop], Is.EqualTo(0));
         }
+
+        [Test]
+        public void AffirmIsEqualTo_InitializedHandsAreEqual_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = InitializeConvertedHandWithSomeValidValues();
+
+            Affirm.That(hand1).IsEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsEqualTo_HandsWithSamePlayersAreEqual_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues()
+                .AddPlayer(new ConvertedPokerPlayer());
+            var hand2 = InitializeConvertedHandWithSomeValidValues()
+                .AddPlayer(new ConvertedPokerPlayer());
+
+            Affirm.That(hand1).IsEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsWithDifferentNumberOfPlayersAreEqual_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues()
+                .AddPlayer(new ConvertedPokerPlayer())
+                .AddPlayer(new ConvertedPokerPlayer());
+            var hand2 = InitializeConvertedHandWithSomeValidValues()
+                .AddPlayer(new ConvertedPokerPlayer());
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsWithDifferentPlayersAreEqual_Passes()
+        {
+            var player1 = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+            var player2 = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+            player2.Name = player2.Name + "difference";
+            
+            var hand1 = InitializeConvertedHandWithSomeValidValues()
+                .AddPlayer(player1);
+            var hand2 = InitializeConvertedHandWithSomeValidValues()
+                .AddPlayer(player2);
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsGameIdsAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = InitializeConvertedHandWithSomeValidValues();
+            hand2.HandId = hand2.HandId + 1;
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsSitesAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = new ConvertedPokerHand(
+                hand1.Site + "different", hand1.GameId, hand1.TimeStamp, hand1.BB, hand1.SB, hand1.TotalPlayers);
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsSmallBlindssAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = new ConvertedPokerHand(
+                hand1.Site, hand1.GameId, hand1.TimeStamp, hand1.BB, hand1.SB + 1, hand1.TotalPlayers);
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsTotalPlayerssAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = new ConvertedPokerHand(
+                hand1.Site, hand1.GameId, hand1.TimeStamp, hand1.BB, hand1.SB, hand1.TotalPlayers + 1);
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsBigBlindsAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = new ConvertedPokerHand(
+                hand1.Site, hand1.GameId, hand1.TimeStamp, hand1.BB + 1, hand1.SB, hand1.TotalPlayers);
+
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsTableNamesAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = InitializeConvertedHandWithSomeValidValues();
+            hand2.TableName = hand1.TableName + "difference";
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsTournamentIdsAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = InitializeConvertedHandWithSomeValidValues();
+            hand2.TournamentId = hand1.TournamentId + 1;
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void AffirmIsNotEqualTo_HandsAntesAreDifferent_Passes()
+        {
+            var hand1 = InitializeConvertedHandWithSomeValidValues();
+            var hand2 = InitializeConvertedHandWithSomeValidValues();
+            hand2.Ante = hand1.Ante + 1;
+            Affirm.That(hand1).IsNotEqualTo(hand2);
+        }
+
+        [Test]
+        public void BinaryDeserialize_UnInitializedConvertedHand_ReturnsSameHand()
+        {
+            Affirm.That(_convertedHand.BinaryDeserializedInMemory()).IsEqualTo(_convertedHand);
+        }
+
+        [Test]
+        public void BinaryDeserialize_InitializedConvertedHand_ReturnsSameHand()
+        {
+            var convertedHand = InitializeConvertedHandWithSomeValidValues();
+            Affirm.That(convertedHand.BinaryDeserializedInMemory()).IsEqualTo(convertedHand);
+        }
+
+        [Test]
+        public void BinaryDeserialize_ConvertedHandWithEmptyPlayer_ReturnsSameHand()
+        {
+            var convertedHand = InitializeConvertedHandWithSomeValidValues();
+            convertedHand.AddPlayer(new ConvertedPokerPlayer());
+            Affirm.That(convertedHand.BinaryDeserializedInMemory()).IsEqualTo(convertedHand);
+        }
+
+        [Test]
+        public void BinaryDeserialize_ConvertedHandWithInitializedPlayer_ReturnsSameHand()
+        {
+            var convertedHand = InitializeConvertedHandWithSomeValidValues();
+            convertedHand.AddPlayer(ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues());
+            Affirm.That(convertedHand.BinaryDeserializedInMemory()).IsEqualTo(convertedHand);
+        }
+
+        [Test]
+        public void BinaryDeserialize_ConvertedHandTwoInitializedPlayers_ReturnsSameHand()
+        {
+            var convertedHand = InitializeConvertedHandWithSomeValidValues();
+            convertedHand
+                .AddPlayer(ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues())
+                .AddPlayer(ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues());
+
+            Affirm.That(convertedHand.BinaryDeserializedInMemory()).IsEqualTo(convertedHand);
+        }
+
         #endregion
+
+        static IConvertedPokerHand InitializeConvertedHandWithSomeValidValues()
+        {
+            return new ConvertedPokerHand().InitializeWith("someSite", 1, DateTime.MinValue, 2.0, 1.0, 6);
+        }
     }
 }

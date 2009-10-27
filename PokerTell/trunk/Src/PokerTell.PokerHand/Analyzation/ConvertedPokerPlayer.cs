@@ -3,25 +3,24 @@ namespace PokerTell.PokerHand.Analyzation
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using System.Text.RegularExpressions;
-    using System.Xml.Serialization;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
 
     using log4net;
 
     using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools;
+    using Tools.Extensions;
 
     /// <summary>
     /// Description of PokerPlayer.
     /// </summary>
     [Serializable]
-    [XmlInclude(typeof(ConvertedPokerRound))]
-    public class ConvertedPokerPlayer : PokerPlayer<IConvertedPokerRound>, IConvertedPokerPlayer
+    public class ConvertedPokerPlayer : PokerPlayer, IConvertedPokerPlayer
     {
         #region Constants and Fields
 
@@ -29,6 +28,21 @@ namespace PokerTell.PokerHand.Analyzation
         /// The Log.
         /// </summary>
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        int[] _inPosition;
+
+        int _mAfter;
+
+        int _mBefore;
+
+        [NonSerialized]
+        int _preflopRaiseInFrontPos;
+
+        IList<IConvertedPokerRound> _rounds;
+
+        string[] _sequence;
+
+        StrategicPositions _strategicPosition;
 
         #endregion
 
@@ -79,24 +93,57 @@ namespace PokerTell.PokerHand.Analyzation
         #region Properties
 
         /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        public int Count
+        {
+            get { return Rounds.Count; }
+        }
+
+        /// <summary>
         /// Is player in position on Flop, Turn or River? 0 = yes, 1 = no
         /// </summary>
-        public int[] InPosition { get; private set; }
+        public int[] InPosition
+        {
+            get { return _inPosition; }
+            protected set { _inPosition = value; }
+        }
 
         /// <summary>
         /// M of player after the hand is over
         /// </summary>
-        public int MAfter { get; set; }
+        public int MAfter
+        {
+            get { return _mAfter; }
+            set { _mAfter = value; }
+        }
 
         /// <summary>
         /// M of player at the start of the hand
         /// </summary>
-        public int MBefore { get; set; }
+        public int MBefore
+        {
+            get { return _mBefore; }
+            set { _mBefore = value; }
+        }
 
         /// <summary>
         /// Position, that a preflop raise came from, before player could act
         /// </summary>
-        public int PreflopRaiseInFrontPos { get; private set; }
+        public int PreflopRaiseInFrontPos
+        {
+            get { return _preflopRaiseInFrontPos; }
+            protected set { _preflopRaiseInFrontPos = value; }
+        }
+
+        /// <summary>
+        /// List of all Poker Rounds for current hand Preflop Flop
+        /// </summary>
+        public IList<IConvertedPokerRound> Rounds
+        {
+            get { return _rounds; }
+            set { _rounds = value; }
+        }
 
         /// <summary>
         /// Contains Sequence strings for each Round of the Player
@@ -104,16 +151,71 @@ namespace PokerTell.PokerHand.Analyzation
         /// Sometimes referred to as the 'line' and is used to determine bettin patterns
         /// during statistical analysis
         /// </summary>
-        public string[] Sequence { get; private set; }
+        public string[] Sequence
+        {
+            get { return _sequence; }
+            protected set { _sequence = value; }
+        }
 
         /// <summary>
         /// Position of Player in relation to Button (SB - BU)
         /// </summary>
-        public StrategicPositions StrategicPosition { get; private set; }
+        public StrategicPositions StrategicPosition
+        {
+            get { return _strategicPosition; }
+            protected set { _strategicPosition = value; }
+        }
 
         #endregion
 
-        #region Public Methods
+        #region Indexers
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        public IConvertedPokerRound this[int index]
+        {
+            get { return Rounds[index]; }
+        }
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="theStreet">
+        /// The the street.
+        /// </param>
+        public IConvertedPokerRound this[Streets theStreet]
+        {
+            get { return this[(int)theStreet]; }
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComparable<IConvertedPokerPlayer>
+
+        public int CompareTo(IConvertedPokerPlayer other)
+        {
+            if (Position < other.Position)
+            {
+                return -1;
+            }
+
+            if (Position > other.Position)
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        #endregion
+
+        #region IConvertedPokerPlayer
 
         /// <summary>
         /// Add a new Poker Round to the player
@@ -157,17 +259,55 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
-        /// <summary>
-        /// The get enumerator.
-        /// </summary>
-        /// <returns>
-        /// </returns>
-        public IEnumerator GetEnumerator()
+        public override bool Equals(object obj)
         {
-            return Rounds.GetEnumerator();
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return Equals(obj as IConvertedPokerPlayer);
         }
 
-        public IConvertedPokerPlayer InitializeWith(string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards)
+        public bool Equals(IConvertedPokerPlayer other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return other.GetHashCode().Equals(GetHashCode())
+                   && other.InPosition.EqualsArray(InPosition)
+                   && other.Rounds.ToArray().EqualsArray(Rounds.ToArray())
+                   && other.Sequence.EqualsArray(Sequence);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = base.GetHashCode();
+
+                result = (result * 397) ^ MAfter;
+                result = (result * 397) ^ MBefore;
+                result = (result * 397) ^ StrategicPosition.GetHashCode();
+
+                return result;
+            }
+        }
+
+        public IConvertedPokerPlayer InitializeWith(
+            string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards)
         {
             Initialize();
 
@@ -339,10 +479,32 @@ namespace PokerTell.PokerHand.Analyzation
             }
         }
 
-        public int CompareTo(IConvertedPokerPlayer other)
+        #endregion
+
+        #region IEnumerable
+
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return base.CompareTo(other);
+            return Rounds.GetEnumerator();
         }
+
+        #endregion
+
+        #region IEnumerable<IConvertedPokerRound>
+
+        /// <summary>
+        /// The get enumerator.
+        /// </summary>
+        /// <returns>
+        /// </returns>
+        public IEnumerator<IConvertedPokerRound> GetEnumerator()
+        {
+            return Rounds.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IPokerPlayer
 
         /// <summary>
         /// Gives string representation of Players info and actions
@@ -372,7 +534,29 @@ namespace PokerTell.PokerHand.Analyzation
 
         #endregion
 
+        #endregion
+
         #region Methods
+
+        string BettingRoundsToString()
+        {
+            string betting = string.Empty;
+            try
+            {
+                // Iterate through rounds pre-flop to river
+                foreach (IConvertedPokerRound round in this)
+                {
+                    betting += "| " + round;
+                }
+            }
+            catch (ArgumentNullException excep)
+            {
+                excep.Data.Add("betRoundCount = ", Rounds.Count);
+                Log.Error("Returning betting Rounds I go so far", excep);
+            }
+
+            return betting;
+        }
 
         /// <summary>
         /// The heads up.
@@ -396,7 +580,8 @@ namespace PokerTell.PokerHand.Analyzation
         void Initialize()
         {
             Rounds = new List<IConvertedPokerRound>();
-           
+
+            PreflopRaiseInFrontPos = 0;
             InitializeSequence();
             InitializeInPosition();
         }
@@ -470,15 +655,5 @@ namespace PokerTell.PokerHand.Analyzation
         }
 
         #endregion
-
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-   }
+    }
 }

@@ -7,12 +7,12 @@ namespace PokerTell.UnitTests.Tools
 
     public static class TestXmlSerialization
     {
-        public static TType DeserializedInMemory<TType>(this TType originalObject, bool writeXmlStringToConsole) where TType : new()
+        public static TType XmlDeserializedInMemory<TType>(this TType originalObject, bool writeXmlStringToConsole) where TType : new()
         {
             return SerializeAndDeserializeInMemory(originalObject, writeXmlStringToConsole);
         }
 
-        public static TType DeserializedInMemory<TType>(this TType originalObject) where TType : new()
+        public static TType XmlDeserializedInMemory<TType>(this TType originalObject) where TType : new()
         {
             return SerializeAndDeserializeInMemory(originalObject, false);
         }

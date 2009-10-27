@@ -4,9 +4,5 @@ namespace Tools.WPF.Interfaces
 
     public interface IViewModel : INotifyPropertyChanged
     {
-        object Content { get; set; }
-
-        bool ThrowOnInvalidPropertyName { get; set; }
-
     }
 }

@@ -106,6 +106,28 @@ namespace PokerTell.PokerHand.ViewModels
                        : string.Empty;
         }
 
+        public override bool Equals(object obj)
+        {
+            return Equals((HandHistoryRow)obj);
+        }
         #endregion
+
+        public bool Equals(HandHistoryRow other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return Equals(other._pokerPlayer, _pokerPlayer);
+        }
+
+        public override int GetHashCode()
+        {
+            return _pokerPlayer != null ? _pokerPlayer.GetHashCode() : 0;
+        }
     }
 }

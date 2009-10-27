@@ -13,21 +13,32 @@ namespace PokerTell.PokerHand.ViewModels
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
+    [Serializable]
     public class HandHistoriesViewModel : ViewModel, IHandHistoriesViewModel
     {
         #region Constants and Fields
 
+        [NonSerialized]
         readonly IConstructor<IHandHistoryViewModel> _handHistoryViewModelMake;
 
         readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
 
+        [NonSerialized]
         readonly ObservableCollection<int> _pageNumbers;
 
+        string _heroName;
+
+        [NonSerialized]
         ICommand _navigateBackwardCommand;
 
+        [NonSerialized]
         ICommand _navigateForwardCommand;
 
         bool _showPreflopFolds;
+
+        bool _showSelectedOnly;
+
+        bool _showSelectOption;
 
         #endregion
 
@@ -46,6 +57,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region Events
 
+        [field: NonSerialized]
         public event Action PageTurn;
 
         #endregion
@@ -67,7 +79,11 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _itemsPagesManager.ItemsOnCurrentPage; }
         }
 
-        public string HeroName { get; set; }
+        public string HeroName
+        {
+            get { return _heroName; }
+            set { _heroName = value; }
+        }
 
         public ICommand NavigateBackwardCommand
         {
@@ -125,30 +141,27 @@ namespace PokerTell.PokerHand.ViewModels
             set
             {
                 _showPreflopFolds = value;
-                foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
-                {
-                    model.ShowPreflopFolds = value;
-                }
+                OnShowPreflopFoldsChanged();
             }
         }
 
         public bool ShowSelectedOnly
         {
+            get { return _showSelectedOnly; }
             set
             {
-                _itemsPagesManager.FilterItems(model => ((!value) || model.IsSelected));
-                UpdatePageInfo();
+                _showSelectedOnly = value;
+                OnShowSelectedOnlyChanged();
             }
         }
 
         public bool ShowSelectOption
         {
+            get { return _showSelectOption; }
             set
             {
-                foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
-                {
-                    model.ShowSelectOption = value;
-                }
+                _showSelectOption = value;
+                OnShowSelectOptionChanged();
             }
         }
 
@@ -204,7 +217,7 @@ namespace PokerTell.PokerHand.ViewModels
         {
             foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
             {
-                handHistoryViewModel.SelectRowOfPlayer(clearSelection ? null : HeroName);
+                handHistoryViewModel.SelectRowOfPlayer(clearSelection ? null : _heroName);
             }
         }
 
@@ -213,6 +226,28 @@ namespace PokerTell.PokerHand.ViewModels
         #endregion
 
         #region Methods
+
+        protected virtual void OnShowPreflopFoldsChanged()
+        {
+            foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
+            {
+                model.ShowPreflopFolds = _showPreflopFolds;
+            }
+        }
+
+        protected virtual void OnShowSelectedOnlyChanged()
+        {
+            _itemsPagesManager.FilterItems(model => ((!_showSelectedOnly) || model.IsSelected));
+            UpdatePageInfo();
+        }
+
+        protected virtual void OnShowSelectOptionChanged()
+        {
+            foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
+            {
+                model.ShowSelectOption = _showSelectOption;
+            }
+        }
 
         void InvokePageTurn()
         {
@@ -230,6 +265,7 @@ namespace PokerTell.PokerHand.ViewModels
             InvokePageTurn();
 
             _pageNumbers.Clear();
+          
             for (int i = 0; i < _itemsPagesManager.NumberOfPages; i++)
             {
                 _pageNumbers.Add(i + 1);

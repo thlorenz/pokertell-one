@@ -210,7 +210,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
             const double pot4 = pot3 + (toCall * 3 * 2);
 
             var action5 = new AquiredPokerAction(ActionTypes.C, toCall * 3 * 2);
-            const double relativeRatio5 = (toCall * 2 * 3) / pot4;
+            const double relativeRatio5 = (toCall * 3 * 2) / pot4;
 
             var action6 = new AquiredPokerAction(ActionTypes.F, 1.0);
 

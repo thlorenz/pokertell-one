@@ -34,21 +34,12 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region Properties
 
-        public CommandViewModel BrowseHands
-        {
-            get { throw new NotImplementedException(); }
-        }
 
         public HandHistoryViewModel CurrentHandHistory { get; private set; }
 
         public int LastHandIndex
         {
             get { return _hands.Count - 1; }
-        }
-
-        public CommandViewModel Investigate
-        {
-            get { throw new NotImplementedException(); }
         }
 
         public int SelectedIndex

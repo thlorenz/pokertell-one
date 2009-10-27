@@ -3,28 +3,32 @@ namespace PokerTell.PokerHand.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Reflection;
+    using System.Runtime.Serialization;
     using System.Text;
-
-    using log4net;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.WPF.ViewModels;
 
+    [Serializable]
     public class HandHistoryViewModel : ViewModel, IHandHistoryViewModel
     {
         #region Constants and Fields
 
         protected Action<IPokerHandCondition> _adjustToConditionAction;
 
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        [NonSerialized]
+        IBoardViewModel _board;
+
+        IConvertedPokerHand _hand;
 
         bool _isSelected;
 
         string _note;
+
+        [NonSerialized]
+        IList<IHandHistoryRow> _playerRows;
 
         int _selectedRow;
 
@@ -75,11 +79,19 @@ namespace PokerTell.PokerHand.ViewModels
             get { return Hand.BB.ToString(); }
         }
 
-        public IBoardViewModel Board { get; private set; }
+        public IBoardViewModel Board
+        {
+            get { return _board; }
+        }
 
         public string GameId
         {
             get { return Hand.GameId.ToString(); }
+        }
+
+        public IConvertedPokerHand Hand
+        {
+            get { return _hand; }
         }
 
         public bool HasAnte
@@ -112,7 +124,11 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        public IList<IHandHistoryRow> PlayerRows { get; private set; }
+        public IList<IHandHistoryRow> PlayerRows
+        {
+            get { return _playerRows; }
+            private set { _playerRows = value; }
+        }
 
         public int SelectedRow
         {
@@ -126,6 +142,8 @@ namespace PokerTell.PokerHand.ViewModels
 
         public bool ShowPreflopFolds
         {
+            get { return _showPreflopFolds; }
+
             set
             {
                 _showPreflopFolds = value;
@@ -178,8 +196,6 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        public IConvertedPokerHand Hand { get; private set; }
-
         #endregion
 
         #region Public Methods
@@ -204,16 +220,21 @@ namespace PokerTell.PokerHand.ViewModels
 
         public IHandHistoryViewModel Initialize(bool showPreflopFolds)
         {
+            CreateBoardAndPlayerRows();
+
             ShowPreflopFolds = showPreflopFolds;
-
-            PlayerRows = new ObservableCollection<IHandHistoryRow>();
-            Board = new BoardViewModel();
-
             ShowSelectOption = false;
             SelectedRow = -1;
             IsSelected = false;
             Visible = true;
+           
             return this;
+        }
+
+        void CreateBoardAndPlayerRows()
+        {
+            PlayerRows = new ObservableCollection<IHandHistoryRow>();
+            _board = new BoardViewModel();
         }
 
         /// <summary>
@@ -225,7 +246,7 @@ namespace PokerTell.PokerHand.ViewModels
         {
             // If player not found or null set to -1 which will tell DataGrid to select no row
             int rowToSelect = -1;
-           
+
             if (playerName != null)
             {
                 for (int i = 0; i < PlayerRows.Count; i++)
@@ -243,7 +264,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
         {
-            Hand = hand;
+            _hand = hand;
 
             Board.UpdateWith(hand.Board);
 
@@ -285,5 +306,61 @@ namespace PokerTell.PokerHand.ViewModels
         }
 
         #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != typeof(HandHistoryViewModel))
+            {
+                return false;
+            }
+            return Equals((HandHistoryViewModel)obj);
+        }
+
+        [OnDeserialized]
+        void OnDeserialized(StreamingContext context)
+        {
+            CreateBoardAndPlayerRows();
+            if (_hand != null)
+            {
+                UpdateWith(_hand);
+            }
+        }
+
+        public bool Equals(HandHistoryViewModel other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return other.GetHashCode().Equals(GetHashCode());
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = _hand != null ? _hand.GetHashCode() : 0;
+                result = (result * 397) ^ _isSelected.GetHashCode();
+                result = (result * 397) ^ (_note != null ? _note.GetHashCode() : 0);
+                result = (result * 397) ^ _visible.GetHashCode();
+                result = (result * 397) ^ _showPreflopFolds.GetHashCode();
+                result = (result * 397) ^ _showSelectOption.GetHashCode();
+                result = (result * 397) ^ _selectedRow;
+                return result;
+            }
+        }
     }
 }

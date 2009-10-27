@@ -1,11 +1,13 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
 
     using Enumerations.PokerHand;
 
-    public interface IConvertedPokerPlayer : IPokerPlayer<IConvertedPokerRound>, IEnumerable, IComparable<IConvertedPokerPlayer>
+    public interface IConvertedPokerPlayer : IPokerPlayer,
+                                             IEnumerable<IConvertedPokerRound>,
+                                             IComparable<IConvertedPokerPlayer>
     {
         /// <summary>
         /// Is player in position on Flop, Turn or River? 0 = yes, 1 = no
@@ -39,6 +41,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// Position of Player in relation to Button (SB - BU)
         /// </summary>
         StrategicPositions StrategicPosition { get; }
+
+        /// <summary>
+        /// List of all Poker Rounds for current hand Preflop Flop
+        /// </summary>
+        IList<IConvertedPokerRound> Rounds { get; set; }
+
+        /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        int Count { get; }
 
         /// <summary>
         /// Add a new Poker Round to the player
@@ -108,5 +120,33 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// A number from 0 (SB) to TotalPlayers -1 (BU)
         /// </param>
         void SetStrategicPosition(int playerCount);
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        IConvertedPokerRound this[int index]
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="theStreet">
+        /// The the street.
+        /// </param>
+        IConvertedPokerRound this[Streets theStreet]
+        {
+            get;
+        }
+
+        bool Equals(object obj);
+
+        bool Equals(IConvertedPokerPlayer other);
+
+        int GetHashCode();
     }
 }

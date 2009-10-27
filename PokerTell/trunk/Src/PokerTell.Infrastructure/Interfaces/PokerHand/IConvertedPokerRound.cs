@@ -2,13 +2,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
 
-    public interface IConvertedPokerRound : IPokerRound<IConvertedPokerAction>
+    public interface IConvertedPokerRound : IEnumerable
     {
         /// <summary>
         /// Number of actions in this round
         /// </summary>
         int Count { get; }
+
+        IList<IConvertedPokerAction> Actions { get; }
 
         /// <summary>
         /// Gives a string representation of the round
@@ -25,5 +28,10 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// <exception cref="ArgumentNullException">
         /// </exception>
         IConvertedPokerRound Add(IConvertedPokerAction action);
+
+        IConvertedPokerAction this[int index]
+        {
+            get;
+        }
     }
 }

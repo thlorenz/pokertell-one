@@ -5,7 +5,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
     using Enumerations.PokerHand;
 
-    public interface IPokerPlayer<TRound>
+    public interface IPokerPlayer
     {
         /// <summary>
         /// Absolute seat number of player as stated in the Hand History
@@ -37,29 +37,5 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </summary>
         /// <returns>String representation of Players info and actions</returns>
         string ToString();
-
-        /// <summary>
-        /// Number of Rounds that player saw
-        /// </summary>
-        int Count { get; }
-
-        #region Indexers
-
-        TRound this[Streets theStreet]
-        {
-            get;
-        }
-
-        TRound this[int index]
-        {
-            get;
-        }
-
-        /// <summary>
-        /// List of all Poker Rounds for current hand Preflop Flop
-        /// </summary>
-        IList<TRound> Rounds { get; }
-
-        #endregion
     }
 }

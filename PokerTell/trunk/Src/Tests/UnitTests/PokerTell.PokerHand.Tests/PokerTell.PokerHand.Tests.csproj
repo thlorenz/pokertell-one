@@ -113,10 +113,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\ConvertedFactory.cs" />
+    <Compile Include="Fakes\DecapsulatedConvertedPlayer.cs" />
+    <Compile Include="Fakes\FakeHandHistoriesViewModel.cs" />
     <Compile Include="Fakes\MockHandHistoryViewModel.cs" />
     <Compile Include="Fakes\StubCondition.cs" />
     <Compile Include="ThatConvertedPokerAction.cs" />
     <Compile Include="ThatConvertedPokerRound.cs" />
+    <Compile Include="ThatPokerPlayer.cs" />
     <Compile Include="ThatSawFlopCondition.cs" />
     <Compile Include="ThatHandHistoriesViewModel.cs" />
     <Compile Include="ThatInvestedMoneyCondition.cs" />

@@ -12,9 +12,9 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         ObservableCollection<IHandHistoryViewModel> HandHistoriesOnPage { get; }
 
-        bool ShowSelectOption { set; }
+        bool ShowSelectOption { get; set; }
 
-        bool ShowSelectedOnly { set; }
+        bool ShowSelectedOnly { get; set; }
 
         bool ShowPreflopFolds { get; set; }
 

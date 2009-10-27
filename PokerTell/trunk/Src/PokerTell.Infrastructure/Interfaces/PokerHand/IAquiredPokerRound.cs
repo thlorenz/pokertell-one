@@ -1,11 +1,15 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
 
-    public interface IAquiredPokerRound : IPokerRound<IAquiredPokerAction>
+    public interface IAquiredPokerRound : IEnumerable
     {
         double ChipsGained { get; }
-       
+
+        IList<IAquiredPokerAction> Actions { get; }
+
         IAquiredPokerRound AddAction(IAquiredPokerAction theAction);
 
         /// <summary>
@@ -31,5 +35,10 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// <exception cref="ArgumentNullException">
         /// </exception>
         IAquiredPokerRound Add(IAquiredPokerAction action);
+
+        IAquiredPokerAction this[int index]
+        {
+            get;
+        }
     }
 }

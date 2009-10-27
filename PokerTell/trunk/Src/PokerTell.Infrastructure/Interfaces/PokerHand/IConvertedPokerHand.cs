@@ -14,12 +14,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         int HandId { get; set; }
 
         /// <summary>
-        /// Note that the user made about this hand using the Reporting tools
-        /// Each array element will contain one line of the RichTextBox
-        /// </summary>
-        string[] Note { get; set; }
-
-        /// <summary>
         /// Gets Players.
         /// </summary>
         ReadOnlyCollection<IConvertedPokerPlayer> Players { get; }

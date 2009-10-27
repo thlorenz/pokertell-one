@@ -4,16 +4,28 @@ namespace Tools
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Runtime.Serialization;
 
-    using Interfaces;
+    using Tools.Interfaces;
 
+    [Serializable]
     public class ItemsPagesManager<T> : IItemsPagesManager<T>
     {
         #region Constants and Fields
 
-        uint _itemsPerPage;
+        IList<T> _allItems;
 
         IList<T> _allShownItems;
+
+        uint _currentPage;
+
+        [NonSerialized]
+        ObservableCollection<T> _itemsOnCurrentPage;
+
+        uint _itemsPerPage;
+
+        [NonSerialized]
+        uint _numberOfPages;
 
         #endregion
 
@@ -24,19 +36,15 @@ namespace Tools
             ItemsOnCurrentPage = new ObservableCollection<T>();
         }
 
-        public IItemsPagesManager<T> InitializeWith(uint itemsPerPage, IList<T> allItems)
-        {
-            AllItems = allItems;
-            _allShownItems = AllItems;
-            _itemsPerPage = itemsPerPage;
-            Initialize();
-
-            return this;
-        }
-
         #endregion
 
         #region Properties
+
+        public IList<T> AllItems
+        {
+            get { return _allItems; }
+            private set { _allItems = value; }
+        }
 
         public IList<T> AllShownItems
         {
@@ -53,17 +61,34 @@ namespace Tools
             get { return CurrentPage < NumberOfPages; }
         }
 
-        public uint CurrentPage { get; private set; }
+        public uint CurrentPage
+        {
+            get { return _currentPage; }
+            private set { _currentPage = value; }
+        }
 
-        public ObservableCollection<T> ItemsOnCurrentPage { get; private set; }
+        public ObservableCollection<T> ItemsOnCurrentPage
+        {
+            get { return _itemsOnCurrentPage; }
+            private set { _itemsOnCurrentPage = value; }
+        }
 
-        public uint NumberOfPages { get; private set; }
+        public uint ItemsPerPage
+        {
+            get { return _itemsPerPage; }
+        }
 
-        public IList<T> AllItems { get; private set; }
+        public uint NumberOfPages
+        {
+            get { return _numberOfPages; }
+            private set { _numberOfPages = value; }
+        }
 
         #endregion
 
-        #region Public Methods
+        #region Implemented Interfaces
+
+        #region IItemsPagesManager<T>
 
         public IItemsPagesManager<T> FilterItems(Predicate<T> isMatch)
         {
@@ -72,15 +97,25 @@ namespace Tools
             return this;
         }
 
-        public IItemsPagesManager<T> NavigateForward()
+        public IItemsPagesManager<T> InitializeWith(uint itemsPerPage, IList<T> allItems)
         {
-            NavigateToPage(CurrentPage + 1);
+            AllItems = allItems;
+            _allShownItems = AllItems;
+            _itemsPerPage = itemsPerPage;
+            Initialize();
+
             return this;
         }
 
         public IItemsPagesManager<T> NavigateBackward()
         {
             NavigateToPage(CurrentPage - 1);
+            return this;
+        }
+
+        public IItemsPagesManager<T> NavigateForward()
+        {
+            NavigateToPage(CurrentPage + 1);
             return this;
         }
 
@@ -95,11 +130,11 @@ namespace Tools
             // Adjust PageNumber (Page 0 doesn't exist in a document but it exists in zero based List)  
             pageNumber--;
 
-            uint index = pageNumber * _itemsPerPage;
+            uint index = pageNumber * ItemsPerPage;
             int itemsOnNewPage = 0;
 
             ItemsOnCurrentPage.Clear();
-            while (index < AllShownItems.Count && itemsOnNewPage < _itemsPerPage)
+            while (index < AllShownItems.Count && itemsOnNewPage < ItemsPerPage)
             {
                 ItemsOnCurrentPage.Add(AllShownItems[(int)index]);
                 itemsOnNewPage++;
@@ -112,7 +147,15 @@ namespace Tools
 
         #endregion
 
+        #endregion
+
         #region Methods
+
+        void DetermineNumberOfPages()
+        {
+            NumberOfPages = (uint)(AllShownItems.Count / ItemsPerPage);
+            NumberOfPages = AllShownItems.Count % ItemsPerPage == 0 ? NumberOfPages : NumberOfPages + 1;
+        }
 
         void Initialize()
         {
@@ -120,10 +163,13 @@ namespace Tools
             NavigateToPage(1);
         }
 
-        void DetermineNumberOfPages()
+        [OnDeserialized]
+        void OnDeserialized(StreamingContext context)
         {
-            NumberOfPages = (uint)(AllShownItems.Count / _itemsPerPage);
-            NumberOfPages = AllShownItems.Count % _itemsPerPage == 0 ? NumberOfPages : NumberOfPages + 1;
+            DetermineNumberOfPages();
+
+            ItemsOnCurrentPage = new ObservableCollection<T>();
+            NavigateToPage(_currentPage);
         }
 
         #endregion

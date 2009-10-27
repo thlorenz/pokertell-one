@@ -1,5 +1,6 @@
 namespace Tools.Tests
 {
+    using System;
     using System.Collections.Generic;
 
     using Moq;
@@ -7,6 +8,7 @@ namespace Tools.Tests
     using NUnit.Framework;
 
     using PokerTell.UnitTests;
+    using PokerTell.UnitTests.Tools;
 
     using Tools.Interfaces;
 
@@ -331,6 +333,77 @@ namespace Tools.Tests
                 .NavigateToPage(2);
 
             Assert.That(_manager.ItemsOnCurrentPage, Is.EqualTo(itemsOnSecondPage));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresItemsPerPage()
+        {
+           const uint itemsPerPage = 1;
+            _manager
+                .InitializeWith(itemsPerPage, new List<int>());
+
+            Assert.That(_manager.BinaryDeserializedInMemory().ItemsPerPage, Is.EqualTo(_manager.ItemsPerPage));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresAllItems()
+        {
+            const uint someItemsPerPage = 1;
+            IList<int> allItems = new List<int> { FirstItem, SecondItem };
+           
+            _manager
+                .InitializeWith(someItemsPerPage, allItems);
+            
+            Assert.That(_manager.BinaryDeserializedInMemory().AllItems, Is.EqualTo(_manager.AllItems));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresAllShownItems()
+        {
+            const uint someItemsPerPage = 1;
+            IList<int> allItems = new List<int> { FirstItem, SecondItem };
+
+            _manager
+                .InitializeWith(someItemsPerPage, allItems);
+
+            Assert.That(_manager.BinaryDeserializedInMemory().AllShownItems, Is.EqualTo(_manager.AllShownItems));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresNumberOfPages()
+        {
+            const uint someItemsPerPage = 1;
+            IList<int> allItems = new List<int> { FirstItem, SecondItem };
+
+            _manager
+                .InitializeWith(someItemsPerPage, allItems);
+           
+            Assert.That(_manager.BinaryDeserializedInMemory().NumberOfPages, Is.EqualTo(_manager.NumberOfPages));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresCurrentPage()
+        {
+            const uint someItemsPerPage = 1;
+            IList<int> allItems = new List<int> { FirstItem, SecondItem };
+
+            _manager
+                .InitializeWith(someItemsPerPage, allItems)
+                .NavigateToPage(2);
+            Assert.That(_manager.BinaryDeserializedInMemory().CurrentPage, Is.EqualTo(_manager.CurrentPage));
+        }
+
+         [Test]
+        public void BinaryDeserialize_Serialized_RestoresItemsOnCurrentPage()
+        {
+            const uint someItemsPerPage = 1;
+            IList<int> allItems = new List<int> { FirstItem, SecondItem };
+
+            _manager
+                .InitializeWith(someItemsPerPage, allItems)
+                .NavigateToPage(2);
+
+            Assert.That(_manager.BinaryDeserializedInMemory().ItemsOnCurrentPage, Is.EqualTo(_manager.ItemsOnCurrentPage));
         }
 
         #endregion

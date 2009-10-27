@@ -1,6 +1,7 @@
 namespace PokerTell.PokerHand.Aquisition
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -12,7 +13,7 @@ namespace PokerTell.PokerHand.Aquisition
     /// <summary>
     /// Description of PokerPlayer.
     /// </summary>
-    public class AquiredPokerPlayer : PokerPlayer<IAquiredPokerRound>, IAquiredPokerPlayer
+    public class AquiredPokerPlayer : PokerPlayer, IAquiredPokerPlayer, IComparable<IAquiredPokerPlayer>
     {
         #region Constants and Fields
 
@@ -89,6 +90,19 @@ namespace PokerTell.PokerHand.Aquisition
         /// Determined by the Parser from the Hand History
         /// </summary>
         public double StackBefore { get; set; }
+
+        /// <summary>
+        /// Number of Rounds that player saw
+        /// </summary>
+        public int Count
+        {
+            get { return Rounds.Count; }
+        }
+
+        /// <summary>
+        /// List of all Poker Rounds for current hand Preflop Flop
+        /// </summary>
+        public IList<IAquiredPokerRound> Rounds { get; set; }
 
         #endregion
 
@@ -285,5 +299,114 @@ namespace PokerTell.PokerHand.Aquisition
         }
 
         #endregion
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        public IAquiredPokerRound this[int index]
+        {
+            get { return Rounds[index]; }
+        }
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="theStreet">
+        /// The the street.
+        /// </param>
+        public IAquiredPokerRound this[Streets theStreet]
+        {
+            get { return this[(int)theStreet]; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((AquiredPokerPlayer)obj);
+        }
+
+        public bool Equals(AquiredPokerPlayer other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(other._holecards, _holecards) && other.AbsSeatNum == AbsSeatNum && Equals(other.Name, Name) &&
+                   other.PlayerId == PlayerId && other.Position == Position && Equals(other.Rounds, Rounds);
+        }
+
+        public override int GetHashCode()
+        {
+            int result = Holecards != null ? Holecards.GetHashCode() : 0;
+            result = (result * 397) ^ AbsSeatNum;
+            result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+            result = (result * 397) ^ PlayerId.GetHashCode();
+            result = (result * 397) ^ Position;
+            result = (result * 397) ^ (Rounds != null ? Rounds.GetHashCode() : 0);
+            return result;
+        }
+
+        public int CompareTo(IAquiredPokerPlayer other)
+        {
+            if (Position < other.Position)
+            {
+                return -1;
+            }
+
+            if (Position > other.Position)
+            {
+                return 1;
+            }
+
+            return 0;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return Rounds.GetEnumerator();
+        }
+
+        string BettingRoundsToString()
+        {
+            string betting = string.Empty;
+            try
+            {
+                // Iterate through rounds pre-flop to river
+                foreach (object iB in this)
+                {
+                    betting += "| " + iB;
+                }
+            }
+            catch (ArgumentNullException excep)
+            {
+                excep.Data.Add("betRoundCount = ", Rounds.Count);
+                Log.Error("Returning betting Rounds I go so far", excep);
+            }
+
+            return betting;
+        }
     }
 }

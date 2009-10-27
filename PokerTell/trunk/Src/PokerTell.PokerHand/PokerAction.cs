@@ -11,6 +11,7 @@ namespace PokerTell.PokerHand
     /// <summary>
     /// General PokerAction
     /// </summary>
+    [Serializable]
     public abstract class PokerAction : IPokerAction
     {
         #region Constants and Fields
@@ -37,14 +38,26 @@ namespace PokerTell.PokerHand
 
         #region Properties
 
+        double _ratio;
+
         /// <summary>
         /// The amount connected to the action in relation to the pot
         /// for calling and betting or in relation to the amount to call for raising
         /// </summary>
-        public double Ratio { get; set; }
+        public double Ratio
+        {
+            get { return _ratio; }
+            set { _ratio = value; }
+        }
+
+        ActionTypes _what;
 
         /// <summary>The kind of action (call, fold etc.)</summary>
-        public ActionTypes What { get; set; }
+        public ActionTypes What
+        {
+            get { return _what; }
+            set { _what = value; }
+        }
 
         #endregion
 

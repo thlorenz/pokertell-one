@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHand.Tests
 {
+    using System;
+
     using Analyzation;
 
     using Infrastructure.Enumerations.PokerHand;
@@ -10,34 +12,50 @@ namespace PokerTell.PokerHand.Tests
 
     public class ThatConvertedPokerRound
     {
-        const bool WriteXmlToConsole = false;
-        
         [Test]
-        public void Deserialize_SerializedEmptyRound_ReturnsSameRound()
+        public void BinaryDeserialize_SerializedEmptyRound_ReturnsSameRound()
         {
             var round = new ConvertedPokerRound();
-            Assert.That(round.DeserializedInMemory(), Is.EqualTo(round));
+            Assert.That(round.BinaryDeserializedInMemory(), Is.EqualTo(round));
         }
 
         [Test]
-        public void Deserialize_SerializedRoundWithOneAction_ReturnsSameRound()
+        public void BinaryDeserialize_SerializedRoundWithOneAction_ReturnsSameRound()
         {
             var round = (ConvertedPokerRound)
                         new ConvertedPokerRound()
                             .Add(new ConvertedPokerAction(ActionTypes.C, 1.0));
 
-            Assert.That(round.DeserializedInMemory(WriteXmlToConsole), Is.EqualTo(round));
+            Assert.That(round.BinaryDeserializedInMemory(), Is.EqualTo(round));
         }
 
         [Test]
-        public void Deserialize_SerializedRoundWithTwoActions_ReturnsSameRound()
+        public void BinaryDeserialize_SerializedRoundWithTwoActions_ReturnsSameRound()
         {
             var round = (ConvertedPokerRound)
                         new ConvertedPokerRound()
                             .Add(new ConvertedPokerAction(ActionTypes.C, 1.0))
                             .Add(new ConvertedPokerAction(ActionTypes.R, 2.0));
+            
+            Assert.That(round.BinaryDeserializedInMemory(), Is.EqualTo(round));
+        }
 
-            Assert.That(round.DeserializedInMemory(WriteXmlToConsole), Is.EqualTo(round));
+        [Test]
+        public void IsEqualTo_AreEqual_ReturnsTrue()
+        {
+            var round1 = new ConvertedPokerRound().Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
+            var round2 = new ConvertedPokerRound().Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
+
+            Assert.That(round1, Is.EqualTo(round2));
+        }
+
+        [Test]
+        public void IsEqualTo_AreNotEqual_ReturnsFalse()
+        {
+            var round1 = new ConvertedPokerRound().Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
+            var round2 = new ConvertedPokerRound().Add(new ConvertedPokerAction(ActionTypes.C, 1.0));
+
+            Assert.That(round1, Is.Not.EqualTo(round2));
         }
     }
 }

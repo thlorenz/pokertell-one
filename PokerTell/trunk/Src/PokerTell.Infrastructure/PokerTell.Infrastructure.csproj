@@ -108,7 +108,6 @@
     <Compile Include="Interfaces\PokerHand\IPokerHands.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerHandStringConverter.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerPlayer.cs" />
-    <Compile Include="Interfaces\PokerHand\IPokerRound.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\StringResources.Designer.cs" />
     <Compile Include="Services\Constructor.cs" />

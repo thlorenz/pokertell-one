@@ -1,74 +1,41 @@
 namespace Tools.Serialization
 {
-    using System;
     using System.IO;
-    using System.Reflection;
+    using System.Runtime.Serialization;
     using System.Runtime.Serialization.Formatters;
     using System.Runtime.Serialization.Formatters.Binary;
 
-    using log4net;
-
     /// <summary>
     /// Contains static methods to serialize and deserialize an ObjectGraph using the Binary Format.
+    /// Do not use automatic properties in serializable types.
+    /// See why:
+    /// http://blogs.infragistics.com/blogs/josh_smith/archive/2008/02/05/automatic-properties-and-the-binaryformatter.aspx
     /// </summary>
     public static class BinarySerializer
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        #region SerializeObjectGraph
+        #region Public Methods
 
         /// <summary>
-        /// Serialize and object graph to a Binary file.
+        /// Deserializes and objectGraph from the given data.
         /// </summary>
-        /// <param name="objGraph">Object Graph</param>
-        /// <param name="fileName">Target Binary File</param>
-        public static void SerializeObjectGraph(object objGraph, string fileName)
+        /// <param name="data">Data of previously serialized objectgraph.</param>
+        /// <param name="binder">Binder used to port objects from one namespace to another</param>
+        /// <returns>Created Objectgraph</returns>
+        public static object Deserialize(byte[] data, SerializationBinder binder)
         {
-            BinaryFormatter binaryFormat;
-            FileStream fs = null;
-            try
-            {
-                binaryFormat = new BinaryFormatter();
-                fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
+            var memoryStream = new MemoryStream(data);
 
-                binaryFormat.Serialize(fs, objGraph);
-            }
-            catch (Exception excep)
-            {
-                Log.Debug(excep.ToString());
-                throw;
-            }
-            finally
-            {
-                if (fs != null)
-                {
-                    fs.Close();
-                }
-            }
+            return Deserialize(memoryStream, binder);
         }
 
-        #endregion
-
-        #region DeserializeObjectGraph overloaded
-
         /// <summary>
-        /// Deserializes a Binary file to an object graph.
-        /// Will catch any exceptions, inform the user and then return a default object Graph
+        /// Deserializes and objectGraph from the given data.
         /// </summary>
-        /// <param name="fileName">Binary File</param>
-        /// <param name="T">Type of the Object Graph - needed to create a default instance in case deserialing is unsuccessful</param>
-        /// <returns>An object graph created either from the Binary file or the default instance</returns>
-        public static object DeserializeObjectGraph(string fileName, Type T)
+        /// <param name="data">Data of previously serialized objectgraph.</param>
+        /// <returns>Created Objectgraph</returns>
+        public static object Deserialize(byte[] data)
         {
-            try
-            {
-                return Deserialize(fileName);
-            }
-            catch (Exception excep)
-            {
-                Log.Debug(excep.ToString());
-                throw;
-            }
+            return Deserialize(data, null);
         }
 
         /// <summary>
@@ -83,17 +50,67 @@ namespace Tools.Serialization
         /// <exception cref="System.IO.FileNotFoundException">Problem locating Serialization File</exception>
         /// <exception cref="System.UnauthorizedAccessException ">Problem accessing Serialization File</exception>
         /// <exception cref="System.Runtime.Serialization.SerializationException">Serialization file is found but invalid</exception>
-        public static object DeserializeObjectGraph(string fileName)
+        public static object Deserialize(string fileName)
         {
-            return Deserialize(fileName);
+            return Deserialize(fileName, null);
+        }
+
+        /// <summary>
+        /// Deserializes a Binary file to an object graph.
+        /// It will not handle any of the below exceptions, so they need
+        /// to be handled whenever calling this function
+        /// </summary>
+        /// <param name="fileName">Binary File</param>
+        /// <param name="binder">Binder used to port objects from one namespace to another</param>
+        /// <returns>An object graph created from the Binary file or null if unsuccessful</returns>
+        /// <exception cref="System.IO.DirectoryNotFoundException">Problem locating Serialization File</exception>
+        /// <exception cref="System.IO.DriveNotFoundException">Problem locating Serialization File</exception>
+        /// <exception cref="System.IO.FileNotFoundException">Problem locating Serialization File</exception>
+        /// <exception cref="System.UnauthorizedAccessException ">Problem accessing Serialization File</exception>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">Serialization file is found but invalid</exception>
+        public static object Deserialize(string fileName, SerializationBinder binder)
+        {
+            using (FileStream fileStream = File.OpenRead(fileName))
+            {
+                return Deserialize(fileStream, binder);
+            }
+        }
+
+        /// <summary>
+        /// Serializes ObjectGraph to Memory
+        /// </summary>
+        /// <param name="objGraph"></param>
+        /// <returns>ByteArray of resulting data</returns>
+        public static byte[] Serialize(object objGraph)
+        {
+            var memoryStream = new MemoryStream();
+            var binaryFormatter = new BinaryFormatter();
+
+            binaryFormatter.Serialize(memoryStream, objGraph);
+            return memoryStream.ToArray();
+        }
+
+        /// <summary>
+        /// Serialize an object graph to a Binary file.
+        /// </summary>
+        /// <param name="objGraph">Object Graph</param>
+        /// <param name="fileName">Target Binary File</param>
+        public static void Serialize(object objGraph, string fileName)
+        {
+            var binaryFormatter = new BinaryFormatter();
+
+            using (var fileStream = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                binaryFormatter.Serialize(fileStream, objGraph);
+            }
         }
 
         #endregion
 
-        #region Deserialize
+        #region Methods
 
         /// <summary>
-        /// Deserializes a Binary file to an object graph.
+        /// Deserializes a given stream into an object, optionally using a binder.
         /// </summary>
         /// <remarks>
         /// Source: http://www.diranieh.com/NETSerialization/BinarySerialization.htm
@@ -105,38 +122,22 @@ namespace Tools.Serialization
         ///    * FormatterAssemblyStyle.Simple
         ///      The assembly is loaded using System.Reflection.Assembly.LoadWithPartialName which first looks in the application's directory, and if not found, looks in the GAC for the highest version numbered assembly with the same file name.
         /// </remarks>
-        /// <param name="fileName">Binary File</param>
-        /// <returns>Objectgraph</returns>
-        /// <exception cref="System.IO.DirectoryNotFoundException">Problem locating Serialization File</exception>
-        /// <exception cref="System.IO.DriveNotFoundException">Problem locating Serialization File</exception>
-        /// <exception cref="System.IO.FileNotFoundException">Problem locating Serialization File</exception>
-        /// <exception cref="System.UnauthorizedAccessException ">Problem accessing Serialization File</exception>
-        /// <exception cref="System.Runtime.Serialization.SerializationException">Serialization file is found but invalid</exception>
-        private static object Deserialize(string fileName)
+        /// <param name="stream">The source stream</param>
+        /// <param name="binder">If given a binder it will be used. Set to null will ignore the binder.</param>
+        /// <returns>Deserialized Object</returns>
+        static object Deserialize(Stream stream, SerializationBinder binder)
         {
-            object objGraph = null;
+            var binaryFormatter = new BinaryFormatter
+                {
+                    AssemblyFormat = FormatterAssemblyStyle.Simple, 
+                };
 
-            using (FileStream fileStream = File.OpenRead(fileName))
+            if (binder != null)
             {
-                try
-                {
-                    var binaryFormatter = new BinaryFormatter
-                        {
-                            AssemblyFormat = FormatterAssemblyStyle.Simple
-                        };
-
-                    objGraph = binaryFormatter.Deserialize(fileStream);
-                }
-                catch
-                    (Exception
-                        excep)
-                {
-                    Log.Debug(excep.ToString());
-                    throw;
-                }
+                binaryFormatter.Binder = binder;
             }
 
-            return objGraph;
+            return binaryFormatter.Deserialize(stream);
         }
 
         #endregion

@@ -1,19 +1,24 @@
 namespace PokerTell.PokerHand.Tests
 {
     using System;
-
-    using Analyzation;
-
-    using Fakes;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     using Moq;
 
     using NUnit.Framework;
 
-    using ViewModels;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHand.Analyzation;
+    using PokerTell.PokerHand.Tests.Fakes;
+    using PokerTell.PokerHand.ViewModels;
+    using PokerTell.UnitTests.Tools;
+
+    using Tools.Extensions;
+
+    using UnitTests;
 
     [TestFixture]
     internal class ThatHandHistoryViewModel
@@ -25,38 +30,33 @@ namespace PokerTell.PokerHand.Tests
             _stub = new StubBuilder();
         }
 
-        private IConvertedPokerHand _pokerHand;
-        private IHandHistoryViewModel _handHistoryViewModel;
+        IConvertedPokerHand _pokerHand;
+
+        IHandHistoryViewModel _handHistoryViewModel;
 
         StubBuilder _stub;
 
-        private void InitConvertedPokerHand()
+        void InitConvertedPokerHand()
         {
-            var player1 = new ConvertedPokerPlayer("player1", 10, 5, 0, 6, "As Kd");
-            player1.Add(new ConvertedPokerRound());
+            var player1 = new ConvertedPokerPlayer("player1", 10, 5, 0, 6, "As Kd") { new ConvertedPokerRound() };
             player1[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.2));
 
-            var player2 = new ConvertedPokerPlayer("player2", 12, 4, 1, 6, "?? ??");
-            player2.Add(new ConvertedPokerRound());
+            var player2 = new ConvertedPokerPlayer("player2", 12, 4, 1, 6, "?? ??") { new ConvertedPokerRound() };
             player2[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.X, 1.0));
 
-            var player3 = new ConvertedPokerPlayer("player3", 13, 2, 2, 6, "?? ??");
-            player3.Add(new ConvertedPokerRound());
+            var player3 = new ConvertedPokerPlayer("player3", 13, 2, 2, 6, "?? ??") { new ConvertedPokerRound() };
             player3[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.3));
 
-            var player4 = new ConvertedPokerPlayer("player4", 14, 4, 3, 6, "?? ??");
-            player4.Add(new ConvertedPokerRound());
+            var player4 = new ConvertedPokerPlayer("player4", 14, 4, 3, 6, "?? ??") { new ConvertedPokerRound() };
             player4[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
 
-            var player5 = new ConvertedPokerPlayer("player5", 15, 3, 4, 6, "?? ??");
-            player5.Add(new ConvertedPokerRound());
+            var player5 = new ConvertedPokerPlayer("player5", 15, 3, 4, 6, "?? ??") { new ConvertedPokerRound() };
             player5[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.C, 0.3));
 
-            var player6 = new ConvertedPokerPlayer("player6", 16, 14, 5, 6, "?? ??");
-            player6.Add(new ConvertedPokerRound());
+            var player6 = new ConvertedPokerPlayer("player6", 16, 14, 5, 6, "?? ??") { new ConvertedPokerRound() };
             player6[Streets.PreFlop].Add(new ConvertedPokerAction(ActionTypes.F, 1.0));
 
-            _pokerHand = new ConvertedPokerHand("PokerStars", 1234, DateTime.Now, 200, 100, 6);
+            _pokerHand = new ConvertedPokerHand("PokerStars", 1234, DateTime.MinValue, 200, 100, 6);
             _pokerHand.AddPlayer(player1);
             _pokerHand.AddPlayer(player2);
             _pokerHand.AddPlayer(player3);
@@ -137,6 +137,88 @@ namespace PokerTell.PokerHand.Tests
             _handHistoryViewModel.AdjustToConditionAction.Invoke(conditionStub);
 
             Assert.That(_handHistoryViewModel.Visible, Is.True);
+        }
+
+        [Test]
+        [Sequential]
+        public void BinaryDeserialize_Serialized_RestoresIsSelected(
+            [Values(true, false)] bool parameter)
+        {
+            var historyViewModel = new HandHistoryViewModel { IsSelected = parameter };
+            Assert.That(
+                historyViewModel.BinaryDeserializedInMemory().IsSelected, Is.EqualTo(historyViewModel.IsSelected));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresNote()
+        {
+            var historyViewModel = new HandHistoryViewModel { Note = "someNote" };
+            Assert.That(historyViewModel.BinaryDeserializedInMemory().Note, Is.EqualTo(historyViewModel.Note));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresSelectedRow()
+        {
+            var historyViewModel = new HandHistoryViewModel { SelectedRow = _stub.Some(1) };
+            Assert.That(
+                historyViewModel.BinaryDeserializedInMemory().SelectedRow, Is.EqualTo(historyViewModel.SelectedRow));
+        }
+
+        [Test]
+        [Sequential]
+        public void BinaryDeserialize_Serialized_RestoresVisible(
+            [Values(true, false)] bool parameter)
+        {
+            var historyViewModel = new HandHistoryViewModel { Visible = parameter };
+            Assert.That(historyViewModel.BinaryDeserializedInMemory().Visible, Is.EqualTo(historyViewModel.Visible));
+        }
+
+        [Test]
+        [Sequential]
+        public void BinaryDeserialize_Serialized_RestoresShowSelectOption(
+            [Values(true, false)] bool parameter)
+        {
+            var historyViewModel = new HandHistoryViewModel { ShowSelectOption = parameter };
+            Assert.That(
+                historyViewModel.BinaryDeserializedInMemory().ShowSelectOption,
+                Is.EqualTo(historyViewModel.ShowSelectOption));
+        }
+
+        [Test]
+        [Sequential]
+        public void BinaryDeserialize_Serialized_RestoresShowPreflopFolds(
+            [Values(true, false)] bool parameter)
+        {
+            var historyViewModel = new HandHistoryViewModel { ShowPreflopFolds = parameter };
+            Assert.That(
+                historyViewModel.BinaryDeserializedInMemory().ShowPreflopFolds,
+                Is.EqualTo(historyViewModel.ShowPreflopFolds));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresHand()
+        {
+            var historyViewModel = new HandHistoryViewModel().UpdateWith(_pokerHand);
+            Assert.That(historyViewModel.BinaryDeserializedInMemory().Hand, Is.EqualTo(historyViewModel.Hand));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresPlayerRows()
+        {
+            var historyViewModel = new HandHistoryViewModel().UpdateWith(_pokerHand);
+
+            Assert.That(
+                historyViewModel.BinaryDeserializedInMemory().PlayerRows, Is.EqualTo(historyViewModel.PlayerRows));
+        }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresBoard()
+        {
+            _pokerHand.Board = _stub.Valid(For.Board, "As Ks 9h");
+            var historyViewModel = new HandHistoryViewModel().UpdateWith(_pokerHand);
+
+            Assert.That(
+                historyViewModel.BinaryDeserializedInMemory().Board, Is.EqualTo(historyViewModel.Board));
         }
     }
 }

@@ -48,13 +48,13 @@ namespace Tools.Tests.Serialization
         [Test]
         public void Xml_CanSerializeAndDeserialize()
         {
-            Assert.That(_infoSaved.DeserializedInMemory(), Is.EqualTo(_infoSaved));
+            Assert.That(_infoSaved.XmlDeserializedInMemory(), Is.EqualTo(_infoSaved));
         }
 
         [Test]
         public void Xml_CanSerializeAndDeserializeAGenericList()
         {
-            Assert.That(_lstInfoToSave.DeserializedInMemory(), Is.EqualTo(_lstInfoToSave));
+            Assert.That(_lstInfoToSave.XmlDeserializedInMemory(), Is.EqualTo(_lstInfoToSave));
         }
 
         [Test]

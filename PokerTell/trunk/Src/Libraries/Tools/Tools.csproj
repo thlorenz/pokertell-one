@@ -115,6 +115,7 @@
     <Compile Include="Normalizer.cs" />
     <Compile Include="ItemsPagesManager.cs" />
     <Compile Include="Serialization\BinarySerializer.cs" />
+    <Compile Include="Serialization\NameSpaceBinder.cs" />
     <Compile Include="Serialization\SoapSerializer.cs" />
     <Compile Include="Serialization\XmlStandardSerializer.cs" />
     <Compile Include="StaticMethods.cs" />
@@ -157,7 +158,6 @@
     <Compile Include="WPF\Interfaces\IViewModel.cs" />
     <Compile Include="WPF\Utilities.cs" />
     <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
-    <Compile Include="WPF\ViewModels\CommandViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\ItemsRegionViewModel.cs" />

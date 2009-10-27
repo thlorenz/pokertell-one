@@ -1,17 +1,23 @@
 namespace PokerTell.PokerHand.Analyzation
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
-    using System.Xml.Serialization;
+    using System.Reflection;
+
+    using log4net;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// PokerRound used for analysing a Poker Hand
     /// </summary>
-    [XmlInclude(typeof(ConvertedPokerAction))]
-    public class ConvertedPokerRound : PokerRound<IConvertedPokerAction>, IConvertedPokerRound
+    [Serializable]
+    public class ConvertedPokerRound : IConvertedPokerRound
     {
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         #region Constructors and Destructors
 
         public ConvertedPokerRound()
@@ -19,22 +25,20 @@ namespace PokerTell.PokerHand.Analyzation
             Actions = new List<IConvertedPokerAction>();
         }
 
-        #endregion
+        IList<IConvertedPokerAction> _actions;
 
-        #region Public Methods
+        public IList<IConvertedPokerAction> Actions
+        {
+            get { return _actions; }
+            set { _actions = value; }
+        }
 
         /// <summary>
-        /// Necessary for XmlSerialization
+        /// Number of actions in this round
         /// </summary>
-        /// <param name="obj"></param>
-        public void Add(object obj)
+        public int Count
         {
-            if (obj != null)
-            {
-                var action = (IConvertedPokerAction)obj;
-
-                Add(action);
-            }
+            get { return Actions != null ? Actions.Count : 0; }
         }
 
         #endregion
@@ -68,5 +72,53 @@ namespace PokerTell.PokerHand.Analyzation
         #endregion
 
         #endregion
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        public IConvertedPokerAction this[int index]
+        {
+            get { return Actions[index]; }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return GetHashCode().Equals(obj.GetHashCode());
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return Actions.GetEnumerator();
+        }
+
+        public override int GetHashCode()
+        {
+            int theHashCode = 0;
+            foreach (IConvertedPokerAction action in Actions)
+            {
+                theHashCode ^= action.GetHashCode();
+            }
+
+            return theHashCode;
+        }
+
+        /// <summary>
+        /// Gives a string representation of the round
+        /// </summary>
+        /// <returns>String representation of the round, including info about all actions</returns>
+        public override string ToString()
+        {
+            string actStr = string.Empty;
+
+            foreach (IConvertedPokerAction iA in Actions)
+            {
+                actStr = actStr + iA.ToString() + " ";
+            }
+
+            return actStr;
+        }
     }
 }

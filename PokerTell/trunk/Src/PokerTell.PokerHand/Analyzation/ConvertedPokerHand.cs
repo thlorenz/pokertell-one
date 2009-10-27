@@ -4,6 +4,7 @@ namespace PokerTell.PokerHand.Analyzation
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Reflection;
 
     using log4net;
@@ -14,9 +15,12 @@ namespace PokerTell.PokerHand.Analyzation
 
     using Services;
 
+    using Tools.Extensions;
+
     /// <summary>
     /// Description of PokerHand.
     /// </summary>
+    [Serializable]
     public class ConvertedPokerHand : PokerHand, IConvertedPokerHand
     {
         #region Constants and Fields
@@ -89,16 +93,16 @@ namespace PokerTell.PokerHand.Analyzation
 
         #region Properties
 
+        int _handId;
+
         /// <summary>
         /// Identity of hand as determined from the database
         /// </summary>
-        public int HandId { get; set; }
-
-        /// <summary>
-        /// Note that the user made about this hand using the Reporting tools
-        /// Each array element will contain one line of the RichTextBox
-        /// </summary>
-        public string[] Note { get; set; }
+        public int HandId
+        {
+            get { return _handId; }
+            set { _handId = value; }
+        }
 
         /// <summary>
         /// Gets Players.
@@ -108,10 +112,16 @@ namespace PokerTell.PokerHand.Analyzation
             get { return _players.AsReadOnly(); }
         }
 
+        int[] _playersInRound;
+
         /// <summary>
         /// How many players are present at each round
         /// </summary>
-        public int[] PlayersInRound { get; private set; }
+        public int[] PlayersInRound
+        {
+            get { return _playersInRound; }
+            private set { _playersInRound = value; }
+        }
 
         /// <summary>
         /// List of all PokerRound Sequences for current hand Preflop Flop
@@ -228,8 +238,8 @@ namespace PokerTell.PokerHand.Analyzation
         {
             foreach (IAquiredPokerPlayer aquiredPlayer in aquiredHand)
             {
-                double mBefore = aquiredPlayer.StackBefore / startingPot;
-                double mAfter = aquiredPlayer.StackAfter / startingPot;
+                double mBefore = startingPot > 0 ? aquiredPlayer.StackBefore / startingPot : 0;
+                double mAfter = startingPot > 0 ? aquiredPlayer.StackAfter / startingPot : 0;
 
                 IConvertedPokerPlayer convertedPlayer =
                     convertedPlayerMake.New.InitializeWith(
@@ -403,5 +413,44 @@ namespace PokerTell.PokerHand.Analyzation
         }
 
         #endregion
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            return Equals(obj as ConvertedPokerHand);
+        }
+
+        public bool Equals(ConvertedPokerHand other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return other.GetHashCode().Equals(GetHashCode())
+                   && other.Players.ToArray().EqualsArray(Players.ToArray())
+                   && other.PlayersInRound.EqualsArray(PlayersInRound);
+                   
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = base.GetHashCode();
+                result = (result * 397) ^ HandId;
+                return result;
+            }
+        }
     }
 }

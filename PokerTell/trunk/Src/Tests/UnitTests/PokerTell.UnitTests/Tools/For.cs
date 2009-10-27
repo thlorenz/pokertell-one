@@ -23,6 +23,7 @@ namespace PokerTell.UnitTests
         PlayerId,
         Position,
         Condition,
-        NumberOfItems
+        NumberOfItems,
+        Board
     }
 }
