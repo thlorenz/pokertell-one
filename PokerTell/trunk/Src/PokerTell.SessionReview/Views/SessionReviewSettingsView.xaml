@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <Label Content="Hero's Name" Margin="5"/>
-            <TextBox Text="{Binding HeroName}" Margin="5"/>
+            <TextBox Text="{Binding HandHistoriesViewModel.HandHistoriesFilter.HeroName}" Margin="5"/>
         </StackPanel>
 
         <GroupBox Grid.Row="1" 
@@ -24,10 +24,14 @@
                   Margin="5"
                   Header="Show">
             <StackPanel>
-                <RadioButton Content="All" Checked="All_Checked" IsChecked="{Binding ShowAll}" />
-                <RadioButton Content="Money Invested"  Checked="MoneyInvested_Checked" />
-                <RadioButton Content="Saw Flop" Checked="SawFlop_Checked" />
-                <RadioButton Content="Selected Only" Checked="SelectedOnly_Checked"/>
+                <RadioButton Content="All" Checked="All_Checked" 
+                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowAll, Mode= OneWay}" />
+                <RadioButton Content="Money Invested"  Checked="MoneyInvested_Checked" 
+                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvested, Mode= OneWay}"/>
+                <RadioButton Content="Saw Flop" Checked="SawFlop_Checked" 
+                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlop, Mode= OneWay}" />
+                <RadioButton Content="Selected Only" Checked="SelectedOnly_Checked" 
+                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowSelectedOnly, Mode= OneWay}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" 
@@ -35,8 +39,10 @@
                   Margin="5"
                   Header="Display">
             <StackPanel>
-                <CheckBox Content="Select Hero" IsChecked="{Binding SelectHero}"/>
-                <CheckBox Content="Inactive Players" IsChecked="{Binding ShowPreflopFolds}"/>
+                <CheckBox Content="Select Hero" 
+                          IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.SelectHero}"/>
+                <CheckBox Content="Inactive Players" 
+                          IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowPreflopFolds}"/>
             </StackPanel>
         </GroupBox>
     </Grid>

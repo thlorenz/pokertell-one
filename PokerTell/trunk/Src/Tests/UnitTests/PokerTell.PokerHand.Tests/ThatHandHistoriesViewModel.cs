@@ -1,22 +1,21 @@
 namespace PokerTell.PokerHand.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Analyzation;
 
-    using Conditions;
-
     using Fakes;
 
     using Microsoft.Practices.Unity;
-
-    using Moq;
 
     using NUnit.Framework;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.ViewModels;
+
+    using Services;
 
     using Tools;
     using Tools.Interfaces;
@@ -27,8 +26,6 @@ namespace PokerTell.PokerHand.Tests
     {
         IHandHistoriesViewModel _viewModel;
 
-        StubBuilder _stub;
-
         IUnityContainer _container;
 
         #region Public Methods
@@ -36,11 +33,10 @@ namespace PokerTell.PokerHand.Tests
         [SetUp]
         public void _Init()
         {
-            _stub = new StubBuilder();
-
             _container = new UnityContainer()
                 .RegisterConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>()
+                .RegisterType<IHandHistoriesFilter, HandHistoriesFilter>()
                 .RegisterType<IHandHistoriesViewModel, FakeHandHistoriesViewModel>();
 
             _viewModel = _container.Resolve<IHandHistoriesViewModel>();
@@ -80,45 +76,7 @@ namespace PokerTell.PokerHand.Tests
 
             Assert.That(_viewModel.HandHistoriesOnPage.Count(), Is.EqualTo(2));
         }
-
-        [Test]
-        [Sequential]
-        public void BinaryDeserialize_Serialized_RestoresShowSelectOption(
-            [Values(true, false)] bool parameter)
-        {
-            ((FakeHandHistoriesViewModel)_viewModel).InterceptOnSetMethods = true;
-            _viewModel.InitializeWith(new List<IConvertedPokerHand>());
-
-            _viewModel.ShowSelectOption = parameter;
-            Assert.That(
-                _viewModel.BinaryDeserializedInMemory().ShowSelectOption, Is.EqualTo(_viewModel.ShowSelectOption));
-        }
-
-        [Test]
-        [Sequential]
-        public void BinaryDeserialize_Serialized_RestoresShowSelectedOnly(
-            [Values(true, false)] bool parameter)
-        {
-            ((FakeHandHistoriesViewModel)_viewModel).InterceptOnSetMethods = true;
-            _viewModel.InitializeWith(new List<IConvertedPokerHand>());
-
-            _viewModel.ShowSelectedOnly = parameter;
-            Assert.That(
-                _viewModel.BinaryDeserializedInMemory().ShowSelectedOnly, Is.EqualTo(_viewModel.ShowSelectedOnly));
-        }
-
-        [Test]
-        [Sequential]
-        public void BinaryDeserialize_Serialized_RestoresShowPreflopFolds(
-            [Values(true, false)] bool parameter)
-        {
-            ((FakeHandHistoriesViewModel)_viewModel).InterceptOnSetMethods = true;
-            _viewModel.InitializeWith(new List<IConvertedPokerHand>());
-
-            _viewModel.ShowPreflopFolds = parameter;
-            Assert.That(
-                _viewModel.BinaryDeserializedInMemory().ShowPreflopFolds, Is.EqualTo(_viewModel.ShowPreflopFolds));
-        }
+        
 
         [Test]
         public void BinaryDeserialize_Serialized_RestoresItemsHandHistoriesOnPage()
@@ -148,12 +106,32 @@ namespace PokerTell.PokerHand.Tests
         }
 
         [Test]
-        public void BinaryDeserialize_Serialized_RestoresHeroName()
+        public void BinaryDeserialize_Serialized_RestoresPageNumbers()
         {
-            _viewModel.InitializeWith(new List<IConvertedPokerHand>());
-            _viewModel.HeroName = "hero";
-            Assert.That(_viewModel.BinaryDeserializedInMemory().HeroName, Is.EqualTo(_viewModel.HeroName));
+            var hand1 = new ConvertedPokerHand();
+            var hand2 = new ConvertedPokerHand();
+
+            var hands = new List<IConvertedPokerHand> { hand1, hand2 };
+
+            _viewModel
+                .InitializeWith(hands);
+          
+            Assert.That(_viewModel.BinaryDeserializedInMemory().PageNumbers, Is.EqualTo(_viewModel.PageNumbers));
         }
+
+        [Test]
+        public void BinaryDeserialize_Serialized_RestoresHandHistoriesFilter()
+        {
+            IList<IConvertedPokerHand> hands = new List<IConvertedPokerHand>();
+
+            _viewModel.InitializeWith(hands);
+            _viewModel.HandHistoriesFilter.HeroName = "someName";
+            _viewModel.HandHistoriesFilter.ShowPreflopFolds = true;
+            _viewModel.HandHistoriesFilter.ShowSawFlop = true;
+
+            Affirm.That(_viewModel.BinaryDeserializedInMemory().HandHistoriesFilter)
+                .IsEqualTo(_viewModel.HandHistoriesFilter);
+        } 
 
         #endregion
     }

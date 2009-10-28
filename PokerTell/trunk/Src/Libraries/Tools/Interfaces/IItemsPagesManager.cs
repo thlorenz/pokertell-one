@@ -20,6 +20,8 @@ namespace Tools.Interfaces
 
         IList<T> AllItems { get; }
 
+        uint ItemsPerPage { get; }
+
         IItemsPagesManager<T> FilterItems(Predicate<T> isMatch1);
 
         IItemsPagesManager<T> NavigateToPage(uint pageNumber);
@@ -29,5 +31,7 @@ namespace Tools.Interfaces
         IItemsPagesManager<T> NavigateForward();
 
         IItemsPagesManager<T> NavigateBackward();
+
+        event Action Deserialized;
     }
 }

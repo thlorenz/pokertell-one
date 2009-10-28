@@ -1,5 +1,6 @@
 ﻿namespace PokerTell.SessionReview.ViewModels
 {
+    using System.IO;
     using System.Reflection;
     using System.Text;
 
@@ -7,11 +8,13 @@
 
     using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
+    using Microsoft.Win32;
 
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.SessionReview.Views;
 
+    using Tools.Serialization;
     using Tools.WPF.ViewModels;
 
     internal class SessionReviewViewModel : ItemsRegionViewModel, ISessionReviewViewModel
@@ -108,6 +111,19 @@
         public void Save(object arg)
         {
             Log.InfoFormat("SessionReview->Saving: {0}", GetHashCode());
+            var saveFileDialog = new SaveFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = "pthh",
+                Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*",
+                Title = "Save PokerTell Session Review"
+            };
+            saveFileDialog.FileName = "SessionReview" + "." + saveFileDialog.DefaultExt;
+
+            if ((bool)saveFileDialog.ShowDialog())
+            {
+                BinarySerializer.Serialize(_handHistoriesViewModel, saveFileDialog.FileName);
+            }
         }
 
         #endregion
@@ -131,9 +147,9 @@
         string BuildHtmlText()
         {
             string htmlHandHistories = HtmlStringBuilder.BuildFrom(
-                _handHistoriesViewModel.SelectedHandHistories, 
-                _handHistoriesViewModel.ShowPreflopFolds, 
-                _handHistoriesViewModel.HeroName);
+                _handHistoriesViewModel.SelectedHandHistories,
+                _handHistoriesViewModel.HandHistoriesFilter.ShowPreflopFolds, 
+                _handHistoriesViewModel.HandHistoriesFilter.HeroName);
 
             Encoding enc = Encoding.UTF8;
 

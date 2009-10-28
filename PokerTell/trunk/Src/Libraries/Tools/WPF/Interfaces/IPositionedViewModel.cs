@@ -1,8 +1,9 @@
 namespace Tools.WPF.Interfaces
 {
+    using System.ComponentModel;
     using System.Windows;
 
-    public interface IPositionedViewModel<T> : IViewModel
+    public interface IPositionedViewModel<T> : INotifyPropertyChanged
     {
         double Left { get; set; }
 

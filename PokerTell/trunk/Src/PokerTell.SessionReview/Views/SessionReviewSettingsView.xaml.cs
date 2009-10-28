@@ -27,7 +27,7 @@
         {
             if (ViewModel != null)
             {
-                ViewModel.ShowAll = true;
+                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowAll = true;
             }
         }
 
@@ -35,7 +35,7 @@
         {
             if (ViewModel != null)
             {
-                ViewModel.ShowMoneyInvested = true;
+                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvested = true;
             }
         }
 
@@ -43,7 +43,7 @@
         {
             if (ViewModel != null)
             {
-                ViewModel.ShowSawFlop = true;
+                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlop = true;
             }
         }
 
@@ -51,7 +51,7 @@
         {
             if (ViewModel != null)
             {
-                ViewModel.ShowSelectedOnly = true;
+                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowSelectedOnly = true;
             }
         }
     }

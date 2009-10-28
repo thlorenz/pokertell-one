@@ -4,7 +4,7 @@ namespace Tools.WPF.ViewModels
 
     using Interfaces;
 
-    public class ItemsRegionViewModel : ViewModel, IItemsRegionViewModel
+    public class ItemsRegionViewModel : NotifyPropertyChanged, IItemsRegionViewModel
     {
         string _headerInfo;
 

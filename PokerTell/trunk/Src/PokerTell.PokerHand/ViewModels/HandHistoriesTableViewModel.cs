@@ -7,7 +7,7 @@ namespace PokerTell.PokerHand.ViewModels
 
     using Tools.WPF.ViewModels;
 
-    public class HandHistoriesTableViewModel : ViewModel
+    public class HandHistoriesTableViewModel : NotifyPropertyChanged
     {
         #region Constants and Fields
 

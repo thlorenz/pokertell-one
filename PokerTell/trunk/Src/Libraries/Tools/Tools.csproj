@@ -155,13 +155,12 @@
     <Compile Include="WPF\InterActicityHack.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionView.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionViewModel.cs" />
-    <Compile Include="WPF\Interfaces\IViewModel.cs" />
     <Compile Include="WPF\Utilities.cs" />
     <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\ItemsRegionViewModel.cs" />
-    <Compile Include="WPF\ViewModels\ViewModel.cs" />
+    <Compile Include="WPF\ViewModels\NotifyPropertyChanged.cs" />
     <Compile Include="WPF\Views\ItemsRegionView.cs" />
     <Compile Include="Wrappers\CallWindowProc.cs" />
     <Compile Include="Wrappers\HandHistoryReader.cs" />

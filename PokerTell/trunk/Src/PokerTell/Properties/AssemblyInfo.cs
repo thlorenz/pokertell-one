@@ -51,3 +51,5 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("0.54.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+// LineCounter: ^~(:Wh@//.+)~(:Wh@\{:Wh@)~(:Wh@\}:Wh@)~(:Wh@/#).+

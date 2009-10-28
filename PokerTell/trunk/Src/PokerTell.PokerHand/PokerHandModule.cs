@@ -17,6 +17,8 @@ namespace PokerTell.PokerHand
     using PokerTell.PokerHand.ViewModels;
     using PokerTell.PokerHand.Views;
 
+    using Services;
+
     using Tools;
     using Tools.Interfaces;
 
@@ -66,25 +68,38 @@ namespace PokerTell.PokerHand
         void RegisterViewsAndServices()
         {
             _container
+
+                // Aquired Constructors
                 .RegisterConstructor<IAquiredPokerAction, AquiredPokerAction>()
                 .RegisterConstructor<IAquiredPokerRound, AquiredPokerRound>()
                 .RegisterConstructor<IAquiredPokerPlayer, AquiredPokerPlayer>()
                 .RegisterConstructor<IAquiredPokerHand, AquiredPokerHand>()
+
+                // Converted Constructors
                 .RegisterConstructor<IConvertedPokerAction, ConvertedPokerAction>()
                 .RegisterConstructor<IConvertedPokerActionWithId, ConvertedPokerActionWithId>()
                 .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
                 .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
-                .RegisterType<IInvestedMoneyCondition, InvestedMoneyCondition>(new ContainerControlledLifetimeManager())
-                .RegisterType<ISawFlopCondition, SawFlopCondition>(new ContainerControlledLifetimeManager())
-                .RegisterType<IAlwaysTrueCondition, AlwaysTrueCondition>(new ContainerControlledLifetimeManager())
+
+                // Conditions
+                .RegisterType<IInvestedMoneyCondition, InvestedMoneyCondition>()
+                .RegisterType<ISawFlopCondition, SawFlopCondition>()
+                .RegisterType<IAlwaysTrueCondition, AlwaysTrueCondition>()
+
+                // ViewModels
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IBoardViewModel, BoardViewModel>()
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
+
+                // Views
                 .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>()
                 .RegisterType<IHandHistoriesView, HandHistoriesView>()
-                .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>();
+
+                // Helpers
+                .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>()
+                .RegisterType<IHandHistoriesFilter, HandHistoriesFilter>();
         }
 
         #endregion

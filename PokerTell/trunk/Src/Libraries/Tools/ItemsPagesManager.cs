@@ -38,6 +38,12 @@ namespace Tools
 
         #endregion
 
+        #region Events
+        [field: NonSerialized]
+        public event Action Deserialized;
+
+        #endregion
+
         #region Properties
 
         public IList<T> AllItems
@@ -163,13 +169,23 @@ namespace Tools
             NavigateToPage(1);
         }
 
+        void InvokeDeserialized()
+        {
+            Action deserialized = Deserialized;
+            if (deserialized != null)
+            {
+                deserialized();
+            }
+        }
+
         [OnDeserialized]
         void OnDeserialized(StreamingContext context)
         {
-            DetermineNumberOfPages();
-
             ItemsOnCurrentPage = new ObservableCollection<T>();
+            DetermineNumberOfPages();
             NavigateToPage(_currentPage);
+            
+            InvokeDeserialized();
         }
 
         #endregion

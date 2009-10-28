@@ -1,7 +1,8 @@
 namespace PokerTell.SessionReview.ViewModels
 {
+    using System;
+    using System.IO;
     using System.Reflection;
-    using System.Text;
     using System.Windows.Controls;
     using System.Windows.Input;
 
@@ -12,7 +13,9 @@ namespace PokerTell.SessionReview.ViewModels
 
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
+    using Microsoft.Win32;
 
+    using Tools.Serialization;
     using Tools.WPF;
 
     using Views;
@@ -69,9 +72,17 @@ namespace PokerTell.SessionReview.ViewModels
 
         public void OpenReview(object arg)
         {
+
+            var handHistoriesViewModel = LoadHandHistoriesViewModelFromFile();
+
+            if (handHistoriesViewModel == null)
+            {
+                return;
+            }
+
             // All need to get same HandHistoriesViewModel
             var childContainer = _container.CreateChildContainer();
-            childContainer.RegisterInstance(_container.Resolve<IHandHistoriesViewModel>());
+            childContainer.RegisterInstance(handHistoriesViewModel);
          
             var reviewView = childContainer.Resolve<SessionReviewView>();
             var handHistoriesView = childContainer.Resolve<IHandHistoriesView>();
@@ -87,5 +98,31 @@ namespace PokerTell.SessionReview.ViewModels
         }
 
         #endregion
+
+        IHandHistoriesViewModel LoadHandHistoriesViewModelFromFile()
+        {
+            var openFileDialog = new OpenFileDialog
+            {
+                AddExtension = true,
+                DefaultExt = "pthh",
+                Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*",
+                Title = "Open PokerTell Session Review"
+            };
+
+            IHandHistoriesViewModel handHistoriesViewModel;
+
+            if ((bool)openFileDialog.ShowDialog())
+            {
+                handHistoriesViewModel =
+                    (IHandHistoriesViewModel)BinarySerializer.Deserialize(openFileDialog.FileName);
+               
+                return handHistoriesViewModel;
+            }
+            
+            handHistoriesViewModel = _container.Resolve<IHandHistoriesViewModel>();
+            handHistoriesViewModel.HandHistoriesFilter.HeroName = "hero";
+            return handHistoriesViewModel;
+        }
     }
+    
 }

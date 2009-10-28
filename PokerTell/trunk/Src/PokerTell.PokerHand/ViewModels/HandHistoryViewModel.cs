@@ -12,7 +12,7 @@ namespace PokerTell.PokerHand.ViewModels
     using Tools.WPF.ViewModels;
 
     [Serializable]
-    public class HandHistoryViewModel : ViewModel, IHandHistoryViewModel
+    public class HandHistoryViewModel : NotifyPropertyChanged, IHandHistoryViewModel
     {
         #region Constants and Fields
 

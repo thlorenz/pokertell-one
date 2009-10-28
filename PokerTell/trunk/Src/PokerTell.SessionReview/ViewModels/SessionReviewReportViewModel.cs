@@ -20,8 +20,6 @@ namespace PokerTell.SessionReview.ViewModels
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        DelegateCommand<WebBrowser> _copyWebBrowserContentToClipboardCommand;
-
         DelegateCommand<object> _printReportCommand;
 
         DelegateCommand<object> _saveReportCommand;

@@ -377,7 +377,7 @@ namespace Tools.Tests
 
             _manager
                 .InitializeWith(someItemsPerPage, allItems);
-           
+
             Assert.That(_manager.BinaryDeserializedInMemory().NumberOfPages, Is.EqualTo(_manager.NumberOfPages));
         }
 

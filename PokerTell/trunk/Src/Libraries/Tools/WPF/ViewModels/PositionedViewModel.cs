@@ -4,7 +4,7 @@ namespace Tools.WPF.ViewModels
 
     using Interfaces;
 
-    public abstract class PositionedViewModel<T> : ViewModel, IPositionedViewModel<T>
+    public abstract class PositionedViewModel<T> : NotifyPropertyChanged, IPositionedViewModel<T>
     {
         #region Constants and Fields
 

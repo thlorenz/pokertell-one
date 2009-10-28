@@ -1,5 +1,6 @@
 namespace PokerTell.PokerHand.ViewModels.Design
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
 
@@ -9,9 +10,12 @@ namespace PokerTell.PokerHand.ViewModels.Design
 
     using log4net;
 
+    using Services;
+
     using Tools;
     using Tools.Interfaces;
-
+    
+    [Serializable]
     public class HandHistoriesViewModel : ViewModels.HandHistoriesViewModel
     {
         static readonly ILog Log =
@@ -20,14 +24,16 @@ namespace PokerTell.PokerHand.ViewModels.Design
         public HandHistoriesViewModel()
             : this(
                 new Constructor<IHandHistoryViewModel>(() => new HandHistoryViewModel()),
-                new ItemsPagesManager<IHandHistoryViewModel>())
+                new ItemsPagesManager<IHandHistoryViewModel>(),
+            new HandHistoriesFilter())
         {
         }
         
         public HandHistoriesViewModel(
             IConstructor<IHandHistoryViewModel> handHistoryViewModelMake,
-            IItemsPagesManager<IHandHistoryViewModel> itemsPageManager)
-            : base(handHistoryViewModelMake, itemsPageManager)
+            IItemsPagesManager<IHandHistoryViewModel> itemsPageManager,
+            IHandHistoriesFilter handHistoriesFilter)
+            : base(handHistoryViewModelMake, itemsPageManager, handHistoriesFilter)
         {
             var designHelper = new DesignHelper();
             var hands = new List<IConvertedPokerHand>();

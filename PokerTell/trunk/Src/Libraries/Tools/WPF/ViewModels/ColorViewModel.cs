@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace Tools.WPF.ViewModels
 {
-    public class ColorViewModel : ViewModel
+    public class ColorViewModel : NotifyPropertyChanged
     {
         private Color _color;
         public ColorViewModel() : this("UnNamed") {}

@@ -5,12 +5,6 @@
 
     public static class ArrayComparer
     {
-        #region Constants and Fields
-
-        static bool ShowMessages = false;
-
-        #endregion
-
         #region Public Methods
 
         public static bool EqualsArray(this Array array1, Array array2)
@@ -24,6 +18,8 @@
 
         static bool ArraysAreEqual(Array array1, Array array2)
         {
+            bool ShowMessages = false;
+            
             if (array1 == null && array2 == null)
             {
                 return true;

@@ -10,13 +10,12 @@ namespace Tools.WPF.ViewModels
     using System.Linq.Expressions;
 
     using Tools.GenericUtilities;
-    using Tools.WPF.Interfaces;
 
     /// <summary>
     /// Abstract ViewModel that implements property name check when RaisePropertyChanged is raised
     /// </summary>
     [Serializable]
-    public abstract class ViewModel : IViewModel
+    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
         #region Events
         [field: NonSerialized]       

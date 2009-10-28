@@ -1,11 +1,10 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System.ComponentModel;
     using System.Windows;
     using System.Windows.Controls;
 
-    using Tools.WPF.Interfaces;
-
-    public interface IHoleCardsViewModel : IViewModel
+    public interface IHoleCardsViewModel : INotifyPropertyChanged
     {
         string Rank1 { get; set; }
 

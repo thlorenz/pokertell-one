@@ -14,17 +14,13 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         bool ShowSelectOption { get; set; }
 
-        bool ShowSelectedOnly { get; set; }
-
-        bool ShowPreflopFolds { get; set; }
-
-        string HeroName { get; set; }
-
         IEnumerable<IHandHistoryViewModel> SelectedHandHistories { get; }
 
-        IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
+        ObservableCollection<int> PageNumbers { get; }
 
-        void SelectPlayer(bool clearSelection);
+        IHandHistoriesFilter HandHistoriesFilter { get; }
+
+        IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
 
         IHandHistoriesViewModel InitializeWith(
             IEnumerable<IConvertedPokerHand> convertedPokerHands, int itemsPerPage);

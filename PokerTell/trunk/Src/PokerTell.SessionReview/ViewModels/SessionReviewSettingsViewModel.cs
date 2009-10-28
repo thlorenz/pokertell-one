@@ -8,7 +8,7 @@ namespace PokerTell.SessionReview.ViewModels
 
     using Tools.WPF.ViewModels;
 
-    public class SessionReviewSettingsViewModel : ViewModel
+    public class SessionReviewSettingsViewModel : NotifyPropertyChanged
     {
         #region Constants and Fields
 
@@ -22,16 +22,6 @@ namespace PokerTell.SessionReview.ViewModels
         readonly IInvestedMoneyCondition _investedMoneyCondition;
 
         readonly ISawFlopCondition _sawFlopCondition;
-
-        bool _selectHero;
-
-        bool _showAll;
-
-        bool _showMoneyInvested;
-
-        bool _showSawFlop;
-
-        bool _showSelectedOnly;
 
         #endregion
 
@@ -48,126 +38,67 @@ namespace PokerTell.SessionReview.ViewModels
             _investedMoneyCondition = investedMoneyCondition;
 
             _handHistoriesViewModel = handHistoriesViewModel;
-            _handHistoriesViewModel.ShowSelectOption = true;
+            HandHistoriesViewModel.ShowSelectOption = true;
 
-            HeroName = "hero";
-            ShowAll = true;
+            HandHistoriesViewModel.HandHistoriesFilter.SelectHero = true;
+
+            ConnectToHandHistoryFilterEvents();
         }
 
         #endregion
 
         #region Properties
 
-        public string HeroName
+        public IHandHistoriesViewModel HandHistoriesViewModel
         {
-            get { return _handHistoriesViewModel.HeroName; }
-            set
-            {
-                _handHistoriesViewModel.HeroName = value;
-
-                UpdateSelectedPlayer();
-                UpdateShowMoneyInvested();
-                UpdateSawFlop();
-
-                RaisePropertyChanged(() => HeroName);
-            }
-        }
-
-        public bool SelectHero
-        {
-            get { return _selectHero; }
-            set
-            {
-                _selectHero = value;
-
-                UpdateSelectedPlayer();
-               
-                RaisePropertyChanged(() => SelectHero);
-            }
-        }
-
-        public bool ShowAll
-        {
-            get { return _showAll; }
-            set
-            {
-                _showAll = value;
-                if (_showAll && _handHistoriesViewModel != null)
-                {
-                    _handHistoriesViewModel.ApplyFilter(_alwaysTrueCondition);
-                }
-            }
-        }
-
-        public bool ShowMoneyInvested
-        {
-            get { return _showMoneyInvested; }
-            set
-            {
-                _showMoneyInvested = value;
-                UpdateShowMoneyInvested();
-            }
-        }
-
-        public bool ShowPreflopFolds
-        {
-            get { return _handHistoriesViewModel.ShowPreflopFolds; }
-            set { _handHistoriesViewModel.ShowPreflopFolds = value; }
-        }
-
-        public bool ShowSawFlop
-        {
-            get { return _showSawFlop; }
-            set
-            {
-                _showSawFlop = value;
-                UpdateSawFlop();
-            }
-        }
-
-        public bool ShowSelectedOnly
-        {
-            get { return _showSelectedOnly; }
-            set
-            {
-                _showSelectedOnly = value;
-
-                if (_handHistoriesViewModel != null)
-                {
-                    _handHistoriesViewModel.ShowSelectedOnly = value;
-                }
-
-                RaisePropertyChanged(() => ShowSelectedOnly);
-            }
+            get { return _handHistoriesViewModel; }
         }
 
         #endregion
 
         #region Methods
 
-        void UpdateSawFlop()
+        void ConnectToHandHistoryFilterEvents()
         {
-            if (_showSawFlop && _handHistoriesViewModel != null)
+            HandHistoriesViewModel.HandHistoriesFilter.HeroNameChanged += OnHeroNameChanged;
+            HandHistoriesViewModel.HandHistoriesFilter.ShowAllChanged += OnShowAllChanged;
+            HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvestedChanged += OnShowMoneyInvestedChanged;
+            HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlopChanged += OnSawFlopChanged;
+        }
+
+        void OnHeroNameChanged()
+        {
+            // Trigger SelectHeroChangedEvent
+            HandHistoriesViewModel.HandHistoriesFilter.SelectHero =
+                HandHistoriesViewModel.HandHistoriesFilter.SelectHero;
+
+            OnShowMoneyInvestedChanged();
+            OnSawFlopChanged();
+        }
+
+        void OnSawFlopChanged()
+        {
+            if (HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlop && HandHistoriesViewModel != null)
             {
-                _sawFlopCondition.AppliesTo(HeroName);
-                _handHistoriesViewModel.ApplyFilter(_sawFlopCondition);
+                _sawFlopCondition.AppliesTo(_handHistoriesViewModel.HandHistoriesFilter.HeroName);
+                HandHistoriesViewModel.ApplyFilter(_sawFlopCondition);
             }
         }
 
-        void UpdateSelectedPlayer()
+        void OnShowAllChanged()
         {
-            if (_handHistoriesViewModel != null)
+            if (HandHistoriesViewModel.HandHistoriesFilter.ShowAll && HandHistoriesViewModel != null)
             {
-                _handHistoriesViewModel.SelectPlayer(! _selectHero);
+                HandHistoriesViewModel.ApplyFilter(_alwaysTrueCondition);
             }
         }
 
-        void UpdateShowMoneyInvested()
+        void OnShowMoneyInvestedChanged()
         {
-            if (_showMoneyInvested && _handHistoriesViewModel != null)
+            if (HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvested && HandHistoriesViewModel != null)
             {
-                _investedMoneyCondition.AppliesTo(HeroName);
-                _handHistoriesViewModel.ApplyFilter(_investedMoneyCondition);
+                _investedMoneyCondition.AppliesTo(_handHistoriesViewModel.HandHistoriesFilter.HeroName);
+                HandHistoriesViewModel.ApplyFilter(_investedMoneyCondition);
             }
         }
 

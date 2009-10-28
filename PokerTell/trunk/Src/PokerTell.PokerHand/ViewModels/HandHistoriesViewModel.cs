@@ -4,6 +4,7 @@ namespace PokerTell.PokerHand.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Runtime.Serialization;
     using System.Windows.Input;
 
     using PokerTell.Infrastructure.Interfaces;
@@ -14,9 +15,11 @@ namespace PokerTell.PokerHand.ViewModels
     using Tools.WPF.ViewModels;
 
     [Serializable]
-    public class HandHistoriesViewModel : ViewModel, IHandHistoriesViewModel
+    public class HandHistoriesViewModel : NotifyPropertyChanged, IHandHistoriesViewModel
     {
         #region Constants and Fields
+
+        readonly IHandHistoriesFilter _handHistoriesFilter;
 
         [NonSerialized]
         readonly IConstructor<IHandHistoryViewModel> _handHistoryViewModelMake;
@@ -24,19 +27,13 @@ namespace PokerTell.PokerHand.ViewModels
         readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
 
         [NonSerialized]
-        readonly ObservableCollection<int> _pageNumbers;
-
-        string _heroName;
-
-        [NonSerialized]
         ICommand _navigateBackwardCommand;
 
         [NonSerialized]
         ICommand _navigateForwardCommand;
 
-        bool _showPreflopFolds;
-
-        bool _showSelectedOnly;
+        [NonSerialized]
+        ObservableCollection<int> _pageNumbers;
 
         bool _showSelectOption;
 
@@ -46,8 +43,10 @@ namespace PokerTell.PokerHand.ViewModels
 
         public HandHistoriesViewModel(
             IConstructor<IHandHistoryViewModel> handHistoryViewModelMake, 
-            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager)
+            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager, 
+            IHandHistoriesFilter handHistoriesFilter)
         {
+            _handHistoriesFilter = handHistoriesFilter;
             _itemsPagesManager = itemsPagesManager;
             _handHistoryViewModelMake = handHistoryViewModelMake;
             _pageNumbers = new ObservableCollection<int>();
@@ -74,15 +73,14 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
+        public IHandHistoriesFilter HandHistoriesFilter
+        {
+            get { return _handHistoriesFilter; }
+        }
+
         public ObservableCollection<IHandHistoryViewModel> HandHistoriesOnPage
         {
             get { return _itemsPagesManager.ItemsOnCurrentPage; }
-        }
-
-        public string HeroName
-        {
-            get { return _heroName; }
-            set { _heroName = value; }
         }
 
         public ICommand NavigateBackwardCommand
@@ -135,26 +133,6 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        public bool ShowPreflopFolds
-        {
-            get { return _showPreflopFolds; }
-            set
-            {
-                _showPreflopFolds = value;
-                OnShowPreflopFoldsChanged();
-            }
-        }
-
-        public bool ShowSelectedOnly
-        {
-            get { return _showSelectedOnly; }
-            set
-            {
-                _showSelectedOnly = value;
-                OnShowSelectedOnlyChanged();
-            }
-        }
-
         public bool ShowSelectOption
         {
             get { return _showSelectOption; }
@@ -196,13 +174,17 @@ namespace PokerTell.PokerHand.ViewModels
                 IHandHistoryViewModel handHistoryViewModel = _handHistoryViewModelMake.New;
 
                 handHistoryViewModel
-                    .Initialize(_showPreflopFolds)
+                    .Initialize(_handHistoriesFilter.ShowPreflopFolds)
                     .UpdateWith(hand);
 
                 handHistoryViewModels.Add(handHistoryViewModel);
             }
 
             _itemsPagesManager.InitializeWith((uint)itemsPerPage, handHistoryViewModels);
+
+            ConnectToHandHistoryFilterEvents();
+
+            UpdatePageInfo();
 
             return this;
         }
@@ -213,11 +195,11 @@ namespace PokerTell.PokerHand.ViewModels
             return this;
         }
 
-        public void SelectPlayer(bool clearSelection)
+        public void OnSelectHeroChanged()
         {
             foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
             {
-                handHistoryViewModel.SelectRowOfPlayer(clearSelection ? null : _heroName);
+                handHistoryViewModel.SelectRowOfPlayer(HandHistoriesFilter.SelectHero ? _handHistoriesFilter.HeroName : null);
             }
         }
 
@@ -231,13 +213,13 @@ namespace PokerTell.PokerHand.ViewModels
         {
             foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
             {
-                model.ShowPreflopFolds = _showPreflopFolds;
+                model.ShowPreflopFolds = _handHistoriesFilter.ShowPreflopFolds;
             }
         }
 
         protected virtual void OnShowSelectedOnlyChanged()
         {
-            _itemsPagesManager.FilterItems(model => ((!_showSelectedOnly) || model.IsSelected));
+            _itemsPagesManager.FilterItems(model => ((!_handHistoriesFilter.ShowSelectedOnly) || model.IsSelected));
             UpdatePageInfo();
         }
 
@@ -249,6 +231,13 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
+        void ConnectToHandHistoryFilterEvents()
+        {
+            _handHistoriesFilter.ShowPreflopFoldsChanged += OnShowPreflopFoldsChanged;
+            _handHistoriesFilter.ShowSelectedOnlyChanged += OnShowSelectedOnlyChanged;
+            _handHistoriesFilter.SelectHeroChanged += OnSelectHeroChanged;
+        }
+
         void InvokePageTurn()
         {
             Action changed = PageTurn;
@@ -258,6 +247,19 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
+        [OnDeserialized]
+        void OnDeserialized(StreamingContext context)
+        {
+            ConnectToHandHistoryFilterEvents();
+            _itemsPagesManager.Deserialized += OnItemsPagesManagerDeserialized;
+        }
+
+        void OnItemsPagesManagerDeserialized()
+        {
+            _pageNumbers = new ObservableCollection<int>();
+            UpdatePageInfo();
+        }
+
         void UpdatePageInfo()
         {
             RaisePropertyChanged(() => PageNavigationInfo);
@@ -265,7 +267,7 @@ namespace PokerTell.PokerHand.ViewModels
             InvokePageTurn();
 
             _pageNumbers.Clear();
-          
+
             for (int i = 0; i < _itemsPagesManager.NumberOfPages; i++)
             {
                 _pageNumbers.Add(i + 1);

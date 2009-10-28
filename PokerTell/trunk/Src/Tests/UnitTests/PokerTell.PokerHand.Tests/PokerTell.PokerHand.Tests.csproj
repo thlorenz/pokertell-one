@@ -120,6 +120,7 @@
     <Compile Include="Fakes\StubCondition.cs" />
     <Compile Include="ThatConvertedPokerAction.cs" />
     <Compile Include="ThatConvertedPokerRound.cs" />
+    <Compile Include="ThatHandHistoriesFilter.cs" />
     <Compile Include="ThatPokerPlayer.cs" />
     <Compile Include="ThatSawFlopCondition.cs" />
     <Compile Include="ThatHandHistoriesViewModel.cs" />

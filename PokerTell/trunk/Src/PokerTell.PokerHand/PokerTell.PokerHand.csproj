@@ -117,6 +117,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\HandHistoriesFilter.cs" />
     <Compile Include="Services\IPokerRoundsConverter.cs" />
     <Compile Include="Services\PokerActionConverter.cs" />
     <Compile Include="Services\IPokerActionConverter.cs" />

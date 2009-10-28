@@ -2,23 +2,35 @@ namespace PokerTell.PokerHand.Tests.Fakes
 {
     using System;
 
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHand.ViewModels;
 
     using Tools.Interfaces;
-
-    using ViewModels;
 
     [Serializable]
     public class FakeHandHistoriesViewModel : HandHistoriesViewModel
     {
+        #region Constants and Fields
+
         public bool InterceptOnSetMethods;
 
-        public FakeHandHistoriesViewModel(IConstructor<IHandHistoryViewModel> handHistoryViewModelMake, IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager)
-            : base(handHistoryViewModelMake, itemsPagesManager)
+        #endregion
+
+        #region Constructors and Destructors
+
+        public FakeHandHistoriesViewModel(
+            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake, 
+            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager, 
+            IHandHistoriesFilter handHistoriesFilter)
+            : base(handHistoryViewModelMake, itemsPagesManager, handHistoriesFilter)
         {
             InterceptOnSetMethods = false;
         }
+
+        #endregion
+
+        #region Methods
 
         protected override void OnShowPreflopFoldsChanged()
         {
@@ -43,5 +55,7 @@ namespace PokerTell.PokerHand.Tests.Fakes
                 base.OnShowSelectOptionChanged();
             }
         }
+
+        #endregion
     }
 }
