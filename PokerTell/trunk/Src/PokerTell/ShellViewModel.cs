@@ -16,7 +16,7 @@ namespace PokerTell
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
-    public class ShellViewModel : ViewModel, IShellViewModel
+    public class ShellViewModel : NotifyPropertyChanged, IShellViewModel
     {
         #region Constants and Fields
 

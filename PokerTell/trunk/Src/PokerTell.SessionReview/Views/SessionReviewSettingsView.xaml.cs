@@ -1,13 +1,15 @@
 ﻿namespace PokerTell.SessionReview.Views
 {
-    using System.Windows.Controls;
+    using System.Windows;
 
-    using ViewModels;
+    using Infrastructure.Interfaces.PokerHand;
+
+    using PokerTell.SessionReview.ViewModels;
 
     /// <summary>
     /// Interaction logic for SessionReviewSettingsView.xaml
     /// </summary>
-    public partial class SessionReviewSettingsView 
+    public partial class SessionReviewSettingsView
     {
         #region Constructors and Destructors
 
@@ -19,40 +21,49 @@
             DataContext = viewModel;
         }
 
+        #endregion
+
+        #region Properties
+
         public SessionReviewSettingsViewModel ViewModel { get; private set; }
 
         #endregion
 
-        private void All_Checked(object sender, System.Windows.RoutedEventArgs e)
+        #region Methods
+
+        void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             if (ViewModel != null)
             {
-                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowAll = true;
+                var filter = ViewModel.HandHistoriesViewModel.HandHistoriesFilter;
+
+                ReflectChangedRadioButtonIn(filter);
             }
         }
 
-        private void MoneyInvested_Checked(object sender, System.Windows.RoutedEventArgs e)
+        void ReflectChangedRadioButtonIn(IHandHistoriesFilter filter)
         {
-            if (ViewModel != null)
+            if (filter.ShowAll != (bool)radShowAll.IsChecked)
             {
-                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvested = true;
+                filter.ShowAll = (bool)radShowAll.IsChecked;
+            }
+
+            if (filter.ShowMoneyInvested != (bool)radShowMoneyInvested.IsChecked)
+            {
+                filter.ShowMoneyInvested = (bool)radShowMoneyInvested.IsChecked;
+            }
+
+            if (filter.ShowSawFlop != (bool)radShowSawFlop.IsChecked)
+            {
+                filter.ShowSawFlop = (bool)radShowSawFlop.IsChecked;
+            }
+
+            if (filter.ShowSelectedOnly != (bool)radShowSelectedOnly.IsChecked)
+            {
+                filter.ShowSelectedOnly = (bool)radShowSelectedOnly.IsChecked;
             }
         }
 
-        private void SawFlop_Checked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (ViewModel != null)
-            {
-                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlop = true;
-            }
-        }
-
-        private void SelectedOnly_Checked(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (ViewModel != null)
-            {
-                ViewModel.HandHistoriesViewModel.HandHistoriesFilter.ShowSelectedOnly = true;
-            }
-        }
+        #endregion
     }
 }

@@ -22,7 +22,7 @@ namespace PokerTell.Infrastructure.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class StringResources {
+    internal class StringResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.Infrastructure.Resources.StringResources", typeof(StringResources).Assembly);
@@ -51,7 +51,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Unable to connect to the Database.
         /// </summary>
-        public static string Error_Database_UnableToConnect {
+        internal static string Error_Database_UnableToConnect {
             get {
                 return ResourceManager.GetString("Error.Database.UnableToConnect", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Unable to access registry.
         /// </summary>
-        public static string Error_UnableToAccessRegistry {
+        internal static string Error_UnableToAccessRegistry {
             get {
                 return ResourceManager.GetString("Error.UnableToAccessRegistry", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to PokerTell encountered an unexpected error.
         /// </summary>
-        public static string Error_Unexpected {
+        internal static string Error_Unexpected {
             get {
                 return ResourceManager.GetString("Error.Unexpected", resourceCulture);
             }
@@ -89,11 +89,10 @@ namespace PokerTell.Infrastructure.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to Connected to the specified Poker Office Server.
-        ///Now you can choose and connect to a Poker Office Database.
-        ///
+        ///Now you can choose and connect to a Poker Office Database.        ///
         ///.
         /// </summary>
-        public static string Info_ConnectPokerOffice_Connected {
+        internal static string Info_ConnectPokerOffice_Connected {
             get {
                 return ResourceManager.GetString("Info.ConnectPokerOffice.Connected", resourceCulture);
             }
@@ -102,7 +101,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Successfully created the {0} database..
         /// </summary>
-        public static string Info_Database_DatabaseCreated {
+        internal static string Info_Database_DatabaseCreated {
             get {
                 return ResourceManager.GetString("Info.Database.DatabaseCreated", resourceCulture);
             }
@@ -111,7 +110,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Connect to the MySql Server first by using the Database Settings. .
         /// </summary>
-        public static string Solution_Database_InvalidOperationException {
+        internal static string Solution_Database_InvalidOperationException {
             get {
                 return ResourceManager.GetString("Solution.Database.InvalidOperationException", resourceCulture);
             }
@@ -120,7 +119,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Reinstall the application and/or make sure, that the directory exists..
         /// </summary>
-        public static string Solution_DirectoryNotFoundException {
+        internal static string Solution_DirectoryNotFoundException {
             get {
                 return ResourceManager.GetString("Solution.DirectoryNotFoundException", resourceCulture);
             }
@@ -129,7 +128,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Please reinstall or move the application to a path not as long for example: &quot;C:\Program Files\PokerTell\ &quot;..
         /// </summary>
-        public static string Solution_ExceptionPathTooLongException {
+        internal static string Solution_ExceptionPathTooLongException {
             get {
                 return ResourceManager.GetString("Solution.ExceptionPathTooLongException", resourceCulture);
             }
@@ -139,7 +138,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///   Looks up a localized string similar to Please check the Poker Office database settings and make sure the MySQL Database in Poker Office is functioning properly.
         /// .
         /// </summary>
-        public static string Solution_ImportPokerOffice_InvalidOperationException {
+        internal static string Solution_ImportPokerOffice_InvalidOperationException {
             get {
                 return ResourceManager.GetString("Solution.ImportPokerOffice.InvalidOperationException", resourceCulture);
             }
@@ -150,7 +149,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///PokerTell will now import as many HandHistoriess as possible. 
         ///You may run this import again to import the remaining HandHistoriess .
         /// </summary>
-        public static string Solution_ImportPokerOffice_OutOfMemoryException {
+        internal static string Solution_ImportPokerOffice_OutOfMemoryException {
             get {
                 return ResourceManager.GetString("Solution.ImportPokerOffice.OutOfMemoryException", resourceCulture);
             }
@@ -159,7 +158,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Make sure you have access to the drive and directory you are trying to access and that the file you are trying to write to or delete is not currently in use..
         /// </summary>
-        public static string Solution_IOException {
+        internal static string Solution_IOException {
             get {
                 return ResourceManager.GetString("Solution.IOException", resourceCulture);
             }
@@ -168,7 +167,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Make sure that the Hand History for the AutoTracker still exists and/or check the Hand History Folder in the Poker Room Settings..
         /// </summary>
-        public static string Solution_LiveTracker_FileWatcher_ArgumentException {
+        internal static string Solution_LiveTracker_FileWatcher_ArgumentException {
             get {
                 return ResourceManager.GetString("Solution.LiveTracker.FileWatcher.ArgumentException", resourceCulture);
             }
@@ -177,7 +176,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Add the PokerRoom and enter its settings again via the Manage Rooms option..
         /// </summary>
-        public static string Solution_Main_PokerRooms_FileNotFoundException {
+        internal static string Solution_Main_PokerRooms_FileNotFoundException {
             get {
                 return ResourceManager.GetString("Solution.Main.PokerRooms.FileNotFoundException", resourceCulture);
             }
@@ -188,7 +187,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///Please make sure the database server is running and check the Database Settings.
         ///Check that the hostname, username and possibly password were entered correctly..
         /// </summary>
-        public static string Solution_MySqlException_ACCESS_DENIED_ERROR {
+        internal static string Solution_MySqlException_ACCESS_DENIED_ERROR {
             get {
                 return ResourceManager.GetString("Solution.MySqlException.ACCESS_DENIED_ERROR", resourceCulture);
             }
@@ -198,7 +197,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///   Looks up a localized string similar to The database you were trying to access doesn&apos;t exist.
         ///Please create and/or choose another database to use with PokerTell..
         /// </summary>
-        public static string Solution_MySqlException_BAD_DB_ERROR {
+        internal static string Solution_MySqlException_BAD_DB_ERROR {
             get {
                 return ResourceManager.GetString("Solution.MySqlException.BAD_DB_ERROR", resourceCulture);
             }
@@ -209,7 +208,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///Another reason for this problem could be, that the host was set incorrectly in the database settings.
         ///In that case you should correct this, generally &apos;localhost&apos; will work..
         /// </summary>
-        public static string Solution_MySqlException_BAD_HOST_ERROR {
+        internal static string Solution_MySqlException_BAD_HOST_ERROR {
             get {
                 return ResourceManager.GetString("Solution.MySqlException.BAD_HOST_ERROR", resourceCulture);
             }
@@ -218,7 +217,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Make sure you have enough access privileges. Try logging into windows using a different account or talk to your administrator..
         /// </summary>
-        public static string Solution_System_Security_SecurityException {
+        internal static string Solution_System_Security_SecurityException {
             get {
                 return ResourceManager.GetString("Solution.System.Security.SecurityException", resourceCulture);
             }
@@ -227,7 +226,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Make sure you have enough access privileges. Try logging into windows using a different account or talk to your administrator..
         /// </summary>
-        public static string Solution_UnauthorizedAccessException {
+        internal static string Solution_UnauthorizedAccessException {
             get {
                 return ResourceManager.GetString("Solution.UnauthorizedAccessException", resourceCulture);
             }
@@ -237,7 +236,7 @@ namespace PokerTell.Infrastructure.Resources {
         ///   Looks up a localized string similar to PokerTell was unable to connect to the PokerOffice Database specified in the Database settings. 
         ///Please make sure the MySql Server is running an/or reconnect to the PokerOffice database using the Database Menu..
         /// </summary>
-        public static string Warning_Database_UnableToConnectToPokerOfficeDatabase {
+        internal static string Warning_Database_UnableToConnectToPokerOfficeDatabase {
             get {
                 return ResourceManager.GetString("Warning.Database.UnableToConnectToPokerOfficeDatabase", resourceCulture);
             }
@@ -246,7 +245,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to PokerTell was unable to connect to the PokerOffice Database Server using the username and password specified in the settings. Please correct this first before trying to connect to the PokerOffice Database..
         /// </summary>
-        public static string Warning_Database_UnableToConnectToPokerOfficeServer {
+        internal static string Warning_Database_UnableToConnectToPokerOfficeServer {
             get {
                 return ResourceManager.GetString("Warning.Database.UnableToConnectToPokerOfficeServer", resourceCulture);
             }
@@ -255,7 +254,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Please enter a server and username in order to test the connection..
         /// </summary>
-        public static string Warning_DatabaseSettings_InvalidForServerConnect {
+        internal static string Warning_DatabaseSettings_InvalidForServerConnect {
             get {
                 return ResourceManager.GetString("Warning.DatabaseSettings.InvalidForServerConnect", resourceCulture);
             }
@@ -264,7 +263,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find a MySQl installation. If you are sure it is installed carefully enter the settings..
         /// </summary>
-        public static string Warning_DatabaseSettings_MySQLNotFound {
+        internal static string Warning_DatabaseSettings_MySQLNotFound {
             get {
                 return ResourceManager.GetString("Warning.DatabaseSettings.MySQLNotFound", resourceCulture);
             }
@@ -273,7 +272,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Unable to connect. Please make sure the database server is running and check the Database Settings..
         /// </summary>
-        public static string Warning_DatabaseSettings_UnableToConnect {
+        internal static string Warning_DatabaseSettings_UnableToConnect {
             get {
                 return ResourceManager.GetString("Warning.DatabaseSettings.UnableToConnect", resourceCulture);
             }
@@ -282,7 +281,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find the specified directory. Please enter a correct one, preferrably using the Browse option..
         /// </summary>
-        public static string Warning_ImportDirectory_DirectoryNotFound {
+        internal static string Warning_ImportDirectory_DirectoryNotFound {
             get {
                 return ResourceManager.GetString("Warning.ImportDirectory.DirectoryNotFound", resourceCulture);
             }
@@ -291,7 +290,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to An error occurred while trying to import the Hand Histories. No hands were imported..
         /// </summary>
-        public static string Warning_ImportDirectory_ErrorWhileImporting {
+        internal static string Warning_ImportDirectory_ErrorWhileImporting {
             get {
                 return ResourceManager.GetString("Warning.ImportDirectory.ErrorWhileImporting", resourceCulture);
             }
@@ -300,7 +299,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Didn&apos;t find any files with the specified extension in the specified directory and therefore cannot import anything..
         /// </summary>
-        public static string Warning_ImportDirectory_FilesNotFound {
+        internal static string Warning_ImportDirectory_FilesNotFound {
             get {
                 return ResourceManager.GetString("Warning.ImportDirectory.FilesNotFound", resourceCulture);
             }
@@ -309,7 +308,7 @@ namespace PokerTell.Infrastructure.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Please select a PokerRoom from the Rooms Menu or if needed add Rooms via the Manage Rooms option first..
         /// </summary>
-        public static string Warning_NoPokerRoomSelected {
+        internal static string Warning_NoPokerRoomSelected {
             get {
                 return ResourceManager.GetString("Warning.NoPokerRoomSelected", resourceCulture);
             }

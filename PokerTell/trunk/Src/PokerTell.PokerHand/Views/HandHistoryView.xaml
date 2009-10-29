@@ -273,7 +273,7 @@
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Margin="0, 5"
-                    Text="{Binding Note}"
+                    Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Background="WhiteSmoke"
                     Foreground="Black"
                     MinHeight="20" 

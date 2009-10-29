@@ -1,18 +1,15 @@
-namespace PokerTell.SessionReview
+namespace PokerTell.Repository
 {
     using System.Reflection;
-    using System.Windows.Controls;
+
+    using Infrastructure.Interfaces.Repository;
 
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
-    using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
-    using PokerTell.SessionReview.ViewModels;
-    using PokerTell.SessionReview.Views;
-
-    public class SessionReviewModule : IModule
+    public class RepositoryModule : IModule
     {
         #region Constants and Fields
 
@@ -21,16 +18,13 @@ namespace PokerTell.SessionReview
 
         readonly IUnityContainer _container;
 
-        readonly IRegionManager _regionManager;
-
         #endregion
 
         #region Constructors and Destructors
 
-        public SessionReviewModule(IUnityContainer container, IRegionManager regionManager)
+        public RepositoryModule(IUnityContainer container)
         {
             _container = container;
-            _regionManager = regionManager;
         }
 
         #endregion
@@ -41,11 +35,9 @@ namespace PokerTell.SessionReview
 
         public void Initialize()
         {
-            _container.RegisterType<ISessionReviewViewModel, SessionReviewViewModel>();
-
-            MenuItem sessionReviewMenuItem = _container.Resolve<SessionReviewMenuItemFactory>().Create();
-            _regionManager.Regions["Shell.MainMenuRegion"].Add(sessionReviewMenuItem);
-
+            _container
+                .RegisterType<RepositoryParser>(new ContainerControlledLifetimeManager())
+                .RegisterType<IRepository, Repository>(new ContainerControlledLifetimeManager());
             Log.Info("got initialized.");
         }
 

@@ -139,7 +139,7 @@ namespace PokerTell.PokerHand.ViewModels
             set
             {
                 _showSelectOption = value;
-                OnShowSelectOptionChanged();
+                SetAllHandHistoriesShowSelectOption();
             }
         }
 
@@ -195,11 +195,11 @@ namespace PokerTell.PokerHand.ViewModels
             return this;
         }
 
-        public void OnSelectHeroChanged()
+        public void SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue()
         {
             foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
             {
-                handHistoryViewModel.SelectRowOfPlayer(HandHistoriesFilter.SelectHero ? _handHistoriesFilter.HeroName : null);
+                handHistoryViewModel.SelectRowOfPlayer(HandHistoriesFilter.SelectHero ? HandHistoriesFilter.HeroName : null);
             }
         }
 
@@ -209,21 +209,23 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region Methods
 
-        protected virtual void OnShowPreflopFoldsChanged()
+        protected virtual void ShowPreflopFoldsInAllHandHistoriesIfShowPreflopFoldsIsTrue()
         {
             foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
             {
                 model.ShowPreflopFolds = _handHistoriesFilter.ShowPreflopFolds;
             }
+
+            SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue();
         }
 
-        protected virtual void OnShowSelectedOnlyChanged()
+        protected virtual void FilterOutUnselectedHandHistoriesIfShowSelectedOnlyIsTrue()
         {
             _itemsPagesManager.FilterItems(model => ((!_handHistoriesFilter.ShowSelectedOnly) || model.IsSelected));
             UpdatePageInfo();
         }
 
-        protected virtual void OnShowSelectOptionChanged()
+        protected virtual void SetAllHandHistoriesShowSelectOption()
         {
             foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
             {
@@ -233,9 +235,9 @@ namespace PokerTell.PokerHand.ViewModels
 
         void ConnectToHandHistoryFilterEvents()
         {
-            _handHistoriesFilter.ShowPreflopFoldsChanged += OnShowPreflopFoldsChanged;
-            _handHistoriesFilter.ShowSelectedOnlyChanged += OnShowSelectedOnlyChanged;
-            _handHistoriesFilter.SelectHeroChanged += OnSelectHeroChanged;
+            _handHistoriesFilter.ShowPreflopFoldsChanged += ShowPreflopFoldsInAllHandHistoriesIfShowPreflopFoldsIsTrue;
+            _handHistoriesFilter.ShowSelectedOnlyChanged += FilterOutUnselectedHandHistoriesIfShowSelectedOnlyIsTrue;
+            _handHistoriesFilter.SelectHeroChanged += SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue;
         }
 
         void InvokePageTurn()
@@ -258,6 +260,7 @@ namespace PokerTell.PokerHand.ViewModels
         {
             _pageNumbers = new ObservableCollection<int>();
             UpdatePageInfo();
+            Console.WriteLine("Filter: {0}", _handHistoriesFilter);
         }
 
         void UpdatePageInfo()

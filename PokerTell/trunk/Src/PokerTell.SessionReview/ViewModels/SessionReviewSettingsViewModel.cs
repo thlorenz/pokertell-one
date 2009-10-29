@@ -1,5 +1,6 @@
 namespace PokerTell.SessionReview.ViewModels
 {
+    using System;
     using System.Reflection;
 
     using log4net;
@@ -40,8 +41,6 @@ namespace PokerTell.SessionReview.ViewModels
             _handHistoriesViewModel = handHistoriesViewModel;
             HandHistoriesViewModel.ShowSelectOption = true;
 
-            HandHistoriesViewModel.HandHistoriesFilter.SelectHero = true;
-
             ConnectToHandHistoryFilterEvents();
         }
 
@@ -54,52 +53,58 @@ namespace PokerTell.SessionReview.ViewModels
             get { return _handHistoriesViewModel; }
         }
 
+        public IHandHistoriesFilter Filter
+        {
+            get { return HandHistoriesViewModel.HandHistoriesFilter; }
+        }
+
         #endregion
 
         #region Methods
 
-        void ConnectToHandHistoryFilterEvents()
+        void ClearAllFilters()
         {
-            HandHistoriesViewModel.HandHistoriesFilter.HeroNameChanged += OnHeroNameChanged;
-            HandHistoriesViewModel.HandHistoriesFilter.ShowAllChanged += OnShowAllChanged;
-            HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvestedChanged += OnShowMoneyInvestedChanged;
-            HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlopChanged += OnSawFlopChanged;
-        }
-
-        void OnHeroNameChanged()
-        {
-            // Trigger SelectHeroChangedEvent
-            HandHistoriesViewModel.HandHistoriesFilter.SelectHero =
-                HandHistoriesViewModel.HandHistoriesFilter.SelectHero;
-
-            OnShowMoneyInvestedChanged();
-            OnSawFlopChanged();
-        }
-
-        void OnSawFlopChanged()
-        {
-            if (HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlop && HandHistoriesViewModel != null)
-            {
-                _sawFlopCondition.AppliesTo(_handHistoriesViewModel.HandHistoriesFilter.HeroName);
-                HandHistoriesViewModel.ApplyFilter(_sawFlopCondition);
-            }
-        }
-
-        void OnShowAllChanged()
-        {
-            if (HandHistoriesViewModel.HandHistoriesFilter.ShowAll && HandHistoriesViewModel != null)
+            if (Filter.ShowAll && HandHistoriesViewModel != null)
             {
                 HandHistoriesViewModel.ApplyFilter(_alwaysTrueCondition);
             }
         }
 
-        void OnShowMoneyInvestedChanged()
+        void ConnectToHandHistoryFilterEvents()
         {
-            if (HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvested && HandHistoriesViewModel != null)
+            Filter.HeroNameChanged += TriggerAllFiltersThatDependOnHeroName;
+            Filter.ShowAllChanged += ClearAllFilters;
+            Filter.ShowMoneyInvestedChanged += FilterOutHandHistoriesWhereHeroDidNotInvestMoney;
+            Filter.ShowSawFlopChanged += FilterOutHandHistoriesWhereHeroDidNotSeeTheFlop;
+        }
+
+        void FilterOutHandHistoriesWhereHeroDidNotInvestMoney()
+        {
+            if (Filter.ShowMoneyInvested && HandHistoriesViewModel != null)
             {
-                _investedMoneyCondition.AppliesTo(_handHistoriesViewModel.HandHistoriesFilter.HeroName);
+                _investedMoneyCondition.AppliesTo(Filter.HeroName);
                 HandHistoriesViewModel.ApplyFilter(_investedMoneyCondition);
             }
+        }
+
+        void FilterOutHandHistoriesWhereHeroDidNotSeeTheFlop()
+        {
+            if (Filter.ShowSawFlop && HandHistoriesViewModel != null)
+            {
+                _sawFlopCondition.AppliesTo(Filter.HeroName);
+                HandHistoriesViewModel.ApplyFilter(_sawFlopCondition);
+            }
+        }
+
+        void TriggerAllFiltersThatDependOnHeroName()
+        {
+            // Trigger SelectHeroChangedEvent
+            Filter.SelectHero = Filter.SelectHero;
+
+            Console.WriteLine("HeroName: {0}", Filter.HeroName);
+
+            FilterOutHandHistoriesWhereHeroDidNotInvestMoney();
+            FilterOutHandHistoriesWhereHeroDidNotSeeTheFlop();
         }
 
         #endregion

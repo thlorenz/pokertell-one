@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <StackPanel>
             <Label Content="Hero's Name" Margin="5"/>
-            <TextBox Text="{Binding HandHistoriesViewModel.HandHistoriesFilter.HeroName}" Margin="5"/>
+            <TextBox Text="{Binding Filter.HeroName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
         </StackPanel>
 
         <GroupBox Grid.Row="1" 
@@ -24,14 +24,22 @@
                   Margin="5"
                   Header="Show">
             <StackPanel>
-                <RadioButton Content="All" Checked="All_Checked" 
-                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowAll, Mode= OneWay}" />
-                <RadioButton Content="Money Invested"  Checked="MoneyInvested_Checked" 
-                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowMoneyInvested, Mode= OneWay}"/>
-                <RadioButton Content="Saw Flop" Checked="SawFlop_Checked" 
-                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowSawFlop, Mode= OneWay}" />
-                <RadioButton Content="Selected Only" Checked="SelectedOnly_Checked" 
-                             IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowSelectedOnly, Mode= OneWay}"/>
+                <RadioButton Content="All" 
+                             x:Name="radShowAll"
+                             Checked="RadioButton_Checked" 
+                             IsChecked="{Binding Filter.ShowAll, Mode= OneTime}" />
+                <RadioButton Content="Money Invested"
+                             x:Name="radShowMoneyInvested"
+                             Checked="RadioButton_Checked" 
+                             IsChecked="{Binding Filter.ShowMoneyInvested, Mode= OneTime}"/>
+                <RadioButton Content="Saw Flop" 
+                             x:Name="radShowSawFlop"
+                             Checked="RadioButton_Checked" 
+                             IsChecked="{Binding Filter.ShowSawFlop, Mode= OneTime}" />
+                <RadioButton Content="Selected Only"
+                             x:Name="radShowSelectedOnly"
+                             Checked="RadioButton_Checked" 
+                             IsChecked="{Binding Filter.ShowSelectedOnly, Mode= OneTime}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Grid.Row="2" 
@@ -40,9 +48,9 @@
                   Header="Display">
             <StackPanel>
                 <CheckBox Content="Select Hero" 
-                          IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.SelectHero}"/>
+                          IsChecked="{Binding Filter.SelectHero}"/>
                 <CheckBox Content="Inactive Players" 
-                          IsChecked="{Binding HandHistoriesViewModel.HandHistoriesFilter.ShowPreflopFolds}"/>
+                          IsChecked="{Binding Filter.ShowPreflopFolds}"/>
             </StackPanel>
         </GroupBox>
     </Grid>

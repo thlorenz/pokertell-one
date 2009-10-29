@@ -1,6 +1,7 @@
 namespace PokerTell.PokerHand.Views
 {
     using System;
+    using System.ComponentModel;
     using System.Windows.Controls.Primitives;
     using System.Windows.Input;
 
@@ -37,9 +38,9 @@ namespace PokerTell.PokerHand.Views
 
         #region Properties
 
-        public IViewModel ViewModel
+        public INotifyPropertyChanged ViewModel
         {
-            get { return (IViewModel)DataContext; }
+            get { return (INotifyPropertyChanged)DataContext; }
         }
 
         #endregion

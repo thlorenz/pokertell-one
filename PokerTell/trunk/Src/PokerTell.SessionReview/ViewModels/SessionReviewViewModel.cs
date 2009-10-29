@@ -146,10 +146,14 @@
 
         string BuildHtmlText()
         {
+            var filter = _handHistoriesViewModel.HandHistoriesFilter;
+          
+            var heroName = filter.SelectHero ? filter.HeroName : null;
+            
             string htmlHandHistories = HtmlStringBuilder.BuildFrom(
                 _handHistoriesViewModel.SelectedHandHistories,
-                _handHistoriesViewModel.HandHistoriesFilter.ShowPreflopFolds, 
-                _handHistoriesViewModel.HandHistoriesFilter.HeroName);
+                filter.ShowPreflopFolds,
+                heroName);
 
             Encoding enc = Encoding.UTF8;
 

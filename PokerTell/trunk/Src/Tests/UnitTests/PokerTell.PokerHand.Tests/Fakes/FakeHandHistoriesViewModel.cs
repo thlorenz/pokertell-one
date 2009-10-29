@@ -32,27 +32,27 @@ namespace PokerTell.PokerHand.Tests.Fakes
 
         #region Methods
 
-        protected override void OnShowPreflopFoldsChanged()
+        protected override void ShowPreflopFoldsInAllHandHistoriesIfShowPreflopFoldsIsTrue()
         {
             if (!InterceptOnSetMethods)
             {
-                base.OnShowPreflopFoldsChanged();
+                base.ShowPreflopFoldsInAllHandHistoriesIfShowPreflopFoldsIsTrue();
             }
         }
 
-        protected override void OnShowSelectedOnlyChanged()
+        protected override void FilterOutUnselectedHandHistoriesIfShowSelectedOnlyIsTrue()
         {
             if (!InterceptOnSetMethods)
             {
-                base.OnShowSelectedOnlyChanged();
+                base.FilterOutUnselectedHandHistoriesIfShowSelectedOnlyIsTrue();
             }
         }
 
-        protected override void OnShowSelectOptionChanged()
+        protected override void SetAllHandHistoriesShowSelectOption()
         {
             if (!InterceptOnSetMethods)
             {
-                base.OnShowSelectOptionChanged();
+                base.SetAllHandHistoriesShowSelectOption();
             }
         }
 

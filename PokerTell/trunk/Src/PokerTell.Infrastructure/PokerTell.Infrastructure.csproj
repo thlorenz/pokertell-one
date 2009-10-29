@@ -78,12 +78,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationProperties.cs" />
+    <Compile Include="CustomExceptions.cs" />
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="Enumerations\PokerHand\ActionTypes.cs" />
     <Compile Include="Enumerations\PokerHand\ReactionTypes.cs" />
     <Compile Include="Enumerations\PokerHand\StrategicPositions.cs" />
     <Compile Include="Enumerations\PokerHand\Streets.cs" />
     <Compile Include="Files.cs" />
+    <Compile Include="Interfaces\PokerHandParsers\IPokerHandParser.cs" />
+    <Compile Include="Interfaces\PokerHandParsers\IPokerHandParsers.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPlayerSeat.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPokerAction.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPokerHand.cs" />
@@ -109,8 +112,18 @@
     <Compile Include="Interfaces\PokerHand\IPokerHands.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerHandStringConverter.cs" />
     <Compile Include="Interfaces\PokerHand\IPokerPlayer.cs" />
+    <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\StringResources.Designer.cs" />
+    <Compile Include="Resources\ErrorMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\StringResources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>StringResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\Constructor.cs" />
     <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\IConstructor.cs" />
@@ -119,7 +132,14 @@
     <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\StringResources.resx" />
+    <EmbeddedResource Include="Resources\ErrorMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\StringResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>StringResources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Tools\Tools.csproj">
