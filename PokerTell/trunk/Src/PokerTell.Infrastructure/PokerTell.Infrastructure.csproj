@@ -125,7 +125,6 @@
       <DependentUpon>StringResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\Constructor.cs" />
-    <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\IConstructor.cs" />
     <Compile Include="Services\UnityExtensions.cs" />
     <Compile Include="Settings.cs" />

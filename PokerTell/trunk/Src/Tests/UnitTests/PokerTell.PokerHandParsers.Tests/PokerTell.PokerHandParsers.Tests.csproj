@@ -49,6 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PokerStars\ThatBoardParser.cs" />
+    <Compile Include="PokerStars\ThatPlayerActionsParser.cs" />
+    <Compile Include="PokerStars\ThatPlayerSeatsParser.cs" />
+    <Compile Include="PokerStars\ThatStreetsParser.cs" />
+    <Compile Include="ThatBoardParser.cs" />
+    <Compile Include="PokerStars\ThatAnteParser.cs" />
+    <Compile Include="ThatAnteParser.cs" />
+    <Compile Include="PokerStars\ThatTotalPotParser.cs" />
+    <Compile Include="ThatPlayerActionsParser.cs" />
+    <Compile Include="ThatPlayerSeatsParser.cs" />
+    <Compile Include="ThatStreetsParser.cs" />
+    <Compile Include="ThatTotalPotParser.cs" />
     <Compile Include="PokerStars\ThatBlindsParser.cs" />
     <Compile Include="PokerStars\ThatHandHeaderParser.cs" />
     <Compile Include="PokerStars\ThatSmallBlindSeatNumberParser.cs" />
@@ -64,9 +76,17 @@
     <Compile Include="ThatTotalSeatsParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
+      <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
+      <Name>PokerTell.Infrastructure</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PokerTell.PokerHandParsers\PokerTell.PokerHandParsers.csproj">
       <Project>{C43F98A6-E5E2-4DC1-A7B4-003BEDC62E85}</Project>
       <Name>PokerTell.PokerHandParsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PokerTell.PokerHand\PokerTell.PokerHand.csproj">
+      <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
+      <Name>PokerTell.PokerHand</Name>
     </ProjectReference>
     <ProjectReference Include="..\PokerTell.UnitTests\PokerTell.UnitTests.csproj">
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>

@@ -28,13 +28,13 @@ namespace PokerTell.UnitTests.Tools
 
         public void IsEqualTo(object expected)
         {
-            string failureMessage = string.Format("\nExpected: <{0}>\nBut was:  <{1}>", _actual, expected);
+            string failureMessage = string.Format("\nExpected: <{0}>\nBut was:  <{1}>", expected ,_actual);
             Assert.That(_actual.Equals(expected), Is.True, failureMessage);
         }
 
         public void IsNotEqualTo(object expected)
         {
-            string failureMessage = string.Format("\nDid not excpect: <{0}>\nBut was:         <{1}>", _actual, expected);
+            string failureMessage = string.Format("\nDid not excpect: <{0}>\nBut was:         <{1}>", expected, _actual);
             Assert.That(_actual.Equals(expected), Is.False, failureMessage);
         }
     }
