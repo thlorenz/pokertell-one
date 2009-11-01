@@ -10,10 +10,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHandParsers
 
         IDictionary<ulong, string> ExtractSeparateHandHistories(string handHistories);
 
-        IAquiredPokerHand ParseHand(string handHistory);
+        IPokerHandParser ParseHand(string handHistory);
 
         bool RecognizesHandHistoriesIn(string histories);
 
         #endregion
+
+        bool IsValid { get; }
+
+        IAquiredPokerHand AquiredPokerHand { get; }
+
+        bool LogVerbose { get; set; }
     }
 }

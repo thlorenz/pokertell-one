@@ -113,6 +113,18 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.PlayerSeats[seatNumber2], Is.EqualTo(playerData2));
         }
 
+        [Test]
+        public void Parse_SameSeatContainedTwice_AddsSeatOnlyOnceWithoutThrowingAnException()
+        {
+            const int seatNumber = 1;
+            var playerData = CreateSomePlayerData();
+
+            string handHistory = TwoSeatsWithPlayers(seatNumber, playerData, seatNumber, playerData);
+
+            _parser.Parse(handHistory);
+            Assert.That(_parser.PlayerSeats[seatNumber], Is.EqualTo(playerData));
+        }
+
         static PlayerSeatsParser.PlayerData CreateSomePlayerData()
         {
             const string playerName = "somePlayer";

@@ -10,7 +10,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// <summary>
         /// Absolute seat number of player as stated in the Hand History
         /// </summary>
-        int AbsSeatNum { get; set; }
+        int SeatNumber { get; set; }
 
         /// <summary>
         /// Players Hole Cards - set to "??" when unknown

@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand.Aquisition
     /// <summary>
     /// Description of PokerPlayer.
     /// </summary>
-    public class AquiredPokerPlayer : PokerPlayer, IAquiredPokerPlayer, IComparable<IAquiredPokerPlayer>
+    public class AquiredPokerPlayer : PokerPlayer, IAquiredPokerPlayer
     {
         #region Constants and Fields
 
@@ -55,7 +55,7 @@ namespace PokerTell.PokerHand.Aquisition
         /// <see cref="AquiredPokerPlayer.PlayerId"></see>
         /// </param>
         /// <param name="seatNum">
-        /// <see cref="AquiredPokerPlayer.AbsSeatNum"></see>
+        /// <see cref="PokerPlayer.SeatNumber"></see>
         /// </param>
         /// <param name="holecards">
         /// <see cref="AquiredPokerPlayer.Holecards"></see>
@@ -73,7 +73,7 @@ namespace PokerTell.PokerHand.Aquisition
         /// <summary>
         /// Seat relative to seat of small blind
         /// </summary>
-        public int RelativeSeat { get; set; }
+        public int RelativeSeatNumber { get; set; }
 
         /// <summary>
         /// Stack of Player after the hand is played
@@ -189,7 +189,7 @@ namespace PokerTell.PokerHand.Aquisition
                 }
 
                 PlayerId = playerId;
-                AbsSeatNum = seatNum;
+                SeatNumber = seatNum;
                 Holecards = holecards;
                 Position = -1;
 
@@ -222,19 +222,19 @@ namespace PokerTell.PokerHand.Aquisition
         /// <returns>true if all went well</returns>
         public bool SetPosition(int sbPosition, int playerCount)
         {
-            if (RelativeSeat > playerCount)
+            if (RelativeSeatNumber > playerCount)
             {
                 LogInvalidInputError(playerCount, sbPosition);
                 return false;
             }
             
-            if (RelativeSeat >= sbPosition)
+            if (RelativeSeatNumber >= sbPosition)
             {
-                Position = RelativeSeat - sbPosition;
+                Position = RelativeSeatNumber - sbPosition;
             }
             else
             {
-                Position = playerCount - (sbPosition - RelativeSeat);
+                Position = playerCount - (sbPosition - RelativeSeatNumber);
             }
 
             if (Position < 0)
@@ -253,7 +253,7 @@ namespace PokerTell.PokerHand.Aquisition
                 Position, 
                 playerCount, 
                 sbPosition, 
-                RelativeSeat);
+                RelativeSeatNumber);
         }
 
         /// <summary>
@@ -354,19 +354,24 @@ namespace PokerTell.PokerHand.Aquisition
                 return true;
             }
 
-            return Equals(other._holecards, _holecards) && other.AbsSeatNum == AbsSeatNum && Equals(other.Name, Name) &&
+            return Equals(other._holecards, _holecards) && other.SeatNumber == SeatNumber && Equals(other.Name, Name) &&
                    other.PlayerId == PlayerId && other.Position == Position && Equals(other.Rounds, Rounds);
         }
 
         public override int GetHashCode()
         {
             int result = Holecards != null ? Holecards.GetHashCode() : 0;
-            result = (result * 397) ^ AbsSeatNum;
+            result = (result * 397) ^ SeatNumber;
             result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
             result = (result * 397) ^ PlayerId.GetHashCode();
             result = (result * 397) ^ Position;
             result = (result * 397) ^ (Rounds != null ? Rounds.GetHashCode() : 0);
             return result;
+        }
+
+        public int CompareTo(object obj)
+        {
+            return CompareTo((IAquiredPokerPlayer)obj);
         }
 
         public int CompareTo(IAquiredPokerPlayer other)

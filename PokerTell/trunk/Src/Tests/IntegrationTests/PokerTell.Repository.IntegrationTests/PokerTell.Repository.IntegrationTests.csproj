@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4B758D6F-F662-4A08-B913-1404C32111FD}</ProjectGuid>
+    <ProjectGuid>{12C2D9ED-E876-4FCA-B350-0A2FACFC02DF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerTell.PokerHandParsers.Tests</RootNamespace>
-    <AssemblyName>PokerTell.PokerHandParsers.Tests</AssemblyName>
+    <RootNamespace>PokerTell.Repository.IntegrationTests</RootNamespace>
+    <AssemblyName>PokerTell.Repository.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -53,35 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FullTiltPoker\ThatHandHeaderParser.cs" />
-    <Compile Include="PokerStars\ThatBoardParser.cs" />
-    <Compile Include="PokerStars\ThatHoleCardsParser.cs" />
-    <Compile Include="PokerStars\ThatPlayerActionsParser.cs" />
-    <Compile Include="PokerStars\ThatPlayerSeatsParser.cs" />
-    <Compile Include="PokerStars\ThatPokerHandParser.cs" />
-    <Compile Include="PokerStars\ThatStreetsParser.cs" />
-    <Compile Include="ThatBoardParser.cs" />
-    <Compile Include="PokerStars\ThatAnteParser.cs" />
-    <Compile Include="ThatAnteParser.cs" />
-    <Compile Include="PokerStars\ThatTotalPotParser.cs" />
-    <Compile Include="ThatHoleCardsParser.cs" />
-    <Compile Include="ThatPlayerActionsParser.cs" />
-    <Compile Include="ThatPlayerSeatsParser.cs" />
-    <Compile Include="ThatStreetsParser.cs" />
-    <Compile Include="ThatTotalPotParser.cs" />
-    <Compile Include="PokerStars\ThatBlindsParser.cs" />
-    <Compile Include="PokerStars\ThatHandHeaderParser.cs" />
-    <Compile Include="PokerStars\ThatSmallBlindSeatNumberParser.cs" />
-    <Compile Include="PokerStars\ThatTableNameParser.cs" />
-    <Compile Include="PokerStars\ThatTimeStampParser.cs" />
-    <Compile Include="PokerStars\ThatTotalSeatsParser.cs" />
-    <Compile Include="ThatBlindsParser.cs" />
-    <Compile Include="ThatHandHeaderParser.cs" />
+    <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ThatSmallBlindSeatNumberParser.cs" />
-    <Compile Include="ThatTableNameParser.cs" />
-    <Compile Include="ThatTimeStampParser.cs" />
-    <Compile Include="ThatTotalSeatsParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
@@ -96,7 +69,11 @@
       <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
       <Name>PokerTell.PokerHand</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PokerTell.UnitTests\PokerTell.UnitTests.csproj">
+    <ProjectReference Include="..\..\..\PokerTell.Repository\PokerTell.Repository.csproj">
+      <Project>{6DC6304E-D0B9-46E0-9656-1F34198BF605}</Project>
+      <Name>PokerTell.Repository</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UnitTests\PokerTell.UnitTests\PokerTell.UnitTests.csproj">
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>
       <Name>PokerTell.UnitTests</Name>
     </ProjectReference>

@@ -12,7 +12,7 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
         protected override string OneSeatWithPlayer(int seatNumber, PlayerSeatsParser.PlayerData player)
         {
             // Seat 1: Roy`ll flush ($15.95 in chips) 
-            return string.Format("Seat {0}: {1} (${2} in chips)", seatNumber, player.Name, player.Ratio);
+            return string.Format("Seat {0}: {1} (${2} in chips)", seatNumber, player.Name, player.Stack);
         }
 
         protected override string OneSeatWithOutOfHandPlayer(int seatNumber, PlayerSeatsParser.PlayerData playerData)

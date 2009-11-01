@@ -7,7 +7,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
     {
         const string SmallBlindPattern = @"Seat (?<SeatNumber>\d{1,2}): .+ \(small blind\)";
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.SmallBlindSeatNumberParser Parse(string handHistory)
         {
             Match smallBlindSeatNumber = MatchSmallBlindSeatNumber(handHistory);
 
@@ -17,6 +17,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                ExtractSmallBlindSeatNumber(smallBlindSeatNumber); 
             }
+
+            return this;
         }
 
         static Match MatchSmallBlindSeatNumber(string handHistory)

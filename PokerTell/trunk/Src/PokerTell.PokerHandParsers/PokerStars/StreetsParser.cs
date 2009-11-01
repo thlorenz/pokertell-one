@@ -29,7 +29,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #region Public Methods
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.StreetsParser Parse(string handHistory)
         {
             _handHistory = handHistory;
             _summary = MatchSummary();
@@ -41,6 +41,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
                 FindStreets();
                 ExtractStreets();
             }
+
+            return this;
         }
 
         #endregion

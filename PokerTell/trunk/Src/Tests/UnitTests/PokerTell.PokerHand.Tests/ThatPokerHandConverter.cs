@@ -79,7 +79,7 @@ namespace PokerTell.PokerHand.Tests
         {
             const double postedAmount = 1.0;
             IAquiredPokerPlayer postingPlayer = CreatePostingPlayer("someName", postedAmount);
-            postingPlayer[Streets.PreFlop].AddAction(new AquiredPokerAction(ActionTypes.F, 1.0));
+            postingPlayer[Streets.PreFlop].Add(new AquiredPokerAction(ActionTypes.F, 1.0));
             _aquiredHand.AddPlayer(postingPlayer);
 
             _converter.CallRemovePostingActionsAndCalculatePotAfterPosting(ref _aquiredHand);
@@ -168,7 +168,7 @@ namespace PokerTell.PokerHand.Tests
         {
             IAquiredPokerPlayer aquiredPlayer = CreateAquiredPlayer(someName);
             var round = new AquiredPokerRound();
-            round.AddAction(new AquiredPokerAction(action, ratio));
+            round.Add(new AquiredPokerAction(action, ratio));
             aquiredPlayer.AddRound(round);
 
             return aquiredPlayer;
@@ -178,7 +178,7 @@ namespace PokerTell.PokerHand.Tests
         {
             IAquiredPokerPlayer aquiredPlayer = CreateAquiredPlayer(someName);
             var round = new AquiredPokerRound();
-            round.AddAction(new AquiredPokerAction(ActionTypes.P, postedAmount));
+            round.Add(new AquiredPokerAction(ActionTypes.P, postedAmount));
             aquiredPlayer.AddRound(round);
 
             return aquiredPlayer;

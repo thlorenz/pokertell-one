@@ -34,7 +34,7 @@ namespace PokerTell.PokerHand.Tests
             var actionStub = new Mock<IAquiredPokerAction>();
             actionStub.SetupGet(get => get.ChipsGained).Returns(actionChipsGained);
             
-            _aquiredRound.AddAction(actionStub.Object);
+            _aquiredRound.Add(actionStub.Object);
 
             Assert.That(_aquiredRound.ChipsGained, Is.EqualTo(actionChipsGained));
         }
@@ -51,8 +51,8 @@ namespace PokerTell.PokerHand.Tests
             firstActionStub.SetupGet(get => get.ChipsGained).Returns(firstActionChipsGained);
             secondActionStub.SetupGet(get => get.ChipsGained).Returns(secondActionChipsGained);
 
-            _aquiredRound.AddAction(firstActionStub.Object);
-            _aquiredRound.AddAction(secondActionStub.Object);
+            _aquiredRound.Add(firstActionStub.Object);
+            _aquiredRound.Add(secondActionStub.Object);
 
             Assert.That(_aquiredRound.ChipsGained, Is.EqualTo(expectedGain));
         }

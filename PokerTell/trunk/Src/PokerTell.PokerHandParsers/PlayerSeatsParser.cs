@@ -12,19 +12,19 @@ namespace PokerTell.PokerHandParsers
 
         public IDictionary<int, PlayerData> PlayerSeats { get; protected set; }
 
-        public abstract void Parse(string handHistory);
+        public abstract PlayerSeatsParser Parse(string handHistory);
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         public class PlayerData 
         {
-            public readonly double Ratio;
+            public readonly double Stack;
 
             public readonly string Name;
 
-            public PlayerData(string name, double ratio)
+            public PlayerData(string name, double stack)
             {
                 Name = name;
-                Ratio = ratio;
+                Stack = stack;
             }
 
             [EditorBrowsable(EditorBrowsableState.Never)]
@@ -38,14 +38,14 @@ namespace PokerTell.PokerHandParsers
             {
                 unchecked
                 {
-                    return (Ratio.GetHashCode() * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+                    return (Stack.GetHashCode() * 397) ^ (Name != null ? Name.GetHashCode() : 0);
                 }
             }
 
             [EditorBrowsable(EditorBrowsableState.Never)]
             public override string ToString()
             {
-                return string.Format("Ratio: {0}, Name: {1}", Ratio, Name);
+                return string.Format("stack: {0}, Name: {1}", Stack, Name);
             }
 
             [EditorBrowsable(EditorBrowsableState.Never)]

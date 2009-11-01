@@ -87,6 +87,11 @@ namespace PokerTell.PokerHand
                 .RegisterType<ISawFlopCondition, SawFlopCondition>()
                 .RegisterType<IAlwaysTrueCondition, AlwaysTrueCondition>()
 
+                 // Converters
+                .RegisterType<IPokerActionConverter, PokerActionConverter>()
+                .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
+                .RegisterType<IPokerHandConverter, PokerHandConverter>()
+
                 // ViewModels
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()

@@ -8,6 +8,6 @@ namespace PokerTell.PokerHandParsers
 
         public DateTime TimeStamp { get; protected set; }
 
-        public abstract void Parse(string handHistory);
+        public abstract TimeStampParser Parse(string handHistory);
     }
 }

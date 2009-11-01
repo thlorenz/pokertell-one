@@ -15,7 +15,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #region Public Methods
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.TimeStampParser Parse(string handHistory)
         {
             Match date = MatchDate(handHistory);
             Match time = MatchTime(handHistory);
@@ -26,6 +26,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractTimeStamp(date, time);
             }
+
+            return this;
         }
 
         #endregion

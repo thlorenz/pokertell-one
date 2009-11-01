@@ -250,7 +250,7 @@ namespace PokerTell.PokerHand.Analyzation
                         aquiredHand.TotalPlayers, 
                         aquiredPlayer.Holecards);
 
-                convertedPlayer.AbsSeatNum = aquiredPlayer.AbsSeatNum;
+                convertedPlayer.SeatNumber = aquiredPlayer.SeatNumber;
 
                 AddPlayer(convertedPlayer);
             }

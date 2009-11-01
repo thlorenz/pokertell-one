@@ -65,7 +65,7 @@ namespace PokerTell.PokerHand.Aquisition
 
         public IAquiredPokerHand InitializeWith(string site, ulong gameId, DateTime timeStamp, double BB, double SB, int totalPlayers)
         {
-            InitializeBase(totalPlayers, site, gameId,  timeStamp,  BB,  SB);
+            InitializeBase(totalPlayers, site, gameId, timeStamp, BB, SB);
             return this;
         }
 

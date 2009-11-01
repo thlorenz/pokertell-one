@@ -1,14 +1,18 @@
-namespace PokerTell.PokerHandParsers.PokerStars
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text.RegularExpressions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 
+namespace PokerTell.PokerHandParsers.FullTiltPoker
+{
     public class HandHeaderParser : PokerHandParsers.HandHeaderParser
     {
-     const string HeaderPattern =
-            @"PokerStars Game [#](?<GameId>[0-9]+)[:] (Tournament [#](?<TournamentId>[0-9]+)){0,1}.*(Hold'em|Holdem) (No |Pot )*Limit";
+        const string HeaderPattern =
+            @"Full Tilt Poker Game " + 
+            @"[#](?<GameId>[0-9]+)[:].+" + 
+            @"(No |Pot ){0,1}Limit (Hold'em|Holdem)";
+
+        const string TournamentPattern = @"(\((?<TournamentId>[0-9]+)\),) +Table";
         
         public override PokerHandParsers.HandHeaderParser Parse(string handHistory)
         {
@@ -18,7 +22,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             if (IsValid)
             {
                 GameId = ExtractGameId(header);
-                ExtractTournamentId(header);
+                ExtractTournamentId(handHistory);
             }
 
             return this;
@@ -43,11 +47,12 @@ namespace PokerTell.PokerHandParsers.PokerStars
             return ulong.Parse(header.Groups["GameId"].Value);
         }
 
-        void ExtractTournamentId(Match header)
+        void ExtractTournamentId(string handHistory)
         {
-            IsTournament = header.Groups["TournamentId"].Value != string.Empty;
+            var tournament = Regex.Match(handHistory, TournamentPattern, RegexOptions.IgnoreCase);
+            IsTournament = tournament.Success;
             TournamentId = IsTournament
-                               ? ulong.Parse(header.Groups["TournamentId"].Value)
+                               ? ulong.Parse(tournament.Groups["TournamentId"].Value)
                                : 0;
         }
 

@@ -1,18 +1,19 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
 
     using Enumerations.PokerHand;
 
-    public interface IAquiredPokerPlayer : IPokerPlayer, IEnumerable
+    public interface IAquiredPokerPlayer : IPokerPlayer, IEnumerable, IComparable<IAquiredPokerPlayer>, IComparable
     {
         #region Properties
 
         /// <summary>
         /// Seat relative to seat of small blind
         /// </summary>
-        int RelativeSeat { get; set; }
+        int RelativeSeatNumber { get; set; }
 
         /// <summary>
         /// Stack of Player after the hand is played

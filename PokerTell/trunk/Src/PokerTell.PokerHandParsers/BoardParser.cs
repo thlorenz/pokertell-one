@@ -6,6 +6,6 @@ namespace PokerTell.PokerHandParsers
 
         public string Board { get; protected set; }
 
-        public abstract void Parse(string handHistory);
+        public abstract BoardParser Parse(string handHistory);
     }
 }

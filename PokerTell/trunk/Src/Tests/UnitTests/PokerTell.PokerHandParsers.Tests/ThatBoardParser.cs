@@ -43,7 +43,7 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         [Test]
-        public void Parse_HandHistoryWithValidTableName_ExtractsTableName()
+        public void Parse_HandHistoryWithValidTableName_ExtractsBoard()
         {
             var validTableName = ValidBoard(Board);
             _parser.Parse(validTableName);

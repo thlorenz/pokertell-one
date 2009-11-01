@@ -10,7 +10,15 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         IList<IAquiredPokerAction> Actions { get; }
 
-        IAquiredPokerRound AddAction(IAquiredPokerAction theAction);
+        /// <summary>
+        /// The add action.
+        /// </summary>
+        /// <param name="action">
+        /// The the action.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// </exception>
+        IAquiredPokerRound Add(IAquiredPokerAction action);
 
         /// <summary>
         /// Removes an action at a certain index
@@ -26,15 +34,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// <returns>true if it was removed</returns>
         bool RemoveAction(IAquiredPokerAction theAction);
 
-        /// <summary>
-        /// The add action.
-        /// </summary>
-        /// <param name="action">
-        /// The the action.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        /// </exception>
-        IAquiredPokerRound Add(IAquiredPokerAction action);
+        
 
         IAquiredPokerAction this[int index]
         {

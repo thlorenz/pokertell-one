@@ -12,7 +12,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #region Public Methods
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.BoardParser Parse(string handHistory)
         {
             Match board = MatchBoard(handHistory);
             IsValid = board.Success;
@@ -21,6 +21,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractBoard(board);
             }
+
+            return this;
         }
 
         #endregion

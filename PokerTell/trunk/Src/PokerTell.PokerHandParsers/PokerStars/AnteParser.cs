@@ -7,7 +7,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
     {
         const string AntePattern = @"posts the ante " + SharedPatterns.RatioPattern;
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.AnteParser Parse(string handHistory)
         {
             Match ante = MatchTotalPot(handHistory);
             IsValid = ante.Success;
@@ -16,6 +16,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractTotalPot(ante);
             }
+           return this;            
         }
 
         static Match MatchTotalPot(string handHistory)

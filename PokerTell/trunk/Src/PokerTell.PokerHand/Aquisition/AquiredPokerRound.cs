@@ -44,37 +44,6 @@ namespace PokerTell.PokerHand.Aquisition
 
         #region Public Methods
 
-        public IAquiredPokerRound AddAction(IAquiredPokerAction theAction)
-        {
-            if (theAction != null)
-            {
-                Actions.Add(theAction);
-            }
-            else
-            {
-                throw new ArgumentNullException("theAction");
-            }
-
-            return this;
-        }
-
-        #endregion
-
-        #region Methods
-
-        private double CalculateChipsGain()
-        {
-            double currentChips = 0;
-            foreach (IAquiredPokerAction action in Actions)
-            {
-                currentChips += action.ChipsGained;
-            }
-
-            return currentChips;
-        }
-
-        #endregion
-
         /// <summary>
         /// The add action.
         /// </summary>
@@ -96,6 +65,23 @@ namespace PokerTell.PokerHand.Aquisition
 
             return this;
         }
+
+        #endregion
+
+        #region Methods
+
+        private double CalculateChipsGain()
+        {
+            double currentChips = 0;
+            foreach (IAquiredPokerAction action in Actions)
+            {
+                currentChips += action.ChipsGained;
+            }
+
+            return currentChips;
+        }
+
+        #endregion
 
         /// <summary>
         /// The this.

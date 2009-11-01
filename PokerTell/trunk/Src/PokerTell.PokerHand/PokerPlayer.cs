@@ -15,7 +15,7 @@ namespace PokerTell.PokerHand
         protected string _holecards;
 
         [NonSerialized]
-        int _absSeatNum;
+        int _seatNumber;
 
         [NonSerialized]
         long _playerId;
@@ -30,10 +30,10 @@ namespace PokerTell.PokerHand
         /// <summary>
         /// Absolute seat number of player as stated in the Hand History
         /// </summary>
-        public int AbsSeatNum
+        public int SeatNumber
         {
-            get { return _absSeatNum; }
-            set { _absSeatNum = value; }
+            get { return _seatNumber; }
+            set { _seatNumber = value; }
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace PokerTell.PokerHand
         public override string ToString()
         {
             return string.Format(
-                "Holecards: {0}, AbsSeatNum: {1}, Name: {2}, PlayerId: {3}, Position: {4}", 
+                "Holecards: {0}, SeatNumber: {1}, Name: {2}, PlayerId: {3}, Position: {4}", 
                 _holecards, 
-                AbsSeatNum, 
+                SeatNumber, 
                 Name, 
                 PlayerId, 
                 Position);

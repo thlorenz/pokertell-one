@@ -74,7 +74,10 @@ namespace PokerTell.Repository
         IConvertedPokerHand ConvertHandAndAddToParsedHands(IAquiredPokerHand aquiredPokerHand)
         {
             IConvertedPokerHand convertedPokerHand = _pokerHandConverter.ConvertAquiredHand(aquiredPokerHand);
-            _parsedHands.Add(convertedPokerHand.GameId, convertedPokerHand);
+            if (convertedPokerHand != null)
+            {
+                _parsedHands.Add(convertedPokerHand.GameId, convertedPokerHand);
+            }
             return convertedPokerHand;
         }
 
@@ -99,7 +102,16 @@ namespace PokerTell.Repository
                 return _parsedHands[handHistory.Key];
             }
 
-            IAquiredPokerHand aquiredPokerHand = parser.ParseHand(handHistory.Value);
+            IAquiredPokerHand aquiredPokerHand;
+           
+            if(parser.ParseHand(handHistory.Value).IsValid)
+            {
+                aquiredPokerHand = parser.AquiredPokerHand;
+            }
+            else
+            {
+                throw new UnableToParseHandHistoryException("Parser: " + parser.ToString() + handHistory.Value);
+            }
 
             return ConvertHandAndAddToParsedHands(aquiredPokerHand);
         }

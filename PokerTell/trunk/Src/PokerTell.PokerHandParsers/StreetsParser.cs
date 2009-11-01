@@ -24,7 +24,7 @@ namespace PokerTell.PokerHandParsers
 
         #region Public Methods
 
-        public abstract void Parse(string handHistory);
+        public abstract StreetsParser Parse(string handHistory);
 
         #endregion
 

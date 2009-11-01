@@ -4,12 +4,13 @@ namespace PokerTell.PokerHandParsers
     using System.Collections.Generic;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Services;
 
     public abstract class PlayerActionsParser
     {
-        protected PlayerActionsParser(Constructor<IAquiredPokerAction> aquiredPokerActionMake)
+        protected PlayerActionsParser(IConstructor<IAquiredPokerAction> aquiredPokerActionMake)
         {
             _aquiredPokerActionMake = aquiredPokerActionMake;
         }
@@ -18,7 +19,7 @@ namespace PokerTell.PokerHandParsers
 
         public IDictionary<ActionTypes, string> ActionStrings;
 
-        protected readonly Constructor<IAquiredPokerAction> _aquiredPokerActionMake;
+        protected readonly IConstructor<IAquiredPokerAction> _aquiredPokerActionMake;
 
         #endregion
 
@@ -30,7 +31,7 @@ namespace PokerTell.PokerHandParsers
 
         #region Public Methods
 
-        public abstract void Parse(string streetHistory, string playerName);
+        public abstract PlayerActionsParser Parse(string streetHistory, string playerName);
 
         #endregion
 

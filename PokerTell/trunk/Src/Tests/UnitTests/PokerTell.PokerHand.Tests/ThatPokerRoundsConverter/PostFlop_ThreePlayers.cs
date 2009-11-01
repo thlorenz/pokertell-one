@@ -224,13 +224,13 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                  // Preflop
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(new AquiredPokerAction(ActionTypes.C, 0.5)))
+                    .Add(new AquiredPokerAction(ActionTypes.C, 0.5)))
 
                 // Flop
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(action1)
-                    .AddAction(action4));
+                    .Add(action1)
+                    .Add(action4));
             player1.Name = "player1";
             player1.Position = smallBlindPosition;
 
@@ -241,13 +241,13 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                  // Preflop
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(new AquiredPokerAction(ActionTypes.X, 1.0)))
+                    .Add(new AquiredPokerAction(ActionTypes.X, 1.0)))
 
                 // Flop
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(action2)
-                    .AddAction(action5));
+                    .Add(action2)
+                    .Add(action5));
             player2.Name = "player2";
             player2.Position = bigBlindPosition;
 
@@ -258,13 +258,13 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                 // Preflop
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(new AquiredPokerAction(ActionTypes.C, 1.0)))
+                    .Add(new AquiredPokerAction(ActionTypes.C, 1.0)))
 
                 // Flop
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(action3)
-                    .AddAction(action6));
+                    .Add(action3)
+                    .Add(action6));
 
             player2.Name = "player3";
             player2.Position = buttonPosition;

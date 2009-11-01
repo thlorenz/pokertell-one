@@ -219,8 +219,8 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                 _stub.Some<long>(), smallBlindPosition, _stub.Out<string>(For.HoleCards))
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(action2)
-                    .AddAction(action5));
+                    .Add(action2)
+                    .Add(action5));
             player1.Name = "player1";
             player1.Position = smallBlindPosition;
 
@@ -229,8 +229,8 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                 _stub.Some<long>(), bigBlindPosition, _stub.Out<string>(For.HoleCards))
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(action3)
-                    .AddAction(action6));
+                    .Add(action3)
+                    .Add(action6));
             player2.Name = "player2";
             player2.Position = bigBlindPosition;
 
@@ -239,8 +239,8 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
                 _stub.Some<long>(), buttonPosition, _stub.Out<string>(For.HoleCards))
                 .AddRound(
                 new AquiredPokerRound()
-                    .AddAction(action1)
-                    .AddAction(action4));
+                    .Add(action1)
+                    .Add(action4));
             player2.Name = "player3";
             player2.Position = buttonPosition;
 

@@ -8,6 +8,6 @@ namespace PokerTell.PokerHandParsers
 
         public double SmallBlind { get; protected set; }
 
-        public abstract void Parse(string handHistory);
+        public abstract BlindsParser Parse(string handHistory);
     }
 }

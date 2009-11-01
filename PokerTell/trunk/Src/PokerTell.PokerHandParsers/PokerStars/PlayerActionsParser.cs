@@ -5,6 +5,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
     using System.Text.RegularExpressions;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Services;
 
@@ -26,7 +27,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #region Constructors and Destructors
 
-        public PlayerActionsParser(Constructor<IAquiredPokerAction> aquiredPokerActionMake)
+        public PlayerActionsParser(IConstructor<IAquiredPokerAction> aquiredPokerActionMake)
             : base(aquiredPokerActionMake)
         {
             CreateActionStrings();
@@ -56,7 +57,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #region Public Methods
 
-        public override void Parse(string streetHistory, string playerName)
+        public override PokerHandParsers.PlayerActionsParser Parse(string streetHistory, string playerName)
         {
             _streetHistory = streetHistory;
             _playerName = Regex.Escape(playerName);
@@ -69,6 +70,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             ExtractUncalledBetActionIfItExists();
             ExtractAllinBetActionIfItExists();
             ExtractWinningActionIfItExists();
+
+            return this;
         }
 
         #endregion

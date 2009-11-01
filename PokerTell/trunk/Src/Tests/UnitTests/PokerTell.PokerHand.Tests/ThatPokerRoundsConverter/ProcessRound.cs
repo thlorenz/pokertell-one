@@ -64,7 +64,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
             [Values(Streets.PreFlop, Streets.Flop, Streets.Turn, Streets.River)] Streets street)
         {
             IAquiredPokerRound aquiredPokerRoundStub = new AquiredPokerRound()
-                .AddAction(new AquiredPokerAction(ActionTypes.E, _stub.Some<double>()));
+                .Add(new AquiredPokerAction(ActionTypes.E, _stub.Some<double>()));
 
             // This will log an error (illegal action) after found action was set to true and not rethrow
             NotLogged(
@@ -84,7 +84,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
 
             IAquiredPokerRound aquiredRound =
                 new AquiredPokerRound()
-                    .AddAction(new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Some<double>()));
+                    .Add(new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Some<double>()));
  
             // Logs the exception and goes on
             TestDelegate invokeProcessRound = () =>
@@ -97,7 +97,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
         public void ProcessRound_Preflop_SetsActionSequenceOnConvertedPlayer()
         {
             IAquiredPokerRound aquiredRound = new AquiredPokerRound()
-                .AddAction(
+                .Add(
                 new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Out<double>(For.Ratio)));
 
             const Streets street = Streets.PreFlop;
@@ -124,7 +124,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
 
             IAquiredPokerRound aquiredRound =
                 new AquiredPokerRound()
-                    .AddAction(new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Some<double>()));
+                    .Add(new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Some<double>()));
 
             var expectedAction =
                 new ConvertedPokerActionWithId(new ConvertedPokerAction(ActionTypes.C, 0), playerPosition);
@@ -141,7 +141,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
         {
             IAquiredPokerRound aquiredRound =
                 new AquiredPokerRound()
-                    .AddAction(new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Some<double>()));
+                    .Add(new AquiredPokerAction(_stub.Valid(For.ActionType, ActionTypes.C), _stub.Some<double>()));
             IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer();
 
             _converter.InvokeProcessRound(Streets.PreFlop, aquiredRound, convertedPlayer);
@@ -158,7 +158,7 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
             const ActionTypes someActionType = ActionTypes.C;
             const double someRatio = 1.0;
             IAquiredPokerRound aquiredRound = new AquiredPokerRound()
-                .AddAction(new AquiredPokerAction(someActionType, someRatio));
+                .Add(new AquiredPokerAction(someActionType, someRatio));
 
             IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer().Add();
 
@@ -179,8 +179,8 @@ namespace PokerTell.PokerHand.Tests.ThatPokerRoundsConverter
             const ActionTypes secondActionType = ActionTypes.F;
             const double someRatio = 1.0;
             IAquiredPokerRound aquiredRound = new AquiredPokerRound()
-                .AddAction(new AquiredPokerAction(firstActionType, someRatio))
-                .AddAction(new AquiredPokerAction(secondActionType, someRatio));
+                .Add(new AquiredPokerAction(firstActionType, someRatio))
+                .Add(new AquiredPokerAction(secondActionType, someRatio));
 
             IConvertedPokerPlayer convertedPlayer = new ConvertedPokerPlayer().Add();
 

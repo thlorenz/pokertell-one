@@ -10,5 +10,16 @@ namespace PokerTell.Infrastructure
             : base(string.Format(ErrorMessages.UnrecognizedHandHistoryFormat, fileName))
         {
         }
+
+        
     }
+
+    public class UnableToParseHandHistoryException : Exception
+    {
+        public UnableToParseHandHistoryException(string handHistory)
+            :base(handHistory)
+        {
+        }
+    }
+
 }

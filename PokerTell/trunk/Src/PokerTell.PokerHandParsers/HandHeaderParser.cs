@@ -1,6 +1,8 @@
 ﻿namespace PokerTell.PokerHandParsers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     public abstract class HandHeaderParser
     {
@@ -12,6 +14,21 @@
 
         public ulong TournamentId { get; protected set; }
 
-        public abstract void Parse(string handHistory);
+        public abstract HandHeaderParser Parse(string handHistory);
+
+        public abstract IList<HeaderMatchInformation> FindAllHeaders(string handHistories);
+
+        public class HeaderMatchInformation
+        {
+            public readonly ulong GameId;
+
+            public readonly Match HeaderMatch;
+
+            public HeaderMatchInformation(ulong gameId, Match headerMatch)
+            {
+                HeaderMatch = headerMatch;
+                GameId = gameId;
+            }
+        }
     }
 }

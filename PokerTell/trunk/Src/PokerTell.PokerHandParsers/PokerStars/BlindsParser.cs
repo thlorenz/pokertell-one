@@ -13,7 +13,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #region Public Methods
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.BlindsParser Parse(string handHistory)
         {
             Match blinds = MatchBlinds(handHistory);
             IsValid = blinds.Success;
@@ -22,6 +22,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractBlinds(blinds);
             }
+            return this;
         }
 
         #endregion

@@ -1,5 +1,6 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -59,5 +60,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         bool RemovePlayer(IAquiredPokerPlayer thePlayer);
 
         void RemovePlayer(int index);
+
+        IAquiredPokerHand InitializeWith(string site, ulong gameId, DateTime timeStamp, double BB, double SB, int totalPlayers);
     }
 }

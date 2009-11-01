@@ -10,7 +10,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             TableNameParser.TableNamePattern 
             + @" +(?<TotalSeats>[0-9]{1,2})-max";
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.TotalSeatsParser Parse(string handHistory)
         {
             Match totalSeats = MatchTotalSeats(handHistory);
             IsValid = totalSeats.Success;
@@ -19,6 +19,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractTotalSeats(totalSeats);
             }
+
+            return this;
         }
 
         static Match MatchTotalSeats(string handHistory)

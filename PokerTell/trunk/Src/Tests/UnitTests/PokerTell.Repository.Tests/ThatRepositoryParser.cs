@@ -80,7 +80,7 @@
             const int extractedGameId = 1;
 
             Mock<IPokerHandParser> stubParser =
-                ParserThatRecognizesAndSeparatesHandsAndParseReturnsAquiredHandWith(extractedGameId);
+                ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(extractedGameId);
 
             _parsers.Add(stubParser.Object);
 
@@ -148,7 +148,7 @@
             const int extractedGameId = 1;
             Expression<Predicate<IAquiredPokerHand>> handToBeConverted = h => h.GameId == extractedGameId;
             Mock<IPokerHandParser> stubParser =
-                ParserThatRecognizesAndSeparatesHandsAndParseReturnsAquiredHandWith(extractedGameId);
+                ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(extractedGameId);
 
             _parsers.Add(stubParser.Object);
 
@@ -187,7 +187,7 @@
             const int extractedGameId = 1;
             Expression<Predicate<IAquiredPokerHand>> handToBeConverted = h => h.GameId == extractedGameId;
             Mock<IPokerHandParser> stubParser =
-                ParserThatRecognizesAndSeparatesHandsAndParseReturnsAquiredHandWith(extractedGameId);
+                ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(extractedGameId);
 
             _parsers.Add(stubParser.Object);
 
@@ -228,7 +228,7 @@
             const int extractedGameId = 1;
 
             Mock<IPokerHandParser> stubParser =
-                ParserThatRecognizesAndSeparatesHandsAndParseReturnsAquiredHandWith(extractedGameId);
+                ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(extractedGameId);
 
             _parsers.Add(stubParser.Object);
 
@@ -263,7 +263,7 @@
             return mockConverter;
         }
 
-        static Mock<IPokerHandParser> ParserThatRecognizesAndSeparatesHandsAndParseReturnsAquiredHandWith(ulong gameId)
+        static Mock<IPokerHandParser> ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(ulong gameId)
         {
             const string extractedHistory = "someHistory";
             const int extractedGameId = 1;
@@ -278,8 +278,14 @@
                 .Returns(gameId).Out;
 
             stubParser
-                .Setup(p => p.ParseHand(It.IsAny<string>()))
+                .Setup(p => p.AquiredPokerHand)
                 .Returns(stubAquiredHand);
+            stubParser
+                .Setup(p => p.IsValid)
+                .Returns(true);
+            stubParser
+                .Setup(p => p.ParseHand(It.IsAny<string>()))
+                .Returns(stubParser.Object);
 
             return stubParser;
         }
@@ -297,6 +303,12 @@
             mockParser
                 .Setup(parser => parser.ExtractSeparateHandHistories(handHistoriesContent))
                 .Returns(extractedHistories);
+            mockParser
+                .Setup(p => p.IsValid)
+                .Returns(true);
+            mockParser
+                .Setup(p => p.ParseHand(It.IsAny<string>()))
+                .Returns(mockParser.Object);
             return mockParser;
         }
 

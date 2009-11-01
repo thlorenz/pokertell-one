@@ -111,7 +111,7 @@ namespace PokerTell.PokerHand.Tests
             [Values(SmallBlind, SmallBlind, SmallBlind, SmallBlind)] int expectedPosition)
         {
             const int sbPosition = 0;
-            _aquiredPlayer.RelativeSeat = sbPosition;
+            _aquiredPlayer.RelativeSeatNumber = sbPosition;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -125,7 +125,7 @@ namespace PokerTell.PokerHand.Tests
             int button = totalPlayers - 1;
             const int sbPosition = 0;
             
-            _aquiredPlayer.RelativeSeat = button;
+            _aquiredPlayer.RelativeSeatNumber = button;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -137,7 +137,7 @@ namespace PokerTell.PokerHand.Tests
             [Values(SmallBlind, SmallBlind, SmallBlind, SmallBlind)] int expectedPosition)
         {
             const int totalPlayers = 9;
-            _aquiredPlayer.RelativeSeat = sbPosition;
+            _aquiredPlayer.RelativeSeatNumber = sbPosition;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -151,7 +151,7 @@ namespace PokerTell.PokerHand.Tests
             const int totalPlayers = 9;
             int button = sbPosition - 1;
 
-            _aquiredPlayer.RelativeSeat = button;
+            _aquiredPlayer.RelativeSeatNumber = button;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -164,7 +164,7 @@ namespace PokerTell.PokerHand.Tests
             const int sbPosition = 0;
             const int expectedPosition = SmallBlind;
 
-            _aquiredPlayer.RelativeSeat = sbPosition;
+            _aquiredPlayer.RelativeSeatNumber = sbPosition;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -177,7 +177,7 @@ namespace PokerTell.PokerHand.Tests
             const int sbPosition = 1;
             const int expectedPosition = SmallBlind;
 
-            _aquiredPlayer.RelativeSeat = sbPosition;
+            _aquiredPlayer.RelativeSeatNumber = sbPosition;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -191,7 +191,7 @@ namespace PokerTell.PokerHand.Tests
             const int bbPosition = 1;
             const int expectedPosition = BigBlind;
 
-            _aquiredPlayer.RelativeSeat = bbPosition;
+            _aquiredPlayer.RelativeSeatNumber = bbPosition;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -205,7 +205,7 @@ namespace PokerTell.PokerHand.Tests
             const int bbPosition = 0;
             const int expectedPosition = BigBlind;
 
-            _aquiredPlayer.RelativeSeat = bbPosition;
+            _aquiredPlayer.RelativeSeatNumber = bbPosition;
             _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(_aquiredPlayer.Position, Is.EqualTo(expectedPosition));
@@ -217,7 +217,7 @@ namespace PokerTell.PokerHand.Tests
             const int totalPlayers = 6;
             const int sbPosition = 0;
 
-            _aquiredPlayer.RelativeSeat = totalPlayers + 1;
+            _aquiredPlayer.RelativeSeatNumber = totalPlayers + 1;
             var returnedValue = _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
 
             Assert.That(returnedValue, Is.False);

@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using System.Text.RegularExpressions;
 
     using NUnit.Framework;
 
@@ -128,6 +129,46 @@
             _parser.Parse(ValidPotLimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.TournamentId, Is.EqualTo(TournamentId));
         }
+
+        [Test]
+        public void FindAllHeaders_EmptyString_ReturnsEmptyMatches()
+        {
+            var headers = _parser.FindAllHeaders(string.Empty);
+            Assert.That(headers.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void FindAllHeaders_StringContainsSiteOnly_ReturnsEmptyMatches()
+        {
+            var headers = _parser.FindAllHeaders(SiteName);
+            Assert.That(headers.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void FindAllHeaders_ValidNoLimitCashGameHeader_ReturnsOneMatch()
+        {
+            var headers = _parser.FindAllHeaders(ValidNoLimitHoldemCashGameHeader(GameId));
+            Assert.That(headers.Count, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void FindAllHeaders_TwoValidNoLimitCashGameHeaders_ReturnsTwoMatches()
+        {
+            var handHistories = ValidNoLimitHoldemCashGameHeader(GameId) + "\n" +
+                                ValidNoLimitHoldemCashGameHeader(GameId + 1);
+            var headers = _parser.FindAllHeaders(handHistories);
+            Assert.That(headers.Count, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void FindAllHeaders_TwoValidNoLimitCashGameHeaders_SecondMatchIndexIsGreaterThanFirstMatchIndex()
+        {
+            var handHistories = ValidNoLimitHoldemCashGameHeader(GameId) + "\n" +
+                                ValidNoLimitHoldemCashGameHeader(GameId + 1);
+            var headers = _parser.FindAllHeaders(handHistories);
+            Assert.That(headers[1].HeaderMatch.Index, Is.GreaterThan(headers[0].HeaderMatch.Index));
+        }
+
         #endregion
 
         #region Methods

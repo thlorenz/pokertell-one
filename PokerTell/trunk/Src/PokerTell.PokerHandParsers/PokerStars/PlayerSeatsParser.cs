@@ -11,7 +11,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             + SharedPatterns.RatioPattern 
             + @" in chips\) *(?<OutOfHand>out of hand)*";	
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.PlayerSeatsParser Parse(string handHistory)
         {
             PlayerSeats = new Dictionary<int, PlayerData>();
 
@@ -20,6 +20,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             IsValid = players.Count > 1;
 
             ExtractAllPlayers(players);
+
+            return this;
         }
 
         void ExtractAllPlayers(MatchCollection players)
@@ -39,10 +41,13 @@ namespace PokerTell.PokerHandParsers.PokerStars
             }
 
             int seatNumber = Convert.ToInt32(player.Groups["SeatNumber"].Value);
-            string playerName = player.Groups["PlayerName"].Value;
-            double ratio = Convert.ToDouble(player.Groups["Ratio"].Value);
-            
-            PlayerSeats.Add(seatNumber, new PlayerData(playerName, ratio));
+           
+            if (!PlayerSeats.ContainsKey(seatNumber))
+            {
+                string playerName = player.Groups["PlayerName"].Value;
+                double ratio = Convert.ToDouble(player.Groups["Ratio"].Value);
+                PlayerSeats.Add(seatNumber, new PlayerData(playerName, ratio));
+            }
         }
 
         static MatchCollection MatchAllPlayerSeats(string handHistory)

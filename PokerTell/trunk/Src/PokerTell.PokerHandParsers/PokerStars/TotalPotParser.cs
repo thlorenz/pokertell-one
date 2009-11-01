@@ -7,7 +7,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
     {
         const string TotalPotPattern = @"Total pot " + SharedPatterns.RatioPattern;
 
-        public override void Parse(string handHistory)
+        public override PokerHandParsers.TotalPotParser Parse(string handHistory)
         {
             Match totalPot = MatchTotalPot(handHistory);
             IsValid = totalPot.Success;
@@ -16,6 +16,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractTotalPot(totalPot);
             }
+
+            return this;
         }
 
         static Match MatchTotalPot(string handHistory)

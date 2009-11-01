@@ -56,6 +56,7 @@ namespace PokerTell.PokerHand.Services
         {
             if (sortedAquiredHand == null)
             {
+                Log.Debug("AquiredHand was null, returning null");
                 return null;
             }
 
