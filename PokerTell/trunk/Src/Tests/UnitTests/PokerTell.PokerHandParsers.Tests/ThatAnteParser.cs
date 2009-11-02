@@ -43,7 +43,7 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         [Test]
-        public void Parse_HandHistoryWithValidCashGameAnte_ExtractsTotalPot()
+        public void Parse_HandHistoryWithValidCashGameAnte_ExtractsAnte()
         {
             string validTotalSeats = ValidCashGameAnte(Ante);
             _parser.Parse(validTotalSeats);
@@ -51,7 +51,7 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         [Test]
-        public void Parse_HandHistoryWithValidTournamentAnte_ExtractsTotalPot()
+        public void Parse_HandHistoryWithValidTournamentAnte_ExtractsAnte()
         {
             string validTotalSeats = ValidTournamentAnte(Ante);
             _parser.Parse(validTotalSeats);

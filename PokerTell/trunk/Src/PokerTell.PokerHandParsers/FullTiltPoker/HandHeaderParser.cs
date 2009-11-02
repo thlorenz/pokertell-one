@@ -8,7 +8,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
     public class HandHeaderParser : PokerHandParsers.HandHeaderParser
     {
         const string HeaderPattern =
-            @"Full Tilt Poker Game " + 
+            @"((Full Tilt Poker Game)|(FullTiltPoker Game)) " + 
             @"[#](?<GameId>[0-9]+)[:].+" + 
             @"(No |Pot ){0,1}Limit (Hold'em|Holdem)";
 

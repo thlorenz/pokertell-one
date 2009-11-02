@@ -70,7 +70,7 @@ namespace PokerTell.PokerHandParsers
 
         protected string Site;
 
-        protected SmallBlindSeatNumberParser SmallBlindSeatNumberParser;
+        protected SmallBlindPlayerNameParser SmallBlindPlayerNameParser;
 
         protected StreetsParser StreetsParser;
 
@@ -88,7 +88,8 @@ namespace PokerTell.PokerHandParsers
 
         public override string ToString()
         {
-            return Site;
+            string historyInfo = LogVerbose ? _handHistory : _handHistory.Substring(0, 50); 
+            return string.Format("{0} Parser\n Currently parsing:\n\n<{1}>\n", Site, historyInfo);
         }
 
         #endregion
@@ -126,7 +127,7 @@ namespace PokerTell.PokerHandParsers
 
                 ParseHandInfo();
 
-                int smallBlindSeatNumber = ParseSmallBlindSeatNumber();
+                string smallBlindSeatNumber = ParseSmallBlindSeatNumber();
 
                 ParsePlayers(smallBlindSeatNumber);
             }
@@ -180,7 +181,7 @@ namespace PokerTell.PokerHandParsers
             }
         }
 
-        int AddPlayersToHandAndGetSmallBlindPosition(int smallBlindSeatNumber)
+        int AddPlayersToHandAndGetSmallBlindPosition(string smallBlindPlayerName)
         {
             int smallBlindPosition = 0;
             int relativeSeatNumber = 0;
@@ -193,7 +194,7 @@ namespace PokerTell.PokerHandParsers
                 aquiredPlayer.RelativeSeatNumber = relativeSeatNumber;
                 aquiredPlayer.SeatNumber = playerSeat.Key;
 
-                if (aquiredPlayer.SeatNumber == smallBlindSeatNumber)
+                if (aquiredPlayer.Name == smallBlindPlayerName)
                 {
                     smallBlindPosition = aquiredPlayer.RelativeSeatNumber;
                 }
@@ -326,9 +327,9 @@ namespace PokerTell.PokerHandParsers
             ParseTotalSeats();
         }
 
-        void ParsePlayers(int smallBlindSeatNumber)
+        void ParsePlayers(string smallBlindPlayerName)
         {
-            int smallBlindPosition = AddPlayersToHandAndGetSmallBlindPosition(smallBlindSeatNumber);
+            int smallBlindPosition = AddPlayersToHandAndGetSmallBlindPosition(smallBlindPlayerName);
 
             SetPlayersPositionsRelativeTo(smallBlindPosition);
 
@@ -365,19 +366,19 @@ namespace PokerTell.PokerHandParsers
             }
         }
 
-        int ParseSmallBlindSeatNumber()
+        string ParseSmallBlindSeatNumber()
         {
-            int smallBlindSeatNumber;
-            if (SmallBlindSeatNumberParser.Parse(_handHistory).IsValid)
+            string smallBlindPlayerName;
+            if (SmallBlindPlayerNameParser.Parse(_handHistory).IsValid)
             {
-                smallBlindSeatNumber = SmallBlindSeatNumberParser.SmallBlindSeatNumber;
+                smallBlindPlayerName = SmallBlindPlayerNameParser.SmallBlindPlayerName;
             }
             else
             {
-                LogParsingError("SmallBlindSeatNumber Parser failed to find small blind seat -> setting to 1");
-                smallBlindSeatNumber = 1;
+                LogParsingError("SmallBlindPlayerName Parser failed to find small blind seat -> setting to string.Empty");
+                smallBlindPlayerName = string.Empty;
             }
-            return smallBlindSeatNumber;
+            return smallBlindPlayerName;
         }
 
         void ParseTableName()

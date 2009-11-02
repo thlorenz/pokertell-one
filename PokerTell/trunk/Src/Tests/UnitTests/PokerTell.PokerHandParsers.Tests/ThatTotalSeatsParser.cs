@@ -6,8 +6,6 @@ namespace PokerTell.PokerHandParsers.Tests
     {
         #region Constants and Fields
 
-        const int TotalSeats = 9;
-
         TotalSeatsParser _parser;
 
         #endregion
@@ -21,33 +19,37 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         [Test]
-        public void Parse_EmptyString_IsValidIsFalse()
+        public virtual void Parse_EmptyString_IsValidIsFalse()
         {
             _parser.Parse(string.Empty);
             Assert.That(_parser.IsValid, Is.False);
         }
 
         [Test]
-        public void Parse_HandHistoryWithoutValidSmallBlindSeatNumber_IsValidIsFalse()
+        public virtual void Parse_HandHistoryWithoutValidTotalSeats_IsValidIsFalse()
         {
             _parser.Parse("this is invalid");
             Assert.That(_parser.IsValid, Is.False);
         }
 
         [Test]
-        public void Parse_HandHistoryWithValidSmallBlindSeatNumber_IsValidIsTrue()
+        [Sequential]
+        public void Parse_HandHistoryWithValidTotalSeats_IsValidIsTrue(
+            [Values(2, 6, 9, 10)] int numberOfTotalSeats)
         {
-            string validTotalSeats = ValidTotalSeats(TotalSeats);
+            string validTotalSeats = ValidTotalSeats(numberOfTotalSeats);
             _parser.Parse(validTotalSeats);
             Assert.That(_parser.IsValid, Is.True);
         }
 
         [Test]
-        public void Parse_HandHistoryWithValidSmallBlindSeatNumber_ExtractsSmallBlindSeatNumber()
+        [Sequential]
+        public void Parse_HandHistoryWithValidTotalSeats_ExtractsTotalSeats(
+            [Values(2, 6, 9, 10)] int numberOfTotalSeats)
         {
-            string validTotalSeats = ValidTotalSeats(TotalSeats);
+            string validTotalSeats = ValidTotalSeats(numberOfTotalSeats);
             _parser.Parse(validTotalSeats);
-            Assert.That(_parser.TotalSeats, Is.EqualTo(TotalSeats));
+            Assert.That(_parser.TotalSeats, Is.EqualTo(numberOfTotalSeats));
         }
 
         #endregion

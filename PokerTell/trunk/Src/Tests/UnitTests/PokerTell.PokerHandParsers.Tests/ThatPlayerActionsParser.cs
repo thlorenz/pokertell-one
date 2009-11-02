@@ -39,13 +39,13 @@ namespace PokerTell.PokerHandParsers.Tests
 
         [Test]
         [Sequential]
-        public void Parse_PlayerHasOneActionWithRatio_AddsActionWithRatioToPlayerActions(
-            [Values( ActionTypes.B, ActionTypes.C, ActionTypes.R)] ActionTypes actionType)
+        public void Parse_PlayerHasOneBetOrCallAction_AddsActionWithRatioToPlayerActions(
+            [Values( ActionTypes.B, ActionTypes.C)] ActionTypes actionType)
         {
             const double someRatio = 1.0;
             var aquiredPokerAction = new AquiredPokerAction(actionType, someRatio);
            
-            string streetHistory = OneRatioActionFor(PlayerName, aquiredPokerAction);
+            string streetHistory = OneBetOrCallActionFor(PlayerName, aquiredPokerAction);
             
             _parser.Parse(streetHistory, PlayerName);
            
@@ -88,8 +88,8 @@ namespace PokerTell.PokerHandParsers.Tests
             var action1 = new AquiredPokerAction(ActionTypes.B, 1.0);
             var action2 = new AquiredPokerAction(ActionTypes.R, 2.0);
 
-            string streetHistory = OneRatioActionFor(PlayerName, action1) + " \n" +
-                                   OneRatioActionFor(PlayerName, action2);
+            string streetHistory = OneBetOrCallActionFor(PlayerName, action1) + " \n" +
+                                   OneRaiseActionFor(PlayerName, action2);
 
             _parser.Parse(streetHistory, PlayerName);
 
@@ -102,8 +102,8 @@ namespace PokerTell.PokerHandParsers.Tests
             var action1 = new AquiredPokerAction(ActionTypes.B, 1.0);
             var action2 = new AquiredPokerAction(ActionTypes.R, 2.0);
 
-            string streetHistory = OneRatioActionFor(PlayerName, action1) + " \n" +
-                                   OneRatioActionFor(PlayerName, action2);
+            string streetHistory = OneBetOrCallActionFor(PlayerName, action1) + " \n" +
+                                   OneRaiseActionFor(PlayerName, action2);
 
             _parser.Parse(streetHistory, PlayerName);
 
@@ -115,7 +115,7 @@ namespace PokerTell.PokerHandParsers.Tests
         {
             var action = new AquiredPokerAction(ActionTypes.B, 1.0);
 
-            string streetHistory = OneRatioActionFor("OtherPlayer", action);
+            string streetHistory = OneBetOrCallActionFor("OtherPlayer", action);
 
             _parser.Parse(streetHistory, PlayerName);
 
@@ -129,7 +129,7 @@ namespace PokerTell.PokerHandParsers.Tests
             var someAction = new AquiredPokerAction(ActionTypes.B, 1.0);
             var uncalledBetAction = new AquiredPokerAction(ActionTypes.U, ratio);
 
-            string streetHistory = OneRatioActionFor(PlayerName, someAction) + " \n" + 
+            string streetHistory = OneBetOrCallActionFor(PlayerName, someAction) + " \n" + 
                 UncalledBetActionFor(PlayerName, ratio);
 
             _parser.Parse(streetHistory, PlayerName);
@@ -166,7 +166,8 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         protected abstract PlayerActionsParser GetPlayerActionsParser();
-        protected abstract string OneRatioActionFor(string playerName, IAquiredPokerAction action);
+        protected abstract string OneRaiseActionFor(string playerName, IAquiredPokerAction action);
+        protected abstract string OneBetOrCallActionFor(string playerName, IAquiredPokerAction action);
         protected abstract string PostingActionFor(string playerName, PostingTypes postingType, double ratio);
         protected abstract string OneNonRatioActionFor(string playerName, IAquiredPokerAction action);
 

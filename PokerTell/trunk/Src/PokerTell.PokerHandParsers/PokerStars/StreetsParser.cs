@@ -1,7 +1,10 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
     using System;
+    using System.Reflection;
     using System.Text.RegularExpressions;
+
+    using log4net;
 
     public class StreetsParser : PokerHandParsers.StreetsParser
     {
@@ -27,6 +30,9 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         #endregion
 
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Public Methods
 
         public override PokerHandParsers.StreetsParser Parse(string handHistory)
@@ -38,8 +44,17 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
             if (IsValid)
             {
-                FindStreets();
-                ExtractStreets();
+                try
+                {
+                    FindStreets();
+                    ExtractStreets();
+                }
+                catch (Exception excep)
+                {
+                    IsValid = false;
+                    Log.Error(excep);
+                }
+                
             }
 
             return this;

@@ -23,7 +23,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             HoleCardsParser = new HoleCardsParser();
             PlayerActionsParser =new PlayerActionsParser(_aquiredActionMake);
             PlayerSeatsParser= new PlayerSeatsParser();
-            SmallBlindSeatNumberParser = new SmallBlindSeatNumberParser();
+            SmallBlindPlayerNameParser = new SmallBlindPlayerNameParser();
             StreetsParser = new StreetsParser();
             TableNameParser = new TableNameParser();
             TimeStampParser = new TimeStampParser();

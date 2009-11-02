@@ -6,7 +6,6 @@ namespace PokerTell.PokerHandParsers
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Services;
 
     public abstract class PlayerActionsParser
     {
@@ -58,7 +57,7 @@ namespace PokerTell.PokerHandParsers
         protected static ActionTypes ConvertActionString(string actionString)
         {
                 actionString = actionString.ToLower();
-                if (actionString.Contains("post"))
+                if (actionString.Contains("post") || actionString.Contains("antes"))
                 {
                     return ActionTypes.P;
                 }
@@ -88,7 +87,7 @@ namespace PokerTell.PokerHandParsers
                     return ActionTypes.R;
                 }
 
-                if (actionString.Contains("collect"))
+                if (actionString.Contains("collect") || actionString.Contains("won"))
                 {
                     return ActionTypes.W;
                 }

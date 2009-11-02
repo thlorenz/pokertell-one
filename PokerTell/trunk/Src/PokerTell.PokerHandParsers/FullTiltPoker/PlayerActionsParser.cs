@@ -1,22 +1,23 @@
-namespace PokerTell.PokerHandParsers.PokerStars
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+using PokerTell.Infrastructure.Enumerations.PokerHand;
+using PokerTell.Infrastructure.Interfaces;
+using PokerTell.Infrastructure.Interfaces.PokerHand;
+using PokerTell.Infrastructure.Services;
+
+namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text.RegularExpressions;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
-
     public class PlayerActionsParser : PokerHandParsers.PlayerActionsParser
     {
         #region Constants and Fields
 
-        const string AllinBetPattern = @": .+" + SharedPatterns.RatioPattern + @" and is all-in";
+        const string AllinBetPattern = @".+" + SharedPatterns.RatioPattern + @", and is all in";
 
-        const string UncalledBetPattern = @"Uncalled bet \(" + SharedPatterns.RatioPattern + @"\) returned to *";
+        const string UncalledBetPattern = @"Uncalled bet of " + SharedPatterns.RatioPattern + @" returned to *";
 
-        const string WinningPattern = @".+collected " + SharedPatterns.RatioPattern + " from .*pot";
+        const string WinningPattern = @".+and won \(" + SharedPatterns.RatioPattern + @"\)";
 
         string _playerName;
 
@@ -42,12 +43,12 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 return
                     "(" +
-                    @"((?<What>" + ActionStrings[ActionTypes.P] + ") (((small|big) blind)|(the ante)) " +
+                    @"((?<What>" + ActionStrings[ActionTypes.P] + ") the (small|big) blind of " +
                     SharedPatterns.RatioPattern + ")" +
+                    @"|((?<What>antes) " + SharedPatterns.RatioPattern + ")" +
                     @"|((?<What>" + ActionStrings[ActionTypes.C] + "|" + ActionStrings[ActionTypes.B] + ") " +
                     SharedPatterns.RatioPattern + ")" +
-                    @"|((?<What>" + ActionStrings[ActionTypes.R] + ") " + SharedPatterns.Ratio2Pattern +
-                    @" to " + SharedPatterns.RatioPattern + ")" +
+                    @"|((?<What>" + ActionStrings[ActionTypes.R] + ")" + @" to " + SharedPatterns.RatioPattern + ")" +
                     @"|(?<What>" + ActionStrings[ActionTypes.F] + "|" + ActionStrings[ActionTypes.X] + ")" +
                     ")";
             }
@@ -159,7 +160,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         MatchCollection MatchAllPlayerActions()
         {
-            string playerActionPattern = string.Format("{0}: {1}", _playerName, ActionPattern);
+            string playerActionPattern = string.Format("{0} {1}", _playerName, ActionPattern);
             return Regex.Matches(_streetHistory, playerActionPattern, RegexOptions.IgnoreCase);
         }
 

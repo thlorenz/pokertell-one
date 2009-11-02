@@ -50,6 +50,15 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.TableName, Is.EqualTo(TableName));
         }
 
+        [Test]
+        public void Parse_HandHistoryWithValidTableNameWithSpacesInName_ExtractsTableName()
+        {
+            const string tableNameWithSpaces = "My Name has spaces";
+            var validTableName = ValidTableName(tableNameWithSpaces);
+            _parser.Parse(validTableName);
+            Assert.That(_parser.TableName, Is.EqualTo(tableNameWithSpaces));
+        }
+
         #endregion
 
         #region Methods

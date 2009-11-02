@@ -3,14 +3,20 @@ namespace PokerTell.Repository
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
     using Infrastructure.Interfaces.PokerHandParsers;
+
+    using log4net;
 
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     public class RepositoryParser
     {
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         #region Constants and Fields
 
         readonly IDictionary<ulong, IConvertedPokerHand> _parsedHands;
@@ -52,7 +58,7 @@ namespace PokerTell.Repository
             }
 
             IDictionary<ulong, string> containedHandHistories = parser.ExtractSeparateHandHistories(handHistories);
-
+            
             return CollectHandsContainedIn(containedHandHistories, parser);
         }
 
@@ -63,9 +69,18 @@ namespace PokerTell.Repository
 
             foreach (KeyValuePair<ulong, string> handHistory in containedHandHistories)
             {
-                IConvertedPokerHand convertedPokerHand =
-                    GetConvertedHandHistoryFromPreviouslyParsedHandsOrParser(handHistory, parser);
-                convertedPokerHands.Add(convertedPokerHand);
+                try
+                {
+                  IConvertedPokerHand convertedPokerHand =
+                      GetConvertedHandHistoryFromPreviouslyParsedHandsOrParser(handHistory, parser);
+
+                    convertedPokerHands.Add(convertedPokerHand);
+                }
+                catch (Exception excep)
+                {
+                    Log.Error(excep);
+                }
+               
             }
 
             return convertedPokerHands;
@@ -110,7 +125,7 @@ namespace PokerTell.Repository
             }
             else
             {
-                throw new UnableToParseHandHistoryException("Parser: " + parser.ToString() + handHistory.Value);
+                throw new UnableToParseHandHistoryException("Parser: " + parser);
             }
 
             return ConvertHandAndAddToParsedHands(aquiredPokerHand);

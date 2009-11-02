@@ -2,7 +2,6 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
     using System;
 
-    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Services;
 
@@ -16,10 +15,16 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
                 new Constructor<IAquiredPokerAction>(() => new AquiredPokerAction()));
         }
 
-        protected override string OneRatioActionFor(string playerName, IAquiredPokerAction action)
+        protected override string OneRaiseActionFor(string playerName, IAquiredPokerAction action)
         {
-            // barbadardo: raises $0.50 to $0.75
-           return string.Format("{0}: {1} ${2}", playerName, _parser.ActionStrings[action.What], action.Ratio);
+           // barbadardo: raises $0.50 to $0.75
+           return string.Format("{0}: {1} $0.50 to ${2}", playerName, _parser.ActionStrings[action.What], action.Ratio);
+        }
+
+        protected override string OneBetOrCallActionFor(string playerName, IAquiredPokerAction action)
+        {
+            // Luetze: bets $300
+            return string.Format("{0}: {1} ${2}", playerName, _parser.ActionStrings[action.What], action.Ratio);
         }
 
         protected override string PostingActionFor(string playerName, PostingTypes postingType, double ratio)

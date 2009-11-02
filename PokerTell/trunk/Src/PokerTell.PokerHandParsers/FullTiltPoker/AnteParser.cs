@@ -1,11 +1,11 @@
-namespace PokerTell.PokerHandParsers.PokerStars
-{
-    using System;
-    using System.Text.RegularExpressions;
+using System;
+using System.Text.RegularExpressions;
 
+namespace PokerTell.PokerHandParsers.FullTiltPoker
+{
     public class AnteParser : PokerHandParsers.AnteParser
     {
-        const string AntePattern = @"posts the ante " + SharedPatterns.RatioPattern;
+        const string AntePattern = @" Ante " + SharedPatterns.RatioPattern + " - ";
 
         public override PokerHandParsers.AnteParser Parse(string handHistory)
         {
@@ -16,7 +16,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             {
                 ExtractTotalPot(ante);
             }
-           return this;            
+            return this;            
         }
 
         static Match MatchTotalPot(string handHistory)

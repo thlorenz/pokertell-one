@@ -60,6 +60,12 @@ namespace PokerTell.PokerHand.Services
                 return null;
             }
 
+            if (sortedAquiredHand.TotalPlayers < 2 || sortedAquiredHand.TotalPlayers > 10)
+            {
+                Log.DebugFormat("AquiredHand had {0} players.\n<{1}>", sortedAquiredHand.TotalPlayers, sortedAquiredHand);
+                return null;
+            }
+
             // At this point Players are already sorted according to their Positions
             // Now parse through the hand and create the relative actions
             // Start w/ SB except for Preflop

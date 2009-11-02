@@ -27,7 +27,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         void ExtractTotalPot(Match totalPot)
         {
-            TotalPot = Convert.ToDouble(totalPot.Groups["Ratio"].Value);
+            TotalPot = Convert.ToDouble(totalPot.Groups["Ratio"].Value.Replace(",",string.Empty));
         }
     }
 }

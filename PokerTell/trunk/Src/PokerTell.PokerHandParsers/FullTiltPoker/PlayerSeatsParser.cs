@@ -1,9 +1,10 @@
-namespace PokerTell.PokerHandParsers.PokerStars
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    using System;
-    using System.Collections.Generic;
     using System.Reflection;
-    using System.Text.RegularExpressions;
 
     using log4net;
 
@@ -11,11 +12,11 @@ namespace PokerTell.PokerHandParsers.PokerStars
     {
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
+        
         const string SeatPattern =
             @"Seat (?<SeatNumber>\d{1,2}): (?<PlayerName>.+) \(" 
-            + SharedPatterns.RatioPattern 
-            + @" in chips\) *(?<OutOfHand>out of hand)*";	
+            + SharedPatterns.RatioPattern
+            + @"\) *(?<OutOfHand>, is sitting out){0,1}";	
 
         public override PokerHandParsers.PlayerSeatsParser Parse(string handHistory)
         {
@@ -23,9 +24,8 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
             MatchCollection players = MatchAllPlayerSeats(handHistory);
 
-
             IsValid = players.Count > 1;
-           
+
             if (IsValid)
             {
                 ExtractAllPlayers(players);
