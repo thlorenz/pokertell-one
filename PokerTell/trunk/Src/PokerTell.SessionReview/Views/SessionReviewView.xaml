@@ -11,7 +11,7 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
+        
         <ContentControl Grid.Column="0"
             cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.HandHistoriesRegion}"
                         />

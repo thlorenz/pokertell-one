@@ -2,6 +2,8 @@ using System;
 
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatTimeStampParser : Tests.ThatTimeStampParser
     {
         protected override TimeStampParser GetTimeStampParser()

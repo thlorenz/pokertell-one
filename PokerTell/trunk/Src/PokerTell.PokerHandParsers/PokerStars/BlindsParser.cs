@@ -1,43 +1,19 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
-    using System.Text.RegularExpressions;
-
-    public class BlindsParser : PokerHandParsers.BlindsParser
+    public class BlindsParser : Base.BlindsParser
     {
         #region Constants and Fields
 
-        const string BlindsPattern = @"\(\$*(?<SB>(\d+\.){0,1}\d+)/\$*(?<BB>(\d+\.){0,1}\d+)";
+        const string PokerStarsBlindsPattern =
+            @"\(" + SharedPatterns.RatioPattern + @"/" + SharedPatterns.Ratio2Pattern;
 
         #endregion
 
-        #region Public Methods
+        #region Properties
 
-        public override PokerHandParsers.BlindsParser Parse(string handHistory)
+        protected override string BlindsPattern
         {
-            Match blinds = MatchBlinds(handHistory);
-            IsValid = blinds.Success;
-
-            if (IsValid)
-            {
-                ExtractBlinds(blinds);
-            }
-            return this;
-        }
-
-        #endregion
-
-        #region Methods
-
-        static Match MatchBlinds(string handHistory)
-        {
-            return Regex.Match(handHistory, BlindsPattern, RegexOptions.IgnoreCase);
-        }
-
-        void ExtractBlinds(Match blinds)
-        {
-            BigBlind = Convert.ToDouble(blinds.Groups["BB"].Value);
-            SmallBlind = Convert.ToDouble(blinds.Groups["SB"].Value);
+            get { return PokerStarsBlindsPattern; }
         }
 
         #endregion

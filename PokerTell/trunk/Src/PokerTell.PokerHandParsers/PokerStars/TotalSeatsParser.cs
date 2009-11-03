@@ -1,36 +1,13 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
-    using System.Text.RegularExpressions;
-
-    public class TotalSeatsParser : PokerHandParsers.TotalSeatsParser
+    public class TotalSeatsParser : Base.TotalSeatsParser
     {
+        const string PokerStarsTotalSeatsPattern = 
+            TableNameParser.PokerStarsTableNamePattern + @" +(?<TotalSeats>[0-9]{1,2})-max";
 
-        const string TotalSeatsPattern = 
-            TableNameParser.TableNamePattern 
-            + @" +(?<TotalSeats>[0-9]{1,2})-max";
-
-        public override PokerHandParsers.TotalSeatsParser Parse(string handHistory)
+        protected override string TotalSeatsPattern
         {
-            Match totalSeats = MatchTotalSeats(handHistory);
-            IsValid = totalSeats.Success;
-
-            if (IsValid)
-            {
-                ExtractTotalSeats(totalSeats);
-            }
-
-            return this;
-        }
-
-        static Match MatchTotalSeats(string handHistory)
-        {
-            return Regex.Match(handHistory, TotalSeatsPattern, RegexOptions.IgnoreCase);
-        }
-
-        void ExtractTotalSeats(Match totalSeats)
-        {
-            TotalSeats = Convert.ToInt32(totalSeats.Groups["TotalSeats"].Value);
+            get { return PokerStarsTotalSeatsPattern; }
         }
     }
 }

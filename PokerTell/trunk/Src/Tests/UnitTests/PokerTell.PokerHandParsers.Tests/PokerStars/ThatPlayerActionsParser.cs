@@ -2,6 +2,8 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
     using System;
 
+    using Base;
+
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Services;
 

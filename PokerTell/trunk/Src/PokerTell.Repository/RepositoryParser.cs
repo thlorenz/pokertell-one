@@ -92,8 +92,10 @@ namespace PokerTell.Repository
             if (convertedPokerHand != null)
             {
                 _parsedHands.Add(convertedPokerHand.GameId, convertedPokerHand);
+                return convertedPokerHand;
             }
-            return convertedPokerHand;
+
+            throw new NullReferenceException("convertedPokerHand when converting: \n" + aquiredPokerHand);
         }
 
         IPokerHandParser FindCorrectParserFor(string handHistories)

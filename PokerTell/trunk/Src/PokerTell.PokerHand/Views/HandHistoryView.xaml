@@ -20,9 +20,15 @@
             CornerRadius="5"
             Background="{DynamicResource ControlBackgroundBrush}"
             Margin="5, 15"
-            Padding="5"
-            HorizontalAlignment="Center">
-            <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}">
+            Padding="5" >
+            <Border
+                CornerRadius="5"
+                Background="Wheat"
+                Margin="5"
+                Padding="5"
+                HorizontalAlignment="Center">
+            <Grid WPF:DesignTimeHelper.DesignTimeData = "{x:Type Design:HandHistoryViewModel}"
+                 >
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBlock}">
                         <Setter Property="Margin" Value="3,1"/>
@@ -35,7 +41,7 @@
                     <RowDefinition Height="Auto"    />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -156,10 +162,10 @@
                     Grid.ColumnSpan="2"
                     ItemsSource="{Binding PlayerRows}"
                     SelectedIndex="{Binding SelectedRow}">
+                   
                     <ListView.View>
                         <GridView 
-                            AllowsColumnReorder="False">
-                           
+                            AllowsColumnReorder="False">     
                             <GridView.ColumnHeaderTemplate>
                                 <DataTemplate>
                                     <Label 
@@ -178,7 +184,8 @@
                                         <TextBlock 
                                             DataContext="{Binding Position}" 
                                             Text="{Binding}"
-                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" />
+                                            ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" 
+                                            />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -222,8 +229,8 @@
                                             DataContext="{Binding Preflop}" 
                                             Text="{Binding}"
                                             ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"
-                                            Background="SlateBlue"  
-                                      />
+                                            Background="SlateBlue"
+                                            />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -235,7 +242,8 @@
                                             DataContext="{Binding Flop}" 
                                             Text="{Binding}"
                                             ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"
-                                            Background="DarkRed" />
+                                            Background="DarkRed"
+                                           />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -247,7 +255,8 @@
                                             DataContext="{Binding Turn}" 
                                             Text="{Binding}"
                                             ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"
-                                            Background="DarkGray"  />
+                                            Background="DarkGray"
+                                            />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -259,7 +268,8 @@
                                             DataContext="{Binding River}" 
                                             Text="{Binding}"
                                             ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"
-                                            Background="DarkGreen"  />
+                                            Background="DarkGreen"
+                                            />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -279,6 +289,7 @@
                     MinHeight="20" 
                     AcceptsReturn="True"/>
             </Grid>
+        </Border>
         </Border>
     </DataTemplate>
 

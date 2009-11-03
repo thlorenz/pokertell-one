@@ -105,12 +105,7 @@ namespace PokerTell.PokerHand.Services
                     .SetNumOfPlayersInEachRound()
                     .SetWhoHasPositionInEachRound();
 
-                if (convertedHand.Players.Count > 1)
-                {
-                    return convertedHand;
-                }
-
-                return null;
+                return convertedHand;
             }
             catch (Exception excep)
             {

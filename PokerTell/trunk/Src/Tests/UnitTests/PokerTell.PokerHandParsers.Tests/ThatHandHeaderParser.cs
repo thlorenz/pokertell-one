@@ -1,8 +1,10 @@
-﻿namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests
 {
     using System.Collections;
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
+
+    using Base;
 
     using NUnit.Framework;
 
@@ -49,84 +51,84 @@
         [Test]
         public void Parse_ValidNoLimitHoldemCashGameHeader_ExtractsGameId()
         {
-            _parser.Parse(ValidNoLimitHoldemCashGameHeader(GameId));
+            _parser.Parse(NoLimitHoldemCashGameHeader(GameId));
             Assert.That(_parser.GameId, Is.EqualTo(GameId));
         }
 
         [Test]
         public void Parse_ValidNoLimitHoldemCashGameHeader_SetsTournamentIdToZero()
         {
-            _parser.Parse(ValidNoLimitHoldemCashGameHeader(GameId));
+            _parser.Parse(NoLimitHoldemCashGameHeader(GameId));
             Assert.That(_parser.TournamentId, Is.EqualTo(0));
         }
 
         [Test]
         public void Parse_ValidNoLimitHoldemCashGameHeader_IsValidIsTrue()
         {
-            _parser.Parse(ValidNoLimitHoldemCashGameHeader(GameId));
+            _parser.Parse(NoLimitHoldemCashGameHeader(GameId));
             Assert.That(_parser.IsValid, Is.True);
         }
 
         [Test]
         public void Parse_ValidLimitHoldemCashGameHeader_ExtractsGameId()
         {
-            _parser.Parse(ValidLimitHoldemCashGameHeader(GameId));
+            _parser.Parse(LimitHoldemCashGameHeader(GameId));
             Assert.That(_parser.GameId, Is.EqualTo(GameId));
         }
 
         [Test]
         public void Parse_ValidPotLimitHoldemCashGameHeader_ExtractsGameId()
         {
-            _parser.Parse(ValidPotLimitHoldemCashGameHeader(GameId));
+            _parser.Parse(PotLimitHoldemCashGameHeader(GameId));
             Assert.That(_parser.GameId, Is.EqualTo(GameId));
         }
 
         [Test]
         public void Parse_ValidNoLimitHoldemTournamentGameHeader_ExtractsGameId()
         {
-            _parser.Parse(ValidNoLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(NoLimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.GameId, Is.EqualTo(GameId));
         }
 
         [Test]
         public void Parse_ValidNoLimitHoldemTournamentGameHeader_IsTournamentIsTrue()
         {
-            _parser.Parse(ValidNoLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(NoLimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.IsTournament, Is.True);
         }
 
         [Test]
         public void Parse_ValidNoLimitHoldemTournamentGameHeader_ExtractsTournamentId()
         {
-            _parser.Parse(ValidNoLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(NoLimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.TournamentId, Is.EqualTo(TournamentId));
         }
 
          [Test]
         public void Parse_ValidLimitHoldemTournamentGameHeader_ExtractsGameId()
         {
-            _parser.Parse(ValidLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(LimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.GameId, Is.EqualTo(GameId));
         }
 
         [Test]
         public void Parse_ValidLimitHoldemTournamentGameHeader_ExtractsTournamentId()
         {
-            _parser.Parse(ValidLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(LimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.TournamentId, Is.EqualTo(TournamentId));
         }
 
         [Test]
         public void Parse_ValidPotLimitHoldemTournamentGameHeader_ExtractsGameId()
         {
-            _parser.Parse(ValidPotLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(PotLimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.GameId, Is.EqualTo(GameId));
         }
 
         [Test]
         public void Parse_ValidPotLimitHoldemTournamentGameHeader_ExtractsTournamentId()
         {
-            _parser.Parse(ValidPotLimitHoldemTournamentGameHeader(GameId, TournamentId));
+            _parser.Parse(PotLimitHoldemTournamentGameHeader(GameId, TournamentId));
             Assert.That(_parser.TournamentId, Is.EqualTo(TournamentId));
         }
 
@@ -147,15 +149,15 @@
         [Test]
         public void FindAllHeaders_ValidNoLimitCashGameHeader_ReturnsOneMatch()
         {
-            var headers = _parser.FindAllHeaders(ValidNoLimitHoldemCashGameHeader(GameId));
+            var headers = _parser.FindAllHeaders(NoLimitHoldemCashGameHeader(GameId));
             Assert.That(headers.Count, Is.EqualTo(1));
         }
 
         [Test]
         public void FindAllHeaders_TwoValidNoLimitCashGameHeaders_ReturnsTwoMatches()
         {
-            var handHistories = ValidNoLimitHoldemCashGameHeader(GameId) + "\n" +
-                                ValidNoLimitHoldemCashGameHeader(GameId + 1);
+            var handHistories = NoLimitHoldemCashGameHeader(GameId) + "\n" +
+                                NoLimitHoldemCashGameHeader(GameId + 1);
             var headers = _parser.FindAllHeaders(handHistories);
             Assert.That(headers.Count, Is.EqualTo(2));
         }
@@ -163,8 +165,8 @@
         [Test]
         public void FindAllHeaders_TwoValidNoLimitCashGameHeaders_SecondMatchIndexIsGreaterThanFirstMatchIndex()
         {
-            var handHistories = ValidNoLimitHoldemCashGameHeader(GameId) + "\n" +
-                                ValidNoLimitHoldemCashGameHeader(GameId + 1);
+            var handHistories = NoLimitHoldemCashGameHeader(GameId) + "\n" +
+                                NoLimitHoldemCashGameHeader(GameId + 1);
             var headers = _parser.FindAllHeaders(handHistories);
             Assert.That(headers[1].HeaderMatch.Index, Is.GreaterThan(headers[0].HeaderMatch.Index));
         }
@@ -175,17 +177,17 @@
 
         protected abstract HandHeaderParser GetHandHeaderParser();
 
-        protected abstract string ValidNoLimitHoldemCashGameHeader(ulong gameId);
+        protected abstract string NoLimitHoldemCashGameHeader(ulong gameId);
 
-        protected abstract string ValidLimitHoldemCashGameHeader(ulong gameId);
+        protected abstract string LimitHoldemCashGameHeader(ulong gameId);
 
-        protected abstract string ValidPotLimitHoldemCashGameHeader(ulong gameId);
+        protected abstract string PotLimitHoldemCashGameHeader(ulong gameId);
 
-        protected abstract string ValidNoLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId);
+        protected abstract string NoLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId);
 
-        protected abstract string ValidLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId);
+        protected abstract string LimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId);
 
-        protected abstract string ValidPotLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId);
+        protected abstract string PotLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId);
 
         #endregion
     }

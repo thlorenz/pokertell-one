@@ -1,33 +1,20 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
-    using System.Text.RegularExpressions;
-
-    public class TotalPotParser : PokerHandParsers.TotalPotParser
+    public class TotalPotParser : Base.TotalPotParser
     {
-        const string TotalPotPattern = @"Total pot " + SharedPatterns.RatioPattern;
+        #region Constants and Fields
 
-        public override PokerHandParsers.TotalPotParser Parse(string handHistory)
+        const string PokerStarsTotalPotPattern = @"Total pot " + SharedPatterns.RatioPattern;
+
+        #endregion
+
+        #region Properties
+
+        protected override string TotalPotPattern
         {
-            Match totalPot = MatchTotalPot(handHistory);
-            IsValid = totalPot.Success;
-
-            if (IsValid)
-            {
-                ExtractTotalPot(totalPot);
-            }
-
-            return this;
+            get { return PokerStarsTotalPotPattern; }
         }
 
-        static Match MatchTotalPot(string handHistory)
-        {
-            return Regex.Match(handHistory, TotalPotPattern, RegexOptions.IgnoreCase);
-        }
-
-        void ExtractTotalPot(Match totalPot)
-        {
-            TotalPot = Convert.ToDouble(totalPot.Groups["Ratio"].Value.Replace(",",string.Empty));
-        }
+        #endregion
     }
 }

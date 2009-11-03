@@ -1,8 +1,10 @@
 ﻿namespace PokerTell.SessionReview.ViewModels
 {
-    using System.IO;
     using System.Reflection;
     using System.Text;
+
+    using Infrastructure;
+    using Infrastructure.Interfaces.PokerHand;
 
     using log4net;
 
@@ -10,12 +12,10 @@
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Win32;
 
-    using PokerTell.Infrastructure;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.SessionReview.Views;
-
     using Tools.Serialization;
     using Tools.WPF.ViewModels;
+
+    using Views;
 
     internal class SessionReviewViewModel : ItemsRegionViewModel, ISessionReviewViewModel
     {
@@ -58,12 +58,8 @@
         {
             get
             {
-                if (_createReportCommand == null)
-                {
-                    _createReportCommand = new DelegateCommand<object>(CreateReport, CanCreateReport);
-                }
-
-                return _createReportCommand;
+                return _createReportCommand ??
+                       (_createReportCommand = new DelegateCommand<object>(CreateReport, arg => IsActive));
             }
         }
 
@@ -74,30 +70,12 @@
 
         public DelegateCommand<object> SaveCommand
         {
-            get
-            {
-                if (_saveCommand == null)
-                {
-                    _saveCommand = new DelegateCommand<object>(Save, CanSave);
-                }
-
-                return _saveCommand;
-            }
+            get { return _saveCommand ?? (_saveCommand = new DelegateCommand<object>(Save, arg => IsActive)); }
         }
 
         #endregion
 
         #region Public Methods
-
-        public bool CanCreateReport(object arg)
-        {
-            return IsActive;
-        }
-
-        public bool CanSave(object arg)
-        {
-            return IsActive;
-        }
 
         public void CreateReport(object arg)
         {
@@ -112,12 +90,12 @@
         {
             Log.InfoFormat("SessionReview->Saving: {0}", GetHashCode());
             var saveFileDialog = new SaveFileDialog
-            {
-                AddExtension = true,
-                DefaultExt = "pthh",
-                Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*",
-                Title = "Save PokerTell Session Review"
-            };
+                {
+                    AddExtension = true,
+                    DefaultExt = "pthh",
+                    Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*",
+                    Title = "Save PokerTell Session Review"
+                };
             saveFileDialog.FileName = "SessionReview" + "." + saveFileDialog.DefaultExt;
 
             if ((bool)saveFileDialog.ShowDialog())
@@ -146,10 +124,10 @@
 
         string BuildHtmlText()
         {
-            var filter = _handHistoriesViewModel.HandHistoriesFilter;
-          
-            var heroName = filter.SelectHero ? filter.HeroName : null;
-            
+            IHandHistoriesFilter filter = _handHistoriesViewModel.HandHistoriesFilter;
+
+            string heroName = filter.SelectHero ? filter.HeroName : null;
+
             string htmlHandHistories = HtmlStringBuilder.BuildFrom(
                 _handHistoriesViewModel.SelectedHandHistories,
                 filter.ShowPreflopFolds,

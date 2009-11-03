@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatSmallBlindPlayerNameParser : Tests.ThatSmallBlindPlayerNameParser
     {
         protected override SmallBlindPlayerNameParser GetSmallBlindPostionParser()

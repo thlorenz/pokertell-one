@@ -2,6 +2,8 @@ namespace PokerTell.PokerHandParsers.Tests
 {
     using System;
 
+    using Base;
+
     using NUnit.Framework;
 
     using UnitTests.Tools;

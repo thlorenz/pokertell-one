@@ -1,34 +1,20 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
-    using System.Text.RegularExpressions;
-
-    public class SmallBlindPlayerNameParser : PokerHandParsers.SmallBlindPlayerNameParser
+    public class SmallBlindPlayerNameParser : Base.SmallBlindPlayerNameParser
     {
-        const string SmallBlindPattern = @"(?<PlayerName>.+): posts small blind";
+        #region Constants and Fields
 
-        public override PokerHandParsers.SmallBlindPlayerNameParser Parse(string handHistory)
+        const string PokerStarsSmallBlindPattern = @"(?<PlayerName>.+): posts small blind";
+
+        #endregion
+
+        #region Properties
+
+        protected override string SmallBlindPattern
         {
-            Match smallBlindPlayerName = MatchSmallBlindPlayerName(handHistory);
-
-            IsValid = smallBlindPlayerName.Success;
-
-            if (IsValid)
-            {
-               ExtractSmallBlindPlayerName(smallBlindPlayerName); 
-            }
-
-            return this;
+            get { return PokerStarsSmallBlindPattern; }
         }
 
-        static Match MatchSmallBlindPlayerName(string handHistory)
-        {
-            return Regex.Match(handHistory, SmallBlindPattern, RegexOptions.IgnoreCase);
-        }
-
-        void ExtractSmallBlindPlayerName(Match smallBlindPlayerName)
-        {
-            SmallBlindPlayerName = smallBlindPlayerName.Groups["PlayerName"].Value;
-        }
+        #endregion
     }
 }

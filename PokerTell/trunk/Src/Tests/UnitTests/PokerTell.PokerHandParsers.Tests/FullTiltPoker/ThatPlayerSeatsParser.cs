@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatPlayerSeatsParser : Tests.ThatPlayerSeatsParser
     {
         protected override PlayerSeatsParser GetPlayerSeatsParser()

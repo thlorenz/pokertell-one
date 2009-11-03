@@ -1,16 +1,16 @@
-namespace PokerTell.PokerHandParsers
+using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+
+using PokerTell.Infrastructure.Interfaces;
+using PokerTell.Infrastructure.Interfaces.PokerHand;
+using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
+
+using log4net;
+
+namespace PokerTell.PokerHandParsers.Base
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using System.Text;
-
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.PokerHandParsers;
-
-    using log4net;
-
     public abstract class PokerHandParser : IPokerHandParser
     {
         #region Constants and Fields

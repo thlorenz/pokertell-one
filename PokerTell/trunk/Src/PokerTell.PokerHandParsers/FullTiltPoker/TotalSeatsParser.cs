@@ -1,17 +1,30 @@
-using System;
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class TotalSeatsParser : PokerHandParsers.TotalSeatsParser
+    using System.Text.RegularExpressions;
+
+    public class TotalSeatsParser : Base.TotalSeatsParser
     {
+        #region Constants and Fields
 
-        const string TotalSeatsPattern = 
-            TableNameParser.TableNamePattern + @"\((?<TotalSeats>[0-9]{1,2}) max\) ";
+        const string FullTiltTotalSeatsPattern =
+            TableNameParser.FullTiltTableNamePattern + @"\((?<TotalSeats>[0-9]{1,2}) max\) ";
 
-        const string HeadsUpPattern = TableNameParser.TableNamePattern + @"\(heads up\) ";
+        const string HeadsUpPattern = TableNameParser.FullTiltTableNamePattern + @"\(heads up\) ";
 
-        public override PokerHandParsers.TotalSeatsParser Parse(string handHistory)
+        #endregion
+
+        #region Properties
+
+        protected override string TotalSeatsPattern
+        {
+            get { return FullTiltTotalSeatsPattern; }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public override Base.TotalSeatsParser Parse(string handHistory)
         {
             IsValid = !string.IsNullOrEmpty(handHistory);
 
@@ -33,24 +46,20 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             return this;
         }
 
-        void DefaultToStandard()
-        {
-            TotalSeats = 9;
-        }
+        #endregion
+
+        #region Methods
 
         static Match MatchHeadsUp(string handHistory)
         {
             return Regex.Match(handHistory, HeadsUpPattern, RegexOptions.IgnoreCase);
         }
 
-        static Match MatchTotalSeats(string handHistory)
+        void DefaultToStandard()
         {
-            return Regex.Match(handHistory, TotalSeatsPattern, RegexOptions.IgnoreCase);
+            TotalSeats = 9;
         }
 
-        void ExtractTotalSeats(Match totalSeats)
-        {
-            TotalSeats = Convert.ToInt32(totalSeats.Groups["TotalSeats"].Value);
-        }
+        #endregion
     }
 }

@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests
 {
+    using Base;
+
     using NUnit.Framework;
 
     public abstract class ThatHoleCardsParser

@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatTotalSeatsParser : Tests.ThatTotalSeatsParser
     {
         #region Public Methods

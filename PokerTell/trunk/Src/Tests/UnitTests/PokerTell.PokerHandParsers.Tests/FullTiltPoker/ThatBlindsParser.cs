@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatBlindsParser : Tests.ThatBlindsParser
     {
         protected override string TournamentGameWithValidBlinds(double smallBlind, double bigBlind)

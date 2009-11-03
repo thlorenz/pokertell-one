@@ -94,12 +94,12 @@ namespace PokerTell.PokerHand
 
                 // ViewModels
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
+                .RegisterTypeAndConstructor<IHandHistoriesViewModel, HandHistoriesViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IBoardViewModel, BoardViewModel>()
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
 
                 // Views
-                .RegisterType<IHandHistoriesViewModel, HandHistoriesViewModel>()
                 .RegisterType<IHandHistoriesView, HandHistoriesView>()
 
                 // Helpers

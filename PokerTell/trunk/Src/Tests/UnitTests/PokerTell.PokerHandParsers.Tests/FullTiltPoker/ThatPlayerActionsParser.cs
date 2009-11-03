@@ -6,6 +6,8 @@ using PokerTell.PokerHand.Aquisition;
 
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatPlayerActionsParser : Tests.ThatPlayerActionsParser
     {
         protected override PlayerActionsParser GetPlayerActionsParser()

@@ -13,7 +13,8 @@
                 Visibility="{Binding Visible, Converter={StaticResource Bool2VisibleOrCollapsedConverter}}">
 
             <StackPanel Orientation="Horizontal"
-                        ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}">
+                        ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"
+                        MinWidth="45">
                 <StackPanel.Resources>
                     <Style TargetType="{x:Type Label}">
                         <Setter Property="Foreground" Value="Black" />

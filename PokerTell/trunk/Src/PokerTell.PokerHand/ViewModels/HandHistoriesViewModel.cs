@@ -7,8 +7,8 @@ namespace PokerTell.PokerHand.ViewModels
     using System.Runtime.Serialization;
     using System.Windows.Input;
 
-    using PokerTell.Infrastructure.Interfaces;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.PokerHand;
 
     using Tools.Interfaces;
     using Tools.WPF;
@@ -19,12 +19,12 @@ namespace PokerTell.PokerHand.ViewModels
     {
         #region Constants and Fields
 
+        protected readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
+
         readonly IHandHistoriesFilter _handHistoriesFilter;
 
         [NonSerialized]
         readonly IConstructor<IHandHistoryViewModel> _handHistoryViewModelMake;
-
-        readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
 
         [NonSerialized]
         ICommand _navigateBackwardCommand;
@@ -35,6 +35,10 @@ namespace PokerTell.PokerHand.ViewModels
         [NonSerialized]
         ObservableCollection<int> _pageNumbers;
 
+        bool _selectAllHandHistoriesOnPage;
+
+        bool _selectAllShownHandHistories;
+
         bool _showSelectOption;
 
         #endregion
@@ -42,8 +46,8 @@ namespace PokerTell.PokerHand.ViewModels
         #region Constructors and Destructors
 
         public HandHistoriesViewModel(
-            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake, 
-            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager, 
+            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake,
+            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager,
             IHandHistoriesFilter handHistoriesFilter)
         {
             _handHistoriesFilter = handHistoriesFilter;
@@ -92,7 +96,7 @@ namespace PokerTell.PokerHand.ViewModels
                         ExecuteDelegate = arg => {
                             _itemsPagesManager.NavigateBackward();
                             UpdatePageInfo();
-                        }, 
+                        },
                         CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateBackward
                     });
             }
@@ -107,7 +111,7 @@ namespace PokerTell.PokerHand.ViewModels
                         ExecuteDelegate = arg => {
                             _itemsPagesManager.NavigateForward();
                             UpdatePageInfo();
-                        }, 
+                        },
                         CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateForward
                     });
             }
@@ -121,6 +125,26 @@ namespace PokerTell.PokerHand.ViewModels
         public ObservableCollection<int> PageNumbers
         {
             get { return _pageNumbers; }
+        }
+
+        public bool SelectAllHandHistoriesOnPage
+        {
+            get { return _selectAllHandHistoriesOnPage; }
+            set
+            {
+                _selectAllHandHistoriesOnPage = value;
+                SetAllHandHistoriesOnPageSelectedTo(_selectAllHandHistoriesOnPage);
+            }
+        }
+
+        public bool SelectAllShownHandHistories
+        {
+            get { return _selectAllShownHandHistories; }
+            set
+            {
+                _selectAllShownHandHistories = value;
+                SetAllShownHandHistorieSelectedTo(_selectAllShownHandHistories);
+            }
         }
 
         public IEnumerable<IHandHistoryViewModel> SelectedHandHistories
@@ -140,6 +164,19 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 _showSelectOption = value;
                 SetAllHandHistoriesShowSelectOption();
+            }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue()
+        {
+            foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
+            {
+                handHistoryViewModel.SelectRowOfPlayer(
+                    HandHistoriesFilter.SelectHero ? HandHistoriesFilter.HeroName : null);
             }
         }
 
@@ -195,29 +232,11 @@ namespace PokerTell.PokerHand.ViewModels
             return this;
         }
 
-        public void SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue()
-        {
-            foreach (IHandHistoryViewModel handHistoryViewModel in _itemsPagesManager.AllItems)
-            {
-                handHistoryViewModel.SelectRowOfPlayer(HandHistoriesFilter.SelectHero ? HandHistoriesFilter.HeroName : null);
-            }
-        }
-
         #endregion
 
         #endregion
 
         #region Methods
-
-        protected virtual void ShowPreflopFoldsInAllHandHistoriesIfShowPreflopFoldsIsTrue()
-        {
-            foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
-            {
-                model.ShowPreflopFolds = _handHistoriesFilter.ShowPreflopFolds;
-            }
-
-            SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue();
-        }
 
         protected virtual void FilterOutUnselectedHandHistoriesIfShowSelectedOnlyIsTrue()
         {
@@ -231,6 +250,16 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 model.ShowSelectOption = _showSelectOption;
             }
+        }
+
+        protected virtual void ShowPreflopFoldsInAllHandHistoriesIfShowPreflopFoldsIsTrue()
+        {
+            foreach (IHandHistoryViewModel model in _itemsPagesManager.AllItems)
+            {
+                model.ShowPreflopFolds = _handHistoriesFilter.ShowPreflopFolds;
+            }
+
+            SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue();
         }
 
         void ConnectToHandHistoryFilterEvents()
@@ -260,7 +289,22 @@ namespace PokerTell.PokerHand.ViewModels
         {
             _pageNumbers = new ObservableCollection<int>();
             UpdatePageInfo();
-            Console.WriteLine("Filter: {0}", _handHistoriesFilter);
+        }
+
+        void SetAllHandHistoriesOnPageSelectedTo(bool selected)
+        {
+            foreach (IHandHistoryViewModel handHistory in _itemsPagesManager.ItemsOnCurrentPage)
+            {
+                handHistory.IsSelected = selected;
+            }
+        }
+
+        void SetAllShownHandHistorieSelectedTo(bool selected)
+        {
+            foreach (IHandHistoryViewModel handHistory in _itemsPagesManager.AllShownItems)
+            {
+                handHistory.IsSelected = selected;
+            }
         }
 
         void UpdatePageInfo()

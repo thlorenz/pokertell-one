@@ -7,6 +7,10 @@ namespace PokerTell
 
     using PokerHand;
 
+    using PokerHandParsers;
+
+    using Repository;
+
     using SessionReview;
 
     public class Bootstrapper : UnityBootstrapper
@@ -17,7 +21,9 @@ namespace PokerTell
 
             catalog
                 .AddModule(typeof(PokerHandModule))
-                .AddModule(typeof(SessionReviewModule), typeof(PokerHandModule).Name);
+                .AddModule(typeof(PokerHandParsersModule), typeof(PokerHandModule).Name)
+                .AddModule(typeof(RepositoryModule), typeof(PokerHandParsersModule).Name, typeof(PokerHandModule).Name)
+                .AddModule(typeof(SessionReviewModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name);
          
             return catalog;
         }

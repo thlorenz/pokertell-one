@@ -2,6 +2,8 @@ using System;
 
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatTableNameParser : Tests.ThatTableNameParser
     {
         protected override string ValidTableName(string tableName)

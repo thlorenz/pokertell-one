@@ -1,41 +1,18 @@
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class TableNameParser : PokerHandParsers.TableNameParser
+    public class TableNameParser : Base.TableNameParser
     {
         #region Constants and Fields
 
-        internal const string TableNamePattern = @".*Table (?<TableName>.*[^ ]) ";
+        internal const string FullTiltTableNamePattern = @".*Table (?<TableName>.*[^ ]) ";
 
         #endregion
 
-        #region Public Methods
+        #region Properties
 
-        public override PokerHandParsers.TableNameParser Parse(string handHistory)
+        protected override string TableNamePattern
         {
-            Match table = MatchTableName(handHistory);
-            IsValid = table.Success;
-           
-            if (IsValid)
-            {
-                ExtractTableName(table);
-            }
-            return this;
-        }
-
-        #endregion
-
-        #region Methods
-
-        static Match MatchTableName(string handHistory)
-        {
-            return Regex.Match(handHistory, TableNamePattern, RegexOptions.IgnoreCase);
-        }
-
-        void ExtractTableName(Match table)
-        {
-            TableName = table.Groups["TableName"].Value;
+            get { return FullTiltTableNamePattern; }
         }
 
         #endregion

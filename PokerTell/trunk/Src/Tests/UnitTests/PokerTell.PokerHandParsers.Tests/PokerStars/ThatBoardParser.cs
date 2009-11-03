@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
+    using Base;
+
     public class ThatBoardParser : Tests.ThatBoardParser
     {
         protected override string ValidBoard(string board)

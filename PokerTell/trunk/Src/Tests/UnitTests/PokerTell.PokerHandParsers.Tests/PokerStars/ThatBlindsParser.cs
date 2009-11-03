@@ -2,6 +2,8 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
     using System;
 
+    using Base;
+
     public class ThatBlindsParser : PokerHandParsers.Tests.ThatBlindsParser
     {
         protected override string TournamentGameWithValidBlinds(double smallBlind, double bigBlind)

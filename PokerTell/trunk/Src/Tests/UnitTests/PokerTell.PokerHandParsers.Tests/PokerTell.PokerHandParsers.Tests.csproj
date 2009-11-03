@@ -66,6 +66,9 @@
     <Compile Include="FullTiltPoker\ThatTimeStampParser.cs" />
     <Compile Include="FullTiltPoker\ThatTotalPotParser.cs" />
     <Compile Include="FullTiltPoker\ThatTotalSeatsParser.cs" />
+    <Compile Include="PartyPoker\ThatAnteParser.cs" />
+    <Compile Include="PartyPoker\ThatBlindsParser.cs" />
+    <Compile Include="PartyPoker\ThatHandHeaderParser.cs" />
     <Compile Include="Patterns\ThatRatioPattern.cs" />
     <Compile Include="PokerStars\ThatBoardParser.cs" />
     <Compile Include="PokerStars\ThatHoleCardsParser.cs" />

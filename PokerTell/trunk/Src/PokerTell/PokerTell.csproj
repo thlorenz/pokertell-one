@@ -297,9 +297,17 @@
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.PokerHandParsers\PokerTell.PokerHandParsers.csproj">
+      <Project>{C43F98A6-E5E2-4DC1-A7B4-003BEDC62E85}</Project>
+      <Name>PokerTell.PokerHandParsers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerTell.PokerHand\PokerTell.PokerHand.csproj">
       <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
       <Name>PokerTell.PokerHand</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PokerTell.Repository\PokerTell.Repository.csproj">
+      <Project>{6DC6304E-D0B9-46E0-9656-1F34198BF605}</Project>
+      <Name>PokerTell.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\PokerTell.SessionReview\PokerTell.SessionReview.csproj">
       <Project>{B6317324-CBC1-4FB9-BC5A-9EDF807BFD16}</Project>

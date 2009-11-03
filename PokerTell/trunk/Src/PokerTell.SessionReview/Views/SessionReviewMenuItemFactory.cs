@@ -19,6 +19,7 @@
         {
             var menuItem = new MenuItem { Header = "SessionReview" };
             menuItem.Items.Add(new MenuItem { Header = "_Open", Command = _viewModel.OpenReviewCommand });
+            menuItem.Items.Add(new MenuItem { Header = "_Import Hand History", Command = _viewModel.ImportHandHistoriesCommand });
             menuItem.Items.Add(new MenuItem { Header = "_Save", Command = Commands.SaveSessionReviewCommand });
             menuItem.Items.Add(new Separator());
             menuItem.Items.Add(new MenuItem { Header = "_Create Report", Command = Commands.CreateSessionReviewReportCommand });

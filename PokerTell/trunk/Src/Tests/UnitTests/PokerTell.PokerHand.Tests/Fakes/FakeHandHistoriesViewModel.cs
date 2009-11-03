@@ -57,5 +57,11 @@ namespace PokerTell.PokerHand.Tests.Fakes
         }
 
         #endregion
+
+        public IHandHistoriesViewModel RemoveFirstShownHand()
+        {
+            _itemsPagesManager.AllShownItems.RemoveAt(0);
+            return this;
+        }
     }
 }

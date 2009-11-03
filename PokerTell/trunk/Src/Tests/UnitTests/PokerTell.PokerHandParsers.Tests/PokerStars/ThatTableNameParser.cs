@@ -2,6 +2,8 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
     using System;
 
+    using Base;
+
     public class ThatTableNameParser : Tests.ThatTableNameParser
     {
         protected override string ValidTableName(string tableName)

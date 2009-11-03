@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests
 {
+    using Base;
+
     using NUnit.Framework;
 
     public abstract class ThatPlayerSeatsParser
@@ -39,7 +41,7 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         [Test]
-        public void Parse_OneSeatWithPlayer_AddsPlayerToPlayerSeats()
+        public void Parse_OneSeatWithPlayer_DoesNotAddPlayerToPlayerSeats()
         {
             const int seatNumber = 1;
             var playerData = CreateSomePlayerData();
@@ -47,7 +49,7 @@ namespace PokerTell.PokerHandParsers.Tests
             string handHistory = OneSeatWithPlayer(seatNumber, playerData);
            
             _parser.Parse(handHistory);
-            Assert.That(_parser.PlayerSeats[seatNumber], Is.EqualTo(playerData));
+            Assert.That(_parser.PlayerSeats.Count, Is.EqualTo(0));
         }
 
         [Test]

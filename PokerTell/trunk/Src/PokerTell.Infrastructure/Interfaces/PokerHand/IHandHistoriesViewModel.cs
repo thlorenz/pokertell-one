@@ -4,8 +4,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
-    using Tools.GenericUtilities;
-
     public interface IHandHistoriesViewModel
     {
         IHandHistoriesViewModel ApplyFilter(IPokerHandCondition condition);
@@ -20,11 +18,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         IHandHistoriesFilter HandHistoriesFilter { get; }
 
+        bool SelectAllHandHistoriesOnPage { get; set; }
+
         IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
 
         IHandHistoriesViewModel InitializeWith(
             IEnumerable<IConvertedPokerHand> convertedPokerHands, int itemsPerPage);
 
         event Action PageTurn;
+
+        bool SelectAllShownHandHistories { get; set; }
+
     }
 }

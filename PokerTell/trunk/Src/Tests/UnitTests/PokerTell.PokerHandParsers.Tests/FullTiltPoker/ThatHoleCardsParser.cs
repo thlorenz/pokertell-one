@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Base;
+
     public class ThatHoleCardsParser : Tests.ThatHoleCardsParser
     {
         protected override HoleCardsParser GetHoleCardsParser()

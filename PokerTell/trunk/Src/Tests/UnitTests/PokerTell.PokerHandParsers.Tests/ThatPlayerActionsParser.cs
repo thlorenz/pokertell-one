@@ -2,6 +2,8 @@ namespace PokerTell.PokerHandParsers.Tests
 {
     using System.Linq;
 
+    using Base;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 

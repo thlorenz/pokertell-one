@@ -3,7 +3,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
-    public class PokerHandParser : PokerHandParsers.PokerHandParser
+    public class PokerHandParser : Base.PokerHandParser
     {
         #region Constructors and Destructors
 
