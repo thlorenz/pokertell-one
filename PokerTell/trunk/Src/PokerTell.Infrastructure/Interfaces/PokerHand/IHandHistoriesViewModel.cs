@@ -3,6 +3,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Windows.Input;
 
     public interface IHandHistoriesViewModel
     {
@@ -18,8 +19,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         IHandHistoriesFilter HandHistoriesFilter { get; }
 
-        bool SelectAllHandHistoriesOnPage { get; set; }
-
         IHandHistoriesViewModel InitializeWith(IEnumerable<IConvertedPokerHand> convertedPokerHands);
 
         IHandHistoriesViewModel InitializeWith(
@@ -27,7 +26,12 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         event Action PageTurn;
 
-        bool SelectAllShownHandHistories { get; set; }
+        ICommand SelectAllHandHistoriesOnPageCommand { get; }
 
+        ICommand UnselectAllHandHistoriesOnPageCommand { get; }
+
+        ICommand SelectAllShownHandHistoriesCommand { get; }
+
+        ICommand UnselectAllShownHandHistoriesCommand { get; }
     }
 }

@@ -134,7 +134,7 @@ namespace PokerTell.PokerHand.Tests
         }
 
         [Test]
-        public void SelectAllHandHistoriesOnPage_TrueTwoHandsOnPage_SelectsTwoHands()
+        public void SelectAllHandHistoriesOnPage_TwoHandsOnPage_SelectsTwoHands()
 
         {
             var hand1 = new ConvertedPokerHand();
@@ -144,13 +144,13 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel
                 .InitializeWith(hands)
-                .SelectAllHandHistoriesOnPage = true;
+                .SelectAllHandHistoriesOnPageCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(2));
         }
 
         [Test]
-        public void SelectAllShownHandHistories_TrueTwoHandsShownAndTwoOnPage_SelectsTwoHands()
+        public void SelectAllShownHandHistories_TwoHandsShownAndTwoOnPage_SelectsTwoHands()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -159,13 +159,13 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel
                 .InitializeWith(hands)
-                .SelectAllShownHandHistories = true;
+                .SelectAllShownHandHistoriesCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(2));
         }
 
         [Test]
-        public void SelectAllShownHandHistories_FalseTwoSelectedHandsShownAndTwoOnPage_UnselectsTwoHands()
+        public void UnselectAllShownHandHistories_TwoSelectedHandsShownAndTwoOnPage_UnselectsTwoHands()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -174,16 +174,16 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel
                 .InitializeWith(hands)
-                .SelectAllShownHandHistories = true;
+                .SelectAllShownHandHistoriesCommand.Execute(null);
 
             _viewModel
-                .SelectAllShownHandHistories = false;
+                .UnselectAllShownHandHistoriesCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(0));
         }
 
         [Test]
-        public void SelectAllHandHistoriesOnPage_TrueTwoHandsShownButOnlyOneHandOnPage_SelectsOneHand()
+        public void SelectAllHandHistoriesOnPage_TwoHandsShownButOnlyOneHandOnPage_SelectsOneHand()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -194,13 +194,13 @@ namespace PokerTell.PokerHand.Tests
                 .InitializeWith(hands)
                 .HandHistoriesOnPage.RemoveAt(0);
             _viewModel
-                .SelectAllHandHistoriesOnPage = true;
+                .SelectAllHandHistoriesOnPageCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(1));
         }
 
         [Test]
-        public void SelectAllHandHistoriesOnPage_FalseTwoSelectedHandsShownButOnlyOneHandOnPage_UnselectsOneHand()
+        public void UnselectAllHandHistoriesOnPage_TwoSelectedHandsShownButOnlyOneHandOnPage_UnselectsOneHand()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -209,18 +209,18 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel
                 .InitializeWith(hands)
-                .SelectAllHandHistoriesOnPage = true;
+                .SelectAllHandHistoriesOnPageCommand.Execute(null);
             _viewModel
                 .HandHistoriesOnPage.RemoveAt(0);
 
             _viewModel
-                .SelectAllHandHistoriesOnPage = false;
+                .UnselectAllHandHistoriesOnPageCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(1));
         }
 
         [Test]
-        public void SelectAllShownHandHistories_TrueTwoHandsShownButOnlyOneHandOnPage_SelectsTwoHands()
+        public void SelectAllShownHandHistories_TwoHandsShownButOnlyOneHandOnPage_SelectsTwoHands()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -231,13 +231,13 @@ namespace PokerTell.PokerHand.Tests
                 .InitializeWith(hands)
                 .HandHistoriesOnPage.RemoveAt(0);
             _viewModel
-                .SelectAllShownHandHistories = true;
+                .SelectAllShownHandHistoriesCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(2));
         }
 
         [Test]
-        public void SelectAllShownHandHistories_FalseTwoSelectedHandsShownButOnlyOneHandOnPage_UnselectsTwoHands()
+        public void UnselectAllShownHandHistories_TwoSelectedHandsShownButOnlyOneHandOnPage_UnselectsTwoHands()
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -246,53 +246,57 @@ namespace PokerTell.PokerHand.Tests
 
             _viewModel
                 .InitializeWith(hands)
-                .SelectAllShownHandHistories = true;
+                .SelectAllShownHandHistoriesCommand.Execute(null);
             _viewModel
                 .HandHistoriesOnPage.RemoveAt(0);
 
             _viewModel
-                .SelectAllShownHandHistories = false;
+                 .UnselectAllShownHandHistoriesCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(0));
         }
 
         [Test]
-        public void SelectAllShownHandHistories_TrueTwoHandsTotalButOnlyOneHandShown_SelectsOneHand()
+        public void SelectAllShownHandHistories_TwoHandsTotalButOnlyOneHandShown_SelectsOneHand()
         {
-            var hand1 = new ConvertedPokerHand();
-            var hand2 = new ConvertedPokerHand();
+            var hand1 = new ConvertedPokerHand { HandId = 1 };
+            var hand2 = new ConvertedPokerHand { HandId = 2 };
 
             var hands = new List<IConvertedPokerHand> { hand1, hand2 };
 
+            var filterCondition = new StubConditionWithHandId { HandIdToMatch = hand1.HandId };
+
             _viewModel
-                .InitializeWith(hands);
-           
-            ((FakeHandHistoriesViewModel)_viewModel)
-                .RemoveFirstShownHand()
-                .SelectAllShownHandHistories = true;
+                .InitializeWith(hands)
+                .ApplyFilter(filterCondition)
+                .SelectAllShownHandHistoriesCommand.Execute(null);
 
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(1));
         }
 
         [Test]
-        public void SelectAllShownHandHistories_FalseTwoSelectedHandsTotalButOnlyOneHandShown_UnselectsOneHand()
+        public void UnselectAllShownHandHistories_TwoSelectedHandsTotalButOnlyOneHandShown_UnselectsOneHand()
         {
-            var hand1 = new ConvertedPokerHand();
-            var hand2 = new ConvertedPokerHand();
+            var hand1 = new ConvertedPokerHand { HandId = 1 };
+            var hand2 = new ConvertedPokerHand { HandId = 2 };
 
             var hands = new List<IConvertedPokerHand> { hand1, hand2 };
+          
+            var filterCondition = new StubConditionWithHandId { HandIdToMatch = hand1.HandId };
 
             _viewModel
                 .InitializeWith(hands)
-                .SelectAllShownHandHistories = true;
-
-            ((FakeHandHistoriesViewModel)_viewModel)
-                .RemoveFirstShownHand()
-                .SelectAllShownHandHistories = false;
+                .SelectAllShownHandHistoriesCommand.Execute(null);
+                
+            _viewModel
+                .ApplyFilter(filterCondition)
+                .UnselectAllShownHandHistoriesCommand.Execute(null);
                
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(1));
         }
 
         #endregion
     }
+
+    
 }

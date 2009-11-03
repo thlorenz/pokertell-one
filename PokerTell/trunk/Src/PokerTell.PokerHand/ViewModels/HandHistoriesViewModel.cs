@@ -35,11 +35,20 @@ namespace PokerTell.PokerHand.ViewModels
         [NonSerialized]
         ObservableCollection<int> _pageNumbers;
 
-        bool _selectAllHandHistoriesOnPage;
+        [NonSerialized]
+        ICommand _selectAllHandHistoriesOnPageCommand;
 
-        bool _selectAllShownHandHistories;
+        [NonSerialized]
+        ICommand _selectAllShownHandHistoriesCommand;
 
+        [NonSerialized]
         bool _showSelectOption;
+
+        [NonSerialized]
+        ICommand _unselectAllHandHistoriesOnPageCommand;
+
+        [NonSerialized]
+        ICommand _unselectAllShownHandHistoriesCommand;
 
         #endregion
 
@@ -127,23 +136,27 @@ namespace PokerTell.PokerHand.ViewModels
             get { return _pageNumbers; }
         }
 
-        public bool SelectAllHandHistoriesOnPage
+        public ICommand SelectAllHandHistoriesOnPageCommand
         {
-            get { return _selectAllHandHistoriesOnPage; }
-            set
+            get
             {
-                _selectAllHandHistoriesOnPage = value;
-                SetAllHandHistoriesOnPageSelectedTo(_selectAllHandHistoriesOnPage);
+                return _selectAllHandHistoriesOnPageCommand ?? (_selectAllHandHistoriesOnPageCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => SetAllHandHistoriesOnPageSelectedTo(true),
+                        CanExecuteDelegate = arg => true
+                    });
             }
         }
 
-        public bool SelectAllShownHandHistories
+        public ICommand SelectAllShownHandHistoriesCommand
         {
-            get { return _selectAllShownHandHistories; }
-            set
+            get
             {
-                _selectAllShownHandHistories = value;
-                SetAllShownHandHistorieSelectedTo(_selectAllShownHandHistories);
+                return _selectAllShownHandHistoriesCommand ?? (_selectAllShownHandHistoriesCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => SetAllShownHandHistorieSelectedTo(true),
+                        CanExecuteDelegate = arg => true
+                    });
             }
         }
 
@@ -164,6 +177,32 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 _showSelectOption = value;
                 SetAllHandHistoriesShowSelectOption();
+            }
+        }
+
+        public ICommand UnselectAllHandHistoriesOnPageCommand
+        {
+            get
+            {
+                return _unselectAllHandHistoriesOnPageCommand ??
+                       (_unselectAllHandHistoriesOnPageCommand = new SimpleCommand
+                           {
+                               ExecuteDelegate = arg => SetAllHandHistoriesOnPageSelectedTo(false),
+                               CanExecuteDelegate = arg => true
+                           });
+            }
+        }
+
+        public ICommand UnselectAllShownHandHistoriesCommand
+        {
+            get
+            {
+                return _unselectAllShownHandHistoriesCommand ??
+                       (_unselectAllShownHandHistoriesCommand = new SimpleCommand
+                           {
+                               ExecuteDelegate = arg => SetAllShownHandHistorieSelectedTo(false),
+                               CanExecuteDelegate = arg => true
+                           });
             }
         }
 

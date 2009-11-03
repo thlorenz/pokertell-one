@@ -4,6 +4,8 @@
 
     using PokerTell.SessionReview.ViewModels;
 
+    using Properties;
+
     public class SessionReviewMenuItemFactory
     {
         readonly SessionReviewMenuItemViewModel _viewModel;
@@ -17,14 +19,13 @@
 
         public MenuItem Create()
         {
-            var menuItem = new MenuItem { Header = "SessionReview" };
-            menuItem.Items.Add(new MenuItem { Header = "_Open", Command = _viewModel.OpenReviewCommand });
-            menuItem.Items.Add(new MenuItem { Header = "_Import Hand History", Command = _viewModel.ImportHandHistoriesCommand });
-            menuItem.Items.Add(new MenuItem { Header = "_Save", Command = Commands.SaveSessionReviewCommand });
+            var menuItem = new MenuItem { Header = Resources.SessionReviewMenuItem_Title };
+            menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Open_Review, Command = _viewModel.OpenReviewCommand });
+            menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Save_Review, Command = Commands.SaveSessionReviewCommand });
+            menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Import_Hand_Histories, Command = _viewModel.ImportHandHistoriesCommand });
             menuItem.Items.Add(new Separator());
-            menuItem.Items.Add(new MenuItem { Header = "_Create Report", Command = Commands.CreateSessionReviewReportCommand });
-            menuItem.Items.Add(new MenuItem { Header = "Save _Report", Command = Commands.SaveSessionReviewReportCommand });
-            menuItem.Items.Add(new MenuItem { Header = "Print Report", Command = Commands.PrintSessionReviewReportCommand });
+            menuItem.Items.Add(new MenuItem { Header =Resources.SessionReviewMenuItem_Create_Report, Command = Commands.CreateSessionReviewReportCommand });
+            menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Save_Report, Command = Commands.SaveSessionReviewReportCommand });
 
             return menuItem;
         }

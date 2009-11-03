@@ -61,6 +61,60 @@ namespace PokerTell.SessionReview.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create _Report.
+        /// </summary>
+        internal static string SessionReviewMenuItem_Create_Report {
+            get {
+                return ResourceManager.GetString("SessionReviewMenuItem_Create_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Import Hand Histories.
+        /// </summary>
+        internal static string SessionReviewMenuItem_Import_Hand_Histories {
+            get {
+                return ResourceManager.GetString("SessionReviewMenuItem_Import_Hand_Histories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Open Review.
+        /// </summary>
+        internal static string SessionReviewMenuItem_Open_Review {
+            get {
+                return ResourceManager.GetString("SessionReviewMenuItem_Open_Review", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save Report.
+        /// </summary>
+        internal static string SessionReviewMenuItem_Save_Report {
+            get {
+                return ResourceManager.GetString("SessionReviewMenuItem_Save_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to _Save Review.
+        /// </summary>
+        internal static string SessionReviewMenuItem_Save_Review {
+            get {
+                return ResourceManager.GetString("SessionReviewMenuItem_Save_Review", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Session Review.
+        /// </summary>
+        internal static string SessionReviewMenuItem_Title {
+            get {
+                return ResourceManager.GetString("SessionReviewMenuItem_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to club.gif.
         /// </summary>
         internal static string Url_Suits_Club {

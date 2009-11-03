@@ -38,18 +38,30 @@
 
                     <StackPanel
                         Orientation="Horizontal">
-                        <CheckBox
+                        <Button
                             MaxHeight="20"
                             Content="Select this Page"
                             Padding="5, 2"
                             Margin="5, 2"
-                            IsChecked="{Binding SelectAllHandHistoriesOnPage, Mode=TwoWay}"/>
-                        <CheckBox
+                            Command="{Binding SelectAllHandHistoriesOnPageCommand}" />
+                        <Button
+                            MaxHeight="20"
+                            Content="Unselect this Page"
+                            Padding="5, 2"
+                            Margin="5, 2"
+                            Command="{Binding UnselectAllHandHistoriesOnPageCommand}"/>
+                        <Button
                             MaxHeight="20"
                             Content="Select all Pages" 
                             Padding="5, 2"
                             Margin="5, 2"
-                            IsChecked="{Binding SelectAllShownHandHistories, Mode=TwoWay}"/>
+                            Command="{Binding SelectAllShownHandHistoriesCommand}"/>
+                        <Button
+                            MaxHeight="20"
+                            Content="Unselect all Pages"
+                            Padding="5, 2"
+                            Margin="5, 2"
+                            Command="{Binding UnselectAllShownHandHistoriesCommand}" />
 
                     </StackPanel>
                 </Border>

@@ -15,4 +15,14 @@ namespace PokerTell.PokerHand.Tests.Fakes
 
         public int Identity { get; set; }
     }
+
+    internal class StubConditionWithHandId : PokerHandCondition
+    {
+        public override bool IsMetBy(IConvertedPokerHand hand)
+        {
+            return hand.HandId == HandIdToMatch;
+        }
+
+        public int HandIdToMatch { get; set; }
+    }
 }

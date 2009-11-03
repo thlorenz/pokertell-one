@@ -58,14 +58,9 @@ namespace PokerTell.PokerHand.ViewModels
 
         public Action<IPokerHandCondition> AdjustToConditionAction
         {
-            get
-            {
-                if (_adjustToConditionAction == null)
-                {
-                    _adjustToConditionAction = new Action<IPokerHandCondition>(AdjustToCondition);
-                }
-
-                return _adjustToConditionAction;
+            get {
+                return _adjustToConditionAction ??
+                       (_adjustToConditionAction = new Action<IPokerHandCondition>(AdjustToCondition));
             }
         }
 

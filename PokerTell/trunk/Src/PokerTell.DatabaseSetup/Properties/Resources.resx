@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MySql_Queries_CreateTables" xml:space="preserve">
+    <value>DROP TABLE IF EXISTS actionhhd;
+
+CREATE TABLE actionhhd (
+  playerid int(11) unsigned NOT NULL,
+  handid bigint(20) unsigned NOT NULL,
+  m int(10) unsigned DEFAULT NULL,
+  cards varchar(6) DEFAULT NULL,
+  position tinyint(2) DEFAULT NULL COMMENT 'Order of players acting on the hand (0-SB to TotalPlayers-1)',
+  strategicposition tinyint(2) DEFAULT NULL COMMENT 'Stratecic Position of player SB to BU',
+  inposflop tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '1=IP, 0=OOP 2=N/A(no action on Round)',
+  inposturn tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '1=IP, 0=OOP 2=N/A(no action on Round)',
+  inposriver tinyint(1) unsigned NOT NULL DEFAULT '2' COMMENT '1=IP, 0=OOP 2=N/A(no action on Round)',
+  raiseinfrontpreflopfrompos tinyint(2) NOT NULL DEFAULT '-1' COMMENT 'Which position came preflop raise from',
+  action0 varchar(64) DEFAULT NULL COMMENT 'Preflop',
+  action1 varchar(64) DEFAULT NULL COMMENT 'Flop',
+  action2 varchar(64) DEFAULT NULL COMMENT 'Turn',
+  action3 varchar(64) DEFAULT NULL COMMENT 'River',
+  sequence0 varchar(10) DEFAULT NULL COMMENT 'Preflop Action Sequence',
+  sequence1 varchar(10) DEFAULT NULL COMMENT 'Flop Action Sequence',
+  sequence2 varchar(10) DEFAULT NULL COMMENT 'Turn Action Sequence',
+  sequence3 varchar(10) DEFAULT NULL COMMENT 'River Action Sequence',
+  KEY index_gameid (handid),
+  KEY index_playerid (playerid),
+  KEY index_cards (cards),
+  KEY index_seat (position)
+) ;
+
+DROP TABLE IF EXISTS gamehhd;
+
+CREATE TABLE  gamehhd (
+  identity bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  sessionid bigint(20) unsigned DEFAULT NULL,
+  gameid bigint(20) DEFAULT NULL COMMENT 'As found in the Hand History',
+  tournamentid bigint(20) unsigned DEFAULT NULL COMMENT 'As found in the Hand History - 0 for Cashgames',
+  tablename varchar(32) DEFAULT NULL,
+  site varchar(16) DEFAULT NULL,
+  bb double unsigned DEFAULT NULL,
+  sb double unsigned DEFAULT NULL,
+  timein timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  totalplayers tinyint(2) unsigned DEFAULT NULL,
+  activeplayers tinyint(2) unsigned NOT NULL DEFAULT '1' COMMENT 'How many do not just fold preflop',
+  inflop tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT 'Players on Flop',
+  inturn tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT 'Players on Turn',
+  inriver tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT 'Players on River',
+  board varchar(16) DEFAULT NULL,
+  sequence0 varchar(500) DEFAULT NULL COMMENT 'Preflop Action Sequence for all players',
+  sequence1 varchar(500) DEFAULT NULL COMMENT 'Flop Action Sequence for all players',
+  sequence2 varchar(500) DEFAULT NULL COMMENT 'Turn Action Sequence for all players',
+  sequence3 varchar(500) DEFAULT NULL COMMENT 'River Action Sequence for all players',
+  PRIMARY KEY (identity),
+  KEY index_gameid (gameid),
+  KEY index_level (bb),
+  KEY index_sessionid (sessionid)
+);
+
+DROP TABLE IF EXISTS playerhhd;
+
+CREATE TABLE playerhhd (
+  playerid bigint(11) NOT NULL AUTO_INCREMENT,
+  site varchar(32) DEFAULT NULL,
+  nickname varchar(32) DEFAULT NULL,
+  PRIMARY KEY (playerid),
+  KEY index_nickname(nickname)
+);</value>
+  </data>
+  <data name="SQLite_Queries_CreateTables" xml:space="preserve">
+    <value>DROP TABLE IF EXISTS actionhhd; 
+
+CREATE TABLE actionhhd(
+       playerid int(11) NOT NULL,
+       handid bigint(20) NOT NULL,
+       m int(10) DEFAULT NULL,
+       cards varchar(6) DEFAULT NULL,
+       position tinyint(2) DEFAULT NULL,
+       strategicposition tinyint(2) DEFAULT NULL,
+       inposflop tinyint(1) NOT NULL  default '2',
+       inposturn tinyint(1) NOT NULL default '2',
+       inposriver tinyint(1) NOT NULL default '2',
+       raiseinfrontpreflopfrompos tinyint(2) NOT NULL default '-1',
+       action0 varchar(64) DEFAULT NULL,
+       action1 varchar(64) DEFAULT NULL,
+       action2 varchar(64) DEFAULT NULL,
+       action3 varchar(64) DEFAULT NULL,
+       sequence0 varchar(10) DEFAULT NULL,
+       sequence1 varchar(10) DEFAULT NULL,
+       sequence2 varchar(10) DEFAULT NULL,
+       sequence3 varchar(10) DEFAULT NULL
+       );
+
+CREATE INDEX handid_index ON actionhhd (handid);       
+CREATE INDEX playerid_index ON actionhhd (playerid);
+
+
+DROP TABLE IF EXISTS gamehhd;
+CREATE TABLE gamehhd (
+	identity INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+	sessionid bigint(20) DEFAULT NULL,
+	gameid bigint(20) DEFAULT NULL,
+	tournamentid bigint(20) DEFAULT NULL,
+	tablename varchar(32) DEFAULT NULL,
+	site varchar(16) DEFAULT NULL,
+	bb double unsigned DEFAULT NULL,
+	sb double unsigned DEFAULT NULL,
+	timein timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	totalplayers tinyint(2) DEFAULT NULL,
+	activeplayers tinyint(2) DEFAULT NULL,
+	inflop tinyint(2) DEFAULT NULL,
+	inturn tinyint(2) DEFAULT NULL,
+	inriver tinyint(2) DEFAULT NULL,
+	board varchar(16) DEFAULT NULL,
+	sequence0 varchar(500) DEFAULT NULL,
+	sequence1 varchar(500) DEFAULT NULL,
+	sequence2 varchar(500) DEFAULT NULL,
+	sequence3 varchar(500) DEFAULT NULL
+);
+
+CREATE INDEX identity_index ON gamehhd (identity);
+CREATE INDEX gameid_index ON gamehhd (gameid);
+CREATE INDEX bb_index ON gamehhd (bb);
+CREATE INDEX totalplayers_index ON gamehhd (totalplayers);
+CREATE INDEX activeplayers_index ON gamehhd (activeplayers);
+CREATE INDEX inflop_index ON gamehhd (inflop);
+
+
+DROP TABLE IF EXISTS playerhhd;
+
+CREATE TABLE playerhhd(
+     playerid INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+     site varchar(32) DEFAULT NULL,
+     nickname varchar(32) DEFAULT NULL
+);
+
+CREATE INDEX nickname_index ON playerhhd (nickname);</value>
+  </data>
+  <data name="Sql_Queries_CreateDatabase" xml:space="preserve">
+    <value>CREATE DATABASE IF NOT EXISTS {0};</value>
+  </data>
+  <data name="Sql_Queries_DropDatabase" xml:space="preserve">
+    <value>DROP DATABASE IF EXISTS {0};</value>
+  </data>
+  <data name="Sql_Queries_ShowDatabases" xml:space="preserve">
+    <value>SHOW DATABASES;</value>
+  </data>
+  <data name="Warning_DatabaseExistsException" xml:space="preserve">
+    <value>The database you are trying to create already exists.
+Therefore it could not be created.
+If you were trying to delete all its data, use Clear Database instead.</value>
+  </data>
+  <data name="Warning_UnableToConnectToDatabase" xml:space="preserve">
+    <value>PokerTell was unable to connect to the Database specified in the settings. 
+Please make sure the MySql Server is running and check the Database Settings using the Database Menu.
+Check that the hostname, username, password were entered correctly and that you chose an existing database or created one.</value>
+  </data>
+  <data name="Warning_UnableToConnectToHost" xml:space="preserve">
+    <value>PokerTell was unable to connect to the host specified in the settings. 
+Please make sure the database server is running and check the Database Settings.
+Check that the hostname, username and possibly password were entered correctly.</value>
+  </data>
+</root>

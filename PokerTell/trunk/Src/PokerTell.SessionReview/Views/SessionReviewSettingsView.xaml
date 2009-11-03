@@ -15,7 +15,170 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel>
-            <Label Content="Hero's Name" Margin="5"/>
+                <Label
+                    FontSize="12"
+                    Content="Help"
+                    HorizontalAlignment="Right"
+                    x:Name="HelpLabel"
+                    ToolTipService.Placement="Center"
+                    ToolTipService.InitialShowDelay="0"
+                    ToolTipService.HasDropShadow="True"
+                    ToolTipService.ShowDuration="60000"
+                   
+                    >
+                    <Label.ToolTip>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                                <RowDefinition
+                                    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition
+                                    Width="Auto" />
+                                <ColumnDefinition
+                                    Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.Resources>
+                                <Style
+                                    TargetType="{x:Type Border}">
+                                    <Setter
+                                        Property="MaxWidth"
+                                        Value="150" />
+                                    <Setter
+                                        Property="CornerRadius"
+                                        Value="40" />
+                                    <Setter
+                                        Property="Background"
+                                        Value="Green" />
+                                    <Setter
+                                        Property="Padding"
+                                        Value="15" />
+                                    <Setter
+                                        Property="Visibility"
+                                        Value="Collapsed" />
+                                </Style>
+                                <Style
+                                    TargetType="{x:Type TextBlock}">
+                                    <Setter
+                                        Property="HorizontalAlignment"
+                                        Value="Center" />
+                                    <Setter
+                                        Property="VerticalAlignment"
+                                        Value="Center" />
+                                    <Setter
+                                        Property="TextWrapping"
+                                        Value="Wrap" />
+                                    <Setter
+                                        Property="Foreground"
+                                        Value="White" />
+                                </Style>
+                            </Grid.Resources>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right">
+                                <TextBlock
+                                    Text="0/0" />
+                            </Border>
+                            <Border
+                                Visibility="Visible"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="Set the name of the hero (most likely your login name)." />
+                            </Border>
+                            <Border
+                                Grid.Row="0"
+                                Grid.Column="2"
+                                VerticalAlignment="Bottom"
+                                HorizontalAlignment="Left">
+                                <TextBlock
+                                    Text="0/2" />
+                            </Border>
+                            <Border
+                                Visibility="Visible"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right">
+                                <TextBlock
+                                    Text="Select this to show all hands found in the Hand History File." />
+                            </Border>
+                            <Border
+                                Visibility="Visible"
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left">
+                                <TextBlock
+                                    Text="Select this to show all hands in which the hero called, bet or raised money Preflop or checked from the Big Blind." />
+                            </Border>
+                            <Border
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right">
+                                <TextBlock
+                                    Text="2/0" />
+                            </Border>
+                            <Border
+                                Visibility="Visible"
+                                Grid.Row="2"
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left">
+                                <TextBlock
+                                    Text="Select this to show all hands in which the hero was able to act on the Flop." />
+                            </Border>
+                            <Border
+                                Visibility="Visible"
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Right">
+                                <TextBlock
+                                    Text="Check to mark the hero in all hands. This will also be applied to the report." />
+                            </Border>
+                            <Border
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center">
+                                <TextBlock
+                                    Text="3/1" />
+                            </Border>
+                            <Border
+                                Visibility="Visible"
+                                Grid.Row="3"
+                                Grid.Column="2"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Left">
+                                <TextBlock
+                                    Text="Check this to show players that folded right away Preflop.  This will also be applied to the report." />
+                            </Border>
+                            <Image
+                                Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Grid.Column="1"
+                                MaxWidth="200"
+                                MaxHeight="400"
+                                Source="../Images/SessionReviewSettingsHelp.PNG"/>
+                        </Grid>
+                       
+                    </Label.ToolTip>
+                </Label>
+                    <Label Content="Hero's Name" Margin="5"/>
             <TextBox Text="{Binding Filter.HeroName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
         </StackPanel>
 

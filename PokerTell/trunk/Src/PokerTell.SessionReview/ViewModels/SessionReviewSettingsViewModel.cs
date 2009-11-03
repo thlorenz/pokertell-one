@@ -1,10 +1,5 @@
 namespace PokerTell.SessionReview.ViewModels
 {
-    using System;
-    using System.Reflection;
-
-    using log4net;
-
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.WPF.ViewModels;
@@ -12,9 +7,6 @@ namespace PokerTell.SessionReview.ViewModels
     public class SessionReviewSettingsViewModel : NotifyPropertyChanged
     {
         #region Constants and Fields
-
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IAlwaysTrueCondition _alwaysTrueCondition;
 
@@ -100,8 +92,6 @@ namespace PokerTell.SessionReview.ViewModels
         {
             // Trigger SelectHeroChangedEvent
             Filter.SelectHero = Filter.SelectHero;
-
-            Console.WriteLine("HeroName: {0}", Filter.HeroName);
 
             FilterOutHandHistoriesWhereHeroDidNotInvestMoney();
             FilterOutHandHistoriesWhereHeroDidNotSeeTheFlop();
