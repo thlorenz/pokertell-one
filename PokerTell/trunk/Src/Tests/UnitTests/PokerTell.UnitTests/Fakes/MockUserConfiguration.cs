@@ -1,9 +1,9 @@
-namespace PokerTell.Infrastructure.Tests
+using System.Configuration;
+
+using PokerTell.Infrastructure.Interfaces;
+
+namespace PokerTell.UnitTests.Fakes
 {
-    using System.Configuration;
-
-    using Interfaces;
-
     public class MockUserConfiguration : IUserConfiguration
     {
         readonly ConnectionStringSettingsCollection _connectionStringSettingsCollection;

@@ -50,18 +50,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseConnectionInfo.cs" />
     <Compile Include="DatabaseExceptions.cs" />
+    <Compile Include="DatabaseManager.cs" />
+    <Compile Include="DatabaseSettings.cs" />
     <Compile Include="DataProvider.cs" />
+    <Compile Include="EmbeddedManagedDatabase.cs" />
     <Compile Include="Enumerations\ServerSettings.cs" />
-    <Compile Include="EmbeddedServerSetup.cs" />
+    <Compile Include="ExternalManagedDatabase.cs" />
+    <Compile Include="Interfaces\IDatabaseManager.cs" />
+    <Compile Include="Interfaces\IDatabaseSettings.cs" />
+    <Compile Include="Interfaces\IDataProviderInfo.cs" />
+    <Compile Include="Interfaces\IDataProviderInfos.cs" />
+    <Compile Include="Interfaces\IManagedDatabase.cs" />
+    <Compile Include="MySqlInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServerSetup.cs" />
-    <Compile Include="SQLiteSetup.cs" />
+    <Compile Include="SqLiteInfo.cs" />
+    <Compile Include="DataProviderInfos.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">

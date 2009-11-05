@@ -4,35 +4,35 @@ namespace PokerTell.Infrastructure.Interfaces
 {
     public interface ISettings : IUserConfiguration
     {
-        void Persist(string strKey, out int objValue);
+        int RetrieveInt(string key);
 
-        void Persist(string strKey, out int objValue, int objDefault);
+        int RetrieveInt(string key, int defaultValue);
 
-        void Persist(string strKey, out bool objValue);
+        bool RetrieveBool(string key);
 
-        void Persist(string strKey, out bool objValue, bool objDefault);
+        bool RetrieveBool(string key, bool defaultValue);
 
-        void Persist(string strKey, out double objValue);
+        double RetrieveDouble(string key);
 
-        void Persist(string strKey, out double objValue, double objDefault);
+        double RetrieveDouble(string key, double defaultValue);
 
-        void Persist(string strKey, out string objValue);
+        string RetrieveString(string key);
 
-        void Persist(string strKey, out string objValue, string objDefault);
+        string RetrieveString(string key, string defaultValue);
 
-        void Persist(string strKey, out Point objValue);
+        Point RetrievePoint(string key);
 
-        void Persist(string strKey, out Point objValue, Point objDefault);
+        Point RetrievePoint(string key, Point defaultValue);
 
-        void Persist(string strKey, out Size objValue);
+        Size RetrieveSize(string key);
 
-        void Persist(string strKey, out Size objValue, Size objDefault);
+        Size RetrieveSize(string key, Size defaultValue);
 
-        void Persist(string strKey, out Color objValue);
+        Color RetrieveColor(string key);
 
-        void Persist(string strKey, out Color objValue, Color objDefault);
+        Color RetrieveColor(string key, Color defaultValue);
 
-        void Save(string strKey, object objValue);
+        void Set(string strKey, object objValue);
 
         /// <summary>
         /// Provides string representation of all (key,value) pairs in settings

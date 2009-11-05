@@ -1,10 +1,8 @@
 //Date: 5/16/2009
 namespace PokerTell.DatabaseSetup
 {
-    using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
-    using System.Linq;
     using System.Text;
 
     using Infrastructure.Interfaces.DatabaseSetup;
@@ -40,64 +38,16 @@ namespace PokerTell.DatabaseSetup
 
         public string ParameterPlaceHolder { get; set; }
 
-        public string ProviderName { get; set; }
-
         #endregion
 
-        #region Public Methods
+        #region Implemented Interfaces
 
-        public IEnumerable<string> GetAvailableProviders()
-        {
-            IList<string> availableProviders = new List<string>();
-            // TODO: Reimplement
-            //            var supportedProviders = new string[] { SQLiteSetup.ProviderName, MySqlSetup.ProviderName };
-            //
-            //            foreach (string provider in supportedProviders)
-            //            {
-            //                bool isEmbedded = IServerSetup.GetServerSetupFor(provider) is EmbeddedServerSetup;
-            //                bool hasSavedServerConnectString =
-            //                    ! string.IsNullOrEmpty(IServerSetup.GetServerSetupFor(provider).GetSavedServerConnectString());
-            //
-            //                if (isEmbedded || hasSavedServerConnectString)
-            //                {
-            //                    availableProviders.Add(provider);
-            //                }
-            //            }
-
-            return availableProviders.ToArray();
-        }
-
-        public string ListInstalledProviders()
-        {
-            var sb = new StringBuilder();
-
-            DataTable dt = DbProviderFactories.GetFactoryClasses();
-            foreach (DataRow row in dt.Rows)
-            {
-                sb.AppendLine(row[0].ToString());
-            }
-            return sb.ToString();
-        }
-
-        public bool ThisProviderIsAvailable(string theProviderName)
-        {
-            foreach (string fullProviderName in GetAvailableProviders())
-            {
-                if (fullProviderName.Equals(theProviderName))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        #region IDataProvider
 
         public void Connect(string connString, string providerName)
         {
-
             // possibly inject DbProviderFactories for testing
-            _providerFactory = DbProviderFactories.GetFactory(ProviderName);
-
-            ProviderName = providerName;
+            _providerFactory = DbProviderFactories.GetFactory(providerName);
 
             _connection = _providerFactory.CreateConnection();
             _connection.ConnectionString = connString;
@@ -134,17 +84,19 @@ namespace PokerTell.DatabaseSetup
             return _connection.CreateCommand();
         }
 
-        public override string ToString()
+        public string ListInstalledProviders()
         {
-            return string.Format(
-                "[DataProvider ProviderName={0} Connection={1}]",
-                ProviderName,
-                _connection.ConnectionString);
+            var sb = new StringBuilder();
+
+            DataTable dt = DbProviderFactories.GetFactoryClasses();
+            foreach (DataRow row in dt.Rows)
+            {
+                sb.AppendLine(row[0].ToString());
+            }
+            return sb.ToString();
         }
 
         #endregion
-
-        #region Implemented Interfaces
 
         #region IDisposable
 

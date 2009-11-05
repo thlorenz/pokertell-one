@@ -2,7 +2,6 @@
 
 namespace PokerTell.Infrastructure
 {
-    using System;
     using System.Configuration;
     using System.Drawing;
     using System.Reflection;
@@ -16,8 +15,8 @@ namespace PokerTell.Infrastructure
     using Tools.Extensions;
 
     /// <summary>
-    /// Contains Save method which works for all objects
-    /// Contains Persist Methods for objects of type int,double,string,Point,Size,Color
+    /// Contains Set method which works for all objects
+    /// Contains Retrieve Methods for objects of type int,double,string,Point,Size,Color
     /// </summary>
     public class Settings : ISettings
     {
@@ -30,195 +29,74 @@ namespace PokerTell.Infrastructure
 
         #endregion
 
+        #region Constructors and Destructors
+
         public Settings(IUserConfiguration userConfiguration)
         {
             _userConfiguration = userConfiguration;
         }
 
-        #region Public Methods
+        #endregion
 
-        public void Persist(string strKey, out int objValue)
+        #region Properties
+
+        public KeyValueConfigurationCollection AppSettings
         {
-            Persist(strKey, out objValue, int.MinValue);
+            get { return _userConfiguration.AppSettings; }
         }
 
-        public void Persist(string strKey, out int objValue, int objDefault)
+        public ConnectionStringSettingsCollection ConnectionStrings
         {
+            get { return _userConfiguration.ConnectionStrings; }
+        }
 
-            if (_userConfiguration.AppSettings[strKey] != null)
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region ISettings
+
+        public bool RetrieveBool(string key)
+        {
+            return RetrieveBool(key, false);
+        }
+
+        public bool RetrieveBool(string key, bool defaultValue)
+        {
+            if (_userConfiguration.AppSettings[key] != null)
             {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
-                if (! int.TryParse(strValue, out objValue))
+                string strValue = _userConfiguration.AppSettings[key].Value;
+                bool result;
+                if (!bool.TryParse(strValue, out result))
                 {
                     Log.DebugFormat(
-                        "Failed to load int with key: [{0}] value: [{1}] correctly", 
-                        strKey.ToStringNullSafe(), 
+                        "Failed to load bool with key: [{0}] value: [{1}] correctly",
+                        key.ToStringNullSafe(),
                         strValue.ToStringNullSafe());
-                    objValue = objDefault;
+                    return defaultValue;
                 }
+                return result;
             }
-            else
-            {
-                objValue = objDefault;
-            }
+            return defaultValue;
         }
 
-        public void Persist(string strKey, out bool objValue)
+        public Color RetrieveColor(string key)
         {
-            Persist(strKey, out objValue, false);
+            return RetrieveColor(key, Color.Empty);
         }
 
-        public void Persist(string strKey, out bool objValue, bool objDefault)
+        public Color RetrieveColor(string key, Color defaultValue)
         {
-            if (_userConfiguration.AppSettings[strKey] != null)
+            if (_userConfiguration.AppSettings[key] != null)
             {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
-                if (! bool.TryParse(strValue, out objValue))
-                {
-                    Log.DebugFormat(
-                        "Failed to load bool with key: [{0}] value: [{1}] correctly", 
-                        strKey.ToStringNullSafe(), 
-                        strValue.ToStringNullSafe());
-                    objValue = objDefault;
-                }
-            }
-            else
-            {
-                objValue = objDefault;
-            }
-        }
-
-        public void Persist(string strKey, out double objValue)
-        {
-            Persist(strKey, out objValue, double.MinValue);
-        }
-
-        public void Persist(string strKey, out double objValue, double objDefault)
-        {
-            if (_userConfiguration.AppSettings[strKey] != null)
-            {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
-                if (! double.TryParse(strValue, out objValue))
-                {
-                    Log.DebugFormat(
-                        "Failed to load double with key: [{0}] value: [{1}] correctly", 
-                        strKey.ToStringNullSafe(), 
-                        strValue.ToStringNullSafe());
-                    objValue = objDefault;
-                }
-            }
-            else
-            {
-                objValue = objDefault;
-            }
-        }
-
-        public void Persist(string strKey, out string objValue)
-        {
-            Persist(strKey, out objValue, string.Empty);
-        }
-
-        public void Persist(string strKey, out string objValue, string objDefault)
-        {
-            if (_userConfiguration.AppSettings[strKey] != null)
-            {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
-                objValue = strValue;
-            }
-            else
-            {
-                objValue = objDefault;
-            }
-        }
-
-        public void Persist(string strKey, out Point objValue)
-        {
-            Persist(strKey, out objValue, Point.Empty);
-        }
-
-        public void Persist(string strKey, out Point objValue, Point objDefault)
-        {
-            if (_userConfiguration.AppSettings[strKey] != null)
-            {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
-
-                const string patPoint = @"{X=(?<X>-{0,1}\d+),.*Y=(?<Y>-{0,1}-{0,1}\d+)}";
-
-                Match m = Regex.Match(strValue, patPoint);
-                if (m.Success)
-                {
-                    int x = int.Parse(m.Groups["X"].Value);
-                    int y = int.Parse(m.Groups["Y"].Value);
-                    objValue = new Point(x, y);
-                }
-                else
-                {
-                    Log.DebugFormat(
-                        "Failed to load Point with key: [{0}] value: [{1}] correctly", 
-                        strKey.ToStringNullSafe(), 
-                        strValue.ToStringNullSafe());
-                    objValue = objDefault;
-                }
-            }
-            else
-            {
-                objValue = objDefault;
-            }
-        }
-
-        public void Persist(string strKey, out Size objValue)
-        {
-            Persist(strKey, out objValue, Size.Empty);
-        }
-
-        public void Persist(string strKey, out Size objValue, Size objDefault)
-        {
-            if (_userConfiguration.AppSettings[strKey] != null)
-            {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
-
-                const string patSize = @"{Width=(?<Width>\d+),.*Height=(?<Height>\d+)}";
-
-                Match m = Regex.Match(strValue, patSize);
-
-                if (m.Success)
-                {
-                    var width = int.Parse(m.Groups["Width"].Value);
-                    var height = int.Parse(m.Groups["Height"].Value);
-                    objValue = new Size(width, height);
-                }
-                else
-                {
-                    Log.DebugFormat(
-                        "Failed to load Size with key: [{0}] value: [{1}] correctly", 
-                        strKey.ToStringNullSafe(), 
-                        strValue.ToStringNullSafe());
-                    objValue = objDefault;
-                }
-            }
-            else
-            {
-                objValue = objDefault;
-            }
-        }
-
-        public void Persist(string strKey, out Color objValue)
-        {
-            Persist(strKey, out objValue, Color.Empty);
-        }
-
-        public void Persist(string strKey, out Color objValue, Color objDefault)
-        {
-            if (_userConfiguration.AppSettings[strKey] != null)
-            {
-                string strValue = _userConfiguration.AppSettings[strKey].Value;
+                string strValue = _userConfiguration.AppSettings[key].Value;
 
                 const string patKnownColor = @"Color \[(?<Name>\w+)\]";
 
                 Match m = Regex.Match(strValue, patKnownColor);
                 if (m.Success)
                 {
-                    objValue = Color.FromName(m.Groups["Name"].Value);
+                    return Color.FromName(m.Groups["Name"].Value);
                 }
                 else
                 {
@@ -231,25 +109,148 @@ namespace PokerTell.Infrastructure
                         int g = int.Parse(m.Groups["G"].Value);
                         int b = int.Parse(m.Groups["B"].Value);
 
-                        objValue = Color.FromArgb(a, r, g, b);
+                        return Color.FromArgb(a, r, g, b);
                     }
                     else
                     {
                         Log.DebugFormat(
-                            "Failed to load Argb Color with key: [{0}] value: [{1}] correctly", 
-                            strKey.ToStringNullSafe(), 
+                            "Failed to load Argb Color with key: [{0}] value: [{1}] correctly",
+                            key.ToStringNullSafe(),
                             strValue.ToStringNullSafe());
-                        objValue = objDefault;
+                        return defaultValue;
                     }
+                }
+            }
+            return defaultValue;
+        }
+
+        public double RetrieveDouble(string key)
+        {
+            return RetrieveDouble(key, double.MinValue);
+        }
+
+        public double RetrieveDouble(string key, double defaultValue)
+        {
+            if (_userConfiguration.AppSettings[key] != null)
+            {
+                string strValue = _userConfiguration.AppSettings[key].Value;
+                double result;
+                if (!double.TryParse(strValue, out result))
+                {
+                    Log.DebugFormat(
+                        "Failed to load double with key: [{0}] value: [{1}] correctly",
+                        key.ToStringNullSafe(),
+                        strValue.ToStringNullSafe());
+                    return defaultValue;
+                }
+                return result;
+            }
+
+            return defaultValue;
+        }
+
+        public int RetrieveInt(string key)
+        {
+            return RetrieveInt(key, int.MinValue);
+        }
+
+        public int RetrieveInt(string key, int defaultValue)
+        {
+            int result;
+            if (_userConfiguration.AppSettings[key] != null)
+            {
+                string strValue = _userConfiguration.AppSettings[key].Value;
+                if (! int.TryParse(strValue, out result))
+                {
+                    Log.DebugFormat(
+                        "Failed to load int with key: [{0}] value: [{1}] correctly",
+                        key.ToStringNullSafe(),
+                        strValue.ToStringNullSafe());
+                    result = defaultValue;
                 }
             }
             else
             {
-                objValue = objDefault;
+                result = defaultValue;
             }
+
+            return result;
         }
 
-        public void Save(string strKey, object objValue)
+        public Point RetrievePoint(string key)
+        {
+            return RetrievePoint(key, Point.Empty);
+        }
+
+        public Point RetrievePoint(string key, Point defaultValue)
+        {
+            if (_userConfiguration.AppSettings[key] != null)
+            {
+                string strValue = _userConfiguration.AppSettings[key].Value;
+
+                const string patPoint = @"{X=(?<X>-{0,1}\d+),.*Y=(?<Y>-{0,1}-{0,1}\d+)}";
+
+                Match m = Regex.Match(strValue, patPoint);
+                if (m.Success)
+                {
+                    int x = int.Parse(m.Groups["X"].Value);
+                    int y = int.Parse(m.Groups["Y"].Value);
+                    return new Point(x, y);
+                }
+                Log.DebugFormat(
+                    "Failed to load Point with key: [{0}] value: [{1}] correctly",
+                    key.ToStringNullSafe(),
+                    strValue.ToStringNullSafe());
+                return defaultValue;
+            }
+            return defaultValue;
+        }
+
+        public Size RetrieveSize(string key)
+        {
+            return RetrieveSize(key, Size.Empty);
+        }
+
+        public Size RetrieveSize(string key, Size defaultValue)
+        {
+            if (_userConfiguration.AppSettings[key] != null)
+            {
+                string strValue = _userConfiguration.AppSettings[key].Value;
+
+                const string patSize = @"{Width=(?<Width>\d+),.*Height=(?<Height>\d+)}";
+
+                Match m = Regex.Match(strValue, patSize);
+
+                if (m.Success)
+                {
+                    int width = int.Parse(m.Groups["Width"].Value);
+                    int height = int.Parse(m.Groups["Height"].Value);
+                    return new Size(width, height);
+                }
+                Log.DebugFormat(
+                    "Failed to load Size with key: [{0}] value: [{1}] correctly",
+                    key.ToStringNullSafe(),
+                    strValue.ToStringNullSafe());
+                return defaultValue;
+            }
+            return defaultValue;
+        }
+
+        public string RetrieveString(string key)
+        {
+            return RetrieveString(key, string.Empty);
+        }
+
+        public string RetrieveString(string key, string defaultValue)
+        {
+            if (_userConfiguration.AppSettings[key] != null)
+            {
+                return _userConfiguration.AppSettings[key].Value;
+            }
+            return defaultValue;
+        }
+
+        public void Set(string strKey, object objValue)
         {
             if (_userConfiguration.AppSettings[strKey] == null)
             {
@@ -281,19 +282,15 @@ namespace PokerTell.Infrastructure
 
         #endregion
 
-        public ConnectionStringSettingsCollection ConnectionStrings
-        {
-            get { return _userConfiguration.ConnectionStrings; }
-        }
-
-        public KeyValueConfigurationCollection AppSettings
-        {
-            get { return _userConfiguration.AppSettings; }
-        }
+        #region IUserConfiguration
 
         public void Save(ConfigurationSaveMode saveMode)
         {
-           _userConfiguration.Save(saveMode);
+            _userConfiguration.Save(saveMode);
         }
+
+        #endregion
+
+        #endregion
     }
 }

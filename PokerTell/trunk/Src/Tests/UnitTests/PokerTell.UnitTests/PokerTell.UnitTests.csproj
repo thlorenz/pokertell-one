@@ -48,6 +48,7 @@
       <HintPath>..\..\..\..\Lib\Nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -61,6 +62,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Fakes\MockUserConfiguration.cs" />
     <Compile Include="Tools\Affirmer.cs" />
     <Compile Include="Tools\For.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

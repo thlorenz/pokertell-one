@@ -2,7 +2,6 @@
 
 namespace PokerTell.Infrastructure.Tests
 {
-    using System;
     using System.Drawing;
 
     using Interfaces;
@@ -10,6 +9,7 @@ namespace PokerTell.Infrastructure.Tests
     using NUnit.Framework;
 
     using UnitTests;
+    using UnitTests.Fakes;
 
     /// <summary>
     /// Description of Settings_Test.
@@ -28,156 +28,148 @@ namespace PokerTell.Infrastructure.Tests
         }
 
         [Test]
-        public void CanPersistBool()
+        public void CanRetrieveBool()
         {
             const bool boolSave = true;
-            _settings.Save("boolSaved", boolSave);
+            _settings.Set("boolSaved", boolSave);
 
-            bool boolPersist;
-            _settings.Persist("boolSaved", out boolPersist);
+            bool boolPersist = _settings.RetrieveBool("boolSaved");
 
             Assert.That(boolPersist, Is.EqualTo(boolSave), "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out boolPersist);
+            boolPersist = _settings.RetrieveBool("UNKNOWN_KEY");
             Assert.That(boolPersist, Is.EqualTo(false), "Persisting Value with unknown Key");
 
-            const bool Default = true;
-            _settings.Persist("UNKNOWN_KEY", out boolPersist, Default);
-            Assert.That(boolPersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            const bool defaultValue = true;
+            boolPersist = _settings.RetrieveBool("UNKNOWN_KEY", defaultValue);
+            Assert.That(boolPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistColorFromArgb()
+        public void CanRetrieveColorFromArgb()
         {
             Color colorSave = Color.FromArgb(1, 2, 3, 4);
-            _settings.Save("colorSaved", colorSave);
+            _settings.Set("colorSaved", colorSave);
 
-            Color colorPersist;
-            _settings.Persist("colorSaved", out colorPersist);
+            Color colorPersist = _settings.RetrieveColor("colorSaved");
 
             Assert.That(colorPersist, Is.EqualTo(colorSave), "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out colorPersist);
+            colorPersist = _settings.RetrieveColor("UNKNOWN_KEY");
             Assert.That(colorPersist, Is.EqualTo(Color.Empty), "Persisting Value with unknown Key");
 
-            Color Default = Color.AliceBlue;
-            _settings.Persist("UNKNOWN_KEY", out colorPersist, Default);
-            Assert.That(colorPersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            Color defaultValue = Color.AliceBlue;
+            colorPersist = _settings.RetrieveColor("UNKNOWN_KEY", defaultValue);
+            Assert.That(colorPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistDouble()
+        public void CanRetrieveDouble()
         {
-            double doubleSave = 56.00576;
-            _settings.Save("doubleSaved", doubleSave);
+            const double doubleSave = 56.00576;
+            _settings.Set("doubleSaved", doubleSave);
 
-            double doublePersist;
-            _settings.Persist("doubleSaved", out doublePersist);
+            double doublePersist = _settings.RetrieveDouble("doubleSaved");
 
             Assert.That(doublePersist, Is.EqualTo(doubleSave), "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out doublePersist);
+            doublePersist = _settings.RetrieveDouble("UNKNOWN_KEY");
             Assert.That(doublePersist, Is.EqualTo(double.MinValue), "Perstising Value with unknown Key");
 
-            double Default = 2.3333;
-            _settings.Persist("UNKNOWN_KEY", out doublePersist, Default);
-            Assert.That(doublePersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            const double defaultValue = 2.3333;
+            doublePersist = _settings.RetrieveDouble("UNKNOWN_KEY", defaultValue);
+            Assert.That(doublePersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistInt()
+        public void CanRetrieveInt()
         {
-            int intSave = 5;
-            _settings.Save("intSaved", intSave);
+            const int intSave = 5;
+            _settings.Set("intSaved", intSave);
 
-            int intPersist;
-            _settings.Persist("intSaved", out intPersist);
+            int intPersist =  _settings.RetrieveInt("intSaved");
 
             Assert.That(intPersist, Is.EqualTo(intSave), "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out intPersist);
+            intPersist = _settings.RetrieveInt("UNKNOWN_KEY");
             Assert.That(intPersist, Is.EqualTo(int.MinValue), "Persisting Value with unknown Key");
 
-            int Default = 2;
-            _settings.Persist("UNKNOWN_KEY", out intPersist, Default);
-            Assert.That(intPersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            const int defaultValue = 2;
+            intPersist =  _settings.RetrieveInt("UNKNOWN_KEY", defaultValue);
+            Assert.That(intPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistKnownColor()
+        public void CanRetrieveKnownColor()
         {
             Color colorSave = Color.AliceBlue;
-            _settings.Save("colorSaved", colorSave);
+            _settings.Set("colorSaved", colorSave);
 
-            Color colorPersist;
-            _settings.Persist("colorSaved", out colorPersist);
+            Color colorPersist = _settings.RetrieveColor("colorSaved");
 
             Assert.That(colorPersist, Is.EqualTo(colorSave), "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out colorPersist);
+            colorPersist = _settings.RetrieveColor("UNKNOWN_KEY");
             Assert.That(colorPersist, Is.EqualTo(Color.Empty), "Persisting Value with unknown Key");
 
-            Color Default = Color.AliceBlue;
-            _settings.Persist("UNKNOWN_KEY", out colorPersist, Default);
-            Assert.That(colorPersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            Color defaultValue = Color.AliceBlue;
+            colorPersist = _settings.RetrieveColor("UNKNOWN_KEY", defaultValue);
+            Assert.That(colorPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistPoint()
+        public void CanRetrievePoint()
         {
             var pointSave = new Point(-10,  100);
-            _settings.Save("pointSaved", pointSave);
+            _settings.Set("pointSaved", pointSave);
 
-            Point pointPersist;
-            _settings.Persist("pointSaved", out pointPersist);
+            Point pointPersist = _settings.RetrievePoint("pointSaved");
 
             Assert.That(pointPersist, Is.EqualTo(pointSave),  "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY",   out pointPersist);
+            pointPersist = _settings.RetrievePoint("UNKNOWN_KEY");
             Assert.That(pointPersist,  Is.EqualTo(Point.Empty),  "Persisting Value with unknown Key");
 
-            var Default = new Point(9,  9);
-            _settings.Persist("UNKNOWN_KEY",   out pointPersist, Default);
+            var defaultValue = new Point(9, 9);
+            pointPersist = _settings.RetrievePoint("UNKNOWN_KEY", defaultValue);
             Assert.That(
-                pointPersist,  Is.EqualTo(Default),  "Persisting Value with unknown Key and given default value");
+                pointPersist, Is.EqualTo(defaultValue),  "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistSize()
+        public void CanRetrieveSize()
         {
             var sizeSave = new Size(10, 100);
-            _settings.Save("SizeSaved", sizeSave);
+            _settings.Set("SizeSaved", sizeSave);
 
-            Size sizePersist;
-            _settings.Persist("SizeSaved", out sizePersist);
+            Size sizePersist = _settings.RetrieveSize("SizeSaved");
 
             Assert.That(sizePersist, Is.EqualTo(sizeSave), "Persising Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out sizePersist);
+            sizePersist = _settings.RetrieveSize("UNKNOWN_KEY");
             Assert.That(sizePersist, Is.EqualTo(Size.Empty), "Persisting Value with unknown Key");
 
-            var Default = new Size(10, 10);
-            _settings.Persist("UNKNOWN_KEY", out sizePersist, Default);
-            Assert.That(sizePersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            var defaultValue = new Size(10, 10);
+            sizePersist = _settings.RetrieveSize("UNKNOWN_KEY", defaultValue);
+            Assert.That(sizePersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         [Test]
-        public void CanPersistString()
+        public void CanRetrieveString()
         {
-            string stringSave = "Test String";
-            _settings.Save("stringSaved", stringSave);
+            const string stringSave = "Test String";
+            _settings.Set("stringSaved", stringSave);
 
-            string stringPersist;
-            _settings.Persist("stringSaved", out stringPersist);
+            string stringPersist = _settings.RetrieveString("stringSaved");
 
             Assert.That(stringPersist, Is.EqualTo(stringSave), "Persisting Value with known Key");
 
-            _settings.Persist("UNKNOWN_KEY", out stringPersist);
+            stringPersist = _settings.RetrieveString("UNKNOWN_KEY");
             Assert.That(stringPersist, Is.EqualTo(string.Empty), "Persisting Value with unknown Key");
 
-            string Default = "Text";
-            _settings.Persist("UNKNOWN_KEY", out stringPersist, Default);
-            Assert.That(stringPersist, Is.EqualTo(Default), "Persisting Value with unknown Key and given default value");
+            const string defaultValue = "Text";
+            stringPersist = _settings.RetrieveString("UNKNOWN_KEY", defaultValue);
+            Assert.That(stringPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
         #endregion

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 
 namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
@@ -10,13 +9,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         string ParameterPlaceHolder { get; set; }
 
-        string ProviderName { get; set; }
-
-        IEnumerable<string> GetAvailableProviders();
-
         string ListInstalledProviders();
-
-        bool ThisProviderIsAvailable(string providerName);
 
         void Connect(string connString, string providerName);
 
