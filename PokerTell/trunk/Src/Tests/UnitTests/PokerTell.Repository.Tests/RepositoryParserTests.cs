@@ -14,7 +14,7 @@
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
 
-    public class ThatRepositoryParser
+    public class RepositoryParserTests
     {
         #region Constants and Fields
 

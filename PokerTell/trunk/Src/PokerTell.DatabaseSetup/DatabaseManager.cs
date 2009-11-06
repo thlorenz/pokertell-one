@@ -1,6 +1,5 @@
 namespace PokerTell.DatabaseSetup
 {
-    using System;
     using System.Collections.Generic;
 
     using Interfaces;
@@ -79,7 +78,7 @@ namespace PokerTell.DatabaseSetup
 
         public IEnumerable<string> GetAllPokerTellDatabases()
         {
-            return _managedDatabase.GetAllPokerTellDatabases();
+            return _managedDatabase.GetAllPokerTellDatabaseNames();
         }
 
         #endregion

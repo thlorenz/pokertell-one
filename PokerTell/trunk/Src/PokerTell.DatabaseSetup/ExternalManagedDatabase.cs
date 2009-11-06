@@ -74,6 +74,7 @@ namespace PokerTell.DatabaseSetup
         {
             string nonQuery = _dataProviderInfo.CreateTablesQuery;
             _dataProvider.ExecuteNonQuery(nonQuery);
+           
             return this;
         }
 
@@ -106,7 +107,7 @@ namespace PokerTell.DatabaseSetup
         /// If the actionhhd table is contained, the database name is included
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<string> GetAllPokerTellDatabases()
+        public IEnumerable<string> GetAllPokerTellDatabaseNames()
         {
             var allDatabaseNames = GetAllDatabaseNames();
 

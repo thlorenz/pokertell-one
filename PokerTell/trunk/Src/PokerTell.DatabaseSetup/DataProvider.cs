@@ -46,7 +46,6 @@ namespace PokerTell.DatabaseSetup
 
         public void Connect(string connString, string providerName)
         {
-            // possibly inject DbProviderFactories for testing
             _providerFactory = DbProviderFactories.GetFactory(providerName);
 
             _connection = _providerFactory.CreateConnection();

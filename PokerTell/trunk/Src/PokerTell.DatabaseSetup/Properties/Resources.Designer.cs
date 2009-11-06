@@ -61,6 +61,26 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PokerTell was unable to connect to the server specified in the settings. 
+        ///Please make sure the database server is running and check the Database Settings.
+        ///Check that the servername, username and possibly password were entered correctly..
+        /// </summary>
+        internal static string Error_UnableToConnectToServer {
+            get {
+                return ResourceManager.GetString("Error_UnableToConnectToServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully connected to the {0} server. Now you should create or choose a database to use with it..
+        /// </summary>
+        internal static string Info_SuccessfullyConnectedToServer {
+            get {
+                return ResourceManager.GetString("Info_SuccessfullyConnectedToServer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DROP TABLE IF EXISTS actionhhd;
         ///
         ///CREATE TABLE actionhhd (
@@ -138,6 +158,24 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are not using a MySQL Database in PokerOffice.Follow the help file instructions to install the MySQL Server and change to MySQL Database in PokerOffice..
+        /// </summary>
+        internal static string Warning_MySqlNotUsedInPokerOffice {
+            get {
+                return ResourceManager.GetString("Warning_MySqlNotUsedInPokerOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings..
+        /// </summary>
+        internal static string Warning_PokerOfficeNotFound {
+            get {
+                return ResourceManager.GetString("Warning_PokerOfficeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PokerTell was unable to connect to the Database specified in the settings. 
         ///Please make sure the MySql Server is running and check the Database Settings using the Database Menu.
         ///Check that the hostname, username, password were entered correctly and that you chose an existing database or created one..
@@ -145,17 +183,6 @@ namespace PokerTell.DatabaseSetup.Properties {
         internal static string Warning_UnableToConnectToDatabase {
             get {
                 return ResourceManager.GetString("Warning_UnableToConnectToDatabase", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PokerTell was unable to connect to the host specified in the settings. 
-        ///Please make sure the database server is running and check the Database Settings.
-        ///Check that the hostname, username and possibly password were entered correctly..
-        /// </summary>
-        internal static string Warning_UnableToConnectToHost {
-            get {
-                return ResourceManager.GetString("Warning_UnableToConnectToHost", resourceCulture);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,6 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Error_UnableToConnectToServer" xml:space="preserve">
+    <value>PokerTell was unable to connect to the server specified in the settings. 
+Please make sure the database server is running and check the Database Settings.
+Check that the servername, username and possibly password were entered correctly.</value>
+  </data>
   <data name="MySql_Queries_CreateTables" xml:space="preserve">
     <value>DROP TABLE IF EXISTS actionhhd;
 
@@ -271,9 +276,13 @@ If you were trying to delete all its data, use Clear Database instead.</value>
 Please make sure the MySql Server is running and check the Database Settings using the Database Menu.
 Check that the hostname, username, password were entered correctly and that you chose an existing database or created one.</value>
   </data>
-  <data name="Warning_UnableToConnectToHost" xml:space="preserve">
-    <value>PokerTell was unable to connect to the host specified in the settings. 
-Please make sure the database server is running and check the Database Settings.
-Check that the hostname, username and possibly password were entered correctly.</value>
+  <data name="Info_SuccessfullyConnectedToServer" xml:space="preserve">
+    <value>Successfully connected to the {0} server. Now you should create or choose a database to use with it.</value>
   </data>
+	<data name="Warning_PokerOfficeNotFound">
+		<value xml:space="preserve">Couldn't find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings.</value>
+	</data>
+	<data name="Warning_MySqlNotUsedInPokerOffice">
+		<value xml:space="preserve">You are not using a MySQL Database in PokerOffice.Follow the help file instructions to install the MySQL Server and change to MySQL Database in PokerOffice.</value>
+	</data>
 </root>

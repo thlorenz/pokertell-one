@@ -83,6 +83,7 @@
     <Compile Include="Enumerations\DatabaseSetup\GameTable.cs" />
     <Compile Include="Enumerations\DatabaseSetup\PlayerTable.cs" />
     <Compile Include="Enumerations\DatabaseSetup\Tables.cs" />
+    <Compile Include="Events\UserMessageEvent.cs" />
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="Enumerations\PokerHand\ActionTypes.cs" />
     <Compile Include="Enumerations\PokerHand\ReactionTypes.cs" />

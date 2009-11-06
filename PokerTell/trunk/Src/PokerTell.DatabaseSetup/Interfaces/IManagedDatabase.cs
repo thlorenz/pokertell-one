@@ -24,7 +24,7 @@ namespace PokerTell.DatabaseSetup.Interfaces
 
         IManagedDatabase DeleteDatabase(string databaseName);
 
-        IEnumerable<string> GetAllPokerTellDatabases();
+        IEnumerable<string> GetAllPokerTellDatabaseNames();
 
         #endregion
     }
