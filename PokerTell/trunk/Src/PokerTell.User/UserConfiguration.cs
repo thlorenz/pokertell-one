@@ -1,10 +1,12 @@
-namespace PokerTell.Infrastructure
+using System.Configuration;
+
+using PokerTell.Infrastructure.Interfaces;
+
+namespace PokerTell.User
 {
-    using System.Configuration;
+    using Infrastructure;
 
-    using Interfaces;
-
-    internal class UserConfiguration : IUserConfiguration
+    public class UserConfiguration : IUserConfiguration
     {
         #region Constants and Fields
 
@@ -14,7 +16,7 @@ namespace PokerTell.Infrastructure
 
         #region Constructors and Destructors
 
-        internal UserConfiguration()
+        public UserConfiguration()
         {
             string configFile = Files.dirAppData + Files.xmlUserConfig;
 
@@ -44,7 +46,7 @@ namespace PokerTell.Infrastructure
 
         public void Save(ConfigurationSaveMode saveMode)
         {
-           _config.Save(saveMode);
+            _config.Save(saveMode);
         }
 
         #endregion

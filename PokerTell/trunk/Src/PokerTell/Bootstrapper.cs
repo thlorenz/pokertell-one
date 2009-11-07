@@ -2,6 +2,8 @@ namespace PokerTell
 {
     using System.Windows;
 
+    using DatabaseSetup;
+
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.UnityExtensions;
 
@@ -13,6 +15,8 @@ namespace PokerTell
 
     using SessionReview;
 
+    using User;
+
     public class Bootstrapper : UnityBootstrapper
     {
         protected override IModuleCatalog GetModuleCatalog()
@@ -20,10 +24,12 @@ namespace PokerTell
             var catalog = new ModuleCatalog();
 
             catalog
-                .AddModule(typeof(PokerHandModule))
-                .AddModule(typeof(PokerHandParsersModule), typeof(PokerHandModule).Name)
-                .AddModule(typeof(RepositoryModule), typeof(PokerHandParsersModule).Name, typeof(PokerHandModule).Name)
-                .AddModule(typeof(SessionReviewModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name);
+                .AddModule(typeof(UserModule))
+                .AddModule(typeof(PokerHandModule), typeof(UserModule).Name)
+                .AddModule(typeof(DatabaseSetupModule), typeof(UserModule).Name)
+                .AddModule(typeof(PokerHandParsersModule), typeof(PokerHandModule).Name, typeof(UserModule).Name)
+                .AddModule(typeof(RepositoryModule), typeof(PokerHandParsersModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
+                .AddModule(typeof(SessionReviewModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
          
             return catalog;
         }

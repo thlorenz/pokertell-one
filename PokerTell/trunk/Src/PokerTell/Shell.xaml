@@ -129,19 +129,6 @@
                     cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainMenuRegion}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top">
-
-                    <MenuItem
-                        Header="Main">
-
-                        <MenuItem
-                            Header="_Development"
-                            Command="{Binding DevelopmentCommand}" />
-                        <Separator />
-                        <MenuItem
-                            Header="_Close" />
-                        <MenuItem
-                            Header="_Save" />
-                    </MenuItem>
                 </Menu>
             </Border>
 

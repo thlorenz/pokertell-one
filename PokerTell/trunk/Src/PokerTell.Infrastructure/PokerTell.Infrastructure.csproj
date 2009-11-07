@@ -135,8 +135,6 @@
     <Compile Include="Services\Constructor.cs" />
     <Compile Include="Interfaces\IConstructor.cs" />
     <Compile Include="Services\UnityExtensions.cs" />
-    <Compile Include="Settings.cs" />
-    <Compile Include="UserConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\ErrorMessages.resx">

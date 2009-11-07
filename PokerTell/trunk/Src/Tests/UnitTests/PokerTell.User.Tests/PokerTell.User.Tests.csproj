@@ -5,17 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C46D9DF9-6850-4F83-A959-C4C98493D594}</ProjectGuid>
+    <ProjectGuid>{4113800D-B982-4EB9-B0FB-98A90D4A102B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerTell.Infrastructure.Tests</RootNamespace>
-    <AssemblyName>PokerTell.Infrastructure.Tests</AssemblyName>
+    <RootNamespace>PokerTell.User.Tests</RootNamespace>
+    <AssemblyName>PokerTell.User.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>Svn</SccProjectName>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccProvider>SubversionScc</SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,7 +36,6 @@
       <HintPath>..\..\..\..\Lib\Nunit\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -56,11 +51,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PokerTell.User\PokerTell.User.csproj">
+      <Project>{E2DC4243-DE16-42FF-A9CE-BEB54E763A9F}</Project>
+      <Name>PokerTell.User</Name>
     </ProjectReference>
     <ProjectReference Include="..\PokerTell.UnitTests\PokerTell.UnitTests.csproj">
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>

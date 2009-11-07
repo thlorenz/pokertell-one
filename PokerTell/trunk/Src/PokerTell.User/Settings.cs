@@ -1,14 +1,14 @@
 //Date: 4/21/2009
+using System.Configuration;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 
-namespace PokerTell.Infrastructure
+namespace PokerTell.User
 {
-    using System.Configuration;
     using System.Drawing;
-    using System.Reflection;
-    using System.Text;
-    using System.Text.RegularExpressions;
 
-    using Interfaces;
+    using Infrastructure.Interfaces;
 
     using log4net;
 

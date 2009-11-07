@@ -12,6 +12,29 @@
   mc:Ignorable="d"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
+    <!-- PokerTell MainColors -->
+    <Color x:Key="LightBorderColor">#FF9A9999</Color>
+    <Color x:Key="DarkBorderColor">#FF3C3C3C</Color>
+
+    <SolidColorBrush x:Key="LightBorderBrush" Color="{StaticResource LightBorderColor}" />
+    <SolidColorBrush x:Key="DarkBorderBrush" Color="{StaticResource DarkBorderColor}" />
+
+    <LinearGradientBrush x:Key="DarkToLightBorderBrush" EndPoint="0.5, 1" StartPoint="0.5,0" SpreadMethod="Reflect">
+        <GradientStop Color="{StaticResource DarkBorderColor}" Offset="0" />
+        <GradientStop Color="{StaticResource LightBorderColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="LightToDarkBorderBrush" EndPoint="0.5, 1" StartPoint="0.5,0" SpreadMethod="Reflect">
+        <GradientStop Color="{StaticResource LightBorderColor}" Offset="0" />
+        <GradientStop Color="{StaticResource DarkBorderColor}" Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="LightToDarkToLightBorderBrush" EndPoint="0.5, 1" StartPoint="0.5,0" SpreadMethod="Reflect">
+        <GradientStop Color="{StaticResource LightBorderColor}" Offset="0" />
+        <GradientStop Color="{StaticResource DarkBorderColor}" Offset="0.5" />
+        <GradientStop Color="{StaticResource LightBorderColor}" Offset="1" />
+    </LinearGradientBrush>
+
     <!-- Main Colors -->
 
     <Color x:Key="MainColor">#FF595959</Color>

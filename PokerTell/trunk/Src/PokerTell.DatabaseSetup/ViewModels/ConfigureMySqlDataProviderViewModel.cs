@@ -20,7 +20,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     using Tools.WPF;
 
-    public class AddMySqlDataProviderViewModel : AddDataProviderViewModel
+    public class ConfigureMySqlDataProviderViewModel : ConfigureDataProviderViewModel
     {
         #region Constants and Fields
 
@@ -29,27 +29,24 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         readonly IDataProviderInfo _dataProviderInfo;
 
+        ICommand _getPokerOfficeSettingsCommand;
+
         #endregion
 
         #region Constructors and Destructors
 
-        public AddMySqlDataProviderViewModel(
+        public ConfigureMySqlDataProviderViewModel(
             IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
             : base(eventAggregator, databaseSettings, dataProvider)
         {
             _dataProviderInfo = new MySqlInfo();
+
+            DetectMySqlAndSetMySqlVersionInfoAccordinly();
         }
 
         #endregion
 
         #region Properties
-
-        protected override IDataProviderInfo DataProviderInfo
-        {
-            get { return _dataProviderInfo; }
-        }
-
-        ICommand _getPokerOfficeSettingsCommand;
 
         public ICommand GetPokerOfficeSettingsCommand
         {
@@ -58,7 +55,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
                 return _getPokerOfficeSettingsCommand ?? (_getPokerOfficeSettingsCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
-                            var pokerOfficeSettings = GetPokerofficeSettings();
+                            DatabaseConnectionInfo pokerOfficeSettings = GetPokerofficeSettings();
                             if (pokerOfficeSettings != null)
                             {
                                 InititializeWith(
@@ -69,9 +66,84 @@ namespace PokerTell.DatabaseSetup.ViewModels
             }
         }
 
+        public string MySqlVersionInfo { get; private set; }
+
+        protected override IDataProviderInfo DataProviderInfo
+        {
+            get { return _dataProviderInfo; }
+        }
+
         #endregion
 
-        #region Public Methods
+        #region Methods
+
+        /// <summary>
+        /// Find MySQL
+        /// Now regkey is set to MySql AB
+        /// Find MySQL Server
+        /// </summary>
+        /// <param name="mySqlDir">Directory where MySql is installed</param>
+        /// <param name="mySqlVersion">Version of installed MySql</param>
+        static void ExtractMySqlDirectoryAndVersionFromRegistry(out string mySqlDir, out string mySqlVersion)
+        {
+            RegistryKey regKey = Registry.LocalMachine;
+            regKey = regKey.OpenSubKey("SOFTWARE");
+            
+            mySqlDir = null;
+            mySqlVersion = null;
+           
+            string subKeyNameLower;
+            try
+            {
+                foreach (string subKeyName in regKey.GetSubKeyNames())
+                {
+                    subKeyNameLower = subKeyName.ToLower();
+                    if (subKeyNameLower.Equals("mysql ab"))
+                    {
+                        regKey = regKey.OpenSubKey(subKeyName);
+                        break;
+                    }
+                }
+                foreach (string subKeyName in regKey.GetSubKeyNames())
+                {
+                    subKeyNameLower = subKeyName.ToLower();
+                    if (subKeyNameLower.StartsWith("mysql server"))
+                    {
+                        regKey = regKey.OpenSubKey(subKeyName);
+                        mySqlDir = regKey.GetValue("Location").ToString();
+                        mySqlVersion = regKey.GetValue("Version").ToString();
+                    }
+                }
+            }
+            catch (Exception excep)
+            {
+                // Registry unaccessible will throw
+                // Any not found registry key will throw null reference
+                // In both cases, nothing we can do, but to assume MySql is not installed
+                Log.Error(excep);
+            }
+        }
+
+        void DetectMySqlAndSetMySqlVersionInfoAccordinly()
+        {
+            string mySqlDir;
+            string mySqlVersion;
+
+            ExtractMySqlDirectoryAndVersionFromRegistry(out mySqlDir, out mySqlVersion);
+
+            if (string.IsNullOrEmpty(mySqlDir))
+            {
+                var userMessage =
+                    new UserMessageEventArgs(UserMessageTypes.Warning, Resources.Warning_MySqlInstallationNotFound);
+                _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+
+                MySqlVersionInfo = Resources.Info_MySqlInstallationNotFound;
+            }
+            else
+            {
+                MySqlVersionInfo = string.Format(Resources.Info_FoundMySqInstallation, mySqlVersion);
+            }
+        }
 
         /// <summary>
         /// Tries to find PokerOffice in registry and read its database settings from its config file
@@ -131,29 +203,28 @@ namespace PokerTell.DatabaseSetup.ViewModels
                 //Get Default PokerOffice Database
                 try
                 {
-
                     //Get Other MySQL Info
                     using (reader = new StreamReader(pokerOfficeDir + @"\settings\mysql.connection"))
                     {
                         string strRead = reader.ReadToEnd();
 
                         m = Regex.Match(strRead, patHost);
-                        var strHost = m.Groups["Host"].ToString();
+                        string strHost = m.Groups["Host"].ToString();
 
                         m = Regex.Match(strRead, patUser);
-                        var strUser = m.Groups["User"].ToString();
+                        string strUser = m.Groups["User"].ToString();
 
                         m = Regex.Match(strRead, patPassword);
-                        var strPassword = m.Groups["Password"].ToString();
+                        string strPassword = m.Groups["Password"].ToString();
 
                         return new DatabaseConnectionInfo(strHost, strUser, strPassword);
                     }
-                    
                 }
                 catch (FileNotFoundException excep)
                 {
                     var userMessage =
-                        new UserMessageEventArgs(UserMessageTypes.Warning, Resources.Warning_MySqlNotUsedInPokerOffice, excep);
+                        new UserMessageEventArgs(
+                            UserMessageTypes.Warning, Resources.Warning_MySqlNotUsedInPokerOffice, excep);
                     _eventAggregator
                         .GetEvent<UserMessageEvent>()
                         .Publish(userMessage);

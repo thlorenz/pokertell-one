@@ -9,7 +9,7 @@ namespace PokerTell.Infrastructure
     /// </summary>
     public static class ApplicationProperties
     {
-        public const string ApplicationName = "PokerTell";
+        public const string ApplicationName = "PokerTellWPF";
 
         /// <summary>
         /// Number of tables to be displayed in Tables Form
@@ -58,6 +58,7 @@ namespace PokerTell.Infrastructure
 
         public const string ShellMainRegion = "Shell.MainRegion";
         public const string ShellMainMenuRegion = "Shell.MainMenuRegion";
+        public const string ShellDatabaseMenuRegion = "Shell.ShellDatabaseMenuRegion";
         public const string ShellStatusRegion = "Shell.StatusRegion";
 
         public const string HandHistoriesRegion = "HandHistoriesRegion";

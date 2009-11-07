@@ -1,0 +1,40 @@
+﻿<Window x:Class="PokerTell.User.Views.UserMessageView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   >
+    <StackPanel
+         HorizontalAlignment="Center"
+         VerticalAlignment="Center">
+        <Border
+         Background="{DynamicResource DarkToLightBorderBrush}"
+         CornerRadius="10, 10, 0, 0"
+         Margin="5"
+         Padding="5"
+         >
+            <Label Content="PokerTell Info" Margin="5, 5, 5, 15 "/>
+        </Border>
+        <Border
+         Background="{DynamicResource LightToDarkToLightBorderBrush}"
+         CornerRadius="3"
+         Margin="5"
+         Padding="5">
+            <Label Content="This error occured and so on" Margin="5, 5, 5, 15 "/>
+        </Border>
+
+        <Border
+         Background="{DynamicResource LightToDarkBorderBrush}"
+         CornerRadius="0, 0, 10, 10"
+         Margin="5"
+         Padding="5"
+         >
+            <StackPanel>
+                <Button
+            Content="Close"
+            HorizontalAlignment="Right"
+            Padding="5"
+            Margin="5"/>
+                <Expander Header="Show Error Details" Content="Some Error Details in here" Visibility="Visible"/>
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</Window>

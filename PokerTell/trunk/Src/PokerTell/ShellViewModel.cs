@@ -6,8 +6,11 @@ namespace PokerTell
     using System.Windows;
     using System.Windows.Input;
 
+    using Infrastructure.Events;
+
     using log4net;
 
+    using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Composite.Regions;
 
     using PokerTell.Infrastructure;
@@ -41,9 +44,10 @@ namespace PokerTell
 
         #region Constructors and Destructors
 
-        public ShellViewModel(IRegionManager regionManager)
+        public ShellViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
         {
             _regionManager = regionManager;
+             eventAggregator.GetEvent<UserMessageEvent>().Subscribe(HandleUserMessageEvent);
 
             try
             {
@@ -54,6 +58,15 @@ namespace PokerTell
             {
                 Log.Error(excep);
             }
+        }
+        
+        #endregion
+
+        #region Methods
+
+        void HandleUserMessageEvent(UserMessageEventArgs userMessage)
+        {
+            MessageBox.Show(userMessage.UserMessage);
         }
 
         #endregion

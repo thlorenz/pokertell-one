@@ -13,9 +13,11 @@ namespace PokerTell.DatabaseSetup.Tests
 
     using NUnit.Framework;
 
+    using UnitTests.Tools;
+
     using ViewModels;
 
-    public class AddDataProviderViewModelTests
+    public class ConfigureDataProviderViewModelTests
     {
         #region Constants and Fields
 
@@ -35,12 +37,62 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
+        public void Initialize_SettingsDontContainServerConnectStringForDataProvider_InitializesToDefault()
+        {
+            var settingsMock = new Mock<IDatabaseSettings>();
+            settingsMock
+                .Setup(ds => ds.ProviderIsAvailable(It.IsAny<IDataProviderInfo>()))
+                .Returns(false);
+
+            var sut =
+                new ConfigureDataProviderViewModelMock(
+                    _eventAggregator, settingsMock.Object, _stub.Out<IDataProvider>())
+                    .Initialize();
+
+            bool initializedToDefault =
+                sut.ServerName.Equals("localhost") && 
+                sut.UserName.Equals("root") &&
+                sut.Password.Equals(string.Empty);
+            
+            Assert.That(initializedToDefault, Is.True);
+        }
+
+        [Test]
+        public void Initialize_SettingsContainServerConnectStringForDataProvider_InitializesAccordingToServerConnectString()
+        {
+            var dataProviderInfo = new MySqlInfo();
+
+            const string serverConnectStringFoundInSettings = 
+                "data source = servername; user id = username; password = pass;";
+
+            var settingsMock = new Mock<IDatabaseSettings>();
+            settingsMock
+                .Setup(ds => ds.ProviderIsAvailable(dataProviderInfo))
+                .Returns(true);
+            settingsMock
+                .Setup(ds => ds.GetServerConnectStringFor(dataProviderInfo))
+                .Returns(serverConnectStringFoundInSettings);
+
+            var sut =
+                new ConfigureDataProviderViewModelMock(
+                    _eventAggregator, settingsMock.Object, _stub.Out<IDataProvider>())
+                    { DataProviderInfoMock = dataProviderInfo }
+                    .Initialize();
+
+            var actualServerConnectString =
+                new DatabaseConnectionInfo(sut.ServerName, sut.UserName, sut.Password).ServerConnectString;
+
+            Assert.That(actualServerConnectString, Is.EqualTo(serverConnectStringFoundInSettings));
+        }
+
+        [Test]
         public void SaveCommandExecute_ValidSetupValues_SavesServerConnectStringToDatabaseSettings()
         {
             var settingsMock = new Mock<IDatabaseSettings>();
 
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(_eventAggregator, settingsMock.Object, _stub.Out<IDataProvider>())
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
+                    _eventAggregator, settingsMock.Object, _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
 
             sut.SaveCommand.Execute(null);
@@ -51,8 +103,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_PasswordEmpty_ReturnsTrue()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
             sut.Password = string.Empty;
@@ -63,8 +115,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_PasswordNotSet_ReturnsFalse()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
             sut.Password = null;
@@ -75,8 +127,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_ServerNameEmpty_ReturnsFalse()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
             sut.ServerName = string.Empty;
@@ -87,8 +139,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_ServerNameNotSet_ReturnsFalse()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
             sut.ServerName = null;
@@ -99,8 +151,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_ServerNameUserNameAndPasswordValid_ReturnsTrue()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
 
@@ -110,8 +162,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_UserNameEmpty_ReturnsFalse()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
             sut.UserName = string.Empty;
@@ -122,8 +174,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandCanExecute_UserNameNotSet_ReturnsFalse()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
             sut.UserName = null;
@@ -134,8 +186,8 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void TestConnectionCommandExecute_DataProviderDoesNotThrowError_ObtainsServerConnectString()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
 
@@ -145,23 +197,10 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void TestConnectionCommandExecute_DataProviderDoesNotThrowError_SaveCommandCanExecute()
-        {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
-                    _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
-                    .InitializeServerNameUserNameAndPasswordToValidValues();
-
-            sut.TestConnectionCommand.Execute(null);
-
-            Assert.That(sut.SaveCommand.CanExecute(null), Is.True);
-        }
-
-        [Test]
         public void TestConnectionCommandExecute_DataProviderDoesNotThrowError_PublishesUserInfoMessage()
         {
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
 
@@ -176,21 +215,16 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void TestConnectionCommandExecute_DataProviderThrowsError_SaveCommandCannotExecute()
+        public void TestConnectionCommandExecute_DataProviderDoesNotThrowError_SaveCommandCanExecute()
         {
-            var dataProviderStub = new Mock<IDataProvider>();
-            dataProviderStub
-                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()))
-                .Throws(new Exception());
-
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
-                    _eventAggregator, _stub.Out<IDatabaseSettings>(), dataProviderStub.Object)
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
+                    _eventAggregator, _stub.Out<IDatabaseSettings>(), _stub.Out<IDataProvider>())
                     .InitializeServerNameUserNameAndPasswordToValidValues();
 
             sut.TestConnectionCommand.Execute(null);
 
-            Assert.That(sut.SaveCommand.CanExecute(null), Is.False);
+            Assert.That(sut.SaveCommand.CanExecute(null), Is.True);
         }
 
         [Test]
@@ -201,8 +235,8 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()))
                 .Throws(new Exception());
 
-            AddDataProviderViewModelMock sut =
-                new AddDataProviderViewModelMock(
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
                     _eventAggregator, _stub.Out<IDatabaseSettings>(), dataProviderStub.Object)
                     .InitializeServerNameUserNameAndPasswordToValidValues();
 
@@ -216,14 +250,32 @@ namespace PokerTell.DatabaseSetup.Tests
             Assert.That(userErrorMessageRequested, Is.True);
         }
 
+        [Test]
+        public void TestConnectionCommandExecute_DataProviderThrowsError_SaveCommandCannotExecute()
+        {
+            var dataProviderStub = new Mock<IDataProvider>();
+            dataProviderStub
+                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()))
+                .Throws(new Exception());
+
+            ConfigureDataProviderViewModelMock sut =
+                new ConfigureDataProviderViewModelMock(
+                    _eventAggregator, _stub.Out<IDatabaseSettings>(), dataProviderStub.Object)
+                    .InitializeServerNameUserNameAndPasswordToValidValues();
+
+            sut.TestConnectionCommand.Execute(null);
+
+            Assert.That(sut.SaveCommand.CanExecute(null), Is.False);
+        }
+
         #endregion
     }
 
-    internal class AddDataProviderViewModelMock : AddDataProviderViewModel
+    internal class ConfigureDataProviderViewModelMock : ConfigureDataProviderViewModel
     {
         #region Constructors and Destructors
 
-        public AddDataProviderViewModelMock(
+        public ConfigureDataProviderViewModelMock(
             IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
             : base(eventAggregator, databaseSettings, dataProvider)
         {
@@ -250,7 +302,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
         #region Public Methods
 
-        public AddDataProviderViewModelMock InitializeServerNameUserNameAndPasswordToValidValues()
+        public ConfigureDataProviderViewModelMock InitializeServerNameUserNameAndPasswordToValidValues()
         {
             ServerName = "someServer";
             UserName = "someUser";

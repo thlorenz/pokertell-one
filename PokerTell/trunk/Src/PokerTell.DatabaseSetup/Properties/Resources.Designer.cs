@@ -22,7 +22,7 @@ namespace PokerTell.DatabaseSetup.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.DatabaseSetup.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,20 +61,137 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string ConfigureProviderView_Close {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connection Settings.
+        /// </summary>
+        public static string ConfigureProviderView_ConnectionSettings {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_ConnectionSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password: .
+        /// </summary>
+        public static string ConfigureProviderView_Password {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string ConfigureProviderView_Save {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server: .
+        /// </summary>
+        public static string ConfigureProviderView_Server {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test Connection.
+        /// </summary>
+        public static string ConfigureProviderView_TestConnection {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_TestConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Defaults.
+        /// </summary>
+        public static string ConfigureProviderView_UseDefaults {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_UseDefaults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use PokerOffice Settings.
+        /// </summary>
+        public static string ConfigureProviderView_UsePokerOfficeSettings {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_UsePokerOfficeSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Name: .
+        /// </summary>
+        public static string ConfigureProviderView_UserName {
+            get {
+                return ResourceManager.GetString("ConfigureProviderView_UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configure MySql Server.
+        /// </summary>
+        public static string DatabaseSetupMenu_ConfigureMySqlServer_Header {
+            get {
+                return ResourceManager.GetString("DatabaseSetupMenu_ConfigureMySqlServer_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database Setup.
+        /// </summary>
+        public static string DatabaseSetupMenu_Header {
+            get {
+                return ResourceManager.GetString("DatabaseSetupMenu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PokerTell was unable to connect to the server specified in the settings. 
         ///Please make sure the database server is running and check the Database Settings.
         ///Check that the servername, username and possibly password were entered correctly..
         /// </summary>
-        internal static string Error_UnableToConnectToServer {
+        public static string Error_UnableToConnectToServer {
             get {
                 return ResourceManager.GetString("Error_UnableToConnectToServer", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found MySql {0}  installed on your computer..
+        /// </summary>
+        public static string Info_FoundMySqInstallation {
+            get {
+                return ResourceManager.GetString("Info_FoundMySqInstallation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No MySql installation found..
+        /// </summary>
+        public static string Info_MySqlInstallationNotFound {
+            get {
+                return ResourceManager.GetString("Info_MySqlInstallationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully connected to the {0} server. Now you should create or choose a database to use with it..
         /// </summary>
-        internal static string Info_SuccessfullyConnectedToServer {
+        public static string Info_SuccessfullyConnectedToServer {
             get {
                 return ResourceManager.GetString("Info_SuccessfullyConnectedToServer", resourceCulture);
             }
@@ -92,7 +209,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         ///  strategicposition tinyint(2) DEFAULT NULL COMMENT &apos;Stratecic Position of player SB to BU&apos;,
         ///  inposflop tinyint(1) unsigned NOT NULL DEFAULT &apos;2&apos; COMMENT &apos;1=IP, 0=OOP 2=N/A(no action on Round)&apos; [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MySql_Queries_CreateTables {
+        public static string MySql_Queries_CreateTables {
             get {
                 return ResourceManager.GetString("MySql_Queries_CreateTables", resourceCulture);
             }
@@ -101,7 +218,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         /// <summary>
         ///   Looks up a localized string similar to CREATE DATABASE IF NOT EXISTS {0};.
         /// </summary>
-        internal static string Sql_Queries_CreateDatabase {
+        public static string Sql_Queries_CreateDatabase {
             get {
                 return ResourceManager.GetString("Sql_Queries_CreateDatabase", resourceCulture);
             }
@@ -110,7 +227,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         /// <summary>
         ///   Looks up a localized string similar to DROP DATABASE IF EXISTS {0};.
         /// </summary>
-        internal static string Sql_Queries_DropDatabase {
+        public static string Sql_Queries_DropDatabase {
             get {
                 return ResourceManager.GetString("Sql_Queries_DropDatabase", resourceCulture);
             }
@@ -119,7 +236,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         /// <summary>
         ///   Looks up a localized string similar to SHOW DATABASES;.
         /// </summary>
-        internal static string Sql_Queries_ShowDatabases {
+        public static string Sql_Queries_ShowDatabases {
             get {
                 return ResourceManager.GetString("Sql_Queries_ShowDatabases", resourceCulture);
             }
@@ -140,7 +257,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         ///       inposriver tinyint(1) NOT NULL default &apos;2&apos;,
         ///       raiseinfrontpreflopfrompos tinyint(2) NOT NULL default [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string SQLite_Queries_CreateTables {
+        public static string SQLite_Queries_CreateTables {
             get {
                 return ResourceManager.GetString("SQLite_Queries_CreateTables", resourceCulture);
             }
@@ -151,16 +268,25 @@ namespace PokerTell.DatabaseSetup.Properties {
         ///Therefore it could not be created.
         ///If you were trying to delete all its data, use Clear Database instead..
         /// </summary>
-        internal static string Warning_DatabaseExistsException {
+        public static string Warning_DatabaseExistsException {
             get {
                 return ResourceManager.GetString("Warning_DatabaseExistsException", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PokerTell was unable to find a MySql installatin on your computer.\nIf you are sure it is installed enter the appropriate settings and test the connection. If still unsuccessful consider reinstalling the MySql server..
+        /// </summary>
+        public static string Warning_MySqlInstallationNotFound {
+            get {
+                return ResourceManager.GetString("Warning_MySqlInstallationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to You are not using a MySQL Database in PokerOffice.Follow the help file instructions to install the MySQL Server and change to MySQL Database in PokerOffice..
         /// </summary>
-        internal static string Warning_MySqlNotUsedInPokerOffice {
+        public static string Warning_MySqlNotUsedInPokerOffice {
             get {
                 return ResourceManager.GetString("Warning_MySqlNotUsedInPokerOffice", resourceCulture);
             }
@@ -169,7 +295,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Couldn&apos;t find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings..
         /// </summary>
-        internal static string Warning_PokerOfficeNotFound {
+        public static string Warning_PokerOfficeNotFound {
             get {
                 return ResourceManager.GetString("Warning_PokerOfficeNotFound", resourceCulture);
             }
@@ -180,7 +306,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         ///Please make sure the MySql Server is running and check the Database Settings using the Database Menu.
         ///Check that the hostname, username, password were entered correctly and that you chose an existing database or created one..
         /// </summary>
-        internal static string Warning_UnableToConnectToDatabase {
+        public static string Warning_UnableToConnectToDatabase {
             get {
                 return ResourceManager.GetString("Warning_UnableToConnectToDatabase", resourceCulture);
             }

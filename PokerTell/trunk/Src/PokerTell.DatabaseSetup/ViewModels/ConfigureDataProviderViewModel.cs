@@ -15,7 +15,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
-    public abstract class AddDataProviderViewModel : NotifyPropertyChanged
+    public abstract class ConfigureDataProviderViewModel : NotifyPropertyChanged
     {
         #region Constants and Fields
 
@@ -43,18 +43,30 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         #region Constructors and Destructors
 
-        protected AddDataProviderViewModel(IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
+        protected ConfigureDataProviderViewModel(IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
         {
             _eventAggregator = eventAggregator;
             _dataProvider = dataProvider;
             _databaseSettings = databaseSettings;
         }
 
-        protected AddDataProviderViewModel InititializeWith(string serverName, string userName, string password)
+        public ConfigureDataProviderViewModel Initialize()
+        {
+            if (_databaseSettings.ProviderIsAvailable(DataProviderInfo))
+            {
+               var serverConnectInfo =
+                    new DatabaseConnectionInfo(_databaseSettings.GetServerConnectStringFor(DataProviderInfo));
+               return InititializeWith(serverConnectInfo.Server, serverConnectInfo.User, serverConnectInfo.Password);
+            }
+
+           return InitializeWithDefaults();
+        }
+
+        protected ConfigureDataProviderViewModel InititializeWith(string serverName, string userName, string password)
         {
             _serverName = serverName;
             _userName = userName;
-            _password = Password;
+            _password = password;
             return this;
         }
 
@@ -62,17 +74,25 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         #region Properties
 
-        ICommand _SetDefaultsCommand;
+        ICommand _setDefaultsCommand;
 
         public ICommand SetDefaultsCommand
         {
             get
             {
-                return _SetDefaultsCommand ?? (_SetDefaultsCommand = new SimpleCommand
+                return _setDefaultsCommand ?? (_setDefaultsCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => InititializeWith("localhost", "root", string.Empty),
+                        ExecuteDelegate = arg => InitializeWithDefaults(),
                     });
             }
+        }
+
+        ConfigureDataProviderViewModel InitializeWithDefaults()
+        {
+            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, "Initializing defaults");
+            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+            
+            return InititializeWith("localhost", "root", string.Empty);
         }
 
         public string Password
@@ -94,6 +114,19 @@ namespace PokerTell.DatabaseSetup.ViewModels
                         ExecuteDelegate =
                             arg => _databaseSettings.SetServerConnectStringFor(DataProviderInfo, _serverConnectString),
                         CanExecuteDelegate = arg => _connectionIsValid
+                    });
+            }
+        }
+
+        ICommand _cancelCommand;
+
+        public ICommand CancelCommand
+        {
+            get
+            {
+                return _cancelCommand ?? (_cancelCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => Console.WriteLine("Cancelling")
                     });
             }
         }

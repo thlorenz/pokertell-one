@@ -1,8 +1,10 @@
-﻿namespace PokerTell
+namespace PokerTell
 {
     using System;
     using System.Reflection;
     using System.Windows;
+
+    using DatabaseSetup.Views;
 
     using log4net;
 
@@ -27,6 +29,7 @@
         {
             base.OnStartup(e);
 
+            // new ConfigureMySqlDataProviderView().ShowDialog();
             // RunTestWindow();
             RunInDebugMode();
 

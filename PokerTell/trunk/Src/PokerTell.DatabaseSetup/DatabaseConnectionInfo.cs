@@ -94,7 +94,7 @@ namespace PokerTell.DatabaseSetup
 
             if (! string.IsNullOrEmpty(Password))
             {
-                connString += string.Format("password = {0};", Password);
+                connString += string.Format(" password = {0};", Password);
             }
 
             return connString;
@@ -109,6 +109,11 @@ namespace PokerTell.DatabaseSetup
         }
 
         #endregion
+
+       public override string ToString()
+        {
+            return string.Format("Database: {0}, Password: {1}, Server: {2}, User: {3}", Database, Password, Server, User);
+        }
     }
 
     public class DatabaseConnectionInfoInvalidException : Exception

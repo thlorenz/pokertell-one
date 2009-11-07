@@ -279,10 +279,52 @@ Check that the hostname, username, password were entered correctly and that you 
   <data name="Info_SuccessfullyConnectedToServer" xml:space="preserve">
     <value>Successfully connected to the {0} server. Now you should create or choose a database to use with it.</value>
   </data>
-	<data name="Warning_PokerOfficeNotFound">
-		<value xml:space="preserve">Couldn't find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings.</value>
-	</data>
-	<data name="Warning_MySqlNotUsedInPokerOffice">
-		<value xml:space="preserve">You are not using a MySQL Database in PokerOffice.Follow the help file instructions to install the MySQL Server and change to MySQL Database in PokerOffice.</value>
-	</data>
+  <data name="Warning_PokerOfficeNotFound" xml:space="preserve">
+    <value>Couldn't find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings.</value>
+  </data>
+  <data name="Warning_MySqlNotUsedInPokerOffice" xml:space="preserve">
+    <value>You are not using a MySQL Database in PokerOffice.Follow the help file instructions to install the MySQL Server and change to MySQL Database in PokerOffice.</value>
+  </data>
+  <data name="Info_FoundMySqInstallation" xml:space="preserve">
+    <value>Found MySql {0}  installed on your computer.</value>
+  </data>
+  <data name="Info_MySqlInstallationNotFound" xml:space="preserve">
+    <value>No MySql installation found.</value>
+  </data>
+  <data name="Warning_MySqlInstallationNotFound" xml:space="preserve">
+    <value>PokerTell was unable to find a MySql installatin on your computer.\nIf you are sure it is installed enter the appropriate settings and test the connection. If still unsuccessful consider reinstalling the MySql server.</value>
+  </data>
+  <data name="ConfigureProviderView_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="ConfigureProviderView_ConnectionSettings" xml:space="preserve">
+    <value>Connection Settings</value>
+  </data>
+  <data name="ConfigureProviderView_Password" xml:space="preserve">
+    <value>Password: </value>
+  </data>
+  <data name="ConfigureProviderView_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="ConfigureProviderView_Server" xml:space="preserve">
+    <value>Server: </value>
+  </data>
+  <data name="ConfigureProviderView_TestConnection" xml:space="preserve">
+    <value>Test Connection</value>
+  </data>
+  <data name="ConfigureProviderView_UseDefaults" xml:space="preserve">
+    <value>Use Defaults</value>
+  </data>
+  <data name="ConfigureProviderView_UsePokerOfficeSettings" xml:space="preserve">
+    <value>Use PokerOffice Settings</value>
+  </data>
+  <data name="ConfigureProviderView_UserName" xml:space="preserve">
+    <value>User Name: </value>
+  </data>
+  <data name="DatabaseSetupMenu_ConfigureMySqlServer_Header" xml:space="preserve">
+    <value>Configure MySql Server</value>
+  </data>
+  <data name="DatabaseSetupMenu_Header" xml:space="preserve">
+    <value>Database Setup</value>
+  </data>
 </root>

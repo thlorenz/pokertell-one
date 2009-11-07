@@ -17,6 +17,8 @@
 
     using UnitTests.Fakes;
 
+    using User;
+
     public class DatabaseSettingsTests
     {
         #region Constants and Fields

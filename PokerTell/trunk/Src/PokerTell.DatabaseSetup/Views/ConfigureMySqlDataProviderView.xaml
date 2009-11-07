@@ -1,0 +1,87 @@
+<Window x:Class="PokerTell.DatabaseSetup.Views.ConfigureMySqlDataProviderView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties" AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"
+    MouseDown="WindowBorder_MouseDown">
+    <StackPanel Margin="10" HorizontalAlignment="Center">
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="5" />
+            </Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Margin" Value="0, 5"/>
+            </Style>
+            <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+                <Setter Property="Margin" Value="0, 5"/>
+            </Style>
+        </StackPanel.Resources>
+        <Border Background="{DynamicResource DarkToLightBorderBrush}" CornerRadius="10, 10, 0, 0" Margin="5" Padding="5">
+            <Label HorizontalAlignment="Center" Content="{Binding MySqlVersionInfo}" />
+        </Border>
+        <Border Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Margin="5" Padding="5">
+            <StackPanel>
+                <GroupBox Header="{x:Static Properties:Resources.ConfigureProviderView_ConnectionSettings}" Padding="5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                      
+                        <Label Grid.Row="0" Grid.Column="0" 
+                               Content="{x:Static Properties:Resources.ConfigureProviderView_Server}" />
+                        <TextBox Grid.Row="0" Grid.Column="1"
+                                 Text="{Binding ServerName}"/>
+                               
+                        <Label Grid.Row="1" Grid.Column="0" 
+                                Content="{x:Static Properties:Resources.ConfigureProviderView_UserName}" />
+                        <TextBox Grid.Row="1" Grid.Column="1" 
+                                 Text="{Binding UserName}"/>
+                                
+                     
+                        <Label Grid.Row="2" Grid.Column="0" 
+                                Content="{x:Static Properties:Resources.ConfigureProviderView_Password}" />
+                        <TextBox Grid.Row="2" Grid.Column="1"
+                                 Text="{Binding Password}"/>
+                        
+                    </Grid>
+                </GroupBox>
+                <StackPanel Orientation="Horizontal" 
+                            HorizontalAlignment="Center" 
+                            Margin="5">
+                    
+                    <Button Content="{x:Static Properties:Resources.ConfigureProviderView_UsePokerOfficeSettings}" 
+                            Command="{Binding GetPokerOfficeSettingsCommand}"/>
+                    <Button Content="{x:Static Properties:Resources.ConfigureProviderView_UseDefaults}" 
+                            Command="{Binding SetDefaultsCommand}"/>
+                    
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <Border Background="{DynamicResource LightToDarkBorderBrush}" 
+                CornerRadius="0, 0, 10, 10" 
+                Margin="5" 
+                Padding="5">
+            <StackPanel Orientation="Horizontal" 
+                        HorizontalAlignment="Center">
+               
+                <Button Content="{x:Static Properties:Resources.ConfigureProviderView_TestConnection}" 
+                        Command="{Binding TestConnectionCommand}"/>
+               
+                <Button Content="{x:Static Properties:Resources.ConfigureProviderView_Save}" 
+                        Command="{Binding SaveCommand}"/>
+                
+                <Button Content="{x:Static Properties:Resources.ConfigureProviderView_Close}"
+                        Click="Close_Click"/>
+                
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</Window>

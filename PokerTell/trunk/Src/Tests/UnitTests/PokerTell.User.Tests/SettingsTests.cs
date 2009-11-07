@@ -1,10 +1,9 @@
 //Date: 4/22/2009
-
-namespace PokerTell.Infrastructure.Tests
+namespace PokerTell.User.Tests
 {
     using System.Drawing;
 
-    using Interfaces;
+    using Infrastructure.Interfaces;
 
     using NUnit.Framework;
 
@@ -15,7 +14,7 @@ namespace PokerTell.Infrastructure.Tests
     /// Description of Settings_Test.
     /// </summary>
     [TestFixture]
-    public class ThatSettings : TestWithLog
+    public class SettingsTests : TestWithLog
     {
         ISettings _settings;
 

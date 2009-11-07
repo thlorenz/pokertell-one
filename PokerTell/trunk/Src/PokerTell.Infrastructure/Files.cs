@@ -2,6 +2,7 @@ namespace PokerTell.Infrastructure
 {
     using System;
     using System.Windows.Forms;
+
     using Tools;
 
     /// <summary>
@@ -10,11 +11,16 @@ namespace PokerTell.Infrastructure
     /// </summary>
     public struct Files
     {
+        #region Constants and Fields
+
         public const string configexePokerTell = @"\PokerTell.exe.config";
+
         public const string dirAbsolutForUnitTestingOnly = @"C:\SD\PokerTell\data\Mocking";
+
         public const string dirData = @"\data\";
 
         public const string dirLayouts = "\\layouts\\";
+
         public const string dirReviews = @"\Reviews\";
 
         public const string dirTables = @"\tables\";
@@ -41,5 +47,7 @@ namespace PokerTell.Infrastructure
         public static readonly string dirStartUp = Application.StartupPath.Contains(@"TestDriven.NET")
                                                        ? dirAbsolutForUnitTestingOnly
                                                        : Application.StartupPath;
+
+        #endregion
     }
 }
