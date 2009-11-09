@@ -1,8 +1,11 @@
-<Window x:Class="PokerTell.DatabaseSetup.Views.ConfigureMySqlDataProviderView"
+<Views:DialogView x:Class="PokerTell.DatabaseSetup.Views.ConfigureMySqlDataProviderView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties" AllowsTransparency="True"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties" xmlns:Views="clr-namespace:PokerTell.DatabaseSetup.Views" AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
+    ShowInTaskbar="False"   
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
     MouseDown="WindowBorder_MouseDown">
     <StackPanel Margin="10" HorizontalAlignment="Center">
         <StackPanel.Resources>
@@ -38,18 +41,18 @@
                         <Label Grid.Row="0" Grid.Column="0" 
                                Content="{x:Static Properties:Resources.ConfigureProviderView_Server}" />
                         <TextBox Grid.Row="0" Grid.Column="1"
-                                 Text="{Binding ServerName}"/>
+                                 Text="{Binding ServerName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                
                         <Label Grid.Row="1" Grid.Column="0" 
                                 Content="{x:Static Properties:Resources.ConfigureProviderView_UserName}" />
                         <TextBox Grid.Row="1" Grid.Column="1" 
-                                 Text="{Binding UserName}"/>
+                                 Text="{Binding UserName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 
                      
                         <Label Grid.Row="2" Grid.Column="0" 
                                 Content="{x:Static Properties:Resources.ConfigureProviderView_Password}" />
                         <TextBox Grid.Row="2" Grid.Column="1"
-                                 Text="{Binding Password}"/>
+                                 Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         
                     </Grid>
                 </GroupBox>
@@ -58,7 +61,8 @@
                             Margin="5">
                     
                     <Button Content="{x:Static Properties:Resources.ConfigureProviderView_UsePokerOfficeSettings}" 
-                            Command="{Binding GetPokerOfficeSettingsCommand}"/>
+                            Command="{Binding GetPokerOfficeSettingsCommand}"
+                            Visibility="{Binding GetPokerOfficeSettingsVisible, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
                     <Button Content="{x:Static Properties:Resources.ConfigureProviderView_UseDefaults}" 
                             Command="{Binding SetDefaultsCommand}"/>
                     
@@ -67,7 +71,7 @@
         </Border>
         <Border Background="{DynamicResource LightToDarkBorderBrush}" 
                 CornerRadius="0, 0, 10, 10" 
-                Margin="5" 
+                Margin="5"
                 Padding="5">
             <StackPanel Orientation="Horizontal" 
                         HorizontalAlignment="Center">
@@ -75,13 +79,13 @@
                 <Button Content="{x:Static Properties:Resources.ConfigureProviderView_TestConnection}" 
                         Command="{Binding TestConnectionCommand}"/>
                
-                <Button Content="{x:Static Properties:Resources.ConfigureProviderView_Save}" 
+                <Button Content="{x:Static Properties:Resources.Commands_Save}" 
                         Command="{Binding SaveCommand}"/>
                 
-                <Button Content="{x:Static Properties:Resources.ConfigureProviderView_Close}"
+                <Button Content="{x:Static Properties:Resources.Commands_Close}"
                         Click="Close_Click"/>
                 
             </StackPanel>
         </Border>
     </StackPanel>
-</Window>
+</Views:DialogView>

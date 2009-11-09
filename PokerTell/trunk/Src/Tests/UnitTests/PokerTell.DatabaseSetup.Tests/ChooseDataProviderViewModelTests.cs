@@ -1,19 +1,24 @@
 namespace PokerTell.DatabaseSetup.Tests
 {
+    using System.Collections.Generic;
     using System.Linq;
 
-    using Interfaces;
-
-    using System.Collections.Generic;
     using Moq;
 
     using NUnit.Framework;
 
-    using ViewModels;
+    using PokerTell.DatabaseSetup.ViewModels;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class ChooseDataProviderViewModelTests
     {
+        #region Constants and Fields
+
         Mock<IDatabaseSettings> _databaseSettingsStub;
+
+        #endregion
+
+        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -27,7 +32,7 @@ namespace PokerTell.DatabaseSetup.Tests
             _databaseSettingsStub
                 .Setup(ds => ds.GetAvailableProviders())
                 .Returns(new List<IDataProviderInfo>());
-            
+
             var sut = new ChooseDataProviderViewModel(_databaseSettingsStub.Object);
 
             Assert.That(sut.AvailableProviders.Count, Is.EqualTo(0));
@@ -38,18 +43,20 @@ namespace PokerTell.DatabaseSetup.Tests
         {
             var providerInfo = new SqLiteInfo();
 
-            var availableProvides = new List<IDataProviderInfo>
+            var availableProviders = new List<IDataProviderInfo>
                 {
                     providerInfo
                 };
-            
+
             _databaseSettingsStub
                 .Setup(ds => ds.GetAvailableProviders())
-                .Returns(availableProvides);
+                .Returns(availableProviders);
 
             var sut = new ChooseDataProviderViewModel(_databaseSettingsStub.Object);
 
             Assert.That(sut.AvailableProviders.First(), Is.EqualTo(providerInfo));
         }
+
+        #endregion
     }
 }

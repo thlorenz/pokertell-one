@@ -1,4 +1,4 @@
-﻿namespace PokerTell.DatabaseSetup.Tests
+namespace PokerTell.DatabaseSetup.Tests
 {
     using System.Collections.Generic;
     using System.Configuration;
@@ -8,8 +8,7 @@
 
     using Infrastructure;
     using Infrastructure.Interfaces;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     using Moq;
 

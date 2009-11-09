@@ -4,6 +4,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
     
     using System.Windows.Input;
 
+    using Infrastructure.Interfaces.DatabaseSetup;
+
     using Microsoft.Practices.Unity;
 
     using Tools.WPF;
@@ -12,16 +14,14 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     public class DatabaseSetupMenuItemViewModel
     {
-        
-        
-        public DatabaseSetupMenuItemViewModel(IUnityContainer unityContainer)
+        public DatabaseSetupMenuItemViewModel(IUnityContainer container)
         {
-            _unityContainer = unityContainer;
+            _container = container;
         }
 
         ICommand _configureMySqlProviderCommand;
 
-        readonly IUnityContainer _unityContainer;
+        readonly IUnityContainer _container;
 
         public ICommand ConfigureMySqlProviderCommand
         {
@@ -34,8 +34,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
                         {
                             try
                             {
-
-                                _unityContainer.Resolve<ConfigureMySqlDataProviderView>().ShowDialog();
+                                _container.Resolve<ConfigureMySqlDataProviderView>().ShowDialog();
                             }
                             catch (Exception excep)
                             {
@@ -43,6 +42,34 @@ namespace PokerTell.DatabaseSetup.ViewModels
                             }
                             }
                 });
+            }
+        }
+
+        ICommand _chooseDatabaseCommand;
+
+        public ICommand ChooseDatabaseCommand
+        {
+            get
+            {
+                return _chooseDatabaseCommand ?? (_chooseDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => 
+                        {
+                            var databaseConnector = _container.Resolve<IDatabaseConnector>();
+                            var databaseManager =
+                                databaseConnector
+                                    .InitializeFromSettings()
+                                    .ConnectToServer()
+                                    .CreateDatabaseManager();
+                            if (databaseManager != null)
+                            {
+                                _container
+                                 .RegisterInstance(databaseManager);
+
+                                new ComboBoxDialogView(_container.Resolve<ChooseDatabaseViewModel>()).ShowDialog(); 
+                            }
+                        },
+                    });
             }
         }
     }

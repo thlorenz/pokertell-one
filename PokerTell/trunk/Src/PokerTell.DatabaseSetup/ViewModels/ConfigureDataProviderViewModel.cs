@@ -1,16 +1,16 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
     using System;
+    using System.Reflection;
     using System.Windows.Input;
 
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.DatabaseSetup;
-
-    using Interfaces;
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
-    using Properties;
+    using PokerTell.DatabaseSetup.Properties;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
@@ -19,11 +19,18 @@ namespace PokerTell.DatabaseSetup.ViewModels
     {
         #region Constants and Fields
 
+        protected readonly IEventAggregator _eventAggregator;
+
         protected string _serverConnectString;
+
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        readonly IDatabaseConnector _databaseConnector;
 
         readonly IDatabaseSettings _databaseSettings;
 
-        readonly IDataProvider _dataProvider;
+        ICommand _cancelCommand;
 
         bool _connectionIsValid;
 
@@ -33,92 +40,29 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         string _serverName;
 
+        ICommand _setDefaultsCommand;
+
         ICommand _testConnectionCommand;
 
         string _userName;
-
-        protected readonly IEventAggregator _eventAggregator;
 
         #endregion
 
         #region Constructors and Destructors
 
-        protected ConfigureDataProviderViewModel(IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
+        protected ConfigureDataProviderViewModel(
+            IEventAggregator eventAggregator, 
+            IDatabaseSettings databaseSettings, 
+            IDatabaseConnector databaseConnector)
         {
+            _databaseConnector = databaseConnector;
             _eventAggregator = eventAggregator;
-            _dataProvider = dataProvider;
             _databaseSettings = databaseSettings;
-        }
-
-        public ConfigureDataProviderViewModel Initialize()
-        {
-            if (_databaseSettings.ProviderIsAvailable(DataProviderInfo))
-            {
-               var serverConnectInfo =
-                    new DatabaseConnectionInfo(_databaseSettings.GetServerConnectStringFor(DataProviderInfo));
-               return InititializeWith(serverConnectInfo.Server, serverConnectInfo.User, serverConnectInfo.Password);
-            }
-
-           return InitializeWithDefaults();
-        }
-
-        protected ConfigureDataProviderViewModel InititializeWith(string serverName, string userName, string password)
-        {
-            _serverName = serverName;
-            _userName = userName;
-            _password = password;
-            return this;
         }
 
         #endregion
 
         #region Properties
-
-        ICommand _setDefaultsCommand;
-
-        public ICommand SetDefaultsCommand
-        {
-            get
-            {
-                return _setDefaultsCommand ?? (_setDefaultsCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => InitializeWithDefaults(),
-                    });
-            }
-        }
-
-        ConfigureDataProviderViewModel InitializeWithDefaults()
-        {
-            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, "Initializing defaults");
-            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
-            
-            return InititializeWith("localhost", "root", string.Empty);
-        }
-
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                _password = value;
-                RaisePropertyChanged(() => Password);
-            }
-        }
-
-        public ICommand SaveCommand
-        {
-            get
-            {
-                return _saveCommand ?? (_saveCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate =
-                            arg => _databaseSettings.SetServerConnectStringFor(DataProviderInfo, _serverConnectString),
-                        CanExecuteDelegate = arg => _connectionIsValid
-                    });
-            }
-        }
-
-        ICommand _cancelCommand;
 
         public ICommand CancelCommand
         {
@@ -131,13 +75,52 @@ namespace PokerTell.DatabaseSetup.ViewModels
             }
         }
 
+        public string Password
+        {
+            get { return _password ?? string.Empty; }
+            set
+            {
+                _password = value;
+                _connectionIsValid = false;
+                RaisePropertyChanged(() => Password);
+            }
+        }
+
+        public ICommand SaveCommand
+        {
+            get
+            {
+                return _saveCommand ?? (_saveCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate =
+                            arg => {
+                                _databaseSettings.SetServerConnectStringFor(DataProviderInfo, _serverConnectString);
+                                ShowUserMessageSettingsSaved();
+                            }, 
+                        CanExecuteDelegate = arg => _connectionIsValid
+                    });
+            }
+        }
+
         public string ServerName
         {
-            get { return _serverName; }
+            get { return _serverName ?? string.Empty; }
             set
             {
                 _serverName = value;
+                _connectionIsValid = false;
                 RaisePropertyChanged(() => ServerName);
+            }
+        }
+
+        public ICommand SetDefaultsCommand
+        {
+            get
+            {
+                return _setDefaultsCommand ?? (_setDefaultsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => InitializeWithDefaults(), 
+                    });
             }
         }
 
@@ -147,19 +130,21 @@ namespace PokerTell.DatabaseSetup.ViewModels
             {
                 return _testConnectionCommand ?? (_testConnectionCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => TestConnection(),
+                        ExecuteDelegate = arg => TestConnection(), 
                         CanExecuteDelegate =
-                            arg => ! (string.IsNullOrEmpty(ServerName) || string.IsNullOrEmpty(UserName) || Password == null)
+                            arg =>
+                            ! (string.IsNullOrEmpty(ServerName) || string.IsNullOrEmpty(UserName) || Password == null)
                     });
             }
         }
 
         public string UserName
         {
-            get { return _userName; }
+            get { return _userName ?? string.Empty; }
             set
             {
                 _userName = value;
+                _connectionIsValid = false;
                 RaisePropertyChanged(() => UserName);
             }
         }
@@ -168,43 +153,59 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         #endregion
 
-        #region Methods
+        #region Public Methods
 
-        void TestConnection()
+        public ConfigureDataProviderViewModel Initialize()
         {
-            _connectionIsValid = false;
+            _databaseConnector.InitializeWith(DataProviderInfo);
             try
             {
-                _serverConnectString = new DatabaseConnectionInfo(ServerName, UserName, Password).ServerConnectString;
-
-                _dataProvider.Connect(_serverConnectString, DataProviderInfo.FullName);
-
-                _connectionIsValid = true;
-
-                PublishSuccessUserMessage();
+                if (_databaseSettings.ProviderIsAvailable(DataProviderInfo))
+                {
+                    var serverConnectInfo =
+                        new DatabaseConnectionInfo(_databaseSettings.GetServerConnectStringFor(DataProviderInfo));
+                    return InititializeWith(
+                        serverConnectInfo.Server, serverConnectInfo.User, serverConnectInfo.Password);
+                }
             }
             catch (Exception excep)
             {
-                PublishErrorUserMessage(excep);
+                Log.Error(excep);
             }
+
+            return InitializeWithDefaults();
         }
 
-        void PublishErrorUserMessage(Exception excep)
+        #endregion
+
+        #region Methods
+
+        protected ConfigureDataProviderViewModel InititializeWith(string serverName, string userName, string password)
         {
-            string msg = Resources.Error_UnableToConnectToServer;
-            var userMessage = new UserMessageEventArgs(UserMessageTypes.Error, msg, excep);
+            ServerName = serverName;
+            UserName = userName;
+            Password = password;
+            return this;
+        }
+
+        ConfigureDataProviderViewModel InitializeWithDefaults()
+        {
+            return InititializeWith("localhost", "root", string.Empty);
+        }
+
+        void ShowUserMessageSettingsSaved()
+        {
+            var userMessage = new UserMessageEventArgs(
+                UserMessageTypes.Info, Resources.Info_SettingsSaved);
             _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
 
-        void PublishSuccessUserMessage()
+        void TestConnection()
         {
-            string msg =
-                string.Format(
-                    Resources.Info_SuccessfullyConnectedToServer,
-                    DataProviderInfo.NiceName);
-            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
-
-            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+            _serverConnectString = new DatabaseConnectionInfo(ServerName, UserName, Password).ServerConnectString;
+            _databaseConnector.TryToConnectToTheServerUsing(_serverConnectString, true);
+          
+            _connectionIsValid = _databaseConnector.DataProvider != null && _databaseConnector.DataProvider.IsConnectedToServer;
         }
 
         #endregion

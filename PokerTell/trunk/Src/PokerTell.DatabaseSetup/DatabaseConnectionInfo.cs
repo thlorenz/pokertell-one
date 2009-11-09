@@ -1,4 +1,3 @@
-//Date: 5/26/2009
 namespace PokerTell.DatabaseSetup
 {
     using System;
@@ -20,24 +19,27 @@ namespace PokerTell.DatabaseSetup
 
         void ExtractConnectionDetailsAndInitializeFrom(string connString)
         {
-            const string patServer = @"Data Source\s*=\s*(?<serverName>[^;\b]+)[;\b]";
-            const string patUser = @"User\sID\s*=\s*(?<userName>[^;\b]+)[;\b]";
-            const string patPassword = @"(pwd|password)\s*=\s*(?<password>('(([^'])|(''))+'|[^';]+))";
-            const string patDatabase = @"(Initial Catalog|Database)\s*=\s*(?<databaseName>[^;\b]+)";
+            if (!string.IsNullOrEmpty(connString))
+            {
+                const string patServer = @"Data Source\s*=\s*(?<serverName>[^;\b]+)[;\b]";
+                const string patUser = @"User\sID\s*=\s*(?<userName>[^;\b]+)[;\b]";
+                const string patPassword = @"(pwd|password)\s*=\s*(?<password>('(([^'])|(''))+'|[^';]+))";
+                const string patDatabase = @"(Initial Catalog|Database)\s*=\s*(?<databaseName>[^;\b]+)";
 
-            Match m = Regex.Match(connString, patServer, RegexOptions.IgnoreCase);
-            string server = m.Success ? m.Groups["serverName"].Value : string.Empty;
+                Match m = Regex.Match(connString, patServer, RegexOptions.IgnoreCase);
+                string server = m.Success ? m.Groups["serverName"].Value : string.Empty;
 
-            m = Regex.Match(connString, patUser, RegexOptions.IgnoreCase);
-            string user = m.Success ? m.Groups["userName"].Value : string.Empty;
+                m = Regex.Match(connString, patUser, RegexOptions.IgnoreCase);
+                string user = m.Success ? m.Groups["userName"].Value : string.Empty;
 
-            m = Regex.Match(connString, patPassword, RegexOptions.IgnoreCase);
-            string password = m.Success ? m.Groups["password"].Value : string.Empty;
+                m = Regex.Match(connString, patPassword, RegexOptions.IgnoreCase);
+                string password = m.Success ? m.Groups["password"].Value : string.Empty;
 
-            m = Regex.Match(connString, patDatabase, RegexOptions.IgnoreCase);
-            string database = m.Success ? m.Groups["databaseName"].Value : string.Empty;
+                m = Regex.Match(connString, patDatabase, RegexOptions.IgnoreCase);
+                string database = m.Success ? m.Groups["databaseName"].Value : string.Empty;
 
-            InitializeWith(server, user, password, database);
+                InitializeWith(server, user, password, database);
+            }
         }
 
         #endregion

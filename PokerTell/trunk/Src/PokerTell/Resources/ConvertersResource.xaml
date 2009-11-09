@@ -3,7 +3,8 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:Converters="clr-namespace:Tools.WPF.Converters;assembly=Tools">
 
-    <Converters:Bool2VisibleOrCollapsedConverter x:Key="Bool2VisibleOrCollapsedConverter" />
+    <Converters:BoolToVisibleOrCollapsedConverter x:Key="BoolToVisibleOrCollapsedConverter" />
+    <Converters:BoolToVisibleOrHiddenConverter x:Key="BoolToVisibleOrHiddenConverter" />
     <Converters:HeaderInfoToHeaderConverter x:Key="HeaderInfoToHeaderConverter"/>
     
 </ResourceDictionary>

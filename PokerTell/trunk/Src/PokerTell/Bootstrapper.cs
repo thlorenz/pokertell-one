@@ -4,6 +4,8 @@ namespace PokerTell
 
     using DatabaseSetup;
 
+    using Infrastructure.Interfaces.User;
+
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.UnityExtensions;
 
@@ -37,6 +39,7 @@ namespace PokerTell
         protected override DependencyObject CreateShell()
         {
             Container
+                .RegisterType<IUserMessageViewFactory, UserMessageViewFactory>()
                 .RegisterType<IShellViewModel, ShellViewModel>();
             
             var shell = Container.Resolve<Shell>();

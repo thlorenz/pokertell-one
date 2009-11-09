@@ -80,10 +80,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UserMessageHandler.cs" />
+    <Compile Include="UserMessageViewFactory.cs" />
     <Compile Include="UserModule.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UserConfiguration.cs" />
+    <Compile Include="ViewModels\UserMessageViewModel.cs" />
     <Compile Include="Views\UserMessageView.xaml.cs">
       <DependentUpon>UserMessageView.xaml</DependentUpon>
     </Compile>

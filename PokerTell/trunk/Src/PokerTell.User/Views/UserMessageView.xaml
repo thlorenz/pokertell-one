@@ -1,39 +1,55 @@
 ﻿<Window x:Class="PokerTell.User.Views.UserMessageView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-   >
-    <StackPanel
-         HorizontalAlignment="Center"
-         VerticalAlignment="Center">
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"
+    MouseDown="WindowBorder_MouseDown"
+    SizeToContent="WidthAndHeight"
+    Title="{Binding Title}"
+    WindowStartupLocation="CenterOwner"   
+        >
+    <StackPanel MaxWidth="500">
         <Border
-         Background="{DynamicResource DarkToLightBorderBrush}"
-         CornerRadius="10, 10, 0, 0"
-         Margin="5"
-         Padding="5"
+             Background="{DynamicResource DarkToLightBorderBrush}"
+             CornerRadius="10, 10, 0, 0"
+             Margin="2"
+             Padding="5"
+            
          >
-            <Label Content="PokerTell Info" Margin="5, 5, 5, 15 "/>
+            <Label Content="{Binding Title}" Margin="5, 5, 5, 15 "/>
         </Border>
         <Border
-         Background="{DynamicResource LightToDarkToLightBorderBrush}"
-         CornerRadius="3"
-         Margin="5"
-         Padding="5">
-            <Label Content="This error occured and so on" Margin="5, 5, 5, 15 "/>
+             Background="{DynamicResource LightToDarkToLightBorderBrush}"
+             CornerRadius="3"
+             Margin="2"
+             Padding="5">
+            <TextBox Text="{Binding Message, Mode=OneWay}"
+                             TextWrapping="Wrap"  
+                             IsReadOnly="True" 
+                             Background="AntiqueWhite"
+                             Foreground="Black"/>
         </Border>
 
-        <Border
-         Background="{DynamicResource LightToDarkBorderBrush}"
-         CornerRadius="0, 0, 10, 10"
-         Margin="5"
-         Padding="5"
-         >
+        <Border  Background="{DynamicResource LightToDarkBorderBrush}"
+                 CornerRadius="0, 0, 10, 10"
+                 Margin="2"
+                 Padding="5">
             <StackPanel>
-                <Button
-            Content="Close"
-            HorizontalAlignment="Right"
-            Padding="5"
-            Margin="5"/>
-                <Expander Header="Show Error Details" Content="Some Error Details in here" Visibility="Visible"/>
+                <Button Content="Close"
+                        Click="Close_Click"
+                        HorizontalAlignment="Right"
+                        Padding="5"
+                        Margin="5"/>
+                <Expander Header="Details" 
+                          Visibility="{Binding ContainsDetails, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
+                    
+                    <TextBox Text="{Binding Details, Mode=OneWay}"
+                             TextWrapping="Wrap"  
+                             IsReadOnly="True" 
+                             Background="AntiqueWhite"
+                             Foreground="Black"/>
+                </Expander>
             </StackPanel>
         </Border>
     </StackPanel>

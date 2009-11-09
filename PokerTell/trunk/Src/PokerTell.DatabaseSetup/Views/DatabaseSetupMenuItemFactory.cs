@@ -20,6 +20,7 @@
         {
             var menuItem = new MenuItem { Header = Resources.DatabaseSetupMenu_Header };
             menuItem.Items.Add(new MenuItem { Header = Resources.DatabaseSetupMenu_ConfigureMySqlServer_Header, Command = _viewModel.ConfigureMySqlProviderCommand });
+            menuItem.Items.Add(new MenuItem { Header = Resources.ChooseDatabaseViewModel_Title, Command = _viewModel.ChooseDatabaseCommand });
 
             return menuItem;
         }

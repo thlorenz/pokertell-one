@@ -1,22 +1,18 @@
-using System.Reflection;
-using System.Windows.Controls;
-
-using log4net;
-
-using Microsoft.Practices.Composite.Modularity;
-using Microsoft.Practices.Composite.Regions;
-using Microsoft.Practices.Unity;
-
 namespace PokerTell.DatabaseSetup
 {
-    using Infrastructure;
-    using Infrastructure.Interfaces.DatabaseSetup;
+    using System.Reflection;
+    using System.Windows.Controls;
 
-    using Interfaces;
+    using log4net;
 
-    using ViewModels;
+    using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Regions;
+    using Microsoft.Practices.Unity;
 
-    using Views;
+    using PokerTell.DatabaseSetup.ViewModels;
+    using PokerTell.DatabaseSetup.Views;
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class DatabaseSetupModule : IModule
     {
@@ -53,6 +49,7 @@ namespace PokerTell.DatabaseSetup
 
             _container
                 .RegisterType<IDataProvider, DataProvider>()
+                .RegisterType<IDatabaseConnector, DatabaseConnector>()
                 .RegisterInstance(dataProviderInfos)
                 .RegisterType<IDatabaseSettings, DatabaseSettings>()
                 .RegisterType<ConfigureMySqlDataProviderViewModel>()

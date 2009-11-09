@@ -2,8 +2,7 @@ namespace PokerTell.DatabaseSetup.Tests
 {
     using Infrastructure;
     using Infrastructure.Interfaces;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     using Moq;
 

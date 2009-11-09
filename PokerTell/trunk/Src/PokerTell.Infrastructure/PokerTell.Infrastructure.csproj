@@ -90,7 +90,13 @@
     <Compile Include="Enumerations\PokerHand\StrategicPositions.cs" />
     <Compile Include="Enumerations\PokerHand\Streets.cs" />
     <Compile Include="Files.cs" />
+    <Compile Include="Interfaces\DatabaseSetup\IDatabaseConnector.cs" />
+    <Compile Include="Interfaces\DatabaseSetup\IDatabaseManager.cs" />
+    <Compile Include="Interfaces\DatabaseSetup\IDatabaseSettings.cs" />
     <Compile Include="Interfaces\DatabaseSetup\IDataProvider.cs" />
+    <Compile Include="Interfaces\DatabaseSetup\IDataProviderInfo.cs" />
+    <Compile Include="Interfaces\DatabaseSetup\IDataProviderInfos.cs" />
+    <Compile Include="Interfaces\DatabaseSetup\IManagedDatabase.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParser.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParsers.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPlayerSeat.cs" />
@@ -121,6 +127,7 @@
     <Compile Include="Interfaces\Repository\IRepository.cs" />
     <Compile Include="Interfaces\IUserConfiguration.cs" />
     <Compile Include="Interfaces\ISettings.cs" />
+    <Compile Include="Interfaces\User\IUserMessageViewFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\ErrorMessages.Designer.cs">
       <AutoGen>True</AutoGen>

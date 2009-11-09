@@ -1,4 +1,4 @@
-namespace PokerTell.DatabaseSetup.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 {
     using System.Collections.Generic;
 

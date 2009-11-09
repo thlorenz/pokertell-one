@@ -2,7 +2,7 @@ namespace PokerTell.DatabaseSetup
 {
     using System.Collections.Generic;
 
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     public class DataProviderInfos : IDataProviderInfos
     {
@@ -19,6 +19,7 @@ namespace PokerTell.DatabaseSetup
             {
                 _supportedDataProviders.Add(dataProviderInfo);
             }
+
             return this;
         }
 

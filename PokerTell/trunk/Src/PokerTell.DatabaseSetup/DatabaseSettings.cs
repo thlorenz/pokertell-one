@@ -7,8 +7,7 @@ namespace PokerTell.DatabaseSetup
     using Enumerations;
 
     using Infrastructure.Interfaces;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     public class DatabaseSettings : IDatabaseSettings
     {

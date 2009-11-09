@@ -61,11 +61,29 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose Database.
+        /// </summary>
+        public static string ChooseDatabaseViewModel_Title {
+            get {
+                return ResourceManager.GetString("ChooseDatabaseViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
-        public static string ConfigureProviderView_Close {
+        public static string Commands_Close {
             get {
-                return ResourceManager.GetString("ConfigureProviderView_Close", resourceCulture);
+                return ResourceManager.GetString("Commands_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Commands_Save {
+            get {
+                return ResourceManager.GetString("Commands_Save", resourceCulture);
             }
         }
         
@@ -84,15 +102,6 @@ namespace PokerTell.DatabaseSetup.Properties {
         public static string ConfigureProviderView_Password {
             get {
                 return ResourceManager.GetString("ConfigureProviderView_Password", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string ConfigureProviderView_Save {
-            get {
-                return ResourceManager.GetString("ConfigureProviderView_Save", resourceCulture);
             }
         }
         
@@ -160,9 +169,30 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PokerTell was unable to connect to the server specified in the settings. 
-        ///Please make sure the database server is running and check the Database Settings.
-        ///Check that the servername, username and possibly password were entered correctly..
+        ///   Looks up a localized string similar to The {0} data provider was not found in the settings.
+        ///Please reconfigure it..
+        /// </summary>
+        public static string Error_ProviderNotFoundInSettings {
+            get {
+                return ResourceManager.GetString("Error_ProviderNotFoundInSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The server connection for {0} defined in the settings is invalid.
+        ///Please reconfigure it.
+        ///.
+        /// </summary>
+        public static string Error_SettingsContainInvalidServerConnectString {
+            get {
+                return ResourceManager.GetString("Error_SettingsContainInvalidServerConnectString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PokerTell was unable to connect to the {0} server  as specified in the settings. 
+        ///Please make sure the {0} server is running and check the Database Settings. 
+        ///Ensure that the servername, username and possibly password were entered correctly..
         /// </summary>
         public static string Error_UnableToConnectToServer {
             get {
@@ -189,7 +219,17 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully connected to the {0} server. Now you should create or choose a database to use with it..
+        ///   Looks up a localized string similar to The settings were saved successfully..
+        /// </summary>
+        public static string Info_SettingsSaved {
+            get {
+                return ResourceManager.GetString("Info_SettingsSaved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully connected to the {0} server.
+        ///Don&apos;t forget to save these settings and finally you should create and/or choose a database to use with it..
         /// </summary>
         public static string Info_SuccessfullyConnectedToServer {
             get {
@@ -293,7 +333,18 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Couldn&apos;t find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings..
+        ///   Looks up a localized string similar to No data provider has been found.
+        ///Please define it by using Choose Data Provider form the Database Menu..
+        /// </summary>
+        public static string Warning_NoDataProviderDefinedInSettings {
+            get {
+                return ResourceManager.GetString("Warning_NoDataProviderDefinedInSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t find a PokerOffice installation. 
+        ///If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings..
         /// </summary>
         public static string Warning_PokerOfficeNotFound {
             get {

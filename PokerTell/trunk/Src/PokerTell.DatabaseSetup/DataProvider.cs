@@ -1,11 +1,10 @@
-//Date: 5/16/2009
 namespace PokerTell.DatabaseSetup
 {
     using System.Data;
     using System.Data.Common;
     using System.Text;
 
-    using Infrastructure.Interfaces.DatabaseSetup;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class DataProvider : IDataProvider
     {
@@ -34,6 +33,20 @@ namespace PokerTell.DatabaseSetup
         public IDbConnection Connection
         {
             get { return _connection; }
+        }
+
+        public bool IsConnectedToDatabase
+        {
+            get
+            {
+                return _connection != null && _connection.State.Equals(ConnectionState.Open) &&
+                       ! string.IsNullOrEmpty(_connection.Database);
+            }
+        }
+
+        public bool IsConnectedToServer
+        {
+            get { return _connection != null && _connection.State.Equals(ConnectionState.Open); }
         }
 
         public string ParameterPlaceHolder { get; set; }
@@ -92,6 +105,7 @@ namespace PokerTell.DatabaseSetup
             {
                 sb.AppendLine(row[0].ToString());
             }
+
             return sb.ToString();
         }
 

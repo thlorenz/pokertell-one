@@ -2,7 +2,7 @@ namespace PokerTell.DatabaseSetup
 {
     using System.Collections.Generic;
 
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     public class DatabaseManager : IDatabaseManager
     {

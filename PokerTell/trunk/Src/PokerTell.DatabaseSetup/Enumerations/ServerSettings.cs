@@ -1,6 +1,6 @@
 namespace PokerTell.DatabaseSetup.Enumerations
 {
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     internal enum ServerSettings
     {

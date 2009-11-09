@@ -1,11 +1,13 @@
-using System.Collections.Generic;
-
-using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
-
-namespace PokerTell.DatabaseSetup.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 {
+    using System.Collections.Generic;
+
     public interface IDatabaseSettings
     {
+        #region Public Methods
+
+        bool ConnectionStringExistsFor(IDataProviderInfo dataProviderInfo);
+
         IEnumerable<IDataProviderInfo> GetAvailableProviders();
 
         /// <summary>
@@ -13,6 +15,8 @@ namespace PokerTell.DatabaseSetup.Interfaces
         /// </summary>
         /// <returns>connection string</returns>
         string GetConnectionStringFor(IDataProviderInfo dataProviderInfo);
+
+        IDataProviderInfo GetCurrentDataProvider();
 
         /// <summary>
         /// Only applies to MySql and Postgres
@@ -23,16 +27,14 @@ namespace PokerTell.DatabaseSetup.Interfaces
         /// </returns>
         string GetServerConnectStringFor(IDataProviderInfo dataProviderInfo);
 
-        IDatabaseSettings SetServerConnectStringFor(IDataProviderInfo dataProviderInfo, string serverConnectString);
-
         bool ProviderIsAvailable(IDataProviderInfo dataProviderInfo);
 
-        bool ConnectionStringExistsFor(IDataProviderInfo dataProviderInfo);
+        IDatabaseSettings SetConnectionStringFor(IDataProviderInfo dataProviderInfo, string connectionString);
 
         IDatabaseSettings SetCurrentDataProviderTo(IDataProviderInfo dataProviderInfo);
 
-        IDataProviderInfo GetCurrentDataProvider();
+        IDatabaseSettings SetServerConnectStringFor(IDataProviderInfo dataProviderInfo, string serverConnectString);
 
-        IDatabaseSettings SetConnectionStringFor(IDataProviderInfo dataProviderInfo, string connectionString);
+        #endregion
     }
 }

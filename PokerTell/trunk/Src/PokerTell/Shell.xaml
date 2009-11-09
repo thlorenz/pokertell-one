@@ -91,7 +91,7 @@
                     </Button>
                     <Button
                         Command="{Binding NormalizeWindowCommand}"
-                        Visibility="{Binding ShowNormalize, Converter={StaticResource Bool2VisibleOrCollapsedConverter}, Mode=OneWay}"
+                        Visibility="{Binding ShowNormalize, Converter={StaticResource BoolToVisibleOrCollapsedConverter}, Mode=OneWay}"
                         MaxWidth="20"
                         MaxHeight="20">
                         <Image
@@ -99,7 +99,7 @@
                     </Button>
                     <Button
                         Command="{Binding MaximizeWindowCommand}"
-                        Visibility="{Binding ShowMaximize, Converter={StaticResource Bool2VisibleOrCollapsedConverter}, Mode=OneWay}"
+                        Visibility="{Binding ShowMaximize, Converter={StaticResource BoolToVisibleOrCollapsedConverter}, Mode=OneWay}"
                         MaxWidth="20"
                         MaxHeight="20">
                         <Image

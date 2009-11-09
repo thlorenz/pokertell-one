@@ -7,6 +7,7 @@ using Microsoft.Practices.Unity;
 namespace PokerTell.User
 {
     using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.User;
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Regions;
@@ -43,10 +44,8 @@ namespace PokerTell.User
             _container
                 .RegisterType<IUserConfiguration, UserConfiguration>(new ContainerControlledLifetimeManager())
                 .RegisterType<ISettings, Settings>(new ContainerControlledLifetimeManager());
+                
            
-            _container
-                .Resolve<UserMessageHandler>();
-
             Log.Info("got initialized.");
         }
 

@@ -1,8 +1,3 @@
-/*
- * User: Thorsten Lorenz
- * Date: 8/6/2009
- * 
- */
 namespace Tools.WPF.Converters
 {
     using System;
@@ -11,7 +6,7 @@ namespace Tools.WPF.Converters
     using System.Windows.Data;
 
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class Bool2VisibleOrCollapsedConverter : IValueConverter
+    public class BoolToVisibleOrHiddenConverter : IValueConverter
     {
         #region Implemented Interfaces
 
@@ -25,7 +20,7 @@ namespace Tools.WPF.Converters
             }
             else
             {
-                return Visibility.Collapsed;
+                return Visibility.Hidden;
             }
         }
 

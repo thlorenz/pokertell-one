@@ -2,7 +2,7 @@ namespace PokerTell.DatabaseSetup
 {
     using System;
 
-    using Interfaces;
+    using Infrastructure.Interfaces.DatabaseSetup;
 
     using Properties;
 

@@ -118,9 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Error_UnableToConnectToServer" xml:space="preserve">
-    <value>PokerTell was unable to connect to the server specified in the settings. 
-Please make sure the database server is running and check the Database Settings.
-Check that the servername, username and possibly password were entered correctly.</value>
+    <value>PokerTell was unable to connect to the {0} server  as specified in the settings. 
+Please make sure the {0} server is running and check the Database Settings. 
+Ensure that the servername, username and possibly password were entered correctly.</value>
   </data>
   <data name="MySql_Queries_CreateTables" xml:space="preserve">
     <value>DROP TABLE IF EXISTS actionhhd;
@@ -277,10 +277,12 @@ Please make sure the MySql Server is running and check the Database Settings usi
 Check that the hostname, username, password were entered correctly and that you chose an existing database or created one.</value>
   </data>
   <data name="Info_SuccessfullyConnectedToServer" xml:space="preserve">
-    <value>Successfully connected to the {0} server. Now you should create or choose a database to use with it.</value>
+    <value>Successfully connected to the {0} server.
+Don't forget to save these settings and finally you should create and/or choose a database to use with it.</value>
   </data>
   <data name="Warning_PokerOfficeNotFound" xml:space="preserve">
-    <value>Couldn't find a PokerOffice installation. If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings.</value>
+    <value>Couldn't find a PokerOffice installation. 
+If you are sure it is installed carefully enter the values that you find in PokerOffice/Database/NetworkSettings.</value>
   </data>
   <data name="Warning_MySqlNotUsedInPokerOffice" xml:space="preserve">
     <value>You are not using a MySQL Database in PokerOffice.Follow the help file instructions to install the MySQL Server and change to MySQL Database in PokerOffice.</value>
@@ -294,7 +296,7 @@ Check that the hostname, username, password were entered correctly and that you 
   <data name="Warning_MySqlInstallationNotFound" xml:space="preserve">
     <value>PokerTell was unable to find a MySql installatin on your computer.\nIf you are sure it is installed enter the appropriate settings and test the connection. If still unsuccessful consider reinstalling the MySql server.</value>
   </data>
-  <data name="ConfigureProviderView_Close" xml:space="preserve">
+  <data name="Commands_Close" xml:space="preserve">
     <value>Close</value>
   </data>
   <data name="ConfigureProviderView_ConnectionSettings" xml:space="preserve">
@@ -303,7 +305,7 @@ Check that the hostname, username, password were entered correctly and that you 
   <data name="ConfigureProviderView_Password" xml:space="preserve">
     <value>Password: </value>
   </data>
-  <data name="ConfigureProviderView_Save" xml:space="preserve">
+  <data name="Commands_Save" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="ConfigureProviderView_Server" xml:space="preserve">
@@ -326,5 +328,24 @@ Check that the hostname, username, password were entered correctly and that you 
   </data>
   <data name="DatabaseSetupMenu_Header" xml:space="preserve">
     <value>Database Setup</value>
+  </data>
+  <data name="Info_SettingsSaved" xml:space="preserve">
+    <value>The settings were saved successfully.</value>
+  </data>
+  <data name="Error_ProviderNotFoundInSettings" xml:space="preserve">
+    <value>The {0} data provider was not found in the settings.
+Please reconfigure it.</value>
+  </data>
+  <data name="Error_SettingsContainInvalidServerConnectString" xml:space="preserve">
+    <value>The server connection for {0} defined in the settings is invalid.
+Please reconfigure it.
+</value>
+  </data>
+  <data name="Warning_NoDataProviderDefinedInSettings" xml:space="preserve">
+    <value>No data provider has been found.
+Please define it by using Choose Data Provider form the Database Menu.</value>
+  </data>
+  <data name="ChooseDatabaseViewModel_Title" xml:space="preserve">
+    <value>Choose Database</value>
   </data>
 </root>

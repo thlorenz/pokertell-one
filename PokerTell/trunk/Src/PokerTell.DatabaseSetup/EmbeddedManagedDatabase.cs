@@ -9,8 +9,6 @@ namespace PokerTell.DatabaseSetup
     using Infrastructure;
     using Infrastructure.Interfaces.DatabaseSetup;
 
-    using Interfaces;
-
     using log4net;
 
     public class EmbeddedManagedDatabase : IManagedDatabase

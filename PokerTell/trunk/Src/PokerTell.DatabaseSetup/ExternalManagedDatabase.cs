@@ -8,8 +8,6 @@ namespace PokerTell.DatabaseSetup
     using Infrastructure.Enumerations.DatabaseSetup;
     using Infrastructure.Interfaces.DatabaseSetup;
 
-    using Interfaces;
-
     using Properties;
 
     public class ExternalManagedDatabase : IManagedDatabase
@@ -125,7 +123,7 @@ namespace PokerTell.DatabaseSetup
                     while (dr.Read())
                     {
                         string tableName = dr[0].ToString();
-                        if ((tableName.Equals(Tables.actionhhd.ToString())))
+                        if (tableName.Equals(Tables.actionhhd.ToString()))
                         {
                             yield return databaseName;
                         }

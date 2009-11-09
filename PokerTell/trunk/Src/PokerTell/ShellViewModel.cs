@@ -6,14 +6,14 @@ namespace PokerTell
     using System.Windows;
     using System.Windows.Input;
 
-    using Infrastructure.Events;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Composite.Regions;
 
     using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.User;
 
     using Tools.WPF;
     using Tools.WPF.Interfaces;
@@ -28,9 +28,13 @@ namespace PokerTell
 
         readonly IRegionManager _regionManager;
 
-        ICommand _mainRegionCloseSelectedItemCommand;
+        readonly IUserMessageViewFactory _userMessageViewFactory;
 
         ICommand _developmentCommand;
+
+        ICommand _mainRegionCloseSelectedItemCommand;
+
+        IItemsRegionView _mainRegionSelectedItem;
 
         ICommand _maximizeWindowCommand;
 
@@ -38,16 +42,24 @@ namespace PokerTell
 
         ICommand _normalizeWindowCommand;
 
+        string _status;
+
         WindowState _windowState;
+
+        string _windowTitle;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public ShellViewModel(IRegionManager regionManager, IEventAggregator eventAggregator)
+        public ShellViewModel(
+            IRegionManager regionManager, 
+            IEventAggregator eventAggregator, 
+            IUserMessageViewFactory userMessageViewFactory)
         {
+            _userMessageViewFactory = userMessageViewFactory;
             _regionManager = regionManager;
-             eventAggregator.GetEvent<UserMessageEvent>().Subscribe(HandleUserMessageEvent);
+            eventAggregator.GetEvent<UserMessageEvent>().Subscribe(HandleUserMessageEvent);
 
             try
             {
@@ -59,29 +71,20 @@ namespace PokerTell
                 Log.Error(excep);
             }
         }
-        
-        #endregion
-
-        #region Methods
-
-        void HandleUserMessageEvent(UserMessageEventArgs userMessage)
-        {
-            MessageBox.Show(userMessage.UserMessage);
-        }
 
         #endregion
 
         #region Properties
 
-        string _status;
-
-        public string Status
+        public ICommand DevelopmentCommand
         {
-            get { return _status; }
-            set
+            get
             {
-                _status = value;
-                RaisePropertyChanged(() => Status);
+                return _developmentCommand ?? (_developmentCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => ListActiveViewsOfRegion(ApplicationProperties.ShellMainRegion), 
+                        CanExecuteDelegate = arg => true
+                    });
             }
         }
 
@@ -101,20 +104,6 @@ namespace PokerTell
             }
         }
 
-        public ICommand DevelopmentCommand
-        {
-            get
-            {
-                return _developmentCommand ?? (_developmentCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => ListActiveViewsOfRegion(ApplicationProperties.ShellMainRegion), 
-                        CanExecuteDelegate = arg => true
-                    });
-            }
-        }
-
-        IItemsRegionView _mainRegionSelectedItem;
-
         public IItemsRegionView MainRegionSelectedItem
         {
             get { return _mainRegionSelectedItem; }
@@ -125,19 +114,6 @@ namespace PokerTell
                 {
                     WindowTitle = _mainRegionSelectedItem.ActiveAwareViewModel.HeaderInfo;
                 }
-            }
-        }
-
-        string _windowTitle;
-
-        public string WindowTitle
-        {
-            get { return _windowTitle; }
-            set
-            {
-                _windowTitle = value;
-                Log.Info("Title: " + WindowTitle);
-                RaisePropertyChanged(() => WindowTitle);
             }
         }
 
@@ -184,6 +160,16 @@ namespace PokerTell
             get { return WindowState == WindowState.Maximized; }
         }
 
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                RaisePropertyChanged(() => Status);
+            }
+        }
+
         public WindowState WindowState
         {
             get { return _windowState; }
@@ -196,9 +182,27 @@ namespace PokerTell
             }
         }
 
+        public string WindowTitle
+        {
+            get { return _windowTitle; }
+            set
+            {
+                _windowTitle = value;
+                Log.Info("Title: " + WindowTitle);
+                RaisePropertyChanged(() => WindowTitle);
+            }
+        }
+
         #endregion
 
         #region Methods
+
+        void HandleUserMessageEvent(UserMessageEventArgs userMessage)
+        {
+            var userMessagView = _userMessageViewFactory.Create(userMessage);
+            userMessagView.Owner = Application.Current.MainWindow;
+            userMessagView.ShowDialog();
+        }
 
         void ListActiveViewsOfRegion(string regionName)
         {

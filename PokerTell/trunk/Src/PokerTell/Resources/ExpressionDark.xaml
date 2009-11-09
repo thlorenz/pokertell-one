@@ -13,7 +13,7 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
     <!-- PokerTell MainColors -->
-    <Color x:Key="LightBorderColor">#FF9A9999</Color>
+    <Color x:Key="LightBorderColor">#FF716F6F</Color>
     <Color x:Key="DarkBorderColor">#FF3C3C3C</Color>
 
     <SolidColorBrush x:Key="LightBorderBrush" Color="{StaticResource LightBorderColor}" />
