@@ -7,10 +7,14 @@ namespace PokerTell.DatabaseSetup.ViewModels
     {
         IList<string> AvailableItems { get; }
 
-        ICommand SaveSettingsCommand { get; }
+        ICommand CommitActionCommand { get; }
 
         string SelectedItem { get; set; }
 
         string Title { get; }
+
+        string ActionName { get; }
+
+        IComboBoxDialogViewModel DetermineSelectedItem();
     }
 }

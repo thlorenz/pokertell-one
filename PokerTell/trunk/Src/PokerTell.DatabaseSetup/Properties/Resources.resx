@@ -348,4 +348,33 @@ Please define it by using Choose Data Provider form the Database Menu.</value>
   <data name="ChooseDatabaseViewModel_Title" xml:space="preserve">
     <value>Choose Database</value>
   </data>
+  <data name="ChooseDataProviderViewModel_Title" xml:space="preserve">
+    <value>Choose Dataprovider</value>
+  </data>
+  <data name="Warning_NoConfiguredDataProvidersFoundInSettings" xml:space="preserve">
+    <value>PokerTell couldn't find any configured dataprovider.
+To remedy this please first configure a server to be used as your data provider.</value>
+  </data>
+  <data name="Info_DatabaseChosen" xml:space="preserve">
+    <value>Database {0} was chosen and the settings saved successfully.</value>
+  </data>
+  <data name="Commands_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Info_DataProviderChosen" xml:space="preserve">
+    <value>The {0} server was chosen as your data provider and the settings saved successfully.</value>
+  </data>
+  <data name="Commands_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Commands_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Title_Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="Warning_AllDataInDatabaseWillBeLost" xml:space="preserve">
+    <value>All the data in the database will be lost!
+Are you sure?</value>
+  </data>
 </root>

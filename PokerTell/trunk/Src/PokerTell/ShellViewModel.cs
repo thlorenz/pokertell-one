@@ -28,8 +28,6 @@ namespace PokerTell
 
         readonly IRegionManager _regionManager;
 
-        readonly IUserMessageViewFactory _userMessageViewFactory;
-
         ICommand _developmentCommand;
 
         ICommand _mainRegionCloseSelectedItemCommand;
@@ -52,15 +50,10 @@ namespace PokerTell
 
         #region Constructors and Destructors
 
-        public ShellViewModel(
-            IRegionManager regionManager, 
-            IEventAggregator eventAggregator, 
-            IUserMessageViewFactory userMessageViewFactory)
+        public ShellViewModel(IRegionManager regionManager)
         {
-            _userMessageViewFactory = userMessageViewFactory;
             _regionManager = regionManager;
-            eventAggregator.GetEvent<UserMessageEvent>().Subscribe(HandleUserMessageEvent);
-
+           
             try
             {
                 WindowState = WindowState.Normal;
@@ -196,13 +189,6 @@ namespace PokerTell
         #endregion
 
         #region Methods
-
-        void HandleUserMessageEvent(UserMessageEventArgs userMessage)
-        {
-            var userMessagView = _userMessageViewFactory.Create(userMessage);
-            userMessagView.Owner = Application.Current.MainWindow;
-            userMessagView.ShowDialog();
-        }
 
         void ListActiveViewsOfRegion(string regionName)
         {

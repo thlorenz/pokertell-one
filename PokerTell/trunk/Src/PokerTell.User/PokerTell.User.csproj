@@ -80,11 +80,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="UserMessageViewFactory.cs" />
     <Compile Include="UserModule.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UserConfiguration.cs" />
+    <Compile Include="UserService.cs" />
+    <Compile Include="ViewModels\ConfirmActionViewModel.cs" />
     <Compile Include="ViewModels\UserMessageViewModel.cs" />
+    <Compile Include="Views\ConfirmActionView.xaml.cs">
+      <DependentUpon>ConfirmActionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UserMessageView.xaml.cs">
       <DependentUpon>UserMessageView.xaml</DependentUpon>
     </Compile>
@@ -100,10 +110,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ConfirmActionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\UserMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

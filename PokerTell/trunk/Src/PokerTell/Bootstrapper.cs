@@ -39,7 +39,6 @@ namespace PokerTell
         protected override DependencyObject CreateShell()
         {
             Container
-                .RegisterType<IUserMessageViewFactory, UserMessageViewFactory>()
                 .RegisterType<IShellViewModel, ShellViewModel>();
             
             var shell = Container.Resolve<Shell>();

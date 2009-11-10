@@ -1,8 +1,8 @@
-﻿<Views:DialogView x:Class="PokerTell.DatabaseSetup.Views.ComboBoxDialogView"
+﻿<Views:DialogView x:Class="PokerTell.User.Views.ConfirmActionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties"
     xmlns:Views="clr-namespace:Tools.WPF.Views;assembly=Tools"
+    xmlns:Properties="clr-namespace:PokerTell.User.Properties"
     AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
@@ -10,7 +10,7 @@
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     MouseDown="WindowBorder_MouseDown"
-    Title="{Binding Title}">
+    >
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <StackPanel.Resources>
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
@@ -29,18 +29,18 @@
          CornerRadius="10, 10, 0, 0"
          Margin="2"
          Padding="5">
-            <Label Content="{Binding Title}"/>
+            <Label Content="{x:Static Properties:Resources.Title_Warning}"/>
         </Border>
-        <Border
-         Background="{DynamicResource LightToDarkToLightBorderBrush}"
-         CornerRadius="3"
-         Margin="2"
-         Padding="5">
-            <ComboBox ItemsSource="{Binding AvailableItems}" 
-                      SelectedItem="{Binding SelectedItem}"
-                      IsSynchronizedWithCurrentItem="True" 
-                      
-                     />
+      <Border
+             Background="{DynamicResource LightToDarkToLightBorderBrush}"
+             CornerRadius="3"
+             Margin="2"
+             Padding="5">
+            <TextBox Text="{Binding Message, Mode=OneWay}"
+                             TextWrapping="Wrap"  
+                             IsReadOnly="True" 
+                             Background="AntiqueWhite"
+                             Foreground="Black"/>
         </Border>
         <Border
          Background="{DynamicResource LightToDarkBorderBrush}"
@@ -48,10 +48,10 @@
          Margin="2"
          Padding="5">
             <StackPanel Orientation="Horizontal">
-                <Button Content="{Binding ActionName}" 
-                        Command="{Binding CommitActionCommand}"
+                <Button Content="{x:Static Properties:Resources.Commands_Confirm}" 
+                        Command="{Binding ConfirmActionCommand}"
                         HorizontalAlignment="Left"/>
-                <Button Content="{x:Static Properties:Resources.Commands_Close}" 
+                <Button Content="{x:Static Properties:Resources.Commands_Cancel}" 
                         Click="Close_Click"
                         HorizontalAlignment="Right"/>
             </StackPanel>

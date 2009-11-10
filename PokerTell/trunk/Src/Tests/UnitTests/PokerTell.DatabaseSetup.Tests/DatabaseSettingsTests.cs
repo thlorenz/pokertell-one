@@ -155,7 +155,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void GetConnectionStringFor_ConnectionStringForOtherProviderWasAdded_ReturnsEmptyString()
+        public void GetConnectionStringFor_ConnectionStringForOtherProviderWasAdded_ReturnsNull()
         {
             var dataProviders = new DataProviderInfos();
             var databaseSettings = new DatabaseSettings(_mockSettings, dataProviders);
@@ -165,7 +165,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
             string connectionString = databaseSettings.GetConnectionStringFor(_sqLiteProvider);
 
-            Assert.That(connectionString, Is.EqualTo(string.Empty));
+            Assert.That(connectionString, Is.Null);
         }
 
         [Test]
@@ -205,14 +205,14 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void GetConnectionStringFor_NoConnectionStringWasAdded_ReturnsEmptyString()
+        public void GetConnectionStringFor_NoConnectionStringWasAdded_ReturnsNull()
         {
             var dataProviders = new DataProviderInfos();
             var databaseSettings = new DatabaseSettings(_mockSettings, dataProviders);
 
             string connectionString = databaseSettings.GetConnectionStringFor(_sqLiteProvider);
 
-            Assert.That(connectionString, Is.EqualTo(string.Empty));
+            Assert.That(connectionString, Is.Null);
         }
 
         [Test]

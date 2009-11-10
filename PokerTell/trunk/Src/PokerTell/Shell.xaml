@@ -9,8 +9,10 @@
     Height="563"
     MinWidth="600"
     MinHeight="375"
+    AllowsTransparency="True"
+    Background="Transparent"
     WindowStyle="None"
-    ResizeMode="CanResize"
+    ResizeMode="CanResizeWithGrip"
     WindowState="{Binding WindowState}"
     Title="{Binding WindowTitle}"
     Icon="Resources/Icon.jpg">

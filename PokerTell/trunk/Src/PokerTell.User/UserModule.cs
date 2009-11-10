@@ -43,9 +43,12 @@ namespace PokerTell.User
         {
             _container
                 .RegisterType<IUserConfiguration, UserConfiguration>(new ContainerControlledLifetimeManager())
-                .RegisterType<ISettings, Settings>(new ContainerControlledLifetimeManager());
-                
-           
+                .RegisterType<ISettings, Settings>(new ContainerControlledLifetimeManager())
+                .RegisterType<IUserMessageViewFactory, UserMessageViewFactory>();
+
+            _container
+                .Resolve<UserService>();
+
             Log.Info("got initialized.");
         }
 

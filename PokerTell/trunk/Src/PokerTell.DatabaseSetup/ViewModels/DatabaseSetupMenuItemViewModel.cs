@@ -1,37 +1,96 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
     using System;
-    
     using System.Windows.Input;
-
-    using Infrastructure.Interfaces.DatabaseSetup;
 
     using Microsoft.Practices.Unity;
 
-    using Tools.WPF;
+    using PokerTell.DatabaseSetup.Views;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
-    using Views;
+    using Tools.WPF;
 
     public class DatabaseSetupMenuItemViewModel
     {
+        #region Constants and Fields
+
+        readonly IUnityContainer _container;
+
+        ICommand _chooseDatabaseCommand;
+
+        ICommand _chooseDataProviderCommand;
+
+        ICommand _configureMySqlProviderCommand;
+
+        #endregion
+
+        #region Constructors and Destructors
+
         public DatabaseSetupMenuItemViewModel(IUnityContainer container)
         {
             _container = container;
         }
 
-        ICommand _configureMySqlProviderCommand;
+        #endregion
 
-        readonly IUnityContainer _container;
+        #region Properties
+
+        public ICommand ChooseDatabaseCommand
+        {
+            get
+            {
+                return _chooseDatabaseCommand ?? (_chooseDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            var databaseConnector = _container.Resolve<IDatabaseConnector>();
+                            IDatabaseManager databaseManager =
+                                databaseConnector
+                                    .InitializeFromSettings()
+                                    .ConnectToServer()
+                                    .CreateDatabaseManager();
+                           
+                            if (databaseManager != null)
+                            {
+                                _container
+                                    .RegisterInstance(databaseManager);
+
+                                new ComboBoxDialogView(
+                                    _container
+                                    .Resolve<ChooseDatabaseViewModel>()
+                                    .DetermineSelectedItem())
+                                    .ShowDialog();
+                            }
+                        }, 
+                    });
+            }
+        }
+
+        public ICommand ChooseDataProviderCommand
+        {
+            get
+            {
+                return _chooseDataProviderCommand ?? (_chooseDataProviderCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            var chooseProviderViewModel = _container.Resolve<ChooseDataProviderViewModel>();
+                               chooseProviderViewModel.DetermineSelectedItem();
+                          
+                            if (chooseProviderViewModel.IsValid)
+                            {
+                                new ComboBoxDialogView(chooseProviderViewModel).ShowDialog();
+                            }
+                        }
+                    });
+            }
+        }
 
         public ICommand ConfigureMySqlProviderCommand
         {
             get
             {
-
                 return _configureMySqlProviderCommand ?? (_configureMySqlProviderCommand = new SimpleCommand
-                {
-                    ExecuteDelegate = arg =>
-                        {
+                    {
+                        ExecuteDelegate = arg => {
                             try
                             {
                                 _container.Resolve<ConfigureMySqlDataProviderView>().ShowDialog();
@@ -40,37 +99,11 @@ namespace PokerTell.DatabaseSetup.ViewModels
                             {
                                 Console.WriteLine(excep.ToString());
                             }
-                            }
-                });
-            }
-        }
-
-        ICommand _chooseDatabaseCommand;
-
-        public ICommand ChooseDatabaseCommand
-        {
-            get
-            {
-                return _chooseDatabaseCommand ?? (_chooseDatabaseCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => 
-                        {
-                            var databaseConnector = _container.Resolve<IDatabaseConnector>();
-                            var databaseManager =
-                                databaseConnector
-                                    .InitializeFromSettings()
-                                    .ConnectToServer()
-                                    .CreateDatabaseManager();
-                            if (databaseManager != null)
-                            {
-                                _container
-                                 .RegisterInstance(databaseManager);
-
-                                new ComboBoxDialogView(_container.Resolve<ChooseDatabaseViewModel>()).ShowDialog(); 
-                            }
-                        },
+                        }
                     });
             }
         }
+
+        #endregion
     }
 }

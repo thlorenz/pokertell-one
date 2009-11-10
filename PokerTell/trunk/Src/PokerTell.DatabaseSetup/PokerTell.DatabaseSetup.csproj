@@ -102,6 +102,7 @@
     <Compile Include="SqLiteInfo.cs" />
     <Compile Include="DataProviderInfos.cs" />
     <Compile Include="ViewModels\ChooseDatabaseViewModel.cs" />
+    <Compile Include="ViewModels\ClearDatabaseViewModel.cs" />
     <Compile Include="ViewModels\ConfigureDataProviderViewModel.cs" />
     <Compile Include="ViewModels\ConfigureMySqlDataProviderViewModel.cs" />
     <Compile Include="ViewModels\ChooseDataProviderViewModel.cs" />
@@ -114,7 +115,6 @@
       <DependentUpon>ConfigureMySqlDataProviderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DatabaseSetupMenuItemFactory.cs" />
-    <Compile Include="Views\DialogView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Tools\Tools.csproj">

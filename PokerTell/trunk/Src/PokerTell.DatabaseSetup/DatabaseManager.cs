@@ -1,6 +1,7 @@
 namespace PokerTell.DatabaseSetup
 {
     using System.Collections.Generic;
+    using System.Data.Common;
 
     using Infrastructure.Interfaces.DatabaseSetup;
 
@@ -79,6 +80,14 @@ namespace PokerTell.DatabaseSetup
         public IEnumerable<string> GetAllPokerTellDatabases()
         {
             return _managedDatabase.GetAllPokerTellDatabaseNames();
+        }
+
+        public string GetDatabaseInUse()
+        {
+            string connectionString = _databaseSettings.GetConnectionStringFor(_managedDatabase.DataProviderInfo);
+
+            var connectionInfo = new DatabaseConnectionInfo(connectionString);
+            return connectionInfo.IsValidForDatabaseConnection() ? connectionInfo.Database : null;
         }
 
         #endregion

@@ -50,7 +50,7 @@ namespace PokerTell.DatabaseSetup
         /// <summary>
         /// Obtains connection string for current provider from the settings
         /// </summary>
-        /// <returns>connection string</returns>
+        /// <returns>connection string or null if cone was found</returns>
         public string GetConnectionStringFor(IDataProviderInfo dataProviderInfo)
         {
             if (ConnectionStringExistsFor(dataProviderInfo))
@@ -58,7 +58,8 @@ namespace PokerTell.DatabaseSetup
                 return
                     _settings.ConnectionStrings[dataProviderInfo.FullName].ConnectionString.TrimEnd(';');
             }
-            return string.Empty;
+
+            return null;
         }
 
         public IDataProviderInfo GetCurrentDataProvider()
@@ -100,6 +101,7 @@ namespace PokerTell.DatabaseSetup
                 _settings.ConnectionStrings[dataProviderInfo.FullName].ConnectionString = connectionString;
             }
 
+            _settings.Save(ConfigurationSaveMode.Minimal);
             return this;
         }
 

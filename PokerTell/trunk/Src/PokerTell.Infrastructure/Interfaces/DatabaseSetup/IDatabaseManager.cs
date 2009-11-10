@@ -17,5 +17,11 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         IEnumerable<string> GetAllPokerTellDatabases();
 
         #endregion
+
+        /// <summary>
+        /// Finds databse used for the Provider
+        /// </summary>
+        /// <returns>Database in use or empty if none is found</returns>
+        string GetDatabaseInUse();
     }
 }

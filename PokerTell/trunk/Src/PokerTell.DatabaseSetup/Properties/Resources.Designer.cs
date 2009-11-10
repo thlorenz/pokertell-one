@@ -70,11 +70,47 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose Dataprovider.
+        /// </summary>
+        public static string ChooseDataProviderViewModel_Title {
+            get {
+                return ResourceManager.GetString("ChooseDataProviderViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Commands_Cancel {
+            get {
+                return ResourceManager.GetString("Commands_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear.
+        /// </summary>
+        public static string Commands_Clear {
+            get {
+                return ResourceManager.GetString("Commands_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Commands_Close {
             get {
                 return ResourceManager.GetString("Commands_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Confirm.
+        /// </summary>
+        public static string Commands_Confirm {
+            get {
+                return ResourceManager.GetString("Commands_Confirm", resourceCulture);
             }
         }
         
@@ -201,6 +237,24 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database {0} was chosen and the settings saved successfully..
+        /// </summary>
+        public static string Info_DatabaseChosen {
+            get {
+                return ResourceManager.GetString("Info_DatabaseChosen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} server was chosen as your data provider and the settings saved successfully..
+        /// </summary>
+        public static string Info_DataProviderChosen {
+            get {
+                return ResourceManager.GetString("Info_DataProviderChosen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found MySql {0}  installed on your computer..
         /// </summary>
         public static string Info_FoundMySqInstallation {
@@ -304,6 +358,25 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning.
+        /// </summary>
+        public static string Title_Warning {
+            get {
+                return ResourceManager.GetString("Title_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All the data in the database will be lost!
+        ///Are you sure?.
+        /// </summary>
+        public static string Warning_AllDataInDatabaseWillBeLost {
+            get {
+                return ResourceManager.GetString("Warning_AllDataInDatabaseWillBeLost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The database you are trying to create already exists.
         ///Therefore it could not be created.
         ///If you were trying to delete all its data, use Clear Database instead..
@@ -329,6 +402,16 @@ namespace PokerTell.DatabaseSetup.Properties {
         public static string Warning_MySqlNotUsedInPokerOffice {
             get {
                 return ResourceManager.GetString("Warning_MySqlNotUsedInPokerOffice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PokerTell couldn&apos;t find any configured dataprovider.
+        ///To remedy this please first configure a server to be used as your data provider..
+        /// </summary>
+        public static string Warning_NoConfiguredDataProvidersFoundInSettings {
+            get {
+                return ResourceManager.GetString("Warning_NoConfiguredDataProvidersFoundInSettings", resourceCulture);
             }
         }
         

@@ -178,6 +178,48 @@ namespace PokerTell.DatabaseSetup.Tests
             databaseMock.Verify(db => db.DeleteDatabase(DatabaseName));
         }
 
+        [Test]
+        public void GetDatabaseInUse_SettingsReturnNullConnectionString_ReturnsNull()
+        {
+            var settingsStub = new Mock<IDatabaseSettings>();
+            settingsStub
+                .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
+                .Returns<string>(null);
 
+            var sut = new DatabaseManager(_stub.Out<IManagedDatabase>(), settingsStub.Object);
+
+            Assert.That(sut.GetDatabaseInUse(), Is.Null);
+        }
+
+        [Test]
+        public void GetDatabaseInUse_SettingsReturnInvalidConnectionString_ReturnsNull()
+        {
+            var settingsStub = new Mock<IDatabaseSettings>();
+            settingsStub
+                .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
+                .Returns("invalidConnectionString");
+
+            var sut = new DatabaseManager(_stub.Out<IManagedDatabase>(), settingsStub.Object);
+
+            Assert.That(sut.GetDatabaseInUse(), Is.Null);
+        }
+
+        [Test]
+        public void GetDatabaseInUse_SettingsReturnValidConnectionString_ReturnsDatabaseName()
+        {
+            const string databaseName = "databaseName";
+           
+            string validConnectionString = string.Format(
+                "data source=localhost; user id = root; database = {0};", databaseName);
+          
+            var settingsStub = new Mock<IDatabaseSettings>();
+            settingsStub
+                .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
+                .Returns(validConnectionString);
+
+            var sut = new DatabaseManager(_stub.Out<IManagedDatabase>(), settingsStub.Object);
+
+            Assert.That(sut.GetDatabaseInUse(), Is.EqualTo(databaseName));
+        }
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="ChooseDatabaseViewModelTests.cs" />
     <Compile Include="ConfigureDataProviderViewModelTests.cs" />
     <Compile Include="ChooseDataProviderViewModelTests.cs" />
+    <Compile Include="ConfirmActionViewModelTests.cs" />
     <Compile Include="DatabaseConnectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseManagerTests.cs" />

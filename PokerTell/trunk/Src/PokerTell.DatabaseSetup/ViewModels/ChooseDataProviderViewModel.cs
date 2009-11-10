@@ -1,23 +1,123 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows.Input;
 
-    using Infrastructure.Interfaces.DatabaseSetup;
+    using Infrastructure.Events;
 
-    public class ChooseDataProviderViewModel
+    using Microsoft.Practices.Composite.Events;
+
+    using PokerTell.DatabaseSetup.Properties;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+
+    using Tools.WPF;
+
+    public class ChooseDataProviderViewModel : IComboBoxDialogViewModel
     {
+        #region Constants and Fields
+
+        readonly List<IDataProviderInfo> _availableProviders;
+
+        readonly IEventAggregator _eventAggregator;
+
+        readonly IDatabaseSettings _databaseSettings;
+
+        #endregion
+
         #region Constructors and Destructors
 
-        public ChooseDataProviderViewModel(IDatabaseSettings databaseSettings)
+        public ChooseDataProviderViewModel(IEventAggregator eventAggregator, IDatabaseSettings databaseSettings)
         {
-            AvailableProviders = new List<IDataProviderInfo>(databaseSettings.GetAvailableProviders());
+            _databaseSettings = databaseSettings;
+            _eventAggregator = eventAggregator;
+            _availableProviders = new List<IDataProviderInfo>(_databaseSettings.GetAvailableProviders());
+        }
+
+        void PublishWarning()
+        {
+            var userMessage = new UserMessageEventArgs(
+                UserMessageTypes.Warning, Resources.Warning_NoConfiguredDataProvidersFoundInSettings);
+            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
 
         #endregion
 
         #region Properties
 
-        public IList<IDataProviderInfo> AvailableProviders { get; private set; }
+        public IList<string> AvailableItems
+        {
+            get
+            {
+                return (from providerInfo in _availableProviders
+                        orderby providerInfo.NiceName
+                        select providerInfo.NiceName).ToList();
+            }
+        }
+
+        ICommand _saveSettingsCommand;
+
+        public ICommand CommitActionCommand
+        {
+            get
+            {
+                return _saveSettingsCommand ?? (_saveSettingsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            SaveSettings();
+                            PublishInfoMessage();
+                        }
+                    });
+            }
+        }
+
+        void SaveSettings()
+        {
+            var selectedProvider = (from providerInfo in _availableProviders
+                                   where providerInfo.NiceName.Equals(SelectedItem)
+                                   select providerInfo).First();
+            
+            _databaseSettings.SetCurrentDataProviderTo(selectedProvider);
+        }
+
+        void PublishInfoMessage()
+        {
+            string msg = string.Format(Resources.Info_DataProviderChosen, SelectedItem);
+            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
+            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+        }
+
+        public string SelectedItem { get; set; }
+
+        public string Title
+        {
+            get { return Resources.ChooseDataProviderViewModel_Title; }
+        }
+
+        public string ActionName
+        {
+            get { return Resources.Commands_Save; }
+        }
+
+        public IComboBoxDialogViewModel DetermineSelectedItem()
+        {
+            if (_availableProviders.Count > 0)
+            {
+                IsValid = true;
+                var currentProvider = _databaseSettings.GetCurrentDataProvider();
+                SelectedItem = currentProvider != null ? currentProvider.NiceName : AvailableItems.First();
+            }
+            else
+            {
+                IsValid = false;
+                PublishWarning();
+            }
+
+            return this;
+        }
+
+        public bool IsValid { get; private set; }
 
         #endregion
     }

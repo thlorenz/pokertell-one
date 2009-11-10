@@ -21,9 +21,9 @@ namespace PokerTell.DatabaseSetup
         {
             if (!string.IsNullOrEmpty(connString))
             {
-                const string patServer = @"Data Source\s*=\s*(?<serverName>[^;\b]+)[;\b]";
-                const string patUser = @"User\sID\s*=\s*(?<userName>[^;\b]+)[;\b]";
-                const string patPassword = @"(pwd|password)\s*=\s*(?<password>('(([^'])|(''))+'|[^';]+))";
+                const string patServer = @"Data Source\s*=\s*(?<serverName>[^;\b]+)";
+                const string patUser = @"User\sID\s*=\s*(?<userName>[^;\b]+)";
+                const string patPassword = @"(pwd|password)\s*=\s*(?<password>('(([^'])|(''))+'|[^';\b]+))";
                 const string patDatabase = @"(Initial Catalog|Database)\s*=\s*(?<databaseName>[^;\b]+)";
 
                 Match m = Regex.Match(connString, patServer, RegexOptions.IgnoreCase);

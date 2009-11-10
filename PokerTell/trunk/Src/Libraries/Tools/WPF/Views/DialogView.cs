@@ -1,4 +1,4 @@
-namespace PokerTell.DatabaseSetup.Views
+namespace Tools.WPF.Views
 {
     using System.Windows;
     using System.Windows.Input;
