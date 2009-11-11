@@ -127,11 +127,20 @@
                 Margin="5"
                 CornerRadius="5, 5, 0, 0"
                 Background="{StaticResource ControlBackgroundBrush}">
-                <Menu
+                <Menu 
                     cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainMenuRegion}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top">
+                    <MenuItem Header="Database" 
+                            cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellDatabaseMenuRegion}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top">
+                        <MenuItem Header="Import Hand Histories" />
+                        <MenuItem Header="Transfer Databases" />
+                        <Separator />
+                    </MenuItem>
                 </Menu>
+
             </Border>
 
             <!-- MainRegion-->

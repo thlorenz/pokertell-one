@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Views="clr-namespace:Tools.WPF.Views;assembly=Tools" 
     xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties"
+    AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
     ShowInTaskbar="False"   

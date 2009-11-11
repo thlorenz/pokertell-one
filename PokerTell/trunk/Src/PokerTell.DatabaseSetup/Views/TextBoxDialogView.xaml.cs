@@ -3,18 +3,18 @@ namespace PokerTell.DatabaseSetup.Views
     using Interfaces;
 
     /// <summary>
-    /// Interaction logic for ComboBoxDialogView.xaml
+    /// Interaction logic for TextBoxDialogView.xaml
     /// </summary>
-    public partial class ComboBoxDialogView
+    public partial class TextBoxDialogView
     {
         #region Constructors and Destructors
 
-        public ComboBoxDialogView()
+        public TextBoxDialogView()
         {
             InitializeComponent();
         }
 
-        public ComboBoxDialogView(IComboBoxDialogViewModel viewModel)
+        public TextBoxDialogView(ITextBoxDialogViewModel viewModel)
             : this()
         {
             DataContext = viewModel;

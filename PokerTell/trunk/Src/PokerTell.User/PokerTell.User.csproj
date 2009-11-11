@@ -85,7 +85,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserMessageViewFactory.cs" />
     <Compile Include="UserModule.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="UserConfiguration.cs" />

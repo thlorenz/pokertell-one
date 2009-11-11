@@ -1,7 +1,8 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
-    using System.Collections.Generic;
-    using System.Windows.Input;
+    using System.Collections.ObjectModel;
+
+    using Interfaces;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -9,17 +10,11 @@ namespace PokerTell.DatabaseSetup.ViewModels
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
-    using Tools.WPF;
-
-    public class ChooseDatabaseViewModel : IComboBoxDialogViewModel
+    public class ChooseDatabaseViewModel : SelectThenActOnItemViewModel
     {
         #region Constants and Fields
 
-        readonly IList<string> _availableDatabases;
-
         protected readonly IDatabaseManager _databaseManager;
-
-        ICommand _commitActionCommand;
 
         protected readonly IEventAggregator _eventAggregator;
 
@@ -31,10 +26,20 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             _eventAggregator = eventAggregator;
             _databaseManager = databaseManager;
-            _availableDatabases = new List<string>(_databaseManager.GetAllPokerTellDatabases());
+            AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
         }
 
-        public virtual IComboBoxDialogViewModel DetermineSelectedItem()
+        #endregion
+
+        #region Properties
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IComboBoxDialogViewModel
+
+        public override IComboBoxDialogViewModel DetermineSelectedItem()
         {
             SelectedItem = _databaseManager.GetDatabaseInUse() ?? string.Empty;
             return this;
@@ -42,26 +47,11 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         #endregion
 
-        #region Properties
+        #endregion
 
-        public IList<string> AvailableItems
-        {
-            get { return _availableDatabases; }
-        }
+        #region Methods
 
-        public ICommand CommitActionCommand
-        {
-            get
-            {
-                return _commitActionCommand ?? (_commitActionCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => CommitAction(), 
-                        CanExecuteDelegate = arg => ! string.IsNullOrEmpty(SelectedItem)
-                    });
-            }
-        }
-
-        protected virtual void CommitAction()
+        protected override void CommitAction()
         {
             _databaseManager.ChooseDatabase(SelectedItem);
             PublishInfoMessage();
@@ -69,21 +59,19 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         void PublishInfoMessage()
         {
-            string msg = string.Format(Resources.Info_DatabaseChosen, SelectedItem);
-            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
+            string message = string.Format(Resources.Info_DatabaseChosen, SelectedItem);
+            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, message);
             _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
 
-        public string SelectedItem { get; set; }
-
-        public string Title
+        public override string Title
         {
             get { return Resources.ChooseDatabaseViewModel_Title; }
         }
 
-        public string ActionName
+        public override string ActionName
         {
-            get { return Resources.Commands_Save; }
+            get { return Resources.Commands_Choose; }
         }
 
         #endregion

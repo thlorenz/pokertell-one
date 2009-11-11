@@ -50,6 +50,7 @@ namespace PokerTell.DatabaseSetup
             }
 
             _managedDatabase.ChooseDatabase(databaseName);
+            
             _managedDatabase.CreateTables();
             return this;
         }
@@ -88,6 +89,11 @@ namespace PokerTell.DatabaseSetup
 
             var connectionInfo = new DatabaseConnectionInfo(connectionString);
             return connectionInfo.IsValidForDatabaseConnection() ? connectionInfo.Database : null;
+        }
+
+        public bool DatabaseExists(string databaseName)
+        {
+            return _managedDatabase.DatabaseExists(databaseName);
         }
 
         #endregion

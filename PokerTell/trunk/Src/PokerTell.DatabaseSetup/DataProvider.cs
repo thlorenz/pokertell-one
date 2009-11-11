@@ -1,10 +1,13 @@
 namespace PokerTell.DatabaseSetup
 {
+    using System;
     using System.Data;
     using System.Data.Common;
     using System.Text;
 
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+
+    using Properties;
 
     public class DataProvider : IDataProvider
     {
@@ -56,6 +59,11 @@ namespace PokerTell.DatabaseSetup
         #region Implemented Interfaces
 
         #region IDataProvider
+
+        public string DatabaseName
+        {
+            get { return IsConnectedToDatabase ? Connection.Database : Resources.Status_NotConnectedToDatabase; }
+        }
 
         public void Connect(string connString, string providerName)
         {

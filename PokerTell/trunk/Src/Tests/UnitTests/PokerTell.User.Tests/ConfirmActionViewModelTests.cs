@@ -1,10 +1,10 @@
-namespace PokerTell.DatabaseSetup.Tests
+namespace PokerTell.User.Tests
 {
     using System;
 
     using NUnit.Framework;
 
-    using User.ViewModels;
+    using ViewModels;
 
     public class ConfirmActionViewModelTests
     {

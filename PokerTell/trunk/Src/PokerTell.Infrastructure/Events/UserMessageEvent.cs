@@ -1,14 +1,12 @@
 namespace PokerTell.Infrastructure.Events
 {
     using System;
-    using System.Runtime.Serialization;
 
     using Microsoft.Practices.Composite.Presentation.Events;
 
     public class UserMessageEvent : CompositePresentationEvent<UserMessageEventArgs>
     {
     }
-
 
     public class UserMessageEventArgs
     {
@@ -18,13 +16,12 @@ namespace PokerTell.Infrastructure.Events
 
         public string UserMessage { get; private set; }
 
-
          public UserMessageEventArgs(UserMessageTypes messageType, string userMessage)
              : this(messageType, userMessage, null)
          {
          }
 
-        public UserMessageEventArgs(UserMessageTypes messageType, string userMessage , Exception exception)
+        public UserMessageEventArgs(UserMessageTypes messageType, string userMessage, Exception exception)
         {
             MessageType = messageType;
             Exception = exception;
@@ -36,7 +33,6 @@ namespace PokerTell.Infrastructure.Events
             return string.Format("MessageType: {0}\nUserMessage: {1}\nException:\n[{2}]", MessageType, UserMessage, Exception);
         }
     }
-
 
     public enum UserMessageTypes
     {

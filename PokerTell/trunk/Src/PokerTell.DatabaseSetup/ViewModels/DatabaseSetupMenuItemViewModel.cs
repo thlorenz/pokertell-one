@@ -20,7 +20,11 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         ICommand _chooseDataProviderCommand;
 
+        ICommand _clearDatabaseCommand;
+
         ICommand _configureMySqlProviderCommand;
+
+        ICommand _deleteDatabaseCommand;
 
         #endregion
 
@@ -42,13 +46,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
                 return _chooseDatabaseCommand ?? (_chooseDatabaseCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
-                            var databaseConnector = _container.Resolve<IDatabaseConnector>();
-                            IDatabaseManager databaseManager =
-                                databaseConnector
-                                    .InitializeFromSettings()
-                                    .ConnectToServer()
-                                    .CreateDatabaseManager();
-                           
+                            IDatabaseManager databaseManager = CreateDatabaseManager();
+
                             if (databaseManager != null)
                             {
                                 _container
@@ -56,8 +55,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
                                 new ComboBoxDialogView(
                                     _container
-                                    .Resolve<ChooseDatabaseViewModel>()
-                                    .DetermineSelectedItem())
+                                        .Resolve<ChooseDatabaseViewModel>()
+                                        .DetermineSelectedItem())
                                     .ShowDialog();
                             }
                         }, 
@@ -73,11 +72,35 @@ namespace PokerTell.DatabaseSetup.ViewModels
                     {
                         ExecuteDelegate = arg => {
                             var chooseProviderViewModel = _container.Resolve<ChooseDataProviderViewModel>();
-                               chooseProviderViewModel.DetermineSelectedItem();
-                          
+                            chooseProviderViewModel.DetermineSelectedItem();
+
                             if (chooseProviderViewModel.IsValid)
                             {
                                 new ComboBoxDialogView(chooseProviderViewModel).ShowDialog();
+                            }
+                        }
+                    });
+            }
+        }
+
+        public ICommand ClearDatabaseCommand
+        {
+            get
+            {
+                return _clearDatabaseCommand ?? (_clearDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            IDatabaseManager databaseManager = CreateDatabaseManager();
+
+                            if (databaseManager != null)
+                            {
+                                _container
+                                    .RegisterInstance(databaseManager);
+
+                                new ComboBoxDialogView(
+                                    _container.Resolve<ClearDatabaseViewModel>()
+                                        .DetermineSelectedItem())
+                                    .ShowDialog();
                             }
                         }
                     });
@@ -102,6 +125,70 @@ namespace PokerTell.DatabaseSetup.ViewModels
                         }
                     });
             }
+        }
+
+        public ICommand DeleteDatabaseCommand
+        {
+            get
+            {
+                return _deleteDatabaseCommand ?? (_deleteDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            IDatabaseManager databaseManager = CreateDatabaseManager();
+
+                            if (databaseManager != null)
+                            {
+                                _container
+                                    .RegisterInstance(databaseManager);
+
+                                new ComboBoxDialogView(
+                                    _container.Resolve<DeleteDatabaseViewModel>()
+                                        .RemoveDatabaseInUseFromAvailableItems()
+                                        .DetermineSelectedItem())
+                                    .ShowDialog();
+                            }
+                        }
+                    });
+            }
+        }
+
+        ICommand _createDatabaseCommand;
+
+        public ICommand CreateDatabaseCommand
+        {
+            get
+            {
+                return _createDatabaseCommand ?? (_createDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg =>
+                        {
+                            IDatabaseManager databaseManager = CreateDatabaseManager();
+
+                            if (databaseManager != null)
+                            {
+                                _container
+                                    .RegisterInstance(databaseManager);
+
+                                new TextBoxDialogView(
+                                    _container.Resolve<CreateDatabaseViewModel>())
+                                    .ShowDialog();
+                            }
+                        }
+                    });
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        IDatabaseManager CreateDatabaseManager()
+        {
+            var databaseConnector = _container.Resolve<IDatabaseConnector>();
+            return databaseConnector
+                .InitializeFromSettings()
+                .ConnectToServer()
+                .CreateDatabaseManager();
         }
 
         #endregion

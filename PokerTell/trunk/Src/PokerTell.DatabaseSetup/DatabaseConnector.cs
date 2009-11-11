@@ -2,42 +2,45 @@ namespace PokerTell.DatabaseSetup
 {
     using System;
 
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.DatabaseSetup;
-
     using Microsoft.Practices.Composite.Events;
 
-    using Properties;
+    using PokerTell.DatabaseSetup.Properties;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class DatabaseConnector : IDatabaseConnector
     {
+        #region Constants and Fields
+
         readonly IDatabaseSettings _databaseSettings;
-
-        public IDataProvider DataProvider { get; private set; }
-
-        IDataProviderInfo _dataProviderInfo;
 
         readonly IEventAggregator _eventAggregator;
 
-        public DatabaseConnector(IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
+        IDataProviderInfo _dataProviderInfo;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        public DatabaseConnector(
+            IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
         {
             _eventAggregator = eventAggregator;
             _databaseSettings = databaseSettings;
             DataProvider = dataProvider;
         }
 
-        public IDatabaseConnector InitializeWith(IDataProviderInfo dataProviderInfo)
-        {
-            _dataProviderInfo = dataProviderInfo;
-            return this;
-        }
+        #endregion
 
-        public IDatabaseConnector InitializeFromSettings()
-        {
-            var dataProviderInfo = _databaseSettings.GetCurrentDataProvider();
-            
-            return InitializeWith(dataProviderInfo);
-        }
+        #region Properties
+
+        public IDataProvider DataProvider { get; private set; }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IDatabaseConnector
 
         public IDatabaseConnector ConnectToServer()
         {
@@ -49,40 +52,23 @@ namespace PokerTell.DatabaseSetup
 
             if (ProviderIsNotAvailable())
             {
-                return this;   
-            }
-
-            string serverConnectString = _databaseSettings.GetServerConnectStringFor(_dataProviderInfo);
-            if (ServerConnectStringIsInvalid(serverConnectString))
-            {
                 return this;
             }
 
-            TryToConnectToTheServerUsing(serverConnectString, false);
+            if (! _dataProviderInfo.IsEmbedded)
+            {
+                ConnectToExternalServer();
+            }
 
             return this;
         }
 
-        public void TryToConnectToTheServerUsing(string serverConnectString, bool showSuccessMessage)
+        void ConnectToExternalServer()
         {
-            try
+            string serverConnectString = _databaseSettings.GetServerConnectStringFor(_dataProviderInfo);
+            if (!ServerConnectStringIsInvalid(serverConnectString))
             {
-                if (! _dataProviderInfo.IsEmbedded)
-                {
-                    DataProvider.Connect(serverConnectString, _dataProviderInfo.FullName);
-                }
-
-                DataProvider.ParameterPlaceHolder = _dataProviderInfo.ParameterPlaceHolder;
-
-                if (showSuccessMessage)
-                {
-                    PublishSuccessMessage();
-                }
-            }
-            catch (Exception excep)
-            {
-                PublishErrorMessage(
-                    string.Format(Resources.Error_UnableToConnectToServer, _dataProviderInfo.NiceName), excep);
+                TryToConnectToServerUsing(serverConnectString, false);
             }
         }
 
@@ -91,13 +77,13 @@ namespace PokerTell.DatabaseSetup
             if (_dataProviderInfo != null)
             {
                 IManagedDatabase managedDatabase;
-            
+
                 if (_dataProviderInfo.IsEmbedded)
                 {
                     managedDatabase = new EmbeddedManagedDatabase(DataProvider, _dataProviderInfo);
                     return new DatabaseManager(managedDatabase, _databaseSettings);
                 }
-            
+
                 if (DataProvider.IsConnectedToServer)
                 {
                     managedDatabase = new ExternalManagedDatabase(DataProvider, _dataProviderInfo);
@@ -108,20 +94,82 @@ namespace PokerTell.DatabaseSetup
             return null;
         }
 
-        bool ServerConnectStringIsInvalid(string serverConnectString)
+        public IDatabaseConnector InitializeFromSettings()
         {
-            var databaseConnectionInfo = new DatabaseConnectionInfo(serverConnectString);
+            IDataProviderInfo dataProviderInfo = _databaseSettings.GetCurrentDataProvider();
 
-            if (databaseConnectionInfo.IsValidForServerOnlyConnection())
+            return InitializeWith(dataProviderInfo);
+        }
+
+        public IDatabaseConnector InitializeWith(IDataProviderInfo dataProviderInfo)
+        {
+            _dataProviderInfo = dataProviderInfo;
+            return this;
+        }
+
+        public void TryToConnectToDatabaseUsing(string connectionString)
+        {
+            try
             {
-                return false;
+                DataProvider.Connect(connectionString, _dataProviderInfo.FullName);
+            }
+            catch (Exception excep)
+            {
+                string message = string.Format(Resources.Error_UnableToConnectToDatabaseSpecifiedInTheSettings);
+                if (! _dataProviderInfo.IsEmbedded)
+                {
+                    message += "\n" + string.Format(Resources.Hint_EnsureExternalServerIsRunning, _dataProviderInfo.NiceName);
+                }
+
+                PublishErrorMessage(message, excep);
+
+                return;
             }
 
-            PublishErrorMessage(
-                string.Format(Resources.Error_SettingsContainInvalidServerConnectString, _dataProviderInfo.NiceName));
-           
-            return true;
+            PublishStatusUpdate();
         }
+
+        void PublishStatusUpdate()
+        {
+            var statusMessage = string.Format(
+                Resources.Status_ConnectedTo, DataProvider.DatabaseName, _dataProviderInfo.NiceName);
+            
+            var statusUpdate = new StatusUpdateEventArgs(StatusTypes.DatabaseConnection, statusMessage);
+           
+            _eventAggregator
+                .GetEvent<StatusUpdateEvent>()
+                .Publish(statusUpdate);
+        }
+
+        public void TryToConnectToServerUsing(string serverConnectString, bool showSuccessMessage)
+        {
+            if (!_dataProviderInfo.IsEmbedded)
+            {
+                try
+                {
+                    DataProvider.Connect(serverConnectString, _dataProviderInfo.FullName);
+                }
+                catch (Exception excep)
+                {
+                    PublishErrorMessage(
+                        string.Format(Resources.Error_UnableToConnectToServer, _dataProviderInfo.NiceName), excep);
+                    return;
+                }
+            }
+
+            DataProvider.ParameterPlaceHolder = _dataProviderInfo.ParameterPlaceHolder;
+
+            if (showSuccessMessage)
+            {
+                PublishSuccessMessage();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
 
         bool ProviderIsNotAvailable()
         {
@@ -142,12 +190,6 @@ namespace PokerTell.DatabaseSetup
             _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
 
-        void PublishWarningMessage(string message)
-        {
-            var userMessage = new UserMessageEventArgs(UserMessageTypes.Warning, message);
-            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
-        }
-
         void PublishErrorMessage(string message, Exception excep)
         {
             var userMessage = new UserMessageEventArgs(UserMessageTypes.Error, message, excep);
@@ -158,11 +200,34 @@ namespace PokerTell.DatabaseSetup
         {
             string msg =
                 string.Format(
-                    Resources.Info_SuccessfullyConnectedToServer,
+                    Resources.Info_SuccessfullyConnectedToServer, 
                     _dataProviderInfo.NiceName);
             var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
 
             _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
+
+        void PublishWarningMessage(string message)
+        {
+            var userMessage = new UserMessageEventArgs(UserMessageTypes.Warning, message);
+            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+        }
+
+        bool ServerConnectStringIsInvalid(string serverConnectString)
+        {
+            var databaseConnectionInfo = new DatabaseConnectionInfo(serverConnectString);
+
+            if (databaseConnectionInfo.IsValidForServerOnlyConnection())
+            {
+                return false;
+            }
+
+            PublishErrorMessage(
+                string.Format(Resources.Error_SettingsContainInvalidServerConnectString, _dataProviderInfo.NiceName));
+
+            return true;
+        }
+
+        #endregion
     }
 }

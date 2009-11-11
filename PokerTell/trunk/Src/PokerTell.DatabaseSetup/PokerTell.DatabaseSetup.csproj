@@ -101,18 +101,26 @@
     <Compile Include="DatabaseSetupModule.cs" />
     <Compile Include="SqLiteInfo.cs" />
     <Compile Include="DataProviderInfos.cs" />
+    <Compile Include="Interfaces\ITextBoxDialogViewModel.cs" />
+    <Compile Include="ViewModels\CreateDatabaseViewModel.cs" />
+    <Compile Include="ViewModels\SelectThenActOnItemViewModel.cs" />
+    <Compile Include="ViewModels\SetThenActOnItemViewModel.cs" />
     <Compile Include="ViewModels\ChooseDatabaseViewModel.cs" />
     <Compile Include="ViewModels\ClearDatabaseViewModel.cs" />
     <Compile Include="ViewModels\ConfigureDataProviderViewModel.cs" />
     <Compile Include="ViewModels\ConfigureMySqlDataProviderViewModel.cs" />
     <Compile Include="ViewModels\ChooseDataProviderViewModel.cs" />
+    <Compile Include="ViewModels\DeleteDatabaseViewModel.cs" />
     <Compile Include="ViewModels\DatabaseSetupMenuItemViewModel.cs" />
-    <Compile Include="ViewModels\IComboBoxDialogViewModel.cs" />
+    <Compile Include="Interfaces\IComboBoxDialogViewModel.cs" />
     <Compile Include="Views\ComboBoxDialogView.xaml.cs">
       <DependentUpon>ComboBoxDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ConfigureMySqlDataProviderView.xaml.cs">
       <DependentUpon>ConfigureMySqlDataProviderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TextBoxDialogView.xaml.cs">
+      <DependentUpon>TextBoxDialogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DatabaseSetupMenuItemFactory.cs" />
   </ItemGroup>
@@ -141,9 +149,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <Page Include="Views\TextBoxDialogView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

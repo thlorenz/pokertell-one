@@ -104,7 +104,7 @@ namespace PokerTell.DatabaseSetup
 
         #region Methods
 
-        static string AppendFileExtensionTo(string databaseName)
+        static string DatabaseNameWithAddedFileExtension(string databaseName)
         {
             return databaseName + "." + FileExtension;
         }
@@ -142,7 +142,7 @@ namespace PokerTell.DatabaseSetup
 
         string FullPathFor(string databaseName)
         {
-            return _databaseDirectory + AppendFileExtensionTo(databaseName);
+            return _databaseDirectory + DatabaseNameWithAddedFileExtension(databaseName);
         }
 
         void ValidateDatabaseDirectoryAndRecreateIfNeccessary()

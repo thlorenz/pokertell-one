@@ -55,6 +55,10 @@ namespace PokerTell.DatabaseSetup
         {
             var connectionInfo = new DatabaseConnectionInfo(_dataProvider.Connection.ConnectionString);
             ConnectionString = string.Format("{0} Database = {1};", connectionInfo.ServerConnectString, databaseName);
+            
+            string nonQuery = string.Format("USE {0};", databaseName);
+            _dataProvider.ExecuteNonQuery(nonQuery);
+         
             return this;
         }
 
@@ -65,6 +69,7 @@ namespace PokerTell.DatabaseSetup
 
             nonQuery = string.Format("USE {0};", databaseName);
             _dataProvider.ExecuteNonQuery(nonQuery);
+
             return this;
         }
 

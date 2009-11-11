@@ -2,10 +2,13 @@ namespace PokerTell.DatabaseSetup.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
 
     using Infrastructure.Events;
+
+    using Interfaces;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -18,7 +21,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
     {
         #region Constants and Fields
 
-        readonly List<IDataProviderInfo> _availableProviders;
+        readonly IList<IDataProviderInfo> _availableProviders;
 
         readonly IEventAggregator _eventAggregator;
 
@@ -33,6 +36,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
             _databaseSettings = databaseSettings;
             _eventAggregator = eventAggregator;
             _availableProviders = new List<IDataProviderInfo>(_databaseSettings.GetAvailableProviders());
+            InitAvailableItems();
         }
 
         void PublishWarning()
@@ -46,16 +50,16 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         #region Properties
 
-        public IList<string> AvailableItems
-        {
-            get
-            {
-                return (from providerInfo in _availableProviders
-                        orderby providerInfo.NiceName
-                        select providerInfo.NiceName).ToList();
-            }
+       void InitAvailableItems()
+       {
+           AvailableItems = new ObservableCollection<string>(
+               from providerInfo in _availableProviders
+               orderby providerInfo.NiceName
+               select providerInfo.NiceName);
         }
 
+       public ObservableCollection<string> AvailableItems { get; private set; }
+       
         ICommand _saveSettingsCommand;
 
         public ICommand CommitActionCommand

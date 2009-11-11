@@ -23,5 +23,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         /// </summary>
         /// <returns>Database in use or empty if none is found</returns>
         string GetDatabaseInUse();
+
+        bool DatabaseExists(string databaseName);
     }
 }

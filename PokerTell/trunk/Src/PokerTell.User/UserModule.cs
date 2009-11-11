@@ -1,16 +1,14 @@
-using System.Reflection;
-
-using log4net;
-
-using Microsoft.Practices.Unity;
-
 namespace PokerTell.User
 {
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.User;
+    using System.Reflection;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Regions;
+    using Microsoft.Practices.Unity;
+
+    using PokerTell.Infrastructure.Interfaces;
 
     public class UserModule : IModule
     {
@@ -43,8 +41,7 @@ namespace PokerTell.User
         {
             _container
                 .RegisterType<IUserConfiguration, UserConfiguration>(new ContainerControlledLifetimeManager())
-                .RegisterType<ISettings, Settings>(new ContainerControlledLifetimeManager())
-                .RegisterType<IUserMessageViewFactory, UserMessageViewFactory>();
+                .RegisterType<ISettings, Settings>(new ContainerControlledLifetimeManager());
 
             _container
                 .Resolve<UserService>();

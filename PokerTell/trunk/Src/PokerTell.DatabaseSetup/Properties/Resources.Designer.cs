@@ -79,11 +79,29 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear Database.
+        /// </summary>
+        public static string ClearDatabaseViewModel_Title {
+            get {
+                return ResourceManager.GetString("ClearDatabaseViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Commands_Cancel {
             get {
                 return ResourceManager.GetString("Commands_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose.
+        /// </summary>
+        public static string Commands_Choose {
+            get {
+                return ResourceManager.GetString("Commands_Choose", resourceCulture);
             }
         }
         
@@ -111,6 +129,24 @@ namespace PokerTell.DatabaseSetup.Properties {
         public static string Commands_Confirm {
             get {
                 return ResourceManager.GetString("Commands_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create.
+        /// </summary>
+        public static string Commands_Create {
+            get {
+                return ResourceManager.GetString("Commands_Create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Commands_Delete {
+            get {
+                return ResourceManager.GetString("Commands_Delete", resourceCulture);
             }
         }
         
@@ -187,6 +223,15 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Database.
+        /// </summary>
+        public static string CreateDatabaseViewModel_Title {
+            get {
+                return ResourceManager.GetString("CreateDatabaseViewModel_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Configure MySql Server.
         /// </summary>
         public static string DatabaseSetupMenu_ConfigureMySqlServer_Header {
@@ -201,6 +246,15 @@ namespace PokerTell.DatabaseSetup.Properties {
         public static string DatabaseSetupMenu_Header {
             get {
                 return ResourceManager.GetString("DatabaseSetupMenu_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Database.
+        /// </summary>
+        public static string DeleteDatabaseViewModel_Title {
+            get {
+                return ResourceManager.GetString("DeleteDatabaseViewModel_Title", resourceCulture);
             }
         }
         
@@ -226,6 +280,16 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PokerTell was unable to connect to the database specified in the settings.
+        ///Please choose/create another database..
+        /// </summary>
+        public static string Error_UnableToConnectToDatabaseSpecifiedInTheSettings {
+            get {
+                return ResourceManager.GetString("Error_UnableToConnectToDatabaseSpecifiedInTheSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PokerTell was unable to connect to the {0} server  as specified in the settings. 
         ///Please make sure the {0} server is running and check the Database Settings. 
         ///Ensure that the servername, username and possibly password were entered correctly..
@@ -237,11 +301,48 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Database {0} was chosen and the settings saved successfully..
+        ///   Looks up a localized string similar to Since your data provider is {0}, make sure, that its server is running..
+        /// </summary>
+        public static string Hint_EnsureExternalServerIsRunning {
+            get {
+                return ResourceManager.GetString("Hint_EnsureExternalServerIsRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database {0} was chosen successfully..
         /// </summary>
         public static string Info_DatabaseChosen {
             get {
                 return ResourceManager.GetString("Info_DatabaseChosen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database &quot;{0}&quot; has been cleared successfully..
+        /// </summary>
+        public static string Info_DatabaseCleared {
+            get {
+                return ResourceManager.GetString("Info_DatabaseCleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database {0} was created successfully.
+        ///In order to use it as your PokerTell database make sure to choose it via the {1} Menu..
+        /// </summary>
+        public static string Info_DatabaseCreated {
+            get {
+                return ResourceManager.GetString("Info_DatabaseCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database &quot;{0}&quot; has been deleted successfully..
+        /// </summary>
+        public static string Info_DatabaseDeleted {
+            get {
+                return ResourceManager.GetString("Info_DatabaseDeleted", resourceCulture);
             }
         }
         
@@ -358,6 +459,24 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connected to {0} using {1}.
+        /// </summary>
+        public static string Status_ConnectedTo {
+            get {
+                return ResourceManager.GetString("Status_ConnectedTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to not connected to any database.
+        /// </summary>
+        public static string Status_NotConnectedToDatabase {
+            get {
+                return ResourceManager.GetString("Status_NotConnectedToDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning.
         /// </summary>
         public static string Title_Warning {
@@ -367,7 +486,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All the data in the database will be lost!
+        ///   Looks up a localized string similar to All the data in the database &quot;{0}&quot; will be lost!
         ///Are you sure?.
         /// </summary>
         public static string Warning_AllDataInDatabaseWillBeLost {

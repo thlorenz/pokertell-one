@@ -4,7 +4,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
     {
         IDatabaseConnector ConnectToServer();
 
-        void TryToConnectToTheServerUsing(string serverConnectString, bool showSuccessMessage);
+        void TryToConnectToServerUsing(string serverConnectString, bool showSuccessMessage);
 
         IDatabaseConnector InitializeWith(IDataProviderInfo dataProviderInfo);
 
@@ -13,5 +13,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         IDatabaseManager CreateDatabaseManager();
 
         IDataProvider DataProvider { get; }
+
+        void TryToConnectToDatabaseUsing(string connectionString);
     }
 }

@@ -356,7 +356,7 @@ Please define it by using Choose Data Provider form the Database Menu.</value>
 To remedy this please first configure a server to be used as your data provider.</value>
   </data>
   <data name="Info_DatabaseChosen" xml:space="preserve">
-    <value>Database {0} was chosen and the settings saved successfully.</value>
+    <value>Database {0} was chosen successfully.</value>
   </data>
   <data name="Commands_Clear" xml:space="preserve">
     <value>Clear</value>
@@ -374,7 +374,48 @@ To remedy this please first configure a server to be used as your data provider.
     <value>Warning</value>
   </data>
   <data name="Warning_AllDataInDatabaseWillBeLost" xml:space="preserve">
-    <value>All the data in the database will be lost!
+    <value>All the data in the database "{0}" will be lost!
 Are you sure?</value>
+  </data>
+  <data name="Info_DatabaseCleared" xml:space="preserve">
+    <value>Database "{0}" has been cleared successfully.</value>
+  </data>
+  <data name="ClearDatabaseViewModel_Title" xml:space="preserve">
+    <value>Clear Database</value>
+  </data>
+  <data name="Commands_Choose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="Commands_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteDatabaseViewModel_Title" xml:space="preserve">
+    <value>Delete Database</value>
+  </data>
+  <data name="Info_DatabaseDeleted" xml:space="preserve">
+    <value>Database "{0}" has been deleted successfully.</value>
+  </data>
+  <data name="Commands_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="CreateDatabaseViewModel_Title" xml:space="preserve">
+    <value>Create Database</value>
+  </data>
+  <data name="Info_DatabaseCreated" xml:space="preserve">
+    <value>Database {0} was created successfully.
+In order to use it as your PokerTell database make sure to choose it via the {1} Menu.</value>
+  </data>
+  <data name="Error_UnableToConnectToDatabaseSpecifiedInTheSettings" xml:space="preserve">
+    <value>PokerTell was unable to connect to the database specified in the settings.
+Please choose/create another database.</value>
+  </data>
+  <data name="Hint_EnsureExternalServerIsRunning" xml:space="preserve">
+    <value>Since your data provider is {0}, make sure, that its server is running.</value>
+  </data>
+  <data name="Status_ConnectedTo" xml:space="preserve">
+    <value>Connected to {0} using {1}</value>
+  </data>
+  <data name="Status_NotConnectedToDatabase" xml:space="preserve">
+    <value>not connected to any database</value>
   </data>
 </root>

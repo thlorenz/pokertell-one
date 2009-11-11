@@ -4,8 +4,6 @@ namespace PokerTell
 
     using DatabaseSetup;
 
-    using Infrastructure.Interfaces.User;
-
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.UnityExtensions;
 

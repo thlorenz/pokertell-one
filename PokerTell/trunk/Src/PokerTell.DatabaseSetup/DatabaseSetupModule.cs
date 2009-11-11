@@ -56,7 +56,7 @@ namespace PokerTell.DatabaseSetup
                 .RegisterType<ConfigureMySqlDataProviderView>();
 
             MenuItem databaseSetupMenuItem = _container.Resolve<DatabaseSetupMenuItemFactory>().Create();
-            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(databaseSetupMenuItem);
+            _regionManager.RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, () => _container.Resolve<DatabaseSetupMenuItemFactory>().Create());
 
             Log.Info("got initialized.");
         }

@@ -1,6 +1,7 @@
 namespace PokerTell.DatabaseSetup.Tests
 {
     using System;
+    using System.Data;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -17,7 +18,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
         const string ValidServerConnectString = "data Source = someSource; user id = someUser;";
 
-        IEventAggregator _aggregator;
+        IEventAggregator _eventAggregator;
 
         Mock<IDataProvider> _dataProviderMock;
 
@@ -32,11 +33,11 @@ namespace PokerTell.DatabaseSetup.Tests
         {
             _stub = new StubBuilder();
             _dataProviderMock = new Mock<IDataProvider>();
-            _aggregator = new EventAggregator();
+            _eventAggregator = new EventAggregator();
         }
 
         [Test]
-        public void ConnectToServer_InvalidServerConnectStringFoundInSettings_DoesNotConnectDataProvider()
+        public void ConnectToServer_ExternalDatabaseInvalidServerConnectStringFoundInSettings_DoesNotConnectDataProvider()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
@@ -46,7 +47,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(ds => ds.GetServerConnectStringFor(It.IsAny<IDataProviderInfo>()))
                 .Returns("invalid serverConnectString");
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                .InitializeWith(_stub.Out<IDataProviderInfo>())
                .ConnectToServer();
 
@@ -54,7 +55,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void ConnectToServer_InvalidServerConnectStringFoundInSettings_PublishesError()
+        public void ConnectToServer_ExternalDatabaseInvalidServerConnectStringFoundInSettings_PublishesError()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
@@ -65,10 +66,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Returns("invalid serverConnectString");
 
             bool errorWasPublished = false;
-            _aggregator.GetEvent<UserMessageEvent>()
+            _eventAggregator.GetEvent<UserMessageEvent>()
                 .Subscribe(arg => errorWasPublished = arg.MessageType.Equals(UserMessageTypes.Error));
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                 .InitializeWith(_stub.Out<IDataProviderInfo>())
                 .ConnectToServer();
 
@@ -76,14 +77,14 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void ConnectToServer_ServerConnectStringNotFoundInSettings_DoesNotConnectDataProvider()
+        public void ConnectToServer_ExternalDatabaseServerConnectStringNotFoundInSettings_DoesNotConnectDataProvider()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
                 .Setup(ds => ds.ProviderIsAvailable(It.IsAny<IDataProviderInfo>()))
                 .Returns(false);
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                 .InitializeWith(_stub.Out<IDataProviderInfo>())
                 .ConnectToServer();
 
@@ -91,7 +92,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void ConnectToServer_ServerConnectStringNotFoundInSettings_PublishesError()
+        public void ConnectToServer_ExternalDatabaseServerConnectStringNotFoundInSettings_PublishesError()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
@@ -99,10 +100,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Returns(false);
 
             bool errorWasPublished = false;
-            _aggregator.GetEvent<UserMessageEvent>()
+            _eventAggregator.GetEvent<UserMessageEvent>()
                 .Subscribe(arg => errorWasPublished = arg.MessageType.Equals(UserMessageTypes.Error));
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                .InitializeWith(_stub.Out<IDataProviderInfo>())
                .ConnectToServer();
 
@@ -111,7 +112,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
         [Test]
         public void
-            ConnectToServer_ValidServerConnectStringAndConnectionSuccessful_DataProviderParameterPlaceHolderIsSetToAccordingToTheDataProviderInfo()
+            ConnectToServer_ExternalDatabaseValidServerConnectStringAndConnectionSuccessful_DataProviderParameterPlaceHolderIsSetToAccordingToTheDataProviderInfo()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
@@ -130,7 +131,7 @@ namespace PokerTell.DatabaseSetup.Tests
             _dataProviderMock
                 .SetupProperty(dp => dp.ParameterPlaceHolder);
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                .InitializeWith(dataProviderInfoStub.Object)
                .ConnectToServer();
 
@@ -138,7 +139,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void ConnectToServer_ValidServerConnectStringButConnectFails_PublishesError()
+        public void ConnectToServer_ExternalDatabaseValidServerConnectStringButConnectFails_PublishesError()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
@@ -152,10 +153,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Throws(new Exception());
 
             bool errorWasPublished = false;
-            _aggregator.GetEvent<UserMessageEvent>()
+            _eventAggregator.GetEvent<UserMessageEvent>()
                 .Subscribe(arg => errorWasPublished = arg.MessageType.Equals(UserMessageTypes.Error));
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                .InitializeWith(_stub.Out<IDataProviderInfo>())
                .ConnectToServer();
 
@@ -163,7 +164,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void ConnectToServer_ValidServerConnectStringFoundInSettings_ConnectsDataProvider()
+        public void ConnectToServer_ExternalDatabaseValidServerConnectStringFoundInSettings_ConnectsDataProvider()
         {
             var settingsStub = new Mock<IDatabaseSettings>();
             settingsStub
@@ -173,7 +174,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(ds => ds.GetServerConnectStringFor(It.IsAny<IDataProviderInfo>()))
                 .Returns(ValidServerConnectString);
 
-            var sut = new DatabaseConnector(_aggregator, settingsStub.Object, _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
                .InitializeWith(_stub.Out<IDataProviderInfo>())
                .ConnectToServer();
 
@@ -181,13 +182,13 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void ConnectToServer_DataProvideIsNullr_PublishesWarning()
+        public void ConnectToServer_DataProvideIsNull_PublishesWarning()
         {
             bool errorWasPublished = false;
-            _aggregator.GetEvent<UserMessageEvent>()
+            _eventAggregator.GetEvent<UserMessageEvent>()
                 .Subscribe(arg => errorWasPublished = arg.MessageType.Equals(UserMessageTypes.Warning));
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(null)
                 .ConnectToServer();
 
@@ -203,11 +204,11 @@ namespace PokerTell.DatabaseSetup.Tests
                 .SetupGet(dpi => dpi.IsEmbedded)
                 .Returns(false);
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(dataProviderInfoStub.Object);
 
             const string serverConnectString = "someString";
-            sut.TryToConnectToTheServerUsing(serverConnectString, _stub.Some(false));
+            sut.TryToConnectToServerUsing(serverConnectString, _stub.Some(false));
 
             _dataProviderMock.Verify(dp => dp.Connect(serverConnectString, It.IsAny<string>()));
         }
@@ -221,10 +222,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .SetupGet(dpi => dpi.IsEmbedded)
                 .Returns(true);
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(dataProviderInfoStub.Object);
 
-            sut.TryToConnectToTheServerUsing("someConnectString", _stub.Some(false));
+            sut.TryToConnectToServerUsing("someConnectString", _stub.Some(false));
 
             _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
         }
@@ -238,7 +239,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .SetupGet(dpi => dpi.IsEmbedded)
                 .Returns(true);
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(dataProviderInfoStub.Object);
 
             var dataBaseManager = sut.CreateDatabaseManager();
@@ -259,7 +260,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .SetupGet(dp => dp.IsConnectedToServer)
                 .Returns(false);
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(dataProviderInfoStub.Object);
 
             var dataBaseManager = sut.CreateDatabaseManager();
@@ -274,7 +275,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .SetupGet(dp => dp.IsConnectedToServer)
                 .Returns(false);
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(null);
 
             var dataBaseManager = sut.CreateDatabaseManager();
@@ -295,12 +296,52 @@ namespace PokerTell.DatabaseSetup.Tests
                 .SetupGet(dp => dp.IsConnectedToServer)
                 .Returns(true);
 
-            var sut = new DatabaseConnector(_aggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(dataProviderInfoStub.Object);
 
             var dataBaseManager = sut.CreateDatabaseManager();
 
             Assert.That(dataBaseManager, Is.Not.Null);
+        }
+
+        [Test]
+        public void TryToConnectToDatabaseUsing_ConnectionFails_PublishesError()
+        {
+            _dataProviderMock
+                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()))
+                .Throws(new Exception());
+
+            bool errorWasPublished = false;
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Subscribe(arg => errorWasPublished = arg.MessageType == UserMessageTypes.Error);
+
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+                .InitializeWith(_stub.Out<IDataProviderInfo>());
+
+            sut.TryToConnectToDatabaseUsing("someConnectionString");
+
+            Assert.That(errorWasPublished, Is.True);
+        }
+
+        [Test]
+        public void TryToConnectToDatabaseUsing_ConnectionSucceeds_PublishesStatusUpdate()
+        {
+            _dataProviderMock
+                .SetupGet(dp => dp.DatabaseName)
+                .Returns("someDatabase");
+            
+            bool statusUpdateWasPublished = false;
+            _eventAggregator
+                .GetEvent<StatusUpdateEvent>()
+                .Subscribe(arg => statusUpdateWasPublished = arg.StatusType == StatusTypes.DatabaseConnection);
+
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+                .InitializeWith(_stub.Out<IDataProviderInfo>());
+
+            sut.TryToConnectToDatabaseUsing("someConnectionString");
+
+            Assert.That(statusUpdateWasPublished, Is.True);
         }
         #endregion
     }

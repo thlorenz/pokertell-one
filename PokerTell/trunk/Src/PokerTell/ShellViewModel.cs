@@ -8,12 +8,9 @@ namespace PokerTell
 
     using log4net;
 
-    using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Composite.Regions;
 
     using PokerTell.Infrastructure;
-    using PokerTell.Infrastructure.Events;
-    using PokerTell.Infrastructure.Interfaces.User;
 
     using Tools.WPF;
     using Tools.WPF.Interfaces;
@@ -53,7 +50,7 @@ namespace PokerTell
         public ShellViewModel(IRegionManager regionManager)
         {
             _regionManager = regionManager;
-           
+
             try
             {
                 WindowState = WindowState.Normal;
