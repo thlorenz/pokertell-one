@@ -3,10 +3,14 @@
     using System.Windows;
     using System.Windows.Input;
 
+    using Infrastructure;
+
+    using Tools;
+
     /// <summary>
     /// Interaction logic for Shell.xaml
     /// </summary>
-    public partial class Shell : Window
+    public partial class Shell
     {
         readonly IShellViewModel _viewModel;
 
@@ -15,6 +19,12 @@
         public Shell()
         {
             InitializeComponent();
+
+            if (Static.OperatingSystemIsWindowsXPOrOlder())
+            {
+                Background = ApplicationProperties.BorderedWindowBackgoundBrush;
+                AllowsTransparency = false;
+            }
         }
 
         public Shell(IShellViewModel shellViewModel)

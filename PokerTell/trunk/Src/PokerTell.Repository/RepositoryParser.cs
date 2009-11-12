@@ -7,12 +7,14 @@ namespace PokerTell.Repository
 
     using Infrastructure.Interfaces.PokerHandParsers;
 
+    using Interfaces;
+
     using log4net;
 
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    public class RepositoryParser
+    public class RepositoryParser : IRepositoryParser
     {
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -82,7 +84,6 @@ namespace PokerTell.Repository
                 }
                
             }
-
             return convertedPokerHands;
         }
 
@@ -120,8 +121,8 @@ namespace PokerTell.Repository
             }
 
             IAquiredPokerHand aquiredPokerHand;
-           
-            if(parser.ParseHand(handHistory.Value).IsValid)
+
+            if (parser.ParseHand(handHistory.Value).IsValid)
             {
                 aquiredPokerHand = parser.AquiredPokerHand;
             }

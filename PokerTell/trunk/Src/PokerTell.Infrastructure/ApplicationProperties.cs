@@ -1,7 +1,9 @@
 namespace PokerTell.Infrastructure
 {
+    using System;
     using System.Globalization;
     using System.Threading;
+    using System.Windows.Media;
 
     /// <summary>
     /// Description of GlobalValues.
@@ -44,6 +46,11 @@ namespace PokerTell.Infrastructure
         public static double[] UnraisedPotCallingRatios
         {
             get { return new[] { 0.2, 0.3, 0.4, 0.7 }; }
+        }
+
+        public static Brush BorderedWindowBackgoundBrush
+        {
+            get { return new SolidColorBrush(Colors.LightGray); }
         }
 
         /// <summary>

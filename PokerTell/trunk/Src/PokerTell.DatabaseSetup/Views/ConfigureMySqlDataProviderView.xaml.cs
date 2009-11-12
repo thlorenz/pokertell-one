@@ -1,7 +1,10 @@
 ﻿namespace PokerTell.DatabaseSetup.Views
 {
-    using System.Windows;
-    using System.Windows.Input;
+    using System.Windows.Media;
+
+    using Infrastructure;
+
+    using Tools;
 
     using ViewModels;
 
@@ -14,6 +17,12 @@
             : base()
         {
             InitializeComponent();
+
+            if (Static.OperatingSystemIsWindowsXPOrOlder())
+            {
+                Background = ApplicationProperties.BorderedWindowBackgoundBrush;
+                AllowsTransparency = false;
+            }
         }
 
         public ConfigureMySqlDataProviderView(ConfigureMySqlDataProviderViewModel viewModel)

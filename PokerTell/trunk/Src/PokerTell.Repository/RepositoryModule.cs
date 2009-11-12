@@ -2,7 +2,12 @@ namespace PokerTell.Repository
 {
     using System.Reflection;
 
+    using Database;
+
+    using Infrastructure.Interfaces.DatabaseSetup;
     using Infrastructure.Interfaces.Repository;
+
+    using Interfaces;
 
     using log4net;
 
@@ -36,9 +41,31 @@ namespace PokerTell.Repository
         public void Initialize()
         {
             _container
-                .RegisterType<RepositoryParser>(new ContainerControlledLifetimeManager())
-                .RegisterType<IRepository, Repository>(new ContainerControlledLifetimeManager());
+                .RegisterType<IRepositoryParser, RepositoryParser>(new ContainerControlledLifetimeManager())
+                .RegisterType<IRepository, Repository>(new ContainerControlledLifetimeManager())
+                .RegisterType<IRepositoryDatabase, RepositoryDatabase>()
+                .RegisterType<IDatabaseUtility, DatabaseUtility>()
+                .RegisterType<IConvertedPokerHandInserter, ConvertedPokerHandInserter>()
+                .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>();
+
+            AttemptToConnectToDatabaseAndAssignResultingDataProviderToRepository();
+
             Log.Info("got initialized.");
+        }
+
+        void AttemptToConnectToDatabaseAndAssignResultingDataProviderToRepository()
+        {
+            var databaseConnector = _container.Resolve<IDatabaseConnector>();
+          
+            var dataProvider =
+                databaseConnector
+                    .InitializeFromSettings()
+                    .ConnectToDatabase()
+                    .DataProvider;
+
+            _container
+                .Resolve<IRepository>()
+                .Use(dataProvider);
         }
 
         #endregion

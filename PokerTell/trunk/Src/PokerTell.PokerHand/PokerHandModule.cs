@@ -91,6 +91,7 @@ namespace PokerTell.PokerHand
                 .RegisterType<IPokerActionConverter, PokerActionConverter>()
                 .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
                 .RegisterType<IPokerHandConverter, PokerHandConverter>()
+                .RegisterType<IPokerHandStringConverter, PokerHandStringConverter>()
 
                 // ViewModels
                 .RegisterTypeAndConstructor<IHandHistoryViewModel, HandHistoryViewModel>()

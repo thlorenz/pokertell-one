@@ -5,8 +5,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
     public interface IPokerHand : IComparable
     {
-        void InitializeBase(int totalplrs, string site, ulong gameid, DateTime timeStamp, double bb, double sb);
-
         /// <summary>
         /// Array containing the names of all players present at the table
         /// </summary>

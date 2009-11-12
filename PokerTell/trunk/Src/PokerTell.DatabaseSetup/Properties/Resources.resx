@@ -418,4 +418,8 @@ Please choose/create another database.</value>
   <data name="Status_NotConnectedToDatabase" xml:space="preserve">
     <value>not connected to any database</value>
   </data>
+  <data name="Warning_NoDatabaseHasBeenChosenForCurrentProvider" xml:space="preserve">
+    <value>No database has been chosen for the current data provider ({0}).
+Either create/choose a database to be used with {0 } or choose another data provider.</value>
+  </data>
 </root>

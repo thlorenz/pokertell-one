@@ -15,5 +15,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         IDataProvider DataProvider { get; }
 
         void TryToConnectToDatabaseUsing(string connectionString);
+
+        IDatabaseConnector ConnectToDatabase();
     }
 }

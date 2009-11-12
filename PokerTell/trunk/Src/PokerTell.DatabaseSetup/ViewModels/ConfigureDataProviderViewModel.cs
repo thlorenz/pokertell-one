@@ -203,7 +203,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
         void TestConnection()
         {
             _serverConnectString = new DatabaseConnectionInfo(ServerName, UserName, Password).ServerConnectString;
-            _databaseConnector.TryToConnectToTheServerUsing(_serverConnectString, true);
+            _databaseConnector.TryToConnectToServerUsing(_serverConnectString, true);
           
             _connectionIsValid = _databaseConnector.DataProvider != null && _databaseConnector.DataProvider.IsConnectedToServer;
         }

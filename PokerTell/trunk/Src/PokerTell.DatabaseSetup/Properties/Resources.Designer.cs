@@ -535,6 +535,16 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No database has been chosen for the current data provider ({0}).
+        ///Either create/choose a database to be used with {0 } or choose another data provider..
+        /// </summary>
+        public static string Warning_NoDatabaseHasBeenChosenForCurrentProvider {
+            get {
+                return ResourceManager.GetString("Warning_NoDatabaseHasBeenChosenForCurrentProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data provider has been found.
         ///Please define it by using Choose Data Provider form the Database Menu..
         /// </summary>

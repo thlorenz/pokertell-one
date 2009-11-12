@@ -1,5 +1,7 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
+    using System.Collections.ObjectModel;
+
     using Interfaces;
 
     using Microsoft.Practices.Composite.Events;
@@ -8,16 +10,22 @@ namespace PokerTell.DatabaseSetup.ViewModels
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
-    public sealed class DeleteDatabaseViewModel : ChooseDatabaseViewModel
+    public sealed class DeleteDatabaseViewModel : SelectThenActOnItemViewModel
     {
+        readonly IEventAggregator _eventAggregator;
+
+        readonly IDatabaseManager _databaseManager;
+
         #region Constructors and Destructors
 
         public DeleteDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager)
-            : base(eventAggregator, databaseManager)
         {
+            _databaseManager = databaseManager;
+            _eventAggregator = eventAggregator;
+            AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
         }
 
-        public ChooseDatabaseViewModel RemoveDatabaseInUseFromAvailableItems()
+        public DeleteDatabaseViewModel RemoveDatabaseInUseFromAvailableItems()
         {
             string databaseInUse = _databaseManager.GetDatabaseInUse();
             if (AvailableItems.Contains(databaseInUse))

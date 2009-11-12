@@ -343,6 +343,42 @@ namespace PokerTell.DatabaseSetup.Tests
 
             Assert.That(statusUpdateWasPublished, Is.True);
         }
+
+        [Test]
+        public void ConnectedToDatabase_ObtainedDataProviderIsNull_PublishesWarning()
+        {
+            bool warningWasPublished = false;
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Subscribe(arg => warningWasPublished = arg.MessageType == UserMessageTypes.Warning);
+
+            var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
+               .InitializeWith(null) 
+               .ConnectToDatabase();
+
+            Assert.That(warningWasPublished, Is.True);
+        }
+
+        [Test]
+        public void CreateConnectedDatabase_SettingsDontContainConnectionStringForProvider_PublishesError()
+        {
+            var settingsStub = new Mock<IDatabaseSettings>();
+            settingsStub
+                .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
+                .Returns<string>(null);
+
+            bool warningWasPublished = false;
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Subscribe(arg => warningWasPublished = arg.MessageType == UserMessageTypes.Warning);
+
+            var sut = new DatabaseConnector(_eventAggregator, settingsStub.Object, _dataProviderMock.Object)
+                .InitializeWith(_stub.Out<IDataProviderInfo>())
+                .ConnectToDatabase();
+
+            Assert.That(warningWasPublished, Is.True);
+        }
+
         #endregion
     }
 }

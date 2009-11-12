@@ -329,8 +329,12 @@ namespace Tools
 		    
 		}
 		#endregion
-		
-		
+
+        public static bool OperatingSystemIsWindowsXPOrOlder()
+        {
+            return Environment.OSVersion.Platform.Equals(PlatformID.Win32NT)
+                   && Environment.OSVersion.Version.Major <= 5;
+        }
 	}
 }
 

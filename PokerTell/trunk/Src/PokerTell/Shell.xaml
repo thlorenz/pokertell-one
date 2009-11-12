@@ -200,9 +200,30 @@
             <Border
                 Grid.Row="3"
                 Margin="5, 5, 5, 0"
+                Padding="5"
                 CornerRadius="0, 0, 5, 5"
                 Background="{StaticResource ControlBackgroundBrush}">
-                <StackPanel
+                    <ContentControl cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellStatusRegion}" />
+            </Border>
+
+        </Grid>
+    </Border>
+
+</Window>
+<!--
+    
+   xmlns:themes="clr-namespace:WPF.Themes;assembly=WPF.Themes"
+    themes:ThemeManager.Theme="ExpressionDark"
+   
+    cal:RegionManager.RegionName="Shell.MainMenuRegion"
+    
+       AllowsTransparency="True"
+        Background="Transparent"    
+    
+    
+    
+    
+    <StackPanel
                     Grid.Column="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Left"
@@ -237,19 +258,4 @@
                         </ProgressBar>
                     </Border>
                 </StackPanel>
-            </Border>
-
-        </Grid>
-    </Border>
-
-</Window>
-<!--
-    
-   xmlns:themes="clr-namespace:WPF.Themes;assembly=WPF.Themes"
-    themes:ThemeManager.Theme="ExpressionDark"
-   
-    cal:RegionManager.RegionName="Shell.MainMenuRegion"
-    
-       AllowsTransparency="True"
-        Background="Transparent"              
     -->

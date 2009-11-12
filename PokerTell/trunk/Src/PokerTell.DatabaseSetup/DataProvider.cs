@@ -1,9 +1,13 @@
 namespace PokerTell.DatabaseSetup
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
     using System.Data.Common;
+    using System.Reflection;
     using System.Text;
+
+    using log4net;
 
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
@@ -11,6 +15,9 @@ namespace PokerTell.DatabaseSetup
 
     public class DataProvider : IDataProvider
     {
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         #region Constants and Fields
 
         IDbConnection _connection;
@@ -86,9 +93,51 @@ namespace PokerTell.DatabaseSetup
         public IDataReader ExecuteQuery(string query)
         {
             IDbCommand cmd = _connection.CreateCommand();
+
             cmd.CommandText = query;
 
             return cmd.ExecuteReader();
+        }
+
+        public DataTable GetDataTableFor(string query)
+        {
+            var dt = new DataTable();
+
+            using (IDataReader dr = ExecuteQuery(query))
+            {
+                dt.Load(dr);
+            }
+            
+            return dt;
+        }
+
+        /// <summary>
+        /// Executes an SqlQuery and adds all values in the specified column to a list
+        /// </summary>
+        /// <param name="query">Sql Query to be executed</param>
+        /// <param name="column">Number of the column to get the results from</param>
+        /// <returns>List of values found in the specified column</returns>
+        public IList<T> ExecuteQueryGetColumn<T>(string query, int column)
+        {
+            var result = new List<T>();
+
+            try
+            {
+                using (IDataReader dr = ExecuteQuery(query))
+                {
+                    while (dr.Read())
+                    {
+                        var value = (T)Convert.ChangeType(dr[column].ToString(), typeof(T));
+                        result.Add(value);
+                    }
+                }
+            }
+            catch (Exception excep)
+            {
+                Log.Error("Unexpected", excep);
+            }
+
+            return result;
         }
 
         public object ExecuteScalar(string query)

@@ -1,6 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 {
     using System;
+    using System.Collections.Generic;
     using System.Data;
 
     public interface IDataProvider : IDisposable
@@ -36,5 +37,15 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         string ToString();
 
         #endregion
+
+        DataTable GetDataTableFor(string query);
+
+        /// <summary>
+        /// Executes an SqlQuery and adds all values in the specified column to a list
+        /// </summary>
+        /// <param name="query">Sql Query to be executed</param>
+        /// <param name="column">Number of the column to get the results from</param>
+        /// <returns>List of values found in the specified column</returns>
+        IList<T> ExecuteQueryGetColumn<T>(string query, int column);
     }
 }

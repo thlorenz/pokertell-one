@@ -61,8 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database\ConvertedPokerHandInserter.cs" />
+    <Compile Include="Database\ConvertedPokerHandRetriever.cs" />
+    <Compile Include="Database\DatabaseUtility.cs" />
+    <Compile Include="Interfaces\IDatabaseUtility.cs" />
+    <Compile Include="Interfaces\IConvertedPokerHandRetriever.cs" />
+    <Compile Include="Interfaces\IConvertedPokerHandInserter.cs" />
+    <Compile Include="Interfaces\IRepositoryDatabase.cs" />
+    <Compile Include="Interfaces\IRepositoryParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="RepositoryDatabase.cs" />
     <Compile Include="RepositoryModule.cs" />
     <Compile Include="RepositoryParser.cs" />
   </ItemGroup>

@@ -1,6 +1,12 @@
 namespace PokerTell.DatabaseSetup.Views
 {
+    using System.Windows.Media;
+
+    using Infrastructure;
+
     using Interfaces;
+
+    using Tools;
 
     /// <summary>
     /// Interaction logic for ComboBoxDialogView.xaml
@@ -12,6 +18,12 @@ namespace PokerTell.DatabaseSetup.Views
         public ComboBoxDialogView()
         {
             InitializeComponent();
+
+            if (Static.OperatingSystemIsWindowsXPOrOlder())
+            {
+                Background = ApplicationProperties.BorderedWindowBackgoundBrush;
+                AllowsTransparency = false;
+            }
         }
 
         public ComboBoxDialogView(IComboBoxDialogViewModel viewModel)

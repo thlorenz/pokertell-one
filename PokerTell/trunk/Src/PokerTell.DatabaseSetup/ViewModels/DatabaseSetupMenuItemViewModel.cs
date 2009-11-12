@@ -24,6 +24,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         ICommand _configureMySqlProviderCommand;
 
+        ICommand _createDatabaseCommand;
+
         ICommand _deleteDatabaseCommand;
 
         #endregion
@@ -127,6 +129,29 @@ namespace PokerTell.DatabaseSetup.ViewModels
             }
         }
 
+        public ICommand CreateDatabaseCommand
+        {
+            get
+            {
+                return _createDatabaseCommand ?? (_createDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            IDatabaseManager databaseManager = CreateDatabaseManager();
+
+                            if (databaseManager != null)
+                            {
+                                _container
+                                    .RegisterInstance(databaseManager);
+
+                                new TextBoxDialogView(
+                                    _container.Resolve<CreateDatabaseViewModel>())
+                                    .ShowDialog();
+                            }
+                        }
+                    });
+            }
+        }
+
         public ICommand DeleteDatabaseCommand
         {
             get
@@ -143,34 +168,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
                                 new ComboBoxDialogView(
                                     _container.Resolve<DeleteDatabaseViewModel>()
-                                        .RemoveDatabaseInUseFromAvailableItems()
-                                        .DetermineSelectedItem())
-                                    .ShowDialog();
-                            }
-                        }
-                    });
-            }
-        }
-
-        ICommand _createDatabaseCommand;
-
-        public ICommand CreateDatabaseCommand
-        {
-            get
-            {
-                return _createDatabaseCommand ?? (_createDatabaseCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg =>
-                        {
-                            IDatabaseManager databaseManager = CreateDatabaseManager();
-
-                            if (databaseManager != null)
-                            {
-                                _container
-                                    .RegisterInstance(databaseManager);
-
-                                new TextBoxDialogView(
-                                    _container.Resolve<CreateDatabaseViewModel>())
+                                                           .RemoveDatabaseInUseFromAvailableItems()
+                                                           .DetermineSelectedItem())
                                     .ShowDialog();
                             }
                         }

@@ -90,9 +90,13 @@
     <Compile Include="UserConfiguration.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="ViewModels\ConfirmActionViewModel.cs" />
+    <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\UserMessageViewModel.cs" />
     <Compile Include="Views\ConfirmActionView.xaml.cs">
       <DependentUpon>ConfirmActionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatusBarView.xaml.cs">
+      <DependentUpon>StatusBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UserMessageView.xaml.cs">
       <DependentUpon>UserMessageView.xaml</DependentUpon>
@@ -112,6 +116,10 @@
     <Page Include="Views\ConfirmActionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StatusBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserMessageView.xaml">
       <SubType>Designer</SubType>

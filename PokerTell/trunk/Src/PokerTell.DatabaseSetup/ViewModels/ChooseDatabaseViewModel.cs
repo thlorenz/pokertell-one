@@ -18,12 +18,15 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         protected readonly IEventAggregator _eventAggregator;
 
+        readonly IDatabaseConnector _databaseConnector;
+
         #endregion
 
         #region Constructors and Destructors
 
         public ChooseDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager)
         {
+          //  _databaseConnector = databaseConnector;
             _eventAggregator = eventAggregator;
             _databaseManager = databaseManager;
             AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
@@ -55,6 +58,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             _databaseManager.ChooseDatabase(SelectedItem);
             PublishInfoMessage();
+            
         }
 
         void PublishInfoMessage()

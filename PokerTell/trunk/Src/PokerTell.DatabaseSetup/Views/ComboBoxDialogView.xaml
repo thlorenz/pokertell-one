@@ -27,14 +27,14 @@
         <Border
          Background="{DynamicResource DarkToLightBorderBrush}"
          CornerRadius="10, 10, 0, 0"
-         Margin="2"
+         Margin="0,0,0,2"
          Padding="5">
             <Label Content="{Binding Title}"/>
         </Border>
         <Border
          Background="{DynamicResource LightToDarkToLightBorderBrush}"
          CornerRadius="3"
-         Margin="2"
+         Margin="0,2"
          Padding="5">
             <ComboBox ItemsSource="{Binding AvailableItems}" 
                       SelectedItem="{Binding SelectedItem}"
@@ -44,7 +44,7 @@
         <Border
          Background="{DynamicResource LightToDarkBorderBrush}"
          CornerRadius="0, 0, 10, 10"
-         Margin="2"
+         Margin="0,2,0,0"
          Padding="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="{Binding ActionName}" 

@@ -1,7 +1,6 @@
 namespace PokerTell.DatabaseSetup
 {
     using System.Reflection;
-    using System.Windows.Controls;
 
     using log4net;
 
@@ -55,11 +54,14 @@ namespace PokerTell.DatabaseSetup
                 .RegisterType<ConfigureMySqlDataProviderViewModel>()
                 .RegisterType<ConfigureMySqlDataProviderView>();
 
-            MenuItem databaseSetupMenuItem = _container.Resolve<DatabaseSetupMenuItemFactory>().Create();
-            _regionManager.RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, () => _container.Resolve<DatabaseSetupMenuItemFactory>().Create());
+            _regionManager
+                .RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, 
+                                        () => _container.Resolve<DatabaseSetupMenuItemFactory>().Create());
 
             Log.Info("got initialized.");
         }
+
+        
 
         #endregion
 

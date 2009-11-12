@@ -63,6 +63,27 @@ namespace PokerTell.DatabaseSetup
             return this;
         }
 
+        public IDatabaseConnector ConnectToDatabase()
+        {
+            if (_dataProviderInfo == null)
+            {
+                PublishWarningMessage(Resources.Warning_NoDataProviderDefinedInSettings);
+                return this;
+            }
+
+            string connectionString = _databaseSettings.GetConnectionStringFor(_dataProviderInfo);
+            if (connectionString == null)
+            {
+                string message = string.Format(
+                    Resources.Warning_NoDatabaseHasBeenChosenForCurrentProvider, _dataProviderInfo.NiceName);
+                PublishWarningMessage(message);
+            }
+
+            TryToConnectToDatabaseUsing(connectionString);
+
+            return this;
+        }
+
         void ConnectToExternalServer()
         {
             string serverConnectString = _databaseSettings.GetServerConnectStringFor(_dataProviderInfo);
@@ -229,5 +250,7 @@ namespace PokerTell.DatabaseSetup
         }
 
         #endregion
+
+        
     }
 }
