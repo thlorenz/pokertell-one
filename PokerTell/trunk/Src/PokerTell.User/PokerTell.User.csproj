@@ -12,6 +12,8 @@
     <AssemblyName>PokerTell.User</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -90,6 +92,8 @@
     <Compile Include="UserConfiguration.cs" />
     <Compile Include="UserService.cs" />
     <Compile Include="ViewModels\ConfirmActionViewModel.cs" />
+    <Compile Include="ViewModels\IProgressViewModel.cs" />
+    <Compile Include="ViewModels\ProgressViewModel.cs" />
     <Compile Include="ViewModels\StatusBarViewModel.cs" />
     <Compile Include="ViewModels\UserMessageViewModel.cs" />
     <Compile Include="Views\ConfirmActionView.xaml.cs">

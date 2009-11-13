@@ -1,6 +1,7 @@
 namespace PokerTell.DatabaseSetup
 {
     using System;
+    using System.IO;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -133,6 +134,11 @@ namespace PokerTell.DatabaseSetup
             try
             {
                 DataProvider.Connect(connectionString, _dataProviderInfo.FullName);
+
+                if (_dataProviderInfo.IsEmbedded)
+                {
+                    DataProvider.DatabaseName = new DatabaseConnectionInfo(connectionString).Database;
+                }
             }
             catch (Exception excep)
             {
@@ -147,19 +153,14 @@ namespace PokerTell.DatabaseSetup
                 return;
             }
 
-            PublishStatusUpdate();
+            PublishDatabaseChangedEvent();
         }
 
-        void PublishStatusUpdate()
+        void PublishDatabaseChangedEvent()
         {
-            var statusMessage = string.Format(
-                Resources.Status_ConnectedTo, DataProvider.DatabaseName, _dataProviderInfo.NiceName);
-            
-            var statusUpdate = new StatusUpdateEventArgs(StatusTypes.DatabaseConnection, statusMessage);
-           
             _eventAggregator
-                .GetEvent<StatusUpdateEvent>()
-                .Publish(statusUpdate);
+                .GetEvent<DatabaseInUseChangedEvent>()
+                .Publish(DataProvider);
         }
 
         public void TryToConnectToServerUsing(string serverConnectString, bool showSuccessMessage)

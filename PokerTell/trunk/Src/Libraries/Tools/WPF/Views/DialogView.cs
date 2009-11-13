@@ -8,6 +8,7 @@ namespace Tools.WPF.Views
         public DialogView()
         {
             Owner = Application.Current.MainWindow;
+            ResizeMode = ResizeMode.NoResize;
         }
 
         protected void WindowBorder_MouseDown(object sender, MouseButtonEventArgs e)

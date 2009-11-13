@@ -4,6 +4,7 @@ namespace PokerTell.Repository
 
     using Database;
 
+    using Infrastructure;
     using Infrastructure.Interfaces.DatabaseSetup;
     using Infrastructure.Interfaces.Repository;
 
@@ -12,7 +13,12 @@ namespace PokerTell.Repository
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
+
+    using ViewModels;
+
+    using Views;
 
     public class RepositoryModule : IModule
     {
@@ -23,12 +29,15 @@ namespace PokerTell.Repository
 
         readonly IUnityContainer _container;
 
+        readonly IRegionManager _regionManager;
+
         #endregion
 
         #region Constructors and Destructors
 
-        public RepositoryModule(IUnityContainer container)
+        public RepositoryModule(IUnityContainer container, IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             _container = container;
         }
 
@@ -46,9 +55,20 @@ namespace PokerTell.Repository
                 .RegisterType<IRepositoryDatabase, RepositoryDatabase>()
                 .RegisterType<IDatabaseUtility, DatabaseUtility>()
                 .RegisterType<IConvertedPokerHandInserter, ConvertedPokerHandInserter>()
-                .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>();
+                .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>()
+                .RegisterType<IHandHistoriesDirectoryImporter, HandHistoriesDirectoryImporter>(new ContainerControlledLifetimeManager())
 
+                // ViewModels
+                .RegisterType<ImportHandHistoriesViewModel>(new ContainerControlledLifetimeManager());
+               
             AttemptToConnectToDatabaseAndAssignResultingDataProviderToRepository();
+
+            _container
+                .Resolve<RepositoryMenuItemFactory>()
+                .Create()
+                .ForEach(menuItem =>
+                         _regionManager.RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion,
+                                                               () => menuItem));
 
             Log.Info("got initialized.");
         }
@@ -62,7 +82,7 @@ namespace PokerTell.Repository
                     .InitializeFromSettings()
                     .ConnectToDatabase()
                     .DataProvider;
-
+            
             _container
                 .Resolve<IRepository>()
                 .Use(dataProvider);

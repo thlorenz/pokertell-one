@@ -24,9 +24,9 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         #region Constructors and Destructors
 
-        public ChooseDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager)
+        public ChooseDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager, IDatabaseConnector databaseConnector)
         {
-          //  _databaseConnector = databaseConnector;
+            _databaseConnector = databaseConnector;
             _eventAggregator = eventAggregator;
             _databaseManager = databaseManager;
             AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
@@ -58,7 +58,9 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             _databaseManager.ChooseDatabase(SelectedItem);
             PublishInfoMessage();
-            
+            _databaseConnector
+                .InitializeFromSettings()
+                .ConnectToDatabase();
         }
 
         void PublishInfoMessage()
@@ -75,7 +77,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         public override string ActionName
         {
-            get { return Resources.Commands_Choose; }
+            get { return Infrastructure.Properties.Resources.Commands_Choose; }
         }
 
         #endregion

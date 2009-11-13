@@ -9,16 +9,15 @@ namespace PokerTell.DatabaseSetup
 
     using log4net;
 
+    using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
-
-    using Properties;
 
     public class DataProvider : IDataProvider
     {
+        #region Constants and Fields
+
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        #region Constants and Fields
 
         IDbConnection _connection;
 
@@ -27,6 +26,11 @@ namespace PokerTell.DatabaseSetup
         #endregion
 
         #region Constructors and Destructors
+
+        public DataProvider()
+        {
+            DatabaseName = Resources.Status_NotConnectedToDatabase;
+        }
 
         ~DataProvider()
         {
@@ -44,6 +48,8 @@ namespace PokerTell.DatabaseSetup
         {
             get { return _connection; }
         }
+
+        public string DatabaseName { get; set; }
 
         public bool IsConnectedToDatabase
         {
@@ -67,11 +73,6 @@ namespace PokerTell.DatabaseSetup
 
         #region IDataProvider
 
-        public string DatabaseName
-        {
-            get { return IsConnectedToDatabase ? Connection.Database : Resources.Status_NotConnectedToDatabase; }
-        }
-
         public void Connect(string connString, string providerName)
         {
             _providerFactory = DbProviderFactories.GetFactory(providerName);
@@ -80,6 +81,8 @@ namespace PokerTell.DatabaseSetup
             _connection.ConnectionString = connString;
 
             _connection.Open();
+
+            DatabaseName = IsConnectedToDatabase ? Connection.Database : Resources.Status_NotConnectedToDatabase; 
         }
 
         public int ExecuteNonQuery(string nonQuery)
@@ -97,18 +100,6 @@ namespace PokerTell.DatabaseSetup
             cmd.CommandText = query;
 
             return cmd.ExecuteReader();
-        }
-
-        public DataTable GetDataTableFor(string query)
-        {
-            var dt = new DataTable();
-
-            using (IDataReader dr = ExecuteQuery(query))
-            {
-                dt.Load(dr);
-            }
-            
-            return dt;
         }
 
         /// <summary>
@@ -151,6 +142,18 @@ namespace PokerTell.DatabaseSetup
         public IDbCommand GetCommand()
         {
             return _connection.CreateCommand();
+        }
+
+        public DataTable GetDataTableFor(string query)
+        {
+            var dt = new DataTable();
+
+            using (IDataReader dr = ExecuteQuery(query))
+            {
+                dt.Load(dr);
+            }
+
+            return dt;
         }
 
         public string ListInstalledProviders()

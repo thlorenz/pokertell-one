@@ -77,6 +77,7 @@
     <Compile Include="ConfigureDataProviderViewModelTests.cs" />
     <Compile Include="ChooseDataProviderViewModelTests.cs" />
     <Compile Include="CreateDatabaseViewModelTests.cs" />
+    <Compile Include="DatabaseConnectionInfoTests.cs" />
     <Compile Include="DatabaseConnectorTests.cs" />
     <Compile Include="DeleteDatabaseViewModelTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

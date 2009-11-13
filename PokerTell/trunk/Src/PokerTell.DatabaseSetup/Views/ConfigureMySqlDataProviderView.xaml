@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Views="clr-namespace:Tools.WPF.Views;assembly=Tools" 
-    xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties"
+    xmlns:Properties="clr-namespace:PokerTell.DatabaseSetup.Properties" 
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
     AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
@@ -82,10 +83,10 @@
                 <Button Content="{x:Static Properties:Resources.ConfigureProviderView_TestConnection}" 
                         Command="{Binding TestConnectionCommand}"/>
                
-                <Button Content="{x:Static Properties:Resources.Commands_Save}" 
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Save}" 
                         Command="{Binding SaveCommand}"/>
                 
-                <Button Content="{x:Static Properties:Resources.Commands_Close}"
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Close}"
                         Click="Close_Click"/>
                 
             </StackPanel>

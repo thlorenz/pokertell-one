@@ -101,7 +101,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         public string ActionName
         {
-            get { return Resources.Commands_Save; }
+            get { return Infrastructure.Properties.Resources.Commands_Save; }
         }
 
         public IComboBoxDialogViewModel DetermineSelectedItem()

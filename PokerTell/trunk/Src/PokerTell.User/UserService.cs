@@ -3,6 +3,7 @@ namespace PokerTell.User
     using System.Windows;
 
     using Microsoft.Practices.Composite.Events;
+    using Microsoft.Practices.Composite.Presentation.Events;
 
     using PokerTell.Infrastructure.Events;
     using PokerTell.User.ViewModels;
@@ -15,8 +16,13 @@ namespace PokerTell.User
         public UserService(IEventAggregator eventAggregator)
         {
             const bool keepMeAlive = true;
-            eventAggregator.GetEvent<UserMessageEvent>().Subscribe(HandleUserMessageEvent, keepMeAlive);
-            eventAggregator.GetEvent<UserConfirmActionEvent>().Subscribe(HandleUserConfirmActionEvent, keepMeAlive);
+            eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Subscribe(HandleUserMessageEvent, ThreadOption.UIThread, keepMeAlive);
+           
+            eventAggregator
+                .GetEvent<UserConfirmActionEvent>()
+                .Subscribe(HandleUserConfirmActionEvent, keepMeAlive);
         }
 
         #endregion

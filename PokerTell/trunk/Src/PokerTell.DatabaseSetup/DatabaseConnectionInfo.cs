@@ -25,20 +25,30 @@ namespace PokerTell.DatabaseSetup
                 const string patUser = @"User\sID\s*=\s*(?<userName>[^;\b]+)";
                 const string patPassword = @"(pwd|password)\s*=\s*(?<password>('(([^'])|(''))+'|[^';\b]+))";
                 const string patDatabase = @"(Initial Catalog|Database)\s*=\s*(?<databaseName>[^;\b]+)";
+                const string patDatabaseFromFileName = @"Data Source.*=.*\w:\\(.+\\)*(?<databaseName>.+)[.]db3";
 
-                Match m = Regex.Match(connString, patServer, RegexOptions.IgnoreCase);
-                string server = m.Success ? m.Groups["serverName"].Value : string.Empty;
+                Match m = Regex.Match(connString, patDatabaseFromFileName, RegexOptions.IgnoreCase);
+                if (m.Success)
+                {
+                    string databaseFromFileName = m.Groups["databaseName"].Value;
+                    InitializeWith(string.Empty, string.Empty, string.Empty, databaseFromFileName);
+                }
+                else
+                {
+                    m = Regex.Match(connString, patServer, RegexOptions.IgnoreCase);
+                    string server = m.Success ? m.Groups["serverName"].Value : string.Empty;
 
-                m = Regex.Match(connString, patUser, RegexOptions.IgnoreCase);
-                string user = m.Success ? m.Groups["userName"].Value : string.Empty;
+                    m = Regex.Match(connString, patUser, RegexOptions.IgnoreCase);
+                    string user = m.Success ? m.Groups["userName"].Value : string.Empty;
 
-                m = Regex.Match(connString, patPassword, RegexOptions.IgnoreCase);
-                string password = m.Success ? m.Groups["password"].Value : string.Empty;
+                    m = Regex.Match(connString, patPassword, RegexOptions.IgnoreCase);
+                    string password = m.Success ? m.Groups["password"].Value : string.Empty;
 
-                m = Regex.Match(connString, patDatabase, RegexOptions.IgnoreCase);
-                string database = m.Success ? m.Groups["databaseName"].Value : string.Empty;
+                    m = Regex.Match(connString, patDatabase, RegexOptions.IgnoreCase);
+                    string database = m.Success ? m.Groups["databaseName"].Value : string.Empty;
 
-                InitializeWith(server, user, password, database);
+                    InitializeWith(server, user, password, database);
+                }
             }
         }
 
@@ -92,6 +102,7 @@ namespace PokerTell.DatabaseSetup
             {
                 throw new DatabaseConnectionInfoInvalidException("Need to at least have server and user specified");
             }
+
             string connString = string.Format("data source = {0}; user id = {1};", Server, User);
 
             if (! string.IsNullOrEmpty(Password))

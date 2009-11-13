@@ -1,4 +1,4 @@
-﻿namespace PokerTell.DatabaseSetup.Views
+﻿namespace PokerTell.Repository.Views
 {
     using Infrastructure;
 
@@ -7,14 +7,13 @@
     using ViewModels;
 
     /// <summary>
-    /// Interaction logic for ConfigureMySqlDataProviderView.xaml
+    /// Interaction logic for ImportHandHistoriesView.xaml
     /// </summary>
-    public partial class ConfigureMySqlDataProviderView
+    public partial class ImportHandHistoriesView 
     {
-        public ConfigureMySqlDataProviderView()
+        public ImportHandHistoriesView()
         {
             InitializeComponent();
-
             if (Static.OperatingSystemIsWindowsXPOrOlder())
             {
                 Background = ApplicationProperties.BorderedWindowBackgoundBrush;
@@ -22,7 +21,7 @@
             }
         }
 
-        public ConfigureMySqlDataProviderView(ConfigureMySqlDataProviderViewModel viewModel)
+        public ImportHandHistoriesView(ImportHandHistoriesViewModel viewModel)
             : this()
         {
             DataContext = viewModel;

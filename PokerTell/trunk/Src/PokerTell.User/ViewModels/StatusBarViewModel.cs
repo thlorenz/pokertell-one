@@ -2,10 +2,14 @@
 {
     using System;
 
+    using Infrastructure.Interfaces.DatabaseSetup;
+
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Composite.Presentation.Events;
 
     using PokerTell.Infrastructure.Events;
+
+    using Properties;
 
     using Tools.WPF.ViewModels;
 
@@ -17,21 +21,39 @@
 
         string _databaseStatus;
 
+        readonly IProgressViewModel _handHistoriesDirectoryImportProgress;
+
         #endregion
 
         #region Constructors and Destructors
 
-        public StatusBarViewModel(IEventAggregator eventAggregator)
+        public StatusBarViewModel(IEventAggregator eventAggregator, IProgressViewModel handHistoriesDirectoryImportProgress)
         {
+            _handHistoriesDirectoryImportProgress = handHistoriesDirectoryImportProgress;
             _eventAggregator = eventAggregator;
 
             const bool keepSubscriberReferenceAlive = true;
             _eventAggregator
-                .GetEvent<StatusUpdateEvent>()
-                .Subscribe(arg => DatabaseStatus = arg.Status, 
-                           ThreadOption.UIThread, 
-                           keepSubscriberReferenceAlive, 
-                           arg => arg.StatusType == StatusTypes.DatabaseConnection);
+                .GetEvent<DatabaseInUseChangedEvent>()
+                .Subscribe(SetDatabaseStatus,
+                           ThreadOption.UIThread,
+                           keepSubscriberReferenceAlive);
+            _eventAggregator
+                .GetEvent<ProgressUpdateEvent>()
+                .Subscribe(HandleProgressUpdateEvent, ThreadOption.UIThread, keepSubscriberReferenceAlive);
+        }
+
+        void HandleProgressUpdateEvent(ProgressUpdateEventArgs arg)
+        {
+            if (arg.ProgressType.Equals(ProgressTypes.HandHistoriesDirectoryImport))
+            {
+                _handHistoriesDirectoryImportProgress.PercentCompleted = arg.PercentCompleted;
+            }
+        }
+
+        void SetDatabaseStatus(IDataProvider dataProvider)
+        {
+            DatabaseStatus = string.Format(Resources.Status_ConnectedTo, dataProvider.DatabaseName);
         }
 
         #endregion
@@ -44,10 +66,14 @@
             private set
             {
                 _databaseStatus = value;
-                Console.WriteLine(_databaseStatus);
                 RaisePropertyChanged(() => DatabaseStatus);
             }
         }
+
+        public IProgressViewModel HandHistoriesDirectoryImportProgress
+        {
+            get { return _handHistoriesDirectoryImportProgress; }
+        }    
 
         #endregion
     }

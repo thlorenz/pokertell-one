@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PokerTell.User.Properties {
+namespace PokerTell.Repository.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace PokerTell.User.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.User.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.Repository.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,29 @@ namespace PokerTell.User.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Connected to {0}.
+        ///   Looks up a localized string similar to Import Hand Histories.
         /// </summary>
-        public static string Status_ConnectedTo {
+        public static string ImportHandHistoriesViewModel_Title {
             get {
-                return ResourceManager.GetString("Status_ConnectedTo", resourceCulture);
+                return ResourceManager.GetString("ImportHandHistoriesViewModel_Title", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning.
+        ///   Looks up a localized string similar to Successfully imported {0} hands..
         /// </summary>
-        public static string Title_Warning {
+        public static string Info_HandHistoriesDirectoryImportCompleted {
             get {
-                return ResourceManager.GetString("Title_Warning", resourceCulture);
+                return ResourceManager.GetString("Info_HandHistoriesDirectoryImportCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Transfer Databases.
+        /// </summary>
+        public static string TransferDatabasesViewModel_Title {
+            get {
+                return ResourceManager.GetString("TransferDatabasesViewModel_Title", resourceCulture);
             }
         }
     }

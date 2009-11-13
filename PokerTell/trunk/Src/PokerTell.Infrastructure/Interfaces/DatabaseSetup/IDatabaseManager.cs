@@ -25,5 +25,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         string GetDatabaseInUse();
 
         bool DatabaseExists(string databaseName);
+
+        IDataProviderInfo DataProviderInfo { get; }
     }
 }

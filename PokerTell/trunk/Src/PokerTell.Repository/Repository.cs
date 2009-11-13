@@ -4,10 +4,13 @@ namespace PokerTell.Repository
     using System.IO;
     using System.Text;
 
+    using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
     using Infrastructure.Interfaces.Repository;
 
     using Interfaces;
+
+    using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
@@ -25,11 +28,18 @@ namespace PokerTell.Repository
 
         #region Constructors and Destructors
 
-        public Repository(IRepositoryDatabase database, IRepositoryParser parser)
+        public Repository(IEventAggregator eventAggregator, IRepositoryDatabase database, IRepositoryParser parser)
         {
             _database = database;
             _parser = parser;
             _cachedHands = new Dictionary<int, IConvertedPokerHand>();
+
+            eventAggregator
+                .GetEvent<DatabaseInUseChangedEvent>()
+                .Subscribe(dataProvider => {
+                    _cachedHands.Clear();
+                    Use(dataProvider);
+                });
         }
 
         #endregion
@@ -60,7 +70,7 @@ namespace PokerTell.Repository
 
         public IRepository InsertHand(IConvertedPokerHand convertedPokerHand)
         {
-            if (_database.IsConnected)
+            if (_database.IsConnected && convertedPokerHand != null)
             {
                int handId = _database.InsertHandAndReturnHandId(convertedPokerHand);
 

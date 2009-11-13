@@ -16,7 +16,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         string ParameterPlaceHolder { get; set; }
 
-        string DatabaseName { get; }
+        string DatabaseName { get; set; }
 
         #endregion
 

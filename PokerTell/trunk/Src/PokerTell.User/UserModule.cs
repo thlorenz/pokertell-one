@@ -48,6 +48,7 @@ namespace PokerTell.User
             _container
                 .RegisterType<IUserConfiguration, UserConfiguration>(new ContainerControlledLifetimeManager())
                 .RegisterType<ISettings, Settings>(new ContainerControlledLifetimeManager())
+                .RegisterType<IProgressViewModel, ProgressViewModel>()
                 .RegisterType<StatusBarViewModel>();
 
             _container

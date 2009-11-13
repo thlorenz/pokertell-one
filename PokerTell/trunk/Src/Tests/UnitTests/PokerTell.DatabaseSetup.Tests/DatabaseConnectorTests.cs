@@ -325,7 +325,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void TryToConnectToDatabaseUsing_ConnectionSucceeds_PublishesStatusUpdate()
+        public void TryToConnectToDatabaseUsing_ConnectionSucceeds_PublishesDatabaseInUseChangedEvent()
         {
             _dataProviderMock
                 .SetupGet(dp => dp.DatabaseName)
@@ -333,8 +333,8 @@ namespace PokerTell.DatabaseSetup.Tests
             
             bool statusUpdateWasPublished = false;
             _eventAggregator
-                .GetEvent<StatusUpdateEvent>()
-                .Subscribe(arg => statusUpdateWasPublished = arg.StatusType == StatusTypes.DatabaseConnection);
+                .GetEvent<DatabaseInUseChangedEvent>()
+                .Subscribe(arg => statusUpdateWasPublished = true);
 
             var sut = new DatabaseConnector(_eventAggregator, _stub.Out<IDatabaseSettings>(), _dataProviderMock.Object)
                 .InitializeWith(_stub.Out<IDataProviderInfo>());

@@ -47,7 +47,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         public override string ActionName
         {
-            get { return Resources.Commands_Delete; }
+            get { return Infrastructure.Properties.Resources.Commands_Delete; }
         }
         #endregion
 

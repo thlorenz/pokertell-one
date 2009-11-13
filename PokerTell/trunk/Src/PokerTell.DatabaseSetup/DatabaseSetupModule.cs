@@ -61,8 +61,6 @@ namespace PokerTell.DatabaseSetup
             Log.Info("got initialized.");
         }
 
-        
-
         #endregion
 
         #endregion

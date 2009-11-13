@@ -52,7 +52,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         public override string ActionName
         {
-            get { return Resources.Commands_Create; }
+            get { return Infrastructure.Properties.Resources.Commands_Create; }
         }
     }
 }

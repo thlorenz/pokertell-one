@@ -29,6 +29,11 @@ namespace PokerTell.DatabaseSetup
 
         #region IDatabaseManager
 
+        public IDataProviderInfo DataProviderInfo
+        {
+            get { return _managedDatabase.DataProviderInfo; }
+        }
+
         public IDatabaseManager ChooseDatabase(string databaseName)
         {
             if (!_managedDatabase.DatabaseExists(databaseName))

@@ -1,17 +1,17 @@
-﻿<Views:DialogView x:Class="PokerTell.DatabaseSetup.Views.ComboBoxDialogView"
+﻿<Views:DialogView x:Class="PokerTell.Repository.Views.ImportHandHistoriesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"                  
     xmlns:Views="clr-namespace:Tools.WPF.Views;assembly=Tools"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
+    xmlns:Properties="clr-namespace:PokerTell.Repository.Properties"
     AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
     ShowInTaskbar="False"   
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
-    MouseDown="WindowBorder_MouseDown"
-    Title="{Binding Title}">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+    MouseDown="WindowBorder_MouseDown">
+    <StackPanel HorizontalAlignment="Center">
         <StackPanel.Resources>
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                 <Setter Property="Margin" Value="5"/>
@@ -27,32 +27,32 @@
         <Border
          Background="{DynamicResource DarkToLightBorderBrush}"
          CornerRadius="10, 10, 0, 0"
-         Margin="0,0,0,2"
+         Margin="0,0,0,5"
          Padding="5">
-            <Label Content="{Binding Title}"/>
+            <Label Content="{x:Static Properties:Resources.ImportHandHistoriesViewModel_Title}" />
         </Border>
         <Border
          Background="{DynamicResource LightToDarkToLightBorderBrush}"
          CornerRadius="3"
-         Margin="0,2"
+         Margin="0,5"
          Padding="5">
-            <ComboBox ItemsSource="{Binding AvailableItems}" 
-                      SelectedItem="{Binding SelectedItem}"
-                      IsSynchronizedWithCurrentItem="True" 
-                     />
+            <StackPanel Orientation="Horizontal">
+                <TextBox MinWidth="200" 
+                         Text="{Binding HandHistoriesDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Browse}"
+                        Command="{Binding BrowseCommand}"/>
+            </StackPanel>
         </Border>
         <Border
          Background="{DynamicResource LightToDarkBorderBrush}"
          CornerRadius="0, 0, 10, 10"
-         Margin="0,2,0,0"
+         Margin="0,5,0,0"
          Padding="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="{Binding ActionName}" 
-                        Command="{Binding CommitActionCommand}"
-                        HorizontalAlignment="Left"/>
-                <Button Content="{x:Static GlobalProperties:Resources.Commands_Close}" 
-                        Click="Close_Click"
-                        HorizontalAlignment="Right"/>
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Import}" 
+                        Command="{Binding ImportCommand}"/>
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Close}"
+                        Click="Close_Click"/>
             </StackPanel>
         </Border>
     </StackPanel>

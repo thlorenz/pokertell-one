@@ -117,10 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Status_ConnectedTo" xml:space="preserve">
-    <value>Connected to {0}</value>
+  <data name="Commands_Browse" xml:space="preserve">
+    <value>Browse</value>
   </data>
-  <data name="Title_Warning" xml:space="preserve">
-    <value>Warning</value>
+  <data name="Commands_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Commands_Choose" xml:space="preserve">
+    <value>Choose</value>
+  </data>
+  <data name="Commands_Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Commands_Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Commands_Confirm" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="Commands_Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Commands_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Commands_Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Commands_Save" xml:space="preserve">
+    <value>Save</value>
   </data>
 </root>

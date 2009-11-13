@@ -134,11 +134,7 @@
                     <MenuItem Header="Database" 
                             cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellDatabaseMenuRegion}"
                             HorizontalAlignment="Center"
-                            VerticalAlignment="Top">
-                        <MenuItem Header="Import Hand Histories" />
-                        <MenuItem Header="Transfer Databases" />
-                        <Separator />
-                    </MenuItem>
+                            VerticalAlignment="Top"/>
                 </Menu>
 
             </Border>

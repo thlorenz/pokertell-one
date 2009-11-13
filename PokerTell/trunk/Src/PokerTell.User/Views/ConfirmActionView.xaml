@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:Tools.WPF.Views;assembly=Tools"
     xmlns:Properties="clr-namespace:PokerTell.User.Properties"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
     AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"
@@ -48,11 +49,11 @@
          Margin="2"
          Padding="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="{x:Static Properties:Resources.Commands_Confirm}" 
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Confirm}" 
                         Command="{Binding ConfirmActionCommand}"
                         Click="Close_Click"
                         HorizontalAlignment="Left"/>
-                <Button Content="{x:Static Properties:Resources.Commands_Cancel}" 
+                <Button Content="{x:Static GlobalProperties:Resources.Commands_Cancel}" 
                         Click="Close_Click"
                         HorizontalAlignment="Right"/>
             </StackPanel>

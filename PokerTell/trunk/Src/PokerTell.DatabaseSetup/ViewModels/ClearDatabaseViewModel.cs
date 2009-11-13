@@ -36,7 +36,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         public override string ActionName
         {
-            get { return Resources.Commands_Clear; }
+            get { return Infrastructure.Properties.Resources.Commands_Clear; }
         }
         #endregion
 
