@@ -1,5 +1,7 @@
 namespace PokerTell.Repository.Tests
 {
+    using System.Collections.Generic;
+
     using Fakes;
 
     using Infrastructure.Events;
@@ -213,6 +215,56 @@ namespace PokerTell.Repository.Tests
                 .Publish(dataProviderStub.Object);
 
             databaseMock.Verify(db => db.Use(dataProviderStub.Object));
+        }
+
+        [Test]
+        public void InsertHands_TwoNotCachedHands_CallsDatabaseInsertHandsWithBothHands()
+        {
+            Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
+
+            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
+
+            var hand1Mock = new Mock<IConvertedPokerHand>();
+            var hand2Mock = new Mock<IConvertedPokerHand>();
+
+            IList<IConvertedPokerHand> handsToInsert = new[] { hand1Mock.Object, hand2Mock.Object };
+
+            databaseMock
+               .Setup(db => db.InsertHandsAndSetTheirHandIds(handsToInsert))
+               .Returns(databaseMock.Object);
+
+            sut.InsertHands(handsToInsert);
+
+            databaseMock.Verify(db => db.InsertHandsAndSetTheirHandIds(handsToInsert));
+        }
+
+        [Test]
+        public void InsertHands_TwoHandsOneCachedBefore_CachesUncachedHand()
+        {
+            Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
+
+            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
+
+            var hand1Mock = new Mock<IConvertedPokerHand>();
+            hand1Mock
+                .SetupGet(hand => hand.HandId)
+                .Returns(1);
+            var hand2Mock = new Mock<IConvertedPokerHand>();
+           hand2Mock
+               .SetupGet(hand => hand.HandId)
+               .Returns(2);
+
+            IList<IConvertedPokerHand> handsToInsert = new[] { hand1Mock.Object, hand2Mock.Object };
+
+            databaseMock
+                .Setup(db => db.InsertHandsAndSetTheirHandIds(handsToInsert))
+                .Returns(databaseMock.Object);
+
+            sut.CachedHands.Add(1, hand1Mock.Object);
+           
+            sut.InsertHands(handsToInsert);
+
+           Assert.That(sut.CachedHands.Count, Is.EqualTo(2));
         }
 
         #endregion

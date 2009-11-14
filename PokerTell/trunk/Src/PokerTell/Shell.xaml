@@ -24,14 +24,10 @@
         MouseDown="WindowBorder_MouseDown">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="Auto" />
-                <RowDefinition
-                    Height="*" />
-                <RowDefinition
-                    Height="Auto" />
+                <RowDefinition  Height="Auto" />
+                <RowDefinition  Height="Auto" />
+                <RowDefinition  Height="*" />
+                <RowDefinition  Height="Auto" />
             </Grid.RowDefinitions>
 
             <!-- TitleBar -->
@@ -39,12 +35,9 @@
             <Grid
                 Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition
-                        Width="Auto" />
-                    <ColumnDefinition
-                        Width="Auto" />
-                    <ColumnDefinition
-                        Width="*" />
+                    <ColumnDefinition  Width="Auto" />
+                    <ColumnDefinition  Width="Auto" />
+                    <ColumnDefinition  Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel
@@ -133,8 +126,7 @@
                     VerticalAlignment="Top">
                     <MenuItem Header="Database" 
                             cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellDatabaseMenuRegion}"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top"/>
+                            />
                 </Menu>
 
             </Border>
@@ -150,32 +142,27 @@
                 <Grid>
 
                     <Grid.RowDefinitions>
-                        <RowDefinition
-                            Height="Auto" />
-                        <RowDefinition
-                            Height="*" />
+                        <RowDefinition  Height="Auto" />
+                        <RowDefinition  Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Button
-                        Grid.Row="0"
-                        Command="{Binding MainRegionCloseSelectedItemCommand}"
-                        MaxWidth="18"
-                        MaxHeight="18"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        Margin="5, 2, 5, 0"
-                        Padding="0">
+                    <Button Grid.Row="0"
+                            Command="{Binding MainRegionCloseSelectedItemCommand}"
+                            MaxWidth="18"
+                            MaxHeight="18"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            Margin="5, 2, 5, 0"
+                            Padding="0">
 
-                        <Image
-                            Source="Resources/CloseIcon.png" />
+                        <Image Source="Resources/CloseIcon.png" />
                     </Button>
 
-                    <TabControl
-                        Grid.Row="1"
-                        cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainRegion}"
-                        SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
-                        Margin="3"
-                        Background="{StaticResource ControlBackgroundBrush}">
+                    <TabControl Grid.Row="1"
+                            cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.ShellMainRegion}"
+                            SelectedItem="{Binding MainRegionSelectedItem, Mode=OneWayToSource}"
+                            Margin="3"
+                            Background="{StaticResource ControlBackgroundBrush}">
                         <TabControl.Resources>
                             <Style
                                 TargetType="{x:Type TabItem}"
@@ -193,6 +180,7 @@
 
             <!-- StatusBar -->
 
+            
             <Border
                 Grid.Row="3"
                 Margin="5, 5, 5, 0"

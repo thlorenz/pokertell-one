@@ -36,12 +36,10 @@ namespace PokerTell.PokerHandParsers
 
         public void Initialize()
         {
-            var pokerHandParsers = new AvaliablePokerHandParsers(true)
-                .Add(_container.Resolve<FullTiltPoker.PokerHandParser>())
-                .Add(_container.Resolve<PokerStars.PokerHandParser>());
-
             _container
-                .RegisterInstance<IPokerHandParsers>(pokerHandParsers);
+                .RegisterType<FullTiltPoker.PokerHandParser>()
+                .RegisterType<PokerStars.PokerHandParser>()
+                .RegisterType<IPokerHandParsers, AvailablePokerHandParsers>();
                 
             Log.Info("got initialized.");
         }

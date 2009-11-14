@@ -58,7 +58,7 @@ namespace PokerTell.Repository
         public IRepository Use(IDataProvider dataProvider)
         {
             _database.Use(dataProvider);
-            return this;
+           return this;
         }
 
         public IEnumerable<IConvertedPokerHand> RetrieveHandsFromFile(string fileName)
@@ -72,14 +72,24 @@ namespace PokerTell.Repository
         {
             if (_database.IsConnected && convertedPokerHand != null)
             {
-               int handId = _database.InsertHandAndReturnHandId(convertedPokerHand);
+                int? handId;
+                lock (_database)
+                {
+                    handId = _database.InsertHandAndReturnHandId(convertedPokerHand);
+                }
 
-               if (!CachedHands.ContainsKey(handId))
+                if (handId != null)
                {
-                   CachedHands.Add(handId, convertedPokerHand);
+                   lock (_cachedHands)
+                   {
+                       if (!CachedHands.ContainsKey(handId.Value))
+                       {
+                           CachedHands.Add(handId.Value, convertedPokerHand);
+                       } 
+                   }
                }
             }
-
+           
             return this;
         }
 
@@ -89,8 +99,19 @@ namespace PokerTell.Repository
             {
                 if (_database.IsConnected)
                 {
-                    IConvertedPokerHand retrievedHand = _database.RetrieveConvertedHand(handId);
-                    CachedHands.Add(handId, retrievedHand);
+                    IConvertedPokerHand retrievedHand;
+                    lock (_database)
+                    {
+                        retrievedHand = _database.RetrieveConvertedHand(handId);
+                    }
+
+                    lock (_cachedHands)
+                    {
+                        if (!CachedHands.ContainsKey(handId))
+                        {
+                            CachedHands.Add(handId, retrievedHand);
+                        }
+                    }
                 }
                 else
                 {
@@ -118,5 +139,30 @@ namespace PokerTell.Repository
             }
         }
         #endregion
+
+        public IRepository InsertHands(IEnumerable<IConvertedPokerHand> handsToInsert)
+        {
+            if (_database.IsConnected)
+            {
+                lock (_database)
+                {
+                    _database
+                         .InsertHandsAndSetTheirHandIds(handsToInsert);
+                }
+
+                foreach (var insertedHand in handsToInsert)
+                {
+                    lock (_cachedHands)
+                    {
+                        if (!CachedHands.ContainsKey(insertedHand.HandId))
+                        {
+                            CachedHands.Add(insertedHand.HandId, insertedHand);
+                        }
+                    }
+                }
+            }
+
+            return this;
+        }
     }
 }

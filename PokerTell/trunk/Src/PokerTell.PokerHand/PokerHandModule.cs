@@ -2,26 +2,24 @@ namespace PokerTell.PokerHand
 {
     using System.Reflection;
 
-    using Conditions;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
-    using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Aquisition;
+    using PokerTell.PokerHand.Conditions;
+    using PokerTell.PokerHand.Services;
     using PokerTell.PokerHand.ViewModels;
     using PokerTell.PokerHand.Views;
-
-    using Services;
 
     using Tools;
     using Tools.Interfaces;
 
+    using BoardViewModel = PokerTell.PokerHand.ViewModels.BoardViewModel;
     using HandHistoriesViewModel = PokerTell.PokerHand.ViewModels.Design.HandHistoriesViewModel;
     using HandHistoryViewModel = PokerTell.PokerHand.ViewModels.Design.HandHistoryViewModel;
 
@@ -87,10 +85,11 @@ namespace PokerTell.PokerHand
                 .RegisterType<ISawFlopCondition, SawFlopCondition>()
                 .RegisterType<IAlwaysTrueCondition, AlwaysTrueCondition>()
 
-                 // Converters
+                // Converters
                 .RegisterType<IPokerActionConverter, PokerActionConverter>()
                 .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
-                .RegisterType<IPokerHandConverter, PokerHandConverter>()
+                .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() => 
+                    _container.Resolve<IPokerHandConverter>())
                 .RegisterType<IPokerHandStringConverter, PokerHandStringConverter>()
 
                 // ViewModels

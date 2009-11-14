@@ -6,6 +6,9 @@
     using System.Linq;
     using System.Linq.Expressions;
 
+    using Infrastructure.Interfaces;
+    using Infrastructure.Services;
+
     using Moq;
 
     using NUnit.Framework;
@@ -45,7 +48,7 @@
         {
             Assert.Throws<ArgumentException>(
                 () =>
-                new RepositoryParser(_parsers, _stub.Out<IPokerHandConverter>()));
+                new RepositoryParser(_parsers, _stub.Out<IConstructor<IPokerHandConverter>>()));
         }
 
         [Test]
@@ -53,7 +56,7 @@
         {
             _parsers.Add(_mockParser.Object);
 
-            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IPokerHandConverter>());
+            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IConstructor<IPokerHandConverter>>());
 
             Assert.Throws<UnrecognizedHandHistoryFormatException>(
                 () => repositoryParser.RetrieveAndConvert(string.Empty, FileName));
@@ -68,7 +71,7 @@
                 .Returns(recognizeHandHistories);
             _parsers.Add(_mockParser.Object);
 
-            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IPokerHandConverter>());
+            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IConstructor<IPokerHandConverter>>());
 
             Assert.Throws<UnrecognizedHandHistoryFormatException>(
                 () => repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName));
@@ -86,7 +89,7 @@
 
             Mock<IPokerHandConverter> mockConverter = ConverterThatReturnsConvertedHandWith(extractedGameId);
 
-            var repositoryParser = new RepositoryParser(_parsers, mockConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => mockConverter.Object));
             IEnumerable<IConvertedPokerHand> convertedHands =
                 repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
@@ -101,7 +104,7 @@
 
             _parsers.Add(mockParser.Object);
 
-            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IPokerHandConverter>());
+            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IConstructor<IPokerHandConverter>>());
 
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
@@ -118,7 +121,7 @@
 
             var mockHandConverter = new Mock<IPokerHandConverter>();
 
-            var repositoryParser = new RepositoryParser(_parsers, mockHandConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => mockHandConverter.Object));
 
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
@@ -134,7 +137,7 @@
 
             _parsers.Add(mockParser.Object);
 
-            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IPokerHandConverter>());
+            var repositoryParser = new RepositoryParser(_parsers, _stub.Out<IConstructor<IPokerHandConverter>>());
 
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
@@ -154,7 +157,7 @@
 
             Mock<IPokerHandConverter> mockConverter = ConverterThatReturnsConvertedHandWith(extractedGameId);
 
-            var repositoryParser = new RepositoryParser(_parsers, mockConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => mockConverter.Object));
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
             mockConverter.Verify(
@@ -175,7 +178,7 @@
 
             Mock<IPokerHandConverter> stubConverter = ConverterThatReturnsConvertedHandWith(extractedGameId);
 
-            var repositoryParser = new RepositoryParser(_parsers, stubConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => stubConverter.Object));
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
             mockParser.Verify(parser => parser.ParseHand(extractedHistory), Times.Once());
@@ -193,7 +196,7 @@
 
             Mock<IPokerHandConverter> mockConverter = ConverterThatReturnsConvertedHandWith(extractedGameId);
 
-            var repositoryParser = new RepositoryParser(_parsers, mockConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => mockConverter.Object));
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
@@ -214,7 +217,7 @@
 
             Mock<IPokerHandConverter> stubConverter = ConverterThatReturnsConvertedHandWith(extractedGameId);
 
-            var repositoryParser = new RepositoryParser(_parsers, stubConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => stubConverter.Object));
 
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
@@ -234,7 +237,7 @@
 
             Mock<IPokerHandConverter> mockConverter = ConverterThatReturnsConvertedHandWith(extractedGameId);
 
-            var repositoryParser = new RepositoryParser(_parsers, mockConverter.Object);
+            var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => mockConverter.Object));
 
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
             IEnumerable<IConvertedPokerHand> convertedHands =
@@ -243,7 +246,7 @@
             Assert.That(convertedHands.First().GameId, Is.EqualTo(extractedGameId));
         }
 
-        #endregion
+         #endregion
 
         #region Methods
 

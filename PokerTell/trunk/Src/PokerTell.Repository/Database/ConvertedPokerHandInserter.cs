@@ -56,7 +56,7 @@ namespace PokerTell.Repository.Database
             {
                 try
                 {
-                    if (!HandIsAlreadyInDatabase(convHand))
+                    if (!HandIsAlreadyInDatabase(convHand.Site, convHand.GameId))
                     {
                         bool successfullyUpdatedGameTable = UpdateGameTable(convHand);
 
@@ -373,31 +373,17 @@ namespace PokerTell.Repository.Database
             }
         }
 
-        bool HandIsAlreadyInDatabase(IConvertedPokerHand convHand)
+        bool HandIsAlreadyInDatabase(string site, ulong gameId)
         {
-            // Check if hand exists (GameID and Site) if yes return -> don't enter hand
-            string query = string.Format(
-                "SELECT gameid FROM {0} WHERE gameid = {1} " + "AND site = \"{2}\";", 
-                Tables.gamehhd, 
-                convHand.GameId, 
-                convHand.Site);
-
             try
             {
-                using (IDataReader dr = _dataProvider.ExecuteQuery(query))
-                {
-                    if (dr.Read())
-                    {
-                        return true;
-                    }
-
-                    return false;
-                }
+                return _databaseUtility
+                    .Use(_dataProvider)
+                    .GetHandIdForHandWith(gameId, site) != null;
             }
             catch (Exception excep)
             {
                 Log.Error("Unexpected", excep);
-                Log.Debug("Query: " + query);
                 return true;
             }
         }

@@ -7,5 +7,7 @@ namespace PokerTell.Repository.Interfaces
         IDatabaseUtility Use(IDataProvider dataProvider);
 
         int GetIdentityOfLastInsertedHand();
+
+        int? GetHandIdForHandWith(ulong gameId, string site);
     }
 }

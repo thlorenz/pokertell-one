@@ -1,33 +1,47 @@
-﻿<StatusBar x:Class="PokerTell.User.Views.StatusBarView"
+﻿<StatusBar  x:Class="PokerTell.User.Views.StatusBarView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-         
     Background="Transparent"       
     >
-    <StatusBar.Resources>
+
+    <StackPanel Orientation="Horizontal">
        
-    </StatusBar.Resources>
-    <WrapPanel>
-        <Label Content="{Binding DatabaseStatus, Mode=OneWay}" />   
+        <StackPanel.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="3"/>
+                <Setter Property="BorderThickness" Value="2"/>
+                <Setter Property="BorderBrush" Value="{StaticResource ShadeBrush}"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Margin" Value="1"/>
+            </Style>
+        </StackPanel.Resources>
         
-        <StackPanel DataContext="{Binding HandHistoriesDirectoryImportProgress}"
-                    Visibility="{Binding Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
-                    Margin="5"
-                    >
-            <Label Content="Importing Hand Histories"/>
-           
+        <!-- Database Connection Status -->
+        <Border>
+            <Label Content="{Binding DatabaseStatus, Mode=OneWay}" />
+        </Border>    
+
+        <!-- Import HandHistories from Directory Status-->
+        <Border DataContext="{Binding HandHistoriesDirectoryImportProgress}"
+                Visibility="{Binding Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
+            <StackPanel Orientation="Horizontal">
+
+                <Label Content="Importing Hand Histories" HorizontalAlignment="Left"/>
+
                 <ProgressBar Maximum="100"
                              Minimum="0"
                              Height="10"
                              Width="80" 
                              Value="{Binding PercentCompleted}"
-                             />
-         
-        </StackPanel>
-    </WrapPanel>
+                             Margin="5,0"/>
+
+            </StackPanel>
+        </Border>
+
+    </StackPanel>
 </StatusBar>
 
-    <!--
+<!--
     
       <ProgressBar Maximum="100"
                              Minimum="0"
@@ -35,4 +49,5 @@
                              Width="80" 
                              Value="{Binding PercentCompleted}"
                              />
+     
     -->

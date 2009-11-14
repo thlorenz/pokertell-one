@@ -5,6 +5,7 @@ namespace PokerTell.Repository
     using System.Linq;
     using System.Reflection;
 
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHandParsers;
 
     using Interfaces;
@@ -23,7 +24,7 @@ namespace PokerTell.Repository
 
         readonly IDictionary<ulong, IConvertedPokerHand> _parsedHands;
 
-        readonly IPokerHandConverter _pokerHandConverter;
+        readonly IConstructor<IPokerHandConverter> _pokerHandConverterMake;
 
         readonly IPokerHandParsers _pokerHandParsers;
 
@@ -31,14 +32,14 @@ namespace PokerTell.Repository
 
         #region Constructors and Destructors
 
-        public RepositoryParser(IPokerHandParsers pokerHandParsers, IPokerHandConverter pokerHandConverter)
+        public RepositoryParser(IPokerHandParsers pokerHandParsers, IConstructor<IPokerHandConverter> pokerHandConverterMake)
         {
             if (pokerHandParsers.Count() < 1)
             {
                 throw new ArgumentException("pokerHandParsers is empty");
             }
             
-            _pokerHandConverter = pokerHandConverter;
+            _pokerHandConverterMake = pokerHandConverterMake;
             _pokerHandParsers = pokerHandParsers;
 
             _parsedHands = new Dictionary<ulong, IConvertedPokerHand>();
@@ -89,10 +90,17 @@ namespace PokerTell.Repository
 
         IConvertedPokerHand ConvertHandAndAddToParsedHands(IAquiredPokerHand aquiredPokerHand)
         {
-            IConvertedPokerHand convertedPokerHand = _pokerHandConverter.ConvertAquiredHand(aquiredPokerHand);
+            IConvertedPokerHand convertedPokerHand = _pokerHandConverterMake.New.ConvertAquiredHand(aquiredPokerHand);
             if (convertedPokerHand != null)
             {
-                _parsedHands.Add(convertedPokerHand.GameId, convertedPokerHand);
+                lock (_parsedHands)
+                {
+                    if (!_parsedHands.ContainsKey(convertedPokerHand.GameId))
+                    {
+                        _parsedHands.Add(convertedPokerHand.GameId, convertedPokerHand);
+                    }
+                }
+
                 return convertedPokerHand;
             }
 

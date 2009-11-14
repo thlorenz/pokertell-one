@@ -32,10 +32,12 @@ namespace PokerTell.Repository.Interfaces
         /// </summary>
         /// <param name="convertedHand"></param>
         /// <returns>HandId used in the identity column of the gamehhd table of the database</returns>
-        int InsertHandAndReturnHandId(IConvertedPokerHand convertedHand);
+        int? InsertHandAndReturnHandId(IConvertedPokerHand convertedHand);
 
         IConvertedPokerHand RetrieveConvertedHand(int handId);
 
         IRepositoryDatabase Use(IDataProvider dataProvider);
+
+        IRepositoryDatabase InsertHandsAndSetTheirHandIds(IEnumerable<IConvertedPokerHand> handsToInsert);
     }
 }

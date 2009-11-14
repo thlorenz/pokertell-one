@@ -28,5 +28,25 @@ namespace PokerTell.Repository.Database
                 return handId;
             }
         }
+
+        public int? GetHandIdForHandWith(ulong gameId, string site)
+        {
+            string query = string.Format(
+                "SELECT gameid FROM {0} WHERE gameid = {1} " + "AND site = \"{2}\";",
+                Tables.gamehhd,
+                gameId,
+                site);
+
+            using (IDataReader dr = _dataProvider.ExecuteQuery(query))
+            {
+                if (dr.Read())
+                {
+                    var handId = (int) dr.GetInt64((int)GameTable.identity);
+                    return handId;
+                }
+
+                return null;
+            }
+        }
     }
 }

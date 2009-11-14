@@ -1,5 +1,6 @@
 namespace PokerTell.Repository
 {
+    using System;
     using System.Collections.Generic;
     using System.Data;
 
@@ -61,6 +62,30 @@ namespace PokerTell.Repository
             return this;
         }
 
+        public IRepositoryDatabase InsertHandsAndSetTheirHandIds(IEnumerable<IConvertedPokerHand> handsToInsert)
+        {
+            var insertedHands = new Dictionary<int, IConvertedPokerHand>();
+          
+            using (var transaction = _dataProvider.Connection.BeginTransaction())
+            {
+                foreach (var hand in handsToInsert)
+                {
+                    if (hand != null)
+                    {
+                        var handId = InsertHandAndReturnHandId(hand);
+                        if (handId != null)
+                        {
+                            hand.HandId = handId.Value; 
+                        }
+                    }
+                }
+
+                transaction.Commit();
+            }
+
+            return this;
+        }
+
         public int ExecuteNonQuery(string nonQuery)
         {
             return _dataProvider.ExecuteNonQuery(nonQuery);
@@ -104,7 +129,7 @@ namespace PokerTell.Repository
         /// </summary>
         /// <param name="convertedHand"></param>
         /// <returns>HandId used in the identity column of the gamehhd table of the database</returns>
-        public int InsertHandAndReturnHandId(IConvertedPokerHand convertedHand)
+        public int? InsertHandAndReturnHandId(IConvertedPokerHand convertedHand)
         {
            _convertedPokerHandInserter
                .Use(_dataProvider)
@@ -112,7 +137,7 @@ namespace PokerTell.Repository
 
             return _databaseUtility
                 .Use(_dataProvider)
-                .GetIdentityOfLastInsertedHand();
+                .GetHandIdForHandWith(convertedHand.GameId, convertedHand.Site);
         }
 
         public IConvertedPokerHand RetrieveConvertedHand(int handId)

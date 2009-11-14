@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
+    using System;
+
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 

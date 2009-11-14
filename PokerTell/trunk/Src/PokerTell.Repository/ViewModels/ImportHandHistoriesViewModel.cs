@@ -43,6 +43,8 @@ namespace PokerTell.Repository.ViewModels
             _handHistoriesDirectoryImporter = handHistoriesDirectoryImporter;
             const Environment.SpecialFolder programsFolder = Environment.SpecialFolder.ProgramFiles;
             HandHistoriesDirectory = Environment.GetFolderPath(programsFolder);
+
+           // HandHistoriesDirectory = @"C:\Program Files\PokerStars\HandHistory\renniweg";
         }
 
         #endregion
@@ -86,7 +88,7 @@ namespace PokerTell.Repository.ViewModels
                                 .ImportDirectory(_handHistoriesDirectory);
 
                             ReportProgress(0);
-                        }, 
+                        },
                         CanExecuteDelegate = arg => ! Importing && new DirectoryInfo(_handHistoriesDirectory).Exists
                     });
             }

@@ -30,10 +30,22 @@ namespace Microsoft.Practices.Unity
         public static IUnityContainer RegisterConstructor<TInterface, TConcreteType>(this IUnityContainer container)
             where TConcreteType : TInterface, new()
         {
+            return container.RegisterConstructor<TInterface>(() => new TConcreteType());
+        }
+
+        /// <summary>
+        /// Registers the supplied constructor for the given type.
+        /// </summary>
+        /// <typeparam name="TInterface"></typeparam>
+        /// <param name="container"></param>
+        /// <param name="constructor">Function containing Construction code e.g. () => _container.Resolve<I>();</I></param>
+        /// <returns>IUnityContainer with registered constructor mapping</returns>
+        public static IUnityContainer RegisterConstructor<TInterface>(this IUnityContainer container, Func<TInterface> constructor)
+        {
             if (container != null)
             {
                 container
-                    .RegisterInstance<IConstructor<TInterface>>(new Constructor<TInterface>(() => new TConcreteType()));
+                    .RegisterInstance<IConstructor<TInterface>>(new Constructor<TInterface>(constructor));
             }
             else
             {
@@ -84,6 +96,16 @@ namespace Microsoft.Practices.Unity
 
             return container;
         }
+
+        public static IUnityContainer RegisterTypeAndConstructor<TInterface, TConcreteType>(
+            this IUnityContainer container, Func<TInterface> constructor)
+            where TConcreteType : TInterface
+        {
+            return container
+                .RegisterType<TInterface, TConcreteType>()
+                .RegisterConstructor(constructor);
+        }
+
 
         #endregion
     }

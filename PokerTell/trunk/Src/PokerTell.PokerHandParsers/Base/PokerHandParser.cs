@@ -1,58 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-
-using PokerTell.Infrastructure.Interfaces;
-using PokerTell.Infrastructure.Interfaces.PokerHand;
-using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
-
-using log4net;
-
 namespace PokerTell.PokerHandParsers.Base
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Reflection;
+    using System.Text;
+
+    using log4net;
+
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
+
     public abstract class PokerHandParser : IPokerHandParser
     {
         #region Constants and Fields
 
         protected readonly IConstructor<IAquiredPokerAction> _aquiredActionMake;
-
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        readonly IConstructor<IAquiredPokerHand> _aquiredHandMake;
-
-        readonly IConstructor<IAquiredPokerPlayer> _aquiredPlayerMake;
-
-        readonly IConstructor<IAquiredPokerRound> _aquiredRoundMake;
-
-        string _handHistory;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public PokerHandParser(
-            IConstructor<IAquiredPokerHand> aquiredHandMake,
-            IConstructor<IAquiredPokerPlayer> aquiredPlayerMake,
-            IConstructor<IAquiredPokerRound> aquiredRoundMake,
-            IConstructor<IAquiredPokerAction> aquiredActionMake)
-        {
-            _aquiredActionMake = aquiredActionMake;
-            _aquiredRoundMake = aquiredRoundMake;
-            _aquiredPlayerMake = aquiredPlayerMake;
-            _aquiredHandMake = aquiredHandMake;
-        }
-
-        #endregion
-
-        #region Properties
-
-        public IAquiredPokerHand AquiredPokerHand { get; private set; }
-
-        public bool IsValid { get; private set; }
-
-        public bool LogVerbose { get; set; }
 
         protected AnteParser AnteParser;
 
@@ -82,13 +45,50 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected TotalSeatsParser TotalSeatsParser;
 
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        readonly IConstructor<IAquiredPokerHand> _aquiredHandMake;
+
+        readonly IConstructor<IAquiredPokerPlayer> _aquiredPlayerMake;
+
+        readonly IConstructor<IAquiredPokerRound> _aquiredRoundMake;
+
+        string _handHistory;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        public PokerHandParser(
+            IConstructor<IAquiredPokerHand> aquiredHandMake, 
+            IConstructor<IAquiredPokerPlayer> aquiredPlayerMake, 
+            IConstructor<IAquiredPokerRound> aquiredRoundMake, 
+            IConstructor<IAquiredPokerAction> aquiredActionMake)
+        {
+            _aquiredActionMake = aquiredActionMake;
+            _aquiredRoundMake = aquiredRoundMake;
+            _aquiredPlayerMake = aquiredPlayerMake;
+            _aquiredHandMake = aquiredHandMake;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public IAquiredPokerHand AquiredPokerHand { get; private set; }
+
+        public bool IsValid { get; private set; }
+
+        public bool LogVerbose { get; set; }
+
         #endregion
 
         #region Public Methods
 
         public override string ToString()
         {
-            string historyInfo = LogVerbose ? _handHistory : _handHistory.Substring(0, 50); 
+            string historyInfo = LogVerbose ? _handHistory : _handHistory.Substring(0, 50);
             return string.Format("{0} Parser\n Currently parsing:\n\n<{1}>\n", Site, historyInfo);
         }
 
@@ -147,8 +147,8 @@ namespace PokerTell.PokerHandParsers.Base
         #region Methods
 
         static void ExtractAllHandHistoriesExceptLast(
-            string handHistories,
-            IList<HandHeaderParser.HeaderMatchInformation> headerMatches,
+            string handHistories, 
+            IList<HandHeaderParser.HeaderMatchInformation> headerMatches, 
             IDictionary<ulong, string> gamesFoundInHandHistories)
         {
             for (int i = 0; i < headerMatches.Count - 1; i++)
@@ -167,8 +167,8 @@ namespace PokerTell.PokerHandParsers.Base
         }
 
         static void ExtractLastHandHistory(
-            string handHistories,
-            IList<HandHeaderParser.HeaderMatchInformation> headerMatches,
+            string handHistories, 
+            IList<HandHeaderParser.HeaderMatchInformation> headerMatches, 
             IDictionary<ulong, string> gamesFoundInHandHistories)
         {
             int lastHeaderIndex = headerMatches[headerMatches.Count - 1].HeaderMatch.Index;
@@ -203,6 +203,7 @@ namespace PokerTell.PokerHandParsers.Base
 
                 relativeSeatNumber++;
             }
+
             return smallBlindPosition;
         }
 
@@ -378,6 +379,7 @@ namespace PokerTell.PokerHandParsers.Base
                 LogParsingError("SmallBlindPlayerName Parser failed to find small blind seat -> setting to string.Empty");
                 smallBlindPlayerName = string.Empty;
             }
+
             return smallBlindPlayerName;
         }
 

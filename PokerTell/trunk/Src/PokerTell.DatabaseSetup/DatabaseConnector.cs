@@ -134,11 +134,13 @@ namespace PokerTell.DatabaseSetup
             try
             {
                 DataProvider.Connect(connectionString, _dataProviderInfo.FullName);
-
+               
                 if (_dataProviderInfo.IsEmbedded)
                 {
                     DataProvider.DatabaseName = new DatabaseConnectionInfo(connectionString).Database;
                 }
+
+                DataProvider.ParameterPlaceHolder = _dataProviderInfo.ParameterPlaceHolder;
             }
             catch (Exception excep)
             {

@@ -52,20 +52,15 @@ namespace PokerTell.Repository.Database
            
             for (int fileIndex = 0; fileIndex < numberOfFilesToImport; fileIndex++)
             {
-                int numberOfHandsImportedFromCurrentFile = 0;
                 var handsInCurrentFile = _repository.RetrieveHandsFromFile(filesToImport[fileIndex].FullName);
-              
-                handsInCurrentFile.ToList()
-                    .ForEach(hand => { 
-                        _repository.InsertHand(hand);
-                        numberOfHandsImportedFromCurrentFile++; 
-                    });
+               
+                _repository.InsertHands(handsInCurrentFile);
+               
+                numberOfImportedHands += handsInCurrentFile.Count(); 
 
                 int currentPercentage = (fileIndex * 100) / numberOfFilesToImport;
 
                 _reportProgress(currentPercentage);
-
-                numberOfImportedHands += numberOfHandsImportedFromCurrentFile;
             }
 
             _reportCompletion(numberOfImportedHands);

@@ -63,7 +63,8 @@
     </LinearGradientBrush>
 
     <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FF333333" />
-
+    <SolidColorBrush x:Key="MouseOverBrush" Color="#FF736969" />
+    
     <LinearGradientBrush x:Key="SelectedBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
         <GradientStop Color="{StaticResource TopGradientSelectColor}" Offset="0" />
         <GradientStop Color="{StaticResource BottomGradientSelectColor}" Offset="1" />
@@ -1443,6 +1444,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+   
     <Style TargetType="{x:Type ProgressBar}">
         <Setter Property="Template">
             <Setter.Value>
@@ -1507,9 +1510,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" TargetName="border" Value="0.8"/>
                         </Trigger>
-                        <EventTrigger RoutedEvent="RangeBase.ValueChanged">
-                            <BeginStoryboard Storyboard="{StaticResource ValueChangedOn}" />
-                        </EventTrigger>
+                       
                         <Trigger Property="IsIndeterminate" Value="True">
                             <Trigger.EnterActions>
                                 <BeginStoryboard Storyboard="{StaticResource IndeterminateOn}" />
@@ -1521,6 +1522,19 @@
             </Setter.Value>
         </Setter>
     </Style>
+   
+    
+    <!--
+        NOTE: This had to be disabled because it was causing the below error whenever ProgressBar Value was bound
+        Error:  "System.InvalidOperationException: 
+                'Part_Track' name cannot be found in the name scope of 
+                'System.Windows.Controls.ControlTemplate'"
+         From ProgressBar: <ControlTemplate.Triggers>
+         <EventTrigger RoutedEvent="RangeBase.ValueChanged">
+                            <BeginStoryboard Storyboard="{StaticResource ValueChangedOn}" />
+                        </EventTrigger>
+        -->
+
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />

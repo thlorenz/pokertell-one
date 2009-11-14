@@ -57,7 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AvaliablePokerHandParsers.cs" />
+    <Compile Include="PokerHandParsers.cs" />
     <Compile Include="Base\BlindsParser.cs" />
     <Compile Include="Base\AnteParser.cs" />
     <Compile Include="Base\BoardParser.cs" />
