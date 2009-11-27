@@ -18,7 +18,7 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.UnitTests;
 
     using UnitTests.Tools;
-
+    [TestFixture]
     public class ConvertedPokerHandTests : TestWithLog
     {
         #region Constants and Fields

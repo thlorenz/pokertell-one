@@ -8,7 +8,7 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Analyzation;
 
     [TestFixture]
-    internal class ConvertedPokerPlayerTests_SetActionSequence
+    public class ConvertedPokerPlayerTests_SetActionSequence
     {
         #region Constants and Fields
 

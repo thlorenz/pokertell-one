@@ -5,7 +5,8 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Aquisition;
-
+    
+    [TestFixture]
     public class AquiredPokerActionTests
     {
         #region Constants and Fields

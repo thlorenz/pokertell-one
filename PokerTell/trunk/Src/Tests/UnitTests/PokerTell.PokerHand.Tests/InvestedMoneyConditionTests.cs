@@ -11,6 +11,7 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Services;
     using PokerTell.UnitTests;
 
+    [TestFixture]
     public class InvestedMoneyConditionTests : TestWithLog
     {
         #region Constants and Fields

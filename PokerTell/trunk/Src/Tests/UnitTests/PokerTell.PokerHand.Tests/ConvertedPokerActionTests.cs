@@ -1,7 +1,5 @@
 namespace PokerTell.PokerHand.Tests
 {
-    using System;
-
     using Analyzation;
 
     using Infrastructure.Enumerations.PokerHand;
@@ -9,6 +7,7 @@ namespace PokerTell.PokerHand.Tests
     using NUnit.Framework;
     using UnitTests.Tools;
 
+    [TestFixture]
     public class ConvertedPokerActionTests
     {
         [Test]

@@ -21,7 +21,7 @@ namespace PokerTell.PokerHand.Tests
     using UnitTests;
 
     [TestFixture]
-    internal class HandHistoryViewModelTests
+    public class HandHistoryViewModelTests
     {
         [SetUp]
         public void _Init()

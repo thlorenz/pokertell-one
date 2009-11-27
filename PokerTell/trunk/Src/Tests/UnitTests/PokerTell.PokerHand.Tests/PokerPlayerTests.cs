@@ -2,6 +2,7 @@ namespace PokerTell.PokerHand.Tests
 {
     using NUnit.Framework;
 
+    [TestFixture]
     public class PokerPlayerTests
     {
         [Test]

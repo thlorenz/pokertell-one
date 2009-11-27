@@ -1,7 +1,5 @@
 namespace PokerTell.PokerHand.Tests
 {
-    using System;
-
     using Aquisition;
 
     using Infrastructure.Interfaces.PokerHand;
@@ -11,7 +9,7 @@ namespace PokerTell.PokerHand.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    internal class AquiredPokerRoundTests
+    public class AquiredPokerRoundTests
     {
         AquiredPokerRound _aquiredRound;
 

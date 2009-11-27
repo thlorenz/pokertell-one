@@ -10,6 +10,7 @@ namespace PokerTell.PokerHand.Tests
 
     using UnitTests.Tools;
 
+    [TestFixture]
     public class ConvertedPokerRoundTests
     {
         [Test]

@@ -9,7 +9,7 @@ namespace PokerTell.PokerHand.Tests
     using NUnit.Framework;
 
     [TestFixture]
-    internal class AquiredPokerPlayerTests
+    public class AquiredPokerPlayerTests
     {
         AquiredPokerPlayer _aquiredPlayer;
 

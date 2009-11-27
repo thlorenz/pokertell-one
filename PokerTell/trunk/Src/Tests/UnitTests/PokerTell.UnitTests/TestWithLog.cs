@@ -12,6 +12,7 @@ namespace PokerTell.UnitTests
     /// <summary>
     /// Description of TestWithLog.
     /// </summary>
+    [TestFixture]
     public abstract class TestWithLog
     {
         #region Constants and Fields

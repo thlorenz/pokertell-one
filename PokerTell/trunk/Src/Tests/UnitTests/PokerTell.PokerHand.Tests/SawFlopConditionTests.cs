@@ -9,6 +9,7 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Conditions;
     using PokerTell.UnitTests;
 
+    [TestFixture]
     public class SawFlopConditionTests : TestWithLog
     {
         #region Constants and Fields

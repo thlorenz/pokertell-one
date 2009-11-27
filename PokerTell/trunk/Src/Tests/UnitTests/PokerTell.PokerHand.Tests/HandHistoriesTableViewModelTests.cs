@@ -11,7 +11,7 @@ namespace PokerTell.PokerHand.Tests
     using ViewModels;
 
     [TestFixture]
-    internal class HandHistoriesTableViewModelTests
+    public class HandHistoriesTableViewModelTests
     {
         #region Constants and Fields
 

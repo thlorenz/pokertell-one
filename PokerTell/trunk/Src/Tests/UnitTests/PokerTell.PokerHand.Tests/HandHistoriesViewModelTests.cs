@@ -22,6 +22,7 @@ namespace PokerTell.PokerHand.Tests
 
     using UnitTests.Tools;
 
+    [TestFixture]
     public class HandHistoriesViewModelTests
     {
         IHandHistoriesViewModel _viewModel;

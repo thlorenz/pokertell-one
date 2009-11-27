@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand.Tests
     /// Summary description for HandHistoryRowTests.
     /// </summary>
     [TestFixture]
-    internal class HandHistoryRowTests
+    public class HandHistoryRowTests
     {
         /// <summary>
         /// The _poker player.

@@ -16,7 +16,7 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Services;
 
     [TestFixture]
-    internal class PokerHandConverterTests
+    public class PokerHandConverterTests
     {
         #region Constants and Fields
 

@@ -9,6 +9,7 @@ namespace PokerTell.PokerHand.Tests
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.UnitTests;
 
+    [TestFixture]
     public class PokerHandStringConverterTests
     {
         #region Constants and Fields

@@ -14,6 +14,7 @@ namespace PokerTell.PokerHand.Tests
 
     using UnitTests.Tools;
 
+    [TestFixture]
     public class HandHistoriesFilterTests
     {
         HandHistoriesFilter _historiesFilter;
