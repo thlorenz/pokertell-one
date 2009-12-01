@@ -30,6 +30,11 @@ namespace PokerTell.PokerHand.Analyzation
 
         public string BuildSqlStringFrom(IConvertedPokerRound convertedRound)
         {
+            if (convertedRound == null || convertedRound.Count == 0)
+            {
+                return null;
+            }
+            
             string sqlString = string.Empty;
 
             for (int i = 0; i < convertedRound.Count; i++)
@@ -65,10 +70,10 @@ namespace PokerTell.PokerHand.Analyzation
         /// for instance as read from the database</param>
         public IConvertedPokerRound ConvertedRoundFrom(string csvRound)
         {
-            var convertedRound = new ConvertedPokerRound();
-
             if (! string.IsNullOrEmpty(csvRound))
             {
+                var convertedRound = new ConvertedPokerRound();
+                
                 // Determine if actions contain player IDs
                 bool actionsContainId = Regex.Match(csvRound, PatSqlActionWithId).Success;
 
@@ -85,9 +90,11 @@ namespace PokerTell.PokerHand.Analyzation
                         convertedRound.Add(ConvertedActionFrom(sqlActionString));
                     }
                 }
+
+                return convertedRound;
             }
 
-            return convertedRound;
+            return null;
         }
 
         #endregion

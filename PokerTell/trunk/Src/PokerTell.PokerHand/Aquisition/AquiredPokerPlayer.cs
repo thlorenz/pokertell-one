@@ -52,7 +52,7 @@ namespace PokerTell.PokerHand.Aquisition
         /// when using this constructor positions, position names, playernames need to be set later
         /// </summary>
         /// <param name="playerId">
-        /// <see cref="AquiredPokerPlayer.PlayerId"></see>
+        /// <see cref="PokerPlayer.Id"></see>
         /// </param>
         /// <param name="seatNum">
         /// <see cref="PokerPlayer.SeatNumber"></see>
@@ -188,7 +188,7 @@ namespace PokerTell.PokerHand.Aquisition
                     throw new ArgumentNullException("holecards");
                 }
 
-                PlayerId = playerId;
+                Id = playerId;
                 SeatNumber = seatNum;
                 Holecards = holecards;
                 Position = -1;
@@ -311,6 +311,18 @@ namespace PokerTell.PokerHand.Aquisition
             get { return Rounds[index]; }
         }
 
+        [NonSerialized]
+        long _id;
+
+        /// <summary>
+        /// Id of player in Database
+        /// </summary>
+        public long Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
         /// <summary>
         /// The this.
         /// </summary>
@@ -355,7 +367,7 @@ namespace PokerTell.PokerHand.Aquisition
             }
 
             return Equals(other._holecards, _holecards) && other.SeatNumber == SeatNumber && Equals(other.Name, Name) &&
-                   other.PlayerId == PlayerId && other.Position == Position && Equals(other.Rounds, Rounds);
+                   other.Id == Id && other.Position == Position && Equals(other.Rounds, Rounds);
         }
 
         public override int GetHashCode()
@@ -363,7 +375,7 @@ namespace PokerTell.PokerHand.Aquisition
             int result = Holecards != null ? Holecards.GetHashCode() : 0;
             result = (result * 397) ^ SeatNumber;
             result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
-            result = (result * 397) ^ PlayerId.GetHashCode();
+            result = (result * 397) ^ Id.GetHashCode();
             result = (result * 397) ^ Position;
             result = (result * 397) ^ (Rounds != null ? Rounds.GetHashCode() : 0);
             return result;

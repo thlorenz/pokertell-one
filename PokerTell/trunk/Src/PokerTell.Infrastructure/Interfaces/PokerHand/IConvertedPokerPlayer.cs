@@ -3,16 +3,20 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System;
     using System.Collections.Generic;
 
-    using Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
 
     public interface IConvertedPokerPlayer : IPokerPlayer,
                                              IEnumerable<IConvertedPokerRound>,
                                              IComparable<IConvertedPokerPlayer>
     {
+        #region Properties
+
+        long Id { get; }
+
         /// <summary>
         /// Is player in position on Flop, Turn or River? 0 = yes, 1 = no
         /// </summary>
-        int[] InPosition { get; }
+        bool?[] InPosition { get; }
 
         /// <summary>
         /// M of player after the hand is over
@@ -24,10 +28,19 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </summary>
         int MBefore { get; set; }
 
+        IConvertedPokerHand ParentHand { get; set; }
+
+        IPlayerIdentity PlayerIdentity { get; set; }
+
         /// <summary>
         /// Position, that a preflop raise came from, before player could act
         /// </summary>
         int PreflopRaiseInFrontPos { get; }
+
+        /// <summary>
+        /// List of all Poker Rounds for current hand Preflop Flop
+        /// </summary>
+        IList<IConvertedPokerRound> Rounds { get; set; }
 
         /// <summary>
         /// Contains Sequence strings for each Round of the Player
@@ -42,15 +55,35 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </summary>
         StrategicPositions StrategicPosition { get; }
 
-        /// <summary>
-        /// List of all Poker Rounds for current hand Preflop Flop
-        /// </summary>
-        IList<IConvertedPokerRound> Rounds { get; set; }
+        #endregion
+
+        #region Indexers
 
         /// <summary>
-        /// Number of Rounds that player saw
+        /// The this.
         /// </summary>
-        int Count { get; }
+        /// <param name="index">
+        /// The index.
+        /// </param>
+        IConvertedPokerRound this[int index]
+        {
+            get;
+        }
+
+        /// <summary>
+        /// The this.
+        /// </summary>
+        /// <param name="theStreet">
+        /// The the street.
+        /// </param>
+        IConvertedPokerRound this[Streets theStreet]
+        {
+            get;
+        }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Add a new Poker Round to the player
@@ -65,7 +98,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </param>
         IConvertedPokerPlayer Add(IConvertedPokerRound convertedRound);
 
-        IConvertedPokerPlayer InitializeWith(string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards);
+        IConvertedPokerPlayer InitializeWith(
+            string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards);
 
         /// <summary>
         /// Determines a Sequence string, representing, what the player did in a round
@@ -121,32 +155,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </param>
         void SetStrategicPosition(int playerCount);
 
-        /// <summary>
-        /// The this.
-        /// </summary>
-        /// <param name="index">
-        /// The index.
-        /// </param>
-        IConvertedPokerRound this[int index]
-        {
-            get;
-        }
-
-        /// <summary>
-        /// The this.
-        /// </summary>
-        /// <param name="theStreet">
-        /// The the street.
-        /// </param>
-        IConvertedPokerRound this[Streets theStreet]
-        {
-            get;
-        }
-
-        bool Equals(object obj);
-
-        bool Equals(IConvertedPokerPlayer other);
-
-        int GetHashCode();
+        #endregion
     }
 }

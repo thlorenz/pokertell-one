@@ -4,6 +4,9 @@ namespace PokerTell.Repository.Tests.Fakes
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
+
+    using Iesi.Collections.Generic;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -42,12 +45,12 @@ namespace PokerTell.Repository.Tests.Fakes
         /// <summary>
         /// Identity of hand as determined from the database
         /// </summary>
-        public int HandId { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Gets Players.
         /// </summary>
-        public ReadOnlyCollection<IConvertedPokerPlayer> Players { get; set; }
+        public IList<IConvertedPokerPlayer> Players { get; set; }
 
         /// <summary>
         /// How many players are present at each round
@@ -62,7 +65,13 @@ namespace PokerTell.Repository.Tests.Fakes
         /// <summary>
         /// List of all PokerRound Sequences for current hand Preflop Flop
         /// </summary>
-        public ReadOnlyCollection<IConvertedPokerRound> Sequences { get; set; }
+        public IConvertedPokerRound[] Sequences { get; set; }
+
+        public int PlayersInFlop { get; set; }
+
+        public int PlayersInTurn { get; set; }
+
+        public int PlayersInRiver { get; set; }
 
         /// <summary>
         /// Name of the PokerSite the hand occurred on
@@ -108,7 +117,7 @@ namespace PokerTell.Repository.Tests.Fakes
         /// </summary>
         public IConvertedPokerPlayer this[int index]
         {
-            get { return Players[index]; }
+            get { return Players.ElementAt(index); }
         }
 
         #endregion
@@ -144,19 +153,6 @@ namespace PokerTell.Repository.Tests.Fakes
         {
             // throw new NotImplementedException();
             return this;
-        }
-
-        /// <summary>
-        /// The add sequence.
-        /// </summary>
-        /// <param name="theRound">
-        /// The the round.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// </exception>
-        public void AddSequence(IConvertedPokerRound theRound)
-        {
-            // throw new NotImplementedException();
         }
 
         public IConvertedPokerHand InitializeWith(
@@ -227,6 +223,18 @@ namespace PokerTell.Repository.Tests.Fakes
         #endregion
 
         #region IEnumerable
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        IEnumerator<IConvertedPokerPlayer> IEnumerable<IConvertedPokerPlayer>.GetEnumerator()
+        {
+            return Players.GetEnumerator();
+        }
 
         /// <summary>
         /// Returns an enumerator that iterates through a collection.

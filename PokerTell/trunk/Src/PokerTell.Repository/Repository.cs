@@ -154,9 +154,9 @@ namespace PokerTell.Repository
                 {
                     lock (_cachedHands)
                     {
-                        if (!CachedHands.ContainsKey(insertedHand.HandId))
+                        if (!CachedHands.ContainsKey(insertedHand.Id))
                         {
-                            CachedHands.Add(insertedHand.HandId, insertedHand);
+                            CachedHands.Add(insertedHand.Id, insertedHand);
                         }
                     }
                 }

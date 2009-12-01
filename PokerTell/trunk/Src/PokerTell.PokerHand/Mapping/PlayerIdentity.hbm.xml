@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="PokerTell.PokerHand.Analyzation"
+                   assembly="PokerTell.PokerHand"
+                   default-access="field.camelcase-underscore">
+
+  <class name="PlayerIdentity" 
+         proxy="PokerTell.Infrastructure.Interfaces.PokerHand.IPlayerIdentity, PokerTell.Infrastructure"
+         table="PlayerIdentities">
+  
+    <cache usage="read-write" />
+    
+    <id name="Id" type="int" unsaved-value="0" access="property">
+      <generator class="native" />
+    </id>
+
+    <property name="Name" not-null="true"  index="PlayerIdentity_Name"/>
+    <property name="Site" not-null="true" />
+
+    <set name="ConvertedPlayers" cascade="none" inverse="true" lazy="true">
+      <key>
+        <column name="PlayerIdentity" not-null="true" />
+      </key>
+      <one-to-many class="ConvertedPokerPlayer" />
+    </set>
+
+  </class>
+</hibernate-mapping>
+
+

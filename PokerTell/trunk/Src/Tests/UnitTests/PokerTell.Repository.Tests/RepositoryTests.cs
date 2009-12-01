@@ -176,7 +176,7 @@ namespace PokerTell.Repository.Tests
         public void RetrieveConvertedHand_DatabaseIsConnected_ReturnsHandReturnedByDatabase()
         {
             const int handId = 1;
-            var retrievedHandStub = new ConvertedPokerHandStub { HandId = handId };
+            var retrievedHandStub = new ConvertedPokerHandStub { Id = handId };
            
             _connectedDatabaseStub
                 .Setup(db => db.RetrieveConvertedHand(It.IsAny<int>()))
@@ -186,7 +186,7 @@ namespace PokerTell.Repository.Tests
 
             var result = sut.RetrieveConvertedHand(_stub.Some<int>());
 
-            Assert.That(result.HandId, Is.EqualTo(handId));
+            Assert.That(result.Id, Is.EqualTo(handId));
         }
 
         [Test]
@@ -247,11 +247,11 @@ namespace PokerTell.Repository.Tests
 
             var hand1Mock = new Mock<IConvertedPokerHand>();
             hand1Mock
-                .SetupGet(hand => hand.HandId)
+                .SetupGet(hand => hand.Id)
                 .Returns(1);
             var hand2Mock = new Mock<IConvertedPokerHand>();
            hand2Mock
-               .SetupGet(hand => hand.HandId)
+               .SetupGet(hand => hand.Id)
                .Returns(2);
 
             IList<IConvertedPokerHand> handsToInsert = new[] { hand1Mock.Object, hand2Mock.Object };

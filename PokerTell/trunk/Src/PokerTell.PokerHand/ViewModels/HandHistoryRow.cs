@@ -101,7 +101,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         string GetActionsFor(Streets street)
         {
-            return _pokerPlayer.Count > (int)street && _pokerPlayer[street] != null
+            return _pokerPlayer.Rounds.Count > (int)street && _pokerPlayer[street] != null
                        ? _pokerPlayer[street].ToString()
                        : string.Empty;
         }

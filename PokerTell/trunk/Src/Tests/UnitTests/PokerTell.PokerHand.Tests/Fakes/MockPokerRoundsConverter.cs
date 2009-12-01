@@ -1,10 +1,11 @@
-namespace PokerTell.PokerHand.Tests.Mocks
+namespace PokerTell.PokerHand.Tests.Fakes
 {
-    using Analyzation;
-
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
+
+    using PokerTell.PokerHand.Analyzation;
+    using PokerTell.PokerHand.Services;
 
     using Services;
 

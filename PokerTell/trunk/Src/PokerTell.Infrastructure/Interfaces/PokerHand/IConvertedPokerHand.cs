@@ -1,22 +1,21 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System;
-    using System.Collections;
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
 
-    public interface IConvertedPokerHand : IPokerHand, IEnumerable
+    public interface IConvertedPokerHand : IPokerHand, IEnumerable<IConvertedPokerPlayer>
     {
-        IConvertedPokerHand InitializeWith(string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers);
+        #region Properties
 
         /// <summary>
         /// Identity of hand as determined from the database
         /// </summary>
-        int HandId { get; set; }
+        int Id { get; set; }
 
         /// <summary>
         /// Gets Players.
         /// </summary>
-        ReadOnlyCollection<IConvertedPokerPlayer> Players { get; }
+        IList<IConvertedPokerPlayer> Players { get; }
 
         /// <summary>
         /// How many players are present at each round
@@ -26,7 +25,11 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// <summary>
         /// List of all PokerRound Sequences for current hand Preflop Flop
         /// </summary>
-        ReadOnlyCollection<IConvertedPokerRound> Sequences { get; }
+        IConvertedPokerRound[] Sequences { get; }
+
+        #endregion
+
+        #region Indexers
 
         /// <summary>
         /// List of all Poker Players in the hand
@@ -35,6 +38,10 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         {
             get;
         }
+
+        #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Add Player when creating a hand from 
@@ -45,42 +52,13 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </param>
         IConvertedPokerHand AddPlayer(IConvertedPokerPlayer convertedPlayer);
 
-        /// <summary>
-        /// The add sequence.
-        /// </summary>
-        /// <param name="theRound">
-        /// The the round.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// </exception>
-        void AddSequence(IConvertedPokerRound theRound);
+        IConvertedPokerHand AddPlayersFrom(
+            IAquiredPokerHand aquiredHand, double startingPot, IConstructor<IConvertedPokerPlayer> convertedPlayerMake);
 
-        /// <summary>
-        /// The set strategic positions for all players.
-        /// </summary>
-        void SetStrategicPositionsForAllPlayers();
-
-        /// <summary>
-        /// ToString
-        /// </summary>
-        /// <returns>
-        /// Hand header with info about each player
-        /// </returns>
-        string ToString();
-
-        /// <summary>
-        /// Remove a Poker Player
-        /// Needed when converting hand
-        /// </summary>
-        /// <param name="thePlayer">Player to remove</param>
-        /// <returns>true if player could be removed</returns>
-        bool RemovePlayer(IConvertedPokerPlayer thePlayer);
-
-        void RemovePlayer(int index);
+        IConvertedPokerHand InitializeWith(
+            string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers);
 
         IConvertedPokerHand InitializeWith(IAquiredPokerHand aquiredHand);
-
-        IConvertedPokerHand AddPlayersFrom(IAquiredPokerHand aquiredHand, double startingPot, IConstructor<IConvertedPokerPlayer> convertedPlayerMake);
 
         IConvertedPokerHand RemoveInactivePlayers();
 
@@ -96,5 +74,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// position when he acted a certain way
         /// </summary>
         IConvertedPokerHand SetWhoHasPositionInEachRound();
+
+        #endregion
     }
 }

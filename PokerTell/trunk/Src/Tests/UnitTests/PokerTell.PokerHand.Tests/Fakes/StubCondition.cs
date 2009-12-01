@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHand.Tests.Fakes
 {
-    using Conditions;
-
     using Infrastructure.Interfaces.PokerHand;
+
+    using PokerTell.PokerHand.Conditions;
 
     internal class StubCondition : PokerHandCondition
     {
@@ -18,7 +18,7 @@ namespace PokerTell.PokerHand.Tests.Fakes
     {
         public override bool IsMetBy(IConvertedPokerHand hand)
         {
-            return hand.HandId == HandIdToMatch;
+            return hand.Id == HandIdToMatch;
         }
 
         public int HandIdToMatch { get; set; }

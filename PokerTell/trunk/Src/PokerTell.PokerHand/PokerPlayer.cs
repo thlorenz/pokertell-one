@@ -10,15 +10,14 @@ namespace PokerTell.PokerHand
     [Serializable]
     public class PokerPlayer : IPokerPlayer
     {
+        const string UnknownHolecards = "?? ??";
+
         #region Constants and Fields
 
-        protected string _holecards;
+        protected string _holecards = UnknownHolecards;
 
         [NonSerialized]
         int _seatNumber;
-
-        [NonSerialized]
-        long _playerId;
 
         [NonSerialized]
         int _position;
@@ -43,7 +42,7 @@ namespace PokerTell.PokerHand
         {
             get { return _holecards; }
 
-            set { _holecards = string.IsNullOrEmpty(value) ? "?? ??" : value; }
+            set { _holecards = string.IsNullOrEmpty(value) ? UnknownHolecards : value; }
         }
 
         string _name;
@@ -55,15 +54,6 @@ namespace PokerTell.PokerHand
         {
             get { return _name; }
             set { _name = value; }
-        }
-
-        /// <summary>
-        /// Id of player in Database
-        /// </summary>
-        public long PlayerId
-        {
-            get { return _playerId; }
-            set { _playerId = value; }
         }
 
         /// <summary>
@@ -85,15 +75,15 @@ namespace PokerTell.PokerHand
             {
                 return false;
             }
-
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
-
-            var pokerPlayer = (IPokerPlayer)obj;
-
-            return Equals(pokerPlayer);
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+            return Equals((PokerPlayer)obj);
         }
 
         public override int GetHashCode()
@@ -101,7 +91,7 @@ namespace PokerTell.PokerHand
             unchecked
             {
                 int result = _holecards != null ? _holecards.GetHashCode() : 0;
-                result = (result * 397) ^ (Name != null ? Name.GetHashCode() : 0);
+                result = (result * 397) ^ (_name != null ? _name.GetHashCode() : 0);
                 return result;
             }
         }
@@ -115,11 +105,10 @@ namespace PokerTell.PokerHand
         public override string ToString()
         {
             return string.Format(
-                "Holecards: {0}, SeatNumber: {1}, Name: {2}, PlayerId: {3}, Position: {4}", 
-                _holecards, 
-                SeatNumber, 
-                Name, 
-                PlayerId, 
+                "Holecards: {0}, SeatNumber: {1}, Name: {2}, Position: {3}",
+                _holecards,
+                SeatNumber,
+                Name,
                 Position);
         }
 
@@ -129,21 +118,19 @@ namespace PokerTell.PokerHand
 
         #region Methods
 
-        bool Equals(IPokerPlayer other)
+        bool Equals(PokerPlayer other)
         {
             if (ReferenceEquals(null, other))
             {
                 return false;
             }
-
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
-
-            return other.GetHashCode().Equals(GetHashCode());
+            return Equals(other._holecards, _holecards) && Equals(other._name, _name);
         }
-
+         
         #endregion
     }
 }

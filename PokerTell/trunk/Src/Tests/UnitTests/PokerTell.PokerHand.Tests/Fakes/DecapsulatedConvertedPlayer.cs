@@ -2,9 +2,9 @@ namespace PokerTell.PokerHand.Tests.Fakes
 {
     using System;
 
-    using Analyzation;
-
     using Infrastructure.Enumerations.PokerHand;
+
+    using PokerTell.PokerHand.Analyzation;
 
     [Serializable]
         internal class DecapsulatedConvertedPlayer : ConvertedPokerPlayer
@@ -18,7 +18,7 @@ namespace PokerTell.PokerHand.Tests.Fakes
                 set { base.Sequence = value; }
             }
 
-            public new int[] InPosition
+            public new bool?[] InPosition
             {
                 get { return base.InPosition; }
 

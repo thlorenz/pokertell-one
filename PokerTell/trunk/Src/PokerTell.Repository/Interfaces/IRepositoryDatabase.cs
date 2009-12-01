@@ -28,10 +28,10 @@ namespace PokerTell.Repository.Interfaces
         DataTable GetDataTableFor(string query);
 
         /// <summary>
-        /// Inserts Hand into database and returns the HandId that was assigned to it
+        /// Inserts Hand into database and returns the Id that was assigned to it
         /// </summary>
         /// <param name="convertedHand"></param>
-        /// <returns>HandId used in the identity column of the gamehhd table of the database</returns>
+        /// <returns>Id used in the identity column of the gamehhd table of the database</returns>
         int? InsertHandAndReturnHandId(IConvertedPokerHand convertedHand);
 
         IConvertedPokerHand RetrieveConvertedHand(int handId);

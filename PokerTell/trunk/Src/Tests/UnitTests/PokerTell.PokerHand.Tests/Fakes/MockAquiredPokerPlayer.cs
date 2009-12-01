@@ -1,8 +1,8 @@
-namespace PokerTell.PokerHand.Tests.Mocks
+namespace PokerTell.PokerHand.Tests.Fakes
 {
-    using Aquisition;
-
     using Infrastructure.Interfaces.PokerHand;
+
+    using PokerTell.PokerHand.Aquisition;
 
     public class MockAquiredPokerPlayer : AquiredPokerPlayer, IAquiredPokerPlayer
     {

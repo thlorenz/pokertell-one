@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                     namespace="PokerTell.PokerHand.Analyzation"
+                     assembly="PokerTell.PokerHand"
+                    >
+
+  <class  name="ConvertedPokerPlayer"  
+          proxy="PokerTell.Infrastructure.Interfaces.PokerHand.IConvertedPokerPlayer, PokerTell.Infrastructure"
+          table="ConvertedPokerPlayers">
+   
+    <cache usage="read-write" />
+    
+    <id name="Id" unsaved-value="0">
+      <generator class="native" />
+    </id>
+
+    <many-to-one name="PlayerIdentity"
+                class="PlayerIdentity"
+                column="PlayerIdentity"
+                not-null="true"
+                outer-join="false"
+                update="false"
+                cascade="none"
+                index="ConvertedPokerPlayer_PlayerIdentity"/>
+
+    <many-to-one name="ParentHand"
+                 class="ConvertedPokerHand"
+                 column="HandId"
+                 not-null="true"
+                 outer-join="false"
+                 update="false"
+                 index="ConvertedPokerPlayer_HandId"/>
+    
+    <property name="Holecards"  length="20"/>
+    <property name="Position" />
+    <property name="MBefore" column="M" />
+    <property name="StrategicPosition" index="ConvertedPokerPlayer_StrategicPosition" />
+    
+    <property name="InPositionPreFlop" />
+    <property name="InPositionFlop" />
+    <property name="InPositionTurn" />
+    <property name="InPositionRiver" />
+
+    <property name="ActionsPreFlop"  length="50"/>
+    <property name="ActionsFlop" length="50"/>
+    <property name="ActionsTurn" length="50"/>
+    <property name="ActionsRiver" length="50"/>
+
+    <property name="SequencePreFlop" length="10"/>
+    <property name="SequenceFlop" length="10"/>
+    <property name="SequenceTurn" length="10"/>
+    <property name="SequenceRiver" length="10"/>
+    
+  </class>
+</hibernate-mapping>

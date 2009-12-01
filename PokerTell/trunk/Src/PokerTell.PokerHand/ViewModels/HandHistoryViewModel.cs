@@ -291,7 +291,7 @@ namespace PokerTell.PokerHand.ViewModels
         {
             PlayerRows.Clear();
 
-            foreach (IConvertedPokerPlayer player in hand)
+            foreach (var player in hand)
             {
                 if (_showPreflopFolds || player[Streets.PreFlop][0].What != ActionTypes.F)
                 {

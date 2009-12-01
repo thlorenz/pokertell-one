@@ -54,8 +54,8 @@ namespace PokerTell.Repository
                 .RegisterType<IRepository, Repository>(new ContainerControlledLifetimeManager())
                 .RegisterType<IRepositoryDatabase, RepositoryDatabase>()
                 .RegisterType<IDatabaseUtility, DatabaseUtility>()
-                .RegisterType<IConvertedPokerHandInserter, ConvertedPokerHandInserter>()
-                .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>()
+              //  .RegisterType<IConvertedPokerHandInserter, ConvertedPokerHandInserter>()
+              //  .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>()
                 .RegisterType<IHandHistoriesDirectoryImporter, HandHistoriesDirectoryImporter>(new ContainerControlledLifetimeManager())
 
                 // ViewModels

@@ -3,7 +3,6 @@ namespace PokerTell.PokerHand.Analyzation
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
 
@@ -13,69 +12,40 @@ namespace PokerTell.PokerHand.Analyzation
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    using Services;
-
     using Tools.Extensions;
 
-    /// <summary>
-    /// Description of PokerHand.
-    /// </summary>
     [Serializable]
     public class ConvertedPokerHand : PokerHand, IConvertedPokerHand
     {
         #region Constants and Fields
 
-        /// <summary>
-        /// The log.
-        /// </summary>
-        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        /// <summary>
-        /// The lst sequences.
-        /// </summary>
-        List<IConvertedPokerRound> _lstSequences;
+        [NonSerialized]
+        readonly IConvertedPokerRound[] _sequences = new IConvertedPokerRound[(int)Streets.River + 1];
 
-        /// <summary>
-        /// The lst p.
-        /// </summary>
-        List<IConvertedPokerPlayer> _players;
+        [NonSerialized]
+        int _id;
+
+        IList<IConvertedPokerPlayer> _players = new List<IConvertedPokerPlayer>();
+
+        int[] _playersInRound = new int[(int)Streets.River + 1];
+
+        [NonSerialized]
+        PokerHandStringConverter _pokerHandStringConverter;
 
         #endregion
 
         #region Constructors and Destructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConvertedPokerHand"/> class.
-        /// </summary>
-        public ConvertedPokerHand()
-        {
-            Initialize();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConvertedPokerHand"/> class.
-        /// </summary>
-        /// <param name="site">
-        /// The site.
-        /// </param>
-        /// <param name="gameId">
-        /// The game id.
-        /// </param>
-        /// <param name="timeStamp">
-        /// The time stamp.
-        /// </param>
-        /// <param name="bb">
-        /// The bb.
-        /// </param>
-        /// <param name="sb">
-        /// The sb.
-        /// </param>
-        /// <param name="totalPlayers">
-        /// The total players.
-        /// </param>
         public ConvertedPokerHand(string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers)
         {
             InitializeWith(site, gameId, timeStamp, bb, sb, totalPlayers);
+        }
+
+        public ConvertedPokerHand()
+        {
         }
 
         /// <summary>
@@ -93,26 +63,35 @@ namespace PokerTell.PokerHand.Analyzation
 
         #region Properties
 
-        int _handId;
-
         /// <summary>
         /// Identity of hand as determined from the database
         /// </summary>
-        public int HandId
+        public int Id
         {
-            get { return _handId; }
-            set { _handId = value; }
+            get { return _id; }
+            set { _id = value; }
         }
 
         /// <summary>
         /// Gets Players.
         /// </summary>
-        public ReadOnlyCollection<IConvertedPokerPlayer> Players
+        public IList<IConvertedPokerPlayer> Players
         {
-            get { return _players.AsReadOnly(); }
+            get { return _players; }
+            private set { _players = value; }
         }
 
-        int[] _playersInRound;
+        public int PlayersInFlop
+        {
+            get { return PlayersInRound[(int)Streets.Flop]; }
+            set { PlayersInRound[(int)Streets.Flop] = value; }
+        }
+
+        public int PlayersInRiver
+        {
+            get { return PlayersInRound[(int)Streets.River]; }
+            set { PlayersInRound[(int)Streets.River] = value; }
+        }
 
         /// <summary>
         /// How many players are present at each round
@@ -123,12 +102,51 @@ namespace PokerTell.PokerHand.Analyzation
             private set { _playersInRound = value; }
         }
 
+        public int PlayersInTurn
+        {
+            get { return PlayersInRound[(int)Streets.Turn]; }
+            set { PlayersInRound[(int)Streets.Turn] = value; }
+        }
+
+        public string SequenceFlop
+        {
+            get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.Flop]); }
+
+            private set { _sequences[(int)Streets.Flop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+        }
+
+        public string SequencePreFlop
+        {
+            get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.PreFlop]); }
+
+            private set { _sequences[(int)Streets.PreFlop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+        }
+
+        public string SequenceRiver
+        {
+            get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.River]); }
+
+            private set { _sequences[(int)Streets.River] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+        }
+
         /// <summary>
         /// List of all PokerRound Sequences for current hand Preflop Flop
         /// </summary>
-        public ReadOnlyCollection<IConvertedPokerRound> Sequences
+        public IConvertedPokerRound[] Sequences
         {
-            get { return _lstSequences.AsReadOnly(); }
+            get { return _sequences; }
+        }
+
+        public string SequenceTurn
+        {
+            get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.Turn]); }
+
+            private set { _sequences[(int)Streets.Turn] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+        }
+
+        PokerHandStringConverter PokerHandStringConverter
+        {
+            get { return _pokerHandStringConverter ?? (_pokerHandStringConverter = new PokerHandStringConverter()); }
         }
 
         #endregion
@@ -140,81 +158,35 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public IConvertedPokerPlayer this[int index]
         {
-            get { return Players[index]; }
+            get { return Players.ElementAt(index); }
         }
 
         #endregion
 
-        #region Public Methods
-
-        public IConvertedPokerHand RemoveInactivePlayers()
+        public bool Equals(ConvertedPokerHand other)
         {
-            for (int i = 0; i < Players.Count; i++)
-            {
-                // Either no round or no action Preflop
-                if (this[i].Count < 1 || this[i][Streets.PreFlop].Count < 1)
-                {
-                    RemovePlayer(i);
-                }
-            }
-
-            return this;
+            return base.Equals(other) 
+                && Players.ToArray().EqualsArray(other.Players.ToArray());
         }
 
-        /// <summary>
-        /// Determines for each round, how many active players were in it
-        /// This is needed to filter the statistics by how many opponents a player faced when he acted
-        /// </summary>
-        public IConvertedPokerHand SetNumOfPlayersInEachRound()
+        public override bool Equals(object obj)
         {
-            for (Streets street = Streets.PreFlop; street <= Streets.River; street++)
+            if (ReferenceEquals(null, obj))
             {
-                int playerCount = 0;
-
-                foreach (IConvertedPokerPlayer convertedPlayer in this)
-                {
-                    if (convertedPlayer.Rounds.Count > (int)street)
-                    {
-                        playerCount++;
-                    }
-                }
-
-                PlayersInRound[(int)street] = playerCount;
+                return false;
             }
-           
-            return this;
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return Equals(obj as ConvertedPokerHand);
         }
 
-        /// <summary>
-        /// Determines who was in position in each round of the hand
-        /// This is needed for statistic analysis, since it is important to know if a player was in
-        /// position when he acted a certain way
-        /// </summary>
-        public IConvertedPokerHand SetWhoHasPositionInEachRound()
+        public override int GetHashCode()
         {
-            for (Streets street = Streets.PreFlop; street <= Streets.River; street++)
-            {
-                // Initialize all to false
-                foreach (IConvertedPokerPlayer convertedPlayer in this)
-                {
-                    convertedPlayer.InPosition[(int)street] = 0;
-                }
-
-                // Parse backwards through all Players, and find first one with Action in that round
-                // and set Position true
-                for (int iPlayer = Players.Count - 1; iPlayer >= 0; iPlayer--)
-                {
-                    if (this[iPlayer].Rounds.Count > (int)street)
-                    {
-                        this[iPlayer].InPosition[(int)street] = 1;
-                        break;
-                    }
-                }
-            }
-            return this;
+            return base.GetHashCode();
         }
-
-        #endregion
 
         #region Implemented Interfaces
 
@@ -229,7 +201,9 @@ namespace PokerTell.PokerHand.Analyzation
         /// </param>
         public IConvertedPokerHand AddPlayer(IConvertedPokerPlayer convertedPlayer)
         {
-            _players.Add(convertedPlayer);
+            convertedPlayer.ParentHand = this;
+            Players.Add(convertedPlayer);
+
             return this;
         }
 
@@ -258,35 +232,10 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
-        /// <summary>
-        /// The add sequence.
-        /// </summary>
-        /// <param name="theRound">
-        /// The the round.
-        /// </param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// </exception>
-        public void AddSequence(IConvertedPokerRound theRound)
-        {
-            if (_lstSequences.Count >= 4)
-            {
-                throw new ArgumentOutOfRangeException("theRound", "A maximum of 4 sequences is allowed");
-            }
-
-            // Only add if it contains actions
-            if (theRound.Count > 0)
-            {
-                _lstSequences.Add(theRound);
-            }
-        }
-
         public IConvertedPokerHand InitializeWith(
             string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers)
         {
-            Initialize();
-
             InitializeBase(totalPlayers, site, gameId, timeStamp, bb, sb);
-
             return this;
         }
 
@@ -305,6 +254,20 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
+        public IConvertedPokerHand RemoveInactivePlayers()
+        {
+            for (int i = 0; i < Players.Count; i++)
+            {
+                // Either no round or no action Preflop
+                if (this[i].Rounds.Count < 1 || this[i][Streets.PreFlop].Count < 1)
+                {
+                    RemovePlayer(i);
+                }
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// The remove player.
         /// </summary>
@@ -313,7 +276,7 @@ namespace PokerTell.PokerHand.Analyzation
         /// </param>
         public void RemovePlayer(int index)
         {
-            _players.RemoveAt(index);
+            _players.Remove(_players.ElementAt(index));
         }
 
         /// <summary>
@@ -328,6 +291,30 @@ namespace PokerTell.PokerHand.Analyzation
         }
 
         /// <summary>
+        /// Determines for each round, how many active players were in it
+        /// This is needed to filter the statistics by how many opponents a player faced when he acted
+        /// </summary>
+        public IConvertedPokerHand SetNumOfPlayersInEachRound()
+        {
+            for (Streets street = Streets.PreFlop; street <= Streets.River; street++)
+            {
+                int playerCount = 0;
+
+                foreach (IConvertedPokerPlayer convertedPlayer in this)
+                {
+                    if (convertedPlayer.Rounds.Count > (int)street)
+                    {
+                        playerCount++;
+                    }
+                }
+
+                PlayersInRound[(int)street] = playerCount;
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// The set strategic positions for all players.
         /// </summary>
         public void SetStrategicPositionsForAllPlayers()
@@ -336,6 +323,36 @@ namespace PokerTell.PokerHand.Analyzation
             {
                 convertedPlayer.SetStrategicPosition(TotalPlayers);
             }
+        }
+
+        /// <summary>
+        /// Determines who was in position in each round of the hand
+        /// This is needed for statistic analysis, since it is important to know if a player was in
+        /// position when he acted a certain way
+        /// </summary>
+        public IConvertedPokerHand SetWhoHasPositionInEachRound()
+        {
+            for (Streets street = Streets.PreFlop; street <= Streets.River; street++)
+            {
+                // Initialize all to false
+                foreach (IConvertedPokerPlayer convertedPlayer in this)
+                {
+                    convertedPlayer.InPosition[(int)street] = false;
+                }
+
+                // Parse backwards through all Players, and find first one with Action in that round
+                // and set Position true
+                for (int iPlayer = Players.Count - 1; iPlayer >= 0; iPlayer--)
+                {
+                    if (this[iPlayer].Rounds.Count > (int)street)
+                    {
+                        this[iPlayer].InPosition[(int)street] = true;
+                        break;
+                    }
+                }
+            }
+
+            return this;
         }
 
         /// <summary>
@@ -361,7 +378,7 @@ namespace PokerTell.PokerHand.Analyzation
 
             try
             {
-                foreach (IConvertedPokerPlayer iP in this)
+                foreach (IConvertedPokerPlayer iP in Players)
                 {
                     handinfo += iP.ToString();
                 }
@@ -384,7 +401,23 @@ namespace PokerTell.PokerHand.Analyzation
         /// <returns>
         /// Enumerator of List of Players
         /// </returns>
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
+        {
+            return _players.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable<IConvertedPokerPlayer>
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        IEnumerator<IConvertedPokerPlayer> IEnumerable<IConvertedPokerPlayer>.GetEnumerator()
         {
             return _players.GetEnumerator();
         }
@@ -405,52 +438,6 @@ namespace PokerTell.PokerHand.Analyzation
             Ante = aquiredHand.Ante;
         }
 
-        void Initialize()
-        {
-            _lstSequences = new List<IConvertedPokerRound>();
-            PlayersInRound = new int[(int)Streets.River + 1];
-            _players = new List<IConvertedPokerPlayer>();
-        }
-
         #endregion
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-            return Equals(obj as ConvertedPokerHand);
-        }
-
-        public bool Equals(ConvertedPokerHand other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-            return other.GetHashCode().Equals(GetHashCode())
-                   && other.Players.ToArray().EqualsArray(Players.ToArray())
-                   && other.PlayersInRound.EqualsArray(PlayersInRound);
-                   
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = base.GetHashCode();
-                result = (result * 397) ^ HandId;
-                return result;
-            }
-        }
     }
 }

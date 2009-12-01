@@ -28,7 +28,7 @@ namespace PokerTell.UnitTests.Tools
 
         public void IsEqualTo(object expected)
         {
-            string failureMessage = string.Format("\nExpected: <{0}>\nBut was:  <{1}>", expected ,_actual);
+            string failureMessage = string.Format("\nExpected: <{0}>\nBut was:  <{1}>", expected, _actual);
             Assert.That(_actual.Equals(expected), Is.True, failureMessage);
         }
 

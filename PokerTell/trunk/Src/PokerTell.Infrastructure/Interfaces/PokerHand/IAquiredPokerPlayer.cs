@@ -89,6 +89,11 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         }
 
         /// <summary>
+        /// Id of player in Database
+        /// </summary>
+        long Id { get; set; }
+
+        /// <summary>
         /// The this.
         /// </summary>
         /// <param name="theStreet">

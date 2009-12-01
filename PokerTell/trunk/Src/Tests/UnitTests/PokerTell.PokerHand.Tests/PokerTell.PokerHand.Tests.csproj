@@ -39,6 +39,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\NHibernate\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -55,6 +59,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Moq\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate, Version=2.1.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\NHibernate\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle, Version=2.1.1.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Nunit\nunit.framework.dll</HintPath>
@@ -68,6 +80,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.61.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\System.Data.SQLite\System.Data.SQLite.DLL</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -85,18 +101,18 @@
     <Compile Include="Fakes\MockAquiredPokerPlayer.cs" />
     <Compile Include="Fakes\MockPokerRoundsConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AquiredPokerActionTests.cs" />
-    <Compile Include="AquiredPokerPlayerTests.cs" />
-    <Compile Include="AquiredPokerRoundTests.cs" />
-    <Compile Include="ConvertedPokerHandTests.cs" />
-    <Compile Include="ConvertedPokerPlayerTests_SetActionSequence.cs" />
-    <Compile Include="ConvertedPokerPlayerTests.cs" />
-    <Compile Include="HandHistoriesTableViewModelTests.cs" />
-    <Compile Include="HandHistoryRowTests.cs" />
-    <Compile Include="HandHistoryViewModelTests.cs" />
-    <Compile Include="PokerActionConverterTests.cs" />
-    <Compile Include="PokerHandConverterTests.cs" />
-    <Compile Include="PokerRoundsConverterTests\ProcessRound.cs" />
+    <Compile Include="Aquisition\AquiredPokerActionTests.cs" />
+    <Compile Include="Aquisition\AquiredPokerPlayerTests.cs" />
+    <Compile Include="Aquisition\AquiredPokerRoundTests.cs" />
+    <Compile Include="Analyzation\ConvertedPokerHandTests.cs" />
+    <Compile Include="Analyzation\ConvertedPokerPlayerTests_SetActionSequence.cs" />
+    <Compile Include="Analyzation\ConvertedPokerPlayerTests.cs" />
+    <Compile Include="ViewModels\HandHistoriesTableViewModelTests.cs" />
+    <Compile Include="ViewModels\HandHistoryRowTests.cs" />
+    <Compile Include="ViewModels\HandHistoryViewModelTests.cs" />
+    <Compile Include="Services\PokerActionConverterTests.cs" />
+    <Compile Include="Services\PokerHandConverterTests.cs" />
+    <Compile Include="Services\PokerRoundsConverterTests\ProcessRound.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
@@ -117,23 +133,33 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dao\ConvertedPokerHandDaoTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Dao\PlayerIdentityDaoTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Factories\ConvertedFactory.cs" />
     <Compile Include="Fakes\DecapsulatedConvertedPlayer.cs" />
     <Compile Include="Fakes\FakeHandHistoriesViewModel.cs" />
     <Compile Include="Fakes\MockHandHistoryViewModel.cs" />
     <Compile Include="Fakes\StubCondition.cs" />
-    <Compile Include="ConvertedPokerActionTests.cs" />
-    <Compile Include="ConvertedPokerRoundTests.cs" />
-    <Compile Include="HandHistoriesFilterTests.cs" />
+    <Compile Include="Analyzation\ConvertedPokerActionTests.cs" />
+    <Compile Include="Analyzation\ConvertedPokerRoundTests.cs" />
+    <Compile Include="Services\HandHistoriesFilterTests.cs" />
+    <Compile Include="Base\InMemoryDatabaseTest.cs" />
+    <Compile Include="Mapping\ConvertedPokerHandMapTests.cs" />
+    <Compile Include="Mapping\ConvertedPokerPlayerMapTests.cs" />
+    <Compile Include="Mapping\PlayerIdentityMapTests.cs" />
     <Compile Include="PokerPlayerTests.cs" />
-    <Compile Include="SawFlopConditionTests.cs" />
-    <Compile Include="HandHistoriesViewModelTests.cs" />
-    <Compile Include="InvestedMoneyConditionTests.cs" />
-    <Compile Include="PokerHandStringConverterTests.cs" />
-    <Compile Include="PokerRoundsConverterTests\PostFlop_ThreePlayers.cs" />
-    <Compile Include="PokerRoundsConverterTests\Preflop_HeadsUp.cs" />
-    <Compile Include="PokerRoundsConverterTests\Preflop_ThreePlayers.cs" />
-    <Compile Include="PokerRoundsConverterTests\PostFlop_HeadsUp.cs" />
+    <Compile Include="Conditions\SawFlopConditionTests.cs" />
+    <Compile Include="ViewModels\HandHistoriesViewModelTests.cs" />
+    <Compile Include="Conditions\InvestedMoneyConditionTests.cs" />
+    <Compile Include="Analyzation\PokerHandStringConverterTests.cs" />
+    <Compile Include="Services\PokerRoundsConverterTests\PostFlop_ThreePlayers.cs" />
+    <Compile Include="Services\PokerRoundsConverterTests\Preflop_HeadsUp.cs" />
+    <Compile Include="Services\PokerRoundsConverterTests\Preflop_ThreePlayers.cs" />
+    <Compile Include="Services\PokerRoundsConverterTests\PostFlop_HeadsUp.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

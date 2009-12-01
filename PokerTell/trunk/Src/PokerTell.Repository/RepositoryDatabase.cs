@@ -75,7 +75,7 @@ namespace PokerTell.Repository
                         var handId = InsertHandAndReturnHandId(hand);
                         if (handId != null)
                         {
-                            hand.HandId = handId.Value; 
+                            hand.Id = handId.Value; 
                         }
                     }
                 }
@@ -125,10 +125,10 @@ namespace PokerTell.Repository
         }
 
         /// <summary>
-        /// Inserts Hand into database and returns the HandId that was assigned to it
+        /// Inserts Hand into database and returns the Id that was assigned to it
         /// </summary>
         /// <param name="convertedHand"></param>
-        /// <returns>HandId used in the identity column of the gamehhd table of the database</returns>
+        /// <returns>Id used in the identity column of the gamehhd table of the database</returns>
         public int? InsertHandAndReturnHandId(IConvertedPokerHand convertedHand)
         {
            _convertedPokerHandInserter

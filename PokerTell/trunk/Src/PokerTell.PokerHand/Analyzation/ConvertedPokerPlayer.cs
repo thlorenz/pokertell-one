@@ -16,31 +16,39 @@ namespace PokerTell.PokerHand.Analyzation
     using Tools;
     using Tools.Extensions;
 
-    /// <summary>
-    /// Description of PokerPlayer.
-    /// </summary>
     [Serializable]
     public class ConvertedPokerPlayer : PokerPlayer, IConvertedPokerPlayer
     {
         #region Constants and Fields
 
-        /// <summary>
-        /// The Log.
-        /// </summary>
-        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log =
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        int[] _inPosition;
+        [NonSerialized]
+        long _id;
+
+        [NonSerialized]
+        bool?[] _inPosition = new bool?[(int)Streets.River + 1];
 
         int _mAfter;
 
         int _mBefore;
 
         [NonSerialized]
+        IConvertedPokerHand _parentHand;
+
+        [NonSerialized]
+        IPlayerIdentity _playerIdentity;
+
+        [NonSerialized]
+        PokerHandStringConverter _pokerHandStringConverter;
+
+        [NonSerialized]
         int _preflopRaiseInFrontPos;
 
-        IList<IConvertedPokerRound> _rounds;
+        IList<IConvertedPokerRound> _rounds = new List<IConvertedPokerRound>();
 
-        string[] _sequence;
+        string[] _sequence = new string[(int)Streets.River + 1];
 
         StrategicPositions _strategicPosition;
 
@@ -53,30 +61,35 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public ConvertedPokerPlayer()
         {
-            Initialize();
+        }
+
+        public bool Equals(ConvertedPokerPlayer other)
+        {
+            return base.Equals(other)
+                   && Rounds.ToArray().EqualsArray(other.Rounds.ToArray());
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            return Equals(obj as ConvertedPokerPlayer);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvertedPokerPlayer"/> class.
-        /// </summary>
-        /// <param name="name">
-        /// The name.
-        /// </param>
-        /// <param name="mBefore">
-        /// The m before.
-        /// </param>
-        /// <param name="mAfter">
-        /// The m after.
-        /// </param>
-        /// <param name="positionNum">
-        /// The position num.
-        /// </param>
-        /// <param name="totalPlayers">
-        /// The total players.
-        /// </param>
-        /// <param name="holecards">
-        /// The holecards.
-        /// </param>
         /// <exception cref="ArgumentOutOfRangeException">
         /// </exception>
         /// <exception cref="ArgumentNullException">
@@ -92,21 +105,71 @@ namespace PokerTell.PokerHand.Analyzation
 
         #region Properties
 
-        /// <summary>
-        /// Number of Rounds that player saw
-        /// </summary>
-        public int Count
+        public string ActionsFlop
         {
-            get { return Rounds.Count; }
+            get { return GetActionsIfRoundExistsFor(Streets.Flop); }
+
+            private set { ValidateActionsAddRoundsIfNecessaryAndAssignRoundConvertedFrom(value, Streets.Flop); }
+        }
+
+        public string ActionsPreFlop
+        {
+            get { return GetActionsIfRoundExistsFor(Streets.PreFlop); }
+
+            private set { ValidateActionsAddRoundsIfNecessaryAndAssignRoundConvertedFrom(value, Streets.PreFlop); }
+        }
+
+        public string ActionsRiver
+        {
+            get { return GetActionsIfRoundExistsFor(Streets.River); }
+
+            private set { ValidateActionsAddRoundsIfNecessaryAndAssignRoundConvertedFrom(value, Streets.River); }
+        }
+
+        public string ActionsTurn
+        {
+            get { return GetActionsIfRoundExistsFor(Streets.Turn); }
+
+            private set { ValidateActionsAddRoundsIfNecessaryAndAssignRoundConvertedFrom(value, Streets.Turn); }
+        }
+
+        public long Id
+        {
+            get { return _id; }
+            private set { _id = value; }
         }
 
         /// <summary>
-        /// Is player in position on Flop, Turn or River? 0 = yes, 1 = no
+        /// Is player in position on Flop, Turn or River?
         /// </summary>
-        public int[] InPosition
+        public bool?[] InPosition
         {
             get { return _inPosition; }
             protected set { _inPosition = value; }
+        }
+
+        public bool? InPositionFlop
+        {
+            get { return InPosition[(int)Streets.Flop]; }
+            private set { InPosition[(int)Streets.Flop] = value; }
+        }
+
+        public bool? InPositionPreFlop
+        {
+            get { return InPosition[(int)Streets.PreFlop]; }
+            private set { InPosition[(int)Streets.PreFlop] = value; }
+        }
+
+        public bool? InPositionRiver
+        {
+            get { return InPosition[(int)Streets.River]; }
+            private set { InPosition[(int)Streets.River] = value; }
+        }
+
+        public bool? InPositionTurn
+        {
+            get { return InPosition[(int)Streets.Turn]; }
+            private set { InPosition[(int)Streets.Turn] = value; }
         }
 
         /// <summary>
@@ -125,6 +188,22 @@ namespace PokerTell.PokerHand.Analyzation
         {
             get { return _mBefore; }
             set { _mBefore = value; }
+        }
+
+        public IConvertedPokerHand ParentHand
+        {
+            get { return _parentHand; }
+            set { _parentHand = value; }
+        }
+
+        public IPlayerIdentity PlayerIdentity
+        {
+            get { return _playerIdentity; }
+            set
+            {
+                _playerIdentity = value;
+                Name = value.Name;
+            }
         }
 
         /// <summary>
@@ -157,6 +236,30 @@ namespace PokerTell.PokerHand.Analyzation
             protected set { _sequence = value; }
         }
 
+        public string SequenceFlop
+        {
+            get { return Sequence[(int)Streets.Flop]; }
+            private set { Sequence[(int)Streets.Flop] = value; }
+        }
+
+        public string SequencePreFlop
+        {
+            get { return Sequence[(int)Streets.PreFlop]; }
+            private set { Sequence[(int)Streets.PreFlop] = value; }
+        }
+
+        public string SequenceRiver
+        {
+            get { return Sequence[(int)Streets.River]; }
+            private set { Sequence[(int)Streets.River] = value; }
+        }
+
+        public string SequenceTurn
+        {
+            get { return Sequence[(int)Streets.Turn]; }
+            private set { Sequence[(int)Streets.Turn] = value; }
+        }
+
         /// <summary>
         /// Position of Player in relation to Button (SB - BU)
         /// </summary>
@@ -164,6 +267,11 @@ namespace PokerTell.PokerHand.Analyzation
         {
             get { return _strategicPosition; }
             protected set { _strategicPosition = value; }
+        }
+
+        PokerHandStringConverter PokerHandStringConverter
+        {
+            get { return _pokerHandStringConverter ?? (_pokerHandStringConverter = new PokerHandStringConverter()); }
         }
 
         #endregion
@@ -242,7 +350,7 @@ namespace PokerTell.PokerHand.Analyzation
                     throw new ArgumentNullException("convertedRound");
                 }
 
-                if (Count < 4)
+                if (Rounds.Count < 4)
                 {
                     Rounds.Add(convertedRound);
                 }
@@ -259,58 +367,9 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            return Equals(obj as IConvertedPokerPlayer);
-        }
-
-        public bool Equals(IConvertedPokerPlayer other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return other.GetHashCode().Equals(GetHashCode())
-                   && other.InPosition.EqualsArray(InPosition)
-                   && other.Rounds.ToArray().EqualsArray(Rounds.ToArray())
-                   && other.Sequence.EqualsArray(Sequence);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = base.GetHashCode();
-
-                result = (result * 397) ^ MAfter;
-                result = (result * 397) ^ MBefore;
-                result = (result * 397) ^ StrategicPosition.GetHashCode();
-
-                return result;
-            }
-        }
-
         public IConvertedPokerPlayer InitializeWith(
             string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards)
         {
-            Initialize();
-
             try
             {
                 if (positionNum < 0 || positionNum > 9)
@@ -344,7 +403,7 @@ namespace PokerTell.PokerHand.Analyzation
                 SetStrategicPosition(totalPlayers);
 
                 Holecards = holecards;
-                InPosition = new int[4];
+                InPosition = new bool?[4];
                 PreflopRaiseInFrontPos = -1;
             }
             catch (Exception excep)
@@ -412,6 +471,11 @@ namespace PokerTell.PokerHand.Analyzation
                 }
 
                 return;
+            }
+
+            if (Sequence[(int)street] == null)
+            {
+                Sequence[(int)street] = string.Empty;
             }
 
             // PostFlop, once we have a bet or reaction to bet (represented by number) we don't need to know more
@@ -517,12 +581,12 @@ namespace PokerTell.PokerHand.Analyzation
             try
             {
                 return string.Format(
-                    "[{5} {0} {1}] {2}-{3}\t{4}\n", 
-                    StrategicPosition, 
-                    Name, 
-                    MBefore, 
-                    MAfter, 
-                    BettingRoundsToString(), 
+                    "[{5} {0} {1}] {2}-{3}\t{4}\n",
+                    StrategicPosition,
+                    Name,
+                    MBefore,
+                    MAfter,
+                    BettingRoundsToString(),
                     Holecards);
             }
             catch (ArgumentNullException excep)
@@ -558,6 +622,13 @@ namespace PokerTell.PokerHand.Analyzation
             return betting;
         }
 
+        string GetActionsIfRoundExistsFor(Streets street)
+        {
+            return Rounds.Count > (int)street
+                       ? PokerHandStringConverter.BuildSqlStringFrom(Rounds[(int)street])
+                       : null;
+        }
+
         /// <summary>
         /// The heads up.
         /// </summary>
@@ -574,40 +645,6 @@ namespace PokerTell.PokerHand.Analyzation
                     StrategicPosition = StrategicPositions.BU;
                     Position = 1;
                     break;
-            }
-        }
-
-        void Initialize()
-        {
-            Rounds = new List<IConvertedPokerRound>();
-
-            PreflopRaiseInFrontPos = 0;
-            InitializeSequence();
-            InitializeInPosition();
-        }
-
-        /// <summary>
-        /// The initialize in position.
-        /// </summary>
-        void InitializeInPosition()
-        {
-            InPosition = new int[4];
-            for (int i = 0; i < Sequence.Length; i++)
-            {
-                // 2 means no action in round and is the default value in the database
-                InPosition[i] = 2;
-            }
-        }
-
-        /// <summary>
-        /// The initialize sequence.
-        /// </summary>
-        void InitializeSequence()
-        {
-            Sequence = new string[4];
-            for (int i = 0; i < Sequence.Length; i++)
-            {
-                Sequence[i] = string.Empty;
             }
         }
 
@@ -652,6 +689,21 @@ namespace PokerTell.PokerHand.Analyzation
                     StrategicPosition = StrategicPositions.BB;
                     break;
             }
+        }
+
+        void ValidateActionsAddRoundsIfNecessaryAndAssignRoundConvertedFrom(string actions, Streets street)
+        {
+            if (string.IsNullOrEmpty(actions))
+            {
+                return;
+            }
+
+            while (Rounds.Count < (int)street + 1)
+            {
+                Add();
+            }
+
+            Rounds[(int)street] = PokerHandStringConverter.ConvertedRoundFrom(actions);
         }
 
         #endregion

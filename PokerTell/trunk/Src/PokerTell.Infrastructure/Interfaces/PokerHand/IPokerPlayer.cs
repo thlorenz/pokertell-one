@@ -23,11 +23,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         string Name { get; set; }
 
         /// <summary>
-        /// Id of player in Database
-        /// </summary>
-        long PlayerId { get; set; }
-
-        /// <summary>
         /// Position: SB=0, BB=1, Button=totalplrs (-1 when yet unknown)
         /// </summary>
         int Position { get; set; }

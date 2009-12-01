@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="PokerTell.PokerHand.Analyzation"
+                   assembly="PokerTell.PokerHand"
+                   >
+
+  <class name="ConvertedPokerHand" 
+         proxy="PokerTell.Infrastructure.Interfaces.PokerHand.IConvertedPokerHand, PokerTell.Infrastructure"
+         table="ConvertedPokerHands">
+  
+    <cache usage="read-write" />
+    
+    <id name="Id" unsaved-value="0">
+      <generator class="native" />
+    </id>
+
+    <property name="GameId" not-null="true"  index="ConvertedPokerHand_GameId"/>
+    <property name="Site" length="20" not-null="true" />
+    <property name="TournamentId" />
+    <property name="TableName" length="20" />
+
+    <property name="BB"  index="ConvertedPokerHand_BB" />
+    <property name="SB" />
+    <property name="Ante" />
+    <property name="TimeStamp" />
+
+    <property name="Board" length="20" />
+    <property name="TotalPlayers" />
+    <property name="TotalSeats" />
+
+    <property name="PlayersInFlop" />
+    <property name="PlayersInTurn" />
+    <property name="PlayersInRiver" />
+
+    <property name="SequencePreFlop" length="100"/>
+    <property name="SequenceFlop" length="100"/>
+    <property name="SequenceTurn" length="100"/>
+    <property name="SequenceRiver" length="100"/>
+    
+    <list name="Players" cascade="all" lazy="true">
+      <key column="HandId"  not-null="true"/>
+      <index column="ListPosition" />
+      <one-to-many class="ConvertedPokerPlayer" />
+    </list>
+    
+  </class>
+</hibernate-mapping>
+
+<!-- 
+ 
+-->

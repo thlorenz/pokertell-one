@@ -105,7 +105,7 @@ namespace PokerTell.PokerHand.Services
                 }
                 while (FoundAction);
 
-                _convertedHand.AddSequence(SequenceForCurrentRound);
+                _convertedHand.Sequences[(int)street] = SequenceForCurrentRound;
             }
 
             return _convertedHand;
@@ -154,7 +154,7 @@ namespace PokerTell.PokerHand.Services
             }
             while (FoundAction);
 
-            _convertedHand.AddSequence(SequenceForCurrentRound);
+            _convertedHand.Sequences[(int)Streets.PreFlop] = SequenceForCurrentRound;
 
             return this;
         }
@@ -241,7 +241,7 @@ namespace PokerTell.PokerHand.Services
         {
             convertedPlayer.SetActionSequence(ref SequenceSoFar, convertedAction, street);
 
-            if (convertedPlayer.Count < (int)street + 1)
+            if (convertedPlayer.Rounds != null && convertedPlayer.Rounds.Count < (int)street + 1)
             {
                 convertedPlayer.Add();
             }

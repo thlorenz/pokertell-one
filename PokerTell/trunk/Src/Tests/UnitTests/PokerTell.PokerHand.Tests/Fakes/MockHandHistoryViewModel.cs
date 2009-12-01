@@ -4,7 +4,7 @@ namespace PokerTell.PokerHand.Tests.Fakes
 
     using Infrastructure.Interfaces.PokerHand;
 
-    using ViewModels;
+    using PokerTell.PokerHand.ViewModels;
 
     public class MockHandHistoryViewModel : HandHistoryViewModel
     {

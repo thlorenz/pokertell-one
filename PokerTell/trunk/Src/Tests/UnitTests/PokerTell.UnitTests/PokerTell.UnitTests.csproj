@@ -74,6 +74,7 @@
     <Compile Include="Tools\StubWith.cs" />
     <Compile Include="Tools\TestBinarySerialization.cs" />
     <Compile Include="Tools\ThatStubBuilder.cs" />
+    <Compile Include="Tools\UnitTestingExtensions.cs" />
     <Compile Include="Tools\ValueInfo.cs" />
     <Compile Include="Tools\ValueSetup.cs" />
     <Compile Include="Tools\TestXmlSerialization.cs" />

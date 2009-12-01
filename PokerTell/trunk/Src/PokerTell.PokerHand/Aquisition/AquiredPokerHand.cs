@@ -128,7 +128,7 @@ namespace PokerTell.PokerHand.Aquisition
         {
             foreach (IAquiredPokerPlayer aquiredPlayer in this)
             {
-                if (aquiredPlayer.PlayerId == ID)
+                if (aquiredPlayer.Id == ID)
                 {
                     return true;
                 }

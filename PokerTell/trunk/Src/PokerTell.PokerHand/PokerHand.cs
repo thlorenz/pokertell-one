@@ -48,7 +48,7 @@ namespace PokerTell.PokerHand
 
         #region Constructors and Destructors
 
-        public PokerHand()
+        protected PokerHand()
         {
             AllNames = new List<string>();
         }
@@ -232,21 +232,18 @@ namespace PokerTell.PokerHand
             {
                 return false;
             }
-
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
-
-            if (obj.GetType() != typeof(PokerHand))
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
-
             return Equals((PokerHand)obj);
         }
 
-        public bool Equals(IPokerHand other)
+        public bool Equals(PokerHand other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -258,24 +255,27 @@ namespace PokerTell.PokerHand
                 return true;
             }
 
-            return other.GetHashCode().Equals(GetHashCode());
+            return other._ante == _ante && other._bb == _bb && Equals(other._board, _board) && other._gameId == _gameId &&
+                   other._sb == _sb && Equals(other._site, _site) && Equals(other._tableName, _tableName) &&
+                   other._timeStamp.Equals(_timeStamp) && other._totalPlayers == _totalPlayers &&
+                   other._totalSeats == _totalSeats && other._tournamentId == _tournamentId;
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int result = _board != null ? _board.GetHashCode() : 0;
-                result = (result * 397) ^ Ante.GetHashCode();
-                result = (result * 397) ^ BB.GetHashCode();
-                result = (result * 397) ^ GameId.GetHashCode();
-                result = (result * 397) ^ SB.GetHashCode();
-                result = (result * 397) ^ (Site != null ? Site.GetHashCode() : 0);
-                result = (result * 397) ^ (TableName != null ? TableName.GetHashCode() : 0);
-                result = (result * 397) ^ TimeStamp.GetHashCode();
-                result = (result * 397) ^ TotalPlayers;
-                result = (result * 397) ^ TotalSeats;
-                result = (result * 397) ^ TournamentId.GetHashCode();
+                int result = _ante.GetHashCode();
+                result = (result * 397) ^ _bb.GetHashCode();
+                result = (result * 397) ^ (_board != null ? _board.GetHashCode() : 0);
+                result = (result * 397) ^ _gameId.GetHashCode();
+                result = (result * 397) ^ _sb.GetHashCode();
+                result = (result * 397) ^ (_site != null ? _site.GetHashCode() : 0);
+                result = (result * 397) ^ (_tableName != null ? _tableName.GetHashCode() : 0);
+                result = (result * 397) ^ _timeStamp.GetHashCode();
+                result = (result * 397) ^ _totalPlayers;
+                result = (result * 397) ^ _totalSeats;
+                result = (result * 397) ^ _tournamentId.GetHashCode();
                 return result;
             }
         }
@@ -340,6 +340,11 @@ namespace PokerTell.PokerHand
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("Ante: {0}, BB: {1}, Board: {2}, GameId: {3}, SB: {4}, Site: {5}, TableName: {6}, TimeStamp: {7}, TotalPlayers: {8}, TotalSeats: {9}, TournamentId: {10}", _ante, _bb, _board, _gameId, _sb, _site, _tableName, _timeStamp, _totalPlayers, _totalSeats, _tournamentId);
+        }
 
         #endregion
     }

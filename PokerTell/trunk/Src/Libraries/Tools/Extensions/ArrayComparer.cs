@@ -9,16 +9,20 @@
 
         public static bool EqualsArray(this Array array1, Array array2)
         {
-            return ArraysAreEqual(array1, array2);
+            return ArraysAreEqual(array1, array2, false);
+        }
+
+        public static bool EqualsArray(this Array array1, Array array2, bool showMessages)
+        {
+            return ArraysAreEqual(array1, array2, showMessages);
         }
 
         #endregion
 
         #region Methods
 
-        static bool ArraysAreEqual(Array array1, Array array2)
+        static bool ArraysAreEqual(Array array1, Array array2, bool showMessages)
         {
-            bool ShowMessages = false;
             
             if (array1 == null && array2 == null)
             {
@@ -27,7 +31,7 @@
 
             if ((array1 == null) || (array2 == null))
             {
-                if (ShowMessages)
+                if (showMessages)
                 {
                     Debug.WriteLine(
                         string.Format(
@@ -44,7 +48,7 @@
 
             if (array1.Length != array2.Length)
             {
-                if (ShowMessages)
+                if (showMessages)
                 {
                     Debug.WriteLine(
                         string.Format("Length1: <{0}> not equal Length2: <{1}>", array1.Length, array2.Length));
@@ -57,7 +61,7 @@
             {
                 if (array1.GetValue(i).ToStringNullSafe() != array2.GetValue(i).ToStringNullSafe())
                 {
-                    if (ShowMessages)
+                    if (showMessages)
                     {
                         Debug.WriteLine(
                             string.Format(
