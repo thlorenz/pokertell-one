@@ -143,34 +143,34 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
         }
 
         [Test]
-        public void ConvertPreflop_Player1IsSmallBlind_SetsSmallBlindsPreflopSequence()
+        public void ConvertPreflop_Player1IsSmallBlind_SetsSmallBlindsPreflopSequenceString()
         {
             const string expectedSequence = "C";
 
             var result = ConvertPreflopThreePlayersHand();
-            var smallBlindPreflopSequence = result.ConvertedHand[0].Sequence[(int)Streets.PreFlop];
+            var smallBlindPreflopSequence = result.ConvertedHand[0].SequenceStrings[(int)Streets.PreFlop];
 
             Assert.That(smallBlindPreflopSequence, Is.EqualTo(expectedSequence));
         }
 
         [Test]
-        public void ConvertPreflop_Player1IsSmallBlind_SetsBigBlindsPreflopSequence()
+        public void ConvertPreflop_Player1IsSmallBlind_SetsBigBlindsPreflopSequenceString()
         {
             const string expectedSequence = "R";
 
             var result = ConvertPreflopThreePlayersHand();
-            var bigBlindPreflopSequence = result.ConvertedHand[1].Sequence[(int)Streets.PreFlop];
+            var bigBlindPreflopSequence = result.ConvertedHand[1].SequenceStrings[(int)Streets.PreFlop];
 
             Assert.That(bigBlindPreflopSequence, Is.EqualTo(expectedSequence));
         }
 
         [Test]
-        public void ConvertPreflop_Player1IsSmallBlind_SetsButtonsPreflopSequence()
+        public void ConvertPreflop_Player1IsSmallBlind_SetsButtonsPreflopSequenceString()
         {
             const string expectedSequence = "C";
 
             var result = ConvertPreflopThreePlayersHand();
-            var buttonPreflopSequence = result.ConvertedHand[2].Sequence[(int)Streets.PreFlop];
+            var buttonPreflopSequence = result.ConvertedHand[2].SequenceStrings[(int)Streets.PreFlop];
 
             Assert.That(buttonPreflopSequence, Is.EqualTo(expectedSequence));
         }

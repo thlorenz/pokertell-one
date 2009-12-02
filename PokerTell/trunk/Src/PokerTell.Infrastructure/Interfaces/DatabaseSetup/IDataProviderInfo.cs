@@ -14,6 +14,10 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         string CreateTablesQuery { get; }
 
+        string NHibernateDialect { get; }
+
+        string NHibernateConnectionDriver { get; }
+
         #endregion
     }
 }

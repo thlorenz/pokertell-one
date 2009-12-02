@@ -147,7 +147,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             const string expectedSequence = "7";
 
             var result = ConvertPreflopThreePlayersHand();
-            var smallBlindPreflopSequence = result.ConvertedHand[0].Sequence[(int)Streets.Flop];
+            var smallBlindPreflopSequence = result.ConvertedHand[0].SequenceStrings[(int)Streets.Flop];
 
             Assert.That(smallBlindPreflopSequence, Is.EqualTo(expectedSequence));
         }
@@ -159,7 +159,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             const string expectedSequence = "7C";
 
             var result = ConvertPreflopThreePlayersHand();
-            var bigBlindPreflopSequence = result.ConvertedHand[1].Sequence[(int)Streets.Flop];
+            var bigBlindPreflopSequence = result.ConvertedHand[1].SequenceStrings[(int)Streets.Flop];
 
             Assert.That(bigBlindPreflopSequence, Is.EqualTo(expectedSequence));
         }
@@ -171,7 +171,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             const string expectedSequence = "7R";
 
             var result = ConvertPreflopThreePlayersHand();
-            var buttonPreflopSequence = result.ConvertedHand[2].Sequence[(int)Streets.Flop];
+            var buttonPreflopSequence = result.ConvertedHand[2].SequenceStrings[(int)Streets.Flop];
 
             Assert.That(buttonPreflopSequence, Is.EqualTo(expectedSequence));
         }

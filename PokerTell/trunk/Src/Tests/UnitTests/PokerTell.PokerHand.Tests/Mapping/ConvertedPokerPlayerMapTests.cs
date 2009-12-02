@@ -168,16 +168,13 @@ namespace PokerTell.PokerHand.Tests.Mapping
         }
 
         [Test]
-        public void Get_SavedPlayer_RestoresSequenceArray()
+        public void Get_SavedPlayer_RestoresActionSequencesArray()
         {
-            var sampleAction = new ConvertedPokerAction(ActionTypes.B, 1.0);
+            _player.ActionSequences[(int)Streets.PreFlop] = ActionSequences.HeroF;
+            _player.ActionSequences[(int)Streets.Flop] = ActionSequences.HeroB;
+            _player.ActionSequences[(int)Streets.Turn] = ActionSequences.HeroXOppBHeroF;
+            _player.ActionSequences[(int)Streets.River] = ActionSequences.HeroB;
 
-            string sequenceSoFar = string.Empty;
-            _player.SetActionSequence(ref sequenceSoFar, sampleAction, Streets.PreFlop);
-            _player.SetActionSequence(ref sequenceSoFar, sampleAction, Streets.Flop);
-            _player.SetActionSequence(ref sequenceSoFar, sampleAction, Streets.Turn);
-            _player.SetActionSequence(ref sequenceSoFar, sampleAction, Streets.River);
-                
             _hand.AddPlayer(_player);
             _session.Save(_hand);
 
@@ -185,9 +182,25 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.Sequence.AreEqualTo(_player.Sequence);
+            retrievedPlayer.ActionSequences.AreEqualTo(_player.ActionSequences);
         }
 
+        [Test]
+        public void Get_SavedPlayer_RestoresBetSizeIndexesArray()
+        {
+            _player.BetSizeIndexes[(int)Streets.Flop] = 1;
+            _player.BetSizeIndexes[(int)Streets.Turn] = 2;
+            _player.BetSizeIndexes[(int)Streets.River] = 3;
+
+            _hand.AddPlayer(_player);
+            _session.Save(_hand);
+
+            FlushAndClearSession();
+
+            IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
+
+            retrievedPlayer.BetSizeIndexes.AreEqualTo(_player.BetSizeIndexes);
+        }
 
         [Test]
         public void Get_SavedPlayer_RestoresPlayerParentHandAsProxy()

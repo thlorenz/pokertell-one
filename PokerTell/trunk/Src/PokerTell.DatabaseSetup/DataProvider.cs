@@ -7,10 +7,18 @@ namespace PokerTell.DatabaseSetup
     using System.Reflection;
     using System.Text;
 
+    using Infrastructure;
+
     using log4net;
+
+    using NHibernate;
+    using NHibernate.ByteCode.Castle;
+    using NHibernate.Cfg;
 
     using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+
+    using Environment = NHibernate.Cfg.Environment;
 
     public class DataProvider : IDataProvider
     {
@@ -22,6 +30,10 @@ namespace PokerTell.DatabaseSetup
         IDbConnection _connection;
 
         DbProviderFactory _providerFactory;
+
+        IDataProviderInfo _dataProviderInfo;
+
+        Configuration _configuration;
 
         #endregion
 
@@ -67,15 +79,21 @@ namespace PokerTell.DatabaseSetup
 
         public string ParameterPlaceHolder { get; set; }
 
+        public Configuration NHibernateConfiguration
+        {
+            get { return _configuration; }
+        }
+
         #endregion
 
         #region Implemented Interfaces
 
         #region IDataProvider
 
-        public void Connect(string connString, string providerName)
+        public void Connect(string connString, IDataProviderInfo dataProviderInfo)
         {
-            _providerFactory = DbProviderFactories.GetFactory(providerName);
+            _dataProviderInfo = dataProviderInfo;
+            _providerFactory = DbProviderFactories.GetFactory(dataProviderInfo.FullName);
 
             _connection = _providerFactory.CreateConnection();
             _connection.ConnectionString = connString;
@@ -179,6 +197,31 @@ namespace PokerTell.DatabaseSetup
         }
 
         #endregion
+
+        /// <summary>
+        /// Builds an NHibernate Session Factory using the Connection String from the current database connection and
+        /// the NHibernate Dialect, ConnectionDriver specified in the DataProviderInfo.
+        /// Therefore first InitializeWith(dataProviderInfo) and ConnectToDatabase() before calling this Method.
+        /// </summary>
+        /// <returns>Newly created NHibernate SessionFactory or null if DataProvider was not connected.</returns>
+        public ISessionFactory BuildSessionFactory()
+        {
+            if (IsConnectedToDatabase && _dataProviderInfo != null)
+            {
+                _configuration = new Configuration()
+                    .SetProperty(Environment.ReleaseConnections, "on_close")
+                    .SetProperty(Environment.Dialect, _dataProviderInfo.NHibernateDialect)
+                    .SetProperty(Environment.ConnectionDriver, _dataProviderInfo.NHibernateConnectionDriver)
+                    .SetProperty(Environment.ConnectionString, Connection.ConnectionString)
+                    .SetProperty(Environment.ProxyFactoryFactoryClass, typeof(ProxyFactoryFactory).AssemblyQualifiedName)
+                    .SetProperty(Environment.ShowSql, "false")
+                    .AddAssembly(ApplicationProperties.MappingAssemblyName);
+
+                return NHibernateConfiguration.BuildSessionFactory();
+            }
+
+            return null;
+        }
 
         #endregion
     }

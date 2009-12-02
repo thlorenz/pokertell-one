@@ -6,6 +6,8 @@ namespace PokerTell.Repository
 
     using Interfaces;
 
+    using NHibernate;
+
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
@@ -20,6 +22,8 @@ namespace PokerTell.Repository
         readonly IConvertedPokerHandRetriever _convertedPokerHandRetriever;
 
         readonly IDatabaseUtility _databaseUtility;
+
+        ISessionFactory _sessionFactory;
 
         #endregion
 
@@ -59,6 +63,12 @@ namespace PokerTell.Repository
         public IRepositoryDatabase Use(IDataProvider dataProvider)
         {
             _dataProvider = dataProvider;
+            return this;
+        }
+
+        public IRepositoryDatabase Use(ISessionFactory sessionFactory)
+        {
+            _sessionFactory = sessionFactory;
             return this;
         }
 

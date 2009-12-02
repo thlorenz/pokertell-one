@@ -114,6 +114,7 @@
     <Compile Include="Analyzation\ConvertedPokerRound.cs" />
     <Compile Include="Analyzation\PlayerIdentity.cs" />
     <Compile Include="Analyzation\PokerHandStringConverter.cs" />
+    <Compile Include="Analyzation\SequenceStringConverter.cs" />
     <Compile Include="Aquisition\AquiredPlayerSeat.cs" />
     <Compile Include="Aquisition\AquiredPokerAction.cs" />
     <Compile Include="Aquisition\AquiredPokerHand.cs" />

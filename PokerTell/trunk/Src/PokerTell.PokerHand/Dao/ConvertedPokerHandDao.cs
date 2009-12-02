@@ -1,38 +1,29 @@
 namespace PokerTell.PokerHand.Dao
 {
     using System.Linq;
-    using System.Reflection;
-
-    using Analyzation;
-
-    using Infrastructure.Interfaces.PokerHand;
-
-    using log4net;
 
     using NHibernate;
     using NHibernate.Linq;
 
-    public class ConvertedPokerHandDao
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHand.Analyzation;
+
+    public class ConvertedPokerHandDao : IConvertedPokerHandDao
     {
         #region Constants and Fields
 
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        readonly ISession _session;
+        ISession _session;
 
         #endregion
 
-        #region Constructors and Destructors
+        #region Implemented Interfaces
 
-        public ConvertedPokerHandDao(ISession session)
+        #region IConvertedPokerHandDao
+
+        public IConvertedPokerHand Get(int id)
         {
-            _session = session;
+            return _session.Get<ConvertedPokerHand>(id);
         }
-
-        #endregion
-
-        #region Public Methods
 
         public IConvertedPokerHand GetHandWith(ulong gameId, string site)
         {
@@ -40,6 +31,12 @@ namespace PokerTell.PokerHand.Dao
                     where hand.GameId == gameId && hand.Site == site
                     select hand)
                 .SingleOrDefault();
+        }
+
+        public IConvertedPokerHandDao InitializeWith(ISession session)
+        {
+            _session = session;
+            return this;
         }
 
         public IConvertedPokerHand Insert(IConvertedPokerHand convertedPokerHand)
@@ -60,6 +57,8 @@ namespace PokerTell.PokerHand.Dao
 
         #endregion
 
+        #endregion
+
         #region Methods
 
         static bool IsComplete(IConvertedPokerHand convertedPokerHand)
@@ -68,10 +67,5 @@ namespace PokerTell.PokerHand.Dao
         }
 
         #endregion
-
-        public IConvertedPokerHand Get(int id)
-        {
-            return _session.Get<ConvertedPokerHand>(id);
-        }
     }
 }

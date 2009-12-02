@@ -62,7 +62,7 @@
 
             var repositoryParser = _container.Resolve<RepositoryParser>();
 
-            const string directory = @"C:\SD\PokerTell\TestData\HandHistories\FullTilt\Batches\NEw\";
+            const string directory = @"C:\SD\PokerTell\TestData\HandHistories\FullTilt\Batches\New\";
 
             ParseDirectoryWithParser(directory, repositoryParser, printConvertedHands);
         }

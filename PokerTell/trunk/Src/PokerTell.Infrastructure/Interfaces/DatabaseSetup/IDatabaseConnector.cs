@@ -1,5 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 {
+    using NHibernate;
+
     public interface IDatabaseConnector
     {
         IDatabaseConnector ConnectToServer();

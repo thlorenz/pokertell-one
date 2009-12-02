@@ -46,10 +46,13 @@
     <property name="ActionsTurn" length="50"/>
     <property name="ActionsRiver" length="50"/>
 
-    <property name="SequencePreFlop" length="10"/>
-    <property name="SequenceFlop" length="10"/>
-    <property name="SequenceTurn" length="10"/>
-    <property name="SequenceRiver" length="10"/>
+    <property name="SequencePreFlop"/>
+    <property name="SequenceFlop" />
+    <property name="BetSizeIndexFlop" />
+    <property name="SequenceTurn" />
+    <property name="BetSizeIndexTurn" />
+    <property name="SequenceRiver" />
+    <property name="BetSizeIndexRiver" />
     
   </class>
 </hibernate-mapping>

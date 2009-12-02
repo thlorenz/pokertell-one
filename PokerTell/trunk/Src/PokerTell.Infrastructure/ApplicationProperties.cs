@@ -2,6 +2,7 @@ namespace PokerTell.Infrastructure
 {
     using System;
     using System.Globalization;
+    using System.Reflection;
     using System.Threading;
     using System.Windows.Media;
 
@@ -53,6 +54,8 @@ namespace PokerTell.Infrastructure
             // #FF 3C 3C 3C => Color.FromScRgb(255, 60, 60, 60)
             get { return new SolidColorBrush(Colors.DimGray); }
         }
+
+        public const string MappingAssemblyName = "PokerTell.PokerHand";
 
         /// <summary>
         /// Sets the culture to "en-US"

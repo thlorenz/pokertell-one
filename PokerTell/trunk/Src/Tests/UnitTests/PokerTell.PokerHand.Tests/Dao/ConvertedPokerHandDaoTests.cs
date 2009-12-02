@@ -36,7 +36,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
         IConvertedPokerHand _hand;
 
-        ConvertedPokerHandDao _sut;
+        IConvertedPokerHandDao _sut;
 
         #endregion
 
@@ -58,7 +58,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             _hand = new ConvertedPokerHand(Site, GameId, _timeStamp, BB, SB, TotalPlayers);
 
-            _sut = new ConvertedPokerHandDao(_session);
+            _sut = new ConvertedPokerHandDao().InitializeWith(_session);
         }
 
         [TearDown]

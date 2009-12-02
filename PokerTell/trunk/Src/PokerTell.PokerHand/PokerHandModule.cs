@@ -2,6 +2,8 @@ namespace PokerTell.PokerHand
 {
     using System.Reflection;
 
+    using Dao;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
@@ -79,6 +81,9 @@ namespace PokerTell.PokerHand
                 .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
                 .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
+
+                // Daos
+                .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
 
                 // Conditions
                 .RegisterType<IInvestedMoneyCondition, InvestedMoneyCondition>()

@@ -11,11 +11,11 @@ namespace PokerTell.PokerHand.Tests.Fakes
         {
             #region Properties
 
-            public new string[] Sequence
+          public new string[] SequenceStrings
             {
-                get { return base.Sequence; }
+                get { return base.SequenceStrings; }
 
-                set { base.Sequence = value; }
+                set { base.SequenceStrings = value; }
             }
 
             public new bool?[] InPosition

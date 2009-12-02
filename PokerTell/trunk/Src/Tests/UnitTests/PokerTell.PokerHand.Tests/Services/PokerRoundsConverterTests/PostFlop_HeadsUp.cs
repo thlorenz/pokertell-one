@@ -118,7 +118,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
         {
             var result = ConvertPostFlopHeadsUpHand();
 
-            var smallBlindFlopSequence = result.ConvertedHand[0].Sequence[(int)Streets.Flop];
+            var smallBlindFlopSequence = result.ConvertedHand[0].SequenceStrings[(int)Streets.Flop];
             
             // big blind bet 0.5 -> small blind raised
             const string expectedSequence = "5R"; 
@@ -130,7 +130,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
         public void ConvertFlop_Player1IsSmallBlind_SetsBigBlindsFlopSequence()
         {
             var result = ConvertPostFlopHeadsUpHand();
-            var bigBlindFlopSequence = result.ConvertedHand[1].Sequence[(int)Streets.Flop];
+            var bigBlindFlopSequence = result.ConvertedHand[1].SequenceStrings[(int)Streets.Flop];
 
             // big blind bet 0.5 -> action set to "5" -> contains number -> no further actions added
             const string expectedSequence = "5"; 

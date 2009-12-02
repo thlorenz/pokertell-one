@@ -2,6 +2,7 @@ namespace PokerTell.PokerHand.Services
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     using log4net;
@@ -104,6 +105,8 @@ namespace PokerTell.PokerHand.Services
                     .RemoveInactivePlayers()
                     .SetNumOfPlayersInEachRound()
                     .SetWhoHasPositionInEachRound();
+
+                convertedHand.Players.ToList().ForEach(player => player.SetActionSequencesAndBetSizeKeysFromSequenceStrings());
 
                 return convertedHand;
             }

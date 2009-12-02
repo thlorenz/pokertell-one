@@ -11,6 +11,8 @@ namespace PokerTell.DatabaseSetup
 
     using log4net;
 
+    using NHibernate.Tool.hbm2ddl;
+
     public class EmbeddedManagedDatabase : IManagedDatabase
     {
         #region Constants and Fields
@@ -61,7 +63,7 @@ namespace PokerTell.DatabaseSetup
         {
             ConnectionString = "data source = " + FullPathFor(databaseName);
             
-            _dataProvider.Connect(ConnectionString, _dataProviderInfo.FullName);
+            _dataProvider.Connect(ConnectionString, _dataProviderInfo);
 
             return this;
         }
@@ -73,9 +75,14 @@ namespace PokerTell.DatabaseSetup
 
         public IManagedDatabase CreateTables()
         {
-            string nonQuery = _dataProviderInfo.CreateTablesQuery;
-            _dataProvider.ExecuteNonQuery(nonQuery);
+//            string nonQuery = _dataProviderInfo.CreateTablesQuery;
+//            _dataProvider.ExecuteNonQuery(nonQuery);
 
+            _dataProvider.BuildSessionFactory();
+
+            new SchemaExport(_dataProvider.NHibernateConfiguration)
+                .Execute(false, true, false, _dataProvider.Connection, null);
+            
             return this;
         }
 

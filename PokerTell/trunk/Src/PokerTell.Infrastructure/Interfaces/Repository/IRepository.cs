@@ -4,6 +4,8 @@ namespace PokerTell.Infrastructure.Interfaces.Repository
 
     using DatabaseSetup;
 
+    using NHibernate;
+
     using PokerHand;
 
     public interface IRepository
@@ -11,8 +13,6 @@ namespace PokerTell.Infrastructure.Interfaces.Repository
         IConvertedPokerHand RetrieveConvertedHand(int handId);
 
         IEnumerable<IConvertedPokerHand> RetrieveConvertedHands(IEnumerable<int> handIds);
-
-        IDictionary<int, IConvertedPokerHand> CachedHands { get; }
 
         IRepository Use(IDataProvider dataProvider);
 

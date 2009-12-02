@@ -48,12 +48,16 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// Sometimes referred to as the 'line' and is used to determine bettin patterns
         /// during statistical analysis
         /// </summary>
-        string[] Sequence { get; }
+        string[] SequenceStrings { get; }
 
         /// <summary>
         /// Position of Player in relation to Button (SB - BU)
         /// </summary>
         StrategicPositions StrategicPosition { get; }
+
+        ActionSequences[] ActionSequences { get; }
+
+        int[] BetSizeIndexes { get; }
 
         #endregion
 
@@ -133,7 +137,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// They will automatically be ignored when querying for statistics because they won't match any of the
         /// standard Sequence strings.
         /// </para>
-        void SetActionSequence(ref string currentSequence, IConvertedPokerAction myNextAction, Streets street);
+        void SetActionSequenceString(ref string currentSequence, IConvertedPokerAction myNextAction, Streets street);
 
         /// <summary>
         /// Determines and sets the strategic Position of the player
@@ -156,5 +160,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         void SetStrategicPosition(int playerCount);
 
         #endregion
+
+        IConvertedPokerPlayer SetActionSequencesAndBetSizeKeysFromSequenceStrings();
     }
 }

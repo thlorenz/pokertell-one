@@ -3,11 +3,21 @@ namespace PokerTell.DatabaseSetup
     using System;
     using System.IO;
 
+    using Infrastructure;
+
     using Microsoft.Practices.Composite.Events;
+
+    using NHibernate;
+    using NHibernate.ByteCode.Castle;
+    using NHibernate.Cfg;
+    using NHibernate.Dialect;
+    using NHibernate.Driver;
 
     using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+
+    using Environment = NHibernate.Cfg.Environment;
 
     public class DatabaseConnector : IDatabaseConnector
     {
@@ -133,7 +143,7 @@ namespace PokerTell.DatabaseSetup
         {
             try
             {
-                DataProvider.Connect(connectionString, _dataProviderInfo.FullName);
+                DataProvider.Connect(connectionString, _dataProviderInfo);
                
                 if (_dataProviderInfo.IsEmbedded)
                 {
@@ -171,7 +181,7 @@ namespace PokerTell.DatabaseSetup
             {
                 try
                 {
-                    DataProvider.Connect(serverConnectString, _dataProviderInfo.FullName);
+                    DataProvider.Connect(serverConnectString, _dataProviderInfo);
                 }
                 catch (Exception excep)
                 {

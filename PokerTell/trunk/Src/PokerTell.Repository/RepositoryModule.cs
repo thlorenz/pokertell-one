@@ -82,10 +82,11 @@ namespace PokerTell.Repository
                     .InitializeFromSettings()
                     .ConnectToDatabase()
                     .DataProvider;
-            
+
             _container
                 .Resolve<IRepository>()
                 .Use(dataProvider);
+                
         }
 
         #endregion

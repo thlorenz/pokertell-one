@@ -51,7 +51,7 @@ namespace PokerTell.DatabaseSetup.Tests
                .InitializeWith(_stub.Out<IDataProviderInfo>())
                .ConnectToServer();
 
-            _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<IDataProviderInfo>()), Times.Never());
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .InitializeWith(_stub.Out<IDataProviderInfo>())
                 .ConnectToServer();
 
-            _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<IDataProviderInfo>()), Times.Never());
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(ds => ds.GetServerConnectStringFor(It.IsAny<IDataProviderInfo>()))
                 .Returns(ValidServerConnectString);
             _dataProviderMock
-                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<IDataProviderInfo>()))
                 .Throws(new Exception());
 
             bool errorWasPublished = false;
@@ -178,7 +178,7 @@ namespace PokerTell.DatabaseSetup.Tests
                .InitializeWith(_stub.Out<IDataProviderInfo>())
                .ConnectToServer();
 
-            _dataProviderMock.Verify(dp => dp.Connect(ValidServerConnectString, It.IsAny<string>()));
+            _dataProviderMock.Verify(dp => dp.Connect(ValidServerConnectString, It.IsAny<IDataProviderInfo>()));
         }
 
         [Test]
@@ -210,7 +210,7 @@ namespace PokerTell.DatabaseSetup.Tests
             const string serverConnectString = "someString";
             sut.TryToConnectToServerUsing(serverConnectString, _stub.Some(false));
 
-            _dataProviderMock.Verify(dp => dp.Connect(serverConnectString, It.IsAny<string>()));
+            _dataProviderMock.Verify(dp => dp.Connect(serverConnectString, It.IsAny<IDataProviderInfo>()));
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
             sut.TryToConnectToServerUsing("someConnectString", _stub.Some(false));
 
-            _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()), Times.Never());
+            _dataProviderMock.Verify(dp => dp.Connect(It.IsAny<string>(), It.IsAny<IDataProviderInfo>()), Times.Never());
         }
 
         [Test]
@@ -308,7 +308,7 @@ namespace PokerTell.DatabaseSetup.Tests
         public void TryToConnectToDatabaseUsing_ConnectionFails_PublishesError()
         {
             _dataProviderMock
-                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<string>()))
+                .Setup(dp => dp.Connect(It.IsAny<string>(), It.IsAny<IDataProviderInfo>()))
                 .Throws(new Exception());
 
             bool errorWasPublished = false;

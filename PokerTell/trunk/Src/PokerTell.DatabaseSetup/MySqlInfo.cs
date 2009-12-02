@@ -1,6 +1,7 @@
 namespace PokerTell.DatabaseSetup
 {
-    using System;
+    using NHibernate.Dialect;
+    using NHibernate.Driver;
 
     using Infrastructure.Interfaces.DatabaseSetup;
 
@@ -31,6 +32,16 @@ namespace PokerTell.DatabaseSetup
         public string CreateTablesQuery
         {
             get { return Resources.MySql_Queries_CreateTables; }
+        }
+
+        public string NHibernateDialect
+        {
+            get { return typeof(MySQLDialect).AssemblyQualifiedName; }
+        }
+
+        public string NHibernateConnectionDriver
+        {
+            get { return typeof(MySqlDataDriver).AssemblyQualifiedName; }
         }
     }
 }

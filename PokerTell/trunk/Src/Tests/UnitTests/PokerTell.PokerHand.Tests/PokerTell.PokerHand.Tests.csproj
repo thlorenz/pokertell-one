@@ -133,6 +133,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\SequenceStringConverterTests.cs" />
     <Compile Include="Dao\ConvertedPokerHandDaoTests.cs">
       <SubType>Code</SubType>
     </Compile>

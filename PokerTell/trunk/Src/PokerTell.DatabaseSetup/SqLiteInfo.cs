@@ -4,6 +4,9 @@ namespace PokerTell.DatabaseSetup
 
     using Infrastructure.Interfaces.DatabaseSetup;
 
+    using NHibernate.Dialect;
+    using NHibernate.Driver;
+
     using Properties;
 
     public class SqLiteInfo : IDataProviderInfo
@@ -31,6 +34,16 @@ namespace PokerTell.DatabaseSetup
         public string CreateTablesQuery
         {
             get { return Resources.SQLite_Queries_CreateTables; }
+        }
+
+        public string NHibernateDialect
+        {
+            get { return typeof(SQLiteDialect).AssemblyQualifiedName; }
+        }
+
+        public string NHibernateConnectionDriver
+        {
+            get { return typeof(SQLite20Driver).AssemblyQualifiedName; }
         }
     }
 }

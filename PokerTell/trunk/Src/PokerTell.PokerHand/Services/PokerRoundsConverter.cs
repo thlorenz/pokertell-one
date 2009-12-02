@@ -239,7 +239,7 @@ namespace PokerTell.PokerHand.Services
         void SetActionSequenceAndAddActionTo(
             IConvertedPokerPlayer convertedPlayer, IConvertedPokerAction convertedAction, Streets street)
         {
-            convertedPlayer.SetActionSequence(ref SequenceSoFar, convertedAction, street);
+            convertedPlayer.SetActionSequenceString(ref SequenceSoFar, convertedAction, street);
 
             if (convertedPlayer.Rounds != null && convertedPlayer.Rounds.Count < (int)street + 1)
             {

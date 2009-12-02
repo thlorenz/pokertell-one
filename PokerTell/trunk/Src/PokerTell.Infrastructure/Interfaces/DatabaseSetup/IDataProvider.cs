@@ -4,6 +4,9 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
     using System.Collections.Generic;
     using System.Data;
 
+    using NHibernate;
+    using NHibernate.Cfg;
+
     public interface IDataProvider : IDisposable
     {
         #region Properties
@@ -18,11 +21,13 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         string DatabaseName { get; set; }
 
+        Configuration NHibernateConfiguration { get; }
+
         #endregion
 
         #region Public Methods
 
-        void Connect(string connString, string providerName);
+        void Connect(string connString, IDataProviderInfo dataProviderInfo);
 
         int ExecuteNonQuery(string nonQuery);
 
@@ -47,5 +52,13 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         /// <param name="column">Number of the column to get the results from</param>
         /// <returns>List of values found in the specified column</returns>
         IList<T> ExecuteQueryGetColumn<T>(string query, int column);
+
+        /// <summary>
+        /// Builds an NHibernate Session Factory using the Connection String from the current database connection and
+        /// the NHibernate Dialect, ConnectionDriver specified in the DataProviderInfo.
+        /// Therefore first InitializeWith(dataProviderInfo) and ConnectToDatabase() before calling this Method.
+        /// </summary>
+        /// <returns>Newly created NHibernate SessionFactory or null if DataProvider was not connected.</returns>
+        ISessionFactory BuildSessionFactory();
     }
 }

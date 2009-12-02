@@ -42,11 +42,11 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, someRatio);
 
             const string playerSequence = "5";
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Copy(currentSequence);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }
@@ -61,13 +61,13 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, someRatio);
 
             const string playerSequence = "5";
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Copy(playerSequence);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
-            Assert.That(_convertedPlayer.Sequence[(int)street], Is.EqualTo(expectedSequence));
+            Assert.That(_convertedPlayer.SequenceStrings[(int)street], Is.EqualTo(expectedSequence));
         }
 
         [Test]
@@ -82,13 +82,13 @@ namespace PokerTell.PokerHand.Tests
             const string normalizedRatio = "5";
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = "someSequence";
             string expectedSequence = String.Concat(playerSequence, currentSequence, normalizedRatio);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
-            Assert.That(_convertedPlayer.Sequence[(int)street], Is.EqualTo(expectedSequence));
+            Assert.That(_convertedPlayer.SequenceStrings[(int)street], Is.EqualTo(expectedSequence));
         }
 
         [Test]
@@ -103,12 +103,12 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
             string currentSequence = "someSequence";
 
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string expectedSequence = String.Concat(playerSequence, currentSequence, actionType);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
-            Assert.That(_convertedPlayer.Sequence[(int)street], Is.EqualTo(expectedSequence));
+            Assert.That(_convertedPlayer.SequenceStrings[(int)street], Is.EqualTo(expectedSequence));
         }
 
         [Test]
@@ -122,11 +122,11 @@ namespace PokerTell.PokerHand.Tests
             const string normalizedRatio = "5";
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Concat(currentSequence, normalizedRatio);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }
@@ -141,11 +141,11 @@ namespace PokerTell.PokerHand.Tests
             const double ratio = 1.0;
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Copy(currentSequence);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }
@@ -160,11 +160,11 @@ namespace PokerTell.PokerHand.Tests
             const double ratio = 1.0;
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Concat(currentSequence, actionType);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }
@@ -178,11 +178,11 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
             string playerSequence = string.Empty;
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Concat(currentSequence, actionType);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }
@@ -196,11 +196,11 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
             const string playerSequence = "nonEmpty";
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Copy(currentSequence);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }
@@ -215,13 +215,13 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, someRatio);
 
             string playerSequence = string.Empty;
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Concat(playerSequence, actionType);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
-            Assert.That(_convertedPlayer.Sequence[(int)street], Is.EqualTo(expectedSequence));
+            Assert.That(_convertedPlayer.SequenceStrings[(int)street], Is.EqualTo(expectedSequence));
         }
 
         [Test]
@@ -234,13 +234,13 @@ namespace PokerTell.PokerHand.Tests
             var convertedAction = new ConvertedPokerAction(actionType, someRatio);
 
             const string playerSequence = "nonEmpty";
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Copy(playerSequence);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
-            Assert.That(_convertedPlayer.Sequence[(int)street], Is.EqualTo(expectedSequence));
+            Assert.That(_convertedPlayer.SequenceStrings[(int)street], Is.EqualTo(expectedSequence));
         }
 
         [Test]
@@ -253,11 +253,11 @@ namespace PokerTell.PokerHand.Tests
             const double ratio = 1.0;
             var convertedAction = new ConvertedPokerAction(actionType, ratio);
 
-            _convertedPlayer.Sequence[(int)street] = playerSequence;
+            _convertedPlayer.SequenceStrings[(int)street] = playerSequence;
             string currentSequence = string.Empty;
             string expectedSequence = String.Copy(currentSequence);
 
-            _convertedPlayer.SetActionSequence(ref currentSequence, convertedAction, street);
+            _convertedPlayer.SetActionSequenceString(ref currentSequence, convertedAction, street);
 
             Assert.That(currentSequence, Is.EqualTo(expectedSequence));
         }

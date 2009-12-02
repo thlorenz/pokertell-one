@@ -1,6 +1,14 @@
 namespace PokerTell.Repository.Tests
 {
-    using System.Collections.Generic;
+     public class RepositoryTests
+     {
+         
+     }
+}
+
+    /* Old Repository Tests need to be reimplemented after NHibernate is integrated
+     
+      using System.Collections.Generic;
 
     using Fakes;
 
@@ -73,38 +81,7 @@ namespace PokerTell.Repository.Tests
             databaseMock.Verify(db => db.InsertHandAndReturnHandId(handMock.Object), Times.Never());
         }
 
-        [Test]
-        public void InsertHand_CachedBefore_HandIdReturnedByDatabaseInsertIsNotCachedAgain()
-        {
-            const int handId = 1;
-
-            _connectedDatabaseStub
-                .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
-                .Returns(handId);
-
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
-            sut.CachedHands.Add(handId, _stub.Out<IConvertedPokerHand>());
-
-            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
-
-            Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
-        }
-
-        [Test]
-        public void InsertHand_NotInsertedBefore_HandIdReturnedByDatabaseInsertIsCached()
-        {
-            const int handId = 1;
-
-            _connectedDatabaseStub
-                .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
-                .Returns(handId);
-
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
-
-            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
-
-            Assert.That(sut.CachedHands.ContainsKey(handId), Is.True);
-        }
+       
 
         [Test]
         public void RetrieveConvertedHand_DatabaseIsNotConnected_DoesNotCallDatabaseRetrieveHand()
@@ -149,7 +126,67 @@ namespace PokerTell.Repository.Tests
             databaseMock.Verify(db => db.RetrieveConvertedHand(handId));
         }
 
+       
+
         [Test]
+        public void RetrieveConvertedHand_DatabaseIsConnected_ReturnsHandReturnedByDatabase()
+        {
+            const int handId = 1;
+            var retrievedHandStub = new ConvertedPokerHandStub { Id = handId };
+           
+            _connectedDatabaseStub
+                .Setup(db => db.RetrieveConvertedHand(It.IsAny<int>()))
+                .Returns(retrievedHandStub);
+
+            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+
+            var result = sut.RetrieveConvertedHand(_stub.Some<int>());
+
+            Assert.That(result.Id, Is.EqualTo(handId));
+        }
+
+       
+
+        [Test]
+        public void DatabaseInUseChangedEvent_Always_DatabaseUseIsCalledWithNewDataProvider()
+        {
+            var databaseMock = _connectedDatabaseStub;
+            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
+            sut.CachedHands.Add(_stub.Some(1), _stub.Out<IConvertedPokerHand>());
+
+            var dataProviderStub = new Mock<IDataProvider>();
+            _eventAggregator
+                .GetEvent<DatabaseInUseChangedEvent>()
+                .Publish(dataProviderStub.Object);
+
+            databaseMock.Verify(db => db.Use(dataProviderStub.Object));
+        }
+
+        
+        #endregion
+    }
+     */
+
+
+    /* No caching done anymore -> Tests redundant
+       [Test]
+        public void InsertHand_CachedBefore_HandIdReturnedByDatabaseInsertIsNotCachedAgain()
+        {
+            const int handId = 1;
+
+            _connectedDatabaseStub
+                .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
+                .Returns(handId);
+
+            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+            sut.CachedHands.Add(handId, _stub.Out<IConvertedPokerHand>());
+
+            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
+
+            Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
+        }
+
+     *  [Test]
         public void RetrieveConvertedHand_NotRetrievedBefore_AddsRetrievedHandToCachedHands()
         {
             const int handId = 1;
@@ -171,25 +208,8 @@ namespace PokerTell.Repository.Tests
 
             Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
         }
-
-        [Test]
-        public void RetrieveConvertedHand_DatabaseIsConnected_ReturnsHandReturnedByDatabase()
-        {
-            const int handId = 1;
-            var retrievedHandStub = new ConvertedPokerHandStub { Id = handId };
-           
-            _connectedDatabaseStub
-                .Setup(db => db.RetrieveConvertedHand(It.IsAny<int>()))
-                .Returns(retrievedHandStub);
-
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
-
-            var result = sut.RetrieveConvertedHand(_stub.Some<int>());
-
-            Assert.That(result.Id, Is.EqualTo(handId));
-        }
-
-        [Test]
+     * 
+     *  [Test]
         public void DatabaseInUseChangedEvent_Always_CachedHandsAreCleared()
         {
             var sut = new Repository(_eventAggregator, _stub.Out<IRepositoryDatabase>(), _stub.Out<IRepositoryParser>());
@@ -201,23 +221,24 @@ namespace PokerTell.Repository.Tests
 
             Assert.That(sut.CachedHands.Count, Is.EqualTo(0));
         }
-
+     * 
         [Test]
-        public void DatabaseInUseChangedEvent_Always_DatabaseUseIsCalledWithNewDataProvider()
+        public void InsertHand_NotInsertedBefore_HandIdReturnedByDatabaseInsertIsCached()
         {
-            var databaseMock = _connectedDatabaseStub;
-            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
-            sut.CachedHands.Add(_stub.Some(1), _stub.Out<IConvertedPokerHand>());
+            const int handId = 1;
 
-            var dataProviderStub = new Mock<IDataProvider>();
-            _eventAggregator
-                .GetEvent<DatabaseInUseChangedEvent>()
-                .Publish(dataProviderStub.Object);
+            _connectedDatabaseStub
+                .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
+                .Returns(handId);
 
-            databaseMock.Verify(db => db.Use(dataProviderStub.Object));
+            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+
+            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
+
+            Assert.That(sut.CachedHands.ContainsKey(handId), Is.True);
         }
-
-        [Test]
+     
+     * [Test]
         public void InsertHands_TwoNotCachedHands_CallsDatabaseInsertHandsWithBothHands()
         {
             Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
@@ -267,6 +288,4 @@ namespace PokerTell.Repository.Tests
            Assert.That(sut.CachedHands.Count, Is.EqualTo(2));
         }
 
-        #endregion
-    }
-}
+     */

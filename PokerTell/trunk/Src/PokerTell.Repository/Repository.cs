@@ -1,5 +1,6 @@
 namespace PokerTell.Repository
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
@@ -12,43 +13,33 @@ namespace PokerTell.Repository
 
     using Microsoft.Practices.Composite.Events;
 
+    using NHibernate;
+
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     public class Repository : IRepository
     {
         #region Constants and Fields
 
-        readonly IDictionary<int, IConvertedPokerHand> _cachedHands;
-
         readonly IRepositoryParser _parser;
 
-        readonly IRepositoryDatabase _database;
+        ISessionFactory _sessionFactory;
+
+        readonly IConvertedPokerHandDao _pokerHandDao;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public Repository(IEventAggregator eventAggregator, IRepositoryDatabase database, IRepositoryParser parser)
+        public Repository(
+            IEventAggregator eventAggregator, IConvertedPokerHandDao pokerHandDao, IRepositoryParser parser)
         {
-            _database = database;
+            _pokerHandDao = pokerHandDao;
             _parser = parser;
-            _cachedHands = new Dictionary<int, IConvertedPokerHand>();
 
             eventAggregator
                 .GetEvent<DatabaseInUseChangedEvent>()
-                .Subscribe(dataProvider => {
-                    _cachedHands.Clear();
-                    Use(dataProvider);
-                });
-        }
-
-        #endregion
-
-        #region Properties
-
-        public IDictionary<int, IConvertedPokerHand> CachedHands
-        {
-            get { return _cachedHands; }
+                .Subscribe(dataProvider => Use(dataProvider));
         }
 
         #endregion
@@ -57,7 +48,7 @@ namespace PokerTell.Repository
 
         public IRepository Use(IDataProvider dataProvider)
         {
-            _database.Use(dataProvider);
+            _sessionFactory = dataProvider.BuildSessionFactory();
            return this;
         }
 
@@ -70,56 +61,12 @@ namespace PokerTell.Repository
 
         public IRepository InsertHand(IConvertedPokerHand convertedPokerHand)
         {
-            if (_database.IsConnected && convertedPokerHand != null)
-            {
-                int? handId;
-                lock (_database)
-                {
-                    handId = _database.InsertHandAndReturnHandId(convertedPokerHand);
-                }
-
-                if (handId != null)
-               {
-                   lock (_cachedHands)
-                   {
-                       if (!CachedHands.ContainsKey(handId.Value))
-                       {
-                           CachedHands.Add(handId.Value, convertedPokerHand);
-                       } 
-                   }
-               }
-            }
-           
             return this;
         }
 
         public IConvertedPokerHand RetrieveConvertedHand(int handId)
         {
-            if (!CachedHands.ContainsKey(handId))
-            {
-                if (_database.IsConnected)
-                {
-                    IConvertedPokerHand retrievedHand;
-                    lock (_database)
-                    {
-                        retrievedHand = _database.RetrieveConvertedHand(handId);
-                    }
-
-                    lock (_cachedHands)
-                    {
-                        if (!CachedHands.ContainsKey(handId))
-                        {
-                            CachedHands.Add(handId, retrievedHand);
-                        }
-                    }
-                }
-                else
-                {
-                    return null;
-                }
-            }
-
-            return CachedHands[handId];
+            return null;
         }
 
         public IEnumerable<IConvertedPokerHand> RetrieveConvertedHands(IEnumerable<int> handIds)
@@ -142,27 +89,7 @@ namespace PokerTell.Repository
 
         public IRepository InsertHands(IEnumerable<IConvertedPokerHand> handsToInsert)
         {
-            if (_database.IsConnected)
-            {
-                lock (_database)
-                {
-                    _database
-                         .InsertHandsAndSetTheirHandIds(handsToInsert);
-                }
-
-                foreach (var insertedHand in handsToInsert)
-                {
-                    lock (_cachedHands)
-                    {
-                        if (!CachedHands.ContainsKey(insertedHand.Id))
-                        {
-                            CachedHands.Add(insertedHand.Id, insertedHand);
-                        }
-                    }
-                }
-            }
-
-            return this;
+           return this;
         }
     }
 }

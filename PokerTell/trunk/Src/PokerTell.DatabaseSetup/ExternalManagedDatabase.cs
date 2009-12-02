@@ -8,6 +8,8 @@ namespace PokerTell.DatabaseSetup
     using Infrastructure.Enumerations.DatabaseSetup;
     using Infrastructure.Interfaces.DatabaseSetup;
 
+    using NHibernate.Tool.hbm2ddl;
+
     using Properties;
 
     public class ExternalManagedDatabase : IManagedDatabase
@@ -75,9 +77,14 @@ namespace PokerTell.DatabaseSetup
 
         public IManagedDatabase CreateTables()
         {
-            string nonQuery = _dataProviderInfo.CreateTablesQuery;
-            _dataProvider.ExecuteNonQuery(nonQuery);
-           
+//            string nonQuery = _dataProviderInfo.CreateTablesQuery;
+//            _dataProvider.ExecuteNonQuery(nonQuery);
+
+            _dataProvider.BuildSessionFactory();
+
+            new SchemaExport(_dataProvider.NHibernateConfiguration)
+                .Execute(false, true, false, _dataProvider.Connection, null);
+
             return this;
         }
 

@@ -193,7 +193,7 @@ namespace PokerTell.PokerHand.Tests
         public void BinaryDeserialized_SerializedPlayerWithSequence_ReturnsSamePlayer()
         {
             DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
-            player.Sequence = new[] { "some", "someMore" };
+            player.SequenceStrings = new[] { "some", "someMore" };
 
             Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
         }

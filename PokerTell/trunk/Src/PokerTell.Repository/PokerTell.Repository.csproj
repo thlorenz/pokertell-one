@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RepositoryLegacy.cs" />
     <Compile Include="Database\DatabaseUtility.cs" />
     <Compile Include="Database\HandHistoriesDirectoryImporter.cs" />
     <Compile Include="Interfaces\IHandHistoriesDirectoryImporter.cs" />
@@ -140,9 +141,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dao\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

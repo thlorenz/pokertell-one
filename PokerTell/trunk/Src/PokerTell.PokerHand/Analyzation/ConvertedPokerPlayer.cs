@@ -25,6 +25,12 @@ namespace PokerTell.PokerHand.Analyzation
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         [NonSerialized]
+        ActionSequences[] _actionSequences = new ActionSequences[(int)Streets.River + 1];
+
+        [NonSerialized]
+        int[] _betSizeIndexes = new int[(int)Streets.River + 1];
+
+        [NonSerialized]
         long _id;
 
         [NonSerialized]
@@ -48,7 +54,11 @@ namespace PokerTell.PokerHand.Analyzation
 
         IList<IConvertedPokerRound> _rounds = new List<IConvertedPokerRound>();
 
-        string[] _sequence = new string[(int)Streets.River + 1];
+        [NonSerialized]
+        SequenceStringConverter _sequenceStringConverter;
+
+        [NonSerialized]
+        string[] _sequenceStrings = new string[(int)Streets.River + 1];
 
         StrategicPositions _strategicPosition;
 
@@ -61,31 +71,6 @@ namespace PokerTell.PokerHand.Analyzation
         /// </summary>
         public ConvertedPokerPlayer()
         {
-        }
-
-        public bool Equals(ConvertedPokerPlayer other)
-        {
-            return base.Equals(other)
-                   && Rounds.ToArray().EqualsArray(other.Rounds.ToArray());
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-            return Equals(obj as ConvertedPokerPlayer);
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
         }
 
         /// <summary>
@@ -104,6 +89,12 @@ namespace PokerTell.PokerHand.Analyzation
         #endregion
 
         #region Properties
+
+        public ActionSequences[] ActionSequences
+        {
+            get { return _actionSequences; }
+            private set { _actionSequences = value; }
+        }
 
         public string ActionsFlop
         {
@@ -131,6 +122,12 @@ namespace PokerTell.PokerHand.Analyzation
             get { return GetActionsIfRoundExistsFor(Streets.Turn); }
 
             private set { ValidateActionsAddRoundsIfNecessaryAndAssignRoundConvertedFrom(value, Streets.Turn); }
+        }
+
+        public int[] BetSizeIndexes
+        {
+            get { return _betSizeIndexes; }
+            private set { _betSizeIndexes = value; }
         }
 
         public long Id
@@ -224,40 +221,58 @@ namespace PokerTell.PokerHand.Analyzation
             set { _rounds = value; }
         }
 
+        public ActionSequences SequenceFlop
+        {
+            get { return ActionSequences[(int)Streets.Flop]; }
+            private set { ActionSequences[(int)Streets.Flop] = value; }
+        }
+
+        public ActionSequences SequencePreFlop
+        {
+            get { return ActionSequences[(int)Streets.PreFlop]; }
+            private set { ActionSequences[(int)Streets.PreFlop] = value; }
+        }
+
+        public ActionSequences SequenceRiver
+        {
+            get { return ActionSequences[(int)Streets.River]; }
+            private set { ActionSequences[(int)Streets.River] = value; }
+        }
+
+        public int BetSizeIndexFlop
+        {
+            get { return BetSizeIndexes[(int)Streets.Flop]; }
+            set { BetSizeIndexes[(int)Streets.Flop] = value; }
+        }
+
+        public int BetSizeIndexTurn
+        {
+            get { return BetSizeIndexes[(int)Streets.Turn]; }
+            set { BetSizeIndexes[(int)Streets.Turn] = value; }
+        }
+
+        public int BetSizeIndexRiver
+        {
+            get { return BetSizeIndexes[(int)Streets.River]; }
+            set { BetSizeIndexes[(int)Streets.River] = value; }
+        }
+
         /// <summary>
         /// Contains Sequence strings for each Round of the Player
         /// representing the way he acted or reacted to opponents actions
         /// Sometimes referred to as the 'line' and is used to determine bettin patterns
         /// during statistical analysis
         /// </summary>
-        public string[] Sequence
+        public string[] SequenceStrings
         {
-            get { return _sequence; }
-            protected set { _sequence = value; }
+            get { return _sequenceStrings; }
+            protected set { _sequenceStrings = value; }
         }
 
-        public string SequenceFlop
+        public ActionSequences SequenceTurn
         {
-            get { return Sequence[(int)Streets.Flop]; }
-            private set { Sequence[(int)Streets.Flop] = value; }
-        }
-
-        public string SequencePreFlop
-        {
-            get { return Sequence[(int)Streets.PreFlop]; }
-            private set { Sequence[(int)Streets.PreFlop] = value; }
-        }
-
-        public string SequenceRiver
-        {
-            get { return Sequence[(int)Streets.River]; }
-            private set { Sequence[(int)Streets.River] = value; }
-        }
-
-        public string SequenceTurn
-        {
-            get { return Sequence[(int)Streets.Turn]; }
-            private set { Sequence[(int)Streets.Turn] = value; }
+            get { return ActionSequences[(int)Streets.Turn]; }
+            private set { ActionSequences[(int)Streets.Turn] = value; }
         }
 
         /// <summary>
@@ -272,6 +287,11 @@ namespace PokerTell.PokerHand.Analyzation
         PokerHandStringConverter PokerHandStringConverter
         {
             get { return _pokerHandStringConverter ?? (_pokerHandStringConverter = new PokerHandStringConverter()); }
+        }
+
+        SequenceStringConverter SequenceStringConverter
+        {
+            get { return _sequenceStringConverter ?? (_sequenceStringConverter = new SequenceStringConverter()); }
         }
 
         #endregion
@@ -298,6 +318,36 @@ namespace PokerTell.PokerHand.Analyzation
         public IConvertedPokerRound this[Streets theStreet]
         {
             get { return this[(int)theStreet]; }
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public bool Equals(ConvertedPokerPlayer other)
+        {
+            return base.Equals(other)
+                   && Rounds.ToArray().EqualsArray(other.Rounds.ToArray());
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            return Equals(obj as ConvertedPokerPlayer);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
@@ -414,6 +464,18 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
+        public IConvertedPokerPlayer SetActionSequencesAndBetSizeKeysFromSequenceStrings()
+        {
+            for (int i = 0; i < SequenceStrings.Length; i++)
+            {
+                SequenceStringConverter.Convert(SequenceStrings[i]);
+                ActionSequences[i] = SequenceStringConverter.ActionSequence;
+                BetSizeIndexes[i] = SequenceStringConverter.BetSizeIndex;
+            }
+
+            return this;
+        }
+
         /// <summary>
         /// Determines a Sequence string, representing, what the player did in a round
         /// </summary>
@@ -446,7 +508,8 @@ namespace PokerTell.PokerHand.Analyzation
         /// They will automatically be ignored when querying for statistics because they won't match any of the
         /// standard Sequence strings.
         /// </para>
-        public void SetActionSequence(ref string currentSequence, IConvertedPokerAction myNextAction, Streets street)
+        public void SetActionSequenceString(
+            ref string currentSequence, IConvertedPokerAction myNextAction, Streets street)
         {
             // Add what we did and  what happened so far to determine our ActionSequence
             // Once we added a sequence part w/ a number (which represents a bet), we will stop adding to the sequence
@@ -458,10 +521,10 @@ namespace PokerTell.PokerHand.Analyzation
             if (street == Streets.PreFlop)
             {
                 // Only consider first action/reaction
-                if (string.IsNullOrEmpty(Sequence[(int)street]))
+                if (string.IsNullOrEmpty(SequenceStrings[(int)street]))
                 {
                     // CurrentSequence will be empty for unraised pot and contain R for each raise/reraise in a raised pot
-                    Sequence[(int)street] = currentSequence + myNextAction.What;
+                    SequenceStrings[(int)street] = currentSequence + myNextAction.What;
 
                     // It is now a raised pot for all players to come
                     if (myNextAction.What == ActionTypes.R)
@@ -473,14 +536,14 @@ namespace PokerTell.PokerHand.Analyzation
                 return;
             }
 
-            if (Sequence[(int)street] == null)
+            if (SequenceStrings[(int)street] == null)
             {
-                Sequence[(int)street] = string.Empty;
+                SequenceStrings[(int)street] = string.Empty;
             }
 
             // PostFlop, once we have a bet or reaction to bet (represented by number) we don't need to know more
             const string patContainsNumber = "[0-9]";
-            if (Regex.IsMatch(Sequence[(int)street], patContainsNumber))
+            if (Regex.IsMatch(SequenceStrings[(int)street], patContainsNumber))
             {
                 return;
             }
@@ -490,19 +553,19 @@ namespace PokerTell.PokerHand.Analyzation
                 case ActionTypes.F:
                 case ActionTypes.C:
                 case ActionTypes.X:
-                    Sequence[(int)street] = Sequence[(int)street] + currentSequence + myNextAction.What;
+                    SequenceStrings[(int)street] = SequenceStrings[(int)street] + currentSequence + myNextAction.What;
                     break;
                 case ActionTypes.B:
                     var normalizedRatio =
                         (int)
                         (10.0 * Normalizer.NormalizeToKeyValues(ApplicationProperties.BetSizeKeys, myNextAction.Ratio));
 
-                    Sequence[(int)street] = Sequence[(int)street] + currentSequence + normalizedRatio;
+                    SequenceStrings[(int)street] = SequenceStrings[(int)street] + currentSequence + normalizedRatio;
 
                     currentSequence = currentSequence + normalizedRatio;
                     break;
                 case ActionTypes.R:
-                    Sequence[(int)street] = Sequence[(int)street] + currentSequence + myNextAction.What;
+                    SequenceStrings[(int)street] = SequenceStrings[(int)street] + currentSequence + myNextAction.What;
                     currentSequence = currentSequence + myNextAction.What;
                     break;
             }
@@ -581,12 +644,12 @@ namespace PokerTell.PokerHand.Analyzation
             try
             {
                 return string.Format(
-                    "[{5} {0} {1}] {2}-{3}\t{4}\n",
-                    StrategicPosition,
-                    Name,
-                    MBefore,
-                    MAfter,
-                    BettingRoundsToString(),
+                    "[{5} {0} {1}] {2}-{3}\t{4}\n", 
+                    StrategicPosition, 
+                    Name, 
+                    MBefore, 
+                    MAfter, 
+                    BettingRoundsToString(), 
                     Holecards);
             }
             catch (ArgumentNullException excep)
