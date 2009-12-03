@@ -2,10 +2,17 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using NHibernate;
 
-    public interface IConvertedPokerHandDao
+    public interface IConvertedPokerHandDao : IConvertedPokerHandDaoWithoutSession, IConvertedPokerHandDaoWithSession
     {
-        IConvertedPokerHandDao InitializeWith(ISession session);
+    }
 
+     public interface IConvertedPokerHandDaoWithoutSession : IFluentInterface
+     {
+         IConvertedPokerHandDaoWithSession InitializeWith(ISession session);
+     }
+
+    public interface IConvertedPokerHandDaoWithSession : IFluentInterface
+    {
         IConvertedPokerHand GetHandWith(ulong gameId, string site);
 
         IConvertedPokerHand Insert(IConvertedPokerHand convertedPokerHand);

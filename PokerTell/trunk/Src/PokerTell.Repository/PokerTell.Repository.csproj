@@ -90,6 +90,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NHibernate\ITransactionManager.cs" />
+    <Compile Include="NHibernate\TransactionManager.cs" />
     <Compile Include="RepositoryLegacy.cs" />
     <Compile Include="Database\DatabaseUtility.cs" />
     <Compile Include="Database\HandHistoriesDirectoryImporter.cs" />

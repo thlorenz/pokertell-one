@@ -109,7 +109,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             string sequenceSoFar = _converter.SequenceSoFarProp;
 
             convertedPlayerMock.Verify(
-                player => player.SetActionSequence(ref sequenceSoFar, It.IsAny<IConvertedPokerAction>(), street));
+                player => player.SetActionSequenceString(ref sequenceSoFar, It.IsAny<IConvertedPokerAction>(), street));
         }
 
         [Test]

@@ -58,7 +58,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             _hand = new ConvertedPokerHand(Site, GameId, _timeStamp, BB, SB, TotalPlayers);
 
-            _sut = new ConvertedPokerHandDao().InitializeWith(_session);
+            _sut = new ConvertedPokerHandDao();
+            _sut.InitializeWith(_session);
         }
 
         [TearDown]

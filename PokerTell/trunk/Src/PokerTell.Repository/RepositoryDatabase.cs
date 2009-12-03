@@ -4,6 +4,8 @@ namespace PokerTell.Repository
     using System.Collections.Generic;
     using System.Data;
 
+    using global::NHibernate;
+
     using Interfaces;
 
     using NHibernate;

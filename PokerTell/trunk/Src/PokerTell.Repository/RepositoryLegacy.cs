@@ -5,6 +5,8 @@ namespace PokerTell.Repository
     using System.IO;
     using System.Text;
 
+    using global::NHibernate;
+
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
     using Infrastructure.Interfaces.Repository;
@@ -62,7 +64,7 @@ namespace PokerTell.Repository
 
         public IRepository Use(IDataProvider dataProvider)
         {
-            _sessionFactory = dataProvider.BuildSessionFactory();
+            _sessionFactory = dataProvider.NewSessionFactory;
             _database.Use(dataProvider);
            return this;
         }
@@ -169,6 +171,11 @@ namespace PokerTell.Repository
             }
 
             return this;
+        }
+
+        public IConvertedPokerHand RetrieveConvertedHandWith(ulong gameId, string site)
+        {
+            throw new NotImplementedException();
         }
     }
 }

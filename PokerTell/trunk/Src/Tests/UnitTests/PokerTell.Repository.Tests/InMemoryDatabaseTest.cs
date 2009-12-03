@@ -3,13 +3,13 @@ namespace PokerTell.Repository.Tests
     using System;
     using System.Reflection;
 
-    using NHibernate;
-    using NHibernate.ByteCode.Castle;
-    using NHibernate.Cfg;
-    using NHibernate.Dialect;
-    using NHibernate.Driver;
+    using global::NHibernate;
+    using global::NHibernate.ByteCode.Castle;
+    using global::NHibernate.Cfg;
+    using global::NHibernate.Dialect;
+    using global::NHibernate.Driver;
 
-    using Environment = NHibernate.Cfg.Environment;
+    using Environment = global::NHibernate.Cfg.Environment;
 
     public class InMemoryDatabaseTest : IDisposable
     {

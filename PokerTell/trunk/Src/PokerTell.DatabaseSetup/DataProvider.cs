@@ -204,6 +204,11 @@ namespace PokerTell.DatabaseSetup
         /// Therefore first InitializeWith(dataProviderInfo) and ConnectToDatabase() before calling this Method.
         /// </summary>
         /// <returns>Newly created NHibernate SessionFactory or null if DataProvider was not connected.</returns>
+        public ISessionFactory NewSessionFactory
+        {
+            get { return BuildSessionFactory(); }
+        }
+
         public ISessionFactory BuildSessionFactory()
         {
             if (IsConnectedToDatabase && _dataProviderInfo != null)

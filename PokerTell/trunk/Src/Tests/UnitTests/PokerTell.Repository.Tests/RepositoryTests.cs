@@ -1,38 +1,39 @@
 namespace PokerTell.Repository.Tests
 {
-     public class RepositoryTests
-     {
-         
-     }
-}
-
-    /* Old Repository Tests need to be reimplemented after NHibernate is integrated
-     
-      using System.Collections.Generic;
-
-    using Fakes;
-
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.DatabaseSetup;
+    using System;
+    using System.Collections.Generic;
 
     using Microsoft.Practices.Composite.Events;
 
     using Moq;
 
+    using global::NHibernate;
+
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.Repository.Interfaces;
+    using PokerTell.Repository.NHibernate;
+    using PokerTell.UnitTests.Tools;
 
     public class RepositoryTests
     {
         #region Constants and Fields
 
-        Mock<IRepositoryDatabase> _connectedDatabaseStub;
+        IEventAggregator _eventAggregator;
+
+        Mock<IConvertedPokerHandDao> _pokerHandDaoMock;
+
+        Mock<IConstructor<IConvertedPokerHandDaoWithoutSession>> _pokerHandDaoMakeStub;
 
         StubBuilder _stub;
 
-        IEventAggregator _eventAggregator;
+        Mock<IConstructor<ITransactionManagerWithoutTransaction>> _transactionManagerMakeStub;
+
+        Mock<ITransactionManager> _transactionManagerMock;
 
         #endregion
 
@@ -42,250 +43,434 @@ namespace PokerTell.Repository.Tests
         public void _Init()
         {
             _stub = new StubBuilder();
-            _connectedDatabaseStub = new Mock<IRepositoryDatabase>();
-            _connectedDatabaseStub
-                .SetupGet(db => db.IsConnected)
-                .Returns(true);
             _eventAggregator = new EventAggregator();
+
+            _pokerHandDaoMock = new Mock<IConvertedPokerHandDao>();
+            _pokerHandDaoMakeStub = new Mock<IConstructor<IConvertedPokerHandDaoWithoutSession>>();
+            _pokerHandDaoMakeStub
+                .SetupGet(phdm => phdm.New)
+                .Returns(_pokerHandDaoMock.Object);
+
+            _transactionManagerMock = new Mock<ITransactionManager>();
+            _transactionManagerMock
+                .Setup(tm => tm.InitializeWith(It.IsAny<ITransaction>()))
+                .Returns(_transactionManagerMock.Object);
+            _transactionManagerMock
+                .Setup(tm => tm.ExecuteWithoutCommitting(It.IsAny<Action>()))
+                .Returns(_transactionManagerMock.Object);
+
+            _transactionManagerMakeStub = new Mock<IConstructor<ITransactionManagerWithoutTransaction>>();
+            _transactionManagerMakeStub
+                .SetupGet(tm => tm.New)
+                .Returns(_transactionManagerMock.Object);
         }
 
         [Test]
-        public void InsertHand_DatabaseIsConnected_InsertsHandIntoDatabase()
+        public void InsertHand_DatabaseIsConnected_ExecutesTransaction()
         {
-            Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
+            IRepository sut = new Repository(_eventAggregator,
+                                              _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
 
-            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
+            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
+
+            _transactionManagerMock.Verify(tx => tx.Execute(It.IsAny<Action>()));
+        }
+
+        [Test]
+        public void InsertHand_DatabaseIsConnected_InitializesPokerHandDaoWithNewSession()
+        {
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
 
             var handMock = new Mock<IConvertedPokerHand>();
 
             sut.InsertHand(handMock.Object);
 
-            databaseMock.Verify(db => db.InsertHandAndReturnHandId(handMock.Object));
+            _pokerHandDaoMock.Verify(phd => phd.InitializeWith(It.IsAny<ISession>()));
         }
 
         [Test]
-        public void InsertHand_DatabaseIsNotConnected_DoesNotInsertHandIntoDatabase()
+        public void InsertHand_DatabaseIsNotConnected_DoesNotExecuteTransaction()
         {
-            Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
+            IRepository sut = new Repository(_eventAggregator,
+                                             _stub.Out<IConstructor<IConvertedPokerHandDaoWithoutSession>>(), 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetUnconnectedDataProviderStub());
 
-            databaseMock
-                .SetupGet(db => db.IsConnected)
-                .Returns(false);
+            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
 
-            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
-
-            var handMock = new Mock<IConvertedPokerHand>();
-
-            sut.InsertHand(handMock.Object);
-
-            databaseMock.Verify(db => db.InsertHandAndReturnHandId(handMock.Object), Times.Never());
+            _transactionManagerMock.Verify(tx => tx.Execute(It.IsAny<Action>()), Times.Never());
         }
 
-       
+        [Test]
+        public void InsertHands_TwoHands_CommitsTransactionOnlyOnce()
+        {
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
+
+            IList<IConvertedPokerHand> handsToInsert = new[]
+                {
+                    _stub.Out<IConvertedPokerHand>(), _stub.Out<IConvertedPokerHand>()
+                };
+
+            sut.InsertHands(handsToInsert);
+
+            _transactionManagerMock.Verify(tm => tm.Commit(), Times.Once());
+        }
 
         [Test]
-        public void RetrieveConvertedHand_DatabaseIsNotConnected_DoesNotCallDatabaseRetrieveHand()
+        public void InsertHands_TwoHands_ExecutesTwoTransactionsWithoutCommitting()
         {
-            var databaseMock = _connectedDatabaseStub;
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
 
-            databaseMock
-                .SetupGet(db => db.IsConnected)
-                .Returns(false);
+            IList<IConvertedPokerHand> handsToInsert = new[]
+                {
+                    _stub.Out<IConvertedPokerHand>(), _stub.Out<IConvertedPokerHand>()
+                };
 
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+            sut.InsertHands(handsToInsert);
 
-            sut.RetrieveConvertedHand(_stub.Some<int>());
+            _transactionManagerMock.Verify(tm => tm.ExecuteWithoutCommitting(It.IsAny<Action>()), Times.Exactly(2));
+        }
 
-            _connectedDatabaseStub.Verify(db => db.RetrieveConvertedHand(It.IsAny<int>()), Times.Never());
+        [Test]
+        public void InsertHands_TwoHands_InitializesPokerHandDaoWithNewSessionOnlyOnce()
+        {
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
+
+            IList<IConvertedPokerHand> handsToInsert = new[]
+                {
+                    _stub.Out<IConvertedPokerHand>(), _stub.Out<IConvertedPokerHand>()
+                };
+
+            sut.InsertHands(handsToInsert);
+
+            _pokerHandDaoMock.Verify(phd => phd.InitializeWith(It.IsAny<ISession>()), Times.Once());
+        }
+
+        [Test]
+        public void InsertHands_TwoHands_InitializesTransactionOnlyOnce()
+        {
+            IRepository sut = new Repository(_eventAggregator,
+                                              _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
+
+            IList<IConvertedPokerHand> handsToInsert = new[]
+                {
+                    _stub.Out<IConvertedPokerHand>(), _stub.Out<IConvertedPokerHand>()
+                };
+
+            sut.InsertHands(handsToInsert);
+
+            _transactionManagerMock.Verify(tm => tm.InitializeWith(It.IsAny<ITransaction>()), Times.Once());
+        }
+
+        [Test]
+        public void RetrieveConvertedHand_DatabaseIsConnected_DoesGetHandWithGivenIdFromPokerHandDao()
+        {
+            _pokerHandDaoMock
+                .Setup(phd => phd.InitializeWith(It.IsAny<ISession>()))
+                .Returns(_pokerHandDaoMock.Object);
+
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
+
+            const int handId = 1;
+            sut.RetrieveConvertedHand(handId);
+
+            _pokerHandDaoMock.Verify(phd => phd.Get(handId));
+        }
+
+        [Test]
+        public void RetrieveConvertedHand_DatabaseIsConnected_ReturnsResultOfGetHandWithGivenIdFromPokerHandDao()
+        {
+            const int handId = 1;
+            const ulong gameId = 1;
+            var returnedHandStub = new Mock<IConvertedPokerHand>();
+            returnedHandStub
+                .SetupGet(hand => hand.GameId)
+                .Returns(gameId);
+
+            _pokerHandDaoMock
+                .Setup(phd => phd.InitializeWith(It.IsAny<ISession>()))
+                .Returns(_pokerHandDaoMock.Object);
+            _pokerHandDaoMock
+                .Setup(phd => phd.Get(handId))
+                .Returns(returnedHandStub.Object);
+
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
+
+            IConvertedPokerHand retrievedHand = sut.RetrieveConvertedHand(handId);
+
+            retrievedHand.GameId.IsEqualTo(gameId);
+        }
+
+        [Test]
+        public void RetrieveConvertedHand_DatabaseIsNotConnected_DoesNotGetHandFromPokerHandDao()
+        {
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetUnconnectedDataProviderStub());
+
+            sut.RetrieveConvertedHand(_stub.Some(1));
+
+            _pokerHandDaoMock.Verify(phd => phd.Get(It.IsAny<int>()), Times.Never());
         }
 
         [Test]
         public void RetrieveConvertedHand_DatabaseIsNotConnected_ReturnsNull()
         {
-            _connectedDatabaseStub
-                .SetupGet(db => db.IsConnected)
-                .Returns(false);
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object, 
+                                             _transactionManagerMakeStub.Object, 
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetUnconnectedDataProviderStub());
 
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+            IConvertedPokerHand retrievedHand = sut.RetrieveConvertedHand(_stub.Some(1));
 
-            var result = sut.RetrieveConvertedHand(_stub.Some<int>());
-
-            Assert.That(result, Is.Null);
+            retrievedHand.IsNull();
         }
 
         [Test]
-        public void RetrieveConvertedHand_NotRetrievedBefore_CallsDatabaseRetrieveHand()
+        public void RetrieveConvertedHandWith_DatabaseIsNotConnected_DoesNotGetHandFromPokerHandDao()
         {
-            var databaseMock = _connectedDatabaseStub;
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object,
+                                             _transactionManagerMakeStub.Object,
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetUnconnectedDataProviderStub());
 
-            const int handId = 1;
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+            sut.RetrieveConvertedHandWith(_stub.Some<ulong>(1), "someSite");
 
-            sut.RetrieveConvertedHand(handId);
-
-            databaseMock.Verify(db => db.RetrieveConvertedHand(handId));
+            _pokerHandDaoMock.Verify(phd => phd.GetHandWith(It.IsAny<ulong>(), It.IsAny<string>()), Times.Never());
         }
-
-       
 
         [Test]
-        public void RetrieveConvertedHand_DatabaseIsConnected_ReturnsHandReturnedByDatabase()
+        public void RetrieveConvertedHandWith_DatabaseIsConnected_ReturnsResultOfGetHandWithGivenGameIdAndSiteFromPokerHandDao()
         {
-            const int handId = 1;
-            var retrievedHandStub = new ConvertedPokerHandStub { Id = handId };
-           
-            _connectedDatabaseStub
-                .Setup(db => db.RetrieveConvertedHand(It.IsAny<int>()))
-                .Returns(retrievedHandStub);
+            const ulong gameId = 1;
+            const string somesite = "someSite";
+            var returnedHandStub = new Mock<IConvertedPokerHand>();
+            returnedHandStub
+                .SetupGet(hand => hand.GameId)
+                .Returns(gameId);
 
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+            _pokerHandDaoMock
+                .Setup(phd => phd.InitializeWith(It.IsAny<ISession>()))
+                .Returns(_pokerHandDaoMock.Object);
+            
+            _pokerHandDaoMock
+                .Setup(phd => phd.GetHandWith(gameId, somesite))
+                .Returns(returnedHandStub.Object);
 
-            var result = sut.RetrieveConvertedHand(_stub.Some<int>());
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object,
+                                             _transactionManagerMakeStub.Object,
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetConnectedDataProviderStub());
 
-            Assert.That(result.Id, Is.EqualTo(handId));
+            IConvertedPokerHand retrievedHand = sut.RetrieveConvertedHandWith(gameId, somesite);
+
+            retrievedHand.GameId.IsEqualTo(gameId);
         }
 
-       
+        #endregion
 
-        [Test]
-        public void DatabaseInUseChangedEvent_Always_DatabaseUseIsCalledWithNewDataProvider()
+        #region Methods
+
+        IDataProvider GetConnectedDataProviderStub()
         {
-            var databaseMock = _connectedDatabaseStub;
-            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
-            sut.CachedHands.Add(_stub.Some(1), _stub.Out<IConvertedPokerHand>());
+            var sessionFactoryStub = new Mock<ISessionFactory>();
+            sessionFactoryStub
+                .Setup(sf => sf.OpenSession())
+                .Returns(_stub.Out<ISession>);
 
-            var dataProviderStub = new Mock<IDataProvider>();
-            _eventAggregator
-                .GetEvent<DatabaseInUseChangedEvent>()
-                .Publish(dataProviderStub.Object);
-
-            databaseMock.Verify(db => db.Use(dataProviderStub.Object));
+            return _stub.Setup<IDataProvider>()
+                .Get(dp => dp.NewSessionFactory)
+                .Returns(sessionFactoryStub.Object)
+                .Out;
         }
 
-        
+        IDataProvider GetConnectedDataProviderStub(ISessionFactory sessionFactoryStub)
+        {
+            return _stub.Setup<IDataProvider>()
+                .Get(dp => dp.NewSessionFactory)
+                .Returns(sessionFactoryStub)
+                .Out;
+        }
+
+        IDataProvider GetUnconnectedDataProviderStub()
+        {
+            return _stub.Setup<IDataProvider>()
+                .Get(dp => dp.NewSessionFactory)
+                .Returns(null)
+                .Out;
+        }
+
         #endregion
     }
-     */
+}
+
+/* Old Repository Tests need to be reimplemented after NHibernate is integrated
+   
+  Mock<IRepositoryDatabase> _connectedDatabaseStub;
+ _connectedDatabaseStub = new Mock<IRepositoryDatabase>();
+         _connectedDatabaseStub
+             .SetupGet(db => db.IsConnected)
+             .Returns(true);
+
+public class RepositoryTests
+{
 
 
-    /* No caching done anymore -> Tests redundant
-       [Test]
-        public void InsertHand_CachedBefore_HandIdReturnedByDatabaseInsertIsNotCachedAgain()
-        {
-            const int handId = 1;
+    [Test]
+    public void DatabaseInUseChangedEvent_Always_DatabaseUseIsCalledWithNewDataProvider()
+    {
+        var databaseMock = _connectedDatabaseStub;
+        var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
+        sut.CachedHands.Add(_stub.Some(1), _stub.Out<IConvertedPokerHand>());
 
-            _connectedDatabaseStub
-                .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
-                .Returns(handId);
+        var dataProviderStub = new Mock<IDataProvider>();
+        _eventAggregator
+            .GetEvent<DatabaseInUseChangedEvent>()
+            .Publish(dataProviderStub.Object);
 
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
-            sut.CachedHands.Add(handId, _stub.Out<IConvertedPokerHand>());
+        databaseMock.Verify(db => db.Use(dataProviderStub.Object));
+    }
 
-            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
+        
+    #endregion
+}
+ */
 
-            Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
-        }
+/* No caching done anymore -> Tests redundant
+   [Test]
+    public void InsertHand_CachedBefore_HandIdReturnedByDatabaseInsertIsNotCachedAgain()
+    {
+        const int handId = 1;
 
-     *  [Test]
-        public void RetrieveConvertedHand_NotRetrievedBefore_AddsRetrievedHandToCachedHands()
-        {
-            const int handId = 1;
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+        _connectedDatabaseStub
+            .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
+            .Returns(handId);
 
-            sut.RetrieveConvertedHand(handId);
+        var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+        sut.CachedHands.Add(handId, _stub.Out<IConvertedPokerHand>());
 
-            Assert.That(sut.CachedHands.ContainsKey(handId), Is.True);
-        }
+        sut.InsertHand(_stub.Out<IConvertedPokerHand>());
 
-        [Test]
-        public void RetrieveConvertedHand_AlreadyCached_DoesNotAddRetrievedHandToCachedHands()
-        {
-            const int handId = 1;
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
-            sut.CachedHands.Add(handId, _stub.Out<IConvertedPokerHand>());
+        Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
+    }
 
-            sut.RetrieveConvertedHand(handId);
+ *  [Test]
+    public void RetrieveConvertedHand_NotRetrievedBefore_AddsRetrievedHandToCachedHands()
+    {
+        const int handId = 1;
+        var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
 
-            Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
-        }
-     * 
-     *  [Test]
-        public void DatabaseInUseChangedEvent_Always_CachedHandsAreCleared()
-        {
-            var sut = new Repository(_eventAggregator, _stub.Out<IRepositoryDatabase>(), _stub.Out<IRepositoryParser>());
-            sut.CachedHands.Add(_stub.Some(1), _stub.Out<IConvertedPokerHand>());
+        sut.RetrieveConvertedHand(handId);
 
-            _eventAggregator
-                .GetEvent<DatabaseInUseChangedEvent>()
-                .Publish(_stub.Out<IDataProvider>());
+        Assert.That(sut.CachedHands.ContainsKey(handId), Is.True);
+    }
 
-            Assert.That(sut.CachedHands.Count, Is.EqualTo(0));
-        }
-     * 
-        [Test]
-        public void InsertHand_NotInsertedBefore_HandIdReturnedByDatabaseInsertIsCached()
-        {
-            const int handId = 1;
+    [Test]
+    public void RetrieveConvertedHand_AlreadyCached_DoesNotAddRetrievedHandToCachedHands()
+    {
+        const int handId = 1;
+        var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+        sut.CachedHands.Add(handId, _stub.Out<IConvertedPokerHand>());
 
-            _connectedDatabaseStub
-                .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
-                .Returns(handId);
+        sut.RetrieveConvertedHand(handId);
 
-            var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+        Assert.That(sut.CachedHands.Count, Is.EqualTo(1));
+    }
+ * 
+ *  [Test]
+    public void DatabaseInUseChangedEvent_Always_CachedHandsAreCleared()
+    {
+        var sut = new Repository(_eventAggregator, _stub.Out<IRepositoryDatabase>(), _stub.Out<IRepositoryParser>());
+        sut.CachedHands.Add(_stub.Some(1), _stub.Out<IConvertedPokerHand>());
 
-            sut.InsertHand(_stub.Out<IConvertedPokerHand>());
+        _eventAggregator
+            .GetEvent<DatabaseInUseChangedEvent>()
+            .Publish(_stub.Out<IDataProvider>());
 
-            Assert.That(sut.CachedHands.ContainsKey(handId), Is.True);
-        }
+        Assert.That(sut.CachedHands.Count, Is.EqualTo(0));
+    }
+ * 
+    [Test]
+    public void InsertHand_NotInsertedBefore_HandIdReturnedByDatabaseInsertIsCached()
+    {
+        const int handId = 1;
+
+        _connectedDatabaseStub
+            .Setup(db => db.InsertHandAndReturnHandId(It.IsAny<IConvertedPokerHand>()))
+            .Returns(handId);
+
+        var sut = new Repository(_eventAggregator, _connectedDatabaseStub.Object, _stub.Out<IRepositoryParser>());
+
+        sut.InsertHand(_stub.Out<IConvertedPokerHand>());
+
+        Assert.That(sut.CachedHands.ContainsKey(handId), Is.True);
+    }
      
-     * [Test]
-        public void InsertHands_TwoNotCachedHands_CallsDatabaseInsertHandsWithBothHands()
-        {
-            Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
+ * 
 
-            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
+    [Test]
+    public void InsertHands_TwoHandsOneCachedBefore_CachesUncachedHand()
+    {
+        Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
 
-            var hand1Mock = new Mock<IConvertedPokerHand>();
-            var hand2Mock = new Mock<IConvertedPokerHand>();
+        var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
 
-            IList<IConvertedPokerHand> handsToInsert = new[] { hand1Mock.Object, hand2Mock.Object };
+        var hand1Mock = new Mock<IConvertedPokerHand>();
+        hand1Mock
+            .SetupGet(hand => hand.Id)
+            .Returns(1);
+        var hand2Mock = new Mock<IConvertedPokerHand>();
+       hand2Mock
+           .SetupGet(hand => hand.Id)
+           .Returns(2);
 
-            databaseMock
-               .Setup(db => db.InsertHandsAndSetTheirHandIds(handsToInsert))
-               .Returns(databaseMock.Object);
+        IList<IConvertedPokerHand> handsToInsert = new[] { hand1Mock.Object, hand2Mock.Object };
 
-            sut.InsertHands(handsToInsert);
+        databaseMock
+            .Setup(db => db.InsertHandsAndSetTheirHandIds(handsToInsert))
+            .Returns(databaseMock.Object);
 
-            databaseMock.Verify(db => db.InsertHandsAndSetTheirHandIds(handsToInsert));
-        }
-
-        [Test]
-        public void InsertHands_TwoHandsOneCachedBefore_CachesUncachedHand()
-        {
-            Mock<IRepositoryDatabase> databaseMock = _connectedDatabaseStub;
-
-            var sut = new Repository(_eventAggregator, databaseMock.Object, _stub.Out<IRepositoryParser>());
-
-            var hand1Mock = new Mock<IConvertedPokerHand>();
-            hand1Mock
-                .SetupGet(hand => hand.Id)
-                .Returns(1);
-            var hand2Mock = new Mock<IConvertedPokerHand>();
-           hand2Mock
-               .SetupGet(hand => hand.Id)
-               .Returns(2);
-
-            IList<IConvertedPokerHand> handsToInsert = new[] { hand1Mock.Object, hand2Mock.Object };
-
-            databaseMock
-                .Setup(db => db.InsertHandsAndSetTheirHandIds(handsToInsert))
-                .Returns(databaseMock.Object);
-
-            sut.CachedHands.Add(1, hand1Mock.Object);
+        sut.CachedHands.Add(1, hand1Mock.Object);
            
-            sut.InsertHands(handsToInsert);
+        sut.InsertHands(handsToInsert);
 
-           Assert.That(sut.CachedHands.Count, Is.EqualTo(2));
-        }
+       Assert.That(sut.CachedHands.Count, Is.EqualTo(2));
+    }
 
-     */
+ */

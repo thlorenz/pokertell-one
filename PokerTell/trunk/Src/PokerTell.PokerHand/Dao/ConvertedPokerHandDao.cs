@@ -33,7 +33,7 @@ namespace PokerTell.PokerHand.Dao
                 .SingleOrDefault();
         }
 
-        public IConvertedPokerHandDao InitializeWith(ISession session)
+        public IConvertedPokerHandDaoWithSession InitializeWith(ISession session)
         {
             _session = session;
             return this;

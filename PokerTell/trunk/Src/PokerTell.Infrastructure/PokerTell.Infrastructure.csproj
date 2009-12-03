@@ -109,6 +109,7 @@
     <Compile Include="Interfaces\DatabaseSetup\IDataProviderInfo.cs" />
     <Compile Include="Interfaces\DatabaseSetup\IDataProviderInfos.cs" />
     <Compile Include="Interfaces\DatabaseSetup\IManagedDatabase.cs" />
+    <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParser.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParsers.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPlayerSeat.cs" />
