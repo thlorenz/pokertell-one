@@ -8,8 +8,10 @@ namespace PokerTell.PokerHand.Tests.Aquisition
 
     using PokerTell.PokerHand.Aquisition;
 
+    using UnitTests;
+
     [TestFixture]
-    public class AquiredPokerRoundTests
+    public class AquiredPokerRoundTests : TestWithLog
     {
         AquiredPokerRound _aquiredRound;
 

@@ -3,6 +3,7 @@ namespace PokerTell.Repository
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
 
@@ -13,12 +14,10 @@ namespace PokerTell.Repository
     using global::NHibernate;
 
     using PokerTell.Infrastructure.Events;
-    using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.Repository.Interfaces;
-    using PokerTell.Repository.NHibernate;
 
     public class Repository : IRepository
     {
@@ -29,11 +28,9 @@ namespace PokerTell.Repository
 
         readonly IRepositoryParser _parser;
 
-        readonly IConstructor<IConvertedPokerHandDaoWithoutSession> _pokerHandDaoMake;
+        readonly IConvertedPokerHandDaoFactory _pokerHandDaoMake;
 
-        readonly IConstructor<ITransactionManagerWithoutTransaction> _transactionManagerMake;
-
-        IDataProvider _dataProvider;
+        readonly ITransactionManagerFactory _transactionManagerMake;
 
         ISessionFactory _sessionFactory;
 
@@ -41,7 +38,7 @@ namespace PokerTell.Repository
 
         #region Constructors and Destructors
 
-        public Repository(IEventAggregator eventAggregator, IConstructor<IConvertedPokerHandDaoWithoutSession> pokerHandDaoMake, IConstructor<ITransactionManagerWithoutTransaction> transactionManagerMake, IRepositoryParser parser)
+        public Repository(IEventAggregator eventAggregator, IConvertedPokerHandDaoFactory pokerHandDaoMake, ITransactionManagerFactory transactionManagerMake, IRepositoryParser parser)
         {
             _transactionManagerMake = transactionManagerMake;
             _pokerHandDaoMake = pokerHandDaoMake;
@@ -64,9 +61,10 @@ namespace PokerTell.Repository
             {
                 using (ISession session = _sessionFactory.OpenSession())
                 {
-                    var pokerHandDao = _pokerHandDaoMake.New.InitializeWith(session);
-                    _transactionManagerMake.New
-                        .InitializeWith(session.BeginTransaction())
+                    var pokerHandDao = _pokerHandDaoMake.New(session);
+                    
+                    _transactionManagerMake
+                        .New(session.BeginTransaction())
                         .Execute(() => pokerHandDao.Insert(convertedPokerHand));
                 }
             }
@@ -76,38 +74,35 @@ namespace PokerTell.Repository
 
         public IRepository InsertHands(IEnumerable<IConvertedPokerHand> handsToInsert)
         {
-            if (_sessionFactory != null)
+            using (var statelessSession = _sessionFactory.OpenStatelessSession())
             {
-                using (ISession session = _sessionFactory.OpenSession())
+                var pokerHandDao = _pokerHandDaoMake.New(statelessSession);
+                
+                using (ITransaction tx = statelessSession.BeginTransaction())
                 {
-                    var pokerHandDao = _pokerHandDaoMake.New.InitializeWith(session);
-
-                    ITransactionManagerWithTransaction initializedTransaction = _transactionManagerMake.New
-                        .InitializeWith(session.BeginTransaction());
-
-                    ITransactionManagerUncommitted uncommittedTransaction = null;
-
                     foreach (IConvertedPokerHand convertedHand in handsToInsert)
                     {
-                        // Avoid access to modified closure
-                        IConvertedPokerHand hand = convertedHand;
-
-                        uncommittedTransaction = initializedTransaction
-                            .ExecuteWithoutCommitting(() => pokerHandDao.Insert(hand));
+                        pokerHandDao.InsertFast(convertedHand);
                     }
 
-                    if (uncommittedTransaction != null)
-                    {
-                        uncommittedTransaction.Commit();
-                    }
+                    tx.Commit();
                 }
             }
-
+           
             return this;
         }
 
         public IConvertedPokerHand RetrieveConvertedHandWith(ulong gameId, string site)
         {
+            if (_sessionFactory != null)
+            {
+                using (ISession session = _sessionFactory.OpenSession())
+                {
+                    return _pokerHandDaoMake.New(session)
+                        .GetHandWith(gameId, site);
+                }
+            }
+
             return null;
         }
 
@@ -117,8 +112,7 @@ namespace PokerTell.Repository
             {
                 using (ISession session = _sessionFactory.OpenSession())
                 {
-                    return _pokerHandDaoMake.New
-                        .InitializeWith(session)
+                    return _pokerHandDaoMake.New(session)
                         .Get(handId);
                 }
             }
@@ -143,7 +137,6 @@ namespace PokerTell.Repository
 
         public IRepository Use(IDataProvider dataProvider)
         {
-            _dataProvider = dataProvider;
             _sessionFactory = dataProvider.NewSessionFactory;
             return this;
         }

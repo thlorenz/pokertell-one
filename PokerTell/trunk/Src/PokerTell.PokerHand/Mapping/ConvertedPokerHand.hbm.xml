@@ -6,46 +6,73 @@
 
   <class name="ConvertedPokerHand" 
          proxy="PokerTell.Infrastructure.Interfaces.PokerHand.IConvertedPokerHand, PokerTell.Infrastructure"
-         table="ConvertedPokerHands">
+         table="ConvertedPokerHands"
+         mutable="false">
   
-    <cache usage="read-write" />
+    <cache usage="read-only" />
     
     <id name="Id" unsaved-value="0">
       <generator class="native" />
     </id>
 
     <property name="GameId" not-null="true"  index="ConvertedPokerHand_GameId"/>
-    <property name="Site" length="20" not-null="true" />
-    <property name="TournamentId" />
+    <property name="Site" length="20" not-null="true" index="ConvertedPokerHand_Site" />
+    <property name="TournamentId" index="ConvertedPokerHand_TournamentId"/>
     <property name="TableName" length="20" />
 
-    <property name="BB"  index="ConvertedPokerHand_BB" />
-    <property name="SB" />
-    <property name="Ante" />
+    <property name="BB" column="BigBlind" index="ConvertedPokerHand_BB" />
+    <property name="SB" column="SmallBlind" />
+    
+    <property name="Ante"  type="double" scale="2" precision="2"/>
     <property name="TimeStamp" />
 
     <property name="Board" length="20" />
-    <property name="TotalPlayers" />
-    <property name="TotalSeats" />
+    <property name="TotalPlayers" index="ConvertedPokerHand_TotalPlayers">
+      <column name="TotalPlayers" sql-type="tinyint(2)" />
+    </property>
+   
+    <property name="TotalSeats" >
+      <column name="TotalSeats" sql-type="tinyint(2)" />
+    </property>
 
-    <property name="PlayersInFlop" />
-    <property name="PlayersInTurn" />
-    <property name="PlayersInRiver" />
-
-    <property name="SequencePreFlop" length="100"/>
-    <property name="SequenceFlop" length="100"/>
-    <property name="SequenceTurn" length="100"/>
-    <property name="SequenceRiver" length="100"/>
+    <property name="PlayersInFlop">
+      <column name="PlayersInFlop" sql-type="tinyint(2)"/>
+    </property>
     
-    <list name="Players" cascade="all" lazy="true">
+    <property name="PlayersInTurn" >
+      <column name="PlayersInTurn" sql-type="tinyint(2)" />
+    </property>
+    
+    <property name="PlayersInRiver" >
+      <column name="PlayersInRiver" sql-type="tinyint(2)" />
+    </property>
+
+    <property name="SequencePreFlop" length="500"/>
+    <property name="SequenceFlop" length="500"/>
+    <property name="SequenceTurn" length="500"/>
+    <property name="SequenceRiver" length="500"/>
+
+    <bag name="Players" cascade="all" lazy="true" mutable="true">
+      <cache usage="read-write" />
+      <key column="HandId"  not-null="true"/>
+      <one-to-many class="ConvertedPokerPlayer" />
+    </bag>
+    
+  </class>
+
+  <query name="FindConvertedPokerHandByGameIdAndSite">
+    <![CDATA[
+        from ConvertedPokerHand hand 
+        where hand.GameId =:gameId and hand.Site =:site
+    ]]>
+  </query>
+</hibernate-mapping>
+
+<!-- 
+ <list name="Players" cascade="all" lazy="true">
+      <cache usage="read-only" />
       <key column="HandId"  not-null="true"/>
       <index column="ListPosition" />
       <one-to-many class="ConvertedPokerPlayer" />
     </list>
-    
-  </class>
-</hibernate-mapping>
-
-<!-- 
- 
 -->

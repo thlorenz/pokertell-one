@@ -5,19 +5,20 @@ namespace PokerTell.Repository.NHibernate
 
     using global::NHibernate;
 
+    using Interfaces;
+
     using log4net;
 
     public class TransactionManager : ITransactionManager
     {
-        ITransaction _transaction;
+        readonly ITransaction _transaction;
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public ITransactionManagerWithTransaction InitializeWith(ITransaction transaction)
+        public TransactionManager(ITransaction transaction)
         {
             _transaction = transaction;
-            return this;
         }
 
         public ITransactionManagerWithTransaction Execute(Action executeTransaction)
@@ -50,7 +51,7 @@ namespace PokerTell.Repository.NHibernate
             return this;
         }
 
-        public ITransactionManagerWithoutTransaction Commit()
+        public void Commit()
         {
             try
             {
@@ -60,8 +61,14 @@ namespace PokerTell.Repository.NHibernate
             {
                 Log.Error(excep);
             }
+        }
+    }
 
-            return this;
+    public class TransactionManagerFactory : ITransactionManagerFactory
+    {
+        public ITransactionManagerWithTransaction New(ITransaction transaction)
+        {
+            return new TransactionManager(transaction);
         }
     }
 }

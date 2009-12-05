@@ -16,11 +16,16 @@ namespace Tools
 
         public static IAppender InitializeConsoleAppender()
         {
+            return InitializeConsoleAppender(Level.All);
+        }
+
+        public static IAppender InitializeConsoleAppender(Level level)
+        {
             var appender = new ConsoleAppender
                 {
                     Layout = new PatternLayout(
                         "%newline%date [%thread] %level %logger - %message%newline"), 
-                    Threshold = Level.All
+                    Threshold = level
                 };
 
             BasicConfigurator.Configure(appender);

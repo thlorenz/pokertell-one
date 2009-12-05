@@ -8,8 +8,10 @@ namespace PokerTell.PokerHand.Tests.Aquisition
 
     using PokerTell.PokerHand.Aquisition;
 
+    using UnitTests;
+
     [TestFixture]
-    public class AquiredPokerPlayerTests
+    public class AquiredPokerPlayerTests : TestWithLog
     {
         AquiredPokerPlayer _aquiredPlayer;
 
@@ -57,7 +59,7 @@ namespace PokerTell.PokerHand.Tests.Aquisition
             _aquiredPlayer.AddRound();
             _aquiredPlayer.AddRound();
 
-            _aquiredPlayer.AddRound();
+            NotLogged(() => _aquiredPlayer.AddRound());
 
             const int maximumNumberOfRounds = 4;
             Assert.That(_aquiredPlayer.Count, Is.EqualTo(maximumNumberOfRounds));
@@ -218,7 +220,8 @@ namespace PokerTell.PokerHand.Tests.Aquisition
             const int sbPosition = 0;
 
             _aquiredPlayer.RelativeSeatNumber = totalPlayers + 1;
-            var returnedValue = _aquiredPlayer.SetPosition(sbPosition, totalPlayers);
+            bool returnedValue = true;
+            NotLogged(() => returnedValue = _aquiredPlayer.SetPosition(sbPosition, totalPlayers));
 
             Assert.That(returnedValue, Is.False);
         }

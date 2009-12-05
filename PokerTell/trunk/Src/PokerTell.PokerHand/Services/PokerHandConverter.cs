@@ -5,6 +5,8 @@ namespace PokerTell.PokerHand.Services
     using System.Linq;
     using System.Reflection;
 
+    using Analyzation;
+
     using log4net;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
@@ -106,7 +108,10 @@ namespace PokerTell.PokerHand.Services
                     .SetNumOfPlayersInEachRound()
                     .SetWhoHasPositionInEachRound();
 
-                convertedHand.Players.ToList().ForEach(player => player.SetActionSequencesAndBetSizeKeysFromSequenceStrings());
+                foreach (var player in convertedHand)
+                {
+                    player.SetActionSequencesAndBetSizeKeysFromSequenceStrings();
+                }
 
                 return convertedHand;
             }

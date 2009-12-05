@@ -6,7 +6,8 @@
 
   <class  name="ConvertedPokerPlayer"  
           proxy="PokerTell.Infrastructure.Interfaces.PokerHand.IConvertedPokerPlayer, PokerTell.Infrastructure"
-          table="ConvertedPokerPlayers">
+          table="ConvertedPokerPlayers"
+          mutable="true">
    
     <cache usage="read-write" />
     
@@ -31,28 +32,50 @@
                  update="false"
                  index="ConvertedPokerPlayer_HandId"/>
     
-    <property name="Holecards"  length="20"/>
-    <property name="Position" />
+    <property name="Holecards"  length="16"/>
+    <property name="Position">
+      <column name="Position" sql-type="tinyint(2)" />
+    </property>
     <property name="MBefore" column="M" />
-    <property name="StrategicPosition" index="ConvertedPokerPlayer_StrategicPosition" />
+    
+    <property name="StrategicPosition" index="ConvertedPokerPlayer_StrategicPosition">
+      <column name="StrategicPosition" sql-type="tinyint(2)" />
+    </property>
     
     <property name="InPositionPreFlop" />
     <property name="InPositionFlop" />
     <property name="InPositionTurn" />
     <property name="InPositionRiver" />
 
-    <property name="ActionsPreFlop"  length="50"/>
+    <property name="ActionsPreFlop" length="50"/>
     <property name="ActionsFlop" length="50"/>
     <property name="ActionsTurn" length="50"/>
     <property name="ActionsRiver" length="50"/>
 
-    <property name="SequencePreFlop"/>
-    <property name="SequenceFlop" />
-    <property name="BetSizeIndexFlop" />
-    <property name="SequenceTurn" />
-    <property name="BetSizeIndexTurn" />
-    <property name="SequenceRiver" />
-    <property name="BetSizeIndexRiver" />
+    <property name="SequencePreFlop" index="ConvertedPokerPlayer_SequencePreFlop">
+      <column name="SequencePreFlop" sql-type="tinyint(2)" />
+    </property>
+   
+    <property name="SequenceFlop" index="ConvertedPokerPlayer_SequenceFlop">
+      <column name="SequenceFlop" sql-type="tinyint(2)" />
+    </property>
+    <property name="BetSizeIndexFlop">
+      <column name="BetSizeIndexFlop" sql-type="tinyint(2)" />
+    </property>
+  
+    <property name="SequenceTurn" index="ConvertedPokerPlayer_SequenceTurn">
+      <column name="SequenceTurn" sql-type="tinyint(2)" />
+    </property>
+    <property name="BetSizeIndexTurn">
+      <column name="BetSizeIndexTurn" sql-type="tinyint(2)" />
+    </property>
+   
+    <property name="SequenceRiver" index="ConvertedPokerPlayer_SequenceRiver">
+      <column name="SequenceRiver"  sql-type="tinyint(2)" />
+    </property>
+    <property name="BetSizeIndexRiver">
+      <column name="BetSizeIndexRiver" sql-type="tinyint(2)" />
+    </property>
     
   </class>
 </hibernate-mapping>

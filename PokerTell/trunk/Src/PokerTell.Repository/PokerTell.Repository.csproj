@@ -59,6 +59,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NHibernate\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="NHibernate.Caches.Prevalence, Version=2.1.2.4000, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\NHibernate\NHibernate.Caches.Prevalence.dll</HintPath>
+    </Reference>
     <Reference Include="NHibernate.Linq, Version=1.1.0.1001, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\NHibernate\NHibernate.Linq.dll</HintPath>
@@ -90,7 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NHibernate\ITransactionManager.cs" />
+    <Compile Include="Interfaces\ITransactionManager.cs" />
     <Compile Include="NHibernate\TransactionManager.cs" />
     <Compile Include="RepositoryLegacy.cs" />
     <Compile Include="Database\DatabaseUtility.cs" />

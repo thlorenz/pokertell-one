@@ -58,6 +58,7 @@ namespace PokerTell.PokerHand.Analyzation
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;

@@ -40,7 +40,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             _identity = new PlayerIdentity(Name, Site);
 
-            _hand = new ConvertedPokerHand("someSite", 1, DateTime.MinValue, 2, 1, 2);
+            _hand = new ConvertedPokerHand(Site, 1, DateTime.MinValue, 2, 1, 2);
         }
 
         [Test]

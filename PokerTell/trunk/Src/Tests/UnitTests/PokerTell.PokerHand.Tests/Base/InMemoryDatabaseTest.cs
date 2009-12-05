@@ -3,11 +3,15 @@ namespace PokerTell.PokerHand.Tests.Base
     using System;
     using System.Reflection;
 
+    using log4net.Core;
+
     using NHibernate;
     using NHibernate.ByteCode.Castle;
     using NHibernate.Cfg;
     using NHibernate.Dialect;
     using NHibernate.Driver;
+
+    using UnitTests;
 
     using Environment = NHibernate.Cfg.Environment;
 
@@ -17,10 +21,25 @@ namespace PokerTell.PokerHand.Tests.Base
         protected static ISessionFactory _sessionFactory;
         protected readonly ISession _session;
 
+        protected readonly TestWithLog _log;
+
+        protected readonly IStatelessSession _statelessSession;
+
         protected const int UnsavedValue = 0;
 
         public InMemoryDatabaseTest(Assembly assemblyContainingMapping)
+            : this(assemblyContainingMapping, false)
         {
+        }
+
+        public InMemoryDatabaseTest(Assembly assemblyContainingMapping, bool showLog)
+        {
+            _log = new TestWithLog();
+            if (showLog)
+            {
+                _log.EnableLogger();
+            }
+
             if (_configuration == null)
             {
                 _configuration = new Configuration()
@@ -36,6 +55,7 @@ namespace PokerTell.PokerHand.Tests.Base
             }
 
             _session = _sessionFactory.OpenSession();
+            _statelessSession = _sessionFactory.OpenStatelessSession();
 
             // This needs to go into the [Setup] _Init() method for the derived test class
             // new SchemaExport(_configuration).Execute(true, true, false, _session.Connection, Console.Out);

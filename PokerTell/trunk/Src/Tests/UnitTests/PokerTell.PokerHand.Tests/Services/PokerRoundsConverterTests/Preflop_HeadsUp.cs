@@ -20,7 +20,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
 
     using UnitTests;
 
-    public class Preflop_HeadsUp
+    public class Preflop_HeadsUp : TestWithLog
     {
         
         IUnityContainer _container;

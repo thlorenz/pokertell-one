@@ -218,8 +218,11 @@ namespace PokerTell.DatabaseSetup
                     .SetProperty(Environment.Dialect, _dataProviderInfo.NHibernateDialect)
                     .SetProperty(Environment.ConnectionDriver, _dataProviderInfo.NHibernateConnectionDriver)
                     .SetProperty(Environment.ConnectionString, Connection.ConnectionString)
+                    .SetProperty(Environment.Hbm2ddlKeyWords, "none")
                     .SetProperty(Environment.ProxyFactoryFactoryClass, typeof(ProxyFactoryFactory).AssemblyQualifiedName)
                     .SetProperty(Environment.ShowSql, "false")
+                    .SetProperty(Environment.CacheProvider, "NHibernate.Caches.Prevalence.PrevalenceCacheProvider, NHibernate.Caches.Prevalence")
+                    .SetProperty(Environment.CacheDefaultExpiration, "360000")
                     .AddAssembly(ApplicationProperties.MappingAssemblyName);
 
                 return NHibernateConfiguration.BuildSessionFactory();

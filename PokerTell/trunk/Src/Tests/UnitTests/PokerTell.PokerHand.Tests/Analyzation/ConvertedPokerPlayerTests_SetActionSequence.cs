@@ -1,14 +1,17 @@
-namespace PokerTell.PokerHand.Tests
+namespace PokerTell.PokerHand.Tests.Analyzation
 {
     using System;
 
+    using Infrastructure.Enumerations.PokerHand;
+
     using NUnit.Framework;
 
-    using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.PokerHand.Analyzation;
 
+    using UnitTests;
+
     [TestFixture]
-    public class ConvertedPokerPlayerTests_SetActionSequence
+    public class ConvertedPokerPlayerTests_SetActionSequence : TestWithLog
     {
         #region Constants and Fields
 

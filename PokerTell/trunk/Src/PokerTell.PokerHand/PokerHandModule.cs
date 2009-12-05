@@ -82,8 +82,8 @@ namespace PokerTell.PokerHand
                 .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
 
-                // Daos
-                .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
+                // Dao Factories
+                .RegisterType<IConvertedPokerHandDaoFactory, ConvertedPokerHandDaoFactory>(new ContainerControlledLifetimeManager())
 
                 // Conditions
                 .RegisterType<IInvestedMoneyCondition, InvestedMoneyCondition>()

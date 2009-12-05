@@ -16,6 +16,8 @@ namespace PokerTell.Repository
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using NHibernate;
+
     using ViewModels;
 
     using Views;
@@ -50,12 +52,15 @@ namespace PokerTell.Repository
         public void Initialize()
         {
             _container
+                .RegisterType<ITransactionManagerFactory, TransactionManagerFactory>(new ContainerControlledLifetimeManager())
                 .RegisterType<IRepositoryParser, RepositoryParser>(new ContainerControlledLifetimeManager())
                 .RegisterType<IRepository, Repository>(new ContainerControlledLifetimeManager())
-                .RegisterType<IRepositoryDatabase, RepositoryDatabase>()
-                .RegisterType<IDatabaseUtility, DatabaseUtility>()
-              //  .RegisterType<IConvertedPokerHandInserter, ConvertedPokerHandInserter>()
-              //  .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>()
+
+              /* .RegisterType<IDatabaseUtility, DatabaseUtility>()
+               * .RegisterType<IRepositoryDatabase, RepositoryDatabase>()
+               * .RegisterType<IConvertedPokerHandInserter, ConvertedPokerHandInserter>()
+                .RegisterType<IConvertedPokerHandRetriever, ConvertedPokerHandRetriever>() */
+
                 .RegisterType<IHandHistoriesDirectoryImporter, HandHistoriesDirectoryImporter>(new ContainerControlledLifetimeManager())
 
                 // ViewModels

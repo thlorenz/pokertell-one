@@ -6,10 +6,11 @@ namespace PokerTell.PokerHand.Tests.Services
 
     using PokerTell.PokerHand.Services;
 
+    using UnitTests;
     using UnitTests.Tools;
 
     [TestFixture]
-    public class HandHistoriesFilterTests
+    public class HandHistoriesFilterTests : TestWithLog
     {
         HandHistoriesFilter _historiesFilter;
 

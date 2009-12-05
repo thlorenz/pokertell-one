@@ -1,22 +1,23 @@
-namespace PokerTell.PokerHand.Tests
+namespace PokerTell.PokerHand.Tests.Analyzation
 {
-    using System;
-
     using Factories;
 
     using Fakes;
+
+    using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.PokerHand;
 
     using Moq;
 
     using NUnit.Framework;
 
-    using PokerTell.Infrastructure.Enumerations.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
-    using PokerTell.UnitTests.Tools;
+
+    using UnitTests;
+    using UnitTests.Tools;
 
     [TestFixture]
-    public class ConvertedPokerPlayerTests
+    public class ConvertedPokerPlayerTests : TestWithLog
     {
         #region Constants and Fields
 
@@ -260,7 +261,7 @@ namespace PokerTell.PokerHand.Tests
             const int illegalPosition = -1;
             _convertedPlayer.Position = illegalPosition;
 
-            _convertedPlayer.SetStrategicPosition(SixPlayers);
+            NotLogged(() => _convertedPlayer.SetStrategicPosition(SixPlayers));
 
             // Logs the error and sets default Position
             Assert.That(_convertedPlayer.StrategicPosition, Is.EqualTo(StrategicPositions.EA));
@@ -284,5 +285,4 @@ namespace PokerTell.PokerHand.Tests
 
         #endregion
     }
-    
 }

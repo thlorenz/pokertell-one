@@ -9,8 +9,10 @@ namespace PokerTell.PokerHand.Tests.ViewModels
 
     using Tools.GenericUtilities;
 
+    using UnitTests;
+
     [TestFixture]
-    public class HandHistoriesTableViewModelTests
+    public class HandHistoriesTableViewModelTests : TestWithLog
     {
         #region Constants and Fields
 

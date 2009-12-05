@@ -8,12 +8,15 @@ namespace PokerTell.PokerHand.Tests.Mapping
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
+    using log4net.Core;
+
     using NHibernate.Tool.hbm2ddl;
 
     using NUnit.Framework;
 
     using PokerTell.PokerHand.Analyzation;
 
+    using UnitTests;
     using UnitTests.Tools;
 
     public class ConvertedPokerHandMapTests : InMemoryDatabaseTest
@@ -48,7 +51,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
         {
             _session.Clear();
 
-            new SchemaExport(_configuration).Execute(false, true, false, _session.Connection, null);
+            new SchemaExport(_configuration).Execute(true, true, false, _session.Connection, null);
            
             _hand = new ConvertedPokerHand(Site, GameId, _timeStamp, BB, SB, TotalPlayers);
             
@@ -80,6 +83,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
             retrievedHand.IsEqualTo(_hand);
+            
         }
 
         [Test]

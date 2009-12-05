@@ -4,6 +4,8 @@ namespace PokerTell.Repository.Tests.NHibernate
 
     using global::NHibernate;
 
+    using Interfaces;
+
     using Moq;
 
     using NUnit.Framework;
@@ -20,8 +22,7 @@ namespace PokerTell.Repository.Tests.NHibernate
         public void _Init()
         {
             _transactionMock = new Mock<ITransaction>();
-            _sut = new TransactionManager();
-            _sut.InitializeWith(_transactionMock.Object);
+            _sut = new TransactionManager(_transactionMock.Object);
         }
 
         [Test]

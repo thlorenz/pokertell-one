@@ -8,11 +8,13 @@ namespace PokerTell.PokerHand.Tests.ViewModels
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.ViewModels;
 
+    using UnitTests;
+
     /// <summary>
     /// Summary description for HandHistoryRowTests.
     /// </summary>
     [TestFixture]
-    public class HandHistoryRowTests
+    public class HandHistoryRowTests : TestWithLog
     {
         /// <summary>
         /// The _poker player.

@@ -31,41 +31,48 @@ namespace PokerTell.PokerHand.Analyzation
 
         public void Convert(string sequenceString)
         {
-            _sequenceString = sequenceString;
-           
-            switch (_sequenceString)
+            if (string.IsNullOrEmpty(sequenceString))
             {
-                case "X":
-                    ActionSequence = ActionSequences.HeroX;
-                    break;
+                ActionSequence = ActionSequences.NonStandard;
+            }
+            else
+            {
+                _sequenceString = sequenceString;
 
-                case "F":
-                    ActionSequence = ActionSequences.HeroF;
-                    break;
+                switch (_sequenceString)
+                {
+                    case "X":
+                        ActionSequence = ActionSequences.HeroX;
+                        break;
 
-                case "C":
-                    ActionSequence = ActionSequences.HeroC;
-                    break;
+                    case "F":
+                        ActionSequence = ActionSequences.HeroF;
+                        break;
 
-                case "R":
-                    ActionSequence = ActionSequences.HeroR;
-                    break;
+                    case "C":
+                        ActionSequence = ActionSequences.HeroC;
+                        break;
 
-                case "RF":
-                    ActionSequence = ActionSequences.OppRHeroF;
-                    break;
+                    case "R":
+                        ActionSequence = ActionSequences.HeroR;
+                        break;
 
-                case "RC":
-                    ActionSequence = ActionSequences.OppRHeroC;
-                    break;
+                    case "RF":
+                        ActionSequence = ActionSequences.OppRHeroF;
+                        break;
 
-                case "RR":
-                    ActionSequence = ActionSequences.OppRHeroR;
-                    break;
+                    case "RC":
+                        ActionSequence = ActionSequences.OppRHeroC;
+                        break;
 
-                default:
-                    MatchStringContainingBetSizeKey();
-                    break;
+                    case "RR":
+                        ActionSequence = ActionSequences.OppRHeroR;
+                        break;
+
+                    default:
+                        MatchStringContainingBetSizeKey();
+                        break;
+                }
             }
         }
 

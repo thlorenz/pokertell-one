@@ -2,8 +2,10 @@ namespace PokerTell.PokerHand.Tests
 {
     using NUnit.Framework;
 
+    using UnitTests;
+
     [TestFixture]
-    public class PokerPlayerTests
+    public class PokerPlayerTests : TestWithLog
     {
         [Test]
         public void IsEqualTo_AreEqual_ReturnsTrue()

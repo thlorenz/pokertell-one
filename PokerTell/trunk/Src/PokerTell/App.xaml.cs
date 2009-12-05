@@ -7,6 +7,7 @@ namespace PokerTell
     using DatabaseSetup.Views;
 
     using log4net;
+    using log4net.Core;
 
     using PokerTell.PokerHand.Views;
 
@@ -58,7 +59,7 @@ namespace PokerTell
             AppDomain.CurrentDomain.UnhandledException +=
                 (sender, e) => HandleException(e.ExceptionObject as Exception);
 
-            Log4NetAppenders.InitializeDebugAppender();
+            Log4NetAppenders.InitializeConsoleAppender(Level.Debug);
 
             try
             {

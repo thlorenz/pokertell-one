@@ -3,8 +3,6 @@ namespace PokerTell.Repository.Database
     using System;
     using System.IO;
     using System.Linq;
-    using System.Threading;
-    using System.Windows.Threading;
 
     using Infrastructure.Interfaces.Repository;
 

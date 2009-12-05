@@ -12,7 +12,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
     using UnitTests;
 
     [TestFixture]
-    public class PokerHandStringConverterTests
+    public class PokerHandStringConverterTests : TestWithLog
     {
         #region Constants and Fields
 
@@ -58,7 +58,8 @@ namespace PokerTell.PokerHand.Tests.Analyzation
                 .Add(new ConvertedPokerAction(actionType1, ratio1))
                 .Add(new ConvertedPokerAction(actionType2, ratio2));
 
-            string result = _converter.BuildSqlStringFrom(_round);
+            string result = string.Empty;
+            NotLogged(() => result = _converter.BuildSqlStringFrom(_round));
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }
@@ -79,7 +80,8 @@ namespace PokerTell.PokerHand.Tests.Analyzation
                 .Add(new ConvertedPokerAction(actionType1, ratio1))
                 .Add(new ConvertedPokerAction(actionType2, ratio2));
 
-            string result = _converter.BuildSqlStringFrom(_round);
+            string result = string.Empty;
+            NotLogged(() => result = _converter.BuildSqlStringFrom(_round));
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }
@@ -145,7 +147,8 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
             _round.Add(new ConvertedPokerAction(actionType, ratio));
 
-            string result = _converter.BuildSqlStringFrom(_round);
+            string result = string.Empty;
+            NotLogged(() => result = _converter.BuildSqlStringFrom(_round));
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }

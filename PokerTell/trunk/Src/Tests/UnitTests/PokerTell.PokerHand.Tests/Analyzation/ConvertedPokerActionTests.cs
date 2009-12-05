@@ -6,8 +6,10 @@ namespace PokerTell.PokerHand.Tests.Analyzation
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.UnitTests.Tools;
 
+    using UnitTests;
+
     [TestFixture]
-    public class ConvertedPokerActionTests
+    public class ConvertedPokerActionTests : TestWithLog
     {
         #region Public Methods
 

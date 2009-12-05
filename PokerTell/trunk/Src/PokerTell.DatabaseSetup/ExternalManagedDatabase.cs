@@ -57,9 +57,13 @@ namespace PokerTell.DatabaseSetup
         {
             var connectionInfo = new DatabaseConnectionInfo(_dataProvider.Connection.ConnectionString);
             ConnectionString = string.Format("{0} Database = {1};", connectionInfo.ServerConnectString, databaseName);
-            
-            string nonQuery = string.Format("USE {0};", databaseName);
-            _dataProvider.ExecuteNonQuery(nonQuery);
+
+            _dataProvider.Connect(ConnectionString, _dataProviderInfo);
+
+           string nonQuery = string.Format("USE {0};", databaseName);
+           _dataProvider.ExecuteNonQuery(nonQuery);
+
+            _dataProvider.BuildSessionFactory();
          
             return this;
         }
@@ -69,19 +73,13 @@ namespace PokerTell.DatabaseSetup
             string nonQuery = string.Format(Resources.Sql_Queries_CreateDatabase, databaseName);
             _dataProvider.ExecuteNonQuery(nonQuery);
 
-            nonQuery = string.Format("USE {0};", databaseName);
-            _dataProvider.ExecuteNonQuery(nonQuery);
+            ChooseDatabase(databaseName);
 
             return this;
         }
 
         public IManagedDatabase CreateTables()
         {
-//            string nonQuery = _dataProviderInfo.CreateTablesQuery;
-//            _dataProvider.ExecuteNonQuery(nonQuery);
-
-            _dataProvider.BuildSessionFactory();
-
             new SchemaExport(_dataProvider.NHibernateConfiguration)
                 .Execute(false, true, false, _dataProvider.Connection, null);
 
@@ -121,10 +119,10 @@ namespace PokerTell.DatabaseSetup
         {
             var allDatabaseNames = GetAllDatabaseNames();
 
-            return GetNamesOfAllDatabasesThatContainPokerTellActionTableFrom(allDatabaseNames);
+            return GetNamesOfAllDatabasesThatContainConvertedPokerHandsTableFrom(allDatabaseNames);
         }
 
-        IEnumerable<string> GetNamesOfAllDatabasesThatContainPokerTellActionTableFrom(IEnumerable<string> allDatabaseNames)
+        IEnumerable<string> GetNamesOfAllDatabasesThatContainConvertedPokerHandsTableFrom(IEnumerable<string> allDatabaseNames)
         {
             foreach (string databaseName in allDatabaseNames)
             {
@@ -135,7 +133,7 @@ namespace PokerTell.DatabaseSetup
                     while (dr.Read())
                     {
                         string tableName = dr[0].ToString();
-                        if (tableName.Equals(Tables.actionhhd.ToString()))
+                        if (tableName.Equals("convertedpokerhands"))
                         {
                             yield return databaseName;
                         }

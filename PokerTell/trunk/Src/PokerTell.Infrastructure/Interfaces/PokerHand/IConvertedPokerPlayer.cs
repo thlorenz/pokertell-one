@@ -102,8 +102,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </param>
         IConvertedPokerPlayer Add(IConvertedPokerRound convertedRound);
 
-        IConvertedPokerPlayer InitializeWith(
-            string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards);
+        IConvertedPokerPlayer InitializeWith(string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards);
 
         /// <summary>
         /// Determines a Sequence string, representing, what the player did in a round

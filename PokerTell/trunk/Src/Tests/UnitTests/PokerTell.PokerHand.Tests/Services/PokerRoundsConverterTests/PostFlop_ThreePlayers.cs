@@ -20,7 +20,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
 
     using UnitTests;
 
-    public class Postflop_ThreePlayers
+    public class Postflop_ThreePlayers : TestWithLog
     {
         #region Constants and Fields
 
@@ -189,7 +189,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             const double bigBlind = 2.0;
             const double pot = smallBlind + bigBlind;
             
-            const int totalPlayers = 2;
+            const int totalPlayers = 3;
             const int smallBlindPosition = 0;
             const int bigBlindPosition = 1;
             const int buttonPosition = 2;
@@ -264,8 +264,8 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
                     .Add(action3)
                     .Add(action6));
 
-            player2.Name = "player3";
-            player2.Position = buttonPosition;
+            player3.Name = "player3";
+            player3.Position = buttonPosition;
 
             IAquiredPokerHand aquiredHand =
                 new AquiredPokerHand(
@@ -281,7 +281,6 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
 
             IConvertedPokerHand convertedHand =
                 new ConvertedPokerHand(aquiredHand)
-                    .InitializeWith(aquiredHand)
                     .AddPlayersFrom(aquiredHand, pot, _convertedPlayerMake);
 
             _converter

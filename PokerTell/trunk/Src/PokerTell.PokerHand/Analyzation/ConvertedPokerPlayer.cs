@@ -417,8 +417,7 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
-        public IConvertedPokerPlayer InitializeWith(
-            string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards)
+        public IConvertedPokerPlayer InitializeWith(string name, double mBefore, double mAfter, int positionNum, int totalPlayers, string holecards)
         {
             try
             {

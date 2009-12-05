@@ -68,6 +68,7 @@ namespace PokerTell.DatabaseSetup
             }
 
             _managedDatabase.CreateDatabase(databaseName);
+           
             _managedDatabase.CreateTables();
             return this;
         }

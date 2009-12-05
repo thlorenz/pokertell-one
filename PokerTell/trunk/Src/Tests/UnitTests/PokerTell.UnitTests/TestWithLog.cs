@@ -13,7 +13,7 @@ namespace PokerTell.UnitTests
     /// Description of TestWithLog.
     /// </summary>
     [TestFixture]
-    public abstract class TestWithLog
+    public class TestWithLog
     {
         #region Constants and Fields
 
@@ -32,14 +32,18 @@ namespace PokerTell.UnitTests
         [TestFixtureSetUp]
         public void InitLog()
         {
+            InitAppender();
+
+            EnableLogger();
+        }
+
+        void InitAppender()
+        {
             _appender = new ConsoleAppender
                 {
                     Layout = new PatternLayout(
                         "%newline%date [%thread] %level %logger - %message%newline")
                 };
-
-            EnableLogger();
-
             BasicConfigurator.Configure(_appender);
         }
 
@@ -47,17 +51,27 @@ namespace PokerTell.UnitTests
 
         #region Methods
 
-        protected void DisableLogger()
+        public void DisableLogger()
         {
-            _appender.Threshold = Level.Off;
+            SetThreshold(Level.Off);
         }
 
-        protected void EnableLogger()
+        public void EnableLogger()
         {
-            _appender.Threshold = Level.All;
+            SetThreshold(Level.All);
         }
 
-        protected void NotLogged(Action unloggedCodeBlock)
+        public void SetThreshold(Level level)
+        {
+            if (_appender == null)
+            {
+                InitAppender();
+            }
+
+            _appender.Threshold = level;
+        }
+
+        public void NotLogged(Action unloggedCodeBlock)
         {
             DisableLogger();
 

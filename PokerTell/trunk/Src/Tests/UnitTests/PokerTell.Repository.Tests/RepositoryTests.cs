@@ -11,12 +11,10 @@ namespace PokerTell.Repository.Tests
 
     using NUnit.Framework;
 
-    using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.Repository.Interfaces;
-    using PokerTell.Repository.NHibernate;
     using PokerTell.UnitTests.Tools;
 
     public class RepositoryTests
@@ -27,11 +25,11 @@ namespace PokerTell.Repository.Tests
 
         Mock<IConvertedPokerHandDao> _pokerHandDaoMock;
 
-        Mock<IConstructor<IConvertedPokerHandDaoWithoutSession>> _pokerHandDaoMakeStub;
+        Mock<IConvertedPokerHandDaoFactory> _pokerHandDaoMakeStub;
 
         StubBuilder _stub;
 
-        Mock<IConstructor<ITransactionManagerWithoutTransaction>> _transactionManagerMakeStub;
+        Mock<ITransactionManagerFactory> _transactionManagerMakeStub;
 
         Mock<ITransactionManager> _transactionManagerMock;
 
@@ -46,22 +44,20 @@ namespace PokerTell.Repository.Tests
             _eventAggregator = new EventAggregator();
 
             _pokerHandDaoMock = new Mock<IConvertedPokerHandDao>();
-            _pokerHandDaoMakeStub = new Mock<IConstructor<IConvertedPokerHandDaoWithoutSession>>();
+            _pokerHandDaoMakeStub = new Mock<IConvertedPokerHandDaoFactory>();
             _pokerHandDaoMakeStub
-                .SetupGet(phdm => phdm.New)
+                .Setup(phdm => phdm.New(It.IsAny<ISession>()))
                 .Returns(_pokerHandDaoMock.Object);
 
             _transactionManagerMock = new Mock<ITransactionManager>();
-            _transactionManagerMock
-                .Setup(tm => tm.InitializeWith(It.IsAny<ITransaction>()))
-                .Returns(_transactionManagerMock.Object);
+           
             _transactionManagerMock
                 .Setup(tm => tm.ExecuteWithoutCommitting(It.IsAny<Action>()))
                 .Returns(_transactionManagerMock.Object);
 
-            _transactionManagerMakeStub = new Mock<IConstructor<ITransactionManagerWithoutTransaction>>();
+            _transactionManagerMakeStub = new Mock<ITransactionManagerFactory>();
             _transactionManagerMakeStub
-                .SetupGet(tm => tm.New)
+                .Setup(tm => tm.New(It.IsAny<ITransaction>()))
                 .Returns(_transactionManagerMock.Object);
         }
 
@@ -80,10 +76,11 @@ namespace PokerTell.Repository.Tests
         }
 
         [Test]
-        public void InsertHand_DatabaseIsConnected_InitializesPokerHandDaoWithNewSession()
+        public void InsertHand_DatabaseIsConnected_CreatesPokerHandDaoWithNewSession()
         {
+            var pokerHandDaoMakeMock = _pokerHandDaoMakeStub;
             IRepository sut = new Repository(_eventAggregator,
-                                             _pokerHandDaoMakeStub.Object, 
+                                             pokerHandDaoMakeMock.Object, 
                                              _transactionManagerMakeStub.Object, 
                                              _stub.Out<IRepositoryParser>())
                 .Use(GetConnectedDataProviderStub());
@@ -92,14 +89,14 @@ namespace PokerTell.Repository.Tests
 
             sut.InsertHand(handMock.Object);
 
-            _pokerHandDaoMock.Verify(phd => phd.InitializeWith(It.IsAny<ISession>()));
+            pokerHandDaoMakeMock.Verify(phdm => phdm.New(It.IsAny<ISession>()));
         }
 
         [Test]
         public void InsertHand_DatabaseIsNotConnected_DoesNotExecuteTransaction()
         {
             IRepository sut = new Repository(_eventAggregator,
-                                             _stub.Out<IConstructor<IConvertedPokerHandDaoWithoutSession>>(), 
+                                             _stub.Out<IConvertedPokerHandDaoFactory>(), 
                                              _transactionManagerMakeStub.Object, 
                                              _stub.Out<IRepositoryParser>())
                 .Use(GetUnconnectedDataProviderStub());
@@ -148,11 +145,12 @@ namespace PokerTell.Repository.Tests
         }
 
         [Test]
-        public void InsertHands_TwoHands_InitializesPokerHandDaoWithNewSessionOnlyOnce()
+        public void InsertHands_TwoHands_CreatesPokerHandDaoWithNewSessionOnlyOnce()
         {
+            var pokerHandDaoMakeMock = _pokerHandDaoMakeStub;
             IRepository sut = new Repository(_eventAggregator,
-                                             _pokerHandDaoMakeStub.Object, 
-                                             _transactionManagerMakeStub.Object, 
+                                             pokerHandDaoMakeMock.Object,
+                                             _transactionManagerMakeStub.Object,
                                              _stub.Out<IRepositoryParser>())
                 .Use(GetConnectedDataProviderStub());
 
@@ -163,15 +161,17 @@ namespace PokerTell.Repository.Tests
 
             sut.InsertHands(handsToInsert);
 
-            _pokerHandDaoMock.Verify(phd => phd.InitializeWith(It.IsAny<ISession>()), Times.Once());
+           pokerHandDaoMakeMock.Verify(phdm => phdm.New(It.IsAny<ISession>()), Times.Once());
         }
 
         [Test]
-        public void InsertHands_TwoHands_InitializesTransactionOnlyOnce()
+        public void InsertHands_TwoHands_CreatesTransactionOnlyOnce()
         {
+            var transactionManagerMakeMock = _transactionManagerMakeStub;
+
             IRepository sut = new Repository(_eventAggregator,
-                                              _pokerHandDaoMakeStub.Object, 
-                                             _transactionManagerMakeStub.Object, 
+                                              _pokerHandDaoMakeStub.Object,
+                                             transactionManagerMakeMock.Object, 
                                              _stub.Out<IRepositoryParser>())
                 .Use(GetConnectedDataProviderStub());
 
@@ -182,16 +182,12 @@ namespace PokerTell.Repository.Tests
 
             sut.InsertHands(handsToInsert);
 
-            _transactionManagerMock.Verify(tm => tm.InitializeWith(It.IsAny<ITransaction>()), Times.Once());
+            transactionManagerMakeMock.Verify(tmm => tmm.New(It.IsAny<ITransaction>()), Times.Once());
         }
 
         [Test]
         public void RetrieveConvertedHand_DatabaseIsConnected_DoesGetHandWithGivenIdFromPokerHandDao()
         {
-            _pokerHandDaoMock
-                .Setup(phd => phd.InitializeWith(It.IsAny<ISession>()))
-                .Returns(_pokerHandDaoMock.Object);
-
             IRepository sut = new Repository(_eventAggregator,
                                              _pokerHandDaoMakeStub.Object, 
                                              _transactionManagerMakeStub.Object, 
@@ -214,9 +210,6 @@ namespace PokerTell.Repository.Tests
                 .SetupGet(hand => hand.GameId)
                 .Returns(gameId);
 
-            _pokerHandDaoMock
-                .Setup(phd => phd.InitializeWith(It.IsAny<ISession>()))
-                .Returns(_pokerHandDaoMock.Object);
             _pokerHandDaoMock
                 .Setup(phd => phd.Get(handId))
                 .Returns(returnedHandStub.Object);
@@ -275,6 +268,20 @@ namespace PokerTell.Repository.Tests
         }
 
         [Test]
+        public void RetrieveConvertedHandWith_DatabaseIsNotConnected_ReturnsNull()
+        {
+            IRepository sut = new Repository(_eventAggregator,
+                                             _pokerHandDaoMakeStub.Object,
+                                             _transactionManagerMakeStub.Object,
+                                             _stub.Out<IRepositoryParser>())
+                .Use(GetUnconnectedDataProviderStub());
+
+            IConvertedPokerHand retrievedHand = sut.RetrieveConvertedHandWith(_stub.Some<ulong>(1), "someSite");
+
+            retrievedHand.IsNull();
+        }
+
+        [Test]
         public void RetrieveConvertedHandWith_DatabaseIsConnected_ReturnsResultOfGetHandWithGivenGameIdAndSiteFromPokerHandDao()
         {
             const ulong gameId = 1;
@@ -283,10 +290,6 @@ namespace PokerTell.Repository.Tests
             returnedHandStub
                 .SetupGet(hand => hand.GameId)
                 .Returns(gameId);
-
-            _pokerHandDaoMock
-                .Setup(phd => phd.InitializeWith(It.IsAny<ISession>()))
-                .Returns(_pokerHandDaoMock.Object);
             
             _pokerHandDaoMock
                 .Setup(phd => phd.GetHandWith(gameId, somesite))

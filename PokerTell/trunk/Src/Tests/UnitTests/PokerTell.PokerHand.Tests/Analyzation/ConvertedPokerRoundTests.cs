@@ -1,16 +1,16 @@
-namespace PokerTell.PokerHand.Tests
+namespace PokerTell.PokerHand.Tests.Analyzation
 {
-
     using Infrastructure.Enumerations.PokerHand;
 
     using NUnit.Framework;
 
     using PokerTell.PokerHand.Analyzation;
 
+    using UnitTests;
     using UnitTests.Tools;
 
     [TestFixture]
-    public class ConvertedPokerRoundTests
+    public class ConvertedPokerRoundTests : TestWithLog
     {
         [Test]
         public void BinaryDeserialize_SerializedEmptyRound_ReturnsSameRound()

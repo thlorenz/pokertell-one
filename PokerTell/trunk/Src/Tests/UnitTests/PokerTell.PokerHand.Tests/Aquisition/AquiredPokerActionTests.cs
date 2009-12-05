@@ -7,8 +7,10 @@ namespace PokerTell.PokerHand.Tests.Aquisition
 
     using PokerTell.PokerHand.Aquisition;
 
+    using UnitTests;
+
     [TestFixture]
-    public class AquiredPokerActionTests
+    public class AquiredPokerActionTests : TestWithLog
     {
         #region Constants and Fields
 

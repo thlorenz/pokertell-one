@@ -3,8 +3,8 @@ namespace PokerTell.PokerHand.Tests.Dao
     using Base;
 
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Services;
 
+    using NHibernate;
     using NHibernate.Tool.hbm2ddl;
 
     using NUnit.Framework;
@@ -94,21 +94,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             retrievedIdentity.IsEqualTo(insertedIdentity);
         }
-
-        [Test]
-        public void Insert_PlayerIdentityWithValidNameAndSite_SavesNewPlayerIdentityInDatabase()
-        {
-            const string someName = "someName";
-            const string someSite = "PokerStars";
-            var playerIdentity = new PlayerIdentity(someName, someSite);
-
-            _sut.Insert(playerIdentity);
-
-            object insertedIdentity = ClearedSession.Get<PlayerIdentity>(playerIdentity.Id);
-
-            insertedIdentity.IsEqualTo(playerIdentity);
-        }
-
+        
         #endregion
     }
 }

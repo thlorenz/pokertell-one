@@ -1,24 +1,14 @@
-namespace PokerTell.Repository.NHibernate
+namespace PokerTell.Repository.Interfaces
 {
     using System;
 
     using global::NHibernate;
 
-    using PokerTell.Infrastructure.Interfaces;
+    using Infrastructure.Interfaces;
 
-    public interface ITransactionManager : ITransactionManagerWithoutTransaction, 
-                                           ITransactionManagerWithTransaction, 
+    public interface ITransactionManager : ITransactionManagerWithTransaction, 
                                            ITransactionManagerUncommitted
     {
-    }
-
-    public interface ITransactionManagerWithoutTransaction : IFluentInterface
-    {
-        #region Public Methods
-
-        ITransactionManagerWithTransaction InitializeWith(ITransaction transaction);
-
-        #endregion
     }
 
     public interface ITransactionManagerWithTransaction : IFluentInterface
@@ -36,8 +26,13 @@ namespace PokerTell.Repository.NHibernate
     {
         #region Public Methods
 
-        ITransactionManagerWithoutTransaction Commit();
+        void Commit();
 
         #endregion
+    }
+
+    public interface ITransactionManagerFactory : IFluentInterface
+    {
+        ITransactionManagerWithTransaction New(ITransaction transaction);
     }
 }

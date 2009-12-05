@@ -22,7 +22,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
 
     using UnitTests;
 
-    public class Preflop_ThreePlayers
+    public class Preflop_ThreePlayers : TestWithLog
     {
         #region Constants and Fields
 
@@ -241,8 +241,8 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
                 new AquiredPokerRound()
                     .Add(action1)
                     .Add(action4));
-            player2.Name = "player3";
-            player2.Position = buttonPosition;
+            player3.Name = "player3";
+            player3.Position = buttonPosition;
 
             IAquiredPokerHand aquiredHand =
                 new AquiredPokerHand(

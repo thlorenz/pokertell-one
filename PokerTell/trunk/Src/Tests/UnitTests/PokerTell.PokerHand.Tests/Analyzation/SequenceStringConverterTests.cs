@@ -9,9 +9,10 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
     using PokerTell.PokerHand.Analyzation;
 
+    using UnitTests;
     using UnitTests.Tools;
 
-    public class SequenceStringConverterTests
+    public class SequenceStringConverterTests : TestWithLog
     {
         SequenceStringConverter _sut;
 
@@ -27,6 +28,13 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             _sut.StandardizedBetSizes.Count.IsEqualTo(ApplicationProperties.BetSizeKeys.Length);
             _sut.StandardizedBetSizes.First().IsEqualTo((int)(ApplicationProperties.BetSizeKeys.First() * 10));
             _sut.StandardizedBetSizes.Last().IsEqualTo((int)(ApplicationProperties.BetSizeKeys.Last() * 10));
+        }
+
+        [Test]
+        public void Convert_NullString_ActionSequenceIsNonStandard()
+        {
+            _sut.Convert(null);
+            _sut.ActionSequence.IsEqualTo(ActionSequences.NonStandard);
         }
 
         [Test]
