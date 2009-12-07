@@ -31,11 +31,6 @@ namespace PokerTell.DatabaseSetup
             get { return "@"; }
         }
 
-        public string CreateTablesQuery
-        {
-            get { return Resources.SQLite_Queries_CreateTables; }
-        }
-
         public string NHibernateDialect
         {
             get { return typeof(SQLiteDialect).AssemblyQualifiedName; }

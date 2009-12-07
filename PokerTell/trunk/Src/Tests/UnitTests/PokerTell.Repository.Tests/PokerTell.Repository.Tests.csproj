@@ -79,6 +79,7 @@
   <ItemGroup>
     <Compile Include="Fakes\ConvertedPokerHandStub.cs" />
     <Compile Include="InMemoryDatabaseTest.cs" />
+    <Compile Include="NHibernate\SessionFactoryManagerTests.cs" />
     <Compile Include="NHibernate\TransactionManagerTests.cs" />
     <Compile Include="RepositoryParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

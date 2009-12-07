@@ -1,74 +1,44 @@
 namespace PokerTell.PokerHand.Dao
 {
+    using Infrastructure.Interfaces.Repository;
+
     using NHibernate;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
 
-    public class PlayerIdentityDao
+    public class PlayerIdentityDao : IPlayerIdentityDao
     {
-        const string FindPlayerIdentityByNameAndSite = "FindPlayerIdentityByNameAndSite";
-
         #region Constants and Fields
 
-        readonly ISession _session;
+        const string FindPlayerIdentityByNameAndSite = "FindPlayerIdentityByNameAndSite";
 
-        readonly IStatelessSession _statelessSession;
+        ISession _session;
+
+        readonly ISessionFactoryManager _sessionFactoryManager;
 
         #endregion
 
-        #region Constructors and Destructors
-
-        public PlayerIdentityDao(IStatelessSession statelessSession)
+        ISession Session
         {
-            _statelessSession = statelessSession;
+            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
         }
 
-        public PlayerIdentityDao(ISession session)
+        #region Constructors and Destructors
+
+        public PlayerIdentityDao(ISessionFactoryManager sessionFactoryManager)
         {
-            _session = session;
+            _sessionFactoryManager = sessionFactoryManager;
         }
 
         #endregion
 
         #region Public Methods
 
-        public IPlayerIdentity GetOrInsert(string name, string site)
-        {
-            return GetOrInsert(name, site, _session);
-        }
-
-        public IPlayerIdentity GetOrInsertFast(string name, string site)
-        {
-            return GetOrInsert(name, site, _statelessSession);
-        }
-
-        public IPlayerIdentity GetPlayerIdentityFor(string name, string site)
-        {
-            return GetPlayerIdentityFor(name, site, _session);
-        }
-
-        public IPlayerIdentity Insert(IPlayerIdentity playerIdentity)
-        {
-            return Insert(playerIdentity, _session);
-        }
-
-        #endregion
-
-        #region Methods
-
-        static IPlayerIdentity FindPlayerIdentityFor(IQuery query, string name, string site)
-        {
-            return query
-                .SetString("name", name)
-                .SetString("site", site)
-                .UniqueResult<IPlayerIdentity>();
-        }
-
-        static IPlayerIdentity GetOrInsert(string name, string site, IStatelessSession statelessSession)
+        public IPlayerIdentity FindOrInsert(string name, string site, IStatelessSession statelessSession)
         {
             IPlayerIdentity previouslyStoredPlayerIdentityWithSameNameAndSite =
-                GetPlayerIdentityFor(name, site, statelessSession);
+                FindPlayerIdentityFor(name, site, statelessSession);
 
             if (previouslyStoredPlayerIdentityWithSameNameAndSite != null)
             {
@@ -78,30 +48,24 @@ namespace PokerTell.PokerHand.Dao
             return Insert(new PlayerIdentity(name, site), statelessSession);
         }
 
-        static IPlayerIdentity GetOrInsert(string name, string site, ISession session)
+        public IPlayerIdentity FindOrInsert(string name, string site)
         {
-            IPlayerIdentity previouslyStoredPlayerIdentityWithSameNameAndSite = GetPlayerIdentityFor(name, site, session);
+                IPlayerIdentity previouslyStoredPlayerIdentityWithSameNameAndSite =
+                    FindPlayerIdentityFor(name, site);
 
-            if (previouslyStoredPlayerIdentityWithSameNameAndSite != null)
-            {
-                return previouslyStoredPlayerIdentityWithSameNameAndSite;
-            }
+                if (previouslyStoredPlayerIdentityWithSameNameAndSite != null)
+                {
+                    return previouslyStoredPlayerIdentityWithSameNameAndSite;
+                }
 
-            return Insert(new PlayerIdentity(name, site), session);
+                return Insert(new PlayerIdentity(name, site));
         }
 
-        static IPlayerIdentity GetPlayerIdentityFor(string name, string site, IStatelessSession statelessSession)
+        public IPlayerIdentity FindPlayerIdentityFor(string name, string site)
         {
-            IQuery query = statelessSession.GetNamedQuery(FindPlayerIdentityByNameAndSite);
+            IQuery query = Session.GetNamedQuery(FindPlayerIdentityByNameAndSite);
 
-            return FindPlayerIdentityFor(query, name, site);
-        }
-
-        static IPlayerIdentity GetPlayerIdentityFor(string name, string site, ISession session)
-        {
-            IQuery query = session.GetNamedQuery(FindPlayerIdentityByNameAndSite);
-
-            return FindPlayerIdentityFor(query, name, site);
+            return SetQueryParametersAndReturnResultFor(query, name, site);
 
             /* Using Linq
             return (from identity in _session.Linq<PlayerIdentity>()
@@ -111,10 +75,29 @@ namespace PokerTell.PokerHand.Dao
              */
         }
 
-        static IPlayerIdentity Insert(IPlayerIdentity playerIdentity, ISession session)
+        public IPlayerIdentity Insert(IPlayerIdentity playerIdentity)
         {
-            session.SaveOrUpdate(playerIdentity);
+            Session.SaveOrUpdate(playerIdentity);
             return playerIdentity;
+        }
+
+        #endregion
+
+        #region Methods
+
+        static IPlayerIdentity SetQueryParametersAndReturnResultFor(IQuery findPlayerIdentityQuery, string name, string site)
+        {
+            return findPlayerIdentityQuery
+                .SetString("name", name)
+                .SetString("site", site)
+                .UniqueResult<IPlayerIdentity>();
+        }
+
+        static IPlayerIdentity FindPlayerIdentityFor(string name, string site, IStatelessSession statelessSession)
+        {
+            IQuery query = statelessSession.GetNamedQuery(FindPlayerIdentityByNameAndSite);
+
+            return SetQueryParametersAndReturnResultFor(query, name, site);
         }
 
         static IPlayerIdentity Insert(IPlayerIdentity playerIdentity, IStatelessSession statelessSession)

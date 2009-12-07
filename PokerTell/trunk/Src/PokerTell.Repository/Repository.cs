@@ -28,25 +28,19 @@ namespace PokerTell.Repository
 
         readonly IRepositoryParser _parser;
 
-        readonly IConvertedPokerHandDaoFactory _pokerHandDaoMake;
+        readonly IConvertedPokerHandDao _pokerHandDao;
 
-        readonly ITransactionManagerFactory _transactionManagerMake;
-
-        ISessionFactory _sessionFactory;
+        readonly ITransactionManager _transactionManager;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public Repository(IEventAggregator eventAggregator, IConvertedPokerHandDaoFactory pokerHandDaoMake, ITransactionManagerFactory transactionManagerMake, IRepositoryParser parser)
+        public Repository(IConvertedPokerHandDao pokerHandDao, ITransactionManager transactionManager, IRepositoryParser parser)
         {
-            _transactionManagerMake = transactionManagerMake;
-            _pokerHandDaoMake = pokerHandDaoMake;
+            _transactionManager = transactionManager;
+            _pokerHandDao = pokerHandDao;
             _parser = parser;
-
-            eventAggregator
-                .GetEvent<DatabaseInUseChangedEvent>()
-                .Subscribe(dataProvider => Use(dataProvider));
         }
 
         #endregion
@@ -57,67 +51,39 @@ namespace PokerTell.Repository
 
         public IRepository InsertHand(IConvertedPokerHand convertedPokerHand)
         {
-            if (_sessionFactory != null)
-            {
-                using (ISession session = _sessionFactory.OpenSession())
-                {
-                    var pokerHandDao = _pokerHandDaoMake.New(session);
-                    
-                    _transactionManagerMake
-                        .New(session.BeginTransaction())
-                        .Execute(() => pokerHandDao.Insert(convertedPokerHand));
-                }
-            }
+            _transactionManager.Execute((Action)(() => _pokerHandDao.Insert(convertedPokerHand)));
 
             return this;
         }
 
         public IRepository InsertHands(IEnumerable<IConvertedPokerHand> handsToInsert)
         {
-            using (var statelessSession = _sessionFactory.OpenStatelessSession())
-            {
-                var pokerHandDao = _pokerHandDaoMake.New(statelessSession);
-                
-                using (ITransaction tx = statelessSession.BeginTransaction())
+            Action<IStatelessSession> insertHands = statelessSession => {
+                foreach (IConvertedPokerHand convertedHand in handsToInsert)
                 {
-                    foreach (IConvertedPokerHand convertedHand in handsToInsert)
+                    try
                     {
-                        pokerHandDao.InsertFast(convertedHand);
+                        _pokerHandDao.Insert(convertedHand, statelessSession);
                     }
-
-                    tx.Commit();
+                    catch (Exception excep)
+                    {
+                        Log.Error(excep);
+                    }
                 }
-            }
-           
+            };
+            _transactionManager.BatchExecute(insertHands);
+          
             return this;
         }
 
         public IConvertedPokerHand RetrieveConvertedHandWith(ulong gameId, string site)
         {
-            if (_sessionFactory != null)
-            {
-                using (ISession session = _sessionFactory.OpenSession())
-                {
-                    return _pokerHandDaoMake.New(session)
-                        .GetHandWith(gameId, site);
-                }
-            }
-
-            return null;
+            return _transactionManager.Execute(() => _pokerHandDao.GetHandWith(gameId, site));
         }
 
         public IConvertedPokerHand RetrieveConvertedHand(int handId)
         {
-            if (_sessionFactory != null)
-            {
-                using (ISession session = _sessionFactory.OpenSession())
-                {
-                    return _pokerHandDaoMake.New(session)
-                        .Get(handId);
-                }
-            }
-
-            return null;
+            return _transactionManager.Execute(() => _pokerHandDao.Get(handId));
         }
 
         public IEnumerable<IConvertedPokerHand> RetrieveConvertedHands(IEnumerable<int> handIds)
@@ -133,12 +99,6 @@ namespace PokerTell.Repository
             string handHistories = ReadHandHistoriesFrom(fileName);
 
             return _parser.RetrieveAndConvert(handHistories, fileName);
-        }
-
-        public IRepository Use(IDataProvider dataProvider)
-        {
-            _sessionFactory = dataProvider.NewSessionFactory;
-            return this;
         }
 
         #endregion

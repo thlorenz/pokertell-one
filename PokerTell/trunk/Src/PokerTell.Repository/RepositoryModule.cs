@@ -52,9 +52,10 @@ namespace PokerTell.Repository
         public void Initialize()
         {
             _container
-                .RegisterType<ITransactionManagerFactory, TransactionManagerFactory>(new ContainerControlledLifetimeManager())
+                .RegisterType<ISessionFactoryManager, SessionFactoryManager>(new ContainerControlledLifetimeManager())
+                .RegisterType<ITransactionManager, TransactionManager>()
                 .RegisterType<IRepositoryParser, RepositoryParser>(new ContainerControlledLifetimeManager())
-                .RegisterType<IRepository, Repository>(new ContainerControlledLifetimeManager())
+                .RegisterType<IRepository, Repository>(new PerThreadLifetimeManager())
 
               /* .RegisterType<IDatabaseUtility, DatabaseUtility>()
                * .RegisterType<IRepositoryDatabase, RepositoryDatabase>()
@@ -89,9 +90,8 @@ namespace PokerTell.Repository
                     .DataProvider;
 
             _container
-                .Resolve<IRepository>()
+                .Resolve<ISessionFactoryManager>()
                 .Use(dataProvider);
-                
         }
 
         #endregion

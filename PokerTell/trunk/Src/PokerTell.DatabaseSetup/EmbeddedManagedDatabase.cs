@@ -75,9 +75,6 @@ namespace PokerTell.DatabaseSetup
 
         public IManagedDatabase CreateTables()
         {
-//            string nonQuery = _dataProviderInfo.CreateTablesQuery;
-//            _dataProvider.ExecuteNonQuery(nonQuery);
-
             _dataProvider.BuildSessionFactory();
 
             new SchemaExport(_dataProvider.NHibernateConfiguration)

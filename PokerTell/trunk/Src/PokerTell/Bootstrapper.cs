@@ -1,8 +1,11 @@
 namespace PokerTell
 {
+    using System;
     using System.Windows;
 
     using DatabaseSetup;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.UnityExtensions;

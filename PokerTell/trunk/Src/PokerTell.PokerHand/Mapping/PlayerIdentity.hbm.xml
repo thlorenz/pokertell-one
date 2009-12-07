@@ -15,21 +15,27 @@
       <generator class="native" />
     </id>
 
-    <property name="Name" not-null="false" length="20" index="PlayerIdentity_Name" />
-    <property name="Site" not-null="false" length="20" />
+    <property name="Name" not-null="false" length="20" index="PlayerIdentity_Name">
+      <column name="Name" sql-type="varchar(20)" />
+    </property>
+    <property name="Site" not-null="false" length="20">
+      <column name="Site" sql-type="varchar(20)" />
+    </property>
 
-    <set name="ConvertedPlayers" cascade="none" inverse="true" lazy="true" mutable="true">
-      <cache usage="read-write" />
-      <key column="PlayerIdentity" not-null="true" />
+      <set name="ConvertedPlayers" cascade="none" inverse="true" lazy="true" mutable="true">
+      <cache usage="nonstrict-read-write" />
+      <key column="PlayerIdentity" not-null="true"  foreign-key="FK_PlayerIdentity"/>
       <one-to-many class="ConvertedPokerPlayer" />
     </set>
   </class>
  
-  <query name="FindPlayerIdentityByNameAndSite">
+  <query name="FindPlayerIdentityByNameAndSite" cacheable="true">
     <![CDATA[
         from PlayerIdentity identity 
         where identity.Name=:name and identity.Site=:site 
       ]]>
+    <query-param name="name" type="string"/>
+    <query-param name="site" type="string"/>
   </query>
 </hibernate-mapping>
 

@@ -14,11 +14,17 @@
     <id name="Id" unsaved-value="0">
       <generator class="native" />
     </id>
-
-    <property name="GameId" not-null="true"  index="ConvertedPokerHand_GameId"/>
-    <property name="Site" length="20" not-null="true" index="ConvertedPokerHand_Site" />
+     
+    <property name="Site" length="20" not-null="true" index="ConvertedPokerHand_Site">
+      <column name="Site" sql-type="varchar(20)" />
+    </property>
     <property name="TournamentId" index="ConvertedPokerHand_TournamentId"/>
-    <property name="TableName" length="20" />
+    <property name="GameId" index="ConvertedPokerHand_GameId" >
+      <column name="GameId" sql-type="bigint(20)" not-null="true" /> <!-- Need to be explicit(sql-type) for SQLite -->
+    </property>
+    <property name="TableName" length="20" >
+      <column name="TableName" sql-type="varchar(20)" />
+    </property>
 
     <property name="BB" column="BigBlind" index="ConvertedPokerHand_BB" />
     <property name="SB" column="SmallBlind" />
@@ -26,7 +32,10 @@
     <property name="Ante"  type="double" scale="2" precision="2"/>
     <property name="TimeStamp" />
 
-    <property name="Board" length="20" />
+    <property name="Board">
+      <column name="Board" sql-type="varchar(20)" />
+    </property>
+      
     <property name="TotalPlayers" index="ConvertedPokerHand_TotalPlayers">
       <column name="TotalPlayers" sql-type="tinyint(2)" />
     </property>
@@ -53,18 +62,20 @@
     <property name="SequenceRiver" length="500"/>
 
     <bag name="Players" cascade="all" lazy="true" mutable="true">
-      <cache usage="read-write" />
-      <key column="HandId"  not-null="true"/>
+      <cache usage="nonstrict-read-write" />
+      <key column="HandId"  not-null="true" foreign-key="FK_HandId"/>
       <one-to-many class="ConvertedPokerPlayer" />
     </bag>
     
   </class>
 
-  <query name="FindConvertedPokerHandByGameIdAndSite">
+  <query name="FindConvertedPokerHandByGameIdAndSite" cacheable="true">
     <![CDATA[
         from ConvertedPokerHand hand 
         where hand.GameId =:gameId and hand.Site =:site
     ]]>
+    <query-param name="gameId" type="ulong"/>
+    <query-param name="site" type="string"/>
   </query>
 </hibernate-mapping>
 

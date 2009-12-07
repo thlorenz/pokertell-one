@@ -12,8 +12,6 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         string ParameterPlaceHolder { get; }
 
-        string CreateTablesQuery { get; }
-
         string NHibernateDialect { get; }
 
         string NHibernateConnectionDriver { get; }

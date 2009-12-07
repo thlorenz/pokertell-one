@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHand.Dao
 {
+    using Infrastructure.Interfaces.Repository;
+
     using NHibernate;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -11,22 +13,25 @@ namespace PokerTell.PokerHand.Dao
 
         const string FindConvertedPokerHandByGameIdAndSite = "FindConvertedPokerHandByGameIdAndSite";
 
-        readonly ISession _session;
+        ISession _session;
 
-        readonly IStatelessSession _statelessSession;
+        readonly ISessionFactoryManager _sessionFactoryManager;
+
+        readonly IPlayerIdentityDao _playerIdentityDao;
+
+        ISession Session
+        {
+            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
+        }
 
         #endregion
 
         #region Constructors and Destructors
 
-        public ConvertedPokerHandDao(IStatelessSession statelessSession)
+        public ConvertedPokerHandDao(ISessionFactoryManager sessionFactoryManager, IPlayerIdentityDao playerIdentityDao)
         {
-            _statelessSession = statelessSession;
-        }
-
-        public ConvertedPokerHandDao(ISession session)
-        {
-            _session = session;
+            _playerIdentityDao = playerIdentityDao;
+            _sessionFactoryManager = sessionFactoryManager;
         }
 
         #endregion
@@ -37,12 +42,12 @@ namespace PokerTell.PokerHand.Dao
 
         public IConvertedPokerHand Get(int id)
         {
-            return _session.Get<ConvertedPokerHand>(id);
+            return Session.Get<ConvertedPokerHand>(id);
         }
 
         public IConvertedPokerHand GetHandWith(ulong gameId, string site)
         {
-            IQuery query = _session.GetNamedQuery(FindConvertedPokerHandByGameIdAndSite);
+            IQuery query = Session.GetNamedQuery(FindConvertedPokerHandByGameIdAndSite);
 
             return SetParametersForFindConvertedPokerHand(query, gameId, site)
                 .UniqueResult<IConvertedPokerHand>();
@@ -57,16 +62,14 @@ namespace PokerTell.PokerHand.Dao
 
         public IConvertedPokerHand Insert(IConvertedPokerHand convertedPokerHand)
         {
-            if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, _session))
+            if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, Session))
             {
-                var playerIdentityDao = new PlayerIdentityDao(_session);
                 foreach (IConvertedPokerPlayer player in convertedPokerHand)
                 {
-                    player.PlayerIdentity = playerIdentityDao
-                        .GetOrInsert(player.Name, convertedPokerHand.Site);
+                    player.PlayerIdentity = _playerIdentityDao.FindOrInsert(player.Name, convertedPokerHand.Site);
                 }
 
-                _session.SaveOrUpdate(convertedPokerHand);
+                Session.SaveOrUpdate(convertedPokerHand);
             }
 
             return convertedPokerHand;
@@ -76,21 +79,20 @@ namespace PokerTell.PokerHand.Dao
 
         #region IConvertedPokerHandDaoWithStatelessSession
 
-        public void InsertFast(IConvertedPokerHand convertedPokerHand)
+        public IConvertedPokerHandDao Insert(IConvertedPokerHand convertedPokerHand, IStatelessSession statelessSession)
         {
-            if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, _statelessSession))
+            if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, statelessSession))
             {
-                _statelessSession.Insert(convertedPokerHand);
-
-                var playerIdentityDao = new PlayerIdentityDao(_statelessSession);
+                statelessSession.Insert(convertedPokerHand);
 
                 foreach (IConvertedPokerPlayer player in convertedPokerHand)
                 {
-                    player.PlayerIdentity = playerIdentityDao
-                        .GetOrInsertFast(player.Name, convertedPokerHand.Site);
-                    _statelessSession.Insert(player);
+                    player.PlayerIdentity = _playerIdentityDao.FindOrInsert(player.Name, convertedPokerHand.Site, statelessSession);
+                    statelessSession.Insert(player);
                 }
             }
+
+            return this;
         }
 
         #endregion
@@ -102,6 +104,7 @@ namespace PokerTell.PokerHand.Dao
         static bool HandIsNotYetInDatabase(IPokerHand convertedHand, IStatelessSession statelessSession)
         {
             IQuery query = statelessSession.GetNamedQuery(FindConvertedPokerHandByGameIdAndSite);
+
             return SetParametersForFindConvertedPokerHand(query, convertedHand.GameId, convertedHand.Site)
                        .UniqueResult<IConvertedPokerHand>() == null;
         }
@@ -127,25 +130,5 @@ namespace PokerTell.PokerHand.Dao
 
         #endregion
     }
-
-    public class ConvertedPokerHandDaoFactory : IConvertedPokerHandDaoFactory
-    {
-        #region Implemented Interfaces
-
-        #region IConvertedPokerHandDaoFactory
-
-        public IConvertedPokerHandDaoWithSession New(ISession session)
-        {
-            return new ConvertedPokerHandDao(session);
-        }
-
-        public IConvertedPokerHandDaoWithStatelessSession New(IStatelessSession statelessSession)
-        {
-            return new ConvertedPokerHandDao(statelessSession);
-        }
-
-        #endregion
-
-        #endregion
-    }
+    
 }

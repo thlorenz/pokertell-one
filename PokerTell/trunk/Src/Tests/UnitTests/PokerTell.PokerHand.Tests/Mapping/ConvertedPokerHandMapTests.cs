@@ -22,7 +22,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
     public class ConvertedPokerHandMapTests : InMemoryDatabaseTest
     {
         public ConvertedPokerHandMapTests()
-            : base(typeof(ConvertedPokerHand).Assembly)
+            : base(typeof(ConvertedPokerHand).Assembly, true)
         {
         }
 
@@ -51,7 +51,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
         {
             _session.Clear();
 
-            new SchemaExport(_configuration).Execute(true, true, false, _session.Connection, null);
+            new SchemaExport(_configuration).Execute(false, true, false, _session.Connection, null);
            
             _hand = new ConvertedPokerHand(Site, GameId, _timeStamp, BB, SB, TotalPlayers);
             

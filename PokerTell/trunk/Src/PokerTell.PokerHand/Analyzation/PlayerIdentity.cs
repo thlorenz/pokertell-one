@@ -35,7 +35,7 @@ namespace PokerTell.PokerHand.Analyzation
             get { return _site; }
         }
 
-        public int Id { get; private set; }
+        public int Id { get; protected set; }
 
         readonly ISet<IConvertedPokerPlayer> _convertedPlayers;
 

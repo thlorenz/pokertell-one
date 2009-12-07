@@ -28,6 +28,9 @@ namespace PokerTell
 
         protected override void OnStartup(StartupEventArgs e)
         {
+            
+
+            
             base.OnStartup(e);
 
             // new ConfigureMySqlDataProviderView().ShowDialog();
@@ -58,8 +61,6 @@ namespace PokerTell
         {
             AppDomain.CurrentDomain.UnhandledException +=
                 (sender, e) => HandleException(e.ExceptionObject as Exception);
-
-            Log4NetAppenders.InitializeConsoleAppender(Level.Debug);
 
             try
             {

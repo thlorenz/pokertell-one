@@ -7,6 +7,9 @@ namespace PokerTell.PokerHand.Tests.Dao
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Repository;
+
+    using Moq;
 
     using NHibernate.Tool.hbm2ddl;
 
@@ -38,6 +41,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
         IConvertedPokerHandDao _sut;
 
+        Mock<IPlayerIdentityDao> _playerIdentityDaoStub;
+
         #endregion
 
         #region Constructors and Destructors
@@ -58,9 +63,13 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             _hand = new ConvertedPokerHand(Site, GameId, _timeStamp, BB, SB, TotalPlayers);
 
-            _sut = new ConvertedPokerHandDao(_session);
+            var sessionFactoryManager = new Mock<ISessionFactoryManager>();
+            sessionFactoryManager
+                .SetupGet(sfm => sfm.CurrentSession)
+                .Returns(_session);
 
-            
+            _playerIdentityDaoStub = new Mock<IPlayerIdentityDao>();
+            _sut = new ConvertedPokerHandDao(sessionFactoryManager.Object, _playerIdentityDaoStub.Object);
         }
 
         [TearDown]
@@ -82,6 +91,12 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             var player1 = new ConvertedPokerPlayer { Name = "player1" };
             var player2 = new ConvertedPokerPlayer { Name = "player2" };
+            _playerIdentityDaoStub
+                .Setup(pd => pd.FindOrInsert(player1.Name, Site))
+                .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
+            _playerIdentityDaoStub
+                .Setup(pd => pd.FindOrInsert(player2.Name, Site))
+                .Returns(new PlayerIdentityStub(player2.Name, Site, 2));
 
             _hand
                 .AddPlayer(player1)
@@ -99,6 +114,12 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             var player1 = new ConvertedPokerPlayer { Name = "player1" };
             var player2 = new ConvertedPokerPlayer { Name = "player2" };
+            _playerIdentityDaoStub
+               .Setup(pd => pd.FindOrInsert(player1.Name, Site))
+               .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
+            _playerIdentityDaoStub
+                .Setup(pd => pd.FindOrInsert(player2.Name, Site))
+                .Returns(new PlayerIdentityStub(player2.Name, Site, 2));
 
             _hand
                 .AddPlayer(player1)
@@ -113,10 +134,18 @@ namespace PokerTell.PokerHand.Tests.Dao
         }
 
         [Test]
-        public void Insert_HandWithTwoPlayers_SavesBothPlayerIdentities()
+        public void Insert_HandWithTwoPlayers_FindsOrInsertsBothPlayerIdentities()
         {
             var player1 = new ConvertedPokerPlayer { Name = "player1" };
             var player2 = new ConvertedPokerPlayer { Name = "player2" };
+
+            var playerIdentityDaoMock = _playerIdentityDaoStub;
+            playerIdentityDaoMock
+               .Setup(pd => pd.FindOrInsert(player1.Name, Site))
+               .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
+            playerIdentityDaoMock
+                .Setup(pd => pd.FindOrInsert(player2.Name, Site))
+                .Returns(new PlayerIdentityStub(player2.Name, Site, 2));
 
             _hand
                 .AddPlayer(player1)
@@ -126,8 +155,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             FlushAndClearSession();
 
-            player1.PlayerIdentity.Id.IsNotEqualTo(UnsavedValue);
-            player2.PlayerIdentity.Id.IsNotEqualTo(UnsavedValue);
+            playerIdentityDaoMock.Verify(pd => pd.FindOrInsert(player1.Name, Site));
+            playerIdentityDaoMock.Verify(pd => pd.FindOrInsert(player2.Name, Site));
         }
 
         [Test]
@@ -269,5 +298,14 @@ namespace PokerTell.PokerHand.Tests.Dao
         }
 
         #endregion
+    }
+
+    internal class PlayerIdentityStub : PlayerIdentity
+    {
+        public PlayerIdentityStub(string name, string site, int id)
+            : base(name, site)
+        {
+            Id = id;
+        }
     }
 }

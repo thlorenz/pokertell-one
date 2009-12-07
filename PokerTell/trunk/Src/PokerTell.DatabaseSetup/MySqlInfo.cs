@@ -29,11 +29,6 @@ namespace PokerTell.DatabaseSetup
             get { return "?"; }
         }
 
-        public string CreateTablesQuery
-        {
-            get { return Resources.MySql_Queries_CreateTables; }
-        }
-
         public string NHibernateDialect
         {
             get { return typeof(MySQLDialect).AssemblyQualifiedName; }

@@ -3,6 +3,9 @@ namespace PokerTell.PokerHand.Tests.Dao
     using Base;
 
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Repository;
+
+    using Moq;
 
     using NHibernate;
     using NHibernate.Tool.hbm2ddl;
@@ -39,20 +42,25 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             new SchemaExport(_configuration).Execute(false, true, false, _session.Connection, null);
             FlushAndClearSession();
+            
+            var sessionFactoryManager = new Mock<ISessionFactoryManager>();
+            sessionFactoryManager
+                .SetupGet(sfm => sfm.CurrentSession)
+                .Returns(_session);
 
-            _sut = new PlayerIdentityDao(_session);
+            _sut = new PlayerIdentityDao(sessionFactoryManager.Object);
         }
 
         [Test]
-        public void GetByName_DatabaseEmpty_ReturnsNull()
+        public void FindPlayerIdentityFor_DatabaseEmpty_ReturnsNull()
         {
-            IPlayerIdentity returnedIdentity = _sut.GetPlayerIdentityFor("someName", "someSite");
+            IPlayerIdentity returnedIdentity = _sut.FindPlayerIdentityFor("someName", "someSite");
 
             returnedIdentity.IsNull();
         }
 
         [Test]
-        public void GetByNameAndSite_DatabaseContainsName_ReturnsIdentityWithThatNameAndSite()
+        public void FindPlayerIdentityFor_DatabaseContainsName_ReturnsIdentityWithThatNameAndSite()
         {
             const string someName = "someName";
             const string someSite = "PokerStars";
@@ -61,13 +69,13 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             FlushAndClearSession();
 
-            IPlayerIdentity returnedIdentity = _sut.GetPlayerIdentityFor(someName, someSite);
+            IPlayerIdentity returnedIdentity = _sut.FindPlayerIdentityFor(someName, someSite);
 
             returnedIdentity.IsEqualTo(playerIdentity);
         }
 
         [Test]
-        public void GetOrInsert_PlayerIdentityIsInDatabase_AssignsPlayerIdentityIdFromDatabase()
+        public void FindOrInsert_PlayerIdentityIsInDatabase_AssignsPlayerIdentityIdFromDatabase()
         {
             const string someName = "someName";
             const string someSite = "PokerStars";
@@ -77,20 +85,20 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             FlushAndClearSession();
 
-            IPlayerIdentity samePlayerIdentity = _sut.GetOrInsert(someName, someSite);
+            IPlayerIdentity samePlayerIdentity = _sut.FindOrInsert(someName, someSite);
 
             samePlayerIdentity.Id.IsEqualTo(insertedIdentity.Id);
         }
 
         [Test]
-        public void GetOrInsert_PlayerIdentityNotInDatabase_InsertsPlayerIdentityIntoDatabase()
+        public void FindOrInsert_PlayerIdentityNotInDatabase_InsertsPlayerIdentityIntoDatabase()
         {
             const string someName = "someName";
             const string someSite = "PokerStars";
 
-            IPlayerIdentity insertedIdentity = _sut.GetOrInsert(someName, someSite);
+            IPlayerIdentity insertedIdentity = _sut.FindOrInsert(someName, someSite);
 
-            object retrievedIdentity = ClearedSession.Get<PlayerIdentity>(insertedIdentity.Id);
+            var retrievedIdentity = ClearedSession.Get<PlayerIdentity>(insertedIdentity.Id);
 
             retrievedIdentity.IsEqualTo(insertedIdentity);
         }
