@@ -14,8 +14,6 @@ namespace PokerTell.Infrastructure.Interfaces.Repository
 
         IEnumerable<IConvertedPokerHand> RetrieveConvertedHands(IEnumerable<int> handIds);
 
-        IRepository Use(IDataProvider dataProvider);
-
         IEnumerable<IConvertedPokerHand> RetrieveHandsFromFile(string fileName);
 
         IRepository InsertHand(IConvertedPokerHand convertedPokerHand);
