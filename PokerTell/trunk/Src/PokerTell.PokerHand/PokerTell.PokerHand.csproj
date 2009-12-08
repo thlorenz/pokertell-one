@@ -103,6 +103,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\AnalyzablePokerPlayer.cs" />
     <Compile Include="Analyzation\ConvertedPokerAction.cs" />
     <Compile Include="Analyzation\ConvertedPokerActionWithID.cs" />
     <Compile Include="Analyzation\ConvertedPokerHand.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Conditions\PokerHandCondition.cs" />
     <Compile Include="Dao\ConvertedPokerHandDao.cs" />
     <Compile Include="Dao\PlayerIdentityDao.cs" />
+    <Compile Include="Dao\ConvertedPokerPlayerDao.cs" />
     <Compile Include="PokerAction.cs" />
     <Compile Include="PokerHand.cs" />
     <Compile Include="PokerHandModule.cs" />

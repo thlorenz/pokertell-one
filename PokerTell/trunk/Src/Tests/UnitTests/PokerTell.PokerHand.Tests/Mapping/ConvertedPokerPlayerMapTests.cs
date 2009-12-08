@@ -53,7 +53,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
             _hand.AddPlayer(_player);
             _session.Save(_hand);
 
-           _player.Id.IsNotEqualTo(UnsavedValue);
+            _player.Id.IsNotEqualTo(UnsavedValue);
         }
 
         [Test]

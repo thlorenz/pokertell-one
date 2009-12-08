@@ -46,6 +46,7 @@ namespace PokerTell.Repository.NHibernate
         public ISessionFactory SessionFactory
         {
             get { return _sessionFactory; }
+            protected set { _sessionFactory = value; }
         }
 
         public ISession OpenSession()

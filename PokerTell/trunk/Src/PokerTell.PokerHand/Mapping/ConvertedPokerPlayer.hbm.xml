@@ -34,7 +34,7 @@
                  foreign-key="FK_HandId"
                  index="ConvertedPokerPlayer_HandId"/>
 
-    <property name="Holecards"  length="16">
+    <property name="Holecards"  length="16" >
       <column name="Holecards" sql-type="varchar(16)" />
     </property>
     
@@ -52,16 +52,16 @@
     <property name="InPositionTurn" />
     <property name="InPositionRiver" />
 
-    <property name="ActionsPreFlop" length="50">
+    <property name="ActionsPreFlop" length="50" >
       <column name="ActionsPreFlop" sql-type="varchar(50)" />
     </property>
-    <property name="ActionsFlop" length="50">
+    <property name="ActionsFlop" length="50" >
     <column name="ActionsFlop" sql-type="varchar(50)" />
     </property>
-    <property name="ActionsTurn" length="50">
+    <property name="ActionsTurn" length="50" >
       <column name="ActionsTurn" sql-type="varchar(50)" />
     </property>
-    <property name="ActionsRiver" length="50">
+    <property name="ActionsRiver" length="50" >
       <column name="ActionsRiver" sql-type="varchar(50)" />
     </property>
 

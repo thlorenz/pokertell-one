@@ -43,6 +43,7 @@ namespace PokerTell.UnitTests
                 {
                     Layout = new PatternLayout(
                         "%newline%date [%thread] %level %logger - %message%newline")
+
                 };
             BasicConfigurator.Configure(_appender);
         }

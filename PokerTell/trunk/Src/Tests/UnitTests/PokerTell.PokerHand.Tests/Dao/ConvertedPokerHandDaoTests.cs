@@ -5,6 +5,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
     using Base;
 
+    using Fakes;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
@@ -298,14 +300,5 @@ namespace PokerTell.PokerHand.Tests.Dao
         }
 
         #endregion
-    }
-
-    internal class PlayerIdentityStub : PlayerIdentity
-    {
-        public PlayerIdentityStub(string name, string site, int id)
-            : base(name, site)
-        {
-            Id = id;
-        }
     }
 }

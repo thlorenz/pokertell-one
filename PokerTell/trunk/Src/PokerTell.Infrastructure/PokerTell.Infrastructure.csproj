@@ -112,6 +112,7 @@
     <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParser.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParsers.cs" />
+    <Compile Include="Interfaces\PokerHand\IAnalyzablePokerPlayer.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPlayerSeat.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPokerAction.cs" />
     <Compile Include="Interfaces\PokerHand\IAquiredPokerHand.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Interfaces\PokerHand\IConvertedPokerHand.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerHandDao.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerPlayer.cs" />
+    <Compile Include="Interfaces\PokerHand\IConvertedPokerPlayerDao.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerRound.cs" />
     <Compile Include="Interfaces\PokerHand\IHandHistoriesFilter.cs" />
     <Compile Include="Interfaces\PokerHand\IHandHistoriesView.cs" />

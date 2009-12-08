@@ -145,9 +145,11 @@
     <Compile Include="Dao\ConvertedPokerHandDaoTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Dao\ConvertedPokerPlayerDaoTests.cs" />
     <Compile Include="Dao\PlayerIdentityDaoTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Fakes\PlayerIdentityStub.cs" />
     <Compile Include="Factories\ConvertedFactory.cs" />
     <Compile Include="Fakes\DecapsulatedConvertedPlayer.cs" />
     <Compile Include="Fakes\FakeHandHistoriesViewModel.cs" />

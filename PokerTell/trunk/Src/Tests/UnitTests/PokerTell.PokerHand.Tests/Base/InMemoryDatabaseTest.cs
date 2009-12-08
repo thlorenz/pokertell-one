@@ -48,7 +48,7 @@ namespace PokerTell.PokerHand.Tests.Base
                     .SetProperty(Environment.ConnectionDriver, typeof(SQLite20Driver).AssemblyQualifiedName)
                     .SetProperty(Environment.ConnectionString, "data source = :memory:")
                     .SetProperty(Environment.ProxyFactoryFactoryClass, typeof(ProxyFactoryFactory).AssemblyQualifiedName)
-                    .SetProperty(Environment.ShowSql, "false")
+                    .SetProperty(Environment.ShowSql, "true")
                     .AddAssembly(assemblyContainingMapping);
 
                 _sessionFactory = _configuration.BuildSessionFactory();
