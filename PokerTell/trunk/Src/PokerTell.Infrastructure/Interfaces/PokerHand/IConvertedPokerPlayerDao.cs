@@ -1,12 +1,12 @@
-namespace PokerTell.PokerHand.Dao
+namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using System.Collections.Generic;
-
-    using Infrastructure.Interfaces.PokerHand;
 
     public interface IConvertedPokerPlayerDao
     {
         IEnumerable<IConvertedPokerPlayer> FindByPlayerIdentity(int playerIdentity);
+
+        IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWithLegacy(int playerIdentity, long lastQueriedId);
 
         IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId);
     }

@@ -4,31 +4,24 @@ namespace PokerTell.PokerHand.Dao
     using System.Collections;
     using System.Collections.Generic;
 
-    using Analyzation;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-
     using NHibernate;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
-
-    using Tools.Extensions;
+    using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.PokerHand.Analyzation;
 
     public class ConvertedPokerPlayerDao : IConvertedPokerPlayerDao
     {
         #region Constants and Fields
 
-        ISession _session;
+        const string FindAnalyzablePokerPlayer = "FindAnalyzablePokerPlayer";
 
         readonly ISessionFactoryManager _sessionFactoryManager;
 
-        #endregion
+        ISession _session;
 
-        ISession Session
-        {
-            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
-        }
+        #endregion
 
         #region Constructors and Destructors
 
@@ -39,68 +32,16 @@ namespace PokerTell.PokerHand.Dao
 
         #endregion
 
-        public IEnumerable<IConvertedPokerPlayer> FindByPlayerIdentity(int playerIdentity)
+        #region Properties
+
+        ISession Session
         {
-            const string query = "from ConvertedPokerPlayer player " +
-                                 "where player.PlayerIdentity = :playerIdentity";
-            return Session.CreateQuery(query)
-                .SetInt32("playerIdentity", playerIdentity)
-                .List<IConvertedPokerPlayer>();
+            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
         }
 
-        public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId)
-        {
-            const string queryString =
-                "select " +
-                "player.Id as item0, " +
-                "player.ParentHand.Id as item1, " +
-                "player.MBefore as item2, " +
-                "player.StrategicPosition as item3, " +
-                "player.InPositionPreFlop as item4, " +
-                "player.InPositionFlop as item5, " +
-                "player.InPositionTurn as item6, " +
-                "player.InPositionRiver as item7, " +
-                "player.SequencePreFlop as item8, " +
-                "player.SequenceFlop as item9, " +
-                "player.SequenceTurn as item10, " +
-                "player.SequenceRiver as item11, " +
-                "player.BetSizeIndexFlop as item12, " +
-                "player.BetSizeIndexTurn as item13, " +
-                "player.BetSizeIndexRiver as item14 " +
-                "from ConvertedPokerPlayer player " +
-                "where player.Id > :lastQueriedId " +
-                "and player.PlayerIdentity = :playerIdentity";
+        #endregion
 
-            IList<object[]> result =
-                Session.CreateQuery(queryString)
-                    .SetInt32("playerIdentity", playerIdentity)
-                    .SetInt64("lastQueriedId", lastQueriedId)
-                    .List<object[]>();
-
-            var analyzablePlayers = new List<IAnalyzablePokerPlayer>();
-            foreach (object[] columns in result)
-            {
-                var analyzablePlayer = new AnalyzablePokerPlayer
-                    {
-                        Id = (long)columns[0],
-                        HandId = (int)columns[1],
-                        MBefore = (int)columns[2],
-                        StrategicPosition = (StrategicPositions)columns[3],
-                        InPosition =
-                            new[] { (bool?)columns[4], (bool?)columns[5], (bool?)columns[6], (bool?)columns[7] },
-                        ActionSequences = new[]
-                            {
-                                (ActionSequences)columns[8], (ActionSequences)columns[9], (ActionSequences)columns[10],
-                                (ActionSequences)columns[11]
-                            },
-                        BetSizeIndexes = new[] { (int)columns[12], (int)columns[13], (int)columns[14] }
-                    };
-
-                analyzablePlayers.Add(analyzablePlayer);
-            }
-
-            return analyzablePlayers;
-        }
+        #region Public Methods
 
         public IList UsingRawSqlQueryConvertedPokerPlayersWith(int playerIdentity)
         {
@@ -128,5 +69,100 @@ namespace PokerTell.PokerHand.Dao
             return Session.CreateSQLQuery(query)
                 .List();
         }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IConvertedPokerPlayerDao
+
+        public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId)
+        {
+            return
+                Session.GetNamedQuery(FindAnalyzablePokerPlayer)
+                    .SetInt32("playerIdentity", playerIdentity)
+                    .SetInt64("lastQueriedId", lastQueriedId)
+                    .List<IAnalyzablePokerPlayer>();
+        }
+
+        public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWithLegacy(
+            int playerIdentity, long lastQueriedId)
+        {
+            const string queryString =
+                "select " +
+                "player.Id as item0, " +
+                "player.ParentHand.Id as item1, " +
+                "player.MBefore as item2, " +
+                "player.Position as item3, " +
+                "player.StrategicPosition as item4, " +
+                "player.InPositionPreFlop as item5, " +
+                "player.InPositionFlop as item6, " +
+                "player.InPositionTurn as item7, " +
+                "player.InPositionRiver as item9, " +
+                "player.SequencePreFlop as item9, " +
+                "player.SequenceFlop as item10, " +
+                "player.SequenceTurn as item11, " +
+                "player.SequenceRiver as item12, " +
+                "player.BetSizeIndexFlop as item13, " +
+                "player.BetSizeIndexTurn as item14, " +
+                "player.BetSizeIndexRiver as item15, " +
+                "player.ParentHand.BB as item16, " +
+                "player.ParentHand.Ante as item17, " +
+                "player.ParentHand.TimeStamp as item18, " +
+                "player.ParentHand.TotalPlayers as item19, " +
+                "player.ParentHand.SequencePreFlop as item20, " +
+                "player.ParentHand.SequenceFlop as item21, " +
+                "player.ParentHand.SequenceTurn as item22, " +
+                "player.ParentHand.SequenceRiver as item23 " +
+                "from ConvertedPokerPlayer player " +
+                "where player.Id > :lastQueriedId " +
+                "and player.PlayerIdentity = :playerIdentity";
+
+            IList<object[]> result =
+                Session.CreateQuery(queryString)
+                    .SetInt32("playerIdentity", playerIdentity)
+                    .SetInt64("lastQueriedId", lastQueriedId)
+                    .List<object[]>();
+
+            var analyzablePlayers = new List<IAnalyzablePokerPlayer>();
+            foreach (object[] columns in result)
+            {
+                var analyzablePlayer = new AnalyzablePokerPlayer
+                    {
+                        Id = (long)columns[0], 
+                        HandId = (int)columns[1], 
+                        MBefore = (int)columns[2], 
+                        StrategicPosition = (StrategicPositions)columns[4], 
+                        InPosition =
+                            new[] { (bool?)columns[5], (bool?)columns[6], (bool?)columns[7], (bool?)columns[8] }, 
+                        ActionSequences = new[]
+                            {
+                                (ActionSequences)columns[9], (ActionSequences)columns[10], (ActionSequences)columns[11], 
+                                (ActionSequences)columns[12]
+                            }, 
+                        BetSizeIndexes = new[] { (int)columns[13], (int)columns[14], (int)columns[15], }, 
+                        BB = (double)columns[16], 
+                        Ante = (double)columns[17], 
+                        TimeStamp = (DateTime)columns[18]
+                    };
+
+                analyzablePlayers.Add(analyzablePlayer);
+            }
+
+            return analyzablePlayers;
+        }
+
+        public IEnumerable<IConvertedPokerPlayer> FindByPlayerIdentity(int playerIdentity)
+        {
+            const string query = "from ConvertedPokerPlayer player " +
+                                 "where player.PlayerIdentity = :playerIdentity";
+            return Session.CreateQuery(query)
+                .SetInt32("playerIdentity", playerIdentity)
+                .List<IConvertedPokerPlayer>();
+        }
+
+        #endregion
+
+        #endregion
     }
 }

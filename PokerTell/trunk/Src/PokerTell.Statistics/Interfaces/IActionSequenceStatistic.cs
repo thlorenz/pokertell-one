@@ -2,18 +2,21 @@ namespace PokerTell.Statistics.Interfaces
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
-    public interface IDetailedStatistic
+    public interface IActionSequenceStatistic
     {
-        IDetailedStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);
-
-        IList<int>[] HandIdsLists { get; }
+        IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);
 
         /// <summary>
         /// Compares all occurences for a certain Betsize/Position
         /// for all actions in a Stat Collection and gives percentage for each Betsize/Position
         /// </summary>
         int[] Percentages { get; set; }
+
+        ActionSequences ActionSequence { get; }
+
+        IList<IAnalyzablePokerPlayer>[] MatchingPlayers { get; }
     }
 }

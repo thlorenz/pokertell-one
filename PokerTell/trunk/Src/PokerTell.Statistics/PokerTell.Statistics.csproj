@@ -45,9 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Detailed\DetailedStatisticBase.cs" />
-    <Compile Include="Detailed\PostFlopStatisticWithRatios.cs" />
-    <Compile Include="Interfaces\IDetailedStatistic.cs" />
+    <Compile Include="Detailed\ActionSequenceSetAcrossRowsPercentagesCalculator.cs" />
+    <Compile Include="Detailed\ActionSequenceStatistic.cs" />
+    <Compile Include="Interfaces\IActionSequenceSetPercentagesCalculator.cs" />
+    <Compile Include="Interfaces\IActionSequenceSetStatistics.cs" />
+    <Compile Include="Detailed\PostFlopActionSequenceStatistic.cs" />
+    <Compile Include="Detailed\PostFlopActionSequenceWithoutIndexesStatistic.cs" />
+    <Compile Include="Detailed\PreFlopActionSequenceStatistic.cs" />
+    <Compile Include="Interfaces\IActionSequenceStatistic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

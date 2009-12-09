@@ -31,6 +31,8 @@ namespace PokerTell.PokerHand.Analyzation
 
         public void Convert(string sequenceString)
         {
+            BetSizeIndex = 0;
+            
             if (string.IsNullOrEmpty(sequenceString))
             {
                 ActionSequence = ActionSequences.NonStandard;

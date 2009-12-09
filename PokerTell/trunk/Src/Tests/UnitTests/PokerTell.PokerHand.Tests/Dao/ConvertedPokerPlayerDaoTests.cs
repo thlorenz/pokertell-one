@@ -90,7 +90,7 @@ namespace PokerTell.PokerHand.Tests.Dao
          [Test]
         public void FindAnalyzablePlayersWith_DatabaseEmpty_ReturnsEmptyList()
         {
-             var analyzedPlayers = _sut.FindAnalyzablePlayersWith(1, 0);
+             var analyzedPlayers = _sut.FindAnalyzablePlayersWithLegacy(1, 0);
 
              analyzedPlayers.IsEmpty();
         }

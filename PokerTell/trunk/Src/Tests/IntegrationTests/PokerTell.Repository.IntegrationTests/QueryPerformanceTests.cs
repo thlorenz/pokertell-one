@@ -51,14 +51,29 @@ namespace PokerTell.Repository.IntegrationTests
         }
 
         [Test]
-        public void QueryConvertedPokerPlayersWith_MySql()
+        public void FindAnalyzablePlayersWithLegacy_MySql()
         {
             // Took 2.6s for 22,000 hands
+            // Takes about 4.3s when getting Values from PokerHand as well
             SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
             var convertedPokerPlayerDao = new ConvertedPokerPlayerDao(_sessionFactoryManagerStub.Object);
 
             Timed("FindHandIdsFromPlayerById_MySql",
-                  () => convertedPokerPlayerDao.FindAnalyzablePlayersWith(8, 0));
+                  () => convertedPokerPlayerDao.FindAnalyzablePlayersWithLegacy(8, 0));
+        }
+
+        [Test]
+        public void FindAnalyzablePlayersWith_MySql()
+        {
+            // Takes 6.2s when getting Values from PokerHand including Sequences as well 
+            SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
+            var convertedPokerPlayerDao = new ConvertedPokerPlayerDao(_sessionFactoryManagerStub.Object);
+
+            IEnumerable<IAnalyzablePokerPlayer> players = null;
+            Timed("FindHandIdsFromPlayerById_MySql",
+                  () => players = convertedPokerPlayerDao.FindAnalyzablePlayersWith(8, 0));
+           
+            Console.WriteLine(players.First());
         }
 
         [Test]

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="PokerTell.PokerHand.Analyzation"
+                   assembly="PokerTell.PokerHand">
+  <import class="AnalyzablePokerPlayer"/>
+</hibernate-mapping>

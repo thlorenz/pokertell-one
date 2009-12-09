@@ -91,4 +91,41 @@
     </property>
     
   </class>
+
+  <query name="FindAnalyzablePokerPlayer" cacheable="false" cache-mode="ignore">
+    <![CDATA[
+      select 
+        new AnalyzablePokerPlayer(
+          player.Id, 
+          player.ParentHand.Id, 
+          player.Holecards, 
+          player.MBefore, 
+          player.Position, 
+          player.StrategicPosition,
+          player.InPositionPreFlop, 
+          player.InPositionFlop,  
+          player.InPositionTurn, 
+          player.InPositionRiver, 
+          player.SequencePreFlop, 
+          player.SequenceFlop, 
+          player.SequenceTurn, 
+          player.SequenceRiver, 
+          player.BetSizeIndexFlop, 
+          player.BetSizeIndexTurn, 
+          player.BetSizeIndexRiver, 
+          player.ParentHand.BB, 
+          player.ParentHand.Ante, 
+          player.ParentHand.TimeStamp, 
+          player.ParentHand.TotalPlayers, 
+          player.ParentHand.SequencePreFlop, 
+          player.ParentHand.SequenceFlop, 
+          player.ParentHand.SequenceTurn, 
+          player.ParentHand.SequenceRiver)
+        from ConvertedPokerPlayer player 
+          where player.Id > :lastQueriedId 
+          and player.PlayerIdentity = :playerIdentity
+    ]]>
+    <query-param name="lastQueriedId" type="long"/>
+    <query-param name="playerIdentity" type="string"/>
+  </query>
 </hibernate-mapping>
