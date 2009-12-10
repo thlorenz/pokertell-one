@@ -17,17 +17,22 @@ namespace PokerTell.Repository.Tests
     using PokerTell.Repository.Interfaces;
     using PokerTell.UnitTests.Tools;
 
+    [TestFixture]
     public class RepositoryTests
     {
         #region Constants and Fields
 
-        Mock<IConvertedPokerHandDao> _pokerHandDaoMock;
+        Mock<IConvertedPokerHandDao> _pokerHandDaoStub;
 
         StubBuilder _stub;
 
         Mock<ITransactionManager> _transactionManagerMock;
 
         IRepository _sut;
+
+        Mock<IConvertedPokerPlayerDao> _pokerPlayerDaoStub;
+        
+        Mock<IPlayerIdentityDao> _playerIdentityDaoStub;
 
         #endregion
 
@@ -38,7 +43,9 @@ namespace PokerTell.Repository.Tests
         {
             _stub = new StubBuilder();
 
-            _pokerHandDaoMock = new Mock<IConvertedPokerHandDao>();
+            _pokerHandDaoStub = new Mock<IConvertedPokerHandDao>();
+            _pokerPlayerDaoStub = new Mock<IConvertedPokerPlayerDao>();
+            _playerIdentityDaoStub = new Mock<IPlayerIdentityDao>();
 
             _transactionManagerMock = new Mock<ITransactionManager>();
            
@@ -49,9 +56,11 @@ namespace PokerTell.Repository.Tests
                 .Setup(tm => tm.Execute(It.IsAny<Action>()))
                 .Returns(_transactionManagerMock.Object);
 
-            _sut = new Repository(_pokerHandDaoMock.Object,
-                                 _transactionManagerMock.Object,
-                                 _stub.Out<IRepositoryParser>());
+            _sut = new Repository(_pokerHandDaoStub.Object,
+                                  _pokerPlayerDaoStub.Object, 
+                                  _playerIdentityDaoStub.Object,
+                                  _transactionManagerMock.Object,
+                                  _stub.Out<IRepositoryParser>());
         }
 
        [Test]

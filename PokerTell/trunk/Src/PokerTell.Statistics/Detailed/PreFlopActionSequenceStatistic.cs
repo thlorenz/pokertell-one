@@ -16,7 +16,7 @@ namespace PokerTell.Statistics.Detailed
         {
         }
 
-        public override IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        protected override void ExtractMatchingPlayers(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
             for (var position = StrategicPositions.SB; position <= StrategicPositions.BU; position++)
             {
@@ -27,8 +27,6 @@ namespace PokerTell.Statistics.Detailed
                      && player.StrategicPosition == strategicPosition
                      select player).ToList();
             }
-            
-            return this;
         }
     }
 }

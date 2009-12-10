@@ -32,14 +32,20 @@ namespace PokerTell.Repository
 
         readonly ITransactionManager _transactionManager;
 
+        readonly IConvertedPokerPlayerDao _pokerPlayerDao;
+
+        readonly IPlayerIdentityDao _playerIdentityDao;
+
         #endregion
 
         #region Constructors and Destructors
 
-        public Repository(IConvertedPokerHandDao pokerHandDao, ITransactionManager transactionManager, IRepositoryParser parser)
+        public Repository(IConvertedPokerHandDao pokerHandDao, IConvertedPokerPlayerDao pokerPlayerDao, IPlayerIdentityDao playerIdentityDao, ITransactionManager transactionManager, IRepositoryParser parser)
         {
-            _transactionManager = transactionManager;
             _pokerHandDao = pokerHandDao;
+            _pokerPlayerDao = pokerPlayerDao;
+            _playerIdentityDao = playerIdentityDao;
+            _transactionManager = transactionManager;
             _parser = parser;
         }
 
@@ -86,12 +92,23 @@ namespace PokerTell.Repository
             return _transactionManager.Execute(() => _pokerHandDao.Get(handId));
         }
 
+        public IPlayerIdentity FindPlayerIdentityFor(string name, string site)
+        {
+            return _transactionManager.Execute(() => _playerIdentityDao.FindPlayerIdentityFor(name, site));
+        }
+
         public IEnumerable<IConvertedPokerHand> RetrieveConvertedHands(IEnumerable<int> handIds)
         {
             foreach (int handId in handIds)
             {
                 yield return RetrieveConvertedHand(handId);
             }
+        }
+
+        public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId)
+        {
+            return _transactionManager.Execute(
+                () => _pokerPlayerDao.FindAnalyzablePlayersWith(playerIdentity, lastQueriedId));
         }
 
         public IEnumerable<IConvertedPokerHand> RetrieveHandsFromFile(string fileName)

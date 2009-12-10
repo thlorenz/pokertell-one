@@ -89,7 +89,6 @@
     <Compile Include="Interfaces\ITransactionManager.cs" />
     <Compile Include="NHibernate\SessionFactoryManager.cs" />
     <Compile Include="NHibernate\TransactionManager.cs" />
-    <Compile Include="RepositoryLegacy.cs" />
     <Compile Include="Database\DatabaseUtility.cs" />
     <Compile Include="Database\HandHistoriesDirectoryImporter.cs" />
     <Compile Include="Interfaces\IHandHistoriesDirectoryImporter.cs" />

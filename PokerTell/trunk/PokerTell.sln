@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.User.Tests", "Src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics", "Src\PokerTell.Statistics\PokerTell.Statistics.csproj", "{40A1B01E-8BBC-4F9E-B5E8-AA0BE4C70988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.Tests", "..\Learn\NHibernate\Src\Tests\UnitTests\PokerTell.Statistics.Tests\PokerTell.Statistics.Tests.csproj", "{A476E216-D602-47C8-BF5E-9CC84591BD6C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.Tests", "Src\Tests\UnitTests\PokerTell.Statistics.Tests\PokerTell.Statistics.Tests.csproj", "{A476E216-D602-47C8-BF5E-9CC84591BD6C}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution

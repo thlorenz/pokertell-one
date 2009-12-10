@@ -2,12 +2,14 @@ namespace PokerTell.Statistics.Interfaces
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.PokerHand;
+
     public interface IActionSequenceSetStatistics
     {
-        IActionSequenceSetStatistics Update();
+        IActionSequenceSetStatistics UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);
 
-        IActionSequenceSetStatistics Filter();
+        IEnumerable<IActionSequenceStatistic> ActionSequenceStatistics { get; }
 
-        IList<IActionSequenceStatistic> ActionSequenceStatistics { get; }
+        int[] SumOfCountsByColumn { get; }
     }
 }

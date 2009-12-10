@@ -15,15 +15,13 @@ namespace PokerTell.Statistics.Detailed
         {
         }
 
-        public override IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        protected override void ExtractMatchingPlayers(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
             MatchingPlayers[0] =
                 (from player in analyzablePokerPlayers
                  where player.ActionSequences[(int)_street] == ActionSequence
                        && player.InPosition[(int)_street] == _inPosition
                  select player).ToList();
-
-            return this;
         }
     }
 }

@@ -19,7 +19,7 @@ namespace PokerTell.Statistics.Detailed
             _inPosition = inPosition;
         }
 
-        public override IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        protected override void ExtractMatchingPlayers(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
             for (int i = 0; i < MatchingPlayers.Length; i++)
             {
@@ -32,8 +32,6 @@ namespace PokerTell.Statistics.Detailed
                            && player1.BetSizeIndexes[(int)_street] == betSizeIndex
                      select player1).ToList();
             }
-
-            return this;
         }
     }
 }
