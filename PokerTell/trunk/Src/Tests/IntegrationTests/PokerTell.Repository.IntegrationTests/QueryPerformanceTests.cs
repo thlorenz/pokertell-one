@@ -6,34 +6,17 @@ namespace PokerTell.Repository.IntegrationTests
 
     using Infrastructure.Interfaces.PokerHand;
 
-    using Moq;
-
-    using global::NHibernate;
-    using global::NHibernate.Cfg;
-
     using NUnit.Framework;
 
-    using PokerTell.DatabaseSetup;
-    using PokerTell.Infrastructure;
-    using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.IntegrationTests;
     using PokerTell.PokerHand.Dao;
 
     using UnitTests;
 
-    using Environment = global::NHibernate.Cfg.Environment;
-
     [TestFixture]
-    public class QueryPerformanceTests //: TestWithLog
+    public class QueryPerformanceTests : DatabaseConnectedPerformanceTests
     {
         #region Constants and Fields
-
-        ISession _session;
-
-        ISessionFactory _sessionFactory;
-
-        Mock<ISessionFactoryManager> _sessionFactoryManagerStub;
-
-        DateTime _startTime;
 
         #endregion
 
@@ -69,11 +52,8 @@ namespace PokerTell.Repository.IntegrationTests
             SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
             var convertedPokerPlayerDao = new ConvertedPokerPlayerDao(_sessionFactoryManagerStub.Object);
 
-            IEnumerable<IAnalyzablePokerPlayer> players = null;
             Timed("FindHandIdsFromPlayerById_MySql",
-                  () => players = convertedPokerPlayerDao.FindAnalyzablePlayersWith(8, 0));
-           
-            Console.WriteLine(players.First());
+                  () => convertedPokerPlayerDao.FindAnalyzablePlayersWith(7, 0));
         }
 
         [Test]
@@ -90,48 +70,6 @@ namespace PokerTell.Repository.IntegrationTests
         #endregion
 
         #region Methods
-
-        void InitSessionFactoryManager()
-        {
-            _session = _sessionFactory.OpenSession();
-            _sessionFactoryManagerStub = new Mock<ISessionFactoryManager>();
-            _sessionFactoryManagerStub
-                .SetupGet(sfm => sfm.CurrentSession)
-                .Returns(_session);
-        }
-
-        void SetupMySqlConnection(string connectionString)
-        {
-            var dataProviderInfo = new MySqlInfo();
-            Configuration configuration = new Configuration()
-                .SetProperty(Environment.Dialect, dataProviderInfo.NHibernateDialect)
-                .SetProperty(Environment.ConnectionDriver, dataProviderInfo.NHibernateConnectionDriver)
-                .SetProperty(Environment.ConnectionString, connectionString)
-                .SetProperty(Environment.ShowSql, "true")
-                .AddAssembly(ApplicationProperties.MappingAssemblyName);
-            _sessionFactory = configuration.BuildSessionFactory();
-
-            InitSessionFactoryManager();
-        }
-
-        void Start()
-        {
-            _startTime = DateTime.Now;
-        }
-
-        void Stop()
-        {
-            TimeSpan duration = DateTime.Now - _startTime;
-            Console.WriteLine("Took {0}s {1}ms", duration.Seconds, duration.Milliseconds);
-        }
-
-        void Timed(string methodName, Action action)
-        {
-            Console.WriteLine(methodName);
-            Start();
-            action();
-            Stop();
-        }
 
         #endregion
     }

@@ -14,7 +14,7 @@ using Tools.GenericRanges;
 namespace Tools.Tests.GenericRanges
 {
 	[TestFixture]
-	public class ThatGenericRange
+	public class GenericRangeTests
 	{
 		[Test] public void HandlesDoubles()
 		{
@@ -108,5 +108,11 @@ namespace Tools.Tests.GenericRanges
 			Assert.That(genRange.AlternateColor, Is.EqualTo(altColor));
 			
 		}
+
+	    [Test]
+	    public void Constructor_MinGreaterThanMax_ThrowsArgumentException()
+	    {
+	        Assert.Throws<ArgumentException>(() => new GenericRange<int>(1, 0));
+	    }
 	}
 }

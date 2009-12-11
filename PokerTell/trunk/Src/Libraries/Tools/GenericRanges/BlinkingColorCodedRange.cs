@@ -11,7 +11,7 @@ namespace Tools.GenericRanges
     /// Any listener to the CurrentColor Changed Event will be informed of the change and can
     /// retrieve the new current color from the EventArgs
     /// </summary>
-    public class BlinkingColorCodedRange<T> : ColorCodedRange<T>, IColorCodedRange<T> where T : struct, IComparable
+    public class BlinkingColorCodedRange<T> : ColorCodedRange<T>, IColorCodedRange<T> where T : IComparable
     {
 		
         public BlinkingColorCodedRange(T minValue, T maxValue, Color colorCode, Color alternateColor)

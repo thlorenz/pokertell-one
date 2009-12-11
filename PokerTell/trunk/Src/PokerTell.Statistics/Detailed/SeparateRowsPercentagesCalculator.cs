@@ -1,6 +1,8 @@
 namespace PokerTell.Statistics.Detailed
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     using PokerTell.Statistics.Interfaces;
 
@@ -22,7 +24,7 @@ namespace PokerTell.Statistics.Detailed
 
         #region Properties
 
-        public int[] SumOfCountsByColumn { get; private set; }
+        public int[] SumsOfCountsByColumn { get; private set; }
 
         #endregion
 
@@ -36,7 +38,10 @@ namespace PokerTell.Statistics.Detailed
             Func<int, int, int> getCountAtRowColumn, 
             Action<int, int, int> setPercentageAtRowColumn)
         {
-            ValidateAndInitialize(getNumberOfRows, getNumberOfColumnsAtRow, getCountAtRowColumn, setPercentageAtRowColumn);
+            ValidateAndInitialize(getNumberOfRows, 
+                                  getNumberOfColumnsAtRow, 
+                                  getCountAtRowColumn, 
+                                  setPercentageAtRowColumn);
 
             for (int row = 0; row < _numberOfRows; row++)
             {
@@ -70,11 +75,16 @@ namespace PokerTell.Statistics.Detailed
             return numberOfRows;
         }
 
+        static int GetSumForCurrentRow(IEnumerable<int> countsAtCurrentRow)
+        {
+            return (from count in countsAtCurrentRow select count).Sum();
+        }
+
         void AddCountsOfCurrentRowToSumOfCountsByColumn(int[] countsAtCurrentRow)
         {
             for (int col = 0; col < _numberOfColumns; col++)
             {
-                SumOfCountsByColumn[col] += countsAtCurrentRow[col];
+                SumsOfCountsByColumn[col] += countsAtCurrentRow[col];
             }
         }
 
@@ -109,33 +119,6 @@ namespace PokerTell.Statistics.Detailed
             return countsAtCurrentRow;
         }
 
-        int GetSumForCurrentRow(int[] countsAtCurrentRow)
-        {
-            int sumForCurrentRow = 0;
-            for (int col = 0; col < _numberOfColumns; col++)
-            {
-                sumForCurrentRow += countsAtCurrentRow[col];
-            }
-
-            return sumForCurrentRow;
-        }
-
-        void ValidateAndInitialize(
-            Func<int> getNumberOfRows, 
-            Func<int, int> getNumberOfColumnsAtRow, 
-            Func<int, int, int> getCountAtRowColumn, 
-            Action<int, int, int> setPercentageAtRowColumn)
-        {
-            _getCountAtRowColumn = getCountAtRowColumn;
-            _setPercentageAtRowColumn = setPercentageAtRowColumn;
-            _getNumberOfColumnsAtRow = getNumberOfColumnsAtRow;
-
-            _numberOfRows = GetAndValidateNumberOfRows(getNumberOfRows);
-            _numberOfColumns = GetAndValidateNumberOfColumns(getNumberOfColumnsAtRow);
-
-            SumOfCountsByColumn = new int[_numberOfColumns];
-        }
-
         void SetPercentagesForRow(int currentRow, int[] countsAtCurrentRow, int sumOfCountsForCurrentRow)
         {
             for (int col = 0; col < _numberOfColumns; col++)
@@ -152,6 +135,22 @@ namespace PokerTell.Statistics.Detailed
                     _setPercentageAtRowColumn(currentRow, col, (int)roundedPercentage);
                 }
             }
+        }
+
+        void ValidateAndInitialize(
+            Func<int> getNumberOfRows, 
+            Func<int, int> getNumberOfColumnsAtRow, 
+            Func<int, int, int> getCountAtRowColumn, 
+            Action<int, int, int> setPercentageAtRowColumn)
+        {
+            _getCountAtRowColumn = getCountAtRowColumn;
+            _setPercentageAtRowColumn = setPercentageAtRowColumn;
+            _getNumberOfColumnsAtRow = getNumberOfColumnsAtRow;
+
+            _numberOfRows = GetAndValidateNumberOfRows(getNumberOfRows);
+            _numberOfColumns = GetAndValidateNumberOfColumns(getNumberOfColumnsAtRow);
+
+            SumsOfCountsByColumn = new int[_numberOfColumns];
         }
 
         #endregion

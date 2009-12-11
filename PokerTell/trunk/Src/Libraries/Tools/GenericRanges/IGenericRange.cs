@@ -1,17 +1,30 @@
 //Date: 5/7/2009
 
-using System;
-
 namespace Tools.GenericRanges
 {
-    public interface IGenericRange<T> : IComparable where T : IComparable
+    using System;
+
+    public interface IGenericRange<T> : IComparable
+        where T : IComparable
     {
-        bool IncludesValue(IComparable<T> value);
-        int GetHashCode();
+        #region Properties
+
+        T MaxValue { get; }
+
+        T MinValue { get; }
+
+        #endregion
+
+        #region Public Methods
+
         bool Equals(object obj);
+
+        int GetHashCode();
+
+        bool IncludesValue(IComparable value);
+
         string ToString();
-        T MinValue {get; }
-			
-        T MaxValue {get; }
+
+        #endregion
     }
 }

@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A476E216-D602-47C8-BF5E-9CC84591BD6C}</ProjectGuid>
+    <ProjectGuid>{075D2ABE-7101-4939-A864-0B6F85101E17}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerTell.Statistics.Tests</RootNamespace>
-    <AssemblyName>PokerTell.Statistics.Tests</AssemblyName>
+    <RootNamespace>PokerTell.IntegrationTests</RootNamespace>
+    <AssemblyName>PokerTell.IntegrationTests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,17 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Composite.Presentation, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
-    </Reference>
     <Reference Include="Moq, Version=4.0.812.4, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Moq\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=5.1.7.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\MySql\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\NHibernate\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -50,6 +50,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.SQLite, Version=1.0.61.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\System.Data.SQLite\System.Data.SQLite.DLL</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -61,44 +65,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Detailed\AcrossRowsPercentagesCalculatorTests.cs" />
-    <Compile Include="Detailed\ActionSequenceSetStatisticsTests.cs" />
-    <Compile Include="Detailed\ActionSequenceStatisticTests.cs" />
-    <Compile Include="Detailed\HeroCheckOrBetSetStatisticsTests.cs" />
-    <Compile Include="Detailed\PostFlopActionSequenceStatisticTests.cs" />
-    <Compile Include="Detailed\PostFlopHeroXStatisticTests.cs" />
-    <Compile Include="Detailed\PreFlopActionSequenceStatisticTests.cs" />
-    <Compile Include="Detailed\SeparateRowsPercentagesCalculatorTests.cs" />
-    <Compile Include="Factories\Samples.cs" />
-    <Compile Include="Filters\AnalyzablePokerPlayersFilterTests.cs" />
-    <Compile Include="Fakes\PlayerStatisticsMock.cs" />
-    <Compile Include="PlayerStatisticsTests.cs" />
+    <Compile Include="DatabaseConnectedPerformanceTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
-      <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
-      <Name>Tools</Name>
+    <None Include="app.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\PokerTell.DatabaseSetup\PokerTell.DatabaseSetup.csproj">
+      <Project>{37A0380D-A3ED-46B8-8A04-0871E916E41C}</Project>
+      <Name>PokerTell.DatabaseSetup</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PokerTell.PokerHand\PokerTell.PokerHand.csproj">
-      <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
-      <Name>PokerTell.PokerHand</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\PokerTell.Statistics\PokerTell.Statistics.csproj">
-      <Project>{40A1B01E-8BBC-4F9E-B5E8-AA0BE4C70988}</Project>
-      <Name>PokerTell.Statistics</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PokerTell.UnitTests\PokerTell.UnitTests.csproj">
-      <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>
-      <Name>PokerTell.UnitTests</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Summary\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

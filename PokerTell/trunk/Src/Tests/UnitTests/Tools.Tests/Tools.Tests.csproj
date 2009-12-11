@@ -63,7 +63,8 @@
     <Compile Include="CustomComponents\ThatFireOnStartTimer.cs" />
     <Compile Include="CustomComponents\ThatSystemTimerAdapter.cs" />
     <Compile Include="GenericRanges\ThatColorCodedRangeList.cs" />
-    <Compile Include="GenericRanges\ThatGenericRange.cs" />
+    <Compile Include="GenericRanges\GenericRangeTests.cs" />
+    <Compile Include="GenericRanges\GenericRangeFilterTests.cs" />
     <Compile Include="GenericUtilities\ThatCompositeAction.cs" />
     <Compile Include="GenericUtilities\ThatGuiProperty.cs" />
     <Compile Include="GenericUtilities\ThatRelativeLocation.cs" />

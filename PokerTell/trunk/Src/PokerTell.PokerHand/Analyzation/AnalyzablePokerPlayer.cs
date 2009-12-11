@@ -45,6 +45,7 @@ namespace PokerTell.PokerHand.Analyzation
             double ante, 
             DateTime timeStamp, 
             int totalPlayers, 
+            int playersInFlop,
             string sequencePreFlop, 
             string sequenceFlop, 
             string sequenceTurn, 
@@ -76,12 +77,15 @@ namespace PokerTell.PokerHand.Analyzation
             Ante = ante;
             TimeStamp = timeStamp;
             TotalPlayers = totalPlayers;
+            PlayersInFlop = playersInFlop;
 
             _sequenceStrings[(int)Streets.PreFlop] = sequencePreFlop;
             _sequenceStrings[(int)Streets.Flop] = sequenceFlop;
             _sequenceStrings[(int)Streets.Turn] = sequenceTurn;
             _sequenceStrings[(int)Streets.River] = sequenceRiver;
         }
+
+        public int PlayersInFlop { get; set; }
 
         public AnalyzablePokerPlayer()
         {

@@ -2,6 +2,7 @@ namespace PokerTell.Statistics
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -24,6 +25,8 @@ namespace PokerTell.Statistics
         string _playerName;
 
         string _pokerSite;
+
+        IAnalyzablePokerPlayersFilter _analyzablePokerPlayerFilter;
 
         #endregion
 
@@ -82,9 +85,11 @@ namespace PokerTell.Statistics
 
         #region IPlayerStatistics
 
-        public IPlayerStatistics SetFilter()
+        public IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter)
         {
-            throw new NotImplementedException();
+            _analyzablePokerPlayerFilter = filter;
+            FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
+            return this;
         }
 
         public IPlayerStatistics UpdateFrom(IRepository repository)
@@ -93,16 +98,28 @@ namespace PokerTell.Statistics
 
             if (PlayerIdentity != null)
             {
-                ExtractAnalyzablePlayersFrom(repository);
-                var filteredAnalyzablePlayers = _allAnalyzablePlayers;
+                ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(repository);
 
-                UpdateStatisticsWith(filteredAnalyzablePlayers);
+                FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
             }
 
             return this;
         }
 
+        void FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem()
+        {
+            var filteredAnalyzablePlayers = GetFilteredAnalyzablePlayers();
+            UpdateStatisticsWith(filteredAnalyzablePlayers);
+        }
+
         #endregion
+
+        protected virtual IEnumerable<IAnalyzablePokerPlayer> GetFilteredAnalyzablePlayers()
+        {
+            return _analyzablePokerPlayerFilter == null 
+                ? _allAnalyzablePlayers 
+                : _analyzablePokerPlayerFilter.Filter(_allAnalyzablePlayers);
+        }
 
         #endregion
 
@@ -120,6 +137,11 @@ namespace PokerTell.Statistics
             {
                 statisticsSet.UpdateWith(filteredAnalyzablePlayers);
             }
+        }
+
+        protected virtual IActionSequenceSetStatistics NewHeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        {
+            return new HeroCheckOrBetSetStatistics(statistics, percentagesCalculator);
         }
 
         IEnumerable<IActionSequenceSetStatistics> AllStatisticsSets()
@@ -148,15 +170,16 @@ namespace PokerTell.Statistics
             OppBIntoHeroOutOfPosition = new IActionSequenceSetStatistics[(int)(Streets.River + 1)];
         }
 
-        void ExtractAnalyzablePlayersFrom(IRepository repository)
+        void ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(IRepository repository)
         {
             var newAnalyzablePlayers = repository.FindAnalyzablePlayersWith(PlayerIdentity.Id, _lastQueriedId);
-            foreach (var analyzablePlayer in newAnalyzablePlayers)
+
+            if (newAnalyzablePlayers.Count() != 0)
             {
-                _allAnalyzablePlayers.Add(analyzablePlayer);
-                if (analyzablePlayer.Id > _lastQueriedId)
+                _lastQueriedId = (from player in newAnalyzablePlayers select player.Id).Max();
+                foreach (var analyzablePlayer in newAnalyzablePlayers)
                 {
-                    _lastQueriedId = analyzablePlayer.Id;
+                    _allAnalyzablePlayers.Add(analyzablePlayer);
                 }
             }
         }
@@ -173,18 +196,18 @@ namespace PokerTell.Statistics
         {
             var heroXOrHeroBOutOfPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceWithoutIndexesStatistic(ActionSequences.HeroX, street, false), 
+                    new PostFlopHeroXStatistic(street, false), 
                     new PostFlopActionSequenceStatistic(ActionSequences.HeroB, street, false, betSizeIndexCount)
                 };
             var heroXOrHeroBInPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceWithoutIndexesStatistic(ActionSequences.HeroX, street, true), 
+                    new PostFlopHeroXStatistic(street, true), 
                     new PostFlopActionSequenceStatistic(ActionSequences.HeroB, street, true, betSizeIndexCount)
                 };
 
-            HeroXOrHeroBOutOfPosition[(int)street] = NewActionSequenceSetStatistics(
+            HeroXOrHeroBOutOfPosition[(int)street] = NewHeroCheckOrBetSetStatistics(
                 heroXOrHeroBOutOfPositionStatistics, new SeparateRowsPercentagesCalculator());
-            HeroXOrHeroBInPosition[(int)street] = NewActionSequenceSetStatistics(heroXOrHeroBInPositionStatistics, 
+            HeroXOrHeroBInPosition[(int)street] = NewHeroCheckOrBetSetStatistics(heroXOrHeroBInPositionStatistics, 
                                                                                  new SeparateRowsPercentagesCalculator());
         }
 
@@ -266,6 +289,7 @@ namespace PokerTell.Statistics
         {
             _lastQueriedId = 0;
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
+            PlayerIdentity = null;
         }
 
         #endregion

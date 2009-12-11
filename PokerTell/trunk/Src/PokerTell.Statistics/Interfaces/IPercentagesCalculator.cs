@@ -10,6 +10,6 @@ namespace PokerTell.Statistics.Interfaces
             Func<int, int, int> getCountAtRowColumn,
             Action<int, int, int> setPercentageAtRowColumn);
 
-        int[] SumOfCountsByColumn { get; }
+        int[] SumsOfCountsByColumn { get; }
     }
 }

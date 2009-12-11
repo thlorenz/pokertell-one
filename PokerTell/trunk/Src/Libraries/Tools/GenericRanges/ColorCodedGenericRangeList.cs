@@ -8,7 +8,7 @@ namespace Tools.GenericRanges
     /// <summary>
     /// Description of ColorCodedGenericRangeList.
     /// </summary>
-    public class ColorCodedGenericRangeList<T> : IEnumerable<IColorCodedRange<T>> where T : struct, IComparable
+    public class ColorCodedGenericRangeList<T> : IEnumerable<IColorCodedRange<T>> where T : IComparable
     {
         List<IColorCodedRange<T>> lstRanges;
 		
@@ -61,7 +61,7 @@ namespace Tools.GenericRanges
         {
             for(int i =0; i < lstRanges.Count; i++)
             {
-                if (lstRanges[i].IncludesValue(value as IComparable<T>))
+                if (lstRanges[i].IncludesValue(value))
                     return lstRanges[i];
             }
 			

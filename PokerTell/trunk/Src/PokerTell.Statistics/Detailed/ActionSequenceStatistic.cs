@@ -1,6 +1,6 @@
 namespace PokerTell.Statistics.Detailed
 {
-    using System;
+    using System.Linq;
     using System.Collections.Generic;
 
     using Infrastructure.Enumerations.PokerHand;
@@ -52,11 +52,9 @@ namespace PokerTell.Statistics.Detailed
 
         protected virtual void CalculateTotalCounts()
         {
-            _totalCounts = 0;
-            foreach (var matchingPlayerCollection in MatchingPlayers)
-            {
-                _totalCounts += matchingPlayerCollection.Count;
-            }
+            _totalCounts = (from matchingPlayerCollection in MatchingPlayers
+                            select matchingPlayerCollection.Count)
+                            .Sum();
         }
 
         protected abstract void ExtractMatchingPlayers(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);

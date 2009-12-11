@@ -88,13 +88,16 @@
   <ItemGroup>
     <Compile Include="ExecuteProcess.cs" />
     <Compile Include="Extensions\ArrayComparer.cs" />
+    <Compile Include="Extensions\GenericRangeFilterExtension.cs" />
     <Compile Include="Extensions\NullSafe.cs" />
+    <Compile Include="Extensions\GenericRangeExtension.cs" />
     <Compile Include="Extensions\ResExtension.cs" />
     <Compile Include="Extensions\TranslateExtension.cs" />
     <Compile Include="GenericRanges\BlinkingColorCodedRange.cs" />
     <Compile Include="GenericRanges\ColorCodedGenericRangeList.cs" />
     <Compile Include="GenericRanges\ColorCodedRange.cs" />
     <Compile Include="GenericRanges\GenericRange.cs" />
+    <Compile Include="GenericRanges\GenericRangeFilter.cs" />
     <Compile Include="GenericRanges\IColorCodedRange.cs" />
     <Compile Include="GenericRanges\IGenericRange.cs" />
     <Compile Include="GenericUtilities\CompositeAction.cs" />

@@ -20,7 +20,7 @@ namespace PokerTell.Statistics.Detailed
 
         #region Properties
 
-        public int[] SumOfCountsByColumn { get; private set; }
+        public int[] SumsOfCountsByColumn { get; private set; }
 
         #endregion
 
@@ -96,20 +96,20 @@ namespace PokerTell.Statistics.Detailed
 
             _numberOfColumns = GetAndValidateNumberOfColumns(getNumberOfColumnsAtRow);
 
-            SumOfCountsByColumn = new int[_numberOfColumns];
+            SumsOfCountsByColumn = new int[_numberOfColumns];
         }
 
         void SetPercentagesForColumn(int col)
         {
             for (int row = 0; row < _numberOfRows; row++)
             {
-                if (SumOfCountsByColumn[col] == 0)
+                if (SumsOfCountsByColumn[col] == 0)
                 {
                     _setPercentageAtRowColumn(row, col, 0);
                 }
                 else
                 {
-                    double percentage = (double)_getCountAtRowColumn(row, col) / SumOfCountsByColumn[col] * 100;
+                    double percentage = (double)_getCountAtRowColumn(row, col) / SumsOfCountsByColumn[col] * 100;
                     double roundedPercentage = Math.Round(percentage, MidpointRounding.AwayFromZero);
 
                     _setPercentageAtRowColumn(row, col, (int)roundedPercentage);
@@ -121,7 +121,7 @@ namespace PokerTell.Statistics.Detailed
         {
             for (int row = 0; row < _numberOfRows; row++)
             {
-                SumOfCountsByColumn[col] += _getCountAtRowColumn(row, col);
+                SumsOfCountsByColumn[col] += _getCountAtRowColumn(row, col);
             }
         }
 

@@ -44,6 +44,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
                                              0, 
                                              DateTime.MinValue, 
                                              2, 
+                                             2,
                                              sequencePreFlop, 
                                              sequenceFlop, 
                                              sequenceTurn, 
@@ -75,8 +76,34 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
     class AnalyzablePokerPlayerMock : AnalyzablePokerPlayer
     {
-        public AnalyzablePokerPlayerMock(long id, int handId, string holecards, int mBefore, int position, StrategicPositions strategicPosition, bool? inPositionPreFlop, bool? inPositionFlop, bool? inPositionTurn, bool? inPositionRiver, ActionSequences actionSequencePreFlop, ActionSequences actionSequenceFlop, ActionSequences actionSequenceTurn, ActionSequences actionSequenceRiver, int betSizeIndexFlop, int betSizeIndexTurn, int betSizeIndexRiver, double bb, double ante, DateTime timeStamp, int totalPlayers, string sequencePreFlop, string sequenceFlop, string sequenceTurn, string sequenceRiver)
-            : base(id, handId, holecards, mBefore, position, strategicPosition, inPositionPreFlop, inPositionFlop, inPositionTurn, inPositionRiver, actionSequencePreFlop, actionSequenceFlop, actionSequenceTurn, actionSequenceRiver, betSizeIndexFlop, betSizeIndexTurn, betSizeIndexRiver, bb, ante, timeStamp, totalPlayers, sequencePreFlop, sequenceFlop, sequenceTurn, sequenceRiver)
+        public AnalyzablePokerPlayerMock(long id, int handId, string holecards, int mBefore, int position, StrategicPositions strategicPosition, bool? inPositionPreFlop, bool? inPositionFlop, bool? inPositionTurn, bool? inPositionRiver, ActionSequences actionSequencePreFlop, ActionSequences actionSequenceFlop, ActionSequences actionSequenceTurn, ActionSequences actionSequenceRiver, int betSizeIndexFlop, int betSizeIndexTurn, int betSizeIndexRiver, double bb, double ante, DateTime timeStamp, int totalPlayers, int playersInFlop, string sequencePreFlop, string sequenceFlop, string sequenceTurn, string sequenceRiver)
+            : base(
+                id,
+                handId,
+                holecards,
+                mBefore,
+                position,
+                strategicPosition,
+                inPositionPreFlop,
+                inPositionFlop,
+                inPositionTurn,
+                inPositionRiver,
+                actionSequencePreFlop,
+                actionSequenceFlop,
+                actionSequenceTurn,
+                actionSequenceRiver,
+                betSizeIndexFlop,
+                betSizeIndexTurn,
+                betSizeIndexRiver,
+                bb,
+                ante,
+                timeStamp,
+                totalPlayers,
+                playersInFlop,
+                sequencePreFlop,
+                sequenceFlop,
+                sequenceTurn,
+                sequenceRiver)
         {
         }
 

@@ -1,13 +1,10 @@
 namespace PokerTell.Statistics.Detailed
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
-
-    using Interfaces;
 
     public class PostFlopActionSequenceStatistic : ActionSequenceStatistic
     {

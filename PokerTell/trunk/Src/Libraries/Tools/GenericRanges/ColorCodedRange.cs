@@ -8,7 +8,7 @@ namespace Tools.GenericRanges
     /// <summary>
     /// Description of ColorCodedGenericRange.
     /// </summary>
-    public class ColorCodedRange<T> : GenericRange<T>, IColorCodedRange<T> where T : struct, IComparable
+    public class ColorCodedRange<T> : GenericRange<T>, IColorCodedRange<T> where T : IComparable
     {
         public ColorCodedRange(T minValue, T maxValue, Color colorCode) 
             : base(minValue, maxValue)

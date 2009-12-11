@@ -22,7 +22,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
     public class ConvertedPokerHandMapTests : InMemoryDatabaseTest
     {
         public ConvertedPokerHandMapTests()
-            : base(typeof(ConvertedPokerHand).Assembly, true)
+            : base(typeof(ConvertedPokerHand).Assembly)
         {
         }
 

@@ -117,6 +117,7 @@
           player.ParentHand.Ante, 
           player.ParentHand.TimeStamp, 
           player.ParentHand.TotalPlayers, 
+          player.ParentHand.PlayersInFlop,
           player.ParentHand.SequencePreFlop, 
           player.ParentHand.SequenceFlop, 
           player.ParentHand.SequenceTurn, 

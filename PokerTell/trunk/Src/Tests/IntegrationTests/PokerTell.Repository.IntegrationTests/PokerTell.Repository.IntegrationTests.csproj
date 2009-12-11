@@ -47,10 +47,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\MySql\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="NHibernate, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\NHibernate\NHibernate.dll</HintPath>
-    </Reference>
     <Reference Include="NHibernate.ByteCode.Castle, Version=2.1.2.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
@@ -107,11 +103,13 @@
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>
       <Name>PokerTell.UnitTests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.IntegrationTests\PokerTell.IntegrationTests.csproj">
+      <Project>{075D2ABE-7101-4939-A864-0B6F85101E17}</Project>
+      <Name>PokerTell.IntegrationTests</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

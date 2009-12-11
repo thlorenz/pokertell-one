@@ -11,9 +11,9 @@ namespace PokerTell.Statistics.Detailed
 
     public class ActionSequenceSetStatistics : IActionSequenceSetStatistics
     {
-        readonly IEnumerable<IActionSequenceStatistic> _statistics;
+        protected readonly IEnumerable<IActionSequenceStatistic> _statistics;
 
-        readonly IPercentagesCalculator _percentagesCalculator;
+        protected readonly IPercentagesCalculator _percentagesCalculator;
 
         IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
 
@@ -37,7 +37,7 @@ namespace PokerTell.Statistics.Detailed
 
         public virtual int[] SumOfCountsByColumn
         {
-            get { return _percentagesCalculator.SumOfCountsByColumn; }
+            get { return _percentagesCalculator.SumsOfCountsByColumn; }
         }
 
         public ActionSequenceSetStatistics(

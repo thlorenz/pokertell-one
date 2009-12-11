@@ -25,12 +25,14 @@ namespace PokerTell.Statistics.Interfaces
 
         IPlayerIdentity PlayerIdentity { get; }
 
-        IPlayerStatistics SetFilter();
+        IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter);
 
         IPlayerStatistics UpdateFrom(IRepository repository);
 
         /*  OverlayStatisticsTexts OverlayText { get; set; }
 
           StatsFilterList Filter { get; } */
+
+        IPlayerStatistics InitializePlayer(string playerName, string pokerSite);
     }
 }

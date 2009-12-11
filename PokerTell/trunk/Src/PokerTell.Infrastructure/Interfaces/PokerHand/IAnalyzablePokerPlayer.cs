@@ -57,5 +57,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         IConvertedPokerRound[] Sequences { get; }
 
         string Holecards { get; }
+
+        int PlayersInFlop { get; set; }
     }
 }

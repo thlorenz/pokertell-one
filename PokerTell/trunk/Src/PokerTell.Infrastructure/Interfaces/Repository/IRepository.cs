@@ -21,5 +21,9 @@ namespace PokerTell.Infrastructure.Interfaces.Repository
         IRepository InsertHands(IEnumerable<IConvertedPokerHand> handsToInsert);
 
         IConvertedPokerHand RetrieveConvertedHandWith(ulong gameId, string site);
+
+        IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId);
+
+        IPlayerIdentity FindPlayerIdentityFor(string name, string site);
     }
 }
