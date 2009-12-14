@@ -80,15 +80,17 @@ namespace PokerTell.PokerHand.Analyzation
 
         void MatchStringContainingBetSizeKey()
         {
-            const string HeroBPattern = @"^(?<BetSizeKey>\d)\b";
+            const string betSizePattern = @"(?<BetSizeKey>\d{1,2})";
 
-            const string OppBHeroFPattern = @"^(?<BetSizeKey>\d)F\b";
-            const string OppBHeroCPattern = @"^(?<BetSizeKey>\d)C\b";
-            const string OppBHeroRPattern = @"^(?<BetSizeKey>\d)R\b";
+            const string HeroBPattern = @"^" + betSizePattern + @"\b";
 
-            const string HeroXOppBHeroFPattern = @"^X(?<BetSizeKey>\d)F\b";
-            const string HeroXOppBHeroCPattern = @"^X(?<BetSizeKey>\d)C\b";
-            const string HeroXOppBHeroRPattern = @"^X(?<BetSizeKey>\d)R\b";
+            const string OppBHeroFPattern = @"^" + betSizePattern + @"F\b";
+            const string OppBHeroCPattern = @"^" + betSizePattern + @"C\b";
+            const string OppBHeroRPattern = @"^" + betSizePattern + @"R\b";
+
+            const string HeroXOppBHeroFPattern = @"^X" + betSizePattern + @"F\b";
+            const string HeroXOppBHeroCPattern = @"^X" + betSizePattern + @"C\b";
+            const string HeroXOppBHeroRPattern = @"^X" + betSizePattern + @"R\b";
 
             if (FoundMatchFor(HeroBPattern, ActionSequences.HeroB))
             {

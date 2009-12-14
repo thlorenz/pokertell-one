@@ -1,33 +1,39 @@
 namespace PokerTell.Statistics.Interfaces
 {
+    using System.Collections.Generic;
+
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
 
     public interface IPlayerStatistics
     {
-        IActionSequenceSetStatistics[] HeroXOrHeroBOutOfPosition { get; }
+        IActionSequenceStatisticsSet[] HeroXOrHeroBOutOfPosition { get; }
 
-        IActionSequenceSetStatistics[] HeroXOrHeroBInPosition { get; }
+        IActionSequenceStatisticsSet[] HeroXOrHeroBInPosition { get; }
 
-        IActionSequenceSetStatistics[] OppBIntoHeroInPosition { get; }
+        IActionSequenceStatisticsSet[] OppBIntoHeroInPosition { get; }
 
-        IActionSequenceSetStatistics[] OppBIntoHeroOutOfPosition { get; }
+        IActionSequenceStatisticsSet[] OppBIntoHeroOutOfPosition { get; }
 
-        IActionSequenceSetStatistics[] HeroXOutOfPositionOppB { get; }
+        IActionSequenceStatisticsSet[] HeroXOutOfPositionOppB { get; }
 
-        IActionSequenceSetStatistics PreFlopUnraisedPot { get;  }
+        IActionSequenceStatisticsSet PreFlopUnraisedPot { get;  }
 
-        IActionSequenceSetStatistics PreFlopRaisedPot { get;  }
+        IActionSequenceStatisticsSet PreFlopRaisedPot { get;  }
 
-        int[] TotalCountsOutOfPosition { get; }
+        IEnumerable<int> TotalCountsOutOfPosition { get; }
 
-        int[] TotalCountsOutInPosition { get; }
+        IEnumerable<int> TotalCountsInPosition { get; }
 
         IPlayerIdentity PlayerIdentity { get; }
 
+        int TotalCountsPreFlopUnraisedPot { get; }
+
+        int TotalCountsPreFlopRaisedPot { get; }
+
         IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter);
 
-        IPlayerStatistics UpdateFrom(IRepository repository);
+        IPlayerStatistics UpdateStatistics();
 
         /*  OverlayStatisticsTexts OverlayText { get; set; }
 

@@ -8,16 +8,16 @@ namespace PokerTell.Statistics.Detailed
 
     using Interfaces;
 
-    public class HeroCheckOrBetSetStatistics : ActionSequenceSetStatistics
+    public class HeroCheckOrBetSetStatistics : ActionSequenceStatisticsSet
     {
         public HeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
             : base(statistics, percentagesCalculator)
         {
         }
 
-        protected override void CalculatePercentages()
+        protected override void CalculateIndividualPercentages()
         {
-            var heroBStatistic = (from statistic in _statistics
+            var heroBStatistic = (from statistic in ActionSequenceStatistics
                                  where statistic.ActionSequence == ActionSequences.HeroB
                                  select statistic)
                                  .Single();

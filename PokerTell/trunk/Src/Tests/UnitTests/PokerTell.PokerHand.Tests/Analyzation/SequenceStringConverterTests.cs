@@ -123,6 +123,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         }
 
         [Test]
+        public void Convert_15_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("15");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
+        }
+
+        [Test]
         public void Convert_9F_ActionSequenceIsOppBHeroF()
         {
             _sut.Convert("9F");
@@ -135,6 +143,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             _sut.Convert("9F");
 
             _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(9));
+        }
+
+        [Test]
+        public void Convert_15F_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("15F");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
         }
 
         [Test]
@@ -160,6 +176,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         }
 
         [Test]
+        public void Convert_15C_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("15C");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
+        }
+
+        [Test]
         public void Convert_2R_ActionSequenceIsOppBHeroR()
         {
             _sut.Convert("2R");
@@ -175,6 +199,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         }
 
         [Test]
+        public void Convert_15R_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("15R");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
+        }
+
+        [Test]
         public void Convert_X9F_ActionSequenceIsHeroXOppBHeroF()
         {
             _sut.Convert("X9F");
@@ -187,6 +219,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             _sut.Convert("X9F");
 
             _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(9));
+        }
+
+        [Test]
+        public void Convert_X15F_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("X15F");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
         }
 
         [Test]
@@ -212,6 +252,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         }
 
         [Test]
+        public void Convert_X15C_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("X15C");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
+        }
+
+        [Test]
         public void Convert_X2R_ActionSequenceIsHeroXOppBHeroR()
         {
             _sut.Convert("X2R");
@@ -224,6 +272,14 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             _sut.Convert("X2R");
 
             _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(2));
+        }
+
+        [Test]
+        public void Convert_X15R_BetSizeIndexIsIndexOf15()
+        {
+            _sut.Convert("X15R");
+
+            _sut.BetSizeIndex.IsEqualTo(_sut.StandardizedBetSizes.IndexOf(15));
         }
     }
 }

@@ -1,8 +1,9 @@
 namespace PokerTell.Statistics
 {
-    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -14,7 +15,7 @@ namespace PokerTell.Statistics
     using PokerTell.Statistics.Detailed;
     using PokerTell.Statistics.Interfaces;
 
-    public class PlayerStatistics : IPlayerStatistics
+    public class PlayerStatistics : IPlayerStatistics, IEnumerable<IActionSequenceStatisticsSet>
     {
         #region Constants and Fields
 
@@ -22,21 +23,25 @@ namespace PokerTell.Statistics
 
         protected long _lastQueriedId;
 
+        readonly IRepository _repository;
+
+        IAnalyzablePokerPlayersFilter _analyzablePokerPlayerFilter;
+
         string _playerName;
 
         string _pokerSite;
-
-        IAnalyzablePokerPlayersFilter _analyzablePokerPlayerFilter;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public PlayerStatistics(IEventAggregator eventAggregator)
+        public PlayerStatistics(IEventAggregator eventAggregator, IRepository repository)
         {
             eventAggregator
                 .GetEvent<DatabaseInUseChangedEvent>()
                 .Subscribe(dp => Reinitialize());
+
+            _repository = repository;
 
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
 
@@ -47,104 +52,115 @@ namespace PokerTell.Statistics
 
         #region Properties
 
-        public IActionSequenceSetStatistics[] HeroXOrHeroBInPosition { get; protected set; }
+        public IActionSequenceStatisticsSet[] HeroXOrHeroBInPosition { get; protected set; }
 
-        public IActionSequenceSetStatistics[] HeroXOrHeroBOutOfPosition { get; protected set; }
+        public IActionSequenceStatisticsSet[] HeroXOrHeroBOutOfPosition { get; protected set; }
 
-        public IActionSequenceSetStatistics[] HeroXOutOfPositionOppB { get; protected set; }
+        public IActionSequenceStatisticsSet[] HeroXOutOfPositionOppB { get; protected set; }
 
-        public IActionSequenceSetStatistics[] OppBIntoHeroInPosition { get; protected set; }
+        public IActionSequenceStatisticsSet[] OppBIntoHeroInPosition { get; protected set; }
 
-        public IActionSequenceSetStatistics[] OppBIntoHeroOutOfPosition { get; protected set; }
+        public IActionSequenceStatisticsSet[] OppBIntoHeroOutOfPosition { get; protected set; }
 
         public IPlayerIdentity PlayerIdentity { get; protected set; }
 
-        public IActionSequenceSetStatistics PreFlopRaisedPot { get; protected set; }
+        public IActionSequenceStatisticsSet PreFlopRaisedPot { get; protected set; }
 
-        public IActionSequenceSetStatistics PreFlopUnraisedPot { get; protected set; }
+        public IActionSequenceStatisticsSet PreFlopUnraisedPot { get; protected set; }
 
-        public int[] TotalCountsOutInPosition { get; set; }
+        public IEnumerable<int> TotalCountsInPosition
+        {
+            get
+            {
+                for (Streets street = Streets.Flop; street <= Streets.River; street++)
+                {
+                    yield return
+                        HeroXOrHeroBInPosition[(int)street].TotalCounts.Sum() +
+                        OppBIntoHeroInPosition[(int)street].TotalCounts.Sum();
+                }
+            }
+        }
 
-        public int[] TotalCountsOutOfPosition { get; set; }
+        public IEnumerable<int> TotalCountsOutOfPosition
+        {
+            get
+            {
+                for (Streets street = Streets.Flop; street <= Streets.River; street++)
+                {
+                    yield return
+                        HeroXOrHeroBOutOfPosition[(int)street].TotalCounts.Sum() +
+                        OppBIntoHeroOutOfPosition[(int)street].TotalCounts.Sum();
+                }
+            }
+        }
+
+        public int TotalCountsPreFlopRaisedPot
+        {
+            get { return PreFlopRaisedPot.TotalCounts.Sum(); }
+        }
+
+        public int TotalCountsPreFlopUnraisedPot
+        {
+            get { return PreFlopUnraisedPot.TotalCounts.Sum(); }
+        }
 
         #endregion
 
         #region Public Methods
 
-        public IPlayerStatistics InitializePlayer(string playerName, string pokerSite)
+        public override string ToString()
         {
-            _playerName = playerName;
-            _pokerSite = pokerSite;
+            var sb = new StringBuilder(string.Format("PlayerName: {0}, PokerSite: {1}, LastQueriedId: {2}\n", 
+                                                     _playerName, 
+                                                     _pokerSite, 
+                                                     _lastQueriedId));
+            this.ToList().ForEach(statisticsSet => sb.AppendLine(statisticsSet.ToString()));
 
-            return this;
+            sb.AppendLine("Total Counts: ")
+                .AppendLine("Preflop: ")
+                .AppendFormat("UnraisedPot: {0}   ", TotalCountsPreFlopUnraisedPot)
+                .AppendFormat("RaisedPot: {0}", TotalCountsPreFlopRaisedPot);
+
+            sb.AppendLine("\nPostFlop:")
+                .Append("Out of Position: ");
+            TotalCountsOutOfPosition.ToList().ForEach(tc => sb.Append(tc.ToString() + ", "));
+            sb.AppendLine()
+                .Append("In Position: ");
+            TotalCountsInPosition.ToList().ForEach(tc => sb.Append(tc.ToString() + ", "));
+
+            return sb.ToString();
         }
 
         #endregion
 
         #region Implemented Interfaces
 
-        #region IPlayerStatistics
+        #region IEnumerable
 
-        public IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter)
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            _analyzablePokerPlayerFilter = filter;
-            FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
-            return this;
-        }
-
-        public IPlayerStatistics UpdateFrom(IRepository repository)
-        {
-            ExtractPlayerIdentityIfItIsNullFrom(repository);
-
-            if (PlayerIdentity != null)
-            {
-                ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(repository);
-
-                FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
-            }
-
-            return this;
-        }
-
-        void FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem()
-        {
-            var filteredAnalyzablePlayers = GetFilteredAnalyzablePlayers();
-            UpdateStatisticsWith(filteredAnalyzablePlayers);
+            return GetEnumerator();
         }
 
         #endregion
 
-        protected virtual IEnumerable<IAnalyzablePokerPlayer> GetFilteredAnalyzablePlayers()
-        {
-            return _analyzablePokerPlayerFilter == null 
-                ? _allAnalyzablePlayers 
-                : _analyzablePokerPlayerFilter.Filter(_allAnalyzablePlayers);
-        }
+        #region IEnumerable<IActionSequenceStatisticsSet>
 
-        #endregion
-
-        #region Methods
-
-        protected virtual IActionSequenceSetStatistics NewActionSequenceSetStatistics(
-            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
-        {
-            return new ActionSequenceSetStatistics(statistics, percentagesCalculator);
-        }
-
-        protected virtual void UpdateStatisticsWith(IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers)
-        {
-            foreach (var statisticsSet in AllStatisticsSets())
-            {
-                statisticsSet.UpdateWith(filteredAnalyzablePlayers);
-            }
-        }
-
-        protected virtual IActionSequenceSetStatistics NewHeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
-        {
-            return new HeroCheckOrBetSetStatistics(statistics, percentagesCalculator);
-        }
-
-        IEnumerable<IActionSequenceSetStatistics> AllStatisticsSets()
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        public IEnumerator<IActionSequenceStatisticsSet> GetEnumerator()
         {
             yield return PreFlopUnraisedPot;
             yield return PreFlopRaisedPot;
@@ -161,13 +177,79 @@ namespace PokerTell.Statistics
             }
         }
 
+        #endregion
+
+        #region IPlayerStatistics
+
+        public IPlayerStatistics InitializePlayer(string playerName, string pokerSite)
+        {
+            _playerName = playerName;
+            _pokerSite = pokerSite;
+
+            return this;
+        }
+
+        public IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter)
+        {
+            _analyzablePokerPlayerFilter = filter;
+            FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
+            return this;
+        }
+
+        public IPlayerStatistics UpdateStatistics()
+        {
+            ExtractPlayerIdentityIfItIsNullFrom(_repository);
+
+            if (PlayerIdentity != null)
+            {
+                ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(_repository);
+
+                FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
+            }
+
+            return this;
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        protected virtual IEnumerable<IAnalyzablePokerPlayer> GetFilteredAnalyzablePlayers()
+        {
+            return _analyzablePokerPlayerFilter == null
+                       ? _allAnalyzablePlayers
+                       : _analyzablePokerPlayerFilter.Filter(_allAnalyzablePlayers);
+        }
+
+        protected virtual IActionSequenceStatisticsSet NewActionSequenceSetStatistics(
+            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        {
+            return new ActionSequenceStatisticsSet(statistics, percentagesCalculator);
+        }
+
+        protected virtual IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(
+            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        {
+            return new HeroCheckOrBetSetStatistics(statistics, percentagesCalculator);
+        }
+
+        protected virtual void UpdateStatisticsWith(IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers)
+        {
+            foreach (var statisticsSet in this)
+            {
+                statisticsSet.UpdateWith(filteredAnalyzablePlayers);
+            }
+        }
+
         void CreatePostFlopStatistics()
         {
-            HeroXOrHeroBInPosition = new IActionSequenceSetStatistics[(int)(Streets.River + 1)];
-            HeroXOrHeroBOutOfPosition = new IActionSequenceSetStatistics[(int)(Streets.River + 1)];
-            HeroXOutOfPositionOppB = new IActionSequenceSetStatistics[(int)(Streets.River + 1)];
-            OppBIntoHeroInPosition = new IActionSequenceSetStatistics[(int)(Streets.River + 1)];
-            OppBIntoHeroOutOfPosition = new IActionSequenceSetStatistics[(int)(Streets.River + 1)];
+            HeroXOrHeroBInPosition = new IActionSequenceStatisticsSet[(int)(Streets.River + 1)];
+            HeroXOrHeroBOutOfPosition = new IActionSequenceStatisticsSet[(int)(Streets.River + 1)];
+            HeroXOutOfPositionOppB = new IActionSequenceStatisticsSet[(int)(Streets.River + 1)];
+            OppBIntoHeroInPosition = new IActionSequenceStatisticsSet[(int)(Streets.River + 1)];
+            OppBIntoHeroOutOfPosition = new IActionSequenceStatisticsSet[(int)(Streets.River + 1)];
         }
 
         void ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(IRepository repository)
@@ -190,6 +272,12 @@ namespace PokerTell.Statistics
             {
                 PlayerIdentity = repository.FindPlayerIdentityFor(_playerName, _pokerSite);
             }
+        }
+
+        void FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem()
+        {
+            var filteredAnalyzablePlayers = GetFilteredAnalyzablePlayers();
+            UpdateStatisticsWith(filteredAnalyzablePlayers);
         }
 
         void InitializeHeroXOrBStatistics(Streets street, int betSizeIndexCount)

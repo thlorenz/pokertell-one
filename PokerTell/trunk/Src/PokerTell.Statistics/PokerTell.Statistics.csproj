@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,17 +54,20 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Detailed\AcrossRowsPercentagesCalculator.cs" />
-    <Compile Include="Detailed\ActionSequenceSetStatistics.cs" />
+    <Compile Include="Detailed\ActionSequenceStatisticsSet.cs" />
     <Compile Include="Detailed\ActionSequenceStatistic.cs" />
     <Compile Include="Detailed\HeroCheckOrBetSetStatistics.cs" />
     <Compile Include="Detailed\SeparateRowsPercentagesCalculator.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilter.cs" />
     <Compile Include="Interfaces\IAnalyzablePokerPlayersFilter.cs" />
     <Compile Include="Interfaces\IPercentagesCalculator.cs" />
-    <Compile Include="Interfaces\IActionSequenceSetStatistics.cs" />
+    <Compile Include="Interfaces\IActionSequenceStatisticsSet.cs" />
     <Compile Include="Detailed\PostFlopActionSequenceStatistic.cs" />
     <Compile Include="Detailed\PostFlopHeroXStatistic.cs" />
     <Compile Include="Detailed\PreFlopActionSequenceStatistic.cs" />
@@ -69,6 +75,12 @@
     <Compile Include="Interfaces\IPlayerStatistics.cs" />
     <Compile Include="PlayerStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
+    <Compile Include="Interfaces\IBarGraphViewModel.cs" />
+    <Compile Include="Interfaces\IStatisticsSetSummaryRowViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Tools\Tools.csproj">
@@ -79,9 +91,6 @@
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Summary\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

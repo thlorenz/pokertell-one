@@ -1,15 +1,15 @@
 namespace PokerTell.Statistics.Detailed
 {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
 
     using Infrastructure.Interfaces.PokerHand;
 
     using Interfaces;
 
-    public class ActionSequenceSetStatistics : IActionSequenceSetStatistics
+    public class ActionSequenceStatisticsSet : IActionSequenceStatisticsSet
     {
         protected readonly IEnumerable<IActionSequenceStatistic> _statistics;
 
@@ -17,7 +17,7 @@ namespace PokerTell.Statistics.Detailed
 
         IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
 
-        public IActionSequenceSetStatistics UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        public IActionSequenceStatisticsSet UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
             _analyzablePokerPlayers = analyzablePokerPlayers;
            
@@ -26,11 +26,13 @@ namespace PokerTell.Statistics.Detailed
                statistic.UpdateWith(_analyzablePokerPlayers);
             }
 
-            CalculatePercentages();
+            CalculateIndividualPercentages();
+            CalculateCumulativePercentages();
+            
             return this;
         }
 
-        public IEnumerable<IActionSequenceStatistic> ActionSequenceStatistics
+        public virtual IEnumerable<IActionSequenceStatistic> ActionSequenceStatistics
         {
             get { return _statistics; }
         }
@@ -40,14 +42,21 @@ namespace PokerTell.Statistics.Detailed
             get { return _percentagesCalculator.SumsOfCountsByColumn; }
         }
 
-        public ActionSequenceSetStatistics(
+        public int[] TotalCounts
+        {
+            get { return (from statistic in _statistics select statistic.TotalCounts).ToArray(); }
+        }
+
+        public int[] CumulativePercentagesByRow { get; private set; }
+
+        public ActionSequenceStatisticsSet(
             IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
         {
             _statistics = statistics;
             _percentagesCalculator = percentagesCalculator;
         }
 
-        protected virtual void CalculatePercentages()
+        protected virtual void CalculateIndividualPercentages()
         {
             Func<int> getNumberOfRows = () => _statistics.Count();
             
@@ -63,6 +72,31 @@ namespace PokerTell.Statistics.Detailed
                                                         getNumberOfColumnsAtRow,
                                                         getCountAtRowColumn,
                                                         setPercentageAtRowColumn);
+        }
+
+        protected virtual void CalculateCumulativePercentages()
+        {
+            CumulativePercentagesByRow = new int[_statistics.Count()];
+            var sumOfTotalCounts = (from statistic in _statistics select statistic.TotalCounts).Sum();
+            
+            for (int row = 0; row < CumulativePercentagesByRow.Length; row++)
+            {
+                double percentage = (double)_statistics.ElementAt(row).TotalCounts / sumOfTotalCounts * 100;
+                double roundedPercentage = Math.Round(percentage, MidpointRounding.AwayFromZero);
+                CumulativePercentagesByRow[row] = (int) roundedPercentage;  
+            }
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            _statistics.ToList().ForEach(s => sb.AppendLine(s.ToString()));
+            sb.Append("Sum of counts by column: ");
+            SumOfCountsByColumn.ToList().ForEach(sumOfCounts => sb.Append(sumOfCounts.ToString() + ", "));
+            sb.AppendLine().Append("CumulativePercentages: ");
+            CumulativePercentagesByRow.ToList().ForEach(perc => sb.Append(perc + "%, "));
+            sb.AppendLine();
+            return sb.ToString();
         }
     }
 }

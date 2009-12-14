@@ -1,14 +1,6 @@
 namespace PokerTell.StatisticsIntegrationTests
 {
     using System;
-    using System.Linq;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.PokerHandParsers;
-    using Infrastructure.Interfaces.Repository;
-
-    using IntegrationTests;
 
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Unity;
@@ -17,23 +9,30 @@ namespace PokerTell.StatisticsIntegrationTests
 
     using NUnit.Framework;
 
+    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Repository;
+    using IntegrationTests;
     using PokerHand.Analyzation;
     using PokerHand.Dao;
-
     using Repository;
     using Repository.Interfaces;
     using Repository.NHibernate;
-
     using Statistics;
     using Statistics.Interfaces;
 
     public class PlayerStatisticsTests : DatabaseConnectedPerformanceTests
     {
+        #region Constants and Fields
+
+        const string PokerStars = "PokerStars";
+
         IUnityContainer _container;
 
         StubBuilder _stub;
 
-        const string PokerStars = "PokerStars";
+        #endregion
+
+        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -54,10 +53,8 @@ namespace PokerTell.StatisticsIntegrationTests
                 .RegisterType<IPlayerIdentityDao, PlayerIdentityDao>()
                 .RegisterType<IConvertedPokerPlayerDao, ConvertedPokerPlayerDao>()
                 .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
-                
                 .RegisterInstance(_stub.Out<IRepositoryParser>())
                 .RegisterType<ITransactionManager, TransactionManager>()
-
                 .RegisterType<IRepository, Repository>()
                 .RegisterType<IPlayerStatistics, PlayerStatistics>();
         }
@@ -71,15 +68,14 @@ namespace PokerTell.StatisticsIntegrationTests
                 .RegisterInstance(_sessionFactoryManagerStub.Object)
                 .Resolve<IPlayerStatistics>();
 
-            Timed("UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase",
+            Timed("UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase", 
                   () => playerStatistics
                             .InitializePlayer("renniweg", PokerStars)
-                            .UpdateFrom(_container.Resolve<IRepository>()));
+                            .UpdateStatistics());
 
-            playerStatistics
-                    .OppBIntoHeroInPosition[(int)Streets.Flop]
-                    .ActionSequenceStatistics.Last()
-                    .Percentages.ToList().ForEach(Console.WriteLine);
+            Console.WriteLine(playerStatistics);
         }
+
+        #endregion
     }
 }

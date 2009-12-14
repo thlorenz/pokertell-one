@@ -2,6 +2,7 @@ namespace PokerTell.Statistics.Detailed
 {
     using System.Linq;
     using System.Collections.Generic;
+    using System.Text;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
@@ -58,5 +59,12 @@ namespace PokerTell.Statistics.Detailed
         }
 
         protected abstract void ExtractMatchingPlayers(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder(string.Format("{0} on {1} with {2} total counts: ", ActionSequence, _street, _totalCounts));
+            Percentages.ToList().ForEach(p => sb.Append(p + "% "));
+            return sb.ToString();
+        }
     }
 }

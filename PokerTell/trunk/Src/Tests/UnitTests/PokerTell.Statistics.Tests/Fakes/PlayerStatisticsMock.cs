@@ -3,6 +3,7 @@ namespace PokerTell.Statistics.Tests.Fakes
     using System.Collections.Generic;
 
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Repository;
 
     using Interfaces;
 
@@ -12,8 +13,10 @@ namespace PokerTell.Statistics.Tests.Fakes
 
     internal class PlayerStatisticsMock : PlayerStatistics
     {
-        public PlayerStatisticsMock(IEventAggregator eventAggregator)
-            : base(eventAggregator)
+        readonly StubBuilder _stub = new StubBuilder();
+
+        public PlayerStatisticsMock(IEventAggregator eventAggregator, IRepository repository)
+            : base(eventAggregator, repository)
         {
         }
 
@@ -34,14 +37,14 @@ namespace PokerTell.Statistics.Tests.Fakes
             set { PlayerIdentity = value; }
         }
 
-        protected override IActionSequenceSetStatistics NewActionSequenceSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        protected override IActionSequenceStatisticsSet NewActionSequenceSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
         {
-            return new StubBuilder().Out<IActionSequenceSetStatistics>();
+            return _stub.Out<IActionSequenceStatisticsSet>();
         }
 
-        protected override IActionSequenceSetStatistics NewHeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        protected override IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
         {
-            return new StubBuilder().Out<IActionSequenceSetStatistics>();
+            return _stub.Out<IActionSequenceStatisticsSet>();
         }
 
         protected override void UpdateStatisticsWith(IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers)

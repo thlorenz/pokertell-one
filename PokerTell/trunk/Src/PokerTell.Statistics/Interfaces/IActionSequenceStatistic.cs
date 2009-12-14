@@ -3,9 +3,10 @@ namespace PokerTell.Statistics.Interfaces
     using System.Collections.Generic;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
-    public interface IActionSequenceStatistic
+    public interface IActionSequenceStatistic : IFluentInterface
     {
         IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);
 

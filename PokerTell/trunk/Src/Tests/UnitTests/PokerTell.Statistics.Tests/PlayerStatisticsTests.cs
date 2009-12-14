@@ -51,7 +51,7 @@ namespace PokerTell.Statistics.Tests
                 .Get(pi => pi.Id).Returns(Id)
                 .Out;
             
-            _sut = new PlayerStatisticsMock(_eventAggregator);
+            _sut = new PlayerStatisticsMock(_eventAggregator, _repositoryMock.Object);
         }
 
         [Test]
@@ -87,30 +87,29 @@ namespace PokerTell.Statistics.Tests
             _sut.PlayerIdentity.IsNull();
         }
 
-
         [Test]
-        public void UpdateFrom_PlayerIdentityIsNull_CallsRepositoryFindPlayerIdentityForNameAndSite()
+        public void UpdateStatistics_PlayerIdentityIsNull_CallsRepositoryFindPlayerIdentityForNameAndSite()
         {
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _repositoryMock.Verify(rp => rp.FindPlayerIdentityFor(Name, Site));
         }
 
         [Test]
-        public void UpdateFrom_PlayerIdentityIsNotNull_DoesntCallRepositoryFindPlayerIdentityForNameAndSite()
+        public void UpdateStatistics_PlayerIdentityIsNotNull_DoesntCallRepositoryFindPlayerIdentityForNameAndSite()
         {
             _sut.PlayerIdentitySet = _playerIdentityStub;
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _repositoryMock.Verify(rp => rp.FindPlayerIdentityFor(Name, Site), Times.Never());
         }
 
         [Test]
-        public void UpdateFrom_PlayerIdentityIsNull_AssignsPlayerIdentityReturnedFromRepository()
+        public void UpdateStatistics_PlayerIdentityIsNull_AssignsPlayerIdentityReturnedFromRepository()
         {
             var repositoryStub = _repositoryMock;
             repositoryStub
@@ -119,13 +118,13 @@ namespace PokerTell.Statistics.Tests
 
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(repositoryStub.Object);
+                .UpdateStatistics();
 
             _sut.PlayerIdentity.Id.IsEqualTo(Id);
         }
 
         [Test]
-        public void UpdateFrom_PlayerIdentityIsNullRepositoryReturnsPlayerIdentity_CallsRepositoryFindAnalayzablePlayersForIdAndLastQueriedId()
+        public void UpdateStatistics_PlayerIdentityIsNullRepositoryReturnsPlayerIdentity_CallsRepositoryFindAnalayzablePlayersForIdAndLastQueriedId()
         {
             _repositoryMock
                 .Setup(rp => rp.FindPlayerIdentityFor(Name, Site))
@@ -133,13 +132,13 @@ namespace PokerTell.Statistics.Tests
 
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _repositoryMock.Verify(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId));
         }
 
         [Test]
-        public void UpdateFrom_PlayerIdentityIsNotNull_AddsAnalyzablePlayersReturnedFromRepository()
+        public void UpdateStatistics_PlayerIdentityIsNotNull_AddsAnalyzablePlayersReturnedFromRepository()
         {
             var analyzablePlayerStub = _stub.Setup<IAnalyzablePokerPlayer>()
                 .Get(ap => ap.Id).Returns(1).Out;
@@ -152,25 +151,25 @@ namespace PokerTell.Statistics.Tests
             
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _sut.AnalyzablePlayers.Last().IsEqualTo(analyzablePlayerStub);
         }
 
         [Test]
-        public void UpdateFrom_PlayerIdentityIsNotNull_UpdatesStatistics()
+        public void UpdateStatistics_PlayerIdentityIsNotNull_UpdatesStatistics()
         {
             _sut.PlayerIdentitySet = _playerIdentityStub;
 
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _sut.StatisticsWereUpdated.IsTrue();
         }
 
         [Test]
-        public void UpdateFrom_RepositoryReturnsTwoAnalyzablePlayers_SetsLastQueriedIdToMaxIdOfReturnedPlayers()
+        public void UpdateStatistics_RepositoryReturnsTwoAnalyzablePlayers_SetsLastQueriedIdToMaxIdOfReturnedPlayers()
         {
             var analyzablePlayerStub1 = _stub.Setup<IAnalyzablePokerPlayer>()
                 .Get(ap => ap.Id).Returns(1).Out;
@@ -185,13 +184,13 @@ namespace PokerTell.Statistics.Tests
 
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _sut.LastQueriedId.IsEqualTo(analyzablePlayerStub2.Id);
         }
 
         [Test]
-        public void UpdateFrom_RepositoryReturnsEmptyList_LastQueriedIdIsUnchanged()
+        public void UpdateStatistics_RepositoryReturnsEmptyList_LastQueriedIdIsUnchanged()
         {
             const long originalLastQueriedId = 1;
            
@@ -204,7 +203,7 @@ namespace PokerTell.Statistics.Tests
 
             _sut
                 .InitializePlayer(Name, Site)
-                .UpdateFrom(_repositoryMock.Object);
+                .UpdateStatistics();
 
             _sut.LastQueriedId.IsEqualTo(originalLastQueriedId);
         }
@@ -243,16 +242,18 @@ namespace PokerTell.Statistics.Tests
         }
 
         [Test]
-        public void UpdatesWith_FilterSetAndPlayerIdentityNotNull_FiltersPlayers()
+        public void UpdateStatistics_FilterSetAndPlayerIdentityNotNull_FiltersPlayers()
         {
             _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() };
 
             _sut.SetFilter(_stub.Out<IAnalyzablePokerPlayersFilter>());
             _sut.PlayerIdentitySet = _playerIdentityStub;
 
-            _sut.UpdateFrom(_stub.Out<IRepository>());
+            _sut.UpdateStatistics();
 
             _sut.MatchingPlayersWereFiltered.IsTrue();
         }
+
+
     }
 }

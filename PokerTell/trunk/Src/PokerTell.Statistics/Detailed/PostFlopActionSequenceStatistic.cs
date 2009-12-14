@@ -30,5 +30,10 @@ namespace PokerTell.Statistics.Detailed
                      select player1).ToList();
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0} ({1} position)", base.ToString(), _inPosition ? "in" : "out of");
+        }
     }
 }
