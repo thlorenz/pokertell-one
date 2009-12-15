@@ -8,7 +8,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 
     using Tools.WPF.ViewModels;
 
-    public class StatisticsSetSummaryViewModel : NotifyPropertyChanged
+    public class StatisticsSetSummaryViewModel : NotifyPropertyChanged, IStatisticsSetSummaryViewModel
     {
         public IList<IStatisticsSetSummaryRowViewModel> Rows { get;  private set; }
 
@@ -17,7 +17,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
             Rows = new List<IStatisticsSetSummaryRowViewModel>();
         }
 
-        public StatisticsSetSummaryViewModel UpdateWith(IActionSequenceStatisticsSet statisticsSet)
+        public IStatisticsSetSummaryViewModel UpdateWith(IActionSequenceStatisticsSet statisticsSet)
         {
             if (statisticsSet.ActionSequenceStatistics.Count() < 1)
             {

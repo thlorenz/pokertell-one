@@ -42,6 +42,9 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -75,12 +78,31 @@
     <Compile Include="Interfaces\IPlayerStatistics.cs" />
     <Compile Include="PlayerStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interfaces\IPostFlopStatisticsSetsViewModel.cs" />
+    <Compile Include="ViewModels\PostFlopStatisticsSetsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="Interfaces\IBarGraphViewModel.cs" />
     <Compile Include="Interfaces\IStatisticsSetSummaryRowViewModel.cs" />
+    <Compile Include="Interfaces\IStatisticsSetSummaryViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
+    <Page Include="Views\PostFlopStatisticsSetsViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StatisticsSetSummary\BarGraphViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsSetSummary\StatisticsSetSummaryRowViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StatisticsSetSummary\StatisticsSetSummaryViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Tools\Tools.csproj">

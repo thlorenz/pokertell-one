@@ -1,0 +1,44 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetSummary"
+    xmlns:Interfaces="clr-namespace:PokerTell.Statistics.Interfaces">
+
+  <DataTemplate x:Key="StatisticsSetSummaryRowViewTemplate" DataType="{x:Type Interfaces:IStatisticsSetSummaryRowViewModel}">
+
+    <DataTemplate.Resources>
+      <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+          <ResourceDictionary Source="BarGraphViewTemplate.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary>
+    </DataTemplate.Resources>
+
+    <Grid MaxHeight="25">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+
+      <!-- Action -->
+      <Label Grid.Row="0" Grid.Column="0" Content="{Binding ActionLetter}" VerticalAlignment="Center" />
+
+      <!-- Percentage -->
+      <Label Grid.Row="0"
+             Grid.Column="1"
+             Content="{Binding Percentage}"
+             Margin="5,0"
+             Foreground="Yellow"
+             VerticalAlignment="Center"
+             HorizontalAlignment="Left"
+             HorizontalContentAlignment="Right"/>
+
+      <!-- Graph -->
+      <ContentControl Grid.Row="0"
+                      Grid.Column="2"
+                      VerticalContentAlignment="Top"
+                      Content="{Binding BarGraph}"
+                      ContentTemplate="{StaticResource BarGraphViewTemplate}" />
+    </Grid>
+  </DataTemplate>
+</ResourceDictionary>

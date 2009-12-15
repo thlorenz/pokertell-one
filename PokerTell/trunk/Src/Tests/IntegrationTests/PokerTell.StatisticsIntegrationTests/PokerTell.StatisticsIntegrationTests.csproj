@@ -55,6 +55,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Nunit\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -67,12 +73,28 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignViewModels\PostFlopStatisticsSetsDesignModel.cs" />
+    <Compile Include="DesignViewTests.cs" />
+    <Compile Include="DesignWindows\PostFlopStatisticsSetsDesignWindow.xaml.cs">
+      <DependentUpon>PostFlopStatisticsSetsDesignWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DesignWindows\StatisticsSetSummaryDesignWindow.xaml.cs">
+      <DependentUpon>StatisticsSetSummaryDesignWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DesignViewModels\StatisticsSetSummaryDesignModel.cs" />
     <Compile Include="PlayerStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
+      <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
@@ -102,6 +124,16 @@
     <None Include="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DesignWindows\PostFlopStatisticsSetsDesignWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DesignWindows\StatisticsSetSummaryDesignWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
