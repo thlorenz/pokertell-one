@@ -4,7 +4,7 @@ namespace PokerTell.StatisticsIntegrationTests.DesignViewModels
 
     using Statistics.ViewModels;
 
-    internal class PostFlopStatisticsSetsDesignModel : PostFlopStatisticsSetsViewModel
+    public class PostFlopStatisticsSetsDesignModel : PostFlopStatisticsSetsViewModel
     {
         public PostFlopStatisticsSetsDesignModel(Streets street)
             : base(street)
@@ -22,6 +22,16 @@ namespace PokerTell.StatisticsIntegrationTests.DesignViewModels
 
             TotalCountOutOfPosition = 2345;
             TotalCountInPosition = 1003;
+        }
+
+        public int TotalCountOutOfPositionSet
+        {
+            set { TotalCountOutOfPosition = value; }
+        }
+
+        public int TotalCountInPositionSet
+        {
+            set { TotalCountInPosition = value; }
         }
     }
 }

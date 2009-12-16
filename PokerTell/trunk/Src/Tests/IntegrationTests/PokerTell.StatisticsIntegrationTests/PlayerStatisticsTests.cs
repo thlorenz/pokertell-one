@@ -2,6 +2,8 @@ namespace PokerTell.StatisticsIntegrationTests
 {
     using System;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Unity;
 
@@ -18,7 +20,6 @@ namespace PokerTell.StatisticsIntegrationTests
     using Repository.Interfaces;
     using Repository.NHibernate;
     using Statistics;
-    using Statistics.Interfaces;
 
     public class PlayerStatisticsTests : DatabaseConnectedPerformanceTests
     {
