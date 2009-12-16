@@ -1,9 +1,8 @@
-namespace PokerTell.Statistics.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System.Collections.Generic;
 
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
+    using PokerHand;
 
     public interface IPlayerStatistics
     {
@@ -27,9 +26,9 @@ namespace PokerTell.Statistics.Interfaces
 
         IPlayerIdentity PlayerIdentity { get; }
 
-        int TotalCountsPreFlopUnraisedPot { get; }
+        int TotalCountPreFlopUnraisedPot { get; }
 
-        int TotalCountsPreFlopRaisedPot { get; }
+        int TotalCountPreFlopRaisedPot { get; }
 
         IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter);
 
@@ -37,7 +36,7 @@ namespace PokerTell.Statistics.Interfaces
 
         /*  OverlayStatisticsTexts OverlayText { get; set; }
 
-          StatsFilterList Filter { get; } */
+          */
 
         IPlayerStatistics InitializePlayer(string playerName, string pokerSite);
     }

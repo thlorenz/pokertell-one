@@ -1,17 +1,13 @@
-namespace PokerTell.Statistics.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System.Collections.ObjectModel;
     using System.Windows.Media;
-
-    using Infrastructure.Interfaces;
-
-    using ViewModels.StatisticsSetSummary;
 
     public interface IBarGraphViewModel : IFluentInterface
     {
         Color[] BarColors { get; }
 
-        ObservableCollection<BarViewModel> Bars { get; }
+        ObservableCollection<IBarViewModel> Bars { get; }
 
         bool Visible { get; }
 

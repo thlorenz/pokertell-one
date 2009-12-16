@@ -1,10 +1,11 @@
-namespace PokerTell.Statistics.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System;
     using System.Collections.Generic;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
+    using Enumerations.PokerHand;
+
+    using PokerHand;
 
     using Tools.GenericRanges;
 

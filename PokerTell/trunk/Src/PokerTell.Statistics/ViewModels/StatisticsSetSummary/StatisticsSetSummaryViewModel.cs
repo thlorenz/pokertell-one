@@ -4,7 +4,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
     using System.Collections.Generic;
     using System.Linq;
 
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     using Tools.WPF.ViewModels;
 

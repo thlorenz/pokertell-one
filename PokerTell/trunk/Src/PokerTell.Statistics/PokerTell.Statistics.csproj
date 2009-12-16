@@ -68,25 +68,23 @@
     <Compile Include="Detailed\HeroCheckOrBetSetStatistics.cs" />
     <Compile Include="Detailed\SeparateRowsPercentagesCalculator.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilter.cs" />
-    <Compile Include="Interfaces\IAnalyzablePokerPlayersFilter.cs" />
     <Compile Include="Interfaces\IPercentagesCalculator.cs" />
-    <Compile Include="Interfaces\IActionSequenceStatisticsSet.cs" />
     <Compile Include="Detailed\PostFlopActionSequenceStatistic.cs" />
     <Compile Include="Detailed\PostFlopHeroXStatistic.cs" />
     <Compile Include="Detailed\PreFlopActionSequenceStatistic.cs" />
-    <Compile Include="Interfaces\IActionSequenceStatistic.cs" />
-    <Compile Include="Interfaces\IPlayerStatistics.cs" />
     <Compile Include="PlayerStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interfaces\IPostFlopStatisticsSetsViewModel.cs" />
+    <Compile Include="ViewModels\PlayerStatisticsViewModel.cs" />
     <Compile Include="ViewModels\PostFlopStatisticsSetsViewModel.cs" />
+    <Compile Include="ViewModels\PreFlopStatisticsSetsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
-    <Compile Include="Interfaces\IBarGraphViewModel.cs" />
-    <Compile Include="Interfaces\IStatisticsSetSummaryRowViewModel.cs" />
-    <Compile Include="Interfaces\IStatisticsSetSummaryViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
+    <Page Include="Views\PreFlopStatisticsSetsViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\PostFlopStatisticsSetsViewTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

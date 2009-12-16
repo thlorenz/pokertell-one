@@ -2,7 +2,9 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 {
     using System.Windows.Media;
 
-    public class BarViewModel
+    using Infrastructure.Interfaces.Statistics;
+
+    public class BarViewModel : IBarViewModel
     {
         public int Percentage { get; private set; }
 

@@ -1,10 +1,10 @@
-namespace PokerTell.Statistics.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System.Collections.Generic;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using Enumerations.PokerHand;
+
+    using PokerHand;
 
     public interface IActionSequenceStatistic : IFluentInterface
     {

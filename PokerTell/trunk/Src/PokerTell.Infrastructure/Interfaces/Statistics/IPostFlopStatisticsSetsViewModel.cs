@@ -1,8 +1,8 @@
-namespace PokerTell.Statistics.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System.Collections.Generic;
 
-    public interface IPostFlopStatisticsSetsViewModel : IEnumerable<IStatisticsSetSummaryViewModel>
+    public interface IPostFlopStatisticsSetsViewModel : IFluentInterface, IEnumerable<IStatisticsSetSummaryViewModel>
     {
         #region Properties
 

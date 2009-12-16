@@ -4,7 +4,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
     using System.Collections.ObjectModel;
     using System.Windows.Media;
 
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     public class BarGraphViewModel : IBarGraphViewModel
     {
@@ -22,7 +22,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
         public BarGraphViewModel(Color[] barColors)
         {
             _barColors = barColors;
-            Bars = new ObservableCollection<BarViewModel>();
+            Bars = new ObservableCollection<IBarViewModel>();
         }
 
         public Color[] BarColors
@@ -30,7 +30,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
             get { return _barColors; }
         }
 
-        public ObservableCollection<BarViewModel> Bars { get; private set; }
+        public ObservableCollection<IBarViewModel> Bars { get; private set; }
 
         public bool Visible { get; private set; }
 

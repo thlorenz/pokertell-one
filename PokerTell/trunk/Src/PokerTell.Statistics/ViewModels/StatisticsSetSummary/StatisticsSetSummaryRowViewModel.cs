@@ -1,7 +1,8 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 {
+    using Infrastructure.Interfaces.Statistics;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
-    using PokerTell.Statistics.Interfaces;
 
     using Tools.WPF.ViewModels;
 
@@ -48,7 +49,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 
         #region Public Methods
 
-        public StatisticsSetSummaryRowViewModel UpdateWith(int percentage, int[] percentagesByColumn)
+        public IStatisticsSetSummaryRowViewModel UpdateWith(int percentage, int[] percentagesByColumn)
         {
             Percentage = string.Format("{0}%", percentage);
             

@@ -1,37 +1,76 @@
 namespace PokerTell.Statistics.ViewModels
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
 
-    using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
 
-    using PokerTell.Statistics.Interfaces;
-
-    using System.Linq;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Statistics.ViewModels.StatisticsSetSummary;
 
     public class PostFlopStatisticsSetsViewModel : IPostFlopStatisticsSetsViewModel
     {
+        #region Constants and Fields
+
         readonly Streets _street;
 
-        public IStatisticsSetSummaryViewModel HeroXOrHeroBOutOfPositionStatisticsSet { get; protected set; }
+        #endregion
 
-        public IStatisticsSetSummaryViewModel HeroXOrHeroBInPositionStatisticsSet { get; protected set; }
-
-        public IStatisticsSetSummaryViewModel OppBIntoHeroOutOfPositionStatisticsSet { get; protected set; }
-
-        public IStatisticsSetSummaryViewModel OppBIntoHeroInPositionStatisticsSet { get; protected set; }
-
-        public IStatisticsSetSummaryViewModel HeroXOutOfPositionOppBStatisticsSet { get; protected set; }
-
-        public int TotalCountOutOfPosition { get; protected set; }
-
-        public int TotalCountInPosition { get; protected set; }
+        #region Constructors and Destructors
 
         public PostFlopStatisticsSetsViewModel(Streets street)
         {
             _street = street;
+
+            HeroXOrHeroBOutOfPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            OppBIntoHeroOutOfPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            HeroXOutOfPositionOppBStatisticsSet = new StatisticsSetSummaryViewModel();
+
+            HeroXOrHeroBInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            OppBIntoHeroInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
         }
+
+        #endregion
+
+        #region Properties
+
+        public IStatisticsSetSummaryViewModel HeroXOrHeroBInPositionStatisticsSet { get; protected set; }
+
+        public IStatisticsSetSummaryViewModel HeroXOrHeroBOutOfPositionStatisticsSet { get; protected set; }
+
+        public IStatisticsSetSummaryViewModel HeroXOutOfPositionOppBStatisticsSet { get; protected set; }
+
+        public IStatisticsSetSummaryViewModel OppBIntoHeroInPositionStatisticsSet { get; protected set; }
+
+        public IStatisticsSetSummaryViewModel OppBIntoHeroOutOfPositionStatisticsSet { get; protected set; }
+
+        public int TotalCountInPosition { get; protected set; }
+
+        public int TotalCountOutOfPosition { get; protected set; }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IEnumerable
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable<IStatisticsSetSummaryViewModel>
+
+        public IEnumerator<IStatisticsSetSummaryViewModel> GetEnumerator()
+        {
+            return GetAllStatisticsSets().GetEnumerator();
+        }
+
+        #endregion
+
+        #region IPostFlopStatisticsSetsViewModel
 
         public IPostFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
@@ -45,10 +84,11 @@ namespace PokerTell.Statistics.ViewModels
             return this;
         }
 
-        public IEnumerator<IStatisticsSetSummaryViewModel> GetEnumerator()
-        {
-            return GetAllStatisticsSets().GetEnumerator();
-        }
+        #endregion
+
+        #endregion
+
+        #region Methods
 
         IEnumerable<IStatisticsSetSummaryViewModel> GetAllStatisticsSets()
         {
@@ -63,6 +103,12 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
+        IEnumerable<IStatisticsSetSummaryViewModel> GetInPositionStatisticsSets()
+        {
+            yield return HeroXOrHeroBInPositionStatisticsSet;
+            yield return OppBIntoHeroInPositionStatisticsSet;
+        }
+
         IEnumerable<IStatisticsSetSummaryViewModel> GetOutOfPositionStatisticsSets()
         {
             yield return HeroXOrHeroBOutOfPositionStatisticsSet;
@@ -70,15 +116,6 @@ namespace PokerTell.Statistics.ViewModels
             yield return HeroXOutOfPositionOppBStatisticsSet;
         }
 
-        IEnumerable<IStatisticsSetSummaryViewModel> GetInPositionStatisticsSets()
-        {
-            yield return HeroXOrHeroBInPositionStatisticsSet;
-            yield return OppBIntoHeroInPositionStatisticsSet;
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        #endregion
     }
 }

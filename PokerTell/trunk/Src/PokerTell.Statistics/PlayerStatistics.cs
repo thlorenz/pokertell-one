@@ -5,6 +5,8 @@ namespace PokerTell.Statistics
     using System.Linq;
     using System.Text;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure;
@@ -94,12 +96,12 @@ namespace PokerTell.Statistics
             }
         }
 
-        public int TotalCountsPreFlopRaisedPot
+        public int TotalCountPreFlopRaisedPot
         {
             get { return PreFlopRaisedPot.TotalCounts.Sum(); }
         }
 
-        public int TotalCountsPreFlopUnraisedPot
+        public int TotalCountPreFlopUnraisedPot
         {
             get { return PreFlopUnraisedPot.TotalCounts.Sum(); }
         }
@@ -118,8 +120,8 @@ namespace PokerTell.Statistics
 
             sb.AppendLine("Total Counts: ")
                 .AppendLine("Preflop: ")
-                .AppendFormat("UnraisedPot: {0}   ", TotalCountsPreFlopUnraisedPot)
-                .AppendFormat("RaisedPot: {0}", TotalCountsPreFlopRaisedPot);
+                .AppendFormat("UnraisedPot: {0}   ", TotalCountPreFlopUnraisedPot)
+                .AppendFormat("RaisedPot: {0}", TotalCountPreFlopRaisedPot);
 
             sb.AppendLine("\nPostFlop:")
                 .Append("Out of Position: ");
