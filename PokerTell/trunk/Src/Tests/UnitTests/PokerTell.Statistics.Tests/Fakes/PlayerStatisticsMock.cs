@@ -4,6 +4,7 @@ namespace PokerTell.Statistics.Tests.Fakes
 
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
+    using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
 

@@ -6,6 +6,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
 

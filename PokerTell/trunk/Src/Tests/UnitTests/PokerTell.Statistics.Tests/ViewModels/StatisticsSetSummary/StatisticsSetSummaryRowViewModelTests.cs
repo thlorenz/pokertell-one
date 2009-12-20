@@ -1,8 +1,7 @@
 namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
 {
     using Infrastructure.Enumerations.PokerHand;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     using Moq;
 

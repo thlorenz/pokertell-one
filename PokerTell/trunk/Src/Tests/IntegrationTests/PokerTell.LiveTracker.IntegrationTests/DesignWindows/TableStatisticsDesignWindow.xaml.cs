@@ -10,13 +10,13 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
     /// <summary>
     /// Interaction logic for StatisticsSetSummaryDesignWindow.xaml
     /// </summary>
-    public partial class PlayerStatisticsDesignWindow : Window
+    public partial class TableStatisticsDesignWindow : Window
     {
         #region Constructors and Destructors
 
-        public PlayerStatisticsDesignWindow()
+        public TableStatisticsDesignWindow()
         {
-            DataContext = new PlayerStatisticsDesignModel();
+            DataContext = new TableStatisticsDesignModel();
             InitializeComponent();
         }
 

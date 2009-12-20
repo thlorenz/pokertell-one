@@ -1,4 +1,4 @@
-<Window x:Class="PokerTell.LiveTracker.IntegrationTests.DesignWindows.PlayerStatisticsDesignWindow"
+<Window x:Class="PokerTell.LiveTracker.IntegrationTests.DesignWindows.TableStatisticsDesignWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="SuperPlayers Table"
@@ -13,11 +13,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="C:\SD\PokerTell\Src\PokerTell\Resources\ExpressionDark.xaml"/>
-                <ResourceDictionary Source="pack://application:,,/PokerTell.LiveTracker;component/Views/PlayerStatisticsViewTemplate.xaml" />
+                <ResourceDictionary Source="pack://application:,,/PokerTell.LiveTracker;component/Views/TableStatisticsViewTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     <Viewbox>
-        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PlayerStatisticsViewTemplate}" />
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource TableStatisticsViewTemplate}" />
      </Viewbox>
 </Window>

@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AttachedCommandBehavior, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\AttachedCommandBehavior.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -57,6 +61,9 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UIAutomationProvider">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -68,6 +75,10 @@
     <Compile Include="Detailed\HeroCheckOrBetSetStatistics.cs" />
     <Compile Include="Detailed\SeparateRowsPercentagesCalculator.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilter.cs" />
+    <Compile Include="ViewModels\Filters\AnalyzablePokerPlayersFilterViewModel.cs" />
+    <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />
+    <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModel.cs" />
+    <Compile Include="ViewModels\Filters\RangeFilterViewModel.cs" />
     <Compile Include="Interfaces\IPercentagesCalculator.cs" />
     <Compile Include="Detailed\PostFlopActionSequenceStatistic.cs" />
     <Compile Include="Detailed\PostFlopHeroXStatistic.cs" />
@@ -81,6 +92,22 @@
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
+    <Page Include="Views\Filters\AnalyzablePokerPlayersFilterViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Filters\RangeFilterForInputsViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Filters\RangeFilterForSelectorsViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Filters\RangeFilterHeaderViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\PreFlopStatisticsSetsViewTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

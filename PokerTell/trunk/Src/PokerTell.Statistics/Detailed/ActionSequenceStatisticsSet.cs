@@ -6,6 +6,7 @@ namespace PokerTell.Statistics.Detailed
     using System.Text;
 
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
 

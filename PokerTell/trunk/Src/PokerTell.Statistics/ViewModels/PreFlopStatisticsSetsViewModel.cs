@@ -2,25 +2,44 @@ namespace PokerTell.Statistics.ViewModels
 {
     using System;
 
-    using Infrastructure.Interfaces.Statistics;
-
-    using StatisticsSetSummary;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.ViewModels.StatisticsSetSummary;
 
     public class PreFlopStatisticsSetsViewModel : IPreFlopStatisticsSetsViewModel
     {
-        public IStatisticsSetSummaryViewModel PreFlopUnraisedPotStatisticsSet { get; protected set; }
-
-        public IStatisticsSetSummaryViewModel PreFlopRaisedPotStatisticsSet { get; protected set; }
-
-        public int TotalCountPreFlopUnraisedPot { get; protected set; }
-
-        public int TotalCountPreFlopRaisedPot { get; protected set; }
+        #region Constructors and Destructors
 
         public PreFlopStatisticsSetsViewModel()
         {
-            PreFlopUnraisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
-            PreFlopRaisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
+            InitializeStatisticsSetSummaryViewModels();
+
+            RegisterEvents();
         }
+
+        #endregion
+
+        #region Events
+
+        public event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent = delegate { };
+
+        #endregion
+
+        #region Properties
+
+        public IStatisticsSetSummaryViewModel PreFlopRaisedPotStatisticsSet { get; protected set; }
+
+        public IStatisticsSetSummaryViewModel PreFlopUnraisedPotStatisticsSet { get; protected set; }
+
+        public int TotalCountPreFlopRaisedPot { get; protected set; }
+
+        public int TotalCountPreFlopUnraisedPot { get; protected set; }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IPreFlopStatisticsSetsViewModel
 
         public IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
@@ -32,5 +51,27 @@ namespace PokerTell.Statistics.ViewModels
 
             return this;
         }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        void InitializeStatisticsSetSummaryViewModels()
+        {
+            PreFlopUnraisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
+            PreFlopRaisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
+        }
+
+        protected void RegisterEvents()
+        {
+            PreFlopUnraisedPotStatisticsSet.StatisticsSetSelectedEvent +=
+                statisticsSet => SelectedStatisticsSetEvent(statisticsSet, Streets.PreFlop);
+            PreFlopRaisedPotStatisticsSet.StatisticsSetSelectedEvent +=
+                statisticsSet => SelectedStatisticsSetEvent(statisticsSet, Streets.PreFlop);
+        }
+
+        #endregion
     }
 }

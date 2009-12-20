@@ -1,5 +1,8 @@
 namespace PokerTell.Infrastructure.Enumerations.PokerHand
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Enumeration of all strategic Players Positions
     /// </summary>
@@ -46,5 +49,19 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         /// Button 			8			9
         /// </summary>
         BU
+    }
+
+    public static class StrategicPositionsUtility
+    {
+        public static IEnumerable<StrategicPositions> GetAllPositionsInOrder()
+        {
+            yield return StrategicPositions.SB;
+            yield return StrategicPositions.BB;
+            yield return StrategicPositions.EA;
+            yield return StrategicPositions.MI;
+            yield return StrategicPositions.LT;
+            yield return StrategicPositions.CO;
+            yield return StrategicPositions.BU;
+        }
     }
 }

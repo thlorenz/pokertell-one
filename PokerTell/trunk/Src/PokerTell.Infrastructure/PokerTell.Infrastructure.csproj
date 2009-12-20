@@ -149,9 +149,13 @@
     <Compile Include="Interfaces\Statistics\IActionSequenceStatistic.cs" />
     <Compile Include="Interfaces\Statistics\IActionSequenceStatisticsSet.cs" />
     <Compile Include="Interfaces\Statistics\IAnalyzablePokerPlayersFilter.cs" />
+    <Compile Include="Interfaces\Statistics\IAnalyzablePokerPlayersFilterViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IBarGraphViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IBarViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IPlayerStatistics.cs" />
+    <Compile Include="Interfaces\Statistics\IRangeFilterForInputsViewModel.cs" />
+    <Compile Include="Interfaces\Statistics\IRangeFilterForSelectorsViewModel.cs" />
+    <Compile Include="Interfaces\Statistics\IRangeFilterViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IPlayerStatisticsViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IPostFlopStatisticsSetsViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IPreFlopStatisticsSetsViewModel.cs" />

@@ -10,8 +10,7 @@ namespace PokerTell.Statistics.Tests
     using Infrastructure.Interfaces.DatabaseSetup;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     using Microsoft.Practices.Composite.Events;
 

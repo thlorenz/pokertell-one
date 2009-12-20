@@ -123,9 +123,7 @@
     <Compile Include="Serialization\XmlStandardSerializer.cs" />
     <Compile Include="StaticMethods.cs" />
     <Compile Include="WPF\Command\CommandAction.cs" />
-    <Compile Include="WPF\Command\CommandBehavior.cs" />
-    <Compile Include="WPF\Command\CommandBehaviorNoParam.cs" />
-    <Compile Include="WPF\Command\EventCommand.cs" />
+    <Compile Include="WPF\CommandBehavior.cs" />
     <Compile Include="WPF\Command\IWPFCommand.cs" />
     <Compile Include="WPF\Command\SimpleCommand.cs" />
     <Compile Include="WPF\Controls\ColorPicker\ColorPicker.cs" />
@@ -156,7 +154,6 @@
     <Compile Include="WPF\EventBehaviourFactory\ControlBehavior.cs" />
     <Compile Include="WPF\EventBehaviourFactory\EventBehaviourFactory.cs" />
     <Compile Include="WPF\EventBehaviourFactory\TextBoxBehaviour.cs" />
-    <Compile Include="WPF\InterActicityHack.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionView.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionViewModel.cs" />
     <Compile Include="WPF\Utilities.cs" />

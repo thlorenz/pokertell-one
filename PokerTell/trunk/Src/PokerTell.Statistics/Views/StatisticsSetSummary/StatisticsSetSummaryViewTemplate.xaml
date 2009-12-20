@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Interfaces="clr-namespace:PokerTell.Statistics.Interfaces"                      
-    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetSummary">
+    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetSummary"                      
+    xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"                      
+    >
 
     <DataTemplate x:Key="StatisticsSetSummaryViewTemplate" DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" >
         <!-- DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" -->
@@ -14,6 +16,9 @@
         </DataTemplate.Resources>
      <!-- Background="{DynamicResource LightToDarkToLightBorderBrush}" -->
         <Border MaxHeight="80" MaxWidth="75"
+             WPF:CommandBehavior.Event="MouseDown"
+             WPF:CommandBehavior.Command="{Binding SelectStatisticsSetCommand}"   
+             WPF:CommandBehavior.Parameter="and bound it!"   
              Background="#FF424141"
              CornerRadius="3"
              Margin="0,0"
@@ -28,6 +33,7 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
+           
         
             <ItemsControl ItemsSource="{Binding Rows}"
                 ItemTemplate="{StaticResource StatisticsSetSummaryRowViewTemplate}">
@@ -40,3 +46,5 @@
         </Border>
     </DataTemplate>
 </ResourceDictionary>
+    
+   

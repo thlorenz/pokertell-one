@@ -21,7 +21,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         GenericRangeFilter<StrategicPositions> StrategicPositionFilter { get; }
 
-        GenericRangeFilter<DateTime> TimeStampFilter { get; }
+        GenericRangeFilter<int> TimeRangeFilter { get; }
 
         GenericRangeFilter<int> TotalPlayersFilter { get; }
 

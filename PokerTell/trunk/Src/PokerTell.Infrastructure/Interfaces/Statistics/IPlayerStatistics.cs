@@ -2,6 +2,8 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System.Collections.Generic;
 
+    using Enumerations.PokerHand;
+
     using PokerHand;
 
     public interface IPlayerStatistics
@@ -20,9 +22,9 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IActionSequenceStatisticsSet PreFlopRaisedPot { get;  }
 
-        IEnumerable<int> TotalCountsOutOfPosition { get; }
+        int TotalCountsInPosition(Streets street);
 
-        IEnumerable<int> TotalCountsInPosition { get; }
+        int TotalCountsOutOfPosition(Streets street);
 
         IPlayerIdentity PlayerIdentity { get; }
 

@@ -1,5 +1,9 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
+    using System;
+
+    using Enumerations.PokerHand;
+
     public interface IPreFlopStatisticsSetsViewModel : IFluentInterface
     {
         IStatisticsSetSummaryViewModel PreFlopUnraisedPotStatisticsSet { get; }
@@ -11,5 +15,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         int TotalCountPreFlopRaisedPot { get; }
 
         IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
+
+        event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent;
     }
 }

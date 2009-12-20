@@ -1,10 +1,16 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
+    using System;
+
+    using Enumerations.PokerHand;
+
     public interface IPlayerStatisticsViewModel
     {
         #region Properties
 
         IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; }
+
+        string PlayerName { get; }
 
         IPreFlopStatisticsSetsViewModel PreFlopStatisticsSets { get; }
 
@@ -12,8 +18,14 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IPostFlopStatisticsSetsViewModel TurnStatisticsSets { get; }
 
+        #endregion
+
+        #region Public Methods
+
         IPlayerStatisticsViewModel UpdateWith(IPlayerStatistics playerStatistics);
 
         #endregion
+
+        event Action<string, IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent;
     }
 }

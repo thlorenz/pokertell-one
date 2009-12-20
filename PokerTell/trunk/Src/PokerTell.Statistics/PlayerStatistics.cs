@@ -70,30 +70,16 @@ namespace PokerTell.Statistics
 
         public IActionSequenceStatisticsSet PreFlopUnraisedPot { get; protected set; }
 
-        public IEnumerable<int> TotalCountsInPosition
+        public int TotalCountsInPosition(Streets street)
         {
-            get
-            {
-                for (Streets street = Streets.Flop; street <= Streets.River; street++)
-                {
-                    yield return
-                        HeroXOrHeroBInPosition[(int)street].TotalCounts.Sum() +
-                        OppBIntoHeroInPosition[(int)street].TotalCounts.Sum();
-                }
-            }
+            return HeroXOrHeroBInPosition[(int)street].TotalCounts.Sum() +
+                   OppBIntoHeroInPosition[(int)street].TotalCounts.Sum();
         }
 
-        public IEnumerable<int> TotalCountsOutOfPosition
+        public int TotalCountsOutOfPosition(Streets street)
         {
-            get
-            {
-                for (Streets street = Streets.Flop; street <= Streets.River; street++)
-                {
-                    yield return
-                        HeroXOrHeroBOutOfPosition[(int)street].TotalCounts.Sum() +
-                        OppBIntoHeroOutOfPosition[(int)street].TotalCounts.Sum();
-                }
-            }
+            return HeroXOrHeroBOutOfPosition[(int)street].TotalCounts.Sum() +
+                   OppBIntoHeroOutOfPosition[(int)street].TotalCounts.Sum();
         }
 
         public int TotalCountPreFlopRaisedPot
@@ -125,11 +111,17 @@ namespace PokerTell.Statistics
 
             sb.AppendLine("\nPostFlop:")
                 .Append("Out of Position: ");
-            TotalCountsOutOfPosition.ToList().ForEach(tc => sb.Append(tc.ToString() + ", "));
+            for (Streets street = Streets.Flop; street <= Streets.River; street++)
+            {
+                sb.Append(TotalCountsOutOfPosition(street) + ", ");
+            }
+
             sb.AppendLine()
                 .Append("In Position: ");
-            TotalCountsInPosition.ToList().ForEach(tc => sb.Append(tc.ToString() + ", "));
-
+           for (Streets street = Streets.Flop; street <= Streets.River; street++)
+            {
+                sb.Append(TotalCountsInPosition(street) + ", ");
+            }
             return sb.ToString();
         }
 

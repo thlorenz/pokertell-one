@@ -91,49 +91,58 @@ namespace PokerTell.UnitTests.Tools
             Assert.Throws(typeof(T), codeBlock.Invoke);
         }
 
-        public static void DoesContain<T>(this IList<T> me, T item)
+        public static IList<T> DoesContain<T>(this IList<T> me, T item)
         {
             Assert.That(me, Has.Some.EqualTo(item));
+            return me;
         }
 
-        public static void DoesNotContain<T>(this IList<T> me, T item)
+        public static IList<T> DoesNotContain<T>(this IList<T> me, T item)
         {
             Assert.That(me, Has.None.EqualTo(item));
+            return me;
         }
 
-        public static void DoesContain<T>(this IEnumerable<T> me, T item)
+        public static IEnumerable<T> DoesContain<T>(this IEnumerable<T> me, T item)
         {
             me.ToList().DoesContain(item);
+            return me;
         }
 
-        public static void DoesNotContain<T>(this IEnumerable<T> me, T item)
+        public static IEnumerable<T> DoesNotContain<T>(this IEnumerable<T> me, T item)
         {
             me.ToList().DoesNotContain(item);
+            return me;
         }
 
-        public static void DoesContain<T>(this IEnumerable<T> me, Func<T, bool> expected)
+        public static IEnumerable<T> DoesContain<T>(this IEnumerable<T> me, Func<T, bool> expected)
         {
             me.Single(expected).IsNotEqualTo(default(T));
+            return me;
         }
 
-        public static void DoesNotContain<T>(this IEnumerable<T> me, Func<T, bool> expected)
+        public static IEnumerable<T> DoesNotContain<T>(this IEnumerable<T> me, Func<T, bool> expected)
         {
             me.Single(expected).IsEqualTo(default(T));
+            return me;
         }
 
-        public static void IsEmpty<T>(this IEnumerable<T> me)
+        public static IEnumerable<T> IsEmpty<T>(this IEnumerable<T> me)
         {
             Assert.That(me, Is.Empty, "Contained " + me.Count() + " elements.");
+            return me;
         }
 
-        public static void IsNotEmpty<T>(this IEnumerable<T> me)
+        public static IEnumerable<T> IsNotEmpty<T>(this IEnumerable<T> me)
         {
             Assert.That(me, Is.Not.Empty);
+            return me;
         }
 
-        public static void HasCount<T>(this IEnumerable<T> me, int expectedCount)
+        public static IEnumerable<T> HasCount<T>(this IEnumerable<T> me, int expectedCount)
         {
             me.Count().IsEqualTo(expectedCount);
+            return me;
         }
 
         public static void IsEmpty(this ICollection collection)

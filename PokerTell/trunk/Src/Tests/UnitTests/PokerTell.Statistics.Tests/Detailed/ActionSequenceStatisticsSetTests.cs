@@ -4,6 +4,7 @@ namespace PokerTell.Statistics.Tests.Detailed
     using System.Linq.Expressions;
 
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
 

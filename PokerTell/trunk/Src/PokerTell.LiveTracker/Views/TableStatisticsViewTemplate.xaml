@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Statistics="clr-namespace:PokerTell.Infrastructure.Interfaces.Statistics;assembly=PokerTell.Infrastructure"
+    xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels"
     >
 
-    <DataTemplate x:Key="PlayerStatisticsViewTemplate" DataType="{x:Type Statistics:IPlayerStatisticsViewModel}" >
+    <DataTemplate x:Key="TableStatisticsViewTemplate" DataType="{x:Type ViewModels:TableStatisticsViewModel}" >
         <DataTemplate.Resources>
 
             <ResourceDictionary>
@@ -14,22 +14,28 @@
             </ResourceDictionary>
         </DataTemplate.Resources>
 
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <ListBox FontSize="10">
-                    <ListBoxItem Content="satina13"/>
-                    <ListBoxItem Content="renniweg"/>
-                    <ListBoxItem Content="Greystoke-11"/>
-                </ListBox>
-                <ContentControl Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <ListBox ItemsSource="{Binding Players}"
+                         SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"
+                         FontSize="10"/>
+                <ContentControl DataContext="{Binding SelectedPlayer}" Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
             </StackPanel>
-            <GroupBox Header="Investigator" MinHeight="110" />
-             <TabControl>
+            
+            <GroupBox Grid.Row="1" Header="Investigator" MinHeight="110" />
+            
+            <TabControl Grid.Row="2" DataContext="{Binding SelectedPlayer}">
                 <TabItem Header="Flop" Content="{Binding FlopStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                 <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                 <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
             </TabControl>
-        </StackPanel>
+        </Grid>
 
     </DataTemplate>
 </ResourceDictionary>

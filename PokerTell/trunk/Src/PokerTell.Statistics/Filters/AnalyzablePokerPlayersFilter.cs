@@ -4,7 +4,7 @@ namespace PokerTell.Statistics.Filters
     using System.Collections.Generic;
     using System.Linq;
 
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -24,7 +24,9 @@ namespace PokerTell.Statistics.Filters
             TotalPlayersFilter = new GenericRangeFilter<int>();
             PlayersInFlopFilter = new GenericRangeFilter<int>();
             StrategicPositionFilter = new GenericRangeFilter<StrategicPositions>();
-            TimeStampFilter = new GenericRangeFilter<DateTime>();
+            TimeRangeFilter = new GenericRangeFilter<int>();
+
+            _timeStampFilter = new GenericRangeFilter<DateTime>();
         }
 
         #endregion
@@ -41,7 +43,9 @@ namespace PokerTell.Statistics.Filters
 
         public GenericRangeFilter<StrategicPositions> StrategicPositionFilter { get; private set; }
 
-        public GenericRangeFilter<DateTime> TimeStampFilter { get; private set; }
+        readonly GenericRangeFilter<DateTime> _timeStampFilter;
+       
+        public GenericRangeFilter<int> TimeRangeFilter { get; private set; }
 
         public GenericRangeFilter<int> TotalPlayersFilter { get; private set; }
 
@@ -56,6 +60,8 @@ namespace PokerTell.Statistics.Filters
                 return analyzablePokerPlayers;
             }
             
+            ConvertTimeRangeFilterToTimeStampFilter();
+
             return
                 (from player in analyzablePokerPlayers
                  where
@@ -65,8 +71,16 @@ namespace PokerTell.Statistics.Filters
                      player.TotalPlayers.PassesThrough(TotalPlayersFilter) &&
                      player.PlayersInFlop.PassesThrough(PlayersInFlopFilter) &&
                      player.StrategicPosition.PassesThrough(StrategicPositionFilter) &&
-                     player.TimeStamp.PassesThrough(TimeStampFilter)
+                     player.TimeStamp.PassesThrough(_timeStampFilter)
                  select player).ToList();
+        }
+
+        void ConvertTimeRangeFilterToTimeStampFilter()
+        {
+            _timeStampFilter.Range = new GenericRange<DateTime>(
+                DateTime.Now.AddMinutes(-TimeRangeFilter.Range.MinValue), 
+                DateTime.Now.AddMinutes(-TimeRangeFilter.Range.MaxValue));
+            _timeStampFilter.IsActive = TimeRangeFilter.IsActive;
         }
 
         bool NoFilterIsActive()
@@ -78,7 +92,7 @@ namespace PokerTell.Statistics.Filters
                 TotalPlayersFilter.IsNotActive &&
                 PlayersInFlopFilter.IsNotActive &&
                 StrategicPositionFilter.IsNotActive &&
-                TimeStampFilter.IsNotActive;
+                TimeRangeFilter.IsNotActive;
         }
 
         #endregion

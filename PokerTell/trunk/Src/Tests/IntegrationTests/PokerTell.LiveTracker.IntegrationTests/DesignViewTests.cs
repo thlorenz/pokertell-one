@@ -11,7 +11,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
         [Test]
         public void PlayerStatisticsViewTemplate()
         {
-            var designWindow = new PlayerStatisticsDesignWindow();
+            var designWindow = new TableStatisticsDesignWindow();
             designWindow.ShowDialog();
         }
     }

@@ -33,6 +33,7 @@ namespace Tools.GenericRanges
         {
             IsActive = true;
             Range = new GenericRange<T>(min, max);
+            
             return this;
         }
     }

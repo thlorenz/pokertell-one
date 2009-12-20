@@ -6,8 +6,7 @@ namespace PokerTell.Statistics.Detailed
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     public abstract class ActionSequenceStatistic : IActionSequenceStatistic
     {

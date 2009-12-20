@@ -1,5 +1,8 @@
 namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
 {
+    using System;
+    using System.Linq;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Statistics.ViewModels;
     using PokerTell.StatisticsIntegrationTests.DesignViewModels;
@@ -8,26 +11,33 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
     {
         #region Constructors and Destructors
 
-        public PlayerStatisticsDesignModel()
+        public PlayerStatisticsDesignModel(string playerName, int flopOutCount, int turnOutCount, int riverOutCount, int flopInCount, int turnInCount, int riverInCount)
         {
+            PlayerName = playerName;
+
             PreFlopStatisticsSets = new PreFlopStatisticsSetsDesignModel();
 
             FlopStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.Flop)
                 {
-                    TotalCountOutOfPositionSet = 2001, 
-                    TotalCountInPositionSet = 1001
+                    TotalCountOutOfPositionSet = flopOutCount, 
+                    TotalCountInPositionSet = flopInCount
                 };
 
             TurnStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.Turn)
                 {
-                    TotalCountOutOfPositionSet = 502, 
-                    TotalCountInPositionSet = 402
+                    TotalCountOutOfPositionSet = turnOutCount, 
+                    TotalCountInPositionSet = turnInCount
                 };
             RiverStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.River)
                 {
-                    TotalCountOutOfPositionSet = 203, 
-                    TotalCountInPositionSet = 93
+                    TotalCountOutOfPositionSet = riverOutCount, 
+                    TotalCountInPositionSet = riverInCount
                 };
+            
+            RegisterEvents();
+
+            SelectedStatisticsSetEvent += (name, statisticsSet, street) => 
+                Console.WriteLine("{0} acted on {1}", name, street);
         }
 
         #endregion

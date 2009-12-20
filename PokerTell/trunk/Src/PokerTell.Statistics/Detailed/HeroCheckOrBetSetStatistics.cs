@@ -5,6 +5,7 @@ namespace PokerTell.Statistics.Detailed
     using System.Linq;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
 

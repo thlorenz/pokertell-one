@@ -4,8 +4,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
     using System.Collections.Generic;
 
     using Infrastructure.Enumerations.PokerHand;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     using Moq;
 
@@ -116,6 +115,24 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             _sut.UpdateWith(_statisticsSetStub.Object);
 
             statisticsSetRowMock.Verify(row => row.UpdateWith(_cumulativePercentages[0], statisticStub.Percentages));
+        }
+
+        [Test]
+        public void SelectStatisticsSetCommandExecute_WasUpdatedWithStatisticsSet_RaisesStatisticsSetSelectedEvent()
+        {
+            bool eventWasRaisedWithStatisticsSet = false;
+
+            _sut.StatisticsSetSelectedEvent += arg => eventWasRaisedWithStatisticsSet = arg == _statisticsSetStub.Object;
+
+            _statisticsSetStub
+               .SetupGet(ss => ss.ActionSequenceStatistics)
+               .Returns(new List<IActionSequenceStatistic> { _actionSequenceStatisticStub });
+
+            _sut.UpdateWith(_statisticsSetStub.Object);
+
+            _sut.SelectStatisticsSetCommand.Execute(null);
+
+            eventWasRaisedWithStatisticsSet.IsTrue();
         }
     }
 }

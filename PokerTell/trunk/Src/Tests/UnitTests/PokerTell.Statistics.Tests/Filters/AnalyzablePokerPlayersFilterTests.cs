@@ -5,8 +5,7 @@ namespace PokerTell.Statistics.Tests.Filters
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.Statistics;
 
     using Moq;
 
@@ -171,9 +170,9 @@ namespace PokerTell.Statistics.Tests.Filters
         }
 
         [Test]
-        public void Filter_OnlyTimeStampFilterActivated_ReturnsPlayersPassingThroughIt()
+        public void Filter_OnlyTimeRangeFilterActivated_ReturnsPlayersPassingThroughIt()
         {
-           DateTime max = new DateTime(1);
+           var max = new DateTime(1);
             var inRangePlayer = _stub.Setup<IAnalyzablePokerPlayer>()
                 .Get(ap => ap.TimeStamp).Returns(max)
                 .Out;
@@ -182,7 +181,7 @@ namespace PokerTell.Statistics.Tests.Filters
                 .Out;
             var players = new List<IAnalyzablePokerPlayer> { inRangePlayer, outOfRangePlayer };
 
-            _sut.TimeStampFilter.ActivateWith(DateTime.MinValue, max);
+         //   _sut.TimeStampFilter.ActivateWith(DateTime.MinValue, max);
 
             var filteredPlayers = _sut.Filter(players);
 

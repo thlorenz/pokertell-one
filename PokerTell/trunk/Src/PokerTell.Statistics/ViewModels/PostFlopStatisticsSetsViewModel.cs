@@ -1,11 +1,12 @@
 namespace PokerTell.Statistics.ViewModels
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
-
-    using Infrastructure.Interfaces.Statistics;
+    using System.Linq;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.ViewModels.StatisticsSetSummary;
 
     public class PostFlopStatisticsSetsViewModel : IPostFlopStatisticsSetsViewModel
@@ -22,13 +23,16 @@ namespace PokerTell.Statistics.ViewModels
         {
             _street = street;
 
-            HeroXOrHeroBOutOfPositionStatisticsSet = new StatisticsSetSummaryViewModel();
-            OppBIntoHeroOutOfPositionStatisticsSet = new StatisticsSetSummaryViewModel();
-            HeroXOutOfPositionOppBStatisticsSet = new StatisticsSetSummaryViewModel();
+            InitializeStatisticsSetSummaryViewModels();
 
-            HeroXOrHeroBInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
-            OppBIntoHeroInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            RegisterEvents();
         }
+
+        #endregion
+
+        #region Events
+
+        public event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent = delegate { };
 
         #endregion
 
@@ -76,11 +80,13 @@ namespace PokerTell.Statistics.ViewModels
         {
             HeroXOrHeroBOutOfPositionStatisticsSet.UpdateWith(playerStatistics.HeroXOrHeroBOutOfPosition[(int)_street]);
             OppBIntoHeroOutOfPositionStatisticsSet.UpdateWith(playerStatistics.OppBIntoHeroOutOfPosition[(int)_street]);
-            HeroXOrHeroBOutOfPositionStatisticsSet.UpdateWith(playerStatistics.HeroXOrHeroBOutOfPosition[(int)_street]);
+            HeroXOutOfPositionOppBStatisticsSet.UpdateWith(playerStatistics.HeroXOutOfPositionOppB[(int)_street]);
 
             HeroXOrHeroBInPositionStatisticsSet.UpdateWith(playerStatistics.HeroXOrHeroBInPosition[(int)_street]);
             OppBIntoHeroInPositionStatisticsSet.UpdateWith(playerStatistics.OppBIntoHeroInPosition[(int)_street]);
 
+            TotalCountOutOfPosition = playerStatistics.TotalCountsOutOfPosition(_street);
+            TotalCountInPosition = playerStatistics.TotalCountsInPosition(_street);
             return this;
         }
 
@@ -114,6 +120,25 @@ namespace PokerTell.Statistics.ViewModels
             yield return HeroXOrHeroBOutOfPositionStatisticsSet;
             yield return OppBIntoHeroOutOfPositionStatisticsSet;
             yield return HeroXOutOfPositionOppBStatisticsSet;
+        }
+
+        void InitializeStatisticsSetSummaryViewModels()
+        {
+            HeroXOrHeroBOutOfPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            OppBIntoHeroOutOfPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            HeroXOutOfPositionOppBStatisticsSet = new StatisticsSetSummaryViewModel();
+
+            HeroXOrHeroBInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+            OppBIntoHeroInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
+        }
+
+        protected void RegisterEvents()
+        {
+            foreach (var statisticsSetsSummary in this)
+            {
+                statisticsSetsSummary.StatisticsSetSelectedEvent +=
+                    statisticsSet => SelectedStatisticsSetEvent(statisticsSet, _street);
+            }
         }
 
         #endregion

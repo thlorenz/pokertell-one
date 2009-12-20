@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    
+    <DataTemplate x:Key="RangeFilterForInputsViewTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Min:" Margin="2"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding MinValue}" MinWidth="50"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Max:" Margin="2"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding MaxValue}" MinWidth="50"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

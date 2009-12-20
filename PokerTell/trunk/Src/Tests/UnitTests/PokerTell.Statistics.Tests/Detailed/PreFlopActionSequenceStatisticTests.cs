@@ -2,12 +2,13 @@ namespace PokerTell.Statistics.Tests.Detailed
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using NUnit.Framework;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Statistics.Detailed;
-    using PokerTell.Statistics.Interfaces;
     using PokerTell.Statistics.Tests.Factories;
     using PokerTell.UnitTests.Tools;
 

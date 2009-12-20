@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Statistics="clr-namespace:PokerTell.Infrastructure.Interfaces.Statistics;assembly=PokerTell.Infrastructure">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="C:\SD\PokerTell\Src\PokerTell\Resources\ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterHeaderViewTemplate.xaml" />
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForSelectorsViewTemplate.xaml" />
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForInputsViewTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate x:Key="AnalyzablePokerPlayersFilterViewTemplate" DataType="{x:Type Statistics:IAnalyzablePokerPlayersFilterViewModel}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+        
+            <!-- Total Players -->
+            <Expander
+                 Grid.Row="0"
+                 Content="{Binding}"
+                 ContentTemplate="{StaticResource RangeFilterForSelectorsViewTemplate}"
+                 DataContext="{Binding TotalPlayersFilter}"
+                 Header="{Binding}"
+                 HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"/>
+            <!-- Players in Flop -->
+            <Expander
+                 Grid.Row="1"
+                 Content="{Binding}"
+                 ContentTemplate="{StaticResource RangeFilterForSelectorsViewTemplate}"
+                 DataContext="{Binding PlayersInFlopFilter}"
+                 Header="{Binding}"
+                 HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"/>
+            <!-- Strategic Position -->
+            <Expander
+                 Grid.Row="2"
+                 Content="{Binding}"
+                 ContentTemplate="{StaticResource RangeFilterForSelectorsViewTemplate}"
+                 DataContext="{Binding StrategicPositionFilter}"
+                 Header="{Binding}"
+                 HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"/>
+            <!-- Ante -->
+            <Expander
+                 Grid.Row="3"
+                 Content="{Binding}"
+                 ContentTemplate="{StaticResource RangeFilterForInputsViewTemplate}"
+                 DataContext="{Binding AnteFilter}"
+                 Header="{Binding}"
+                 HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"/>
+            <!-- Big Blind -->
+            <Expander
+                 Grid.Row="4"
+                 Content="{Binding}"
+                 ContentTemplate="{StaticResource RangeFilterForInputsViewTemplate}"
+                 DataContext="{Binding BigBlindFilter}"
+                 Header="{Binding}"
+                 HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"/>
+            <!-- M -->
+            <Expander
+                 Grid.Row="5"
+                 Content="{Binding}"
+                 ContentTemplate="{StaticResource RangeFilterForInputsViewTemplate}"
+                 DataContext="{Binding MFilter}"
+                 Header="{Binding}"
+                 HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"/>
+                
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

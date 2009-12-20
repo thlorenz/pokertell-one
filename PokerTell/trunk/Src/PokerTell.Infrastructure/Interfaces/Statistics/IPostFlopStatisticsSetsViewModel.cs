@@ -1,6 +1,9 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
+    using System;
     using System.Collections.Generic;
+
+    using Enumerations.PokerHand;
 
     public interface IPostFlopStatisticsSetsViewModel : IFluentInterface, IEnumerable<IStatisticsSetSummaryViewModel>
     {
@@ -23,5 +26,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         #endregion
 
         IPostFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
+
+        event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent;
     }
 }

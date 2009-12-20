@@ -39,6 +39,8 @@
                     <StackPanel Grid.Row="0" Grid.Column="0">
                         <Label Content="Check or Bet" Style="{StaticResource HeaderLabelStyle}"/>
                         <ContentControl Content="{Binding HeroXOrHeroBOutOfPositionStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
+                        <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
+                        <Label Content="{Binding TotalCountOutOfPosition}" HorizontalContentAlignment="Center" FontSize="12"/>
                     </StackPanel>
                     <StackPanel Grid.Row="0" Grid.Column="1">
                         <Label Content="React to Bet" Style="{StaticResource HeaderLabelStyle}"/>
@@ -51,41 +53,29 @@
 
                 </Grid>
             </GroupBox>
-            <StackPanel Orientation="Horizontal">
-                <GroupBox Header="In Position" FontSize="9">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+            <GroupBox Header="In Position" FontSize="9">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="0" Grid.Column="0">
-                            <Label Content="Check or Bet" Style="{StaticResource HeaderLabelStyle}"/>
-                            <ContentControl Content="{Binding HeroXOrHeroBInPositionStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
-                        </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="1">
-                            <Label Content="React to Bet" Style="{StaticResource HeaderLabelStyle}"/>
-                            <ContentControl Content="{Binding OppBIntoHeroInPositionStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
-                        </StackPanel>
-                    </Grid>
-                </GroupBox>
-                <GroupBox Header="Total Counts" FontSize="9">
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <StackPanel Margin="0,0,0,10">
-                            <Label Style="{StaticResource HeaderLabelStyle}" Content="Out of Position"/>
-                            <Label Content="{Binding TotalCountOutOfPosition}" HorizontalContentAlignment="Center" FontSize="12"/>
-                        </StackPanel>
-                        <StackPanel>
-                            <Label Style="{StaticResource HeaderLabelStyle}" Content="In Position"/>
-                            <Label Content="{Binding TotalCountInPosition}" HorizontalContentAlignment="Center" FontSize="12"/>
-                        </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="0">
+                        <Label Content="Check or Bet" Style="{StaticResource HeaderLabelStyle}"/>
+                        <ContentControl Content="{Binding HeroXOrHeroBInPositionStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
+                        <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
+                        <Label Content="{Binding TotalCountInPosition}" HorizontalContentAlignment="Center" FontSize="12"/>
                     </StackPanel>
-                </GroupBox>
-            </StackPanel>
+                    <StackPanel Grid.Row="0" Grid.Column="1">
+                        <Label Content="React to Bet" Style="{StaticResource HeaderLabelStyle}"/>
+                        <ContentControl Content="{Binding OppBIntoHeroInPositionStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
 
         </StackPanel>
 
