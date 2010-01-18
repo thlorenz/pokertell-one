@@ -31,10 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AttachedCommandBehavior, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\AttachedCommandBehavior.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -67,6 +63,10 @@
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\WPF Toolkit\WPFToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Detailed\AcrossRowsPercentagesCalculator.cs" />
@@ -75,7 +75,11 @@
     <Compile Include="Detailed\HeroCheckOrBetSetStatistics.cs" />
     <Compile Include="Detailed\SeparateRowsPercentagesCalculator.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilter.cs" />
-    <Compile Include="ViewModels\Filters\AnalyzablePokerPlayersFilterViewModel.cs" />
+    <Compile Include="Filters\PlayerStatisticsService.cs" />
+    <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModel.cs" />
+    <Compile Include="ViewModels\AnalyzablePokerPlayersFilterViewModel.cs" />
+    <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />
+    <Compile Include="ViewModels\Filters\ValueViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterViewModel.cs" />
@@ -88,13 +92,38 @@
     <Compile Include="ViewModels\PlayerStatisticsViewModel.cs" />
     <Compile Include="ViewModels\PostFlopStatisticsSetsViewModel.cs" />
     <Compile Include="ViewModels\PreFlopStatisticsSetsViewModel.cs" />
+    <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsCellViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopActionStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopReactionStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsCellViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsRowViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedRaiseReactionStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
-    <Page Include="Views\Filters\AnalyzablePokerPlayersFilterViewTemplate.xaml">
+    <Compile Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml.cs">
+      <DependentUpon>AnalyzablePokerPlayersFilterAdjustmentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StatisticsSetDetails\DetailedStatisticsViewTemplate.xaml.cs">
+      <DependentUpon>DetailedStatisticsViewTemplate.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AnalyzablePokerPlayersFilterViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Filters\RangeFilterForInputsHeaderViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Filters\RangeFilterForInputsViewTemplate.xaml">
       <SubType>Designer</SubType>
@@ -104,7 +133,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Filters\RangeFilterHeaderViewTemplate.xaml">
+    <Page Include="Views\Filters\RangeFilterForSelectorsHeaderViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,9 +145,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\StatisticsSetDetails\DetailedDataGridStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\StatisticsSetSummary\BarGraphViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsSetDetails\DetailedStatisticsViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\StatisticsSetSummary\StatisticsSetSummaryRowViewTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>

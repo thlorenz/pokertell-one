@@ -2,6 +2,10 @@ namespace PokerTell.Statistics.Tests.Filters
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Linq;
+
+    using Fakes;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
@@ -13,6 +17,7 @@ namespace PokerTell.Statistics.Tests.Filters
 
     using Statistics.Filters;
 
+    using Tools.Extensions;
     using Tools.GenericRanges;
 
     using UnitTests.Tools;
@@ -20,7 +25,7 @@ namespace PokerTell.Statistics.Tests.Filters
     [TestFixture]
     public class AnalyzablePokerPlayersFilterTests
     {
-        IAnalyzablePokerPlayersFilter _sut;
+        AnalyzablePokerPlayersFilterTester _sut;
 
         StubBuilder _stub;
 
@@ -28,8 +33,8 @@ namespace PokerTell.Statistics.Tests.Filters
         public void _Init()
         {
             _stub = new StubBuilder();
-            
-            _sut = new AnalyzablePokerPlayersFilter();
+
+            _sut = new AnalyzablePokerPlayersFilterTester();
         }
 
         [Test]
@@ -170,18 +175,48 @@ namespace PokerTell.Statistics.Tests.Filters
         }
 
         [Test]
-        public void Filter_OnlyTimeRangeFilterActivated_ReturnsPlayersPassingThroughIt()
+        public void Filter_OnlyTimeRangeFilterActivatedOutOfRangePlayerActedBeforeTimeRange_ReturnsInRangePlayer()
         {
-           var max = new DateTime(1);
+            const int fromMinutes = -20;
+            const int toMinutes = 0;
+           
+            var currentTime = DateTime.MinValue.AddMinutes(60);
+
             var inRangePlayer = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.TimeStamp).Returns(max)
+                .Get(ap => ap.TimeStamp).Returns(currentTime)
                 .Out;
             var outOfRangePlayer = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.TimeStamp).Returns(max.AddSeconds(1))
+                .Get(ap => ap.TimeStamp).Returns(currentTime.AddMinutes(fromMinutes - 1))
                 .Out;
             var players = new List<IAnalyzablePokerPlayer> { inRangePlayer, outOfRangePlayer };
 
-         //   _sut.TimeStampFilter.ActivateWith(DateTime.MinValue, max);
+            _sut.CurrentTimeUsed = currentTime;
+           _sut.TimeRangeFilter.ActivateWith(fromMinutes, toMinutes);
+
+            var filteredPlayers = _sut.Filter(players);
+
+            filteredPlayers.DoesContain(inRangePlayer);
+            filteredPlayers.DoesNotContain(outOfRangePlayer);
+        }
+
+        [Test]
+        public void Filter_OnlyTimeRangeFilterActivatedOutOfRangePlayerActedAfterTimeRange_ReturnsInRangePlayer()
+        {
+            const int fromMinutes = -20;
+            const int toMinutes = 0;
+
+            var currentTime = DateTime.MinValue.AddMinutes(60);
+
+            var inRangePlayer = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.TimeStamp).Returns(currentTime)
+                .Out;
+            var outOfRangePlayer = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.TimeStamp).Returns(currentTime.AddMinutes(toMinutes + 1))
+                .Out;
+            var players = new List<IAnalyzablePokerPlayer> { inRangePlayer, outOfRangePlayer };
+
+            _sut.CurrentTimeUsed = currentTime;
+            _sut.TimeRangeFilter.ActivateWith(fromMinutes, toMinutes);
 
             var filteredPlayers = _sut.Filter(players);
 
@@ -219,6 +254,25 @@ namespace PokerTell.Statistics.Tests.Filters
             filteredPlayers.DoesNotContain(passesMFilter);
             filteredPlayers.DoesNotContain(passesBigBlindFilter);
             filteredPlayers.DoesContain(passesBothFilters);
+        }
+
+        [Test]
+        public void Equals_TwoIdenticalFilters_ReturnsTrue()
+        {
+            var filter1 = AnalyzablePokerPlayersFilter.InactiveFilter;
+            var filter2 = AnalyzablePokerPlayersFilter.InactiveFilter;
+
+            filter1.IsEqualTo(filter2);
+        }
+
+        [Test]
+        public void Equals_TwoFiltersWithDifferentMFilter_ReturnsFalse()
+        {
+            var filter1 = AnalyzablePokerPlayersFilter.InactiveFilter;
+            filter1.MFilter.IsActive = true;
+            var filter2 = AnalyzablePokerPlayersFilter.InactiveFilter;
+
+            filter1.IsNotEqualTo(filter2);
         }
     }
 }

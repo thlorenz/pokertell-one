@@ -6,7 +6,9 @@ namespace PokerTell.Statistics.ViewModels
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.ViewModels.StatisticsSetSummary;
 
-    public class PreFlopStatisticsSetsViewModel : IPreFlopStatisticsSetsViewModel
+    using Tools.WPF.ViewModels;
+
+    public class PreFlopStatisticsSetsViewModel : NotifyPropertyChanged, IPreFlopStatisticsSetsViewModel
     {
         #region Constructors and Destructors
 
@@ -31,9 +33,29 @@ namespace PokerTell.Statistics.ViewModels
 
         public IStatisticsSetSummaryViewModel PreFlopUnraisedPotStatisticsSet { get; protected set; }
 
-        public int TotalCountPreFlopRaisedPot { get; protected set; }
+        int _totalCountPreFlopRaisedPot;
 
-        public int TotalCountPreFlopUnraisedPot { get; protected set; }
+        public int TotalCountPreFlopRaisedPot
+        {
+            get { return _totalCountPreFlopRaisedPot; }
+            protected set
+            {
+                _totalCountPreFlopRaisedPot = value;
+                RaisePropertyChanged(() => TotalCountPreFlopRaisedPot);
+            }
+        }
+
+        int _totalCountPreFlopUnraisedPot;
+
+        public int TotalCountPreFlopUnraisedPot
+        {
+            get { return _totalCountPreFlopUnraisedPot; }
+            protected set
+            {
+                _totalCountPreFlopUnraisedPot = value;
+                RaisePropertyChanged(() => TotalCountPreFlopUnraisedPot);
+            }
+        }
 
         #endregion
 

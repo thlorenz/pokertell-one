@@ -29,7 +29,6 @@ namespace Tools.WPF.Converters
                 }
 
                 return header;
-            
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

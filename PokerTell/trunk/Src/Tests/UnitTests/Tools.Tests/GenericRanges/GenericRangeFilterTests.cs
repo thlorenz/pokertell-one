@@ -98,5 +98,38 @@ namespace Tools.Tests.GenericRanges
             _sut.Range.MinValue.IsEqualTo(min);
             _sut.Range.MaxValue.IsEqualTo(max);
         }
+
+        [Test]
+        public void Equals_TwoFiltersWithSameRangeAndBothActive_ReturnsTrue()
+        {
+            var genericRange = new GenericRange<int>(0, 1);
+            var rangeFilter1 = new GenericRangeFilter<int> { Range = genericRange, IsActive = true };
+            var rangeFilter2 = new GenericRangeFilter<int> { Range = genericRange, IsActive = true };
+
+            rangeFilter1.IsEqualTo(rangeFilter2);
+        }
+
+        [Test]
+        public void Equals_TwoFiltersWithSameRangeOneActiveOneInactive_ReturnsFalse()
+        {
+            var genericRange = new GenericRange<int>(0, 1);
+            var rangeFilter1 = new GenericRangeFilter<int> { Range = genericRange, IsActive = true };
+            var rangeFilter2 = new GenericRangeFilter<int> { Range = genericRange, IsActive = false };
+
+            rangeFilter1.IsNotEqualTo(rangeFilter2);
+        }
+
+        [Test]
+        public void Equals_TwoFiltersWithDifferentRangesAndBothActive_ReturnsFalse()
+        {
+            var genericRange1 = new GenericRange<int>(0, 1);
+            var genericRange2 = new GenericRange<int>(0, 2);
+            var rangeFilter1 = new GenericRangeFilter<int> { Range = genericRange1, IsActive = true };
+            var rangeFilter2 = new GenericRangeFilter<int> { Range = genericRange2, IsActive = true };
+
+            rangeFilter1.IsNotEqualTo(rangeFilter2);
+        }
+
+
     }
 }

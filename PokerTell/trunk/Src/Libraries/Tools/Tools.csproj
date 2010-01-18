@@ -89,6 +89,7 @@
     <Compile Include="ExecuteProcess.cs" />
     <Compile Include="Extensions\ArrayComparer.cs" />
     <Compile Include="Extensions\GenericRangeFilterExtension.cs" />
+    <Compile Include="Extensions\SequenceExtensions.cs" />
     <Compile Include="Extensions\NullSafe.cs" />
     <Compile Include="Extensions\GenericRangeExtension.cs" />
     <Compile Include="Extensions\ResExtension.cs" />

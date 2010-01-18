@@ -5,38 +5,41 @@ namespace PokerTell.Statistics.Detailed
     using System.Linq;
     using System.Text;
 
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Interfaces;
 
     public class ActionSequenceStatisticsSet : IActionSequenceStatisticsSet
     {
-        protected readonly IEnumerable<IActionSequenceStatistic> _statistics;
+        #region Constants and Fields
 
         protected readonly IPercentagesCalculator _percentagesCalculator;
 
+        protected readonly IEnumerable<IActionSequenceStatistic> _statistics;
+
         IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
 
-        public IActionSequenceStatisticsSet UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
-        {
-            _analyzablePokerPlayers = analyzablePokerPlayers;
-           
-            foreach (var statistic in _statistics)
-            {
-               statistic.UpdateWith(_analyzablePokerPlayers);
-            }
+        #endregion
 
-            CalculateIndividualPercentages();
-            CalculateCumulativePercentages();
-            
-            return this;
+        #region Constructors and Destructors
+
+        public ActionSequenceStatisticsSet(
+            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        {
+            _statistics = statistics;
+            _percentagesCalculator = percentagesCalculator;
         }
+
+        #endregion
+
+        #region Properties
 
         public virtual IEnumerable<IActionSequenceStatistic> ActionSequenceStatistics
         {
             get { return _statistics; }
         }
+
+        public int[] CumulativePercentagesByRow { get; private set; }
 
         public virtual int[] SumOfCountsByColumn
         {
@@ -48,45 +51,30 @@ namespace PokerTell.Statistics.Detailed
             get { return (from statistic in _statistics select statistic.TotalCounts).ToArray(); }
         }
 
-        public int[] CumulativePercentagesByRow { get; private set; }
+        #endregion
 
-        public ActionSequenceStatisticsSet(
-            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        #region Implemented Interfaces
+
+        #region IActionSequenceStatisticsSet
+
+        public IActionSequenceStatisticsSet UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
-            _statistics = statistics;
-            _percentagesCalculator = percentagesCalculator;
-        }
+            _analyzablePokerPlayers = analyzablePokerPlayers;
 
-        protected virtual void CalculateIndividualPercentages()
-        {
-            Func<int> getNumberOfRows = () => _statistics.Count();
-            
-            Func<int, int> getNumberOfColumnsAtRow = row => _statistics.ElementAt(row).MatchingPlayers.Length;
-            
-            Func<int, int, int> getCountAtRowColumn =
-                (row, col) => _statistics.ElementAt(row).MatchingPlayers[col].Count;
-
-            Action<int, int, int> setPercentageAtRowColumn =
-                (row, col, percentage) => _statistics.ElementAt(row).Percentages[col] = percentage;
-            
-            _percentagesCalculator.CalculatePercentages(getNumberOfRows,
-                                                        getNumberOfColumnsAtRow,
-                                                        getCountAtRowColumn,
-                                                        setPercentageAtRowColumn);
-        }
-
-        protected virtual void CalculateCumulativePercentages()
-        {
-            CumulativePercentagesByRow = new int[_statistics.Count()];
-            var sumOfTotalCounts = (from statistic in _statistics select statistic.TotalCounts).Sum();
-            
-            for (int row = 0; row < CumulativePercentagesByRow.Length; row++)
+            foreach (var statistic in _statistics)
             {
-                double percentage = (double)_statistics.ElementAt(row).TotalCounts / sumOfTotalCounts * 100;
-                double roundedPercentage = Math.Round(percentage, MidpointRounding.AwayFromZero);
-                CumulativePercentagesByRow[row] = (int) roundedPercentage;  
+                statistic.UpdateWith(_analyzablePokerPlayers);
             }
+
+            CalculateIndividualPercentages();
+            CalculateCumulativePercentages();
+
+            return this;
         }
+
+        #endregion
+
+        #region IFluentInterface
 
         public override string ToString()
         {
@@ -99,5 +87,51 @@ namespace PokerTell.Statistics.Detailed
             sb.AppendLine();
             return sb.ToString();
         }
+
+        #endregion
+
+        #endregion
+
+        #region Methods
+
+        protected virtual void CalculateCumulativePercentages()
+        {
+            CumulativePercentagesByRow = new int[_statistics.Count()];
+            var sumOfTotalCounts = (from statistic in _statistics select statistic.TotalCounts).Sum();
+
+            for (int row = 0; row < CumulativePercentagesByRow.Length; row++)
+            {
+                if (_statistics.ElementAt(row).TotalCounts == 0)
+                {
+                    CumulativePercentagesByRow[row] = 0;
+                }
+                else
+                {
+                    double percentage = (double)_statistics.ElementAt(row).TotalCounts / sumOfTotalCounts * 100;
+                    double roundedPercentage = Math.Round(percentage, MidpointRounding.AwayFromZero);
+                    CumulativePercentagesByRow[row] = (int)roundedPercentage;
+                }
+            }
+        }
+
+        protected virtual void CalculateIndividualPercentages()
+        {
+            Func<int> getNumberOfRows = () => _statistics.Count();
+
+            Func<int, int> getNumberOfColumnsAtRow = row => _statistics.ElementAt(row).MatchingPlayers.Length;
+
+            Func<int, int, int> getCountAtRowColumn =
+                (row, col) => _statistics.ElementAt(row).MatchingPlayers[col].Count;
+
+            Action<int, int, int> setPercentageAtRowColumn =
+                (row, col, percentage) => _statistics.ElementAt(row).Percentages[col] = percentage;
+
+            _percentagesCalculator.CalculatePercentages(getNumberOfRows, 
+                                                        getNumberOfColumnsAtRow, 
+                                                        getCountAtRowColumn, 
+                                                        setPercentageAtRowColumn);
+        }
+
+        #endregion
     }
 }

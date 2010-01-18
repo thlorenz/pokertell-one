@@ -5,5 +5,8 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
     public interface IRangeFilterForInputsViewModel<T> : IRangeFilterViewModel<T>
         where T : IComparable
     {
+        T MaxValue { get; set; }
+
+        T MinValue { get; set; }
     }
 }

@@ -3,6 +3,12 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
     using System;
     using System.Linq;
 
+    using Infrastructure.Interfaces.Statistics;
+
+    using Moq;
+
+    using PokerHand.Analyzation;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Statistics.ViewModels;
     using PokerTell.StatisticsIntegrationTests.DesignViewModels;
@@ -13,7 +19,10 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
 
         public PlayerStatisticsDesignModel(string playerName, int flopOutCount, int turnOutCount, int riverOutCount, int flopInCount, int turnInCount, int riverInCount)
         {
-            PlayerName = playerName;
+            PlayerStatistics = new StubBuilder()
+                .Setup<IPlayerStatistics>()
+                .Get(p => p.PlayerIdentity).Returns(new PlayerIdentity(playerName, "PokerStars"))
+                .Out;
 
             PreFlopStatisticsSets = new PreFlopStatisticsSetsDesignModel();
 

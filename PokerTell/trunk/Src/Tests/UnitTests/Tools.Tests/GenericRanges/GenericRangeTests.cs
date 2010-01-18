@@ -13,7 +13,9 @@ using Tools.GenericRanges;
 
 namespace Tools.Tests.GenericRanges
 {
-	[TestFixture]
+    using PokerTell.UnitTests.Tools;
+
+    [TestFixture]
 	public class GenericRangeTests
 	{
 		[Test] public void HandlesDoubles()
@@ -114,5 +116,40 @@ namespace Tools.Tests.GenericRanges
 	    {
 	        Assert.Throws<ArgumentException>(() => new GenericRange<int>(1, 0));
 	    }
+
+	    [Test]
+	    public void Equals_TwoRangesWithSameMinAndMax_ReturnsTrue()
+	    {
+	        const int min = 0;
+	        const int max = 1;
+            var genR1 = new GenericRange<int>(min, max);
+	        var genR2 = new GenericRange<int>(min, max);
+
+	        genR1.IsEqualTo(genR2);   
+	    }
+
+        [Test]
+        public void Equals_TwoRangesWithSameMinAndDifferentMax_ReturnsFalsee()
+        {
+            const int min = 0;
+            const int max = 1;
+        
+            var genR1 = new GenericRange<int>(min, max);
+            var genR2 = new GenericRange<int>(min, max + 1);
+
+            genR1.IsNotEqualTo(genR2);
+        }
+
+        [Test]
+        public void Equals_TwoRangesWithDifferentMinAndSameMax_ReturnsFalsee()
+        {
+            const int min = 0;
+            const int max = 1;
+
+            var genR1 = new GenericRange<int>(min, max);
+            var genR2 = new GenericRange<int>(min - 1, max);
+
+            genR1.IsNotEqualTo(genR2);
+        }
 	}
 }

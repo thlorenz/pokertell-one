@@ -232,7 +232,7 @@ namespace PokerTell.Statistics.Tests
                 .Setup(f => f.Filter(_sut.AnalyzablePlayers))
                 .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1 });
 
-            _sut.SetFilter(filterStub.Object);
+            _sut.Filter = filterStub.Object;
 
             var filteredPlayers = _sut.GetFilteredAnalyzablePlayersInvoke();
 
@@ -245,7 +245,7 @@ namespace PokerTell.Statistics.Tests
         {
             _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() };
 
-            _sut.SetFilter(_stub.Out<IAnalyzablePokerPlayersFilter>());
+            _sut.Filter = _stub.Out<IAnalyzablePokerPlayersFilter>();
             _sut.PlayerIdentitySet = _playerIdentityStub;
 
             _sut.UpdateStatistics();

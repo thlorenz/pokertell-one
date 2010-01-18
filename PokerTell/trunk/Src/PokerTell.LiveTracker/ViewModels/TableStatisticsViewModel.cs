@@ -4,17 +4,26 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows.Input;
 
+    using Microsoft.Practices.Composite.Events;
+
+    using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
+    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class TableStatisticsViewModel : NotifyPropertyChanged
     {
         #region Constants and Fields
 
+        readonly IEventAggregator _eventAggregator;
+
         readonly IConstructor<IPlayerStatisticsViewModel> _playerStatisticsViewModelMake;
+
+        ICommand _filterAdjustmentRequestedCommand;
 
         IPlayerStatisticsViewModel _selectedPlayer;
 
@@ -22,8 +31,10 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Constructors and Destructors
 
-        public TableStatisticsViewModel(IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
+        public TableStatisticsViewModel(
+            IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
         {
+            _eventAggregator = eventAggregator;
             _playerStatisticsViewModelMake = playerStatisticsViewModelMake;
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
         }
@@ -31,6 +42,25 @@ namespace PokerTell.LiveTracker.ViewModels
         #endregion
 
         #region Properties
+
+        public ICommand FilterAdjustmentRequestedCommand
+        {
+            get
+            {
+                return _filterAdjustmentRequestedCommand ?? (_filterAdjustmentRequestedCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg =>
+                                          _eventAggregator
+                                              .GetEvent<AdjustAnalyzablePokerPlayersFilterEvent>()
+                                              .Publish(new AdjustAnalyzablePokerPlayersFilterEventArgs(
+                                                           SelectedPlayer.PlayerName, 
+                                                           SelectedPlayer.Filter, 
+                                                           ApplyFilterTo, 
+                                                           ApplyFilterToAll)), 
+                        CanExecuteDelegate = arg => SelectedPlayer != null
+                    });
+            }
+        }
 
         public ObservableCollection<IPlayerStatisticsViewModel> Players { get; protected set; }
 
@@ -66,6 +96,21 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Methods
 
+        protected void ApplyFilterTo(string playerName, IAnalyzablePokerPlayersFilter adjustedFilter)
+        {
+            var playerToUpdate = Players.ToList().FirstOrDefault(p => p.PlayerName == playerName);
+
+            if (playerToUpdate != null)
+            {
+                playerToUpdate.Filter = adjustedFilter;
+            }
+        }
+
+        protected void ApplyFilterToAll(IAnalyzablePokerPlayersFilter adjustedFilter)
+        {
+            Players.ToList().ForEach(p => p.Filter = adjustedFilter);
+        }
+
         static List<IPlayerStatistics> ValidateAndConvertToList(IEnumerable<IPlayerStatistics> playersStatistics)
         {
             if (playersStatistics == null)
@@ -88,7 +133,10 @@ namespace PokerTell.LiveTracker.ViewModels
             {
                 matchingPlayer = _playerStatisticsViewModelMake.New;
                 matchingPlayer.SelectedStatisticsSetEvent += (name, statisticsSet, street) =>
-                    Console.WriteLine("Name: {0}, Street: {1} \n {2}", name, street, statisticsSet);
+                                                             Console.WriteLine("Name: {0}, Street: {1} \n {2}", 
+                                                                               name, 
+                                                                               street, 
+                                                                               statisticsSet);
                 Players.Add(matchingPlayer);
             }
 

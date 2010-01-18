@@ -5,6 +5,8 @@ namespace PokerTell.Statistics
     using System.Linq;
     using System.Text;
 
+    using Filters;
+
     using Infrastructure.Interfaces.Statistics;
 
     using Microsoft.Practices.Composite.Events;
@@ -27,7 +29,17 @@ namespace PokerTell.Statistics
 
         readonly IRepository _repository;
 
-        IAnalyzablePokerPlayersFilter _analyzablePokerPlayerFilter;
+        IAnalyzablePokerPlayersFilter _filter;
+
+        public IAnalyzablePokerPlayersFilter Filter
+        {
+            get { return _filter; }
+            set
+            {
+                _filter = value;
+                FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
+            }
+        }
 
         string _playerName;
 
@@ -48,6 +60,8 @@ namespace PokerTell.Statistics
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
 
             InitializeStatistics();
+
+            _filter = AnalyzablePokerPlayersFilter.InactiveFilter;
         }
 
         #endregion
@@ -122,6 +136,7 @@ namespace PokerTell.Statistics
             {
                 sb.Append(TotalCountsInPosition(street) + ", ");
             }
+
             return sb.ToString();
         }
 
@@ -183,13 +198,6 @@ namespace PokerTell.Statistics
             return this;
         }
 
-        public IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter)
-        {
-            _analyzablePokerPlayerFilter = filter;
-            FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
-            return this;
-        }
-
         public IPlayerStatistics UpdateStatistics()
         {
             ExtractPlayerIdentityIfItIsNullFrom(_repository);
@@ -212,9 +220,9 @@ namespace PokerTell.Statistics
 
         protected virtual IEnumerable<IAnalyzablePokerPlayer> GetFilteredAnalyzablePlayers()
         {
-            return _analyzablePokerPlayerFilter == null
+            return Filter == null
                        ? _allAnalyzablePlayers
-                       : _analyzablePokerPlayerFilter.Filter(_allAnalyzablePlayers);
+                       : Filter.Filter(_allAnalyzablePlayers);
         }
 
         protected virtual IActionSequenceStatisticsSet NewActionSequenceSetStatistics(

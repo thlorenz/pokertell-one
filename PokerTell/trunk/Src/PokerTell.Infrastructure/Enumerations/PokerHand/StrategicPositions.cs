@@ -53,15 +53,28 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
 
     public static class StrategicPositionsUtility
     {
+        public static IEnumerable<StrategicPositions> To(this StrategicPositions from, StrategicPositions to)
+        {
+            if (from < to)
+            {
+                while (from <= to)
+                {
+                    yield return from++;
+                }
+            }
+            else
+            {
+                while (from >= to)
+                {
+                    yield return from--;
+                }
+            }
+        }
+        
         public static IEnumerable<StrategicPositions> GetAllPositionsInOrder()
         {
-            yield return StrategicPositions.SB;
-            yield return StrategicPositions.BB;
-            yield return StrategicPositions.EA;
-            yield return StrategicPositions.MI;
-            yield return StrategicPositions.LT;
-            yield return StrategicPositions.CO;
-            yield return StrategicPositions.BU;
+            return StrategicPositions.SB.To(StrategicPositions.BU);
+            
         }
     }
 }

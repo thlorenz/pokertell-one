@@ -1,4 +1,4 @@
-//Date: 5/7/2009
+// Date: 5/7/2009
 
 namespace Tools.GenericRanges
 {
@@ -45,17 +45,25 @@ namespace Tools.GenericRanges
 
         public override bool Equals(object obj)
         {
-            if (obj == null)
+            if (ReferenceEquals(null, obj))
             {
                 return false;
             }
-
-            return GetHashCode().Equals(obj.GetHashCode());
+           
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            
+            return obj.GetType() == GetType() && Equals((GenericRange<T>)obj);
         }
 
         public override int GetHashCode()
         {
-            return MinValue.GetHashCode() ^ MaxValue.GetHashCode();
+            unchecked
+            {
+                return (MaxValue.GetHashCode() * 397) ^ MinValue.GetHashCode();
+            }
         }
 
         public bool IncludesValue(IComparable value)
@@ -64,6 +72,21 @@ namespace Tools.GenericRanges
             bool isSmallerOrEqualToMax = value.CompareTo(MaxValue) <= 0;
 
             return isGreaterOrEqualToMin && isSmallerOrEqualToMax;
+        }
+
+        public bool Equals(GenericRange<T> other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            
+            return Equals(other.MaxValue, MaxValue) && Equals(other.MinValue, MinValue);
         }
 
         public override string ToString()

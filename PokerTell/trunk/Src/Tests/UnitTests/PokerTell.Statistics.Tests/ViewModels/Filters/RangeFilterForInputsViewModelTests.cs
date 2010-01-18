@@ -12,19 +12,19 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
 
     using UnitTests.Tools;
 
-    public class RangeFilterViewModelTests
+    public class RangeFilterForInputsViewModelTests
     {
         protected const int MinValue = 1;
 
         protected const int MaxValue = 3;
 
-        RangeFilterViewModel<int> _sut;
+        RangeFilterForInputsViewModel<int> _sut;
 
         [SetUp]
         public void _Init()
         {
             var rangeFilter = new GenericRangeFilter<int>().ActivateWith(MinValue, MaxValue);
-            _sut = GetRangeFilterViewModel(rangeFilter);
+            _sut = new RangeFilterForInputsViewModel<int>(rangeFilter, "someName");
         }
 
         [Test]
@@ -85,11 +85,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         {
             _sut.MaxValue = MinValue - 1;
             _sut.MinValue.IsEqualTo(_sut.MaxValue);
-        }
-
-        protected virtual RangeFilterViewModel<int> GetRangeFilterViewModel(GenericRangeFilter<int> rangeFilter)
-        {
-            return new RangeFilterViewModel<int>(rangeFilter, "someName");
         }
     }
 }

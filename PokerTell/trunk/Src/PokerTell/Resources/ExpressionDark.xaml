@@ -12,11 +12,14 @@
   mc:Ignorable="d"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
+
     <!-- PokerTell MainColors -->
     <Color x:Key="LightBorderColor">#FF716F6F</Color>
+	<Color x:Key="MediumBorderColor">#FF404040</Color>
     <Color x:Key="DarkBorderColor">#FF3C3C3C</Color>
 
     <SolidColorBrush x:Key="LightBorderBrush" Color="{StaticResource LightBorderColor}" />
+	<SolidColorBrush x:Key="MediumBorderBrush" Color="{StaticResource MediumBorderColor}" />
     <SolidColorBrush x:Key="DarkBorderBrush" Color="{StaticResource DarkBorderColor}" />
 
     <LinearGradientBrush x:Key="DarkToLightBorderBrush" EndPoint="0.5, 1" StartPoint="0.5,0" SpreadMethod="Reflect">
@@ -99,8 +102,10 @@
 
     <SolidColorBrush x:Key="DefaultedBorderBrush" Color="{StaticResource DefaultColor}" />
     <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
-
-
+		
+	
+  
+  
     <Style x:Key="NuclearButtonFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>

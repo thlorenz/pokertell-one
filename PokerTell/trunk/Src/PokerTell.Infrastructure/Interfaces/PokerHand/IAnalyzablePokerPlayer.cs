@@ -3,7 +3,10 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System;
 
     using Enumerations.PokerHand;
-
+    
+    /// <summary>
+    /// Summarizes the situation and actions of a PokerPlayer during a hand
+    /// </summary>
     public interface IAnalyzablePokerPlayer
     {
         int HandId { get; }

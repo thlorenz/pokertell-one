@@ -3,6 +3,10 @@ namespace PokerTell.LiveTracker.Tests
     using System;
     using System.Collections.Generic;
 
+    using Infrastructure.Events;
+
+    using Microsoft.Practices.Composite.Events;
+
     using Moq;
 
     using NUnit.Framework;
@@ -21,7 +25,9 @@ namespace PokerTell.LiveTracker.Tests
 
         StubBuilder _stub;
 
-        TableStatisticsViewModel _sut;
+        TableStatisticsViewModelTester _sut;
+
+        IEventAggregator _eventAggregator;
 
         #endregion
 
@@ -35,8 +41,9 @@ namespace PokerTell.LiveTracker.Tests
             _playerStatisticsViewModelMakeStub
                 .SetupGet(make => make.New)
                 .Returns(_stub.Out<IPlayerStatisticsViewModel>);
-
-            _sut = new TableStatisticsViewModel(_playerStatisticsViewModelMakeStub.Object);
+            
+            _eventAggregator = new EventAggregator();
+            _sut = new TableStatisticsViewModelTester(_eventAggregator, _playerStatisticsViewModelMakeStub.Object);
         }
 
         [Test]
@@ -147,7 +154,92 @@ namespace PokerTell.LiveTracker.Tests
             player1Mock.Verify(p => p.UpdateWith(player1Statistics));
         }
 
-        #endregion
+        [Test]
+        public void FilterAdjustmentCommand_OnePlayer_RaisesFilterAdjustmentEventWithNameOfSelectedPlayer()
+        {
+            const string player1 = "player1";
+            _sut.SelectedPlayer = PlayerMockFor(player1).Object;
+            
+            bool eventFiredWithCorrectName = false;
+            _eventAggregator
+                .GetEvent<AdjustAnalyzablePokerPlayersFilterEvent>()
+                .Subscribe(args => eventFiredWithCorrectName = args.PlayerName == player1);
+
+            _sut.FilterAdjustmentRequestedCommand.Execute(null);
+            
+            eventFiredWithCorrectName.IsTrue();
+        }
+
+        [Test]
+        public void FilterAdjustmentCommand_OnePlayer_RaisesFilterAdjustmentEventWithFilterOfSelectedPlayer()
+        {
+            const string player1 = "player1";
+            var filterStub = new Mock<IAnalyzablePokerPlayersFilter>();
+            var player1Stub = PlayerMockFor(player1);
+            player1Stub.SetupGet(p => p.Filter).Returns(filterStub.Object);
+
+            _sut.SelectedPlayer = player1Stub.Object;
+
+            bool eventFiredWithCorrectName = false;
+            _eventAggregator
+                .GetEvent<AdjustAnalyzablePokerPlayersFilterEvent>()
+                .Subscribe(args => eventFiredWithCorrectName = args.CurrentFilter == filterStub.Object);
+
+            _sut.FilterAdjustmentRequestedCommand.Execute(null);
+
+            eventFiredWithCorrectName.IsTrue();
+        }
+
+        [Test]
+        public void ApplyFilterTo_Player1TwoPlayersAtTable_AppliesFilterToPlayer1()
+        {
+            const string player1 = "player1";
+            const string player2 = "player2";
+
+            var player1Mock = AddPlayerMock(player1);
+            AddPlayerMock(player2);
+
+            var filterStub = _stub.Out<IAnalyzablePokerPlayersFilter>();
+
+            _sut.ApplyFilterToInvoke(player1, filterStub);
+
+            player1Mock.VerifySet(p => p.Filter = filterStub);
+        }
+
+        [Test]
+        public void ApplyFilterTo_Player1TwoPlayersAtTable_DoesNotApplyFilterToPlayer2()
+        {
+            const string player1 = "player1";
+            const string player2 = "player2";
+
+            AddPlayerMock(player1);
+            var player2Mock  = AddPlayerMock(player2);
+
+            var filterStub = _stub.Out<IAnalyzablePokerPlayersFilter>();
+
+            _sut.ApplyFilterToInvoke(player1, filterStub);
+
+            player2Mock.VerifySet(p => p.Filter = filterStub, Times.Never());
+        }
+
+        [Test]
+        public void ApplyFilterToAll_TwoPlayersAtTable_AppliesFilterToBothPlayers()
+        {
+            const string player1 = "player1";
+            const string player2 = "player2";
+
+            var player1Mock = AddPlayerMock(player1);
+            var player2Mock = AddPlayerMock(player2);
+
+            var filterStub = _stub.Out<IAnalyzablePokerPlayersFilter>();
+
+            _sut.ApplyFilterToAllInvoke(filterStub);
+
+            player1Mock.VerifySet(p => p.Filter = filterStub);
+            player2Mock.VerifySet(p => p.Filter = filterStub);
+        }
+
+       #endregion
 
         #region Methods
 
@@ -175,5 +267,23 @@ namespace PokerTell.LiveTracker.Tests
         }
 
         #endregion
+
+        class TableStatisticsViewModelTester : TableStatisticsViewModel
+        {
+            public TableStatisticsViewModelTester(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
+                : base(eventAggregator, playerStatisticsViewModelMake)
+            {
+            }
+
+            public void ApplyFilterToInvoke(string playerName, IAnalyzablePokerPlayersFilter filter)
+            {
+                ApplyFilterTo(playerName, filter);
+            }
+
+            public void ApplyFilterToAllInvoke(IAnalyzablePokerPlayersFilter filter)
+            {
+                ApplyFilterToAll(filter);
+            }
+        }
     }
 }

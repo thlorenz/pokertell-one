@@ -18,6 +18,12 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IRangeFilterForInputsViewModel<int> MFilter { get;  }
 
+        IRangeFilterForSelectorsViewModel<int> TimeRangeFilter { get; }
+
+        IRangeFilterForSelectorsViewModel<string> TimeRangeFilterDisplay { get; }
+
+        IAnalyzablePokerPlayersFilter CurrentFilter { get; }
+
         #endregion
     }
 }

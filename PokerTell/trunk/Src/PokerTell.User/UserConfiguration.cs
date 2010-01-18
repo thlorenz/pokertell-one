@@ -1,10 +1,9 @@
-using System.Configuration;
-
-using PokerTell.Infrastructure.Interfaces;
-
 namespace PokerTell.User
 {
-    using Infrastructure;
+    using System.Configuration;
+
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces;
 
     public class UserConfiguration : IUserConfiguration
     {
@@ -23,9 +22,8 @@ namespace PokerTell.User
             // Map the new configuration file.
             var configFileMap =
                 new ExeConfigurationFileMap { ExeConfigFilename = configFile };
-            
-            // Get the mapped configuration file
 
+            // Get the mapped configuration file
             _config = ConfigurationManager.OpenMappedExeConfiguration(
                 configFileMap, ConfigurationUserLevel.None);
         }
@@ -34,20 +32,28 @@ namespace PokerTell.User
 
         #region Properties
 
-        public ConnectionStringSettingsCollection ConnectionStrings
-        {
-            get { return _config.ConnectionStrings.ConnectionStrings;  }
-        }
-
         public KeyValueConfigurationCollection AppSettings
         {
             get { return _config.AppSettings.Settings; }
         }
 
+        public ConnectionStringSettingsCollection ConnectionStrings
+        {
+            get { return _config.ConnectionStrings.ConnectionStrings; }
+        }
+
+        #endregion
+
+        #region Implemented Interfaces
+
+        #region IUserConfiguration
+
         public void Save(ConfigurationSaveMode saveMode)
         {
             _config.Save(saveMode);
         }
+
+        #endregion
 
         #endregion
     }

@@ -1,6 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
     /// <summary>
@@ -14,11 +15,11 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         /// <summary>
         /// Values that the user can choose to use as MinValue
         /// </summary>
-        ObservableCollection<T> AvailableMinValues { get; }
+        IList<IValueViewModel<T>> AvailableMinItems { get; }
 
         /// <summary>
         /// Values that the user can choose to use as MaxValue
         /// </summary>
-        ObservableCollection<T> AvailableMaxValues { get; }
+        IList<IValueViewModel<T>> AvailableMaxItems { get; }
     }
 }

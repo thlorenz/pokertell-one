@@ -10,6 +10,7 @@
                 <ResourceDictionary.MergedDictionaries>
                      <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
                      <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
+                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -27,6 +28,8 @@
                          FontSize="10"/>
                 <ContentControl DataContext="{Binding SelectedPlayer}" Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
             </StackPanel>
+           
+            
             
             <GroupBox Grid.Row="1" Header="Investigator" MinHeight="110" />
             
@@ -35,6 +38,16 @@
                 <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                 <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
             </TabControl>
+            
+            <Button Grid.Row="2"
+                    Command="{Binding FilterAdjustmentRequestedCommand}" 
+                    Content="Filter"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Right"
+                    Padding="5, 3"
+                    Margin="0"
+                    MaxHeight="22"/>
+            
         </Grid>
 
     </DataTemplate>

@@ -32,7 +32,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         int TotalCountPreFlopRaisedPot { get; }
 
-        IPlayerStatistics SetFilter(IAnalyzablePokerPlayersFilter filter);
+        IAnalyzablePokerPlayersFilter Filter { get; set; }
 
         IPlayerStatistics UpdateStatistics();
 

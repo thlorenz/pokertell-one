@@ -18,6 +18,10 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IPostFlopStatisticsSetsViewModel TurnStatisticsSets { get; }
 
+        IPlayerStatistics PlayerStatistics { get; }
+
+        IAnalyzablePokerPlayersFilter Filter { get; set; }
+
         #endregion
 
         #region Public Methods

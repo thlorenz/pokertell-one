@@ -7,22 +7,17 @@ namespace PokerTell.Statistics.ViewModels.Filters
     using Tools.GenericRanges;
     using Tools.WPF.ViewModels;
 
-    public class RangeFilterViewModel<T> : NotifyPropertyChanged, IRangeFilterViewModel<T>
+    public abstract class RangeFilterViewModel<T> : NotifyPropertyChanged, IRangeFilterViewModel<T>
         where T : IComparable
     {
         bool _isActive;
-
-        T _minValue;
-
-        T _maxValue;
 
         public string FilterName { get; set; }
 
         public RangeFilterViewModel(GenericRangeFilter<T> genericRangeFilter, string filterName)
         {
             IsActive = genericRangeFilter.IsActive;
-            MinValue = genericRangeFilter.Range.MinValue;
-            MaxValue = genericRangeFilter.Range.MaxValue;
+            
             FilterName = filterName;
         }
 
@@ -36,43 +31,9 @@ namespace PokerTell.Statistics.ViewModels.Filters
             }
         }
 
-        public T MinValue
-        {
-            get { return _minValue; }
-            set
-            {
-                _minValue = value;
-                AdjustToNewMinValue();
-                RaisePropertyChanged(() => MinValue);
-            }
-        }
-
-        public T MaxValue
-        {
-            get { return _maxValue; }
-            set
-            {
-                _maxValue = value;
-                AdjustToNewMaxValue();
-                RaisePropertyChanged(() => MaxValue);
-            }
-        }
-
-        protected virtual void AdjustToNewMinValue()
-        {
-            if (MaxValue.CompareTo(MinValue) < 0)
-            {
-                MaxValue = MinValue;
-            }
-        }
-
-        protected virtual void AdjustToNewMaxValue()
-        {
-            if (MinValue.CompareTo(MaxValue) > 0)
-            {
-                MinValue = MaxValue;
-            }
-        }
-       
+        /// <summary>
+        /// Returns a filter according to the values currently selected by the user
+        /// </summary>
+        public abstract GenericRangeFilter<T> CurrentFilter { get; }
     }
 }

@@ -9,7 +9,9 @@ namespace PokerTell.Statistics.ViewModels
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.ViewModels.StatisticsSetSummary;
 
-    public class PostFlopStatisticsSetsViewModel : IPostFlopStatisticsSetsViewModel
+    using Tools.WPF.ViewModels;
+
+    public class PostFlopStatisticsSetsViewModel : NotifyPropertyChanged, IPostFlopStatisticsSetsViewModel
     {
         #region Constants and Fields
 
@@ -48,9 +50,29 @@ namespace PokerTell.Statistics.ViewModels
 
         public IStatisticsSetSummaryViewModel OppBIntoHeroOutOfPositionStatisticsSet { get; protected set; }
 
-        public int TotalCountInPosition { get; protected set; }
+        int _totalCountInPosition;
 
-        public int TotalCountOutOfPosition { get; protected set; }
+        public int TotalCountInPosition
+        {
+            get { return _totalCountInPosition; }
+            protected set
+            {
+                _totalCountInPosition = value;
+                RaisePropertyChanged(() => TotalCountInPosition);
+            }
+        }
+
+        int _totalCountOutOfPosition;
+
+        public int TotalCountOutOfPosition
+        {
+            get { return _totalCountOutOfPosition; }
+            protected set
+            {
+                _totalCountOutOfPosition = value;
+                RaisePropertyChanged(() => TotalCountOutOfPosition);
+            }
+        }
 
         #endregion
 

@@ -132,6 +132,21 @@ namespace PokerTell.Statistics.Tests.Detailed
         }
 
         [Test]
+        public void CalculateCumulativePercentages_TotalCount1_0_TotalCount2_0_Sets_Perc1_0_Perc2_0()
+        {
+            const int TotalCount1 = 0;
+            const int TotalCount2 = 0;
+
+            var sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(TotalCount1, TotalCount2);
+
+            sut.CalculateCumulativePercentagesInvoke();
+
+            sut.CumulativePercentagesByRow[0].IsEqualTo(0);
+            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
+        }
+
+
+        [Test]
         public void CalculateCumulativePercentages_TotalCount1_1_TotalCount2_0_Sets_Perc1_100_Perc2_0()
         {
             const int TotalCount1 = 1;

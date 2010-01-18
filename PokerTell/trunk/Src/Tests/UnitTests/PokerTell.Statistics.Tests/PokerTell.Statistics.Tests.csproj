@@ -50,6 +50,9 @@
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="PresentationFramework">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,12 +79,15 @@
     <Compile Include="Detailed\PreFlopActionSequenceStatisticTests.cs" />
     <Compile Include="Detailed\SeparateRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Factories\Samples.cs" />
+    <Compile Include="Fakes\AnalyzablePokerPlayersFilterTester.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilterTests.cs" />
     <Compile Include="Fakes\PlayerStatisticsMock.cs" />
     <Compile Include="PlayerStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
-    <Compile Include="ViewModels\Filters\RangeFilterViewModelTests.cs" />
+    <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
+    <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModelTests.cs" />

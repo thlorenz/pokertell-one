@@ -27,6 +27,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
     using Repository;
 
     using Statistics;
+    using Statistics.Filters;
     using Statistics.ViewModels;
 
     using ViewModels;
@@ -87,11 +88,11 @@ namespace PokerTell.LiveTracker.IntegrationTests
             renniweg.InitializePlayer("renniweg", PokerStars)
                 .UpdateStatistics();
 
+            var eventAggregator = new EventAggregator();
+            new PlayerStatisticsService(eventAggregator);
 
-            var tableStatisticsViewModel = new TableStatisticsViewModel(
-               new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()));
-
-            var designWindow = new TableStatisticsDesignWindow { DataContext = tableStatisticsViewModel };
+            var tableStatisticsViewModel = new TableStatisticsViewModel(eventAggregator, new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()));
+            var designWindow = new TableStatisticsDesignWindow(eventAggregator) { Topmost = true, DataContext = tableStatisticsViewModel };
             
             tableStatisticsViewModel.UpdateWith(new[] { greystoke, renniweg });
 

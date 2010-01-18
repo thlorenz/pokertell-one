@@ -1,12 +1,13 @@
 namespace PokerTell.Statistics.ViewModels
 {
     using System;
-    using System.Linq;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
-    public class PlayerStatisticsViewModel : IPlayerStatisticsViewModel
+    using Tools.WPF.ViewModels;
+
+    public class PlayerStatisticsViewModel : NotifyPropertyChanged, IPlayerStatisticsViewModel
     {
         #region Constructors and Destructors
 
@@ -30,13 +31,28 @@ namespace PokerTell.Statistics.ViewModels
 
         public IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; protected set; }
 
-        public string PlayerName { get; protected set; }
+        public string PlayerName
+        {
+            get { return PlayerStatistics.PlayerIdentity.Name; }
+        }
 
         public IPreFlopStatisticsSetsViewModel PreFlopStatisticsSets { get; protected set; }
 
         public IPostFlopStatisticsSetsViewModel RiverStatisticsSets { get; protected set; }
 
         public IPostFlopStatisticsSetsViewModel TurnStatisticsSets { get; protected set; }
+
+        public IPlayerStatistics PlayerStatistics { get; protected set; }
+
+        public IAnalyzablePokerPlayersFilter Filter
+        {
+            get { return PlayerStatistics.Filter; }
+            set
+            {
+                PlayerStatistics.Filter = value;
+                UpdateStatisticsSets();
+            }
+        }
 
         #endregion
 
@@ -53,16 +69,26 @@ namespace PokerTell.Statistics.ViewModels
 
         #region IPlayerStatisticsViewModel
 
+        /// <summary>
+        /// Invoked from TableStatisticsViewModel when it is updating its Players Collection
+        /// </summary>
+        /// <param name="playerStatistics">Updated PlayerStatistics</param>
+        /// <returns></returns>
         public IPlayerStatisticsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
-            PlayerName = playerStatistics.PlayerIdentity.Name;
+            PlayerStatistics = playerStatistics;
 
-            PreFlopStatisticsSets.UpdateWith(playerStatistics);
-            FlopStatisticsSets.UpdateWith(playerStatistics);
-            TurnStatisticsSets.UpdateWith(playerStatistics);
-            RiverStatisticsSets.UpdateWith(playerStatistics);
+            UpdateStatisticsSets();
 
             return this;
+        }
+
+        void UpdateStatisticsSets()
+        {
+            PreFlopStatisticsSets.UpdateWith(PlayerStatistics);
+            FlopStatisticsSets.UpdateWith(PlayerStatistics);
+            TurnStatisticsSets.UpdateWith(PlayerStatistics);
+            RiverStatisticsSets.UpdateWith(PlayerStatistics);
         }
 
         #endregion
@@ -70,14 +96,6 @@ namespace PokerTell.Statistics.ViewModels
         #endregion
 
         #region Methods
-
-        void InitializeStatisticsSetsViewModels()
-        {
-            PreFlopStatisticsSets = new PreFlopStatisticsSetsViewModel();
-            FlopStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Flop);
-            TurnStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Turn);
-            RiverStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.River);
-        }
 
         protected void RegisterEvents()
         {
@@ -87,15 +105,23 @@ namespace PokerTell.Statistics.ViewModels
 
             FlopStatisticsSets.SelectedStatisticsSetEvent +=
                 (statisticsSet, street) =>
-                 SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
-            
+                SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
+
             TurnStatisticsSets.SelectedStatisticsSetEvent +=
                 (statisticsSet, street) =>
                 SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
-            
+
             RiverStatisticsSets.SelectedStatisticsSetEvent +=
                 (statisticsSet, street) =>
                 SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
+        }
+
+        void InitializeStatisticsSetsViewModels()
+        {
+            PreFlopStatisticsSets = new PreFlopStatisticsSetsViewModel();
+            FlopStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Flop);
+            TurnStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Turn);
+            RiverStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.River);
         }
 
         #endregion

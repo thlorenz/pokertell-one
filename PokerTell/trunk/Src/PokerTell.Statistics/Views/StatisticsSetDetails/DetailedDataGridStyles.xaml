@@ -1,0 +1,197 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit"
+                    xmlns:dgp="clr-namespace:Microsoft.Windows.Controls.Primitives;assembly=WPFToolkit">
+    
+	
+	 
+	
+	<Style x:Key="{x:Type dgp:DataGridRowHeader}" TargetType="{x:Type dgp:DataGridRowHeader}">
+          <Setter Property="Background" Value="{DynamicResource LightToDarkToLightBorderBrush}"/>
+           <Setter Property="BorderBrush" Value="{DynamicResource DarkBorderBrush}"/>
+           <Setter Property="BorderThickness" Value="0"/>
+		   
+	</Style>
+   
+      <Style x:Key="{x:Type dg:DataGridCell}" TargetType="{x:Type dg:DataGridCell}">
+            <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlBackgroundBrush}"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+            <Setter Property="Border.CornerRadius" Value="1"/>
+			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalContentAlignment" Value="Right" />
+            <Setter Property="Template">
+               <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type dg:DataGridCell}">
+                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding Border.CornerRadius}" SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                     </Border>
+                  </ControlTemplate>
+               </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+               <Trigger Property="IsSelected" Value="True">
+                  <Setter Property="Background" Value="DarkRed"/>
+                   <Setter Property="Foreground" Value="White"/>
+               </Trigger>
+                <Trigger Property="IsSelected" Value="False">
+                   <Setter Property="Foreground" Value="Yellow"/>
+               </Trigger>
+			   
+            </Style.Triggers>
+         </Style>
+		 <Style x:Key="{x:Type dgp:DataGridColumnHeadersPresenter}" TargetType="{x:Type dgp:DataGridColumnHeadersPresenter}">
+            <Setter Property="Template">   
+              <Setter.Value>   
+                <ControlTemplate TargetType="{x:Type dgp:DataGridColumnHeadersPresenter}">
+                    <Grid>   
+                        <dgp:DataGridColumnHeader IsHitTestVisible="False"/>
+                        <Border Background="{DynamicResource LightToDarkToLightBorderBrush}" Padding="0, 2, 0, 1"> 
+                           <ItemsPresenter /> 
+                        </Border>
+                    </Grid>
+                </ControlTemplate> 
+              </Setter.Value> 
+            </Setter>
+         </Style>
+		<Style x:Key="{x:Type dgp:DataGridColumnHeader}" BasedOn="{StaticResource {x:Type dgp:DataGridColumnHeader}}" TargetType="{x:Type dgp:DataGridColumnHeader}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource MediumBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="0.5"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center" /> 
+            <Setter Property="Foreground" Value="LightGreen"/>  
+			<Setter Property="FontSize" Value="9"/>	
+         </Style> 
+        
+         <Style x:Key="{x:Type dg:DataGrid}" TargetType="{x:Type dg:DataGrid}">
+             <Setter Property="Background" Value="{DynamicResource LightBorderBrush}"/>
+			 			 
+			 <Setter  Property="RowBackground" Value="{DynamicResource LightBorderBrush}"/>
+             <Setter  Property="BorderBrush" Value="{DynamicResource LightBorderBrush}"/>
+             <Setter  Property="HorizontalAlignment" Value="Center"/>
+			 <Setter  Property="HeadersVisibility" Value="All"/>
+             <Setter  Property="GridLinesVisibility" Value="None"/>
+             <Setter  Property="HorizontalScrollBarVisibility" Value="Auto"/>
+             
+             <Setter  Property="AutoGenerateColumns" Value="False"/>
+             <Setter  Property="CanUserAddRows" Value="False"/>
+             <Setter  Property="CanUserDeleteRows" Value="False"/>
+             <Setter  Property="CanUserResizeColumns" Value="False"/>
+             <Setter  Property="CanUserResizeRows" Value="False"/>
+             <Setter  Property="CanUserSortColumns" Value="False"/>
+             <Setter  Property="IsReadOnly" Value="True"/>
+             
+             <Setter  Property="SelectionMode" Value="Extended"/>
+             <Setter  Property="SelectionUnit" Value="Cell"/>
+             
+             <Setter Property="dg:DataGrid.RowHeaderTemplate">
+              <Setter.Value>
+               <DataTemplate>
+                   <StackPanel Orientation="Horizontal" Margin="2,1">
+					   <Label 
+						VerticalAlignment="Center"
+							 Foreground="LightGreen" 
+							 FontSize="9"
+							 Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+										AncestorType={x:Type dg:DataGridRow}}, 
+										Path= Item.Title}"  />
+						<Label 
+							 VerticalAlignment="Bottom"
+							 Foreground="LightGreen"
+						     FontSize="6"			
+							 Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+										AncestorType={x:Type dg:DataGridRow}}, 
+										Path= Item.Unit}"  />				
+					</StackPanel>				
+                </DataTemplate>
+              </Setter.Value>
+             </Setter>
+					
+			<Setter Property="BorderThickness" Value="1" />
+			<!-- This is needed to force DG to have a non-default value.  Otherwise the DGR.DetailsVisibility cannot have a value of VisibleWhenSelected by default. -->
+			<Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
+			<Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+			
+			
+			<Setter Property="Template">
+			  <Setter.Value>
+				<ControlTemplate TargetType="{x:Type dg:DataGrid}">
+				  <Border Background="{TemplateBinding Background}"
+						  BorderBrush="{TemplateBinding BorderBrush}"
+						  BorderThickness="{TemplateBinding BorderThickness}"
+						  SnapsToDevicePixels="True"
+						  Padding="{TemplateBinding Padding}">
+					<ScrollViewer   Focusable="false"
+									Name="DG_ScrollViewer">
+					  <ScrollViewer.Template>
+						<ControlTemplate TargetType="{x:Type ScrollViewer}">
+						  <Grid>
+							<Grid.RowDefinitions>
+							  <RowDefinition Height="Auto"/>
+							  <RowDefinition Height="*"/>
+							  <RowDefinition Height="Auto"/>
+							</Grid.RowDefinitions>
+
+							<Grid.ColumnDefinitions>
+							  <ColumnDefinition Width="Auto"/>
+							  <ColumnDefinition Width="*"/>
+							  <ColumnDefinition Width="Auto"/>
+							</Grid.ColumnDefinitions>
+
+							<!--Left Column Header Corner -->
+							<Border Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type dg:DataGrid}}, Path=CellsPanelHorizontalOffset}"
+									Background="{DynamicResource LightToDarkToLightBorderBrush}" 
+									BorderBrush="{TemplateBinding Background}"  BorderThickness="1" CornerRadius="4,0,0,4">
+								<Viewbox>
+									<Label Margin="2"
+										   Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
+													AncestorType={x:Type dg:DataGrid}}, 
+													Path = DataContext.ColumnHeaderTitle}"
+										   Focusable="false"
+										   Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type dg:DataGrid}}, Path=HeadersVisibility, Converter={x:Static dg:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static dg:DataGridHeadersVisibility.All}}" />
+								</Viewbox>	   
+							</Border>	   
+							<!--Column Headers-->
+							<dgp:DataGridColumnHeadersPresenter Grid.Column="1" 
+															   Name="PART_ColumnHeadersPresenter"
+															   Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type dg:DataGrid}}, Path=HeadersVisibility, Converter={x:Static dg:DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static dg:DataGridHeadersVisibility.Column}}"/>
+
+							<!--DataGrid content-->
+							<ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+							<ScrollBar Grid.Row="1"  Grid.Column="2" Name="PART_VerticalScrollBar"
+													 Orientation="Vertical"
+													 Maximum="{TemplateBinding ScrollableHeight}"
+													 ViewportSize="{TemplateBinding ViewportHeight}"
+													 Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+													 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+
+							<Grid Grid.Row="2" Grid.Column="1">
+							  <Grid.ColumnDefinitions>
+								<ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type dg:DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}"/>
+								<ColumnDefinition Width="*"/>
+							  </Grid.ColumnDefinitions>
+							  <ScrollBar Grid.Column="1"
+										 Name="PART_HorizontalScrollBar"
+										 Orientation="Horizontal"
+										 Maximum="{TemplateBinding ScrollableWidth}"
+										 ViewportSize="{TemplateBinding ViewportWidth}"
+										 Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+										 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+							
+							</Grid>
+						  </Grid>
+						</ControlTemplate>
+					  </ScrollViewer.Template>
+					  <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+					</ScrollViewer>
+				  </Border>
+				</ControlTemplate>
+			  </Setter.Value>
+			</Setter>
+			
+         </Style>
+
+
+</ResourceDictionary>

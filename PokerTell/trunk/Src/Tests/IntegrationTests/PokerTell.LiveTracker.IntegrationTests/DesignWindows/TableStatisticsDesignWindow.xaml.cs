@@ -7,6 +7,8 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
 
     using DesignViewModels;
 
+    using Microsoft.Practices.Composite.Events;
+
     /// <summary>
     /// Interaction logic for StatisticsSetSummaryDesignWindow.xaml
     /// </summary>
@@ -14,9 +16,9 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
     {
         #region Constructors and Destructors
 
-        public TableStatisticsDesignWindow()
+        public TableStatisticsDesignWindow(IEventAggregator eventAggregator)
         {
-            DataContext = new TableStatisticsDesignModel();
+            DataContext = new TableStatisticsDesignModel(eventAggregator);
             InitializeComponent();
         }
 

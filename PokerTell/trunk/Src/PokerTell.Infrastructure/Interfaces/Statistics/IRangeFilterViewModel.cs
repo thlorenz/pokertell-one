@@ -2,13 +2,18 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System;
 
+    using Tools.GenericRanges;
+
     public interface IRangeFilterViewModel<T>
         where T : IComparable
     {
         bool IsActive { get; }
 
-        T MinValue { get; }
+        string FilterName { get; set; }
 
-        T MaxValue { get; }
+        /// <summary>
+        /// Returns a filter according to the values currently selected by the user
+        /// </summary>
+        GenericRangeFilter<T> CurrentFilter { get; }
     }
 }

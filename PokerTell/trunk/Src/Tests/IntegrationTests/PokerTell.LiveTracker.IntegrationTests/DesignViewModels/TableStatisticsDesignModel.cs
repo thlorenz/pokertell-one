@@ -6,12 +6,16 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
     using Infrastructure.Interfaces.Statistics;
     using Infrastructure.Services;
 
+    using Microsoft.Practices.Composite.Events;
+
+    using Statistics.Filters;
+
     using ViewModels;
 
     public class TableStatisticsDesignModel : TableStatisticsViewModel
     {
-        public TableStatisticsDesignModel()
-            : base(new Constructor<IPlayerStatisticsViewModel>(() => null))
+        public TableStatisticsDesignModel(IEventAggregator eventAggregator)
+            : base(eventAggregator, new Constructor<IPlayerStatisticsViewModel>(() => null))
         {
             Players.Add(new PlayerStatisticsDesignModel("renniweg", 3000, 2000, 1000, 2500, 1500, 500));
             Players.Add(new PlayerStatisticsDesignModel("Greystoke-11", 3001, 2001, 1001, 2501, 1501, 501));
