@@ -69,11 +69,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpLanguage.Tests", "Src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker", "Src\PokerTell.LiveTracker\PokerTell.LiveTracker.csproj", "{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.IntegrationTests", "Src\Tests\IntegrationTests\PokerTell.Statistics.IntegrationTests\PokerTell.Statistics.IntegrationTests.csproj", "{4723C858-EB6E-42F8-BF83-F22E4496FB2D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.IntegrationTests", "Src\Tests\IntegrationTests\PokerTell.LiveTracker.IntegrationTests\PokerTell.LiveTracker.IntegrationTests.csproj", "{E7C42C0E-6C03-4362-B617-7D22EA38DA05}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.Tests", "Src\Tests\UnitTests\PokerTell.LiveTracker.Tests\PokerTell.LiveTracker.Tests.csproj", "{43B9562E-BE85-4EF2-93BF-A9CEE5118863}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.IntegrationTests", "Src\Tests\IntegrationTests\PokerTell.Statistics.IntegrationTests\PokerTell.Statistics.IntegrationTests.csproj", "{4723C858-EB6E-42F8-BF83-F22E4496FB2D}"
 EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
@@ -181,10 +181,6 @@ Global
 		{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E7C42C0E-6C03-4362-B617-7D22EA38DA05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E7C42C0E-6C03-4362-B617-7D22EA38DA05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7C42C0E-6C03-4362-B617-7D22EA38DA05}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -193,6 +189,10 @@ Global
 		{43B9562E-BE85-4EF2-93BF-A9CEE5118863}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43B9562E-BE85-4EF2-93BF-A9CEE5118863}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43B9562E-BE85-4EF2-93BF-A9CEE5118863}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4723C858-EB6E-42F8-BF83-F22E4496FB2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -225,7 +225,7 @@ Global
 		{572EB5F0-8CCC-4BF5-9D96-58B6E87E5B5A} = {3F69FD20-BEB5-47F1-9E47-97B37794B693}
 		{12C2D9ED-E876-4FCA-B350-0A2FACFC02DF} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
 		{075D2ABE-7101-4939-A864-0B6F85101E17} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
-		{4723C858-EB6E-42F8-BF83-F22E4496FB2D} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
 		{E7C42C0E-6C03-4362-B617-7D22EA38DA05} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
+		{4723C858-EB6E-42F8-BF83-F22E4496FB2D} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
 	EndGlobalSection
 EndGlobal
