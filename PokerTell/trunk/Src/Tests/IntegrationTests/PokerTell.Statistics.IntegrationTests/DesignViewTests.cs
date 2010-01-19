@@ -37,7 +37,7 @@ namespace PokerTell.Statistics.IntegrationTests
                 (name, filter) => Console.WriteLine("Apply filter: {0}\n to {1}.", filter, name),
                 filter => Console.WriteLine("Apply filter: {0}\n to all Players.", filter));
 
-            eventAggregator
+            eventAggregator 
                 .GetEvent<AdjustAnalyzablePokerPlayersFilterEvent>()
                 .Publish(adjustFilterEventArgs);
         }
