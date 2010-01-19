@@ -1,0 +1,22 @@
+﻿<Window x:Class="PokerTell.StatisticsIntegrationTests.DesignWindows.RangeFilterForSelectorsDesignWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="RangeFilterForSelectorsDesignWindow" Height="300" Width="300">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="C:\SD\PokerTell\Src\PokerTell\Resources\ExpressionDark.xaml"/>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForSelectorsViewTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <ListBox Width="180" Height="300">
+        <!-- Big Blind -->
+        <ListBoxItem>
+            <Expander Content="{Binding}"  
+              Header="{Binding}"
+            HeaderTemplate="{StaticResource RangeFilterHeaderViewTemplate}"
+            ContentTemplate="{StaticResource RangeFilterForSelectorsViewTemplate}"/>
+        </ListBoxItem>
+    </ListBox>
+</Window>
