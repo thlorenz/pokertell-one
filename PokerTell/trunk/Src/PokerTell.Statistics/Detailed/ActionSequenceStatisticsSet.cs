@@ -41,6 +41,8 @@ namespace PokerTell.Statistics.Detailed
 
         public int[] CumulativePercentagesByRow { get; private set; }
 
+        public event Action<IActionSequenceStatisticsSet> StatisticsWereUpdated = delegate { };
+
         public virtual int[] SumOfCountsByColumn
         {
             get { return _percentagesCalculator.SumsOfCountsByColumn; }

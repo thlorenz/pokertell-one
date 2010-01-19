@@ -1,5 +1,6 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
+    using System;
     using System.Collections.Generic;
 
     using PokerHand;
@@ -15,5 +16,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         int[] TotalCounts { get; }
 
         int[] CumulativePercentagesByRow { get; }
+
+        event Action<IActionSequenceStatisticsSet> StatisticsWereUpdated;
     }
 }

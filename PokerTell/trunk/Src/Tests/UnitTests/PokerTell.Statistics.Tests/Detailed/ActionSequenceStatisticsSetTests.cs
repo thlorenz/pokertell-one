@@ -1,14 +1,13 @@
 namespace PokerTell.Statistics.Tests.Detailed
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq.Expressions;
 
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
-
-    using System.Collections.Generic;
 
     using Moq;
 
@@ -20,37 +19,124 @@ namespace PokerTell.Statistics.Tests.Detailed
 
     public class ActionSequenceStatisticsSetTests
     {
-        Mock<IActionSequenceStatistic> _statisticMock;
-        Mock<IAnalyzablePokerPlayer> _playerMock;
+        #region Constants and Fields
 
         Mock<IPercentagesCalculator> _calculatorMock;
 
+        Mock<IAnalyzablePokerPlayer> _playerMock;
+
+        Mock<IActionSequenceStatistic> _statisticMock;
+
         StubBuilder _stub;
 
-        [SetUp]
-        public void _Init()
+        #endregion
+
+        #region Public Methods
+
+        [Test]
+        public void CalculateCumulativePercentages_Always_InitializesCumulativePercentagesByRowToStatisticsCount()
         {
-            _stub = new StubBuilder();
-            _statisticMock = new Mock<IActionSequenceStatistic>();
-            _playerMock = new Mock<IAnalyzablePokerPlayer>();
-            _calculatorMock = new Mock<IPercentagesCalculator>();
+            var sut = new ActionSequenceStatisticsSetMock(
+                new[]
+                    {
+                        _stub.Out<IActionSequenceStatistic>(),
+                        _stub.Out<IActionSequenceStatistic>()
+                    },
+                _stub.Out<IPercentagesCalculator>());
+
+            sut.CalculateCumulativePercentagesInvoke();
+
+            sut.CumulativePercentagesByRow.HasCount(2);
         }
 
         [Test]
-        public void UpdateWith_ListOfPlayers_UpdatesAllStatisticsWithThosePlayers()
+        public void CalculateCumulativePercentages_TotalCount1_0_TotalCount2_0_Sets_Perc1_0_Perc2_0()
         {
-            var sut = new ActionSequenceStatisticsSet(new[] { _statisticMock.Object }, _calculatorMock.Object);
+            const int TotalCount1 = 0;
+            const int TotalCount2 = 0;
 
-            var analyzablePokerPlayers = new[] { _playerMock.Object };
-            sut.UpdateWith(analyzablePokerPlayers);
+            ActionSequenceStatisticsSetMock sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(
+                TotalCount1, TotalCount2);
 
-            _statisticMock.Verify(st => st.UpdateWith(analyzablePokerPlayers));
+            sut.CalculateCumulativePercentagesInvoke();
+
+            sut.CumulativePercentagesByRow[0].IsEqualTo(0);
+            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
+        }
+
+        [Test]
+        public void CalculateCumulativePercentages_TotalCount1_1_TotalCount2_0_Sets_Perc1_100_Perc2_0()
+        {
+            const int TotalCount1 = 1;
+            const int TotalCount2 = 0;
+
+            ActionSequenceStatisticsSetMock sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(
+                TotalCount1, TotalCount2);
+
+            sut.CalculateCumulativePercentagesInvoke();
+
+            sut.CumulativePercentagesByRow[0].IsEqualTo(100);
+            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
+        }
+
+        [Test]
+        public void CalculateCumulativePercentages_TotalCount1_1_TotalCount2_1_Sets_Perc1_50_Perc2_50()
+        {
+            const int TotalCount1 = 1;
+            const int TotalCount2 = 1;
+
+            ActionSequenceStatisticsSetMock sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(
+                TotalCount1, TotalCount2);
+
+            sut.CalculateCumulativePercentagesInvoke();
+
+            sut.CumulativePercentagesByRow[0].IsEqualTo(50);
+            sut.CumulativePercentagesByRow[1].IsEqualTo(50);
+        }
+
+        [Test]
+        public void
+            CalculateCumulativePercentages_TotalCount1_1_TotalCount2_1_TotalCount3_2_Sets_Perc1_25_Perc2_25_Perc3_50()
+        {
+            const int TotalCount1 = 1;
+            const int TotalCount2 = 1;
+            const int TotalCount3 = 2;
+
+            IActionSequenceStatistic statisticStub1 = _stub.Setup<IActionSequenceStatistic>()
+                .Get(s => s.TotalCounts).Returns(TotalCount1).Out;
+            IActionSequenceStatistic statisticStub2 = _stub.Setup<IActionSequenceStatistic>()
+                .Get(s => s.TotalCounts).Returns(TotalCount2).Out;
+            IActionSequenceStatistic statisticStub3 = _stub.Setup<IActionSequenceStatistic>()
+                .Get(s => s.TotalCounts).Returns(TotalCount3).Out;
+
+            var sut = new ActionSequenceStatisticsSetMock(
+                new[] { statisticStub1, statisticStub2, statisticStub3 },
+                _stub.Out<IPercentagesCalculator>());
+
+            sut.CalculateCumulativePercentagesInvoke();
+
+            sut.CumulativePercentagesByRow[0].IsEqualTo(25);
+            sut.CumulativePercentagesByRow[1].IsEqualTo(25);
+            sut.CumulativePercentagesByRow[2].IsEqualTo(50);
+        }
+
+        [Test]
+        public void UpdateWith_Always_RaisesStatisticsWereUpdatedWithItselfAsArgument()
+        {
+            var sut = new ActionSequenceStatisticsSetMock(
+                new[] { _stub.Out<IActionSequenceStatistic>() }, _stub.Out<IPercentagesCalculator>());
+            
+            bool wasRaisedWithCorrectArgument = false;
+            sut.StatisticsWereUpdated += arg => wasRaisedWithCorrectArgument = arg == sut;
+
+            wasRaisedWithCorrectArgument.IsTrue();
         }
 
         [Test]
         public void UpdateWith_ListOfPlayers_CalculatesCulumlativePercentages()
         {
-            var sut = new ActionSequenceStatisticsSetMock(new[] { _stub.Out<IActionSequenceStatistic>() }, _stub.Out<IPercentagesCalculator>());
+            var sut = new ActionSequenceStatisticsSetMock(
+                new[] { _stub.Out<IActionSequenceStatistic>() }, _stub.Out<IPercentagesCalculator>());
 
             var analyzablePokerPlayers = new[] { _stub.Out<IAnalyzablePokerPlayer>() };
             sut.UpdateWith(analyzablePokerPlayers);
@@ -59,41 +145,9 @@ namespace PokerTell.Statistics.Tests.Detailed
         }
 
         [Test]
-        public void UpdateWith_ListOfPlayers_CallsPercentageCalculator()
-        {
-            var sut = new ActionSequenceStatisticsSet(new[] { _statisticMock.Object }, _calculatorMock.Object);
-
-            var analyzablePokerPlayers = new[] { _playerMock.Object };
-            sut.UpdateWith(analyzablePokerPlayers);
-
-            _calculatorMock.Verify(pc => pc.CalculatePercentages(
-                It.IsAny<Func<int>>(), 
-                It.IsAny<Func<int, int>>(), 
-                It.IsAny<Func<int, int, int>>(), 
-                It.IsAny<Action<int, int, int>>()));
-        }
-
-        [Test]
-        public void UpdateWith_ListOfPlayers_CallToPercentageCalculatorPassesStatisticsCountAsGetRowCountFunction()
-        {
-            var statistics = new List<IActionSequenceStatistic> { _statisticMock.Object, _statisticMock.Object };
-            var sut = new ActionSequenceStatisticsSet(statistics, _calculatorMock.Object);
-            
-            Expression<Predicate<Func<int>>> getRowCountsExpression = func => func() == statistics.Count;
-
-            var analyzablePokerPlayers = new[] { _playerMock.Object };
-            sut.UpdateWith(analyzablePokerPlayers);
-
-            _calculatorMock.Verify(pc => pc.CalculatePercentages(
-                It.Is(getRowCountsExpression),
-                It.IsAny<Func<int, int>>(),
-                It.IsAny<Func<int, int, int>>(),
-                It.IsAny<Action<int, int, int>>()));
-        }
-
-        [Test]
         public void
             UpdateWith_ListOfPlayers_CallToPercentageCalculatorPassesFirstStatisticsColumnCountAsGetColumnCountFunction(
+            
             )
         {
             const int columnCount = 2;
@@ -109,127 +163,110 @@ namespace PokerTell.Statistics.Tests.Detailed
             var analyzablePokerPlayers = new[] { _playerMock.Object };
             sut.UpdateWith(analyzablePokerPlayers);
 
-            _calculatorMock.Verify(pc => pc.CalculatePercentages(
-                                             It.IsAny<Func<int>>(),
-                                             It.Is(getColumnCountsExpression),
-                                             It.IsAny<Func<int, int, int>>(),
-                                             It.IsAny<Action<int, int, int>>()));
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.IsAny<Func<int>>(),
+                          It.Is(getColumnCountsExpression),
+                          It.IsAny<Func<int, int, int>>(),
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [Test]
-        public void CalculateCumulativePercentages_Always_InitializesCumulativePercentagesByRowToStatisticsCount()
+        public void UpdateWith_ListOfPlayers_CallToPercentageCalculatorPassesStatisticsCountAsGetRowCountFunction()
         {
-            var sut = new ActionSequenceStatisticsSetMock(new[]
-                {
-                    _stub.Out<IActionSequenceStatistic>(),
-                    _stub.Out<IActionSequenceStatistic>()
-                }, 
-                _stub.Out<IPercentagesCalculator>());
+            var statistics = new List<IActionSequenceStatistic> { _statisticMock.Object, _statisticMock.Object };
+            var sut = new ActionSequenceStatisticsSet(statistics, _calculatorMock.Object);
 
-            sut.CalculateCumulativePercentagesInvoke();
+            Expression<Predicate<Func<int>>> getRowCountsExpression = func => func() == statistics.Count;
 
-            sut.CumulativePercentagesByRow.HasCount(2);
+            var analyzablePokerPlayers = new[] { _playerMock.Object };
+            sut.UpdateWith(analyzablePokerPlayers);
+
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.Is(getRowCountsExpression),
+                          It.IsAny<Func<int, int>>(),
+                          It.IsAny<Func<int, int, int>>(),
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [Test]
-        public void CalculateCumulativePercentages_TotalCount1_0_TotalCount2_0_Sets_Perc1_0_Perc2_0()
+        public void UpdateWith_ListOfPlayers_CallsPercentageCalculator()
         {
-            const int TotalCount1 = 0;
-            const int TotalCount2 = 0;
+            var sut = new ActionSequenceStatisticsSet(new[] { _statisticMock.Object }, _calculatorMock.Object);
 
-            var sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(TotalCount1, TotalCount2);
+            var analyzablePokerPlayers = new[] { _playerMock.Object };
+            sut.UpdateWith(analyzablePokerPlayers);
 
-            sut.CalculateCumulativePercentagesInvoke();
-
-            sut.CumulativePercentagesByRow[0].IsEqualTo(0);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
-        }
-
-
-        [Test]
-        public void CalculateCumulativePercentages_TotalCount1_1_TotalCount2_0_Sets_Perc1_100_Perc2_0()
-        {
-            const int TotalCount1 = 1;
-            const int TotalCount2 = 0;
-
-            var sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(TotalCount1, TotalCount2);
-
-            sut.CalculateCumulativePercentagesInvoke();
-
-            sut.CumulativePercentagesByRow[0].IsEqualTo(100);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.IsAny<Func<int>>(),
+                          It.IsAny<Func<int, int>>(),
+                          It.IsAny<Func<int, int, int>>(),
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [Test]
-        public void CalculateCumulativePercentages_TotalCount1_1_TotalCount2_1_Sets_Perc1_50_Perc2_50()
+        public void UpdateWith_ListOfPlayers_UpdatesAllStatisticsWithThosePlayers()
         {
-            const int TotalCount1 = 1;
-            const int TotalCount2 = 1;
+            var sut = new ActionSequenceStatisticsSet(new[] { _statisticMock.Object }, _calculatorMock.Object);
 
-            var sut = GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(TotalCount1, TotalCount2);
+            var analyzablePokerPlayers = new[] { _playerMock.Object };
+            sut.UpdateWith(analyzablePokerPlayers);
 
-            sut.CalculateCumulativePercentagesInvoke();
-
-            sut.CumulativePercentagesByRow[0].IsEqualTo(50);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(50);
+            _statisticMock.Verify(st => st.UpdateWith(analyzablePokerPlayers));
         }
 
-        [Test]
-        public void CalculateCumulativePercentages_TotalCount1_1_TotalCount2_1_TotalCount3_2_Sets_Perc1_25_Perc2_25_Perc3_50()
+        [SetUp]
+        public void _Init()
         {
-            const int TotalCount1 = 1;
-            const int TotalCount2 = 1;
-            const int TotalCount3 = 2;
-
-            var statisticStub1 = _stub.Setup<IActionSequenceStatistic>()
-                 .Get(s => s.TotalCounts).Returns(TotalCount1).Out;
-            var statisticStub2 = _stub.Setup<IActionSequenceStatistic>()
-                .Get(s => s.TotalCounts).Returns(TotalCount2).Out;
-            var statisticStub3 = _stub.Setup<IActionSequenceStatistic>()
-                .Get(s => s.TotalCounts).Returns(TotalCount3).Out;
-
-            var sut = new ActionSequenceStatisticsSetMock(new[] { statisticStub1, statisticStub2, statisticStub3 },
-                                                       _stub.Out<IPercentagesCalculator>());
-            
-            sut.CalculateCumulativePercentagesInvoke();
-
-            sut.CumulativePercentagesByRow[0].IsEqualTo(25);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(25);
-            sut.CumulativePercentagesByRow[2].IsEqualTo(50);
+            _stub = new StubBuilder();
+            _statisticMock = new Mock<IActionSequenceStatistic>();
+            _playerMock = new Mock<IAnalyzablePokerPlayer>();
+            _calculatorMock = new Mock<IPercentagesCalculator>();
         }
 
-        ActionSequenceStatisticsSetMock GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(int TotalCount1, int TotalCount2)
+        #endregion
+
+        #region Methods
+
+        ActionSequenceStatisticsSetMock GetStatisticsSetStubWithTwoStatisticsReturningTotalCounts(
+            int TotalCount1, int TotalCount2)
         {
-            var statisticStub1 = _stub.Setup<IActionSequenceStatistic>()
+            IActionSequenceStatistic statisticStub1 = _stub.Setup<IActionSequenceStatistic>()
                 .Get(s => s.TotalCounts).Returns(TotalCount1).Out;
-            var statisticStub2 = _stub.Setup<IActionSequenceStatistic>()
+            IActionSequenceStatistic statisticStub2 = _stub.Setup<IActionSequenceStatistic>()
                 .Get(s => s.TotalCounts).Returns(TotalCount2).Out;
 
-            return new ActionSequenceStatisticsSetMock(new[] { statisticStub1, statisticStub2 },
-                                                       _stub.Out<IPercentagesCalculator>());
+            return new ActionSequenceStatisticsSetMock(
+                new[] { statisticStub1, statisticStub2 },
+                _stub.Out<IPercentagesCalculator>());
         }
+
+        #endregion
     }
 
     internal class ActionSequenceStatisticsSetMock : ActionSequenceStatisticsSet
     {
-        public ActionSequenceStatisticsSetMock(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        #region Constructors and Destructors
+
+        public ActionSequenceStatisticsSetMock(
+            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
             : base(statistics, percentagesCalculator)
         {
         }
 
-        public bool IndividualPercentagesCalculated { get; set; }
+        #endregion
+
+        #region Properties
 
         public bool CumulativePercentagesCalculated { get; set; }
 
-        protected override void CalculateIndividualPercentages()
-        {
-            IndividualPercentagesCalculated = true;
-        }
+        public bool IndividualPercentagesCalculated { get; set; }
 
-        protected override void CalculateCumulativePercentages()
-        {
-            CumulativePercentagesCalculated = true;
-        }
+        #endregion
+
+        #region Public Methods
 
         public void CalculateCumulativePercentagesInvoke()
         {
@@ -240,5 +277,21 @@ namespace PokerTell.Statistics.Tests.Detailed
         {
             base.CalculateIndividualPercentages();
         }
+
+        #endregion
+
+        #region Methods
+
+        protected override void CalculateCumulativePercentages()
+        {
+            CumulativePercentagesCalculated = true;
+        }
+
+        protected override void CalculateIndividualPercentages()
+        {
+            IndividualPercentagesCalculated = true;
+        }
+
+        #endregion
     }
 }

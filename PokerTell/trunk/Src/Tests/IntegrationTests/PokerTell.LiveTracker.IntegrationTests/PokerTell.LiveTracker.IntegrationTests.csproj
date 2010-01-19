@@ -120,6 +120,10 @@
       <Project>{075D2ABE-7101-4939-A864-0B6F85101E17}</Project>
       <Name>PokerTell.IntegrationTests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.Statistics.IntegrationTests\PokerTell.Statistics.IntegrationTests.csproj">
+      <Project>{4723C858-EB6E-42F8-BF83-F22E4496FB2D}</Project>
+      <Name>PokerTell.Statistics.IntegrationTests</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="DesignWindows\TableStatisticsDesignWindow.xaml">
