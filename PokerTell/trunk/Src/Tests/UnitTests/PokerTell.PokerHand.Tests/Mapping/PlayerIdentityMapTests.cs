@@ -48,7 +48,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
         {
             _session.Save(_identity);
 
-            _identity.Id.IsNotEqualTo(UnsavedValue);
+            _identity.Id.ShouldNotBeEqualTo(UnsavedValue);
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedIdentity = _session.Get<PlayerIdentity>(_identity.Id);
 
-            retrievedIdentity.IsEqualTo(_identity);
+            retrievedIdentity.ShouldBeEqualTo(_identity);
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedIdentity = _session.Get<PlayerIdentity>(_identity.Id);
 
-            retrievedIdentity.ConvertedPlayers.First().IsEqualTo(player);
+            retrievedIdentity.ConvertedPlayers.First().ShouldBeEqualTo(player);
         }
 
         [Test]
@@ -117,8 +117,8 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedIdentity = _session.Get<PlayerIdentity>(_identity.Id);
 
-            retrievedIdentity.ConvertedPlayers.First().IsEqualTo(player1);
-            retrievedIdentity.ConvertedPlayers.Last().IsEqualTo(player2);
+            retrievedIdentity.ConvertedPlayers.First().ShouldBeEqualTo(player1);
+            retrievedIdentity.ConvertedPlayers.Last().ShouldBeEqualTo(player2);
         }
     }
 }

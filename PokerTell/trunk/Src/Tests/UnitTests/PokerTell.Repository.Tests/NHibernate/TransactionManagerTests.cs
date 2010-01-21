@@ -59,7 +59,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             sut.Execute(() => { });
            
-            sut.SessionWasBound.IsTrue();
+            sut.SessionWasBound.ShouldBeTrue();
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             sut.Execute(() => 1);
 
-            sut.SessionWasBound.IsTrue();
+            sut.SessionWasBound.ShouldBeTrue();
         }
 
         [Test]
@@ -79,7 +79,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             NotLogged(() => sut.Execute(() => { throw new Exception(); }));
 
-            sut.SessionWasBound.IsTrue();
+            sut.SessionWasBound.ShouldBeTrue();
         }
 
         [Test]
@@ -89,7 +89,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             NotLogged(() => sut.Execute<int>(() => { throw new Exception(); }));
 
-            sut.SessionWasBound.IsTrue();
+            sut.SessionWasBound.ShouldBeTrue();
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace PokerTell.Repository.Tests.NHibernate
             int result = 1;
             NotLogged(() => result = sut.Execute<int>(() => { throw new Exception(); }));
 
-            result.IsEqualTo(0);
+            result.ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -113,7 +113,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             NotLogged(() => result = sut.Execute(() => resultOfAction));
 
-            result.IsEqualTo(resultOfAction);
+            result.ShouldBeEqualTo(resultOfAction);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             sut.Execute(() => { });
 
-            sut.SessionWasUnbound.IsTrue();
+            sut.SessionWasUnbound.ShouldBeTrue();
         }
 
         [Test]
@@ -169,7 +169,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             sut.Execute(() => 0);
 
-            sut.SessionWasUnbound.IsTrue();
+            sut.SessionWasUnbound.ShouldBeTrue();
         }
 
         [Test]
@@ -179,7 +179,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             NotLogged(() => sut.Execute(() => { throw new Exception(); }));
 
-            sut.SessionWasUnbound.IsTrue();
+            sut.SessionWasUnbound.ShouldBeTrue();
         }
 
         [Test]
@@ -189,7 +189,7 @@ namespace PokerTell.Repository.Tests.NHibernate
 
             NotLogged(() => sut.Execute<int>(() => { throw new Exception(); }));
 
-            sut.SessionWasUnbound.IsTrue();
+            sut.SessionWasUnbound.ShouldBeTrue();
         }
 
         [Test]
@@ -240,7 +240,7 @@ namespace PokerTell.Repository.Tests.NHibernate
             bool actionWasExecuted = false;
             sut.BatchExecute(s => actionWasExecuted = true);
 
-            actionWasExecuted.IsTrue();
+            actionWasExecuted.ShouldBeTrue();
         }
 
         [Test]
@@ -250,7 +250,7 @@ namespace PokerTell.Repository.Tests.NHibernate
             bool actionWasExecuted = false;
             sut.Execute(() => actionWasExecuted = true);
 
-            actionWasExecuted.IsTrue();
+            actionWasExecuted.ShouldBeTrue();
         }
 
     }

@@ -4,6 +4,7 @@ namespace PokerTell.Statistics.Tests.Detailed
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
@@ -29,6 +30,13 @@ namespace PokerTell.Statistics.Tests.Detailed
 
         StubBuilder _stub;
 
+        const string SomePlayer = "somePlayer";
+
+        const ActionSequences SomeActionSequence = ActionSequences.PreFlopNoFrontRaise;
+
+        const bool SomeRaisedOrNotRaised = false;
+
+
         #endregion
 
         #region Public Methods
@@ -46,7 +54,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.CalculateCumulativePercentagesInvoke();
 
-            sut.CumulativePercentagesByRow.HasCount(2);
+            sut.CumulativePercentagesByRow.ShouldHaveCount(2);
         }
 
         [Test]
@@ -60,8 +68,8 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.CalculateCumulativePercentagesInvoke();
 
-            sut.CumulativePercentagesByRow[0].IsEqualTo(0);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
+            sut.CumulativePercentagesByRow[0].ShouldBeEqualTo(0);
+            sut.CumulativePercentagesByRow[1].ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -75,8 +83,8 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.CalculateCumulativePercentagesInvoke();
 
-            sut.CumulativePercentagesByRow[0].IsEqualTo(100);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(0);
+            sut.CumulativePercentagesByRow[0].ShouldBeEqualTo(100);
+            sut.CumulativePercentagesByRow[1].ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -90,8 +98,8 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.CalculateCumulativePercentagesInvoke();
 
-            sut.CumulativePercentagesByRow[0].IsEqualTo(50);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(50);
+            sut.CumulativePercentagesByRow[0].ShouldBeEqualTo(50);
+            sut.CumulativePercentagesByRow[1].ShouldBeEqualTo(50);
         }
 
         [Test]
@@ -115,9 +123,9 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.CalculateCumulativePercentagesInvoke();
 
-            sut.CumulativePercentagesByRow[0].IsEqualTo(25);
-            sut.CumulativePercentagesByRow[1].IsEqualTo(25);
-            sut.CumulativePercentagesByRow[2].IsEqualTo(50);
+            sut.CumulativePercentagesByRow[0].ShouldBeEqualTo(25);
+            sut.CumulativePercentagesByRow[1].ShouldBeEqualTo(25);
+            sut.CumulativePercentagesByRow[2].ShouldBeEqualTo(50);
         }
 
         [Test]
@@ -129,7 +137,9 @@ namespace PokerTell.Statistics.Tests.Detailed
             bool wasRaisedWithCorrectArgument = false;
             sut.StatisticsWereUpdated += arg => wasRaisedWithCorrectArgument = arg == sut;
 
-            wasRaisedWithCorrectArgument.IsTrue();
+            sut.UpdateWith(_stub.Out<IEnumerable<IAnalyzablePokerPlayer>>());
+
+            wasRaisedWithCorrectArgument.ShouldBeTrue();
         }
 
         [Test]
@@ -141,7 +151,7 @@ namespace PokerTell.Statistics.Tests.Detailed
             var analyzablePokerPlayers = new[] { _stub.Out<IAnalyzablePokerPlayer>() };
             sut.UpdateWith(analyzablePokerPlayers);
 
-            sut.CumulativePercentagesCalculated.IsTrue();
+            sut.CumulativePercentagesCalculated.ShouldBeTrue();
         }
 
         [Test]
@@ -155,7 +165,12 @@ namespace PokerTell.Statistics.Tests.Detailed
                 .Returns(new IList<IAnalyzablePokerPlayer>[columnCount]);
             var statistics = new List<IActionSequenceStatistic> { _statisticMock.Object };
 
-            var sut = new ActionSequenceStatisticsSet(statistics, _calculatorMock.Object);
+            var sut = new ActionSequenceStatisticsSet(
+                _calculatorMock.Object,
+                statistics,
+                SomePlayer,
+                SomeActionSequence,
+                SomeRaisedOrNotRaised);
 
             Expression<Predicate<Func<int, int>>> getColumnCountsExpression =
                 func => func(0) == columnCount;
@@ -175,7 +190,12 @@ namespace PokerTell.Statistics.Tests.Detailed
         public void UpdateWith_ListOfPlayers_CallToPercentageCalculatorPassesStatisticsCountAsGetRowCountFunction()
         {
             var statistics = new List<IActionSequenceStatistic> { _statisticMock.Object, _statisticMock.Object };
-            var sut = new ActionSequenceStatisticsSet(statistics, _calculatorMock.Object);
+            var sut = new ActionSequenceStatisticsSet(
+                 _calculatorMock.Object,
+                 statistics,
+                SomePlayer,
+                SomeActionSequence,
+                SomeRaisedOrNotRaised);
 
             Expression<Predicate<Func<int>>> getRowCountsExpression = func => func() == statistics.Count;
 
@@ -193,7 +213,12 @@ namespace PokerTell.Statistics.Tests.Detailed
         [Test]
         public void UpdateWith_ListOfPlayers_CallsPercentageCalculator()
         {
-            var sut = new ActionSequenceStatisticsSet(new[] { _statisticMock.Object }, _calculatorMock.Object);
+            var sut = new ActionSequenceStatisticsSet(
+                _calculatorMock.Object,
+                new[] { _statisticMock.Object },
+               SomePlayer,
+                SomeActionSequence,
+                SomeRaisedOrNotRaised);
 
             var analyzablePokerPlayers = new[] { _playerMock.Object };
             sut.UpdateWith(analyzablePokerPlayers);
@@ -209,7 +234,12 @@ namespace PokerTell.Statistics.Tests.Detailed
         [Test]
         public void UpdateWith_ListOfPlayers_UpdatesAllStatisticsWithThosePlayers()
         {
-            var sut = new ActionSequenceStatisticsSet(new[] { _statisticMock.Object }, _calculatorMock.Object);
+            var sut = new ActionSequenceStatisticsSet(
+                _calculatorMock.Object,
+                new[] { _statisticMock.Object },
+                SomePlayer,
+                SomeActionSequence,
+                SomeRaisedOrNotRaised);
 
             var analyzablePokerPlayers = new[] { _playerMock.Object };
             sut.UpdateWith(analyzablePokerPlayers);
@@ -248,11 +278,23 @@ namespace PokerTell.Statistics.Tests.Detailed
 
     internal class ActionSequenceStatisticsSetMock : ActionSequenceStatisticsSet
     {
+        
+        const string SomePlayer = "somePlayer";
+
+        const ActionSequences SomeActionSequence = ActionSequences.PreFlopNoFrontRaise;
+
+        const bool SomeRaisedOrNotRaised = false;
+
+
         #region Constructors and Destructors
 
         public ActionSequenceStatisticsSetMock(
             IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
-            : base(statistics, percentagesCalculator)
+            : base(percentagesCalculator, 
+                 statistics, 
+                SomePlayer,
+                SomeActionSequence,
+                SomeRaisedOrNotRaised)
         {
         }
 

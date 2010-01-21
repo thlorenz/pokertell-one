@@ -242,7 +242,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
                 .AddPlayer(player2)
                 .SetWhoHasPositionInEachRound();
             
-            player2.InPosition[(int)Streets.PreFlop].IsTrue();
+            player2.InPosition[(int)Streets.PreFlop].ShouldBeTrue();
         }
 
         [Test]
@@ -256,7 +256,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
                 .AddPlayer(player2)
                 .SetWhoHasPositionInEachRound();
 
-            player1.InPosition[(int)Streets.PreFlop].IsFalse();
+            player1.InPosition[(int)Streets.PreFlop].ShouldBeFalse();
         }
 
         [Test]

@@ -53,7 +53,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
             _hand.AddPlayer(_player);
             _session.Save(_hand);
 
-            _player.Id.IsNotEqualTo(UnsavedValue);
+            _player.Id.ShouldNotBeEqualTo(UnsavedValue);
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.Position.IsEqualTo(_player.Position);
+            retrievedPlayer.Position.ShouldBeEqualTo(_player.Position);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.Holecards.IsEqualTo(_player.Holecards);
+            retrievedPlayer.Holecards.ShouldBeEqualTo(_player.Holecards);
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.Name.IsEqualTo(_player.Name);
+            retrievedPlayer.Name.ShouldBeEqualTo(_player.Name);
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.MBefore.IsEqualTo(_player.MBefore);
+            retrievedPlayer.MBefore.ShouldBeEqualTo(_player.MBefore);
         }
 
         [Test]
@@ -124,7 +124,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.StrategicPosition.IsEqualTo(_player.StrategicPosition);
+            retrievedPlayer.StrategicPosition.ShouldBeEqualTo(_player.StrategicPosition);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.InPosition.AreEqualTo(_player.InPosition);
+            retrievedPlayer.InPosition.ShouldBeEqualTo(_player.InPosition);
         }
 
         [Test]
@@ -164,7 +164,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.Rounds.AreEqualTo(_player.Rounds);
+            retrievedPlayer.Rounds.ShouldBeEqualTo(_player.Rounds);
         }
 
         [Test]
@@ -182,7 +182,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.ActionSequences.AreEqualTo(_player.ActionSequences);
+            retrievedPlayer.ActionSequences.ShouldBeEqualTo(_player.ActionSequences);
         }
 
         [Test]
@@ -199,7 +199,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             IConvertedPokerPlayer retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.BetSizeIndexes.AreEqualTo(_player.BetSizeIndexes);
+            retrievedPlayer.BetSizeIndexes.ShouldBeEqualTo(_player.BetSizeIndexes);
         }
 
         [Test]
@@ -212,7 +212,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
             
-            retrievedPlayer.ParentHand.GetType().Name.Contains("Proxy").IsTrue();
+            retrievedPlayer.ParentHand.GetType().Name.Contains("Proxy").ShouldBeTrue();
         }
 
         [Test]
@@ -229,7 +229,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var proxiedHandRetrieved = _session.Get<ConvertedPokerHand>(retrievedPlayer.ParentHand.Id);
 
-            proxiedHandRetrieved.IsEqualTo(_hand);
+            proxiedHandRetrieved.ShouldBeEqualTo(_hand);
         }
 
         [Test]
@@ -242,7 +242,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedPlayer = _session.Get<ConvertedPokerPlayer>(_player.Id);
 
-            retrievedPlayer.PlayerIdentity.GetType().Name.Contains("Proxy").IsTrue();
+            retrievedPlayer.PlayerIdentity.GetType().Name.Contains("Proxy").ShouldBeTrue();
         }
 
         [Test]
@@ -259,7 +259,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var proxiedIdentityRetrieved = _session.Get<PlayerIdentity>(retrievedPlayer.PlayerIdentity.Id);
 
-            proxiedIdentityRetrieved.IsEqualTo(_player.PlayerIdentity);
+            proxiedIdentityRetrieved.ShouldBeEqualTo(_player.PlayerIdentity);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
         [Test]
         public void Construct_WithHeroX_ActionNameIsCheck()
         {
-            _sut.ActionLetter.IsEqualTo("X");
+            _sut.ActionLetter.ShouldBeEqualTo("X");
         }
 
         [Test]
@@ -37,7 +37,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
         {
             _sut
                 .UpdateWith(50, null)
-                .Percentage.IsEqualTo("50%");
+                .Percentage.ShouldBeEqualTo("50%");
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
 
             _sut.UpdateWith(0, null);
 
-            propertyChangedWasRaisedForPercentage.IsTrue();
+            propertyChangedWasRaisedForPercentage.ShouldBeTrue();
         }
 
         [Test]

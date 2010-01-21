@@ -5,9 +5,11 @@ namespace PokerTell.Statistics.Detailed
     using System.Linq;
     using System.Text;
 
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.Statistics;
-    using PokerTell.Statistics.Interfaces;
+    using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
+
+    using Interfaces;
 
     public class ActionSequenceStatisticsSet : IActionSequenceStatisticsSet
     {
@@ -23,16 +25,77 @@ namespace PokerTell.Statistics.Detailed
 
         #region Constructors and Destructors
 
+        /// <summary>
+        ///   Creates instance of ActionSequenceStatisticsSet.
+        ///   Use for PostFlop Statistics only
+        /// </summary>
+        /// <param name="percentagesCalculator"></param>
+        /// <param name="statistics"></param>
+        /// <param name="playerName">
+        ///   <see cref="IActionSequenceStatisticsSet.PlayerName" />
+        /// </param>
+        /// <param name="street">
+        ///   <see cref="IActionSequenceStatisticsSet.Street" />
+        /// </param>
+        /// <param name="actionSequence">
+        ///   <see cref="IActionSequenceStatisticsSet.ActionSequence" />
+        /// </param>
+        /// <param name="inPosition">
+        ///   <see cref="IActionSequenceStatisticsSet.InPosition" />
+        /// </param>
         public ActionSequenceStatisticsSet(
-            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            Streets street,
+            ActionSequences actionSequence,
+            bool inPosition)
         {
-            _statistics = statistics;
             _percentagesCalculator = percentagesCalculator;
+            _statistics = statistics;
+            ActionSequence = actionSequence;
+            PlayerName = playerName;
+            Street = street;
+            InPosition = inPosition;
+        }
+
+        /// <summary>
+        ///   Creates instance of ActionSequenceStatisticsSet.
+        ///   Use for PreFlop Statistics only
+        /// </summary>
+        /// <param name="percentagesCalculator"></param>
+        /// <param name="statistics"></param>
+        /// <param name="playerName">
+        ///   <see cref="IActionSequenceStatisticsSet.PlayerName" />
+        /// </param>
+        /// <param name="actionSequence">
+        ///   <see cref="IActionSequenceStatisticsSet.ActionSequence" />
+        /// </param>
+        /// <param name="raisedPot">
+        ///   <see cref="IActionSequenceStatisticsSet.RaisedPot" />
+        /// </param>
+        public ActionSequenceStatisticsSet(
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            ActionSequences actionSequence,
+            bool raisedPot)
+            :this(percentagesCalculator, statistics, playerName, Streets.PreFlop, actionSequence, false)
+        {
+            RaisedPot = raisedPot;
         }
 
         #endregion
 
+        #region Events
+
+        public event Action<IActionSequenceStatisticsSet> StatisticsWereUpdated = delegate { };
+
+        #endregion
+
         #region Properties
+
+        public ActionSequences ActionSequence { get; protected set; }
 
         public virtual IEnumerable<IActionSequenceStatistic> ActionSequenceStatistics
         {
@@ -41,7 +104,13 @@ namespace PokerTell.Statistics.Detailed
 
         public int[] CumulativePercentagesByRow { get; private set; }
 
-        public event Action<IActionSequenceStatisticsSet> StatisticsWereUpdated = delegate { };
+        public bool InPosition { get; protected set; }
+
+        public string PlayerName { get; protected set; }
+
+        public bool RaisedPot { get; protected set; }
+
+        public Streets Street { get; protected set; }
 
         public virtual int[] SumOfCountsByColumn
         {
@@ -63,13 +132,15 @@ namespace PokerTell.Statistics.Detailed
         {
             _analyzablePokerPlayers = analyzablePokerPlayers;
 
-            foreach (var statistic in _statistics)
+            foreach (IActionSequenceStatistic statistic in _statistics)
             {
                 statistic.UpdateWith(_analyzablePokerPlayers);
             }
 
             CalculateIndividualPercentages();
             CalculateCumulativePercentages();
+
+            StatisticsWereUpdated(this);
 
             return this;
         }
@@ -99,7 +170,7 @@ namespace PokerTell.Statistics.Detailed
         protected virtual void CalculateCumulativePercentages()
         {
             CumulativePercentagesByRow = new int[_statistics.Count()];
-            var sumOfTotalCounts = (from statistic in _statistics select statistic.TotalCounts).Sum();
+            int sumOfTotalCounts = (from statistic in _statistics select statistic.TotalCounts).Sum();
 
             for (int row = 0; row < CumulativePercentagesByRow.Length; row++)
             {
@@ -128,10 +199,11 @@ namespace PokerTell.Statistics.Detailed
             Action<int, int, int> setPercentageAtRowColumn =
                 (row, col, percentage) => _statistics.ElementAt(row).Percentages[col] = percentage;
 
-            _percentagesCalculator.CalculatePercentages(getNumberOfRows, 
-                                                        getNumberOfColumnsAtRow, 
-                                                        getCountAtRowColumn, 
-                                                        setPercentageAtRowColumn);
+            _percentagesCalculator.CalculatePercentages(
+                getNumberOfRows,
+                getNumberOfColumnsAtRow,
+                getCountAtRowColumn,
+                setPercentageAtRowColumn);
         }
 
         #endregion

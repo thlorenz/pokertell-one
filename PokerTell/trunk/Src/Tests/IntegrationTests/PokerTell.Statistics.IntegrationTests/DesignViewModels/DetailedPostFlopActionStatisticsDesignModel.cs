@@ -2,9 +2,13 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Interfaces;
 
     using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
+
+    using System.Linq;
 
     public class DetailedPostFlopActionStatisticsDesignModel : DetailedPostFlopActionStatisticsViewModel
     {

@@ -7,6 +7,7 @@ namespace PokerTell.Statistics.ViewModels
     using Statistics.Filters;
 
     using Tools.Extensions;
+    using Tools.FunctionalCSharp;
     using Tools.GenericRanges;
 
     public class AnalyzablePokerPlayersFilterViewModel : IAnalyzablePokerPlayersFilterViewModel

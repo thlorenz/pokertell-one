@@ -59,7 +59,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             var foundPlayers = _sut.FindByPlayerIdentity(1);
             
-            foundPlayers.IsEmpty();
+            foundPlayers.ShouldBeEmpty();
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             var foundPlayers = _sut.FindByPlayerIdentity(3);
 
-            foundPlayers.IsEmpty();
+            foundPlayers.ShouldBeEmpty();
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             var foundPlayers = _sut.FindByPlayerIdentity(player1.PlayerIdentity.Id);
 
-            foundPlayers.DoesContain(player1);
+            foundPlayers.ShouldContain(player1);
         }
 
          [Test]
@@ -92,7 +92,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
              var analyzedPlayers = _sut.FindAnalyzablePlayersWithLegacy(1, 0);
 
-             analyzedPlayers.IsEmpty();
+             analyzedPlayers.ShouldBeEmpty();
         }
 
          [Test]
@@ -105,7 +105,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
              var foundPlayers = _sut.FindAnalyzablePlayersWith(player1.PlayerIdentity.Id, 0);
 
-             foundPlayers.First().Id.IsEqualTo(player1.Id);
+             foundPlayers.First().Id.ShouldBeEqualTo(player1.Id);
          }
 
          [Test]
@@ -120,7 +120,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
              var foundPlayers = _sut.FindAnalyzablePlayersWith(player1.PlayerIdentity.Id, 0);
 
-             foundPlayers.HasCount(2);
+             foundPlayers.ShouldHaveCount(2);
          }
 
          [Test]
@@ -135,7 +135,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
              var foundPlayers = _sut.FindAnalyzablePlayersWith(player1.PlayerIdentity.Id, 1);
 
-             foundPlayers.HasCount(1);
+             foundPlayers.ShouldHaveCount(1);
          }
 
         IConvertedPokerPlayer SavePlayer(string name)

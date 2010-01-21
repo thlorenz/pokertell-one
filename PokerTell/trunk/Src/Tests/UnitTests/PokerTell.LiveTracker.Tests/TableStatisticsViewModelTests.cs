@@ -49,7 +49,7 @@ namespace PokerTell.LiveTracker.Tests
         [Test]
         public void Constructor_Always_InitializesPlayers()
         {
-            _sut.Players.HasCount(0);
+            _sut.Players.ShouldHaveCount(0);
         }
 
         [Test]
@@ -65,7 +65,7 @@ namespace PokerTell.LiveTracker.Tests
 
             _sut.UpdateWith(new[] { PlayerStatisticsStubFor(player1) });
 
-            _sut.SelectedPlayer.IsEqualTo(player1Mock.Object);
+            _sut.SelectedPlayer.ShouldBeEqualTo(player1Mock.Object);
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace PokerTell.LiveTracker.Tests
 
             _sut.UpdateWith(new[] { differentPlayerStatistics });
 
-            _sut.Players.DoesContain(differentPlayerMock.Object);
+            _sut.Players.ShouldContain(differentPlayerMock.Object);
         }
 
         [Test]
@@ -133,7 +133,7 @@ namespace PokerTell.LiveTracker.Tests
             var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
             _sut.UpdateWith(new[] { differentPlayerStatistics });
 
-            _sut.Players.DoesNotContain(player1Mock.Object);
+            _sut.Players.ShouldNotContain(player1Mock.Object);
         }
 
         [Test]
@@ -167,7 +167,7 @@ namespace PokerTell.LiveTracker.Tests
 
             _sut.FilterAdjustmentRequestedCommand.Execute(null);
             
-            eventFiredWithCorrectName.IsTrue();
+            eventFiredWithCorrectName.ShouldBeTrue();
         }
 
         [Test]
@@ -187,7 +187,7 @@ namespace PokerTell.LiveTracker.Tests
 
             _sut.FilterAdjustmentRequestedCommand.Execute(null);
 
-            eventFiredWithCorrectName.IsTrue();
+            eventFiredWithCorrectName.ShouldBeTrue();
         }
 
         [Test]

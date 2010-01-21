@@ -85,9 +85,11 @@
     <Compile Include="PlayerStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModelTests.cs" />
+    <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModelTests.cs" />

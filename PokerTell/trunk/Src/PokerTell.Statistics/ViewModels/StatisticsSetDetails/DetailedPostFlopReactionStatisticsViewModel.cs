@@ -1,10 +1,11 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Windows.Input;
+
+    using Infrastructure.Enumerations.PokerHand;
 
     using Tools.WPF;
 
@@ -33,14 +34,13 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
             {
                 return _investigateCommand ?? (_investigateCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = _ =>
-                        {
+                        ExecuteDelegate = _ => {
                             var sb = new StringBuilder();
                             sb.AppendLine("Investigating: ");
-                            SelectedCells.ToList().ForEach(cell => sb.Append(cell + ", "));
+                            SelectedCells.ToList().ForEach(coord => sb.Append(coord + "; "));
                             Console.WriteLine(sb);
                         },
-                        CanExecuteDelegate = _ => SelectedCells.Count() > 0
+                        CanExecuteDelegate = _ => SelectedCells.FirstOrDefault(tuple => tuple.First != (int)ReactionTypes.Fold) != null
                     });
             }
         }

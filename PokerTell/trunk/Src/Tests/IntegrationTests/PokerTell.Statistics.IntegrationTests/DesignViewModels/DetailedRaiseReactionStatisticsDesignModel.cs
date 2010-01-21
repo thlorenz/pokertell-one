@@ -2,6 +2,8 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Interfaces;
 
     using ViewModels.StatisticsSetDetails;

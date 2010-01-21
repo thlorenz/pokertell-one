@@ -38,7 +38,7 @@ namespace Tools.Tests.GenericRanges
         public void DoesNotFilterOut_RangeIsNullAndIsNotActive_ReturnsTrue()
         {
             _sut.IsActive = false;
-            _sut.DoesNotFilterOut(0).IsTrue();
+            _sut.DoesNotFilterOut(0).ShouldBeTrue();
         }
 
         [Test]
@@ -57,7 +57,7 @@ namespace Tools.Tests.GenericRanges
             
             _sut.IsActive = false;
 
-            _sut.DoesNotFilterOut(2).IsTrue();
+            _sut.DoesNotFilterOut(2).ShouldBeTrue();
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace Tools.Tests.GenericRanges
 
             _sut.IsActive = true;
 
-            _sut.DoesNotFilterOut(2).IsFalse();
+            _sut.DoesNotFilterOut(2).ShouldBeFalse();
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Tools.Tests.GenericRanges
 
             _sut.IsActive = true;
 
-            _sut.DoesNotFilterOut(1).IsTrue();
+            _sut.DoesNotFilterOut(1).ShouldBeTrue();
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace Tools.Tests.GenericRanges
         {
             _sut.ActivateWith(0, 1);
 
-            _sut.IsActive.IsTrue();
+            _sut.IsActive.ShouldBeTrue();
         }
 
         [Test]
@@ -95,8 +95,8 @@ namespace Tools.Tests.GenericRanges
             const int max = 1;
             _sut.ActivateWith(min, max);
 
-            _sut.Range.MinValue.IsEqualTo(min);
-            _sut.Range.MaxValue.IsEqualTo(max);
+            _sut.Range.MinValue.ShouldBeEqualTo(min);
+            _sut.Range.MaxValue.ShouldBeEqualTo(max);
         }
 
         [Test]
@@ -106,7 +106,7 @@ namespace Tools.Tests.GenericRanges
             var rangeFilter1 = new GenericRangeFilter<int> { Range = genericRange, IsActive = true };
             var rangeFilter2 = new GenericRangeFilter<int> { Range = genericRange, IsActive = true };
 
-            rangeFilter1.IsEqualTo(rangeFilter2);
+            rangeFilter1.ShouldBeEqualTo(rangeFilter2);
         }
 
         [Test]
@@ -116,7 +116,7 @@ namespace Tools.Tests.GenericRanges
             var rangeFilter1 = new GenericRangeFilter<int> { Range = genericRange, IsActive = true };
             var rangeFilter2 = new GenericRangeFilter<int> { Range = genericRange, IsActive = false };
 
-            rangeFilter1.IsNotEqualTo(rangeFilter2);
+            rangeFilter1.ShouldNotBeEqualTo(rangeFilter2);
         }
 
         [Test]
@@ -127,7 +127,7 @@ namespace Tools.Tests.GenericRanges
             var rangeFilter1 = new GenericRangeFilter<int> { Range = genericRange1, IsActive = true };
             var rangeFilter2 = new GenericRangeFilter<int> { Range = genericRange2, IsActive = true };
 
-            rangeFilter1.IsNotEqualTo(rangeFilter2);
+            rangeFilter1.ShouldNotBeEqualTo(rangeFilter2);
         }
 
 

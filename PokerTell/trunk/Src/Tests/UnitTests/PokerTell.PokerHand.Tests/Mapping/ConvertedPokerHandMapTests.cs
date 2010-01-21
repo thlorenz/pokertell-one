@@ -64,7 +64,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
         {
             _session.Save(_hand);
 
-            _hand.Id.IsNotEqualTo(UnsavedValue);
+            _hand.Id.ShouldNotBeEqualTo(UnsavedValue);
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
            
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
-            retrievedHand.IsEqualTo(_hand);
+            retrievedHand.ShouldBeEqualTo(_hand);
             
         }
 
@@ -99,7 +99,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
-            retrievedHand.PlayersInRound.AreEqualTo(_hand.PlayersInRound);
+            retrievedHand.PlayersInRound.ShouldBeEqualTo(_hand.PlayersInRound);
         }
 
         [Test]
@@ -125,7 +125,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
-            retrievedHand.Sequences.AreEqualTo(_hand.Sequences);
+            retrievedHand.Sequences.ShouldBeEqualTo(_hand.Sequences);
         }
 
         [Test]
@@ -145,8 +145,8 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
-            retrievedHand.Players.First().Id.IsEqualTo(player1.Id);
-            retrievedHand.Players.Last().Id.IsEqualTo(player2.Id);
+            retrievedHand.Players.First().Id.ShouldBeEqualTo(player1.Id);
+            retrievedHand.Players.Last().Id.ShouldBeEqualTo(player2.Id);
         }
 
         [Test]
@@ -163,8 +163,8 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
-            retrievedHand.Players.First().Holecards.IsEqualTo(player1.Holecards);
-            retrievedHand.Players.First().Position.IsEqualTo(player1.Position);
+            retrievedHand.Players.First().Holecards.ShouldBeEqualTo(player1.Holecards);
+            retrievedHand.Players.First().Position.ShouldBeEqualTo(player1.Position);
         }
 
         [Test]
@@ -181,7 +181,7 @@ namespace PokerTell.PokerHand.Tests.Mapping
 
             var retrievedHand = _session.Get<ConvertedPokerHand>(_hand.Id);
 
-            retrievedHand.Players.First().ParentHand.IsEqualTo(_hand);
+            retrievedHand.Players.First().ParentHand.ShouldBeEqualTo(_hand);
         }
 
         

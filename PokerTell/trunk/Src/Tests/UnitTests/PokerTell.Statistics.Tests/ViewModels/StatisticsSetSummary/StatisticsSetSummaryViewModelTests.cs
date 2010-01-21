@@ -47,7 +47,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
         [Test]
         public void Constructor_Always_CreatesEmptyRows()
         {
-            _sut.Rows.HasCount(0);
+            _sut.Rows.ShouldHaveCount(0);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
 
             _sut.UpdateWith(_statisticsSetStub.Object);
 
-            _sut.Rows.HasCount(1);
+            _sut.Rows.ShouldHaveCount(1);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
 
             _sut.UpdateWith(_statisticsSetStub.Object);
 
-            _sut.Rows.HasCount(2);
+            _sut.Rows.ShouldHaveCount(2);
         }
 
         [Test]
@@ -95,7 +95,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
              
             _sut.UpdateWith(_statisticsSetStub.Object);
 
-            _sut.Rows.HasCount(1);
+            _sut.Rows.ShouldHaveCount(1);
         }
 
         [Test]
@@ -132,7 +132,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
 
             _sut.SelectStatisticsSetCommand.Execute(null);
 
-            eventWasRaisedWithStatisticsSet.IsTrue();
+            eventWasRaisedWithStatisticsSet.ShouldBeTrue();
         }
     }
 }

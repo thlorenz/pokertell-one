@@ -56,7 +56,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             IPlayerIdentity returnedIdentity = _sut.FindPlayerIdentityFor("someName", "someSite");
 
-            returnedIdentity.IsNull();
+            returnedIdentity.ShouldBeNull();
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             IPlayerIdentity returnedIdentity = _sut.FindPlayerIdentityFor(someName, someSite);
 
-            returnedIdentity.IsEqualTo(playerIdentity);
+            returnedIdentity.ShouldBeEqualTo(playerIdentity);
         }
 
         [Test]
@@ -87,7 +87,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             IPlayerIdentity samePlayerIdentity = _sut.FindOrInsert(someName, someSite);
 
-            samePlayerIdentity.Id.IsEqualTo(insertedIdentity.Id);
+            samePlayerIdentity.Id.ShouldBeEqualTo(insertedIdentity.Id);
         }
 
         [Test]
@@ -100,7 +100,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             var retrievedIdentity = ClearedSession.Get<PlayerIdentity>(insertedIdentity.Id);
 
-            retrievedIdentity.IsEqualTo(insertedIdentity);
+            retrievedIdentity.ShouldBeEqualTo(insertedIdentity);
         }
         
         #endregion

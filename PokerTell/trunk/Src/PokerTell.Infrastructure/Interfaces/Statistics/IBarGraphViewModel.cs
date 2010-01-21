@@ -3,6 +3,8 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
     using System.Collections.ObjectModel;
     using System.Windows.Media;
 
+    using Tools.Interfaces;
+
     public interface IBarGraphViewModel : IFluentInterface
     {
         Color[] BarColors { get; }

@@ -1,5 +1,7 @@
 namespace PokerTell.Statistics.Views.StatisticsSetDetails
 {
+    using Infrastructure.Interfaces.Statistics;
+
     using Interfaces;
 
     using ViewModels.StatisticsSetDetails;
@@ -70,7 +72,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
 
                 var column = gridCellInfo.Column.DisplayIndex;
 
-                viewModel.AddToSelectionFrom(row, column);
+                viewModel.AddToSelection(row, column);
             }
         }
 

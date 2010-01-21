@@ -23,7 +23,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
 
             var display = _sut.Convert(parameter);
 
-            display.IsEqualTo("Now");
+            display.ShouldBeEqualTo("Now");
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
 
             var display = _sut.Convert(parameter);
 
-            display.IsEqualTo("20 minutes ago");
+            display.ShouldBeEqualTo("20 minutes ago");
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
 
             var display = _sut.Convert(parameter);
 
-            display.IsEqualTo("2 hours ago");
+            display.ShouldBeEqualTo("2 hours ago");
         }
     }
 }

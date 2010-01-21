@@ -89,11 +89,26 @@
     <Compile Include="ExecuteProcess.cs" />
     <Compile Include="Extensions\ArrayComparer.cs" />
     <Compile Include="Extensions\GenericRangeFilterExtension.cs" />
-    <Compile Include="Extensions\SequenceExtensions.cs" />
+    <Compile Include="FunctionalCSharp\IdentityExtensions.cs" />
+    <Compile Include="FunctionalCSharp\ContinuationExtensions.cs" />
+    <Compile Include="FunctionalCSharp\MaybeExtensions.cs" />
+    <Compile Include="FunctionalCSharp\PatternMatchExtensions.cs" />
+    <Compile Include="FunctionalCSharp\SequenceMapEnumerator.cs" />
+    <Compile Include="FunctionalCSharp\FunctionExtensions.cs" />
+    <Compile Include="FunctionalCSharp\ImmutableQueue.cs" />
+    <Compile Include="FunctionalCSharp\ImmutableStack.cs" />
+    <Compile Include="FunctionalCSharp\SequenceExtensions.cs" />
     <Compile Include="Extensions\NullSafe.cs" />
     <Compile Include="Extensions\GenericRangeExtension.cs" />
     <Compile Include="Extensions\ResExtension.cs" />
     <Compile Include="Extensions\TranslateExtension.cs" />
+    <Compile Include="FunctionalCSharp\Domain.cs" />
+    <Compile Include="FunctionalCSharp\ImmutableList.cs" />
+    <Compile Include="FunctionalCSharp\Option.cs" />
+    <Compile Include="FunctionalCSharp\MemoizationExtensions.cs" />
+    <Compile Include="FunctionalCSharp\Table.cs" />
+    <Compile Include="Interfaces\ITuple.cs" />
+    <Compile Include="FunctionalCSharp\Tuple.cs" />
     <Compile Include="GenericRanges\BlinkingColorCodedRange.cs" />
     <Compile Include="GenericRanges\ColorCodedGenericRangeList.cs" />
     <Compile Include="GenericRanges\ColorCodedRange.cs" />
@@ -109,6 +124,7 @@
     <Compile Include="GenericUtilities\Reflect.cs" />
     <Compile Include="GenericUtilities\RelativeLocation.cs" />
     <Compile Include="Interfaces\IDispatcherTimer.cs" />
+    <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\IItemsPagesManager.cs" />
     <Compile Include="Interfaces\ITimer.cs">
       <SubType>Component</SubType>
@@ -209,6 +225,7 @@
     <Content Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\ColorPickerSampleApplication.sln" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="GenericDataTypes\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

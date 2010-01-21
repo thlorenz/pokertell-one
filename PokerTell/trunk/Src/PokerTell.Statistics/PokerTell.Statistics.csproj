@@ -98,9 +98,6 @@
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopReactionStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModel.cs" />
-    <Compile Include="Interfaces\IDetailedStatisticsViewModel.cs" />
-    <Compile Include="Interfaces\IDetailedStatisticsCellViewModel.cs" />
-    <Compile Include="Interfaces\IDetailedStatisticsRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedRaiseReactionStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />

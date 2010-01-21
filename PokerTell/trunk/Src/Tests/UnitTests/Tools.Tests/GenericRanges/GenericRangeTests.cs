@@ -125,7 +125,7 @@ namespace Tools.Tests.GenericRanges
             var genR1 = new GenericRange<int>(min, max);
 	        var genR2 = new GenericRange<int>(min, max);
 
-	        genR1.IsEqualTo(genR2);   
+	        genR1.ShouldBeEqualTo(genR2);   
 	    }
 
         [Test]
@@ -137,7 +137,7 @@ namespace Tools.Tests.GenericRanges
             var genR1 = new GenericRange<int>(min, max);
             var genR2 = new GenericRange<int>(min, max + 1);
 
-            genR1.IsNotEqualTo(genR2);
+            genR1.ShouldNotBeEqualTo(genR2);
         }
 
         [Test]
@@ -149,7 +149,7 @@ namespace Tools.Tests.GenericRanges
             var genR1 = new GenericRange<int>(min, max);
             var genR2 = new GenericRange<int>(min - 1, max);
 
-            genR1.IsNotEqualTo(genR2);
+            genR1.ShouldNotBeEqualTo(genR2);
         }
 	}
 }

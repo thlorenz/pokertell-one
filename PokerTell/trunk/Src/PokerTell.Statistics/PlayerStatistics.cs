@@ -5,19 +5,20 @@ namespace PokerTell.Statistics
     using System.Linq;
     using System.Text;
 
+    using Detailed;
+
     using Filters;
 
+    using Infrastructure;
+    using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Events;
+    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Repository;
     using Infrastructure.Interfaces.Statistics;
 
-    using Microsoft.Practices.Composite.Events;
+    using Interfaces;
 
-    using PokerTell.Infrastructure;
-    using PokerTell.Infrastructure.Enumerations.PokerHand;
-    using PokerTell.Infrastructure.Events;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.Repository;
-    using PokerTell.Statistics.Detailed;
-    using PokerTell.Statistics.Interfaces;
+    using Microsoft.Practices.Composite.Events;
 
     public class PlayerStatistics : IPlayerStatistics, IEnumerable<IActionSequenceStatisticsSet>
     {
@@ -30,16 +31,6 @@ namespace PokerTell.Statistics
         readonly IRepository _repository;
 
         IAnalyzablePokerPlayersFilter _filter;
-
-        public IAnalyzablePokerPlayersFilter Filter
-        {
-            get { return _filter; }
-            set
-            {
-                _filter = value;
-                FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
-            }
-        }
 
         string _playerName;
 
@@ -68,6 +59,16 @@ namespace PokerTell.Statistics
 
         #region Properties
 
+        public IAnalyzablePokerPlayersFilter Filter
+        {
+            get { return _filter; }
+            set
+            {
+                _filter = value;
+                FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
+            }
+        }
+
         public IActionSequenceStatisticsSet[] HeroXOrHeroBInPosition { get; protected set; }
 
         public IActionSequenceStatisticsSet[] HeroXOrHeroBOutOfPosition { get; protected set; }
@@ -83,18 +84,6 @@ namespace PokerTell.Statistics
         public IActionSequenceStatisticsSet PreFlopRaisedPot { get; protected set; }
 
         public IActionSequenceStatisticsSet PreFlopUnraisedPot { get; protected set; }
-
-        public int TotalCountsInPosition(Streets street)
-        {
-            return HeroXOrHeroBInPosition[(int)street].TotalCounts.Sum() +
-                   OppBIntoHeroInPosition[(int)street].TotalCounts.Sum();
-        }
-
-        public int TotalCountsOutOfPosition(Streets street)
-        {
-            return HeroXOrHeroBOutOfPosition[(int)street].TotalCounts.Sum() +
-                   OppBIntoHeroOutOfPosition[(int)street].TotalCounts.Sum();
-        }
 
         public int TotalCountPreFlopRaisedPot
         {
@@ -112,10 +101,12 @@ namespace PokerTell.Statistics
 
         public override string ToString()
         {
-            var sb = new StringBuilder(string.Format("PlayerName: {0}, PokerSite: {1}, LastQueriedId: {2}\n", 
-                                                     _playerName, 
-                                                     _pokerSite, 
-                                                     _lastQueriedId));
+            var sb = new StringBuilder(
+                string.Format(
+                    "PlayerName: {0}, PokerSite: {1}, LastQueriedId: {2}\n",
+                    _playerName,
+                    _pokerSite,
+                    _lastQueriedId));
             this.ToList().ForEach(statisticsSet => sb.AppendLine(statisticsSet.ToString()));
 
             sb.AppendLine("Total Counts: ")
@@ -132,7 +123,7 @@ namespace PokerTell.Statistics
 
             sb.AppendLine()
                 .Append("In Position: ");
-           for (Streets street = Streets.Flop; street <= Streets.River; street++)
+            for (Streets street = Streets.Flop; street <= Streets.River; street++)
             {
                 sb.Append(TotalCountsInPosition(street) + ", ");
             }
@@ -147,10 +138,12 @@ namespace PokerTell.Statistics
         #region IEnumerable
 
         /// <summary>
-        /// Returns an enumerator that iterates through a collection.
+        ///   Returns an enumerator that iterates through a collection.
         /// </summary>
         /// <returns>
-        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        ///   An
+        ///   <see cref="T:System.Collections.IEnumerator" />
+        ///   object that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         IEnumerator IEnumerable.GetEnumerator()
@@ -163,10 +156,12 @@ namespace PokerTell.Statistics
         #region IEnumerable<IActionSequenceStatisticsSet>
 
         /// <summary>
-        /// Returns an enumerator that iterates through the collection.
+        ///   Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        ///   A
+        ///   <see cref="T:System.Collections.Generic.IEnumerator`1" />
+        ///   that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>1</filterpriority>
         public IEnumerator<IActionSequenceStatisticsSet> GetEnumerator()
@@ -198,6 +193,18 @@ namespace PokerTell.Statistics
             return this;
         }
 
+        public int TotalCountsInPosition(Streets street)
+        {
+            return HeroXOrHeroBInPosition[(int)street].TotalCounts.Sum() +
+                   OppBIntoHeroInPosition[(int)street].TotalCounts.Sum();
+        }
+
+        public int TotalCountsOutOfPosition(Streets street)
+        {
+            return HeroXOrHeroBOutOfPosition[(int)street].TotalCounts.Sum() +
+                   OppBIntoHeroOutOfPosition[(int)street].TotalCounts.Sum();
+        }
+
         public IPlayerStatistics UpdateStatistics()
         {
             ExtractPlayerIdentityIfItIsNullFrom(_repository);
@@ -226,20 +233,44 @@ namespace PokerTell.Statistics
         }
 
         protected virtual IActionSequenceStatisticsSet NewActionSequenceSetStatistics(
-            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            Streets street,
+            ActionSequences actionSequence,
+            bool inPosition)
         {
-            return new ActionSequenceStatisticsSet(statistics, percentagesCalculator);
+            return new ActionSequenceStatisticsSet(
+                percentagesCalculator, statistics, playerName, street, actionSequence, inPosition);
         }
 
         protected virtual IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(
-            IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            Streets street,
+            bool inPosition)
         {
-            return new HeroCheckOrBetSetStatistics(statistics, percentagesCalculator);
+            return new HeroCheckOrBetSetStatistics(percentagesCalculator, statistics, playerName, street, inPosition);
+        }
+
+        protected virtual IActionSequenceStatisticsSet NewPreflopActionSequenceSetStatistics(
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> actionSequenceStatistics,
+            string playerName,
+            bool raisedPot)
+        {
+            return new ActionSequenceStatisticsSet(
+                percentagesCalculator,
+                actionSequenceStatistics,
+                playerName,
+                raisedPot ? ActionSequences.PreFlopFrontRaise : ActionSequences.PreFlopNoFrontRaise,
+                raisedPot);
         }
 
         protected virtual void UpdateStatisticsWith(IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers)
         {
-            foreach (var statisticsSet in this)
+            foreach (IActionSequenceStatisticsSet statisticsSet in this)
             {
                 statisticsSet.UpdateWith(filteredAnalyzablePlayers);
             }
@@ -256,12 +287,13 @@ namespace PokerTell.Statistics
 
         void ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(IRepository repository)
         {
-            var newAnalyzablePlayers = repository.FindAnalyzablePlayersWith(PlayerIdentity.Id, _lastQueriedId);
+            IEnumerable<IAnalyzablePokerPlayer> newAnalyzablePlayers =
+                repository.FindAnalyzablePlayersWith(PlayerIdentity.Id, _lastQueriedId);
 
             if (newAnalyzablePlayers.Count() != 0)
             {
                 _lastQueriedId = (from player in newAnalyzablePlayers select player.Id).Max();
-                foreach (var analyzablePlayer in newAnalyzablePlayers)
+                foreach (IAnalyzablePokerPlayer analyzablePlayer in newAnalyzablePlayers)
                 {
                     _allAnalyzablePlayers.Add(analyzablePlayer);
                 }
@@ -278,7 +310,7 @@ namespace PokerTell.Statistics
 
         void FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem()
         {
-            var filteredAnalyzablePlayers = GetFilteredAnalyzablePlayers();
+            IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers = GetFilteredAnalyzablePlayers();
             UpdateStatisticsWith(filteredAnalyzablePlayers);
         }
 
@@ -286,80 +318,107 @@ namespace PokerTell.Statistics
         {
             var heroXOrHeroBOutOfPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopHeroXStatistic(street, false), 
+                    new PostFlopHeroXStatistic(street, false),
                     new PostFlopActionSequenceStatistic(ActionSequences.HeroB, street, false, betSizeIndexCount)
                 };
             var heroXOrHeroBInPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopHeroXStatistic(street, true), 
+                    new PostFlopHeroXStatistic(street, true),
                     new PostFlopActionSequenceStatistic(ActionSequences.HeroB, street, true, betSizeIndexCount)
                 };
 
-            HeroXOrHeroBOutOfPosition[(int)street] = NewHeroCheckOrBetSetStatistics(
-                heroXOrHeroBOutOfPositionStatistics, new SeparateRowsPercentagesCalculator());
-            HeroXOrHeroBInPosition[(int)street] = NewHeroCheckOrBetSetStatistics(heroXOrHeroBInPositionStatistics, 
-                                                                                 new SeparateRowsPercentagesCalculator());
+            HeroXOrHeroBOutOfPosition[(int)street] =
+                NewHeroCheckOrBetSetStatistics(
+                    new SeparateRowsPercentagesCalculator(),
+                    heroXOrHeroBOutOfPositionStatistics,
+                    _playerName,
+                    street,
+                    false);
+            HeroXOrHeroBInPosition[(int)street] =
+                NewHeroCheckOrBetSetStatistics(
+                    new SeparateRowsPercentagesCalculator(), heroXOrHeroBInPositionStatistics, _playerName, street, true);
         }
 
         void InitializeHeroXOutOfPositionOppBStatistics(Streets street, int betSizeIndexCount)
         {
             var heroXOutOfPositionOppBStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceStatistic(ActionSequences.HeroXOppBHeroF, street, false, betSizeIndexCount), 
-                    new PostFlopActionSequenceStatistic(ActionSequences.HeroXOppBHeroC, street, false, betSizeIndexCount), 
-                    new PostFlopActionSequenceStatistic(ActionSequences.HeroXOppBHeroR, street, false, betSizeIndexCount)
+                    new PostFlopActionSequenceStatistic(
+                        ActionSequences.HeroXOppBHeroF, street, false, betSizeIndexCount),
+                    new PostFlopActionSequenceStatistic(
+                        ActionSequences.HeroXOppBHeroC, street, false, betSizeIndexCount),
+                    new PostFlopActionSequenceStatistic(
+                        ActionSequences.HeroXOppBHeroR, street, false, betSizeIndexCount)
                 };
             HeroXOutOfPositionOppB[(int)street] =
-                NewActionSequenceSetStatistics(heroXOutOfPositionOppBStatistics, new AcrossRowsPercentagesCalculator());
+                NewActionSequenceSetStatistics(
+                    new AcrossRowsPercentagesCalculator(),
+                    heroXOutOfPositionOppBStatistics,
+                    _playerName,
+                    street,
+                    ActionSequences.HeroXOppB,
+                    false);
         }
 
         void InitializeOppBIntoHeroStatistics(Streets street, int betSizeIndexCount)
         {
             var oppBIntoHeroOutOfPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, false, betSizeIndexCount), 
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, false, betSizeIndexCount), 
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, false, betSizeIndexCount),
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, false, betSizeIndexCount),
                     new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroR, street, false, betSizeIndexCount)
                 };
             var oppBIntoHeroInPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, true, betSizeIndexCount), 
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, true, betSizeIndexCount), 
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, true, betSizeIndexCount),
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, true, betSizeIndexCount),
                     new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroR, street, true, betSizeIndexCount)
                 };
             OppBIntoHeroOutOfPosition[(int)street] =
-                NewActionSequenceSetStatistics(oppBIntoHeroOutOfPositionStatistics, 
-                                               new AcrossRowsPercentagesCalculator());
+                NewActionSequenceSetStatistics(
+                    new AcrossRowsPercentagesCalculator(),
+                    oppBIntoHeroOutOfPositionStatistics,
+                    _playerName,
+                    street,
+                    ActionSequences.OppB,
+                    false);
             OppBIntoHeroInPosition[(int)street] =
-                NewActionSequenceSetStatistics(oppBIntoHeroInPositionStatistics, 
-                                               new AcrossRowsPercentagesCalculator());
+                NewActionSequenceSetStatistics(
+                    new AcrossRowsPercentagesCalculator(),
+                    oppBIntoHeroInPositionStatistics,
+                    _playerName,
+                    street,
+                    ActionSequences.OppB,
+                    true);
         }
 
         void InitializePreFlopStatistics()
         {
             var preFlopUnraisedPotStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PreFlopActionSequenceStatistic(ActionSequences.HeroF), 
-                    new PreFlopActionSequenceStatistic(ActionSequences.HeroC), 
+                    new PreFlopActionSequenceStatistic(ActionSequences.HeroF),
+                    new PreFlopActionSequenceStatistic(ActionSequences.HeroC),
                     new PreFlopActionSequenceStatistic(ActionSequences.HeroR)
                 };
 
             var preFlopRaisedPotStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroF), 
-                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroC), 
+                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroF),
+                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroC),
                     new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroR)
                 };
 
-            PreFlopRaisedPot = NewActionSequenceSetStatistics(preFlopRaisedPotStatistics, 
-                                                              new AcrossRowsPercentagesCalculator());
-            PreFlopUnraisedPot = NewActionSequenceSetStatistics(preFlopUnraisedPotStatistics, 
-                                                                new AcrossRowsPercentagesCalculator());
+            PreFlopRaisedPot =
+                NewPreflopActionSequenceSetStatistics(
+                    new AcrossRowsPercentagesCalculator(), preFlopRaisedPotStatistics, _playerName, true);
+            PreFlopUnraisedPot =
+                NewPreflopActionSequenceSetStatistics(
+                    new AcrossRowsPercentagesCalculator(), preFlopUnraisedPotStatistics, _playerName, false);
         }
 
         void InitializeStatistics()
         {
-            var betSizeIndexCount = ApplicationProperties.BetSizeKeys.Length;
+            int betSizeIndexCount = ApplicationProperties.BetSizeKeys.Length;
 
             InitializePreFlopStatistics();
 

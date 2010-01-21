@@ -7,7 +7,7 @@ namespace PokerTell.Statistics.ViewModels.Filters
 
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
-    using Tools.Extensions;
+    using Tools.FunctionalCSharp;
     using Tools.GenericRanges;
 
     public class RangeFilterForSelectorsViewModel<T> : RangeFilterViewModel<T>, IRangeFilterForSelectorsViewModel<T>

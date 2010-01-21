@@ -40,7 +40,7 @@ namespace PokerTell.Statistics.Tests.Filters
         [Test]
         public void Filter_EmptyList_ReturnsEmptyList()
         {
-            _sut.Filter(new List<IAnalyzablePokerPlayer>()).IsEmpty();
+            _sut.Filter(new List<IAnalyzablePokerPlayer>()).ShouldBeEmpty();
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.HasCount(players.Count);
+            filteredPlayers.ShouldHaveCount(players.Count);
         }
 
         [Test]
@@ -70,8 +70,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -90,8 +90,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -110,8 +110,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -130,8 +130,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -150,8 +150,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -170,8 +170,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -195,8 +195,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -220,8 +220,8 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesContain(inRangePlayer);
-            filteredPlayers.DoesNotContain(outOfRangePlayer);
+            filteredPlayers.ShouldContain(inRangePlayer);
+            filteredPlayers.ShouldNotContain(outOfRangePlayer);
         }
 
         [Test]
@@ -251,9 +251,9 @@ namespace PokerTell.Statistics.Tests.Filters
 
             var filteredPlayers = _sut.Filter(players);
 
-            filteredPlayers.DoesNotContain(passesMFilter);
-            filteredPlayers.DoesNotContain(passesBigBlindFilter);
-            filteredPlayers.DoesContain(passesBothFilters);
+            filteredPlayers.ShouldNotContain(passesMFilter);
+            filteredPlayers.ShouldNotContain(passesBigBlindFilter);
+            filteredPlayers.ShouldContain(passesBothFilters);
         }
 
         [Test]
@@ -262,7 +262,7 @@ namespace PokerTell.Statistics.Tests.Filters
             var filter1 = AnalyzablePokerPlayersFilter.InactiveFilter;
             var filter2 = AnalyzablePokerPlayersFilter.InactiveFilter;
 
-            filter1.IsEqualTo(filter2);
+            filter1.ShouldBeEqualTo(filter2);
         }
 
         [Test]
@@ -272,7 +272,7 @@ namespace PokerTell.Statistics.Tests.Filters
             filter1.MFilter.IsActive = true;
             var filter2 = AnalyzablePokerPlayersFilter.InactiveFilter;
 
-            filter1.IsNotEqualTo(filter2);
+            filter1.ShouldNotBeEqualTo(filter2);
         }
     }
 }

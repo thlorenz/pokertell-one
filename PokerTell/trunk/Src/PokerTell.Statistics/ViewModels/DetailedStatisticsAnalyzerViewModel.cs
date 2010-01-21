@@ -1,47 +1,74 @@
 namespace PokerTell.Statistics.ViewModels
 {
+    using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
+    using System.Linq;
     using System.Windows.Input;
 
-    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
 
+    using Interfaces;
+
+    using StatisticsSetDetails;
+
+    using Tools.FunctionalCSharp;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
-    public class DetailedStatisticsAnalyzerViewModel : NotifyPropertyChanged
+    public class DetailedStatisticsAnalyzerViewModel : NotifyPropertyChanged, IDetailedStatisticsAnalyzerViewModel
     {
         #region Constants and Fields
 
-        NotifyPropertyChanged _currentViewModel;
+        ICommand _navigateBackwardCommand;
+
+        ICommand _navigateForwardCommand;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public DetailedStatisticsAnalyzerViewModel(INotifyPropertyChanged viewModel)
+        public DetailedStatisticsAnalyzerViewModel()
         {
-            ViewModelHistory = new List<NotifyPropertyChanged>();
-
-            CreateCommands();
+            ViewModelHistory = new List<IDetailedStatisticsViewModel>();
         }
+
+
 
         #endregion
 
         #region Properties
 
-        public ICommand Close { get; private set; }
+        public IDetailedStatisticsViewModel CurrentViewModel { get; set; }
 
-        public NotifyPropertyChanged CurrentViewModel
+        public ICommand NavigateBackwardCommand
         {
-            get { return _currentViewModel; }
+            get
+            {
+                return _navigateBackwardCommand ?? (_navigateBackwardCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate =
+                            xx => NavigateTo(ViewModelHistory.IndexOf(CurrentViewModel) - 1),
+                        CanExecuteDelegate = xx => ViewModelHistory.IndexOf(CurrentViewModel) > 0
+                    });
+            }
         }
 
-        public ICommand NavigateBack { get; private set; }
+        public ICommand NavigateForwardCommand
+        {
+            get
+            {
+                return _navigateForwardCommand ?? (_navigateForwardCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate =
+                            xx => NavigateTo(ViewModelHistory.IndexOf(CurrentViewModel) + 1),
+                        CanExecuteDelegate =
+                            xx => ViewModelHistory.IndexOf(CurrentViewModel) < ViewModelHistory.Count - 1
+                    });
+            }
+        }
 
-        public ICommand NavigateForward { get; private set; }
-
-        public IList<NotifyPropertyChanged> ViewModelHistory { get; private set; }
+        public IList<IDetailedStatisticsViewModel> ViewModelHistory { get; private set; }
 
         public bool Visible
         {
@@ -52,58 +79,53 @@ namespace PokerTell.Statistics.ViewModels
 
         #region Public Methods
 
-        public void AddViewModel(NotifyPropertyChanged viewModel)
+        public IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsViewModel viewModel)
         {
-            RemoveAllTableViewsInTableViewHistoryThatAreBehindCurrentTableView();
+            RemoveAllViewModelsInHistoryThatAreBehindCurrentViewModel();
 
             ViewModelHistory.Add(viewModel);
 
+            CurrentViewModel = viewModel;
+
+            viewModel.ChildViewModelChanged += vm => AddViewModel(vm);
+
+            return this;
         }
 
-        public void NavigateTo(int index)
+        public IDetailedStatisticsAnalyzerViewModel NavigateTo(int index)
         {
             if (index > -1 && index < ViewModelHistory.Count)
             {
-                _currentViewModel = ViewModelHistory[index];
+                CurrentViewModel = ViewModelHistory[index];
+                RaisePropertyChanged(() => CurrentViewModel);
             }
+            return this;
+        }
+
+        public IDetailedStatisticsAnalyzerViewModel InitializeWith(IActionSequenceStatisticsSet actionSequenceStatisticsSet)
+        {
+            Predicate<IActionSequenceStatisticsSet> isPreflop = s => s.Street == Streets.PreFlop;
+            Predicate<IActionSequenceStatisticsSet> isHeroActs = s => s.ActionSequence == ActionSequences.HeroActs;
+            Predicate<IActionSequenceStatisticsSet> isOppB = s => s.ActionSequence == ActionSequences.OppB;
+            Predicate<IActionSequenceStatisticsSet> isHeroXOppB = s => s.ActionSequence == ActionSequences.HeroXOppB;
+
+            actionSequenceStatisticsSet.Match()
+                .With(isPreflop, _ => CurrentViewModel = new DetailedPreFlopStatisticsViewModel())
+                .With(isHeroActs, _ => CurrentViewModel = new DetailedPostFlopActionStatisticsViewModel())
+                .With(isOppB, _ => CurrentViewModel = new DetailedPostFlopReactionStatisticsViewModel())
+                .With(isHeroXOppB, _ => CurrentViewModel = new DetailedPostFlopReactionStatisticsViewModel())
+                .Do();
+          
+            return this;
         }
 
         #endregion
 
         #region Methods
 
-        void CreateCommands()
+        void RemoveAllViewModelsInHistoryThatAreBehindCurrentViewModel()
         {
-            NavigateBack = new SimpleCommand
-                {
-                    ExecuteDelegate =
-                        xx => NavigateTo(ViewModelHistory.IndexOf(_currentViewModel) - 1),
-                    CanExecuteDelegate = xx => ViewModelHistory.IndexOf(_currentViewModel) > 0
-                };
-
-
-            NavigateForward = new SimpleCommand
-                {
-                    ExecuteDelegate =
-                        xx => NavigateTo(ViewModelHistory.IndexOf(_currentViewModel) + 1),
-                    CanExecuteDelegate =
-                        xx =>
-                        ViewModelHistory.IndexOf(_currentViewModel) <
-                        ViewModelHistory.Count - 1
-                };
-
-            Close = new SimpleCommand
-                {
-                    ExecuteDelegate = xx => {
-                        ViewModelHistory.Clear();
-                        RaisePropertyChanged(() => Visible);
-                    },
-                };
-        }
-
-        void RemoveAllTableViewsInTableViewHistoryThatAreBehindCurrentTableView()
-        {
-            int indexOfCurrentView = ViewModelHistory.IndexOf(_currentViewModel);
+            int indexOfCurrentView = ViewModelHistory.IndexOf(CurrentViewModel);
 
             if (indexOfCurrentView > -1 && indexOfCurrentView < ViewModelHistory.Count - 1)
             {

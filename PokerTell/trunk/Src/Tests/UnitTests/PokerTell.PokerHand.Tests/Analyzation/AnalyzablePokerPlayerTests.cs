@@ -54,23 +54,23 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         [Test]
         public void NHibernateConstructor_Never_InitializesSequences()
         {
-            _sut.SequencesAreInitialized.IsFalse();
+            _sut.SequencesAreInitialized.ShouldBeFalse();
         }
         
         [Test]
         public void AccessSequences_FirstTime_InitializesThemWithSequenceStrings()
         {
             var access = _sut.Sequences[0];
-            _sut.SequencesAreInitialized.IsTrue();
+            _sut.SequencesAreInitialized.ShouldBeTrue();
         }
 
         [Test]
         public void AccessSequences_FirstTime_ReturnsCorrectSequenceValues()
         {
-            _sut.Sequences[(int)Streets.PreFlop].Actions.HasCount(2);
-            _sut.Sequences[(int)Streets.Flop].Actions.HasCount(3);
-            _sut.Sequences[(int)Streets.Turn].Actions.HasCount(4);
-            _sut.Sequences[(int)Streets.River].IsNull();
+            _sut.Sequences[(int)Streets.PreFlop].Actions.ShouldHaveCount(2);
+            _sut.Sequences[(int)Streets.Flop].Actions.ShouldHaveCount(3);
+            _sut.Sequences[(int)Streets.Turn].Actions.ShouldHaveCount(4);
+            _sut.Sequences[(int)Streets.River].ShouldBeNull();
         }
     }
 

@@ -1,5 +1,7 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
+    using Infrastructure.Interfaces.Statistics;
+
     using Interfaces;
 
     public class DetailedStatisticsCellViewModel : IDetailedStatisticsCellViewModel

@@ -2,6 +2,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using NHibernate;
 
+    using Tools.Interfaces;
+
     public interface IConvertedPokerHandDao : IFluentInterface 
     {
         IConvertedPokerHandDao Insert(IConvertedPokerHand convertedPokerHand, IStatelessSession statelessSession);

@@ -11,17 +11,28 @@ namespace PokerTell.Statistics.Detailed
 
     public class HeroCheckOrBetSetStatistics : ActionSequenceStatisticsSet
     {
-        public HeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
-            : base(statistics, percentagesCalculator)
+        #region Constructors and Destructors
+
+        public HeroCheckOrBetSetStatistics(
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            Streets street,
+            bool inPosition)
+            : base(percentagesCalculator, statistics, playerName, street, ActionSequences.HeroActs, inPosition)
         {
         }
 
+        #endregion
+
+        #region Methods
+
         protected override void CalculateIndividualPercentages()
         {
-            var heroBStatistic = (from statistic in ActionSequenceStatistics
-                                 where statistic.ActionSequence == ActionSequences.HeroB
-                                 select statistic)
-                                 .Single();
+            IActionSequenceStatistic heroBStatistic = (from statistic in ActionSequenceStatistics
+                                                       where statistic.ActionSequence == ActionSequences.HeroB
+                                                       select statistic)
+                .Single();
 
             Func<int> getNumberOfRows = () => 1;
 
@@ -33,10 +44,13 @@ namespace PokerTell.Statistics.Detailed
             Action<int, int, int> setPercentageAtRowColumn =
                 (row, col, percentage) => heroBStatistic.Percentages[col] = percentage;
 
-            _percentagesCalculator.CalculatePercentages(getNumberOfRows,
-                                                        getNumberOfColumnsAtRow,
-                                                        getCountAtRowColumn,
-                                                        setPercentageAtRowColumn);
+            _percentagesCalculator.CalculatePercentages(
+                getNumberOfRows,
+                getNumberOfColumnsAtRow,
+                getCountAtRowColumn,
+                setPercentageAtRowColumn);
         }
+
+        #endregion
     }
 }

@@ -76,9 +76,9 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col], 
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(33);
-            percentages[1, 0].IsEqualTo(33);
-            percentages[2, 0].IsEqualTo(33);
+            percentages[0, 0].ShouldBeEqualTo(33);
+            percentages[1, 0].ShouldBeEqualTo(33);
+            percentages[2, 0].ShouldBeEqualTo(33);
         }
 
         [Test]
@@ -92,8 +92,8 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col], 
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(0);
-            percentages[1, 0].IsEqualTo(0);
+            percentages[0, 0].ShouldBeEqualTo(0);
+            percentages[1, 0].ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -107,8 +107,8 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col], 
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(100);
-            percentages[1, 0].IsEqualTo(0);
+            percentages[0, 0].ShouldBeEqualTo(100);
+            percentages[1, 0].ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -122,8 +122,8 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col], 
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(50);
-            percentages[1, 0].IsEqualTo(50);
+            percentages[0, 0].ShouldBeEqualTo(50);
+            percentages[1, 0].ShouldBeEqualTo(50);
         }
 
         [Test]
@@ -148,10 +148,10 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col], 
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(expect[0, 0]);
-            percentages[0, 1].IsEqualTo(expect[0, 1]);
-            percentages[1, 0].IsEqualTo(expect[1, 0]);
-            percentages[1, 1].IsEqualTo(expect[1, 1]);
+            percentages[0, 0].ShouldBeEqualTo(expect[0, 0]);
+            percentages[0, 1].ShouldBeEqualTo(expect[0, 1]);
+            percentages[1, 0].ShouldBeEqualTo(expect[1, 0]);
+            percentages[1, 1].ShouldBeEqualTo(expect[1, 1]);
         }
 
         #endregion

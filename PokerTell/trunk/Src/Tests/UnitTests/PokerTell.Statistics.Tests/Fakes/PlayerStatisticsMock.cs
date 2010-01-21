@@ -2,6 +2,7 @@ namespace PokerTell.Statistics.Tests.Fakes
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
     using Infrastructure.Interfaces.Statistics;
@@ -11,6 +12,8 @@ namespace PokerTell.Statistics.Tests.Fakes
     using Microsoft.Practices.Composite.Events;
 
     using Moq;
+
+    using Statistics.Detailed;
 
     internal class PlayerStatisticsMock : PlayerStatistics
     {
@@ -38,12 +41,23 @@ namespace PokerTell.Statistics.Tests.Fakes
             set { PlayerIdentity = value; }
         }
 
-        protected override IActionSequenceStatisticsSet NewActionSequenceSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        protected override IActionSequenceStatisticsSet NewActionSequenceSetStatistics(
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            Streets street,
+            ActionSequences actionSequence,
+            bool inPosition)
         {
             return _stub.Out<IActionSequenceStatisticsSet>();
         }
 
-        protected override IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(IEnumerable<IActionSequenceStatistic> statistics, IPercentagesCalculator percentagesCalculator)
+        protected override IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(
+            IPercentagesCalculator percentagesCalculator,
+            IEnumerable<IActionSequenceStatistic> statistics,
+            string playerName,
+            Streets street,
+            bool inPosition)
         {
             return _stub.Out<IActionSequenceStatisticsSet>();
         }

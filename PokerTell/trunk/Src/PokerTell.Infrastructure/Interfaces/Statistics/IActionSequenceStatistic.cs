@@ -6,6 +6,8 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     using PokerHand;
 
+    using Tools.Interfaces;
+
     public interface IActionSequenceStatistic : IFluentInterface
     {
         IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);

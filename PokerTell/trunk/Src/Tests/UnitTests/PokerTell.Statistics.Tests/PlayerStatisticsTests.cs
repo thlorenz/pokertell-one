@@ -1,11 +1,11 @@
 namespace PokerTell.Statistics.Tests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Fakes;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
     using Infrastructure.Interfaces.PokerHand;
@@ -23,34 +23,37 @@ namespace PokerTell.Statistics.Tests
     [TestFixture]
     public class PlayerStatisticsTests
     {
-        IEventAggregator _eventAggregator;
-
-        PlayerStatisticsMock _sut;
-
-        StubBuilder _stub;
-
-        Mock<IRepository> _repositoryMock;
-
-        const string Name = "somePlayer";
-        
-        const string Site = "someSite";
+        #region Constants and Fields
 
         const int Id = 1;
 
+        const string Name = "somePlayer";
+
+        const string Site = "someSite";
+
+        IEventAggregator _eventAggregator;
+
         IPlayerIdentity _playerIdentityStub;
 
-        [SetUp]
-        public void _Init()
+        Mock<IRepository> _repositoryMock;
+
+        StubBuilder _stub;
+
+        PlayerStatisticsMock _sut;
+
+        #endregion
+
+        #region Public Methods
+
+        [Test]
+        public void DatabaseInUseChangedEventWasRaised_AnalyzablePlayersNotEmpty_ReinitializesAnalyzablePlayers()
         {
-            _stub = new StubBuilder();
-            _eventAggregator = new EventAggregator();
-            _repositoryMock = new Mock<IRepository>();
-           
-            _playerIdentityStub = _stub.Setup<IPlayerIdentity>()
-                .Get(pi => pi.Id).Returns(Id)
-                .Out;
-            
-            _sut = new PlayerStatisticsMock(_eventAggregator, _repositoryMock.Object);
+            _sut.AnalyzablePlayers.Add(_stub.Out<IAnalyzablePokerPlayer>());
+
+            _eventAggregator.GetEvent<DatabaseInUseChangedEvent>()
+                .Publish(_stub.Out<IDataProvider>());
+
+            _sut.AnalyzablePlayers.ShouldBeEmpty();
         }
 
         [Test]
@@ -61,18 +64,7 @@ namespace PokerTell.Statistics.Tests
             _eventAggregator.GetEvent<DatabaseInUseChangedEvent>()
                 .Publish(_stub.Out<IDataProvider>());
 
-            _sut.LastQueriedId.IsEqualTo(0);
-        }
-
-        [Test]
-        public void DatabaseInUseChangedEventWasRaised_AnalyzablePlayersNotEmpty_ReinitializesAnalyzablePlayers()
-        {
-            _sut.AnalyzablePlayers.Add(_stub.Out<IAnalyzablePokerPlayer>());
-
-            _eventAggregator.GetEvent<DatabaseInUseChangedEvent>()
-                .Publish(_stub.Out<IDataProvider>());
-
-            _sut.AnalyzablePlayers.IsEmpty();
+            _sut.LastQueriedId.ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -83,17 +75,83 @@ namespace PokerTell.Statistics.Tests
             _eventAggregator.GetEvent<DatabaseInUseChangedEvent>()
                 .Publish(_stub.Out<IDataProvider>());
 
-            _sut.PlayerIdentity.IsNull();
+            _sut.PlayerIdentity.ShouldBeNull();
         }
 
         [Test]
-        public void UpdateStatistics_PlayerIdentityIsNull_CallsRepositoryFindPlayerIdentityForNameAndSite()
+        public void GetFilteredAnalyzablePlayers_FilterNotSet_ReturnsAllAnalyzablePlayers()
         {
+            _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() };
+
+            IEnumerable<IAnalyzablePokerPlayer> filteredPlayers = _sut.GetFilteredAnalyzablePlayersInvoke();
+
+            filteredPlayers.ShouldHaveCount(1);
+        }
+
+        [Test]
+        public void GetFilteredAnalyzablePlayers_FilterSet_ReturnsPlayersPassedBackByFilterMethodOfFilter()
+        {
+            IAnalyzablePokerPlayer analyzablePlayerStub1 = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.Id).Returns(1)
+                .Get(ap => ap.ActionSequences).Returns(new[] { ActionSequences.PreFlopFrontRaise })
+                .Out;
+            IAnalyzablePokerPlayer analyzablePlayerStub2 = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.Id).Returns(2)
+                .Get(ap => ap.ActionSequences).Returns(new[] { ActionSequences.PreFlopFrontRaise })
+                .Out;
+
+            _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1, analyzablePlayerStub2 };
+
+            var filterStub = new Mock<IAnalyzablePokerPlayersFilter>();
+            filterStub
+                .Setup(f => f.Filter(_sut.AnalyzablePlayers))
+                .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1 });
+
+            _sut.Filter = filterStub.Object;
+
+            IEnumerable<IAnalyzablePokerPlayer> filteredPlayers = _sut.GetFilteredAnalyzablePlayersInvoke();
+
+            filteredPlayers.ShouldContain(analyzablePlayerStub1);
+            filteredPlayers.ShouldNotContain(analyzablePlayerStub2);
+        }
+
+        [Test]
+        public void UpdateStatistics_FilterSetAndPlayerIdentityNotNull_FiltersPlayers()
+        {
+            IAnalyzablePokerPlayer analyzablePlayerStub = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.Id).Returns(1)
+                .Get(ap => ap.ActionSequences).Returns(new[] { ActionSequences.PreFlopFrontRaise })
+                .Out;
+
+            _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { analyzablePlayerStub };
+
+            _sut.Filter = _stub.Out<IAnalyzablePokerPlayersFilter>();
+            _sut.PlayerIdentitySet = _playerIdentityStub;
+
+            _sut.UpdateStatistics();
+
+            _sut.MatchingPlayersWereFiltered.ShouldBeTrue();
+        }
+
+        [Test]
+        public void UpdateStatistics_PlayerIdentityIsNotNull_AddsAnalyzablePlayersReturnedFromRepository()
+        {
+            IAnalyzablePokerPlayer analyzablePlayerStub = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.Id).Returns(1)
+                .Get(ap => ap.ActionSequences).Returns(new[] { ActionSequences.PreFlopFrontRaise })
+                .Out;
+
+            _repositoryMock
+                .Setup(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId))
+                .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub });
+
+            _sut.PlayerIdentitySet = _playerIdentityStub;
+
             _sut
                 .InitializePlayer(Name, Site)
                 .UpdateStatistics();
 
-            _repositoryMock.Verify(rp => rp.FindPlayerIdentityFor(Name, Site));
+            _sut.AnalyzablePlayers.Last().ShouldBeEqualTo(analyzablePlayerStub);
         }
 
         [Test]
@@ -108,22 +166,21 @@ namespace PokerTell.Statistics.Tests
         }
 
         [Test]
-        public void UpdateStatistics_PlayerIdentityIsNull_AssignsPlayerIdentityReturnedFromRepository()
+        public void UpdateStatistics_PlayerIdentityIsNotNull_UpdatesStatistics()
         {
-            var repositoryStub = _repositoryMock;
-            repositoryStub
-                .Setup(rp => rp.FindPlayerIdentityFor(Name, Site))
-                .Returns(_playerIdentityStub);
+            _sut.PlayerIdentitySet = _playerIdentityStub;
 
             _sut
                 .InitializePlayer(Name, Site)
                 .UpdateStatistics();
 
-            _sut.PlayerIdentity.Id.IsEqualTo(Id);
+            _sut.StatisticsWereUpdated.ShouldBeTrue();
         }
 
         [Test]
-        public void UpdateStatistics_PlayerIdentityIsNullRepositoryReturnsPlayerIdentity_CallsRepositoryFindAnalayzablePlayersForIdAndLastQueriedId()
+        public void
+            UpdateStatistics_PlayerIdentityIsNullRepositoryReturnsPlayerIdentity_CallsRepositoryFindAnalayzablePlayersForIdAndLastQueriedId
+            ()
         {
             _repositoryMock
                 .Setup(rp => rp.FindPlayerIdentityFor(Name, Site))
@@ -137,62 +194,35 @@ namespace PokerTell.Statistics.Tests
         }
 
         [Test]
-        public void UpdateStatistics_PlayerIdentityIsNotNull_AddsAnalyzablePlayersReturnedFromRepository()
+        public void UpdateStatistics_PlayerIdentityIsNull_AssignsPlayerIdentityReturnedFromRepository()
         {
-            var analyzablePlayerStub = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.Id).Returns(1).Out;
+            Mock<IRepository> repositoryStub = _repositoryMock;
+            repositoryStub
+                .Setup(rp => rp.FindPlayerIdentityFor(Name, Site))
+                .Returns(_playerIdentityStub);
 
-            _repositoryMock
-                .Setup(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId))
-                .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub });
-            
-            _sut.PlayerIdentitySet = _playerIdentityStub;
-            
             _sut
                 .InitializePlayer(Name, Site)
                 .UpdateStatistics();
 
-            _sut.AnalyzablePlayers.Last().IsEqualTo(analyzablePlayerStub);
+            _sut.PlayerIdentity.Id.ShouldBeEqualTo(Id);
         }
 
         [Test]
-        public void UpdateStatistics_PlayerIdentityIsNotNull_UpdatesStatistics()
+        public void UpdateStatistics_PlayerIdentityIsNull_CallsRepositoryFindPlayerIdentityForNameAndSite()
         {
-            _sut.PlayerIdentitySet = _playerIdentityStub;
-
             _sut
                 .InitializePlayer(Name, Site)
                 .UpdateStatistics();
 
-            _sut.StatisticsWereUpdated.IsTrue();
-        }
-
-        [Test]
-        public void UpdateStatistics_RepositoryReturnsTwoAnalyzablePlayers_SetsLastQueriedIdToMaxIdOfReturnedPlayers()
-        {
-            var analyzablePlayerStub1 = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.Id).Returns(1).Out;
-            var analyzablePlayerStub2 = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.Id).Returns(2).Out;
-
-            _repositoryMock
-                .Setup(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId))
-                .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1, analyzablePlayerStub2 });
-
-            _sut.PlayerIdentitySet = _playerIdentityStub;
-
-            _sut
-                .InitializePlayer(Name, Site)
-                .UpdateStatistics();
-
-            _sut.LastQueriedId.IsEqualTo(analyzablePlayerStub2.Id);
+            _repositoryMock.Verify(rp => rp.FindPlayerIdentityFor(Name, Site));
         }
 
         [Test]
         public void UpdateStatistics_RepositoryReturnsEmptyList_LastQueriedIdIsUnchanged()
         {
             const long originalLastQueriedId = 1;
-           
+
             _repositoryMock
                 .Setup(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId))
                 .Returns(new List<IAnalyzablePokerPlayer> { });
@@ -204,55 +234,48 @@ namespace PokerTell.Statistics.Tests
                 .InitializePlayer(Name, Site)
                 .UpdateStatistics();
 
-            _sut.LastQueriedId.IsEqualTo(originalLastQueriedId);
+            _sut.LastQueriedId.ShouldBeEqualTo(originalLastQueriedId);
         }
 
         [Test]
-        public void GetFilteredAnalyzablePlayers_FilterNotSet_ReturnsAllAnalyzablePlayers()
+        public void UpdateStatistics_RepositoryReturnsTwoAnalyzablePlayers_SetsLastQueriedIdToMaxIdOfReturnedPlayers()
         {
-            _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() };
+            IAnalyzablePokerPlayer analyzablePlayerStub1 = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.Id).Returns(1)
+                .Get(ap => ap.ActionSequences).Returns(new[] { ActionSequences.PreFlopFrontRaise })
+                .Out;
+            IAnalyzablePokerPlayer analyzablePlayerStub2 = _stub.Setup<IAnalyzablePokerPlayer>()
+                .Get(ap => ap.Id).Returns(2)
+                .Get(ap => ap.ActionSequences).Returns(new[] { ActionSequences.PreFlopFrontRaise })
+                .Out;
 
-            var filteredPlayers = _sut.GetFilteredAnalyzablePlayersInvoke();
+            _repositoryMock
+                .Setup(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId))
+                .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1, analyzablePlayerStub2 });
 
-            filteredPlayers.HasCount(1);
-        }
-
-        [Test]
-        public void GetFilteredAnalyzablePlayers_FilterSet_ReturnsPlayersPassedBackByFilterMethodOfFilter()
-        {
-            var analyzablePlayerStub1 = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.Id).Returns(1).Out;
-            var analyzablePlayerStub2 = _stub.Setup<IAnalyzablePokerPlayer>()
-                .Get(ap => ap.Id).Returns(2).Out;
-
-            _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1, analyzablePlayerStub2 };
-
-            var filterStub = new Mock<IAnalyzablePokerPlayersFilter>();
-            filterStub
-                .Setup(f => f.Filter(_sut.AnalyzablePlayers))
-                .Returns(new List<IAnalyzablePokerPlayer> { analyzablePlayerStub1 });
-
-            _sut.Filter = filterStub.Object;
-
-            var filteredPlayers = _sut.GetFilteredAnalyzablePlayersInvoke();
-
-            filteredPlayers.DoesContain(analyzablePlayerStub1);
-            filteredPlayers.DoesNotContain(analyzablePlayerStub2);
-        }
-
-        [Test]
-        public void UpdateStatistics_FilterSetAndPlayerIdentityNotNull_FiltersPlayers()
-        {
-            _sut.AnalyzablePlayers = new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() };
-
-            _sut.Filter = _stub.Out<IAnalyzablePokerPlayersFilter>();
             _sut.PlayerIdentitySet = _playerIdentityStub;
 
-            _sut.UpdateStatistics();
+            _sut
+                .InitializePlayer(Name, Site)
+                .UpdateStatistics();
 
-            _sut.MatchingPlayersWereFiltered.IsTrue();
+            _sut.LastQueriedId.ShouldBeEqualTo(analyzablePlayerStub2.Id);
         }
 
+        [SetUp]
+        public void _Init()
+        {
+            _stub = new StubBuilder();
+            _eventAggregator = new EventAggregator();
+            _repositoryMock = new Mock<IRepository>();
 
+            _playerIdentityStub = _stub.Setup<IPlayerIdentity>()
+                .Get(pi => pi.Id).Returns(Id)
+                .Out;
+
+            _sut = new PlayerStatisticsMock(_eventAggregator, _repositoryMock.Object);
+        }
+
+        #endregion
     }
 }

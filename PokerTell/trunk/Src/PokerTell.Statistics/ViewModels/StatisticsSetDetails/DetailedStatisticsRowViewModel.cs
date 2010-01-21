@@ -3,6 +3,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using System.Collections.Generic;
     using System.Linq;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Interfaces;
 
     using PokerTell.Statistics.ViewModels.StatisticsSetDetails;

@@ -30,61 +30,61 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         [Test]
         public void Constructor_WithActiveGnericRangeFilter_SetsIsActiveFromRangeFilterValues()
         {
-            _sut.IsActive.IsTrue();
+            _sut.IsActive.ShouldBeTrue();
         }
 
         [Test]
         public void Constructor_WithActiveGnericRangeFilter_SetsMinValueFromRangeFilterValues()
         {
-            _sut.MinValue.IsEqualTo(MinValue);
+            _sut.MinValue.ShouldBeEqualTo(MinValue);
         }
 
         [Test]
         public void Constructor_WithActiveGnericRangeFilter_SetsMaxValueFromRangeFilterValues()
         {
-            _sut.MaxValue.IsEqualTo(MaxValue);
+            _sut.MaxValue.ShouldBeEqualTo(MaxValue);
         }
 
         [Test]
         public void SetMinValue_SmallerThanMaxValue_LeavesMaxValueUnchanged()
         {
             _sut.MinValue = MaxValue - 1;
-            _sut.MaxValue.IsEqualTo(MaxValue);
+            _sut.MaxValue.ShouldBeEqualTo(MaxValue);
         }
 
         [Test]
         public void SetMinValue_ToMaxValue_LeavesMaxValueUnchanged()
         {
             _sut.MinValue = MaxValue;
-            _sut.MaxValue.IsEqualTo(MaxValue);
+            _sut.MaxValue.ShouldBeEqualTo(MaxValue);
         }
 
         [Test]
         public void SetMinValue_GreaterThanMaxValue_SetsMaxValueToMinValue()
         {
             _sut.MinValue = MaxValue + 1;
-            _sut.MaxValue.IsEqualTo(_sut.MinValue);
+            _sut.MaxValue.ShouldBeEqualTo(_sut.MinValue);
         }
 
         [Test]
         public void SetMaxValue_GreaterThanMinValue_LeavesMinValueUnchanged()
         {
             _sut.MaxValue = MinValue + 1;
-            _sut.MinValue.IsEqualTo(MinValue);
+            _sut.MinValue.ShouldBeEqualTo(MinValue);
         }
 
         [Test]
         public void SetMaxValue_ToMinValue_LeavesMinValueUnchanged()
         {
             _sut.MaxValue = MinValue;
-            _sut.MinValue.IsEqualTo(MinValue);
+            _sut.MinValue.ShouldBeEqualTo(MinValue);
         }
 
         [Test]
         public void SetMaxValue_SmallerThanMinValue_SetsMinValueToMaxValue()
         {
             _sut.MaxValue = MinValue - 1;
-            _sut.MinValue.IsEqualTo(_sut.MaxValue);
+            _sut.MinValue.ShouldBeEqualTo(_sut.MaxValue);
         }
     }
 }

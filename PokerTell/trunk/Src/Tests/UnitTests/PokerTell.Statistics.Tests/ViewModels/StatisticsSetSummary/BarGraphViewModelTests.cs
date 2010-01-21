@@ -14,7 +14,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
         public void Constructor_Always_InitializesBars()
         {
             var sut = new BarGraphViewModel();
-            sut.Bars.IsNotNull();
+            sut.Bars.ShouldNotBeNull();
         }
 
         [Test]
@@ -25,7 +25,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             var sut = new BarGraphViewModel()
                 .UpdateWith(percentages);
 
-            sut.Bars.HasCount(0);
+            sut.Bars.ShouldHaveCount(0);
         }
 
         [Test]
@@ -36,11 +36,11 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             var sut = new BarGraphViewModel()
                 .UpdateWith(new[] { 1, 2 });
 
-            sut.Visible.IsTrue();
+            sut.Visible.ShouldBeTrue();
 
             sut.UpdateWith(percentages);
 
-            sut.Visible.IsFalse();
+            sut.Visible.ShouldBeFalse();
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             var sut = new BarGraphViewModel()
                 .UpdateWith(percentages);
 
-            sut.Visible.IsTrue();
+            sut.Visible.ShouldBeTrue();
         }
 
         [Test]
@@ -62,7 +62,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             var sut = new BarGraphViewModel()
                 .UpdateWith(percentages);
 
-            sut.Bars.HasCount(percentages.Length);
+            sut.Bars.ShouldHaveCount(percentages.Length);
         }
 
         [Test]
@@ -74,7 +74,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
                 .UpdateWith(percentages)
                 .UpdateWith(percentages);
 
-            sut.Bars.Count.IsEqualTo(percentages.Length);
+            sut.Bars.Count.ShouldBeEqualTo(percentages.Length);
         }
 
         [Test]
@@ -85,8 +85,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             var sut = new BarGraphViewModel()
                 .UpdateWith(percentages);
 
-            sut.Bars[0].Percentage.IsEqualTo(percentages[0]);
-            sut.Bars[1].Percentage.IsEqualTo(percentages[1]);
+            sut.Bars[0].Percentage.ShouldBeEqualTo(percentages[0]);
+            sut.Bars[1].Percentage.ShouldBeEqualTo(percentages[1]);
         }
 
         [Test]
@@ -97,8 +97,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
             var sut = new BarGraphViewModel()
                 .UpdateWith(percentages);
 
-            sut.Bars[0].Stroke.Color.IsEqualTo(sut.BarColors[0]);
-            sut.Bars[1].Stroke.Color.IsEqualTo(sut.BarColors[1]);
+            sut.Bars[0].Stroke.Color.ShouldBeEqualTo(sut.BarColors[0]);
+            sut.Bars[1].Stroke.Color.ShouldBeEqualTo(sut.BarColors[1]);
         }
     }
 }

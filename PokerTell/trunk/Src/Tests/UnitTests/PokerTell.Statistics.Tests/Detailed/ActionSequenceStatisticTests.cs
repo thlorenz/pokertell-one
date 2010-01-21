@@ -37,7 +37,7 @@ namespace PokerTell.Statistics.Tests.Detailed
                     new List<IAnalyzablePokerPlayer>(), new List<IAnalyzablePokerPlayer>()
                 }).CalculateCounts();
 
-            _sut.TotalCounts.IsEqualTo(0);
+            _sut.TotalCounts.ShouldBeEqualTo(0);
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace PokerTell.Statistics.Tests.Detailed
                     new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() }
                 }).CalculateCounts();
 
-            _sut.TotalCounts.IsEqualTo(1);
+            _sut.TotalCounts.ShouldBeEqualTo(1);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace PokerTell.Statistics.Tests.Detailed
                     new List<IAnalyzablePokerPlayer> { _stub.Out<IAnalyzablePokerPlayer>() }
                 }).CalculateCounts();
 
-            _sut.TotalCounts.IsEqualTo(2);
+            _sut.TotalCounts.ShouldBeEqualTo(2);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace PokerTell.Statistics.Tests.Detailed
         {
             _sut.UpdateWith(_stub.Out<IEnumerable<IAnalyzablePokerPlayer>>());
 
-            _sut.MatchingPlayersWereExtracted.IsTrue();
+            _sut.MatchingPlayersWereExtracted.ShouldBeTrue();
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace PokerTell.Statistics.Tests.Detailed
         {
             _sut.UpdateWith(_stub.Out<IEnumerable<IAnalyzablePokerPlayer>>());
 
-            _sut.TotalCountsWereCalculated.IsTrue();
+            _sut.TotalCountsWereCalculated.ShouldBeTrue();
         }
     }
     

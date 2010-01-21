@@ -27,8 +27,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         {
             _sut = CreateRangeFilterForSelectorsViewModelWith(0, 3);
            
-            _sut.AvailableMinItems.Select(item => item.Value).IsEqualTo(_availableValues);
-            _sut.AvailableMaxItems.Select(item => item.Value).IsEqualTo(_availableValues);
+            _sut.AvailableMinItems.Select(item => item.Value).ShouldBeEqualTo(_availableValues);
+            _sut.AvailableMaxItems.Select(item => item.Value).ShouldBeEqualTo(_availableValues);
         }
 
         [Test]
@@ -36,7 +36,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         {
             _sut = CreateRangeFilterForSelectorsViewModelWith(1, 2);
           
-            _sut.Min.Value.IsEqualTo(1);
+            _sut.Min.Value.ShouldBeEqualTo(1);
         }
 
         [Test]
@@ -44,7 +44,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         {
             _sut = CreateRangeFilterForSelectorsViewModelWith(1, 2);
             
-            _sut.Max.Value.IsEqualTo(2);
+            _sut.Max.Value.ShouldBeEqualTo(2);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         {
             _sut = CreateRangeFilterForSelectorsViewModelWith(-1, 2);
             
-            _sut.Min.Value.IsEqualTo(_availableValues.First());
+            _sut.Min.Value.ShouldBeEqualTo(_availableValues.First());
         }
 
         [Test]
@@ -60,7 +60,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
         {
             _sut = CreateRangeFilterForSelectorsViewModelWith(0, 4);
            
-            _sut.Max.Value.IsEqualTo(_availableValues.Last());
+            _sut.Max.Value.ShouldBeEqualTo(_availableValues.Last());
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
            
             _sut.Min = _sut.AvailableMinItems.ElementAt(2);
 
-            _sut.AvailableMaxItems.First().Value.IsEqualTo(2);
+            _sut.AvailableMaxItems.First().Value.ShouldBeEqualTo(2);
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
             _sut.AvailableMaxItems.RemoveAt(0);
             _sut.Min = _sut.AvailableMinItems.ElementAt(1);
 
-            _sut.AvailableMaxItems.First().Value.IsEqualTo(1);
+            _sut.AvailableMaxItems.First().Value.ShouldBeEqualTo(1);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
             _sut.AvailableMaxItems.RemoveAt(0);
             _sut.Min = _sut.AvailableMinItems.ElementAt(1);
 
-            _sut.Max.Value.IsEqualTo(2);
+            _sut.Max.Value.ShouldBeEqualTo(2);
         }
 
         [Test]
@@ -103,7 +103,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
 
             _sut.Max = _sut.AvailableMaxItems.ElementAt(2);
 
-            _sut.AvailableMinItems.Last().Value.IsEqualTo(2);
+            _sut.AvailableMinItems.Last().Value.ShouldBeEqualTo(2);
         }
 
         [Test]
@@ -114,7 +114,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
             _sut.AvailableMinItems.RemoveAt(3);
             _sut.Max = _sut.AvailableMaxItems.ElementAt(2);
 
-            _sut.AvailableMinItems.Last().Value.IsEqualTo(2);
+            _sut.AvailableMinItems.Last().Value.ShouldBeEqualTo(2);
         }
 
         [Test]
@@ -126,7 +126,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Filters
             _sut.AvailableMinItems.RemoveAt(3);
             _sut.Max = _sut.AvailableMaxItems.ElementAt(1);
 
-            _sut.Min.Value.IsEqualTo(2);
+            _sut.Min.Value.ShouldBeEqualTo(2);
         }
 
     }

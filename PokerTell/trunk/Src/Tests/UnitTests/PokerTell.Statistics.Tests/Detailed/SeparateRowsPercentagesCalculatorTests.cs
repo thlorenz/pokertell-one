@@ -65,8 +65,8 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col],
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(0);
-            percentages[0, 1].IsEqualTo(100);
+            percentages[0, 0].ShouldBeEqualTo(0);
+            percentages[0, 1].ShouldBeEqualTo(100);
         }
 
         [Test]
@@ -80,9 +80,9 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col],
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(0);
-            percentages[0, 1].IsEqualTo(25);
-            percentages[0, 2].IsEqualTo(75);
+            percentages[0, 0].ShouldBeEqualTo(0);
+            percentages[0, 1].ShouldBeEqualTo(25);
+            percentages[0, 2].ShouldBeEqualTo(75);
         }
 
         [Test]
@@ -96,9 +96,9 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col],
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            _sut.SumsOfCountsByColumn[0].IsEqualTo(0);
-            _sut.SumsOfCountsByColumn[1].IsEqualTo(1);
-            _sut.SumsOfCountsByColumn[2].IsEqualTo(3);
+            _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(0);
+            _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(1);
+            _sut.SumsOfCountsByColumn[2].ShouldBeEqualTo(3);
         }
 
         [Test]
@@ -112,8 +112,8 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col],
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            _sut.SumsOfCountsByColumn[0].IsEqualTo(0);
-            _sut.SumsOfCountsByColumn[1].IsEqualTo(1);
+            _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(0);
+            _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(1);
         }
 
         [Test]
@@ -138,10 +138,10 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col],
                                      (row, col, perc) => percentages[row, col] = perc);
 
-            percentages[0, 0].IsEqualTo(expect[0, 0]);
-            percentages[0, 1].IsEqualTo(expect[0, 1]);
-            percentages[1, 0].IsEqualTo(expect[1, 0]);
-            percentages[1, 1].IsEqualTo(expect[1, 1]);
+            percentages[0, 0].ShouldBeEqualTo(expect[0, 0]);
+            percentages[0, 1].ShouldBeEqualTo(expect[0, 1]);
+            percentages[1, 0].ShouldBeEqualTo(expect[1, 0]);
+            percentages[1, 1].ShouldBeEqualTo(expect[1, 1]);
         }
 
         [Test]
@@ -160,8 +160,8 @@ namespace PokerTell.Statistics.Tests.Detailed
                                      (row, col) => counts[row, col],
                                      (row, col, perc) => percentages[row, col] = perc);
 
-           _sut.SumsOfCountsByColumn[0].IsEqualTo(1);
-           _sut.SumsOfCountsByColumn[1].IsEqualTo(2);
+           _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(1);
+           _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(2);
         }
 
     }

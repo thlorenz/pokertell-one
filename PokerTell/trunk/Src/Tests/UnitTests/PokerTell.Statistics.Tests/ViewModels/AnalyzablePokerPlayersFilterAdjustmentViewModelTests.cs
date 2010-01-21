@@ -38,7 +38,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
             
             var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel(playerName, _filterStub, delegate { }, delegate { });
 
-            sut.Filter.CurrentFilter.IsEqualTo(_filterStub);
+            sut.Filter.CurrentFilter.ShouldBeEqualTo(_filterStub);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
             sut.ApplyFilterToPlayerCommand.Execute(null);
 
-            wasInvokedWithCorrectName.IsTrue();
+            wasInvokedWithCorrectName.ShouldBeTrue();
         }
 
         [Test]
@@ -67,7 +67,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
             
             sut.ApplyFilterToPlayerCommand.Execute(null);
 
-            wasInvokedWithCorrectFilter.IsTrue();
+            wasInvokedWithCorrectFilter.ShouldBeTrue();
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
             sut.ApplyFilterToAllCommand.Execute(null);
 
-            wasInvokedWithCorrectFilter.IsTrue();
+            wasInvokedWithCorrectFilter.ShouldBeTrue();
         }
 
         #endregion

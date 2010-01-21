@@ -110,7 +110,6 @@
     <Compile Include="Interfaces\DatabaseSetup\IDataProviderInfo.cs" />
     <Compile Include="Interfaces\DatabaseSetup\IDataProviderInfos.cs" />
     <Compile Include="Interfaces\DatabaseSetup\IManagedDatabase.cs" />
-    <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParser.cs" />
     <Compile Include="Interfaces\PokerHandParsers\IPokerHandParsers.cs" />
     <Compile Include="Interfaces\PokerHand\IAnalyzablePokerPlayer.cs" />
@@ -153,6 +152,10 @@
     <Compile Include="Interfaces\Statistics\IAnalyzablePokerPlayersFilterViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IBarGraphViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IBarViewModel.cs" />
+    <Compile Include="Interfaces\Statistics\IDetailedStatisticsAnalyzerViewModel.cs" />
+    <Compile Include="Interfaces\Statistics\IDetailedStatisticsCellViewModel.cs" />
+    <Compile Include="Interfaces\Statistics\IDetailedStatisticsRowViewModel.cs" />
+    <Compile Include="Interfaces\Statistics\IDetailedStatisticsViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IPlayerStatistics.cs" />
     <Compile Include="Interfaces\Statistics\IRangeFilterForInputsViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IRangeFilterForSelectorsViewModel.cs" />

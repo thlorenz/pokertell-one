@@ -85,7 +85,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             _sut.Insert(_hand);
 
-            _hand.Id.IsEqualTo(UnsavedValue);
+            _hand.Id.ShouldBeEqualTo(UnsavedValue);
         }
 
         [Test]
@@ -108,7 +108,7 @@ namespace PokerTell.PokerHand.Tests.Dao
             
             FlushAndClearSession();
 
-            _hand.Id.IsNotEqualTo(UnsavedValue);
+            _hand.Id.ShouldNotBeEqualTo(UnsavedValue);
         }
 
         [Test]
@@ -131,8 +131,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             FlushAndClearSession();
 
-            player1.Id.IsNotEqualTo(UnsavedValue);
-            player2.Id.IsNotEqualTo(UnsavedValue);
+            player1.Id.ShouldNotBeEqualTo(UnsavedValue);
+            player2.Id.ShouldNotBeEqualTo(UnsavedValue);
         }
 
         [Test]
@@ -165,7 +165,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         public void GetHandWith_HandNotInDatabase_ReturnsNull()
         {
             var retrievedHand = _sut.GetHandWith(GameId, Site);
-            retrievedHand.IsNull();
+            retrievedHand.ShouldBeNull();
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             const int someNonExistentId = 1;
             var retrievedHand = _sut.Get(someNonExistentId);
-            retrievedHand.IsNull();
+            retrievedHand.ShouldBeNull();
         }
 
         [Test]
@@ -183,7 +183,7 @@ namespace PokerTell.PokerHand.Tests.Dao
             FlushAndClearSession();
 
             var retrievedHand = _sut.Get(_hand.Id);
-            retrievedHand.IsEqualTo(_hand);
+            retrievedHand.ShouldBeEqualTo(_hand);
         }
 
         [Test]
@@ -194,7 +194,7 @@ namespace PokerTell.PokerHand.Tests.Dao
             
             var retrievedHand = _sut.GetHandWith(GameId, Site);
            
-            retrievedHand.IsEqualTo(_hand);
+            retrievedHand.ShouldBeEqualTo(_hand);
         }
 
         [Test]
@@ -215,7 +215,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             IConvertedPokerHand retrievedHand = _sut.Get(_hand.Id);
 
-            retrievedHand.Sequences.AreEqualTo(_hand.Sequences);
+            retrievedHand.Sequences.ShouldBeEqualTo(_hand.Sequences);
         }
 
         [Test]
@@ -230,7 +230,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             IConvertedPokerHand retrievedHand = _sut.Get(_hand.Id);
 
-            retrievedHand.PlayersInRound.AreEqualTo(_hand.PlayersInRound);
+            retrievedHand.PlayersInRound.ShouldBeEqualTo(_hand.PlayersInRound);
         }
 
         [Test]
@@ -245,7 +245,7 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             IConvertedPokerHand retrievedHand = _sut.Get(_hand.Id);
            
-            retrievedHand.Players.AreEqualTo(_hand.Players);
+            retrievedHand.Players.ShouldBeEqualTo(_hand.Players);
         }
 
         [Test]
@@ -260,8 +260,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             IConvertedPokerHand retrievedHand = _sut.Get(_hand.Id);
 
-            retrievedHand.Players.First().PlayerIdentity.GetType().Name.Contains("Proxy").IsTrue();
-            retrievedHand.Players.Last().PlayerIdentity.GetType().Name.Contains("Proxy").IsTrue();
+            retrievedHand.Players.First().PlayerIdentity.GetType().Name.Contains("Proxy").ShouldBeTrue();
+            retrievedHand.Players.Last().PlayerIdentity.GetType().Name.Contains("Proxy").ShouldBeTrue();
         }
 
         [Test]
@@ -281,9 +281,9 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             var proxiedPlayerIdentity1 = retrievedHand.Players.First().PlayerIdentity;
 
-            proxiedPlayerIdentity1.Id.IsEqualTo(player1.PlayerIdentity.Id);
-            proxiedPlayerIdentity1.Name.IsEqualTo(player1.PlayerIdentity.Name);
-            proxiedPlayerIdentity1.Site.IsEqualTo(player1.PlayerIdentity.Site);
+            proxiedPlayerIdentity1.Id.ShouldBeEqualTo(player1.PlayerIdentity.Id);
+            proxiedPlayerIdentity1.Name.ShouldBeEqualTo(player1.PlayerIdentity.Name);
+            proxiedPlayerIdentity1.Site.ShouldBeEqualTo(player1.PlayerIdentity.Site);
         }
 
         IConvertedPokerPlayer SavePlayerIdentityAndReturnPlayerNamed(string name)

@@ -15,7 +15,7 @@ namespace CSharpLanguage.Tests
 
             bar.MyString = "changed";
 
-            foo.BarString.IsEqualTo(bar.MyString);
+            foo.BarString.ShouldBeEqualTo(bar.MyString);
         }
 
         [Test]
@@ -27,7 +27,7 @@ namespace CSharpLanguage.Tests
 
             bar = new Bar(test) { MyString = "changed" };
 
-            foo.BarString.IsNotEqualTo(bar.MyString);
+            foo.BarString.ShouldNotBeEqualTo(bar.MyString);
         }
 
         class Foo

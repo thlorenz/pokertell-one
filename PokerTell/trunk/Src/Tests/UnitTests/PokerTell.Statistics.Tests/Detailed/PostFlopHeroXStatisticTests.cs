@@ -35,7 +35,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             foreach (var matchingPlayer in sut.MatchingPlayers)
             {
-                matchingPlayer.IsEmpty();
+                matchingPlayer.ShouldBeEmpty();
             }
         }
 
@@ -53,7 +53,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.UpdateWith(_analyzablePokerPlayers);
 
-            sut.MatchingPlayers[0].DoesContain(player);
+            sut.MatchingPlayers[0].ShouldContain(player);
         }
 
         [Test]
@@ -73,7 +73,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.UpdateWith(_analyzablePokerPlayers);
 
-            sut.MatchingPlayers[0].DoesContain(matchingPlayer);
+            sut.MatchingPlayers[0].ShouldContain(matchingPlayer);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.UpdateWith(_analyzablePokerPlayers);
 
-            sut.MatchingPlayers[0].DoesNotContain(notMatchingPlayer);
+            sut.MatchingPlayers[0].ShouldNotContain(notMatchingPlayer);
         }
 
         [Test, Sequential]
@@ -112,7 +112,7 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             sut.UpdateWith(_analyzablePokerPlayers);
 
-            sut.MatchingPlayers[0].DoesContain(player);
+            sut.MatchingPlayers[0].ShouldContain(player);
         }
     }
 }
