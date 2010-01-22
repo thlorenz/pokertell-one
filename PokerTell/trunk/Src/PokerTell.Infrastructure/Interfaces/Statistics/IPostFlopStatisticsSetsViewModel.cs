@@ -29,6 +29,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IPostFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
 
-        event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent;
+        event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
     }
 }

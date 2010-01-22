@@ -18,6 +18,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
 
-        event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent;
+        event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
     }
 }

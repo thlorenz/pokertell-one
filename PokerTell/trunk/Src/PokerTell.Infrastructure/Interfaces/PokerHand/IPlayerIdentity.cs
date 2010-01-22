@@ -2,18 +2,27 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
     using Iesi.Collections.Generic;
 
-    public interface IPlayerIdentity
+    using Tools.Interfaces;
+
+    public interface IPlayerIdentity 
     {
+        #region Properties
+
+        ISet<IConvertedPokerPlayer> ConvertedPlayers { get; }
+
+        int Id { get; }
+
         string Name { get; }
 
         string Site { get; }
 
-        int Id { get; }
+        #endregion
 
-        ISet<IConvertedPokerPlayer> ConvertedPlayers { get; }
+        #region Public Methods
 
         IPlayerIdentity InitializeWith(string name, string site);
 
         string ToString();
+        #endregion
     }
 }

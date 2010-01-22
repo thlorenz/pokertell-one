@@ -50,7 +50,7 @@ namespace PokerTell.Statistics
 
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
 
-            InitializeStatistics();
+            
 
             _filter = AnalyzablePokerPlayersFilter.InactiveFilter;
         }
@@ -189,6 +189,8 @@ namespace PokerTell.Statistics
         {
             _playerName = playerName;
             _pokerSite = pokerSite;
+
+            InitializeStatistics();
 
             return this;
         }

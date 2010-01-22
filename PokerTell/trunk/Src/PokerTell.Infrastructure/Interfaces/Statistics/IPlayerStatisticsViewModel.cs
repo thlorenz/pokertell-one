@@ -30,6 +30,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         #endregion
 
-        event Action<string, IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent;
+        event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
     }
 }

@@ -1,7 +1,11 @@
 namespace PokerTell.Statistics.Tests.ViewModels
 {
+    using System.Linq;
+
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.Statistics;
+    using Infrastructure.Services;
 
     using Moq;
 
@@ -23,9 +27,16 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
         IDetailedStatisticsAnalyzerViewModel _sut;
 
+        IDetailedStatisticsViewModel _preFlopStatisticsViewModelStub;
+
+        IDetailedStatisticsViewModel _postFlopActionStatisticsViewModelStub;
+
+        IDetailedStatisticsViewModel _postFlopReactionStatisticsViewModelStub;
+
         #endregion
 
         #region Public Methods
+
 
         [Test]
         public void AddViewModel_Always_SetsCurrentViewModelToAddedViewModel()
@@ -65,7 +76,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
         }
 
         [Test]
-        public void AddViewModel_ViewModelHistoryListEmpty_AddsViewModelToHistoryList()
+        public void AddViewModel_ViewModelHistoryListIsNull_InitializesViewModelHistoryWithViewModel()
         {
             var addedViewModel = _stub.Out<IDetailedStatisticsViewModel>();
             _sut.AddViewModel(addedViewModel)
@@ -161,7 +172,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
         }
 
         [Test]
-        public void Visible_ViewModelHistoryIsEmpty_ReturnsFalse()
+        public void Visible_ViewModelHistoryIsNull_ReturnsFalse()
         {
             _sut.Visible.ShouldBeFalse();
         }
@@ -182,7 +193,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
             _sut.InitializeWith(statisticsSetStub);
 
-            _sut.CurrentViewModel.ShouldBe(new DetailedPreFlopStatisticsViewModel());
+            _sut.CurrentViewModel.ShouldBeEqualTo(_preFlopStatisticsViewModelStub);
         }
 
         [Test]
@@ -195,7 +206,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
             _sut.InitializeWith(statisticsSetStub);
 
-            _sut.CurrentViewModel.ShouldBe(new DetailedPostFlopActionStatisticsViewModel());
+            _sut.CurrentViewModel.ShouldBe(_postFlopActionStatisticsViewModelStub);
         }
 
         [Test]
@@ -208,7 +219,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
             _sut.InitializeWith(statisticsSetStub);
 
-            _sut.CurrentViewModel.ShouldBe(new DetailedPostFlopReactionStatisticsViewModel());
+            _sut.CurrentViewModel.ShouldBe(_postFlopReactionStatisticsViewModelStub);
         }
 
         [Test]
@@ -221,11 +232,11 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
             _sut.InitializeWith(statisticsSetStub);
 
-            _sut.CurrentViewModel.ShouldBe(new DetailedPostFlopReactionStatisticsViewModel());
+            _sut.CurrentViewModel.ShouldBe(_postFlopReactionStatisticsViewModelStub);
         }
 
         [Test]
-        public void InitializeWith_StreetIsFlopAndActionIs_Illegal_ThrowsIncompletPatternMatchException()
+        public void InitializeWith_StreetIsFlopAndActionIs_Illegal_ThrowsMatchNotFoundException()
         {
             var statisticsSetStub = _stub.Setup<IActionSequenceStatisticsSet>()
                 .Get(s => s.Street).Returns(Streets.Flop)
@@ -233,14 +244,53 @@ namespace PokerTell.Statistics.Tests.ViewModels
                 .Out;
 
             Assert.Throws<MatchNotFoundException>(() => _sut.InitializeWith(statisticsSetStub));
-
         }
+
+        [Test]
+        public void InitializeWith_Always_InitializesViewModelHistoryWithCurrentViewModel()
+        {
+            IActionSequenceStatisticsSet statisticsSetStub = _stub.Setup<IActionSequenceStatisticsSet>()
+                .Get(s => s.Street).Returns(Streets.PreFlop)
+                .Out;
+
+            _sut.InitializeWith(statisticsSetStub);
+            _sut.ViewModelHistory
+                .ShouldHaveCount(1)
+                .First().ShouldBe(_sut.CurrentViewModel);
+        }
+
+        [Test]
+        public void InitializeWith_StatisticsSet_InitializesNewViewModelWithStatisticsSet()
+        {
+            IActionSequenceStatisticsSet statisticsSetStub = _stub.Setup<IActionSequenceStatisticsSet>()
+                .Get(s => s.Street).Returns(Streets.PreFlop)
+                .Out;
+
+            var preFlopStatisticsViewModelMock = new Mock<IDetailedStatisticsViewModel>();
+            _sut = new DetailedStatisticsAnalyzerViewModel(
+                new Constructor<IDetailedStatisticsViewModel>(() => preFlopStatisticsViewModelMock.Object),
+                _stub.Out<IConstructor<IDetailedStatisticsViewModel>>(),
+                _stub.Out<IConstructor<IDetailedStatisticsViewModel>>());
+            
+            _sut.InitializeWith(statisticsSetStub);
+            
+            preFlopStatisticsViewModelMock.Verify(vm => vm.InitializeWith(statisticsSetStub));
+        }
+
+        
 
         [SetUp]
         public void _Init()
         {
             _stub = new StubBuilder();
-            _sut = new DetailedStatisticsAnalyzerViewModel();
+            _preFlopStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
+            _postFlopActionStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
+            _postFlopReactionStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
+            _sut =
+                new DetailedStatisticsAnalyzerViewModel(
+                    new Constructor<IDetailedStatisticsViewModel>(() => _preFlopStatisticsViewModelStub),
+                    new Constructor<IDetailedStatisticsViewModel>(() => _postFlopActionStatisticsViewModelStub),
+                    new Constructor<IDetailedStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub));
         }
 
         #endregion

@@ -274,6 +274,7 @@ namespace PokerTell.Statistics.Tests
                 .Out;
 
             _sut = new PlayerStatisticsMock(_eventAggregator, _repositoryMock.Object);
+            _sut.InitializePlayer(Name, Site);
         }
 
         #endregion

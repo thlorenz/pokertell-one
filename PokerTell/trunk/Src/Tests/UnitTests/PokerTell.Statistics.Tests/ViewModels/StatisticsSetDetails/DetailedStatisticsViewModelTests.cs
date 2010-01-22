@@ -1,5 +1,7 @@
 namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 {
+    using System;
+
     using Infrastructure.Interfaces.Statistics;
 
     using NUnit.Framework;
@@ -47,6 +49,11 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public DetailedStatisticsViewModelImpl()
             : base("columnHeaderTitle")
         {
+        }
+
+        public override IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
+        {
+            return this;
         }
     }
 }

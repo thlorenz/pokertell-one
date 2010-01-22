@@ -46,8 +46,11 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
             
             RegisterEvents();
 
-            SelectedStatisticsSetEvent += (name, statisticsSet, street) => 
-                Console.WriteLine("{0} acted on {1}", name, street);
+            SelectedStatisticsSetEvent += sequenceStatisticsSet => 
+                Console.WriteLine("{0} acted on the {1} {2} position", 
+                    sequenceStatisticsSet.PlayerName, 
+                    sequenceStatisticsSet.Street,
+                    sequenceStatisticsSet.InPosition ? "in" : "out of");
         }
 
         #endregion

@@ -89,6 +89,7 @@
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />

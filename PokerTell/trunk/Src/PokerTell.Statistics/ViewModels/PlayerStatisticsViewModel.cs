@@ -22,7 +22,7 @@ namespace PokerTell.Statistics.ViewModels
 
         #region Events
 
-        public event Action<string, IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent =
+        public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent =
             delegate { };
 
         #endregion
@@ -99,21 +99,17 @@ namespace PokerTell.Statistics.ViewModels
 
         protected void RegisterEvents()
         {
-            PreFlopStatisticsSets.SelectedStatisticsSetEvent +=
-                (statisticsSet, street) =>
-                SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
+            PreFlopStatisticsSets.SelectedStatisticsSetEvent += 
+                statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
 
             FlopStatisticsSets.SelectedStatisticsSetEvent +=
-                (statisticsSet, street) =>
-                SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
+                statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
 
             TurnStatisticsSets.SelectedStatisticsSetEvent +=
-                (statisticsSet, street) =>
-                SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
+                statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
 
             RiverStatisticsSets.SelectedStatisticsSetEvent +=
-                (statisticsSet, street) =>
-                SelectedStatisticsSetEvent(PlayerName, statisticsSet, street);
+                statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
         }
 
         void InitializeStatisticsSetsViewModels()

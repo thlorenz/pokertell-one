@@ -21,14 +21,14 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
     using PokerTell.IntegrationTests;
 
+    using Repository;
     using Repository.Interfaces;
     using Repository.NHibernate;
-
-    using Repository;
 
     using Statistics;
     using Statistics.Filters;
     using Statistics.ViewModels;
+    using Statistics.ViewModels.StatisticsSetDetails;
 
     using ViewModels;
 
@@ -45,6 +45,42 @@ namespace PokerTell.LiveTracker.IntegrationTests
         #endregion
 
         #region Public Methods
+
+        [Test]
+        public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
+        {
+            SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
+
+            Func<string, IPlayerStatistics> get =
+                playerName => _container
+                                  .RegisterInstance(_sessionFactoryManagerStub.Object)
+                                  .Resolve<IPlayerStatistics>()
+                                  .InitializePlayer(playerName, PokerStars)
+                                  .UpdateStatistics();
+
+            const string salemorguy = "salemorguy";
+            const string greystoke = "Greystoke-11";
+            const string renniweg = "renniweg";
+
+            var eventAggregator = new EventAggregator();
+            new PlayerStatisticsService(eventAggregator);
+
+            var detailedStatisticsAnalyzerViewModel = new DetailedStatisticsAnalyzerViewModel(
+                new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel()),
+                new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopActionStatisticsViewModel()),
+                new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel()));
+
+            var tableStatisticsViewModel = new TableStatisticsViewModel(
+                eventAggregator,
+                new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
+                detailedStatisticsAnalyzerViewModel);
+            var designWindow = new TableStatisticsDesignWindow(eventAggregator)
+                { Topmost = true, DataContext = tableStatisticsViewModel };
+
+            tableStatisticsViewModel.UpdateWith(new[] { get(renniweg), get(greystoke), get(salemorguy) });
+
+            designWindow.ShowDialog();
+        }
 
         [SetUp]
         public void _Init()
@@ -69,34 +105,6 @@ namespace PokerTell.LiveTracker.IntegrationTests
                 .RegisterType<ITransactionManager, TransactionManager>()
                 .RegisterType<IRepository, Repository>()
                 .RegisterType<IPlayerStatistics, PlayerStatistics>();
-        }
-
-        [Test]
-        public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
-        {
-            SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
-
-            var greystoke = _container
-                .RegisterInstance(_sessionFactoryManagerStub.Object)
-                .Resolve<IPlayerStatistics>();
-            greystoke.InitializePlayer("Greystoke-11", PokerStars)
-                .UpdateStatistics();
-
-            var renniweg = _container
-                .RegisterInstance(_sessionFactoryManagerStub.Object)
-                .Resolve<IPlayerStatistics>();
-            renniweg.InitializePlayer("renniweg", PokerStars)
-                .UpdateStatistics();
-
-            var eventAggregator = new EventAggregator();
-            new PlayerStatisticsService(eventAggregator);
-
-            var tableStatisticsViewModel = new TableStatisticsViewModel(eventAggregator, new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()));
-            var designWindow = new TableStatisticsDesignWindow(eventAggregator) { Topmost = true, DataContext = tableStatisticsViewModel };
-            
-            tableStatisticsViewModel.UpdateWith(new[] { greystoke, renniweg });
-
-            designWindow.ShowDialog();
         }
 
         #endregion

@@ -6,6 +6,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using System.Text;
     using System.Windows.Input;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Tools.WPF;
 
     public class DetailedRaiseReactionStatisticsViewModel : DetailedStatisticsViewModel
@@ -28,5 +30,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         #region Properties
 
         #endregion
+
+        public override IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
+        {
+            return this;
+        }
     }
 }

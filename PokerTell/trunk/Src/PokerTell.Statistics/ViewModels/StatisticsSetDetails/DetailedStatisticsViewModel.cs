@@ -8,8 +8,9 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
     using Tools.FunctionalCSharp;
     using Tools.Interfaces;
+    using Tools.WPF.ViewModels;
 
-    public abstract class DetailedStatisticsViewModel : IDetailedStatisticsViewModel
+    public abstract class DetailedStatisticsViewModel : NotifyPropertyChanged, IDetailedStatisticsViewModel
     {
         #region Constructors and Destructors
 
@@ -21,6 +22,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         }
 
         #endregion
+
+        public abstract IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet);
 
         #region Events
 
@@ -40,12 +43,24 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         /// </summary>
         public string ColumnHeaderTitle { get; protected set; }
 
+        string _detailedStatisticsDescription;
+
         /// <summary>
         /// Describes the situation and player of the statistics
         /// </summary>
-        public string DetailedStatisticsDescription { get; protected set; }
+        public string DetailedStatisticsDescription
+        {
+            get { return _detailedStatisticsDescription; }
+            protected set { _detailedStatisticsDescription = value; RaisePropertyChanged(() => DetailedStatisticsDescription);}
+        }
 
-        public IEnumerable<IDetailedStatisticsRowViewModel> Rows { get; protected set; }
+        IEnumerable<IDetailedStatisticsRowViewModel> _rows;
+
+        public IEnumerable<IDetailedStatisticsRowViewModel> Rows
+        {
+            get { return _rows; }
+            protected set { _rows = value; RaisePropertyChanged(() => Rows);}
+        }
 
         public IList<ITuple<int, int>> SelectedCells { get; protected set; }
 

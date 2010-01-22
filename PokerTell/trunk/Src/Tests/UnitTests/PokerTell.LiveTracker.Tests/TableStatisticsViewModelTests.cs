@@ -271,7 +271,7 @@ namespace PokerTell.LiveTracker.Tests
         class TableStatisticsViewModelTester : TableStatisticsViewModel
         {
             public TableStatisticsViewModelTester(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
-                : base(eventAggregator, playerStatisticsViewModelMake)
+                : base(eventAggregator, playerStatisticsViewModelMake, new StubBuilder().Out<IDetailedStatisticsAnalyzerViewModel>())
             {
             }
 

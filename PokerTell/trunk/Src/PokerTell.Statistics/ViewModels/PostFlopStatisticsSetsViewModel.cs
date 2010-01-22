@@ -34,7 +34,7 @@ namespace PokerTell.Statistics.ViewModels
 
         #region Events
 
-        public event Action<IActionSequenceStatisticsSet, Streets> SelectedStatisticsSetEvent = delegate { };
+        public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
 
         #endregion
 
@@ -159,7 +159,7 @@ namespace PokerTell.Statistics.ViewModels
             foreach (var statisticsSetsSummary in this)
             {
                 statisticsSetsSummary.StatisticsSetSelectedEvent +=
-                    statisticsSet => SelectedStatisticsSetEvent(statisticsSet, _street);
+                    statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
             }
         }
 

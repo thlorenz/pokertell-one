@@ -30,5 +30,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         void ClearSelection();
 
         #endregion
+
+        IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet);
     }
 }

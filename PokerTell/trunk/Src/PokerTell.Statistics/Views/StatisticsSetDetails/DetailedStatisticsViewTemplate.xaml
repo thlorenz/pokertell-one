@@ -11,13 +11,14 @@
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="DetailedStatisticsViewTemplate">
-        <Viewbox>
-            <ContentPresenter Content="{Binding}"/>
-        </Viewbox>
+        <StackPanel>
+          <!--  <Label Content="{Binding DetailedStatisticsDescription}"  /> -->
+            <ContentPresenter Content="{Binding}" />
+        </StackPanel>
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type ViewModels:DetailedPreFlopStatisticsViewModel}" >
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
@@ -30,7 +31,14 @@
                     <dg:DataGridTextColumn Header="BU" Binding="{Binding Cells[6].Value}" />
                 </dg:DataGrid.Columns>
             </dg:DataGrid>
-            <Button Content="Investigate" Command="{Binding InvestigateCommand}" />
+            <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </Button>
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </Button>
+            </StackPanel>
         </StackPanel>
     </DataTemplate>
 
@@ -42,7 +50,7 @@
     <System:String x:Key="VeryLargeBet">1.5</System:String>
 
     <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopActionStatisticsViewModel}" >
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
@@ -54,12 +62,19 @@
                     <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
                 </dg:DataGrid.Columns>
             </dg:DataGrid>
-            <Button Content="Investigate" Command="{Binding InvestigateCommand}" />
+           <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </Button>
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </Button>
+            </StackPanel>
         </StackPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopReactionStatisticsViewModel}" >
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
@@ -71,7 +86,15 @@
                     <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
                 </dg:DataGrid.Columns>
             </dg:DataGrid>
-            <Button Content="Investigate" Command="{Binding InvestigateCommand}" />
+
+           <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </Button>
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </Button>
+            </StackPanel>
         </StackPanel>
     </DataTemplate>
 
@@ -81,7 +104,7 @@
     <System:String x:Key="VeryLargeRaise">9x</System:String>
 
     <DataTemplate DataType="{x:Type ViewModels:DetailedRaiseReactionStatisticsViewModel}" >
-        <StackPanel>
+        <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
@@ -91,7 +114,7 @@
                     <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
                 </dg:DataGrid.Columns>
             </dg:DataGrid>
-            <Button Content="Investigate" Command="{Binding InvestigateCommand}" />
+          <!--  <Button Content="Investigate" Command="{Binding InvestigateCommand}" /> -->
         </StackPanel>
     </DataTemplate>
     
