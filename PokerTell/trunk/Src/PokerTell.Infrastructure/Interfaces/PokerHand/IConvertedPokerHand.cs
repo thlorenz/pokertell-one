@@ -27,6 +27,14 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </summary>
         IConvertedPokerRound[] Sequences { get; }
 
+        string SequenceFlop { get; set; }
+
+        string SequencePreFlop { get; set; }
+
+        string SequenceRiver { get; set; }
+
+        string SequenceTurn { get; set; }
+
         #endregion
 
         #region Indexers

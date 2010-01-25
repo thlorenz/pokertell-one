@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Log4Net\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -69,13 +73,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Detailed\AcrossRowsPercentagesCalculator.cs" />
+    <Compile Include="Analyzation\PreflopCallingAnalyzer.cs" />
+    <Compile Include="Analyzation\PreflopCallingHandStrengthStatistic.cs" />
+    <Compile Include="Analyzation\ValuedCard.cs" />
+    <Compile Include="Analyzation\ValuedHoleCards.cs" />
+    <Compile Include="Analyzation\ValuedHoleCardsAverage.cs" />
+    <Compile Include="Interfaces\IPreflopCallingAnalyzer.cs" />
+    <Compile Include="Interfaces\IPreflopCallingHandStrengthStatistic.cs" />
+    <Compile Include="Interfaces\IRaiseReactionStatistics.cs" />
+    <Compile Include="Analyzation\RaiseReactionAnalyzer.cs" />
+    <Compile Include="Analyzation\RaiseReactionStatistics.cs" />
+    <Compile Include="Analyzation\ReactionAnalyzationPreparer.cs" />
+    <Compile Include="Interfaces\IValuedHoleCards.cs" />
+    <Compile Include="Utilities\AcrossRowsPercentagesCalculator.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticsSet.cs" />
     <Compile Include="Detailed\ActionSequenceStatistic.cs" />
     <Compile Include="Detailed\HeroCheckOrBetSetStatistics.cs" />
-    <Compile Include="Detailed\SeparateRowsPercentagesCalculator.cs" />
+    <Compile Include="Utilities\SeparateRowsPercentagesCalculator.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilter.cs" />
     <Compile Include="Filters\PlayerStatisticsService.cs" />
+    <Compile Include="Interfaces\IReactionAnalyzationPreparer.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModel.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterViewModel.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />

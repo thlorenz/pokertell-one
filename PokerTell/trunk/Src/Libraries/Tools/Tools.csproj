@@ -89,6 +89,7 @@
     <Compile Include="ExecuteProcess.cs" />
     <Compile Include="Extensions\ArrayComparer.cs" />
     <Compile Include="Extensions\GenericRangeFilterExtension.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="FunctionalCSharp\IdentityExtensions.cs" />
     <Compile Include="FunctionalCSharp\ContinuationExtensions.cs" />
     <Compile Include="FunctionalCSharp\MaybeExtensions.cs" />

@@ -112,21 +112,21 @@ namespace PokerTell.PokerHand.Analyzation
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.Flop]); }
 
-            private set { _sequences[(int)Streets.Flop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+            set { _sequences[(int)Streets.Flop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
         public string SequencePreFlop
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.PreFlop]); }
 
-            private set { _sequences[(int)Streets.PreFlop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+            set { _sequences[(int)Streets.PreFlop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
         public string SequenceRiver
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.River]); }
 
-            private set { _sequences[(int)Streets.River] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+            set { _sequences[(int)Streets.River] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace PokerTell.PokerHand.Analyzation
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.Turn]); }
 
-            private set { _sequences[(int)Streets.Turn] = PokerHandStringConverter.ConvertedRoundFrom(value); }
+            set { _sequences[(int)Streets.Turn] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
         PokerHandStringConverter PokerHandStringConverter

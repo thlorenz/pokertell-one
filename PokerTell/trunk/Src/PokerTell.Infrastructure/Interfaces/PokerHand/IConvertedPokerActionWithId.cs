@@ -1,5 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using Enumerations.PokerHand;
+
     public interface IConvertedPokerActionWithId : IConvertedPokerAction
     {
         /// <summary>
@@ -8,6 +10,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         int Id { get; }
 
         IConvertedPokerActionWithId InitializeWith(IConvertedPokerAction convertedAction, int id);
-       
+
+        IConvertedPokerActionWithId InitializeWith(ActionTypes what, double ratio, int id);
     }
 }

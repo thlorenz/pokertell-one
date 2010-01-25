@@ -71,7 +71,7 @@ namespace Moq
         }
 
         /// <summary>
-        /// Used to define retrun values for some getters for the stub before returning it via Out
+        /// Used to define return values for some getters for the stub before returning it via Out
         /// </summary>
         /// <example>
         /// <code>

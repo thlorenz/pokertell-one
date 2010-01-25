@@ -67,6 +67,14 @@ namespace PokerTell.Repository.Tests.Fakes
         /// </summary>
         public IConvertedPokerRound[] Sequences { get; set; }
 
+        public string SequenceFlop { get; set; }
+
+        public string SequencePreFlop { get; set; }
+
+        public string SequenceRiver { get; set; }
+
+        public string SequenceTurn { get; set; }
+
         public int PlayersInFlop { get; set; }
 
         public int PlayersInTurn { get; set; }

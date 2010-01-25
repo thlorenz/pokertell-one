@@ -1,9 +1,15 @@
-namespace PokerTell.Statistics.Detailed
+namespace PokerTell.Statistics.Utilities
 {
     using System;
 
-    using PokerTell.Statistics.Interfaces;
+    using Interfaces;
 
+    using Tools.Extensions;
+
+    /// <summary>
+    ///   Used to calculate percentages of number of values in relation o the total count of values in the
+    ///   same column.
+    /// </summary>
     public class AcrossRowsPercentagesCalculator : IPercentagesCalculator
     {
         #region Constants and Fields
@@ -28,10 +34,28 @@ namespace PokerTell.Statistics.Detailed
 
         #region IPercentagesCalculator
 
+        /// <summary>
+        ///   Manipulates percentage values via the Action (last parameter)
+        /// </summary>
+        /// <param name="getNumberOfRows">
+        ///   Function that returns number of rows in the table
+        /// </param>
+        /// <param name="getNumberOfColumnsAtRow">
+        ///   Function that returns number columns at a given of row in the table
+        /// </param>
+        /// <param name="getCountAtRowColumn">
+        ///   Function that returns number of counts at tablecell given by rows and column
+        /// </param>
+        /// <param name="setPercentageAtRowColumn">
+        ///   Action that will set the calculated percentages for all cells, which are indexed via the given row and column
+        /// </param>
+        /// <returns>
+        ///   Self to allow fluent interface
+        /// </returns>
         public IPercentagesCalculator CalculatePercentages(
-            Func<int> getNumberOfRows, 
-            Func<int, int> getNumberOfColumnsAtRow, 
-            Func<int, int, int> getCountAtRowColumn, 
+            Func<int> getNumberOfRows,
+            Func<int, int> getNumberOfColumnsAtRow,
+            Func<int, int, int> getCountAtRowColumn,
             Action<int, int, int> setPercentageAtRowColumn)
         {
             ValidateAndInitialize(getNumberOfRows, getNumberOfColumnsAtRow, getCountAtRowColumn, setPercentageAtRowColumn);
@@ -54,7 +78,7 @@ namespace PokerTell.Statistics.Detailed
 
         static int GetAndValidateNumberOfRows(Func<int> getNumberOfRows)
         {
-            var numberOfRows = getNumberOfRows();
+            int numberOfRows = getNumberOfRows();
             if (numberOfRows < 2)
             {
                 throw new ArgumentException(
@@ -66,7 +90,7 @@ namespace PokerTell.Statistics.Detailed
 
         int GetAndValidateNumberOfColumns(Func<int, int> getNumberOfColumnsAtRow)
         {
-            var numberOfColumnsOfFirstRow = getNumberOfColumnsAtRow(0);
+            int numberOfColumnsOfFirstRow = getNumberOfColumnsAtRow(0);
             if (numberOfColumnsOfFirstRow < 1)
             {
                 throw new ArgumentException("Column count needs to be at least 1");
@@ -83,22 +107,6 @@ namespace PokerTell.Statistics.Detailed
             return numberOfColumnsOfFirstRow;
         }
 
-        void ValidateAndInitialize(
-            Func<int> getNumberOfRows, 
-            Func<int, int> getNumberOfColumnsAtRow, 
-            Func<int, int, int> getCountAtRowColumn, 
-            Action<int, int, int> setPercentageAtRowColumn)
-        {
-            _getCountAtRowColumn = getCountAtRowColumn;
-            _setPercentageAtRowColumn = setPercentageAtRowColumn;
-
-            _numberOfRows = GetAndValidateNumberOfRows(getNumberOfRows);
-
-            _numberOfColumns = GetAndValidateNumberOfColumns(getNumberOfColumnsAtRow);
-
-            SumsOfCountsByColumn = new int[_numberOfColumns];
-        }
-
         void SetPercentagesForColumn(int col)
         {
             for (int row = 0; row < _numberOfRows; row++)
@@ -110,9 +118,8 @@ namespace PokerTell.Statistics.Detailed
                 else
                 {
                     double percentage = (double)_getCountAtRowColumn(row, col) / SumsOfCountsByColumn[col] * 100;
-                    double roundedPercentage = Math.Round(percentage, MidpointRounding.AwayFromZero);
 
-                    _setPercentageAtRowColumn(row, col, (int)roundedPercentage);
+                    _setPercentageAtRowColumn(row, col, percentage.ToInt());
                 }
             }
         }
@@ -123,6 +130,22 @@ namespace PokerTell.Statistics.Detailed
             {
                 SumsOfCountsByColumn[col] += _getCountAtRowColumn(row, col);
             }
+        }
+
+        void ValidateAndInitialize(
+            Func<int> getNumberOfRows,
+            Func<int, int> getNumberOfColumnsAtRow,
+            Func<int, int, int> getCountAtRowColumn,
+            Action<int, int, int> setPercentageAtRowColumn)
+        {
+            _getCountAtRowColumn = getCountAtRowColumn;
+            _setPercentageAtRowColumn = setPercentageAtRowColumn;
+
+            _numberOfRows = GetAndValidateNumberOfRows(getNumberOfRows);
+
+            _numberOfColumns = GetAndValidateNumberOfColumns(getNumberOfColumnsAtRow);
+
+            SumsOfCountsByColumn = new int[_numberOfColumns];
         }
 
         #endregion

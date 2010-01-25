@@ -1,14 +1,13 @@
-namespace PokerTell.Statistics.Tests.Detailed
+namespace PokerTell.Statistics.Tests.Utilities
 {
     using System;
 
-    using Interfaces;
+    using PokerTell.Statistics.Interfaces;
 
     using NUnit.Framework;
 
-    using Statistics.Detailed;
-
-    using UnitTests.Tools;
+    using PokerTell.Statistics.Utilities;
+    using PokerTell.UnitTests.Tools;
 
     public class SeparateRowsPercentagesCalculatorTests
     {
@@ -61,9 +60,9 @@ namespace PokerTell.Statistics.Tests.Detailed
             var percentages = new int[counts.GetLength(0), counts.GetLength(1)];
 
             _sut.CalculatePercentages(() => counts.GetLength(0),
-                                     row => counts.GetLength(1),
-                                     (row, col) => counts[row, col],
-                                     (row, col, perc) => percentages[row, col] = perc);
+                                      row => counts.GetLength(1),
+                                      (row, col) => counts[row, col],
+                                      (row, col, perc) => percentages[row, col] = perc);
 
             percentages[0, 0].ShouldBeEqualTo(0);
             percentages[0, 1].ShouldBeEqualTo(100);
@@ -76,9 +75,9 @@ namespace PokerTell.Statistics.Tests.Detailed
             var percentages = new int[counts.GetLength(0), counts.GetLength(1)];
 
             _sut.CalculatePercentages(() => counts.GetLength(0),
-                                     row => counts.GetLength(1),
-                                     (row, col) => counts[row, col],
-                                     (row, col, perc) => percentages[row, col] = perc);
+                                      row => counts.GetLength(1),
+                                      (row, col) => counts[row, col],
+                                      (row, col, perc) => percentages[row, col] = perc);
 
             percentages[0, 0].ShouldBeEqualTo(0);
             percentages[0, 1].ShouldBeEqualTo(25);
@@ -92,9 +91,9 @@ namespace PokerTell.Statistics.Tests.Detailed
             var percentages = new int[counts.GetLength(0), counts.GetLength(1)];
 
             _sut.CalculatePercentages(() => counts.GetLength(0),
-                                     row => counts.GetLength(1),
-                                     (row, col) => counts[row, col],
-                                     (row, col, perc) => percentages[row, col] = perc);
+                                      row => counts.GetLength(1),
+                                      (row, col) => counts[row, col],
+                                      (row, col, perc) => percentages[row, col] = perc);
 
             _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(0);
             _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(1);
@@ -108,9 +107,9 @@ namespace PokerTell.Statistics.Tests.Detailed
             var percentages = new int[counts.GetLength(0), counts.GetLength(1)];
 
             _sut.CalculatePercentages(() => counts.GetLength(0),
-                                     row => counts.GetLength(1),
-                                     (row, col) => counts[row, col],
-                                     (row, col, perc) => percentages[row, col] = perc);
+                                      row => counts.GetLength(1),
+                                      (row, col) => counts[row, col],
+                                      (row, col, perc) => percentages[row, col] = perc);
 
             _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(0);
             _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(1);
@@ -134,9 +133,9 @@ namespace PokerTell.Statistics.Tests.Detailed
             var percentages = new int[counts.GetLength(0), counts.GetLength(1)];
 
             _sut.CalculatePercentages(() => counts.GetLength(0),
-                                     row => counts.GetLength(1),
-                                     (row, col) => counts[row, col],
-                                     (row, col, perc) => percentages[row, col] = perc);
+                                      row => counts.GetLength(1),
+                                      (row, col) => counts[row, col],
+                                      (row, col, perc) => percentages[row, col] = perc);
 
             percentages[0, 0].ShouldBeEqualTo(expect[0, 0]);
             percentages[0, 1].ShouldBeEqualTo(expect[0, 1]);
@@ -156,12 +155,12 @@ namespace PokerTell.Statistics.Tests.Detailed
             var percentages = new int[counts.GetLength(0), counts.GetLength(1)];
 
             _sut.CalculatePercentages(() => counts.GetLength(0),
-                                     row => counts.GetLength(1),
-                                     (row, col) => counts[row, col],
-                                     (row, col, perc) => percentages[row, col] = perc);
+                                      row => counts.GetLength(1),
+                                      (row, col) => counts[row, col],
+                                      (row, col, perc) => percentages[row, col] = perc);
 
-           _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(1);
-           _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(2);
+            _sut.SumsOfCountsByColumn[0].ShouldBeEqualTo(1);
+            _sut.SumsOfCountsByColumn[1].ShouldBeEqualTo(2);
         }
 
     }

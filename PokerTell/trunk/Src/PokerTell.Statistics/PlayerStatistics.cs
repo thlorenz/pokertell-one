@@ -20,6 +20,8 @@ namespace PokerTell.Statistics
 
     using Microsoft.Practices.Composite.Events;
 
+    using Utilities;
+
     public class PlayerStatistics : IPlayerStatistics, IEnumerable<IActionSequenceStatisticsSet>
     {
         #region Constants and Fields

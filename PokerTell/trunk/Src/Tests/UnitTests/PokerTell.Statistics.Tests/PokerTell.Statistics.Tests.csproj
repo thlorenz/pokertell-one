@@ -70,14 +70,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Detailed\AcrossRowsPercentagesCalculatorTests.cs" />
+    <Compile Include="Analyzation\ReactionAnalyzationPreparerTests.cs" />
+    <Compile Include="Analyzation\RaiseReactionAnalyzerTests.cs" />
+    <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs" />
+    <Compile Include="Analyzation\ThatPreflopHandStrengthStatistic.cs" />
+    <Compile Include="Analyzation\ValueCardTests.cs" />
+    <Compile Include="Analyzation\ValuedHolecardsAverageTests.cs" />
+    <Compile Include="Analyzation\ValuedHoleCardsTests.cs" />
+    <Compile Include="Utilities\AcrossRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticsSetTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticTests.cs" />
     <Compile Include="Detailed\HeroCheckOrBetSetStatisticsTests.cs" />
     <Compile Include="Detailed\PostFlopActionSequenceStatisticTests.cs" />
     <Compile Include="Detailed\PostFlopHeroXStatisticTests.cs" />
     <Compile Include="Detailed\PreFlopActionSequenceStatisticTests.cs" />
-    <Compile Include="Detailed\SeparateRowsPercentagesCalculatorTests.cs" />
+    <Compile Include="Utilities\SeparateRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Factories\Samples.cs" />
     <Compile Include="Fakes\AnalyzablePokerPlayersFilterTester.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilterTests.cs" />
@@ -89,7 +96,6 @@
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
-    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />

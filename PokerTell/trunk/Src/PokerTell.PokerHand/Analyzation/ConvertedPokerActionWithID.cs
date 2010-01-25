@@ -11,6 +11,7 @@ namespace PokerTell.PokerHand.Analyzation
 {
     using System;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
@@ -91,13 +92,18 @@ namespace PokerTell.PokerHand.Analyzation
            return base.GetHashCode() ^ Id;
         }
 
+        public IConvertedPokerActionWithId InitializeWith(ActionTypes what, double ratio, int id)
+        {
+            What = what;
+            Ratio = ratio;
+            Id = id;
+
+            return this;
+        }
+
         public IConvertedPokerActionWithId InitializeWith(IConvertedPokerAction convertedAction, int id)
         {
-            What = convertedAction.What;
-            Ratio = convertedAction.Ratio;
-            Id = id;
-           
-            return this;
+            return InitializeWith(convertedAction.What, convertedAction.Ratio, id);
         }
 
         /// <summary>
