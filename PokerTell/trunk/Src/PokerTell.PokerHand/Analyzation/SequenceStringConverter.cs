@@ -29,7 +29,7 @@ namespace PokerTell.PokerHand.Analyzation
             }
         }
 
-        public void Convert(string sequenceString)
+        public SequenceStringConverter Convert(string sequenceString)
         {
             BetSizeIndex = 0;
             
@@ -76,6 +76,7 @@ namespace PokerTell.PokerHand.Analyzation
                         break;
                 }
             }
+            return this;
         }
 
         void MatchStringContainingBetSizeKey()

@@ -7,7 +7,7 @@ namespace PokerTell.Statistics.Analyzation
 
     public class PreflopCallingHandStrengthStatistic : IPreflopCallingHandStrengthStatistic
     {
-        public ICollection<IConvertedPokerHand> ConvertedHands { get; private set; }
+        public ICollection<IAnalyzablePokerPlayer> AnalyzablePokerPlayers { get; private set; }
 
         public ValuedHoleCardsAverage AverageHandStrength { get; private set; }
 
@@ -16,15 +16,15 @@ namespace PokerTell.Statistics.Analyzation
 
         public PreflopCallingHandStrengthStatistic()
         {
-            ConvertedHands = new List<IConvertedPokerHand>();
+            AnalyzablePokerPlayers = new List<IAnalyzablePokerPlayer>();
             KnownCards = new List<IValuedHoleCards>();
         }
         
         public void Add(IPreflopCallingAnalyzer analyzer)
         {
-            if (analyzer.ConvertedHand != null)
+            if (analyzer.AnalyzablePokerPlayer != null)
             {
-                ConvertedHands.Add(analyzer.ConvertedHand);
+                AnalyzablePokerPlayers.Add(analyzer.AnalyzablePokerPlayer);
             }
 
             var valuedHoleCards = new ValuedHoleCards(analyzer.HeroHoleCards);

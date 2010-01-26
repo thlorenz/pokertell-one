@@ -8,6 +8,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
     using Infrastructure.Interfaces.Statistics;
 
+    using Interfaces;
+
     using Tools.WPF;
 
     public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel
@@ -25,7 +27,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #endregion
 
-        public override IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var foldRow = 
                 new DetailedStatisticsRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");

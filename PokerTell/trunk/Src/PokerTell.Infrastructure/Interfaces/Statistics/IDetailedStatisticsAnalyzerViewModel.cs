@@ -7,17 +7,17 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     public interface IDetailedStatisticsAnalyzerViewModel
     {
-        IDetailedStatisticsViewModel CurrentViewModel { get; set; }
+        IDetailedStatisticsAnalyzerContentViewModel CurrentViewModel { get; set; }
 
         ICommand NavigateBackwardCommand { get; }
 
         ICommand NavigateForwardCommand { get; }
 
-        IList<IDetailedStatisticsViewModel> ViewModelHistory { get; }
+        IList<IDetailedStatisticsAnalyzerContentViewModel> ViewModelHistory { get; }
 
         bool Visible { get; }
 
-        IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsViewModel viewModel);
+        IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsAnalyzerContentViewModel viewModel);
 
         IDetailedStatisticsAnalyzerViewModel NavigateTo(int index);
 

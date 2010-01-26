@@ -1,4 +1,4 @@
-namespace PokerTell.Infrastructure.Interfaces.Statistics
+namespace PokerTell.Statistics.Interfaces
 {
     public interface IDetailedStatisticsCellViewModel
     {

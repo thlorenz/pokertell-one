@@ -32,8 +32,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
         {
             _callingHandStrengthStatistic = new PreflopCallingHandStrengthStatistic();
             _mockAnalyzer = new Mock<IPreflopCallingAnalyzer>();
-            IConvertedPokerHand hand = CreateHandHeaderWithSequences_9Max("standardHeroName");
-            _mockAnalyzer.SetupGet(get => get.ConvertedHand).Returns(hand);
+            _mockAnalyzer.SetupGet(get => get.AnalyzablePokerPlayer).Returns(new AnalyzablePokerPlayer());
         }
 
         [Test]
@@ -41,7 +40,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
         {
             _callingHandStrengthStatistic.Add(_mockAnalyzer.Object);
 
-            Assert.That(_callingHandStrengthStatistic.ConvertedHands.Count, Is.EqualTo(1));
+            Assert.That(_callingHandStrengthStatistic.AnalyzablePokerPlayers.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -54,14 +53,14 @@ namespace PokerTell.Statistics.Tests.Analyzation
         }
 
         [Test]
-        public void Add_UndefinedHand_DoesNotAddIt()
+        public void Add_UndefinedHandAnalyzablePlayer_DoesNotAddIt()
         {
             var mockAnalyzer = new Mock<IPreflopCallingAnalyzer>();
-            mockAnalyzer.SetupGet(get => get.ConvertedHand).Returns((IConvertedPokerHand)null);
+            mockAnalyzer.SetupGet(get => get.AnalyzablePokerPlayer).Returns((IAnalyzablePokerPlayer)null);
 
             _callingHandStrengthStatistic.Add(mockAnalyzer.Object);
 
-            Assert.That(_callingHandStrengthStatistic.ConvertedHands.Count, Is.EqualTo(0));
+            Assert.That(_callingHandStrengthStatistic.AnalyzablePokerPlayers.Count, Is.EqualTo(0));
         }
 
         [Test]
@@ -106,36 +105,6 @@ namespace PokerTell.Statistics.Tests.Analyzation
         {
             _callingHandStrengthStatistic.CalculateAverageHandStrength();
             Assert.That(_callingHandStrengthStatistic.AverageHandStrength.IsValid, Is.False);
-        }
-
-        #endregion
-
-        #region Methods
-
-        static IConvertedPokerHand CreateHandHeaderWithSequences_9Max(string hero)
-        {
-            IConvertedPokerHand hand = CreateHandHeader_9Max();
-
-            hand.AddPlayer(CreatePlayer(hero, 9));
-            var round = new ConvertedPokerRound
-                { new ConvertedPokerActionWithId(new ConvertedPokerAction(ActionTypes.B, 1.0), 0) };
-
-            for (var street = (int)Streets.PreFlop; street <= (int)Streets.River; street++)
-            {
-                hand.Sequences[street] = round;
-            }
-
-            return hand;
-        }
-
-        static IConvertedPokerHand CreateHandHeader_9Max()
-        {
-            return new ConvertedPokerHand("Pokerstars", 123456, DateTime.Parse("01/01/2009 12:00:00 pm"), 20, 10, 9);
-        }
-
-        static IConvertedPokerPlayer CreatePlayer(string playerName, int totalPlayers)
-        {
-            return new ConvertedPokerPlayer(playerName, 10, 12, 2, totalPlayers, "As Kd");
         }
 
         #endregion

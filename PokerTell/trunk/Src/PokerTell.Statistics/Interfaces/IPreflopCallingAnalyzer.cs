@@ -8,6 +8,6 @@ namespace PokerTell.Statistics.Interfaces
 
         double Ratio { get; }
 
-        IConvertedPokerHand ConvertedHand { get; }
+        IAnalyzablePokerPlayer AnalyzablePokerPlayer { get; }
     }
 }

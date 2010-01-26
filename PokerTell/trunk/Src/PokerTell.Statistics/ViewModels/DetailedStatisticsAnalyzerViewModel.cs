@@ -8,6 +8,8 @@ namespace PokerTell.Statistics.ViewModels
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.Statistics;
 
+    using Interfaces;
+
     using Tools.FunctionalCSharp;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
@@ -39,14 +41,14 @@ namespace PokerTell.Statistics.ViewModels
             _detailedPostFlopActionStatisticsViewModelMake = detailedPostFlopActionStatisticsViewModelMake;
             _detailedPreFlopStatisticsViewModelMake = detailedPreFlopStatisticsViewModelMake;
 
-            ViewModelHistory = new List<IDetailedStatisticsViewModel>();
+            ViewModelHistory = new List<IDetailedStatisticsAnalyzerContentViewModel>();
         }
 
         #endregion
 
         #region Properties
 
-        public IDetailedStatisticsViewModel CurrentViewModel { get; set; }
+       public IDetailedStatisticsAnalyzerContentViewModel CurrentViewModel { get; set; }
 
         public ICommand NavigateBackwardCommand
         {
@@ -75,7 +77,7 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
-        public IList<IDetailedStatisticsViewModel> ViewModelHistory { get; private set; }
+        public IList<IDetailedStatisticsAnalyzerContentViewModel> ViewModelHistory { get; private set; }
 
         public bool Visible
         {
@@ -88,7 +90,7 @@ namespace PokerTell.Statistics.ViewModels
 
         #region IDetailedStatisticsAnalyzerViewModel
 
-        public IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsViewModel viewModel)
+        public IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsAnalyzerContentViewModel viewModel)
         {
             RemoveAllViewModelsInHistoryThatAreBehindCurrentViewModel();
 
@@ -112,14 +114,17 @@ namespace PokerTell.Statistics.ViewModels
             Predicate<IActionSequenceStatisticsSet> isOppB = s => s.ActionSequence == ActionSequences.OppB;
             Predicate<IActionSequenceStatisticsSet> isHeroXOppB = s => s.ActionSequence == ActionSequences.HeroXOppB;
 
+            IDetailedStatisticsViewModel detailedStatisticsViewModel = null;
+         
             actionSequenceStatisticsSet.Match()
-                .With(isPreflop, _ => AddViewModel(_detailedPreFlopStatisticsViewModelMake.New))
-                .With(isHeroActs, _ => AddViewModel(_detailedPostFlopActionStatisticsViewModelMake.New))
-                .With(isOppB, _ => AddViewModel(_detailedPostFlopReactionStatisticsViewModelMake.New))
-                .With(isHeroXOppB, _ => AddViewModel(_detailedPostFlopReactionStatisticsViewModelMake.New))
+                .With(isPreflop, _ => detailedStatisticsViewModel = _detailedPreFlopStatisticsViewModelMake.New)
+                .With(isHeroActs, _ => detailedStatisticsViewModel = _detailedPostFlopActionStatisticsViewModelMake.New)
+                .With(isOppB, _ => detailedStatisticsViewModel = _detailedPostFlopReactionStatisticsViewModelMake.New)
+                .With(isHeroXOppB, _ => detailedStatisticsViewModel = _detailedPostFlopReactionStatisticsViewModelMake.New)
                 .Do();
 
-            CurrentViewModel.InitializeWith(actionSequenceStatisticsSet);
+            AddViewModel(detailedStatisticsViewModel);
+            detailedStatisticsViewModel.InitializeWith(actionSequenceStatisticsSet);
 
             return this;
         }

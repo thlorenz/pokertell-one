@@ -9,10 +9,12 @@ namespace PokerTell.Statistics.Interfaces
     {
         IDictionary<int, int> CountsDictionary { get; }
 
-        IDictionary<ActionTypes, IDictionary<int, IList<IConvertedPokerHand>>> HandsDictionary { get; }
+        IDictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> HandsDictionary { get; }
 
         IDictionary<ActionTypes, IDictionary<int, int>> PercentagesDictionary { get; }
 
         string ToString();
+
+        IRaiseReactionStatistics InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, Streets street, ActionSequences actionSequence);
     }
 }

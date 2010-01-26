@@ -1,5 +1,6 @@
 namespace PokerTell.Statistics.Analyzation
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -13,15 +14,15 @@ namespace PokerTell.Statistics.Analyzation
     {
         #region Constructors and Destructors
 
-        public PreflopCallingAnalyzer(IReactionAnalyzationPreparer analyzationPreparer, bool raisedPot)
+        public PreflopCallingAnalyzer(IAnalyzablePokerPlayer analyzablePokerPlayer,IReactionAnalyzationPreparer analyzationPreparer, bool raisedPot)
         {
-            ConvertedHand = analyzationPreparer.ConvertedHand;
-
+            AnalyzablePokerPlayer = analyzablePokerPlayer;
+            
             var callingRatios = GetCallingRatios(raisedPot);
 
             DetermineRatio(analyzationPreparer, callingRatios);
 
-            DetermineHeroHoleCards(analyzationPreparer);
+            DetermineHeroHoleCards(analyzablePokerPlayer);
         }
 
         static double[] GetCallingRatios(bool raisedPot)
@@ -31,17 +32,15 @@ namespace PokerTell.Statistics.Analyzation
 
         void DetermineRatio(IReactionAnalyzationPreparer analyzationPreparer, double[] callingRatios)
         {
+            // Error here, we need to determine Hero's calling action index instead of just using his position
+            
             Ratio = Normalizer.NormalizeToKeyValues(
-                callingRatios, analyzationPreparer.Sequence[analyzationPreparer.HeroIndex].Ratio);
+                callingRatios, analyzationPreparer.Sequence[analyzationPreparer.HeroPosition].Ratio);
         }
 
-        void DetermineHeroHoleCards(IReactionAnalyzationPreparer analyzationPreparer)
+        void DetermineHeroHoleCards(IAnalyzablePokerPlayer analyzablePokerPlayer)
         {
-            IEnumerable<string> foundHeroCards = from IConvertedPokerPlayer player in analyzationPreparer.ConvertedHand
-                                                 where player.Name.Equals(analyzationPreparer.HeroName)
-                                                 select player.Holecards;
-            
-            HeroHoleCards = foundHeroCards.Count() > 0 ? foundHeroCards.First() : string.Empty;
+            HeroHoleCards = analyzablePokerPlayer.Holecards;
         }
 
         #endregion
@@ -52,8 +51,8 @@ namespace PokerTell.Statistics.Analyzation
 
         public double Ratio { get; private set; }
 
-        public IConvertedPokerHand ConvertedHand { get; private set; }
-
+        public IAnalyzablePokerPlayer AnalyzablePokerPlayer { get; protected set; }
+       
         #endregion
     }
 }

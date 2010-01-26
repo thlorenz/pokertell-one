@@ -1,19 +1,27 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Windows.Input;
 
+    using Analyzation;
+
+    using Infrastructure;
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
+    using Interfaces;
+
+    using Tools.FunctionalCSharp;
     using Tools.WPF;
 
     public class DetailedPostFlopActionStatisticsViewModel : DetailedStatisticsViewModel
     {
         #region Constants and Fields
 
+        static readonly double[] BetSizeKeys = ApplicationProperties.BetSizeKeys;
+
+        ICommand _investigateRaiseReactionCommand;
 
         #endregion
 
@@ -28,10 +36,30 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #region Properties
 
+        public ICommand InvestigateRaiseReactionCommand
+        {
+            get
+            {
+                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = _ => {
+                            Tuple<double, double> selectedBetSizes = Tuple.New(
+                                BetSizeKeys[SelectedColumnsSpan.First],
+                                BetSizeKeys[SelectedColumnsSpan.Second]);
+
+                            ChildViewModel = new DetailedRaiseReactionStatisticsViewModel(
+                                SelectedAnalyzablePlayers, PlayerName, Street, SelectedActionSequence, selectedBetSizes);
+                        },
+                        CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
+                    });
+            }
+        }
 
         #endregion
 
-        public override IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
+        #region Methods
+
+        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var betRow =
                 new DetailedStatisticsRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
@@ -42,12 +70,19 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
             DetailedStatisticsDescription =
                 string.Format(
-                            "Player {0} {1} on the {2} {3} position",
-                            statisticsSet.PlayerName,
-                            statisticsSet.ActionSequence,
-                            statisticsSet.Street,
-                            statisticsSet.InPosition ? "in" : "out of");
+                    "Player {0} {1} on the {2} {3} position",
+                    statisticsSet.PlayerName,
+                    statisticsSet.ActionSequence,
+                    statisticsSet.Street,
+                    statisticsSet.InPosition ? "in" : "out of");
+
             return this;
         }
+
+        void CreateRaiseReactionViewModel()
+        {
+        }
+
+        #endregion
     }
 }

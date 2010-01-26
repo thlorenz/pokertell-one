@@ -1,6 +1,8 @@
-namespace PokerTell.Infrastructure.Interfaces.Statistics
+namespace PokerTell.Statistics.Interfaces
 {
     using System.Collections.Generic;
+
+    using Infrastructure.Interfaces.Statistics;
 
     public interface IDetailedStatisticsRowViewModel
     {

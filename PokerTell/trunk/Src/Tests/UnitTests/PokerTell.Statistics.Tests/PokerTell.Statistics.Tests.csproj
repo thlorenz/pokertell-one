@@ -70,13 +70,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Analyzation\RaiseReactionAnalyzerTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Analyzation\ReactionAnalyzationPreparerTests.cs" />
-    <Compile Include="Analyzation\RaiseReactionAnalyzerTests.cs" />
-    <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs" />
-    <Compile Include="Analyzation\ThatPreflopHandStrengthStatistic.cs" />
+    <Compile Include="Analyzation\PreflopHandStrengthStatisticTests.cs" />
     <Compile Include="Analyzation\ValueCardTests.cs" />
     <Compile Include="Analyzation\ValuedHolecardsAverageTests.cs" />
     <Compile Include="Analyzation\ValuedHoleCardsTests.cs" />
+    <Compile Include="Factories\StringToSequenceExtension.cs" />
     <Compile Include="Utilities\AcrossRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticsSetTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticTests.cs" />

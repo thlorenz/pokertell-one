@@ -7,7 +7,6 @@ namespace PokerTell.Statistics.Analyzation
 
     using Infrastructure;
     using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
     using Interfaces;
@@ -24,19 +23,14 @@ namespace PokerTell.Statistics.Analyzation
 
         readonly IReactionAnalyzationPreparer _analyzationPreparer;
 
-        readonly IConstructor<IConvertedPokerActionWithId> _convertedPokerActionWithIdMake;
-
         IConvertedPokerActionWithId _heroReaction;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public RaiseReactionAnalyzer(
-            IReactionAnalyzationPreparer analyzationPreparer,
-            IConstructor<IConvertedPokerActionWithId> convertedPokerActionWithIdMake)
+        public RaiseReactionAnalyzer(IReactionAnalyzationPreparer analyzationPreparer)
         {
-            _convertedPokerActionWithIdMake = convertedPokerActionWithIdMake;
             _analyzationPreparer = analyzationPreparer;
 
             try
@@ -45,12 +39,7 @@ namespace PokerTell.Statistics.Analyzation
             }
             catch (Exception excep)
             {
-                // TODO: We know about the TotalPlayers: 2 Bug, but we need to correct it first
-                // In the Hand Analyzation before dealing with it here
-                if (_analyzationPreparer.ConvertedHand != null && _analyzationPreparer.ConvertedHand.TotalPlayers < 2)
-                {
-                    Log.Error(ToString(), excep);
-                }
+                Log.Error(ToString(), excep);
 
                 IsValidResult = false;
             }
@@ -60,7 +49,7 @@ namespace PokerTell.Statistics.Analyzation
 
         #region Properties
 
-        public ActionTypes HeroReaction
+        public ActionTypes HeroReactionType
         {
             get { return _heroReaction.What; }
         }
@@ -78,7 +67,7 @@ namespace PokerTell.Statistics.Analyzation
         public override string ToString()
         {
             return string.Format(
-                "OpponentRaiseSize: {0}, IsStandardSituation: {1}, IsValidResult: {2}, HeroReaction: {3}",
+                "OpponentRaiseSize: {0}, IsStandardSituation: {1}, IsValidResult: {2}, HeroReactionType: {3}",
                 OpponentRaiseSize,
                 IsStandardSituation,
                 IsValidResult,
@@ -122,7 +111,7 @@ namespace PokerTell.Statistics.Analyzation
 
             SetHerosReaction(actionsAfterHeroRaise);
 
-            if (!PokerActionsUtility.Reactions.Contains(HeroReaction))
+            if (_heroReaction == null || !PokerActionsUtility.Reactions.Contains(HeroReactionType))
             {
                 return false;
             }
@@ -156,13 +145,12 @@ namespace PokerTell.Statistics.Analyzation
         {
             IEnumerable<IConvertedPokerActionWithId> herosReaction =
                 from IConvertedPokerActionWithId action in actionsAfterHeroRaise
-                where action.Id.Equals(_analyzationPreparer.HeroIndex)
+                where action.Id.Equals(_analyzationPreparer.HeroPosition)
                 select action;
 
             _heroReaction = herosReaction.Count() > 0
                                 ? herosReaction.First()
-                                : _convertedPokerActionWithIdMake.New
-                                      .InitializeWith(ActionTypes.N, 1.0, _analyzationPreparer.HeroIndex);
+                                : null;
         }
 
         IEnumerable<IConvertedPokerActionWithId> SetRaiseSize()
@@ -170,7 +158,7 @@ namespace PokerTell.Statistics.Analyzation
             const ActionTypes actionToLookFor = ActionTypes.R;
             IEnumerable<IConvertedPokerActionWithId> foundRaises =
                 from IConvertedPokerActionWithId action in _analyzationPreparer.Sequence
-                where action.What.Equals(actionToLookFor) && !action.Id.Equals(_analyzationPreparer.HeroIndex)
+                where action.What.Equals(actionToLookFor) && !action.Id.Equals(_analyzationPreparer.HeroPosition)
                 select action;
 
             if (foundRaises.Count() > 0)

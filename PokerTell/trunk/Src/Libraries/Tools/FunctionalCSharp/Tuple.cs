@@ -100,8 +100,6 @@ namespace Tools.FunctionalCSharp
             }
         }
 
-       
-
         /// <summary>
         /// Implements the operator ==.
         /// </summary>

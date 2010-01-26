@@ -7,6 +7,8 @@ namespace PokerTell.Statistics.Tests.ViewModels
     using Infrastructure.Interfaces.Statistics;
     using Infrastructure.Services;
 
+    using Interfaces;
+
     using Moq;
 
     using NUnit.Framework;

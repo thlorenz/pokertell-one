@@ -73,16 +73,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analyzation\PreflopCallingAnalyzer.cs" />
+    <Compile Include="Analyzation\PreflopCallingAnalyzer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Analyzation\PreflopCallingHandStrengthStatistic.cs" />
+    <Compile Include="Analyzation\RaiseReactionAnalyzer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Analyzation\RaiseReactionStatistics.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Analyzation\ValuedCard.cs" />
     <Compile Include="Analyzation\ValuedHoleCards.cs" />
     <Compile Include="Analyzation\ValuedHoleCardsAverage.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsCellViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsRowViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsViewModel.cs" />
     <Compile Include="Interfaces\IPreflopCallingAnalyzer.cs" />
     <Compile Include="Interfaces\IPreflopCallingHandStrengthStatistic.cs" />
     <Compile Include="Interfaces\IRaiseReactionStatistics.cs" />
-    <Compile Include="Analyzation\RaiseReactionAnalyzer.cs" />
-    <Compile Include="Analyzation\RaiseReactionStatistics.cs" />
     <Compile Include="Analyzation\ReactionAnalyzationPreparer.cs" />
     <Compile Include="Interfaces\IValuedHoleCards.cs" />
     <Compile Include="Utilities\AcrossRowsPercentagesCalculator.cs" />
@@ -115,7 +124,7 @@
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopReactionStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModel.cs" />
-    <Compile Include="ViewModels\StatisticsSetDetails\DetailedRaiseReactionStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\Analyzation\DetailedRaiseReactionStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />

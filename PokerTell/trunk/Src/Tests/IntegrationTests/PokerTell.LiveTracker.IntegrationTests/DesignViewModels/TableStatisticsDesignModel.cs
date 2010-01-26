@@ -5,6 +5,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
 
     using Microsoft.Practices.Composite.Events;
 
+    using Statistics.Interfaces;
     using Statistics.ViewModels;
     using Statistics.ViewModels.StatisticsSetDetails;
 

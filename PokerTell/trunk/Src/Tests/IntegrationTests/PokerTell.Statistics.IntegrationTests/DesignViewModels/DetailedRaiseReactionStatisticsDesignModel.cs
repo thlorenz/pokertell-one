@@ -6,6 +6,7 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 
     using Interfaces;
 
+    using ViewModels.Analyzation;
     using ViewModels.StatisticsSetDetails;
 
     public class DetailedRaiseReactionStatisticsDesignModel : DetailedRaiseReactionStatisticsViewModel

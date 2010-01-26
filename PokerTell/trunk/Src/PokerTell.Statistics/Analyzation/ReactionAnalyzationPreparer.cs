@@ -5,11 +5,8 @@ namespace PokerTell.Statistics.Analyzation
     using System.Linq;
     using System.Reflection;
 
-    using Detailed;
-
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
 
@@ -25,33 +22,22 @@ namespace PokerTell.Statistics.Analyzation
 
         #region Constructors and Destructors
 
-        public ReactionAnalyzationPreparer(
-            IConvertedPokerHand convertedHand, Streets street, string heroName, ActionSequences actionSequence)
+        public ReactionAnalyzationPreparer(IConvertedPokerRound sequence, int playerPosition, ActionSequences actionSequence)
         {
-            InitializeProperties(convertedHand, street, heroName, actionSequence);
+            InitializeProperties(sequence, playerPosition);
 
-            PrepareAnalyzation();
+            PrepareAnalyzation(actionSequence);
         }
 
         #endregion
 
         #region Properties
 
-        public ActionSequences ActionSequence { get; set; }
-
-        public IConvertedPokerHand ConvertedHand { get; private set; }
-
-        public IActionSequenceStatisticsSet ActionSequenceStatisticsSet { get; set; }
-
-        public int HeroIndex { get; private set; }
-
-        public string HeroName { get; set; }
+        public int HeroPosition { get; private set; }
 
         public IConvertedPokerRound Sequence { get; private set; }
 
         public int StartingActionIndex { get; private set; }
-
-        public Streets Street { get; set; }
 
         public bool WasSuccessful { get; private set; }
 
@@ -63,17 +49,12 @@ namespace PokerTell.Statistics.Analyzation
 
         public override string ToString()
         {
-            return
-                string.Format(
-                    "HeroIndex: {0}, Sequence: {1}, StartingActionIndex: {2}, HeroName: {3}, Street: {4}, ActionSequence: {5}, ConvertedHand: {6}, WasSuccessful: {7}",
-                    HeroIndex,
-                    Sequence,
-                    StartingActionIndex,
-                    HeroName,
-                    Street,
-                    ActionSequence,
-                    ConvertedHand,
-                    WasSuccessful);
+            return string.Format(
+                "HeroPosition: {0}, Sequence: {1}, StartingActionIndex: {2}, WasSuccessful: {3}",
+                HeroPosition,
+                Sequence,
+                StartingActionIndex,
+                WasSuccessful);
         }
 
         #endregion
@@ -82,24 +63,17 @@ namespace PokerTell.Statistics.Analyzation
 
         #region Methods
 
-        protected void InitializeProperties(
-            IConvertedPokerHand convertedHand, Streets street, string heroName, ActionSequences actionSequence)
+        protected void InitializeProperties(IConvertedPokerRound sequence, int playerPosition)
         {
-            ConvertedHand = convertedHand;
-            Street = street;
-            HeroName = heroName;
-            ActionSequence = actionSequence;
+            Sequence = sequence;
+            HeroPosition = playerPosition;
         }
 
-        void PrepareAnalyzation()
+        void PrepareAnalyzation(ActionSequences actionSequence)
         {
             try
             {
-                SetSequence();
-
-                SetHeroIndex();
-
-                SetStartingActionIndex();
+                SetStartingActionIndex(actionSequence);
 
                 WasSuccessful = true;
             }
@@ -110,43 +84,15 @@ namespace PokerTell.Statistics.Analyzation
             }
         }
 
-        void SetHeroIndex()
+        void SetStartingActionIndex(ActionSequences actionSequence)
         {
-            IEnumerable<int> foundIndex = from IConvertedPokerPlayer player in ConvertedHand
-                                          where player.Name.Equals(HeroName)
-                                          select player.Position;
-            if (foundIndex.Count() > 0)
-            {
-                HeroIndex = foundIndex.First();
-            }
-            else
-            {
-                throw new ArgumentException("Hero not found in hand");
-            }
-        }
+            ActionTypes actionToLookFor = ActionSequencesUtility.GetLastActionIn(actionSequence);
 
-        void SetSequence()
-        {
-            if (ConvertedHand.Sequences != null)
-            {
-                Sequence = ConvertedHand.Sequences[(int)Street];
-            }
-            else
-            {
-                throw new NullReferenceException("ConvertedHand.Sequences[" + Street + "]");
-            }
-        }
-
-        void SetStartingActionIndex()
-        {
-            ActionTypes actionToLookFor = ActionSequencesUtility.GetLastActionIn(ActionSequence);
-
-            // Debug.WriteLine(string.Format("Find {0} in {1} for HeroIndex {2}", actionToLookFor, Sequence, HeroIndex));
             IEnumerable<IConvertedPokerActionWithId> foundAction
                 = from IConvertedPokerActionWithId action in Sequence
                   where
                       action.What.Equals(actionToLookFor) &&
-                      action.Id.Equals(HeroIndex)
+                      action.Id.Equals(HeroPosition)
                   select action;
 
             if (foundAction.Count() > 0)

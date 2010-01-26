@@ -27,6 +27,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
     using Statistics;
     using Statistics.Filters;
+    using Statistics.Interfaces;
     using Statistics.ViewModels;
     using Statistics.ViewModels.StatisticsSetDetails;
 
