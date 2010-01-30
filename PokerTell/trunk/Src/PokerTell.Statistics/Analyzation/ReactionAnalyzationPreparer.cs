@@ -12,6 +12,9 @@ namespace PokerTell.Statistics.Analyzation
 
     using log4net;
 
+    /// <summary>
+    /// For a given Sequence it finds the last action of a hero (identified by is position) of a given ActionSequence
+    /// </summary>
     public class ReactionAnalyzationPreparer : IReactionAnalyzationPreparer
     {
         #region Constants and Fields
@@ -21,24 +24,48 @@ namespace PokerTell.Statistics.Analyzation
         #endregion
 
         #region Constructors and Destructors
-
-        public ReactionAnalyzationPreparer(IConvertedPokerRound sequence, int playerPosition, ActionSequences actionSequence)
+       
+        /// <summary>
+        /// Prepares the analyzation, needs to be called before it's data becomes useful
+        /// </summary>
+        /// <param name="sequence"><see cref="Sequence"/></param>
+        /// <param name="playerPosition"><see cref="HeroPosition"/></param>
+        /// <param name="actionSequence">The ActionSequence whose last action's index will be idendified</param>
+        public IReactionAnalyzationPreparer PrepareAnalyzationFor(IConvertedPokerRound sequence, int playerPosition, ActionSequences actionSequence)
         {
             InitializeProperties(sequence, playerPosition);
 
             PrepareAnalyzation(actionSequence);
+
+            return this;
         }
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// The Position of the hero during the given sequence. 
+        /// This is needed to identify which actions belong to the hero and which belong to his opponents.
+        /// </summary>
         public int HeroPosition { get; private set; }
 
+        /// <summary>
+        /// The Sequence of a PokerRound, containing the actions of the hero and his opponents.
+        /// This is what is being examined.
+        /// </summary>
         public IConvertedPokerRound Sequence { get; private set; }
 
+        /// <summary>
+        /// Index of the action of the hero that is to be examined.
+        /// E.g. For HeroB it is the bet action.
+        /// This is used to later find the opponents reaction to it (e.g. a raise) and how the hero reacted to that
+        /// </summary>
         public int StartingActionIndex { get; private set; }
 
+        /// <summary>
+        /// Is true if the action to be examined was found and the StartingPosition was set
+        /// </summary>
         public bool WasSuccessful { get; private set; }
 
         #endregion

@@ -13,11 +13,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         #region Constructors and Destructors
 
         public DetailedStatisticsCellViewModel(int value)
-            :this(value.ToString())
-        {
-        }
-
-        public DetailedStatisticsCellViewModel(string value)
         {
             Value = value;
         }
@@ -26,7 +21,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #region Properties
 
-        public string Value { get; protected set; }
+        public int Value { get; protected set; }
 
         #endregion
 
@@ -34,7 +29,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         public override string ToString()
         {
-            return Value;
+            return Value.ToString();
         }
 
         #endregion

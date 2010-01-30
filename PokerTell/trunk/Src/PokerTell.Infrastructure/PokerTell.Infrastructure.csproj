@@ -99,7 +99,6 @@
     <Compile Include="Events\UserMessageEvent.cs" />
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="Enumerations\PokerHand\ActionTypes.cs" />
-    <Compile Include="Enumerations\PokerHand\ReactionTypes.cs" />
     <Compile Include="Enumerations\PokerHand\StrategicPositions.cs" />
     <Compile Include="Enumerations\PokerHand\Streets.cs" />
     <Compile Include="Files.cs" />

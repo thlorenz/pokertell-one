@@ -8,7 +8,7 @@ namespace PokerTell.Statistics.Interfaces
 
     public interface IPreflopCallingHandStrengthStatistic
     {
-        ICollection<IConvertedPokerHand> ConvertedHands { get; }
+        ICollection<IAnalyzablePokerPlayer> AnalyzablePokerPlayers { get; }
 
         ValuedHoleCardsAverage AverageHandStrength { get; }
 

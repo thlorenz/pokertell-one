@@ -352,17 +352,17 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         {
             if (Folds.Contains(actionSequence))
             {
-                return ReactionTypes.Fold.ToString();
+                return "Fold";
             }
 
             if (Calls.Contains(actionSequence))
             {
-                return ReactionTypes.Call.ToString();
+                return "Call";
             }
 
             if (Raises.Contains(actionSequence))
             {
-                return ReactionTypes.Raise.ToString();
+                return "Raise";
             }
 
             if (Bets.Contains(actionSequence))

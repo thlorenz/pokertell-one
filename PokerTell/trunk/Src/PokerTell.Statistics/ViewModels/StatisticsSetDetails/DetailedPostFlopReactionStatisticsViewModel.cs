@@ -45,14 +45,14 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                             SelectedCells.ToList().ForEach(coord => sb.Append(coord + "; "));
                             Console.WriteLine(sb);
                         },
-                        CanExecuteDelegate = _ => SelectedCells.FirstOrDefault(tuple => tuple.First != (int)ReactionTypes.Fold) != null
+                        CanExecuteDelegate = _ => SelectedCells.FirstOrDefault(tuple => tuple.First != (int)ActionTypes.F) != null
                     });
             }
         }
 
         #endregion
 
-        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var foldRow =
                 new DetailedStatisticsRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");

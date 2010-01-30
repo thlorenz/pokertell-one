@@ -27,7 +27,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #endregion
 
-        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var foldRow = 
                 new DetailedStatisticsRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");

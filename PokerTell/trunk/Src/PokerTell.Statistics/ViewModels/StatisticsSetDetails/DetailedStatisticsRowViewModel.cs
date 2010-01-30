@@ -13,14 +13,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     {
         #region Constructors and Destructors
 
-        public DetailedStatisticsRowViewModel(string title, IEnumerable<string> values)
-        {
-           Title = title;
-            
-           Cells = new List<IDetailedStatisticsCellViewModel>();
-           values.ToList().ForEach(value => Cells.Add(new DetailedStatisticsCellViewModel(value)));
-        }
-
         public DetailedStatisticsRowViewModel(string title, IEnumerable<int> values, string unit)
         {
             Title = title;

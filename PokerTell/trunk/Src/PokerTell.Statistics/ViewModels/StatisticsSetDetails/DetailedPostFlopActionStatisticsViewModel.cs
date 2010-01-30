@@ -30,6 +30,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         public DetailedPostFlopActionStatisticsViewModel()
             : base("Bet Size")
         {
+            
         }
 
         #endregion
@@ -47,8 +48,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                 BetSizeKeys[SelectedColumnsSpan.First],
                                 BetSizeKeys[SelectedColumnsSpan.Second]);
 
-                            ChildViewModel = new DetailedRaiseReactionStatisticsViewModel(
-                                SelectedAnalyzablePlayers, PlayerName, Street, SelectedActionSequence, selectedBetSizes);
+                        //    ChildViewModel = new DetailedRaiseReactionStatisticsViewModel(raiseReactionStatisticsMock.Object, null, SelectedAnalyzablePlayers, PlayerName, Street, SelectedActionSequence, selectedBetSizes);
                         },
                         CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
                     });
@@ -59,7 +59,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #region Methods
 
-        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var betRow =
                 new DetailedStatisticsRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");

@@ -8,13 +8,21 @@ namespace PokerTell.Statistics.Analyzation
 
     using log4net;
 
+    using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
+
+    /// <summary>
+    /// Orders and values two given HoleCards. and determines if they are suited.
+    /// ChenValue and Sklansky Malmuth Grouping are assigned. If everything went good IsValid is set to true.
+    /// AreSuited will indicate suitedness and the Cards are stored in ValuedCards Property for later.
+    /// </summary>
     public class ValuedHoleCards : IValuedHoleCards
     {
         #region Constants and Fields
 
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private ValuedCard[] _valuedCards;
+        public ITuple<ValuedCard, ValuedCard> ValuedCards { get; private set;}
 
         #endregion
 
@@ -26,10 +34,10 @@ namespace PokerTell.Statistics.Analyzation
         /// Calculates Gap, ChenValue,Sklansky Malmuth ranking and determines suitedness
         /// </summary>
         /// <param name="card1">
-        /// First _valuedCard
+        /// First card
         /// </param>
         /// <param name="card2">
-        /// Second _valuedCard
+        /// Second card
         /// </param>
         public ValuedHoleCards(string card1, string card2)
         {
@@ -40,10 +48,10 @@ namespace PokerTell.Statistics.Analyzation
         /// Initializes a new instance of the <see cref="ValuedHoleCards"/> class. 
         /// Constructs Cards from a given string.
         /// If Identification fails, construction is aborted and the Cards
-        /// property of this remains null. To identify this error, the Chen Value will be set to -1;
+        /// property of this remains null. To identify this error, the Chen Value will be set to -1 and IsValid to false;
         /// This will most likely happen, when the cards were not known and we
         /// are passed "?? ??"
-        /// So after this we need to check this.ChenValue for -1 to see if it failed.
+        /// So after this we need to check IsValid
         /// </summary>
         /// <param name="strCards">
         /// Cards to identify "?? ??" if unknown
@@ -83,14 +91,19 @@ namespace PokerTell.Statistics.Analyzation
 
         public bool IsValid { get; private set; }
 
+        public bool AreSuited { get; private set; }
+
         #endregion
 
         #region Public Methods
-
+        /// <summary>
+        /// Format depends on the suitedness of cards.
+        /// </summary>
+        /// <returns>"Rank1Rank2" for unsuited and "Rank1Rank2s" for suited cards</returns>
         public override string ToString()
         {
-            string s = _valuedCards[0].Suit == _valuedCards[1].Suit ? "s" : string.Empty;
-            return _valuedCards[0] + _valuedCards[1].ToString() + s;
+            var suitedIndicator = ValuedCards.First.Suit == ValuedCards.Second.Suit ? "s" : string.Empty;
+            return ValuedCards.First + ValuedCards.Second.ToString() + suitedIndicator;
         }
 
         #endregion
@@ -125,10 +138,10 @@ namespace PokerTell.Statistics.Analyzation
         private void CalculateChenValue()
         {
             // Pair
-            if (_valuedCards[0].Value == _valuedCards[1].Value)
+            if (ValuedCards.First.Value == ValuedCards.Second.Value)
             {
                 // Minimum of 5 (Round up for any cards whose value is <=2)
-                ChenValue = ((int)_valuedCards[0].Value) <= 2 ? 5 : (int)(_valuedCards[0].Value * 2.0);
+                ChenValue = ((int)ValuedCards.First.Value) <= 2 ? 5 : (int)(ValuedCards.First.Value * 2.0);
             }
             else
             {
@@ -136,21 +149,21 @@ namespace PokerTell.Statistics.Analyzation
                 // if the cards are not paired then calculate the gap for the lower card and subtract a gap penalty.
                 // The gap is the number of cards required to complete the sequence,
                 // for example, a 9 and 6 have a gap of 2, needing an 8 and 7 to complete the sequence
-                var gap = _valuedCards[0].Rank - (_valuedCards[1].Rank + 1);
+                var gap = ValuedCards.First.Rank - (ValuedCards.Second.Rank + 1);
                 int gapPenalty = GapDevaluation(gap);
 
                 // If the cards are of the same suit apply a flush bonus of +2 pts.
-                int suitedBonus = _valuedCards[0].Suit == _valuedCards[1].Suit ? 2 : 0;
+                int suitedBonus = AreSuited ? 2 : 0;
 
                 int straightBonus = 0;
 
                 // If the cards have a gap of 0 or 1 and the top card is a J or lower apply a +1 straight bonus
-                if (gap <= 1 && _valuedCards[0].Rank <= CardRank.J)
+                if (gap <= 1 && ValuedCards.First.Rank <= CardRank.J)
                 {
                     straightBonus = 1;
                 }
 
-                ChenValue = ((int)Math.Ceiling(_valuedCards[0].Value)) - gapPenalty + suitedBonus + straightBonus;
+                ChenValue = ((int)Math.Ceiling(ValuedCards.First.Value)) - gapPenalty + suitedBonus + straightBonus;
             }
         }
 
@@ -196,12 +209,12 @@ namespace PokerTell.Statistics.Analyzation
 
             // Correct Mapping errors
             // The following hands are the exceptions (off by 1): 55, AQs, A9, AX, 96s, 32s, 98, 97, 76
-            // Actually there are much more
+            // Actually there are much more which we take also care of below
             string strAddOne;
             string strSubtractOne;
 
-            var suited = _valuedCards[0].Suit == _valuedCards[1].Suit;
-            if (suited)
+
+            if (AreSuited)
             {
                 strAddOne = "J8s,96s,86s,75s,65s,54s,32s";
                 strSubtractOne = "ATs,J7s,85s,74s,42s";
@@ -222,7 +235,8 @@ namespace PokerTell.Statistics.Analyzation
             }
             else
             {
-                if (suited)
+                // Deal with very special cases by hand
+                if (AreSuited)
                 {
                     if (ToString() == "K9s")
                     {
@@ -253,11 +267,9 @@ namespace PokerTell.Statistics.Analyzation
 
         private void SortCards()
         {
-            if (_valuedCards[0].Rank < _valuedCards[1].Rank)
+            if (ValuedCards.First.Rank < ValuedCards.Second.Rank)
             {
-                ValuedCard tmp = _valuedCards[0];
-                _valuedCards[0] = _valuedCards[1];
-                _valuedCards[1] = tmp;
+                ValuedCards = Tuple.New(ValuedCards.Second, ValuedCards.First);
             }
         }
 
@@ -268,19 +280,23 @@ namespace PokerTell.Statistics.Analyzation
             if (IsValid)
             {
                 SortCards();
+                DetermineSuitedness();
 
                 CalculateChenValue();
                 DetermineSklanskyMalmuthGrouping();
             }
         }
 
+        void DetermineSuitedness()
+        {
+            AreSuited = ValuedCards.First.Suit == ValuedCards.Second.Suit;
+        }
+
         bool ExtractValuedCards(string card1, string card2)
         {
-            _valuedCards = new ValuedCard[2];
-            _valuedCards[0] = new ValuedCard(card1);
-            _valuedCards[1] = new ValuedCard(card2);
+            ValuedCards = Tuple.New(new ValuedCard(card1), new ValuedCard(card2));
 
-            return _valuedCards[0].Rank != CardRank.Unknown && _valuedCards[1].Rank != CardRank.Unknown;
+            return ValuedCards.First.Rank != CardRank.Unknown && ValuedCards.Second.Rank != CardRank.Unknown;
         }
 
         #endregion

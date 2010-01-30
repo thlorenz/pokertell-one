@@ -1,5 +1,9 @@
 namespace PokerTell.Statistics.Interfaces
 {
+    using Analyzation;
+
+    using Tools.Interfaces;
+
     public interface IValuedHoleCards
     {
         int ChenValue { get; }
@@ -7,5 +11,9 @@ namespace PokerTell.Statistics.Interfaces
         int SklanskyMalmuthGrouping { get; }
 
         bool IsValid { get; }
+
+        ITuple<ValuedCard, ValuedCard> ValuedCards { get; }
+
+        bool AreSuited { get; }
     }
 }

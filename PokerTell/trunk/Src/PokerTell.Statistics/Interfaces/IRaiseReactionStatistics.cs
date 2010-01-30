@@ -7,14 +7,14 @@ namespace PokerTell.Statistics.Interfaces
 
     public interface IRaiseReactionStatistics
     {
-        IDictionary<int, int> CountsDictionary { get; }
+        IDictionary<int, int> TotalCountsByColumnDictionary { get; }
 
-        IDictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> HandsDictionary { get; }
+        IDictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> AnalyzablePlayersDictionary { get; }
 
         IDictionary<ActionTypes, IDictionary<int, int>> PercentagesDictionary { get; }
 
         string ToString();
 
-        IRaiseReactionStatistics InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, Streets street, ActionSequences actionSequence);
+        IRaiseReactionStatistics InitializeWith(IRaiseReactionsAnalyzer raiseReactionsAnalyzer);
     }
 }

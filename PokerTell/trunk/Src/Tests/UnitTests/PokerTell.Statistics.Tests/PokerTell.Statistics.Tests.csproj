@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Specifications, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\MSpec\Machine.Specifications.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -76,6 +80,8 @@
     <Compile Include="Analyzation\RaiseReactionAnalyzerTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Analyzation\RaiseReactionsAnalyzerSpecs.cs" />
+    <Compile Include="Analyzation\RaiseReactionStatisticsSpecs.cs" />
     <Compile Include="Analyzation\ReactionAnalyzationPreparerTests.cs" />
     <Compile Include="Analyzation\PreflopHandStrengthStatisticTests.cs" />
     <Compile Include="Analyzation\ValueCardTests.cs" />
@@ -97,6 +103,7 @@
     <Compile Include="PlayerStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModelTests.cs" />
+    <Compile Include="ViewModels\Analyzation\DetailedRaiseReactionStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />

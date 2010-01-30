@@ -1,10 +1,10 @@
 namespace PokerTell.Statistics.Analyzation
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
 
-    using Infrastructure;
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
@@ -14,11 +14,13 @@ namespace PokerTell.Statistics.Analyzation
 
     public class RaiseReactionStatistics : IRaiseReactionStatistics
     {
+        IRaiseReactionsAnalyzer _raiseReactionsAnalyzer;
+
         #region Properties
 
-        public IDictionary<int, int> CountsDictionary { get; private set; }
+        public IDictionary<int, int> TotalCountsByColumnDictionary { get; private set; }
 
-        public IDictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> HandsDictionary { get; private set; }
+        public IDictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> AnalyzablePlayersDictionary { get; private set; }
 
         public IDictionary<ActionTypes, IDictionary<int, int>> PercentagesDictionary { get; private set; }
 
@@ -28,17 +30,23 @@ namespace PokerTell.Statistics.Analyzation
 
         #region IRaiseReactionStatistics
 
-        public IRaiseReactionStatistics InitializeWith(
-            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, Streets street, ActionSequences actionSequence)
+        public IRaiseReactionStatistics InitializeWith(IRaiseReactionsAnalyzer raiseReactionsAnalyzer)
         {
-            CreateHandsDictionary();
+            _raiseReactionsAnalyzer = raiseReactionsAnalyzer;
 
-            PopulateHandsDictionary(analyzablePokerPlayers, street, actionSequence);
+            if (raiseReactionsAnalyzer.RaiseSizeKeys.Length < 1)
+            {
+                throw new ArgumentException("ReactionsAnalyzer needs to have at least one raise size");
+            }
 
-            CalculateCounts();
+            CreateAnalyzablePlayersDictionary();
 
             CreatePercentagesDictionary();
 
+            PopulateAnalyzablePlayersDictionary();
+            
+            CalculateCounts();
+           
             CalculatePercentages();
 
             return this;
@@ -48,16 +56,16 @@ namespace PokerTell.Statistics.Analyzation
         {
             var sb = new StringBuilder();
             sb.AppendLine("Percentages: \n");
-            foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
-            {
-                ActionTypes reaction1 = reaction;
-                string line = ApplicationProperties.RaiseSizeKeys.Aggregate(
-                    string.Empty,
-                    (current, raiseSizeKey) =>
-                    current + string.Format("| {0}% |", PercentagesDictionary[reaction1][(int)raiseSizeKey]));
-
-                sb.AppendLine(reaction + "  " + line);
-            }
+            //            foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
+            //            {
+            //                ActionTypes reaction1 = reaction;
+            //                string line = _raiseReactionAnalyzer.RaiseSizeKeys.Aggregate(
+            //                    string.Empty,
+            //                    (current, ratioSizeKey) =>
+            //                    current + string.Format("| {0}% |", PercentagesDictionary[reaction1][(int)ratioSizeKey]));
+            //
+            //                sb.AppendLine(reaction + "  " + line);
+            //            }
 
             return sb.ToString();
         }
@@ -70,49 +78,54 @@ namespace PokerTell.Statistics.Analyzation
 
         void CalculateCounts()
         {
-            CountsDictionary = new Dictionary<int, int>();
-            foreach (double raiseSizeKey in ApplicationProperties.RaiseSizeKeys)
+            TotalCountsByColumnDictionary = new Dictionary<int, int>();
+            foreach (double raiseSizeKey in _raiseReactionsAnalyzer.RaiseSizeKeys)
             {
-                CountsDictionary.Add(
+                TotalCountsByColumnDictionary.Add(
                     (int)raiseSizeKey,
-                    HandsDictionary[ActionTypes.F][(int)raiseSizeKey].Count +
-                    HandsDictionary[ActionTypes.C][(int)raiseSizeKey].Count +
-                    HandsDictionary[ActionTypes.R][(int)raiseSizeKey].Count);
+                    AnalyzablePlayersDictionary[ActionTypes.F][(int)raiseSizeKey].Count +
+                    AnalyzablePlayersDictionary[ActionTypes.C][(int)raiseSizeKey].Count +
+                    AnalyzablePlayersDictionary[ActionTypes.R][(int)raiseSizeKey].Count);
             }
         }
 
         void CalculatePercentages()
         {
-            //            foreach (double raiseSize in ApplicationProperties.RaiseSizeKeys)
-            //            {
-            //                var raiseSizeKey = (int)raiseSize;
-            //                foreach (ActionTypes actionWhat in PokerActionsUtility.Reactions)
-            //                {
-            //                    PercentagesDictionary[actionWhat][raiseSizeKey] =
-            //                        HandsDictionary[actionWhat][raiseSizeKey].Count > 0
-            //                            ? (int)
-            //                              ((100 * HandsDictionary[actionWhat][raiseSizeKey].Count) / (double)CountsDictionary[raiseSizeKey])
-            //                            : 0;
-            //                }
-            //            }
+            foreach (double raiseSize in _raiseReactionsAnalyzer.RaiseSizeKeys)
+            {
+                var raiseSizeKey = (int)raiseSize;
+                foreach (ActionTypes actionWhat in PokerActionsUtility.Reactions)
+                {
+                    PercentagesDictionary[actionWhat][raiseSizeKey] =
+                        AnalyzablePlayersDictionary[actionWhat][raiseSizeKey].Count > 0
+                            ? (int)
+                              ((100 * AnalyzablePlayersDictionary[actionWhat][raiseSizeKey].Count) / (double)TotalCountsByColumnDictionary[raiseSizeKey])
+                            : 0;
+                }
+            }
 
-            new AcrossRowsPercentagesCalculator().CalculatePercentages(
-                () => PercentagesDictionary.Count,
-                row => PercentagesDictionary[PokerActionsUtility.Reactions.ElementAt(row)].Count,
-                (row, col) => HandsDictionary[PokerActionsUtility.Reactions.ElementAt(row)][col].Count,
-                (perc, row, col) => PercentagesDictionary[PokerActionsUtility.Reactions.ElementAt(row)][col] = perc);
+            /*
+             * for some reason settin percentages doesn't work here
+             * so we take the easy way out and used the uncool alternative above
+                
+               new AcrossRowsPercentagesCalculator().CalculatePercentages(
+                    () => PokerActionsUtility.Reactions.Count(),
+                    row => _raiseReactionsAnalyzer.RaiseSizeKeys.Length,
+                    (row, col) => AnalyzablePlayersDictionary[PokerActionsUtility.Reactions.ElementAt(row)][(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]].Count,
+                    (perc, row, col) => PercentagesDictionary[PokerActionsUtility.Reactions.ElementAt(row)][(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]] = perc);
+             */
         }
 
-        void CreateHandsDictionary()
+        void CreateAnalyzablePlayersDictionary()
         {
-            HandsDictionary = new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>>();
+            AnalyzablePlayersDictionary = new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>>();
             foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
             {
-                HandsDictionary.Add(reaction, new Dictionary<int, IList<IAnalyzablePokerPlayer>>());
+                AnalyzablePlayersDictionary.Add(reaction, new Dictionary<int, IList<IAnalyzablePokerPlayer>>());
 
-                foreach (double raiseSizeKey in ApplicationProperties.RaiseSizeKeys)
+                foreach (double ratioSizeKey in _raiseReactionsAnalyzer.RaiseSizeKeys)
                 {
-                    HandsDictionary[reaction][(int)raiseSizeKey] = new List<IAnalyzablePokerPlayer>();
+                    AnalyzablePlayersDictionary[reaction][(int)ratioSizeKey] = new List<IAnalyzablePokerPlayer>();
                 }
             }
         }
@@ -123,31 +136,21 @@ namespace PokerTell.Statistics.Analyzation
             foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
             {
                 PercentagesDictionary.Add(reaction, new Dictionary<int, int>());
-                foreach (double raiseSizeKey in ApplicationProperties.RaiseSizeKeys)
+                foreach (double ratioSizeKey in _raiseReactionsAnalyzer.RaiseSizeKeys)
                 {
-                    PercentagesDictionary[reaction][(int)raiseSizeKey] = 0;
+                    PercentagesDictionary[reaction][(int)ratioSizeKey] = 0;
                 }
             }
         }
 
-        void PopulateHandsDictionary(
-            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, Streets street, ActionSequences actionSequence)
+        void PopulateAnalyzablePlayersDictionary()
+            
         {
-            foreach (IAnalyzablePokerPlayer analyzablePokerPlayer in analyzablePokerPlayers)
+            foreach (IRaiseReactionAnalyzer raiseReactionAnalyzer in _raiseReactionsAnalyzer.RaiseReactionAnalyzers)
             {
-                IReactionAnalyzationPreparer analyzationPreparer =
-                    new ReactionAnalyzationPreparer(
-                        analyzablePokerPlayer.Sequences[(int)street], analyzablePokerPlayer.Position, actionSequence);
-
-                if (analyzationPreparer.WasSuccessful)
-                {
-                    var analyzer = new RaiseReactionAnalyzer(analyzationPreparer);
-
-                    if (analyzer.IsValidResult && analyzer.IsStandardSituation)
-                    {
-                        HandsDictionary[analyzer.HeroReactionType][analyzer.OpponentRaiseSize].Add(analyzablePokerPlayer);
-                    }
-                }
+                AnalyzablePlayersDictionary
+                    [raiseReactionAnalyzer.HeroReactionType]
+                    [raiseReactionAnalyzer.OpponentRaiseSize].Add(raiseReactionAnalyzer.AnalyzablePokerPlayer);
             }
         }
 

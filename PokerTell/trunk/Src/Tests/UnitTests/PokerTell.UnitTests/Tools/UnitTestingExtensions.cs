@@ -86,9 +86,9 @@ namespace PokerTell.UnitTests.Tools
             Assert.That(me, Is.True);
         }
 
-        public static void ShouldThrow<T>(this Action codeBlock) where T : Exception
+        public static void ShouldThrow<TException>(this TestDelegate codeBlockThatThrows) where TException : Exception
         {
-            Assert.Throws(typeof(T), codeBlock.Invoke);
+            Assert.Throws<TException>(codeBlockThatThrows);
         }
 
         public static IList<T> ShouldContain<T>(this IList<T> me, T item)
@@ -187,6 +187,7 @@ namespace PokerTell.UnitTests.Tools
             return me;
         }
 
+        
         #endregion
     }
 }

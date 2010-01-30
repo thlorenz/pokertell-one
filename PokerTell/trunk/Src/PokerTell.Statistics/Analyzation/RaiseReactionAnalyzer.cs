@@ -15,13 +15,18 @@ namespace PokerTell.Statistics.Analyzation
 
     using Tools;
 
-    public class RaiseReactionAnalyzer
+    /// <summary>
+    /// Uses the information of the given analyzation Preparer to further inspect the Sequence in order
+    /// to determine if and how much opponent raised, how the hero reacted and if the situation is standard
+    /// or even valid reactions were found.
+    /// </summary>
+    public class RaiseReactionAnalyzer : IRaiseReactionAnalyzer
     {
         #region Constants and Fields
 
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly IReactionAnalyzationPreparer _analyzationPreparer;
+        IReactionAnalyzationPreparer _analyzationPreparer;
 
         IConvertedPokerActionWithId _heroReaction;
 
@@ -29,9 +34,21 @@ namespace PokerTell.Statistics.Analyzation
 
         #region Constructors and Destructors
 
-        public RaiseReactionAnalyzer(IReactionAnalyzationPreparer analyzationPreparer)
+        #endregion
+
+        public IAnalyzablePokerPlayer AnalyzablePokerPlayer { get; set; }
+
+        /// <summary>
+        /// Analyzes the data given by the analyzation preparer.
+        /// </summary>
+        /// <param name="analyzablePokerPlayer">Player whose data os examined</param>
+        /// <param name="analyzationPreparer">Provides StartingIndex (Hero's original action) and Sequence</param>
+        /// <param name="raiseSizeKeys">Raise sizes to which the Opponent Raise size should be normalized to</param>
+        public IRaiseReactionAnalyzer AnalyzeUsingDataFrom(IAnalyzablePokerPlayer analyzablePokerPlayer, IReactionAnalyzationPreparer analyzationPreparer, double[] raiseSizeKeys)
         {
+            AnalyzablePokerPlayer = analyzablePokerPlayer;
             _analyzationPreparer = analyzationPreparer;
+            RaiseSizeKeys = raiseSizeKeys;
 
             try
             {
@@ -43,22 +60,38 @@ namespace PokerTell.Statistics.Analyzation
 
                 IsValidResult = false;
             }
+            return this;
         }
-
-        #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Indicates how hero reacted to a raise by the opponent (e.g. fold)
+        /// </summary>
         public ActionTypes HeroReactionType
         {
             get { return _heroReaction.What; }
         }
 
+        /// <summary>
+        /// Situation is considered standard if no more raises occurred after the original raise of the opponent or
+        /// the hero's reaction occurred before these additional raises and thus didn't influence his decision.
+        /// </summary>
         public bool IsStandardSituation { get; protected set; }
 
+        /// <summary>
+        /// Is only true if an opponents raise after the action of the hero and a reaction to this 
+        /// raise by the hero were found.
+        /// </summary>
         public bool IsValidResult { get; protected set; }
 
+        /// <summary>
+        /// Indicates the ratio of the opponents raise to which the hero reacted
+        /// </summary>
         public int OpponentRaiseSize { get; private set; }
+
+        public double[] RaiseSizeKeys { get; protected set; }
+       
 
         #endregion
 
@@ -83,15 +116,13 @@ namespace PokerTell.Statistics.Analyzation
         {
             int herosReactionIndex = remainingActions.IndexOf(_heroReaction);
             int count = 0;
-            foreach (IConvertedPokerActionWithId raise in foundRaises)
+
+            foreach (var _ in foundRaises.Where(raise => remainingActions.IndexOf(raise) < herosReactionIndex))
             {
-                if (remainingActions.IndexOf(raise) < herosReactionIndex)
+                count++;
+                if (count > 1)
                 {
-                    count++;
-                    if (count > 1)
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 
@@ -163,8 +194,9 @@ namespace PokerTell.Statistics.Analyzation
 
             if (foundRaises.Count() > 0)
             {
+                
                 OpponentRaiseSize =
-                    (int)Normalizer.NormalizeToKeyValues(ApplicationProperties.RaiseSizeKeys, foundRaises.First().Ratio);
+                    (int)Normalizer.NormalizeToKeyValues(RaiseSizeKeys, foundRaises.First().Ratio);
             }
 
             return foundRaises;

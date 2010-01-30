@@ -8,7 +8,7 @@ namespace PokerTell.Statistics.Analyzation
 
     using Tools.Extensions;
 
-    public class ValuedHoleCardsAverage : IValuedHoleCards
+    public class ValuedHoleCardsAverage
     {
         #region Constructors and Destructors
 

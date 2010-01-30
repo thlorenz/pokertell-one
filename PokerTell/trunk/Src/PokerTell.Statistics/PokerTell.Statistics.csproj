@@ -73,14 +73,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\RaiseReactionsAnalyzer.cs" />
+    <Compile Include="Analyzation\RaiseReactionStatistics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IRaiseReactionAnalyzer.cs" />
     <Compile Include="Analyzation\PreflopCallingAnalyzer.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Analyzation\PreflopCallingHandStrengthStatistic.cs" />
     <Compile Include="Analyzation\RaiseReactionAnalyzer.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Analyzation\RaiseReactionStatistics.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Analyzation\ValuedCard.cs" />
@@ -91,6 +93,7 @@
     <Compile Include="Interfaces\IDetailedStatisticsViewModel.cs" />
     <Compile Include="Interfaces\IPreflopCallingAnalyzer.cs" />
     <Compile Include="Interfaces\IPreflopCallingHandStrengthStatistic.cs" />
+    <Compile Include="Interfaces\IRaiseReactionsAnalyzer.cs" />
     <Compile Include="Interfaces\IRaiseReactionStatistics.cs" />
     <Compile Include="Analyzation\ReactionAnalyzationPreparer.cs" />
     <Compile Include="Interfaces\IValuedHoleCards.cs" />

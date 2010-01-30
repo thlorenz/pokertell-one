@@ -124,7 +124,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         /// </summary>
         protected IActionSequenceStatisticsSet ActionSequenceStatisticsSet { get; private set; }
 
-        protected string PlayerName
+        protected virtual string PlayerName
         {
             get { return ActionSequenceStatisticsSet.PlayerName; }
         }
@@ -142,7 +142,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         /// <summary>
         ///   The street for which the given ActionSequenceStatisticsSet applies
         /// </summary>
-        protected Streets Street
+        protected virtual Streets Street
         {
             get { return ActionSequenceStatisticsSet.Street; }
         }
@@ -176,7 +176,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         public IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
         {
             ActionSequenceStatisticsSet = statisticsSet;
-            return CreateTableFor(statisticsSet);
+            return CreateTableAndDescriptionFor(statisticsSet);
         }
 
         #endregion
@@ -185,7 +185,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #region Methods
 
-        protected abstract IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet);
+        protected abstract IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet);
 
         #endregion
     }
