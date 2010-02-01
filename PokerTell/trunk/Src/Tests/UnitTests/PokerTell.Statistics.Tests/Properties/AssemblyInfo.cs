@@ -34,3 +34,9 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+/*
+ * Make postbuild show MSpec results in firefox
+ * "C:\Program Files\MSpec\mspec" $(TargetDir)$(TargetFileName) --html $(ProjectDir)\Report.html
+ * "C:\Program Files\Mozilla Firefox\firefox" $(ProjectDir)\Report.html
+*/

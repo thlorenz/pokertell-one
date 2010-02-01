@@ -1,10 +1,8 @@
-namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
+namespace PokerTell.Statistics.ViewModels.Base
 {
-    using Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Interfaces;
 
-    using Interfaces;
-
-    public class DetailedStatisticsCellViewModel : IDetailedStatisticsCellViewModel
+    public class StatisticsTableCellViewModel : IStatisticsTableCellViewModel
     {
         #region Constants and Fields
 
@@ -12,7 +10,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         #region Constructors and Destructors
 
-        public DetailedStatisticsCellViewModel(int value)
+        public StatisticsTableCellViewModel(int value)
         {
             Value = value;
         }

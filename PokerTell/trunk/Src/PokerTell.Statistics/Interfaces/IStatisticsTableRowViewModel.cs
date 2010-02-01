@@ -4,9 +4,9 @@ namespace PokerTell.Statistics.Interfaces
 
     using Infrastructure.Interfaces.Statistics;
 
-    public interface IDetailedStatisticsRowViewModel
+    public interface IStatisticsTableRowViewModel
     {
-        IList<IDetailedStatisticsCellViewModel> Cells { get; }
+        IList<IStatisticsTableCellViewModel> Cells { get; }
 
         string Title { get; }
 

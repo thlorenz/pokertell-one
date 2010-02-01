@@ -17,7 +17,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
     using UnitTests;
     using UnitTests.Tools;
 
-    [TestFixture]
+    [TestFixture, RequiresSTA]
     public class HandHistoryViewModelTests : TestWithLog
     {
         [SetUp]

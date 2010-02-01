@@ -2,35 +2,19 @@ namespace PokerTell.Statistics.Interfaces
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
-    using PokerTell.Infrastructure.Enumerations.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-
-    using Tools.Interfaces;
-
-    public interface IDetailedStatisticsViewModel : IDetailedStatisticsAnalyzerContentViewModel
+    public interface IDetailedStatisticsViewModel : IStatisticsTableViewModel  
     {
         #region Properties
 
         /// <summary>
-        /// Indicates the meaning of the values in the the columnheaders
-        /// </summary>
-        string ColumnHeaderTitle { get; }
-
-        IEnumerable<IDetailedStatisticsRowViewModel> Rows { get; }
-
-        /// <summary>
-        /// Describes the situation and player of the statistics
-        /// </summary>
-        string DetailedStatisticsDescription { get; }
-
-        /// <summary>
         /// ViewModel that will present the selected details or hand histories
         /// </summary>
-        IDetailedStatisticsViewModel ChildViewModel { get; }
+        IDetailedStatisticsAnalyzerContentViewModel ChildViewModel { get; set; }
 
-        IList<ITuple<int, int>> SelectedCells { get;}
 
         /// <summary>
         /// Returns all AnalyzablePokerPlayers whose percentages were selected on the table
@@ -42,14 +26,6 @@ namespace PokerTell.Statistics.Interfaces
         /// It returns the ActionSequence associated with the row of the first selected cell.
         /// </summary>
         ActionSequences SelectedActionSequence { get; }
-
-        #endregion
-
-        #region Public Methods
-
-        IDetailedStatisticsViewModel AddToSelection(int row, int column);
-
-        void ClearSelection();
 
         #endregion
 

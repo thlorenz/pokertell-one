@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\..\Build.Tests\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\HandBrowserSpecs.cs" />
     <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -109,6 +110,7 @@
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
+    <Compile Include="ViewModels\Base\StatisticsTableViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModelTests.cs" />
@@ -143,4 +145,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>

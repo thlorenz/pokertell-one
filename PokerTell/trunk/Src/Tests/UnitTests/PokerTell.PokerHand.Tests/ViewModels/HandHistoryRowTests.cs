@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
     /// <summary>
     /// Summary description for HandHistoryRowTests.
     /// </summary>
-    [TestFixture]
+    [TestFixture, RequiresSTA]
     public class HandHistoryRowTests : TestWithLog
     {
         /// <summary>

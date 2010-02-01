@@ -3,45 +3,69 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Input;
 
+    using Base;
+
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.PokerHand;
 
-    using PokerTell.Infrastructure.Enumerations.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.Statistics;
-    using PokerTell.Statistics.Interfaces;
-
-    using Statistics.Analyzation;
-
-    using StatisticsSetDetails;
+    using Interfaces;
 
     using Tools.FunctionalCSharp;
     using Tools.Interfaces;
+    using Tools.WPF;
 
-    public class DetailedRaiseReactionStatisticsViewModel : DetailedStatisticsViewModel
+    public class DetailedRaiseReactionStatisticsViewModel : StatisticsTableViewModel
     {
+        #region Constants and Fields
+
+        readonly ActionSequences _actionSequence;
+
         readonly IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
+
+        readonly IHandBrowserViewModel _handBrowserViewModel;
+
+        readonly bool _inPosition;
+
+        readonly string _playerName;
+
+        readonly IConstructor<IRaiseReactionAnalyzer> _raiseReactionAnalyzerMake;
 
         readonly IRaiseReactionStatistics _raiseReactionStatistics;
 
         readonly IRaiseReactionsAnalyzer _raiseReactionsAnalyzer;
 
-        readonly IConstructor<IRaiseReactionAnalyzer> _raiseReactionAnalyzerMake;
-
         readonly ITuple<double, double> _selectedBetSizeSpan;
+
+        readonly Streets _street;
+
+        ICommand _browseHandsCommand;
+
+        #endregion
 
         #region Constructors and Destructors
 
         public DetailedRaiseReactionStatisticsViewModel(
+            IHandBrowserViewModel handBrowserViewModel,
             IRaiseReactionStatistics raiseReactionStatistics,
             IRaiseReactionsAnalyzer raiseReactionsAnalyzer,
             IConstructor<IRaiseReactionAnalyzer> raiseReactionAnalyzerMake,
             IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
-            IActionSequenceStatisticsSet actionSequenceStatisticsSet,
-            ITuple<double, double> selectedBetSizeSpan)
+            ITuple<double, double> selectedBetSizeSpan,
+            string playerName,
+            ActionSequences actionSequence,
+            bool inPosition,
+            Streets street)
             : base("Raise Size")
         {
+            _handBrowserViewModel = handBrowserViewModel;
+            _playerName = playerName;
             _selectedBetSizeSpan = selectedBetSizeSpan;
+            _street = street;
+            _inPosition = inPosition;
+            _actionSequence = actionSequence;
             _raiseReactionAnalyzerMake = raiseReactionAnalyzerMake;
             _raiseReactionsAnalyzer = raiseReactionsAnalyzer;
             _raiseReactionStatistics = raiseReactionStatistics;
@@ -52,53 +76,87 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                 throw new ArgumentException("need at least one analyzable Player");
             }
 
-            InitializeWith(actionSequenceStatisticsSet);
+            CreateTableAndDescription();
         }
 
-        protected DetailedRaiseReactionStatisticsViewModel()
-            : base("Raise Size")
+        #endregion
+
+        #region Properties
+
+        public ICommand BrowseHandsCommand
         {
+            get
+            {
+                return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            _handBrowserViewModel.Browse(SelectedAnalyzablePlayers);
+                            ChildViewModel = _handBrowserViewModel;
+                        },
+                        CanExecuteDelegate = arg => SelectedCells.Count > 0
+                    });
+            }
+        }
+
+        protected IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+        {
+            get
+            {
+                return SelectedCells.SelectMany(
+                    selectedCell => {
+                        int row = selectedCell.First;
+                        int col = selectedCell.Second;
+                        return
+                            _raiseReactionStatistics.AnalyzablePlayersDictionary.ElementAt(row)
+                                .Value[(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]];
+                    });
+            }
         }
 
         #endregion
 
         #region Methods
 
-        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
+        protected void CreateTableAndDescription()
         {
-            CreateDescriptionFrom(statisticsSet);
+            CreateDescription();
 
-            AnalyzeStatisticsUsingStreetAndActionSequenceFrom(statisticsSet);
+            AnalyzeStatistics();
 
-            Rows = new List<IDetailedStatisticsRowViewModel> {
-                    new DetailedStatisticsRowViewModel("Fold", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.F].Values, "%"),
-                    new DetailedStatisticsRowViewModel("Call", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.C].Values, "%"),
-                    new DetailedStatisticsRowViewModel("Raise", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.R].Values, "%"),
-                    new DetailedStatisticsRowViewModel("Count", _raiseReactionStatistics.TotalCountsByColumnDictionary.Values, string.Empty)
+            Rows = new List<IStatisticsTableRowViewModel>
+                {
+                    new StatisticsTableRowViewModel(
+                        "Fold", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.F].Values, "%"),
+                    new StatisticsTableRowViewModel(
+                        "Call", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.C].Values, "%"),
+                    new StatisticsTableRowViewModel(
+                        "Raise", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.R].Values, "%"),
+                    new StatisticsTableRowViewModel(
+                        "Count", _raiseReactionStatistics.TotalCountsByColumnDictionary.Values, string.Empty)
                 };
-
-            return this;
         }
 
-        void AnalyzeStatisticsUsingStreetAndActionSequenceFrom(IActionSequenceStatisticsSet statisticsSet)
+        void AnalyzeStatistics()
         {
             _analyzablePokerPlayers.ForEach(
                 analyzablePlayer => _raiseReactionsAnalyzer
-                                        .AnalyzeAndAdd(_raiseReactionAnalyzerMake.New, analyzablePlayer,statisticsSet.Street,statisticsSet.ActionSequence));
+                                        .AnalyzeAndAdd(_raiseReactionAnalyzerMake.New, analyzablePlayer, _street, _actionSequence));
 
             _raiseReactionStatistics.InitializeWith(_raiseReactionsAnalyzer);
         }
 
-        void CreateDescriptionFrom(IActionSequenceStatisticsSet statisticsSet)
+        void CreateDescription()
         {
-            DetailedStatisticsDescription =
+            StatisticsDescription =
                 string.Format(
                     "{0} {1} {2} of the pot {3} on the {4} and was raised",
-                    statisticsSet.PlayerName,
-                    ActionSequencesUtility.NameLastActionInSequence(statisticsSet.ActionSequence).ToLower(),
-                    (_selectedBetSizeSpan.First == _selectedBetSizeSpan.Second) ? _selectedBetSizeSpan.First.ToString() : _selectedBetSizeSpan.First + " to " + _selectedBetSizeSpan.Second,                    
-                    statisticsSet.InPosition ? "in position" : "out of position",
-                    statisticsSet.Street.ToString().ToLower()
+                    _playerName,
+                    ActionSequencesUtility.NameLastActionInSequence(_actionSequence).ToLower(),
+                    (_selectedBetSizeSpan.First == _selectedBetSizeSpan.Second)
+                        ? _selectedBetSizeSpan.First.ToString()
+                        : _selectedBetSizeSpan.First + " to " + _selectedBetSizeSpan.Second,
+                    _inPosition ? "in position" : "out of position",
+                    _street.ToString().ToLower()
                     );
         }
 

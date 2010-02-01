@@ -79,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DesignViewModels\PlayerStatisticsDesignModel.cs" />
-    <Compile Include="DesignViewModels\TableStatisticsDesignModel.cs" />
+    <Compile Include="DesignViewModels\PokerTableStatisticsDesignModel.cs" />
     <Compile Include="DesignViewTests.cs" />
     <Compile Include="DesignWindows\TableStatisticsDesignWindow.xaml.cs">
       <DependentUpon>TableStatisticsDesignWindow.xaml</DependentUpon>

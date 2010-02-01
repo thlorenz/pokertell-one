@@ -11,11 +11,11 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
 
     using ViewModels;
 
-    public class TableStatisticsDesignModel : TableStatisticsViewModel
+    public class PokerTableStatisticsDesignModel : PokerTableStatisticsViewModel
     {
         #region Constructors and Destructors
 
-        public TableStatisticsDesignModel(IEventAggregator eventAggregator)
+        public PokerTableStatisticsDesignModel(IEventAggregator eventAggregator)
             : base(eventAggregator,
                    new Constructor<IPlayerStatisticsViewModel>(() => null),
                    new DetailedStatisticsAnalyzerViewModel(

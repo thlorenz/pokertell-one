@@ -84,9 +84,9 @@ namespace PokerTell.Statistics.IntegrationTests
 
         public void DetailedStatisticsViewTemplate_RaiseReactionStatisticsViewModel()
         {
-            var designWindow = new DetailedStatisticsDesignWindow
-                { Topmost = true, DataContext = new DetailedRaiseReactionStatisticsDesignModel() };
-            designWindow.ShowDialog();
+//            var designWindow = new DetailedStatisticsDesignWindow
+//                { Topmost = true, DataContext = new DetailedRaiseReactionStatisticsDesignModel() };
+//            designWindow.ShowDialog();
         }
 
         public void PostFlopStatisticsSetsViewTemplate()

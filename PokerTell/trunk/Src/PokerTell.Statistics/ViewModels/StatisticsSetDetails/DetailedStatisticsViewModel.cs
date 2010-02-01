@@ -4,6 +4,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using System.Collections.Generic;
     using System.Linq;
 
+    using Base;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
@@ -14,77 +16,30 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using Tools.Interfaces;
     using Tools.WPF.ViewModels;
 
-    public abstract class DetailedStatisticsViewModel : NotifyPropertyChanged, IDetailedStatisticsViewModel
+    public abstract class DetailedStatisticsViewModel : StatisticsTableViewModel, IDetailedStatisticsViewModel
     {
         #region Constants and Fields
 
-        IDetailedStatisticsViewModel _childViewModel;
-
-        string _detailedStatisticsDescription;
-
-        IEnumerable<IDetailedStatisticsRowViewModel> _rows;
+        
 
         #endregion
 
         #region Constructors and Destructors
 
         protected DetailedStatisticsViewModel(string columnHeaderTitle)
+            : base(columnHeaderTitle)
         {
-            SelectedCells = new List<ITuple<int, int>>();
-
-            ColumnHeaderTitle = columnHeaderTitle;
         }
 
         #endregion
 
         #region Events
 
-        public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
+       
 
         #endregion
 
         #region Properties
-
-        /// <summary>
-        ///   ViewModel that will present the selected details or hand histories
-        /// </summary>
-        public IDetailedStatisticsViewModel ChildViewModel
-        {
-            get { return _childViewModel; }
-            protected set
-            {
-                _childViewModel = value;
-                ChildViewModelChanged(_childViewModel);
-            }
-        }
-
-        /// <summary>
-        ///   Indicates the values in the the columnheaders
-        /// </summary>
-        public string ColumnHeaderTitle { get; protected set; }
-
-        /// <summary>
-        ///   Describes the situation and player of the statistics
-        /// </summary>
-        public string DetailedStatisticsDescription
-        {
-            get { return _detailedStatisticsDescription; }
-            protected set
-            {
-                _detailedStatisticsDescription = value;
-                RaisePropertyChanged(() => DetailedStatisticsDescription);
-            }
-        }
-
-        public IEnumerable<IDetailedStatisticsRowViewModel> Rows
-        {
-            get { return _rows; }
-            protected set
-            {
-                _rows = value;
-                RaisePropertyChanged(() => Rows);
-            }
-        }
 
         /// <summary>
         ///   Assumes that cells have been selected and that they are all in the same row.
@@ -99,6 +54,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row).ActionSequence;
             }
         }
+        
 
         /// <summary>
         ///   Returns all AnalyzablePokerPlayers whose percentages were selected on the table
@@ -116,15 +72,13 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
             }
         }
 
-        public IList<ITuple<int, int>> SelectedCells { get; protected set; }
-
         /// <summary>
         ///   Provides the data for the Viewmodel
         ///   Needs to be set via InitializeWith before ViewModel becomes useful
         /// </summary>
         protected IActionSequenceStatisticsSet ActionSequenceStatisticsSet { get; private set; }
 
-        protected virtual string PlayerName
+        protected string PlayerName
         {
             get { return ActionSequenceStatisticsSet.PlayerName; }
         }
@@ -142,7 +96,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         /// <summary>
         ///   The street for which the given ActionSequenceStatisticsSet applies
         /// </summary>
-        protected virtual Streets Street
+        protected Streets Street
         {
             get { return ActionSequenceStatisticsSet.Street; }
         }
@@ -152,17 +106,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         #region Implemented Interfaces
 
         #region IDetailedStatisticsViewModel
-
-        public IDetailedStatisticsViewModel AddToSelection(int row, int column)
-        {
-            SelectedCells.Add(Tuple.New(row, column));
-            return this;
-        }
-
-        public void ClearSelection()
-        {
-            SelectedCells.Clear();
-        }
 
         /// <summary>
         ///   Needs to be called to fill viewmodel with data
@@ -188,5 +131,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         protected abstract IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet);
 
         #endregion
+
     }
 }

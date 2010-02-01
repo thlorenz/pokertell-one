@@ -46,19 +46,18 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
          *          it should create the fourth row without a unit since it shows the counts
          *          it should create one column for each item in the statistics PercentagesDictionary
          *          
-         *          
          *      * given valid flop data with ActionSequence HeroB and out of position and betsizes 0.2 and 0.5
-         *          it should contain bet in description
-         *          it should contain out of position in description
-         *          it should contain flop in description
-         *          it should contain 0.2 to 0.5 of the pot in description
+         *          it should contain "bet" in description
+         *          it should contain "out" of position in description
+         *          it should contain "flop" in description
+         *          it should contain "0.2 to 0.5" of the pot in description
          *          
          *      * given valid turn data with ActionSequence HeroB and in position and betsizes 0.2 and 0.2
-         *          it should contain bet in description
-         *          it should contain in position in description
-         *          it should contain turn in description
-         *          it should contain 0.2 of the pot in description
-         *          it should not contain 0.2 to 0.2 in description           
+         *          it should contain "bet" in description
+         *          it should contain "in position" in description
+         *          it should contain "turn" in description
+         *          it should contain "0.2 of the pot" in description
+         *          it should not contain "0.2 to 0.2" in description           
          *          
          *      * given the PercentagesDictionary has value 0 at 0 0 and value 50 at 1 1
          *          it should have value 0 at row 0 col 0
@@ -67,18 +66,29 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
          *      * given the TotalCountsDictionary has value 0 in col 0 and value 1 in col 1
          *          it should have value 0 in the counts row at col 0
          *          it should have value 1 in the counts row at col 1
+         *          
+         *  Browse hands command
+         *      * given no cell has been selected
+         *          It should not be executable
+         *      
+         *      * given one cell is selected 
+         *          It should be executable
+         *      
+         *      * given one cell is selected when the user executes it
+         *          It should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
+         *          It should set its ChildViewModel to the HandBrowserViewModel
          *      
          */
 
         #region Constants and Fields
-
-        protected static Mock<IActionSequenceStatisticsSet> _actionStatisticsSetStub;
 
         protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
 
         protected static Dictionary<int, int> _emptyCountsDictionary;
 
         protected static Dictionary<int, int> _emptyPercentageDictionary;
+
+        protected static Mock<IHandBrowserViewModel> _handBrowserViewModelMock;
 
         protected static string _playerName;
 
@@ -98,16 +108,21 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static ITuple<double, double> _validBetSizes;
 
+        protected static bool _validInPosition;
+
         protected static Streets _validStreet;
 
         Establish context = () => {
             _playerName = "somePlayer";
             _validStreet = Streets.Flop;
             _validActionSequence = ActionSequences.HeroB;
+            _validInPosition = false;
             _validBetSizes = Tuple.New(0.5, 0.7);
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _validAnalyzablePokerPlayersStub = new[] { _analyzablePokerPlayerStub.Object };
             _raiseReactionsAnalyzerMock = new Mock<IRaiseReactionsAnalyzer>();
+            _validRaiseSizes = new[] { 1.0, 2.0 };
+            _raiseReactionsAnalyzerMock.SetupGet(r => r.RaiseSizeKeys).Returns(_validRaiseSizes);
 
             _raiseReactionStatisticsMock = new Mock<IRaiseReactionStatistics>();
 
@@ -126,15 +141,32 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
             _raiseReactionAnalyzerStub = new Mock<IRaiseReactionAnalyzer>();
             _raiseReactionAnalyzerMake = new Constructor<IRaiseReactionAnalyzer>(() => _raiseReactionAnalyzerStub.Object);
-
-            _actionStatisticsSetStub = new Mock<IActionSequenceStatisticsSet>();
-            _actionStatisticsSetStub.SetupGet(s => s.PlayerName).Returns(_playerName);
-            _actionStatisticsSetStub.SetupGet(s => s.ActionSequence).Returns(_validActionSequence);
-            _actionStatisticsSetStub.SetupGet(s => s.Street).Returns(_validStreet);
+            _handBrowserViewModelMock = new Mock<IHandBrowserViewModel>();
         };
+
+        protected static double[] _validRaiseSizes;
 
         #endregion
     }
+
+    public abstract class ConstructedSut_Ctx : DetailedRaiseReactionStatisticsViewModelSpecs
+    {
+        Establish context = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
+                                             _handBrowserViewModelMock.Object,
+                                             _raiseReactionStatisticsMock.Object,
+                                             _raiseReactionsAnalyzerMock.Object,
+                                             _raiseReactionAnalyzerMake,
+                                             _validAnalyzablePokerPlayersStub,
+                                             _validBetSizes,
+                                             _playerName,
+                                             _validActionSequence,
+                                             _validInPosition,
+                                             _validStreet);
+    }
+
+
+    
+
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
     public class given_0_analyzable_players : DetailedRaiseReactionStatisticsViewModelSpecs
@@ -145,12 +177,16 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         Because of = () => exception = Catch.Exception(
                                            () => _sut = new DetailedRaiseReactionStatisticsViewModel(
+                                                            _handBrowserViewModelMock.Object,
                                                             _raiseReactionStatisticsMock.Object,
                                                             _raiseReactionsAnalyzerMock.Object,
                                                             _raiseReactionAnalyzerMake,
                                                             Enumerable.Empty<IAnalyzablePokerPlayer>(),
-                                                            _actionStatisticsSetStub.Object,
-                                                            _validBetSizes));
+                                                            _validBetSizes,
+                                                            _playerName,
+                                                            _validActionSequence,
+                                                            _validInPosition,
+                                                            _validStreet));
 
         It should_throw_an_ArgumentException
             = () => exception.ShouldBeOfType<ArgumentException>();
@@ -164,12 +200,16 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         #region Constants and Fields
 
         Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                             _raiseReactionStatisticsMock.Object,
-                                             _raiseReactionsAnalyzerMock.Object,
-                                             _raiseReactionAnalyzerMake,
-                                             _validAnalyzablePokerPlayersStub,
-                                             _actionStatisticsSetStub.Object,
-                                             _validBetSizes);
+                                      _handBrowserViewModelMock.Object,
+                                      _raiseReactionStatisticsMock.Object,
+                                      _raiseReactionsAnalyzerMock.Object,
+                                      _raiseReactionAnalyzerMake,
+                                      _validAnalyzablePokerPlayersStub,
+                                      _validBetSizes,
+                                      _playerName,
+                                      _validActionSequence,
+                                      _validInPosition,
+                                      _validStreet);
 
         It should_analyze_the_data_with_the_RaiseReactionsAnalyzer
             = () => _raiseReactionsAnalyzerMock.Verify(
@@ -180,24 +220,23 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                  _validActionSequence));
 
         It should_contain__and_was_raised__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("and was raised");
+            = () => _sut.StatisticsDescription.ShouldContain("and was raised");
 
         It should_contain_player_name_in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain(_playerName);
-
+            = () => _sut.StatisticsDescription.ShouldContain(_playerName);
 
         It should_initialize_RaiseReactionStatistics_with_the_RaiseReactionAnalyzer =
             () => _raiseReactionStatisticsMock.Verify(s => s.InitializeWith(_raiseReactionsAnalyzerMock.Object));
 
-        
         #endregion
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
     public class given_valid_data_and_valid_RaiseReactionStatistics : DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        Establish context = () =>
-        {
+        #region Constants and Fields
+
+        Establish context = () => {
             _emptyPercentageDictionary.Add(1, 0);
             _emptyPercentageDictionary.Add(2, 0);
 
@@ -208,25 +247,28 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                         { ActionTypes.C, _emptyPercentageDictionary },
                         { ActionTypes.R, _emptyPercentageDictionary }
                     });
-            };
+        };
 
         Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                     _raiseReactionStatisticsMock.Object,
-                                     _raiseReactionsAnalyzerMock.Object,
-                                     _raiseReactionAnalyzerMake,
-                                     _validAnalyzablePokerPlayersStub,
-                                     _actionStatisticsSetStub.Object,
-                                     _validBetSizes);
-
+                                      _handBrowserViewModelMock.Object,
+                                      _raiseReactionStatisticsMock.Object,
+                                      _raiseReactionsAnalyzerMock.Object,
+                                      _raiseReactionAnalyzerMake,
+                                      _validAnalyzablePokerPlayersStub,
+                                      _validBetSizes,
+                                      _playerName,
+                                      _validActionSequence,
+                                      _validInPosition,
+                                      _validStreet);
 
         It should_create_4_rows
             = () => _sut.Rows.Count().ShouldEqual(4);
-        
+
         It should_create_one_column_for_each_item_in_the_statistics_PercentagesDictionary
             = () => _sut.Rows.First().Cells.Count.ShouldEqual(_emptyPercentageDictionary.Count);
 
         It should_create_the_first_second_and_third_row_with_percentage_unit
-            = () => { 
+            = () => {
                 _sut.Rows.First().Unit.ShouldEqual("%");
                 _sut.Rows.ElementAt(1).Unit.ShouldEqual("%");
                 _sut.Rows.ElementAt(2).Unit.ShouldEqual("%");
@@ -235,6 +277,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         It should_create_the_fourth_row_without_a_unit_since_it_shows_the_counts
             = () => _sut.Rows.Last().Unit.ShouldBeEmpty();
 
+        #endregion
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
@@ -244,31 +287,35 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         #region Constants and Fields
 
         Establish context = () => {
-            _actionStatisticsSetStub.SetupGet(s => s.Street).Returns(Streets.Flop);
-            _actionStatisticsSetStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroB);
-            _actionStatisticsSetStub.SetupGet(s => s.InPosition).Returns(false);
+            _validStreet = Streets.Flop;
+            _validActionSequence = ActionSequences.HeroB;
+            _validInPosition = false;
             _validBetSizes = Tuple.New(0.2, 0.5);
         };
 
         Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
+                                      _handBrowserViewModelMock.Object,
                                       _raiseReactionStatisticsMock.Object,
                                       _raiseReactionsAnalyzerMock.Object,
                                       _raiseReactionAnalyzerMake,
                                       _validAnalyzablePokerPlayersStub,
-                                      _actionStatisticsSetStub.Object,
-                                      _validBetSizes);
+                                      _validBetSizes,
+                                      _playerName,
+                                      _validActionSequence,
+                                      _validInPosition,
+                                      _validStreet);
 
         It should_contain__0_2_to_0_5_of_the_pot__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("0.2 to 0.5");
+            = () => _sut.StatisticsDescription.ShouldContain("0.2 to 0.5");
 
         It should_contain__bet__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("bet");
+            = () => _sut.StatisticsDescription.ShouldContain("bet");
 
         It should_contain__flop__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("flop");
+            = () => _sut.StatisticsDescription.ShouldContain("flop");
 
         It should_contain__out_of_position__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("out of position");
+            = () => _sut.StatisticsDescription.ShouldContain("out of position");
 
         #endregion
     }
@@ -280,34 +327,38 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         #region Constants and Fields
 
         Establish context = () => {
-            _actionStatisticsSetStub.SetupGet(s => s.Street).Returns(Streets.Turn);
-            _actionStatisticsSetStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroB);
-            _actionStatisticsSetStub.SetupGet(s => s.InPosition).Returns(true);
+            _validStreet = Streets.Turn;
+            _validActionSequence = ActionSequences.HeroB;
+            _validInPosition = true;
             _validBetSizes = Tuple.New(0.2, 0.2);
         };
 
         Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
+                                      _handBrowserViewModelMock.Object,
                                       _raiseReactionStatisticsMock.Object,
                                       _raiseReactionsAnalyzerMock.Object,
                                       _raiseReactionAnalyzerMake,
                                       _validAnalyzablePokerPlayersStub,
-                                      _actionStatisticsSetStub.Object,
-                                      _validBetSizes);
+                                      _validBetSizes,
+                                      _playerName,
+                                      _validActionSequence,
+                                      _validInPosition,
+                                      _validStreet);
 
         It should_contain__0_2_of_the_pot__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("0.2 of the pot");
+            = () => _sut.StatisticsDescription.ShouldContain("0.2 of the pot");
 
         It should_contain__bet__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("bet");
+            = () => _sut.StatisticsDescription.ShouldContain("bet");
 
         It should_contain__in_position__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("in position");
+            = () => _sut.StatisticsDescription.ShouldContain("in position");
 
         It should_contain__turn__in_description
-            = () => _sut.DetailedStatisticsDescription.ShouldContain("turn");
+            = () => _sut.StatisticsDescription.ShouldContain("turn");
 
         It should_not_contain__0_2_to_0_2__in_description
-            = () => _sut.DetailedStatisticsDescription.Contains("0.2 to 0.2").ShouldBeFalse();
+            = () => _sut.StatisticsDescription.Contains("0.2 to 0.2").ShouldBeFalse();
 
         #endregion
     }
@@ -316,24 +367,27 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     public class given_the_PercentagesDictionary_has_value_0_at_0_0_and_value_50_at_1_1
         : DetailedRaiseReactionStatisticsViewModelSpecs
     {
+        #region Constants and Fields
+
         Establish context = () => _raiseReactionStatisticsMock.SetupGet(r => r.PercentagesDictionary).Returns(
                                       new Dictionary<ActionTypes, IDictionary<int, int>>
                                           {
-                                              { ActionTypes.F, new Dictionary<int, int> {{1, 0}, {2, 0}} },
-                                              { ActionTypes.C, new Dictionary<int, int> {{1, 0}, {2, 50}} },
+                                              { ActionTypes.F, new Dictionary<int, int> { { 1, 0 }, { 2, 0 } } },
+                                              { ActionTypes.C, new Dictionary<int, int> { { 1, 0 }, { 2, 50 } } },
                                               { ActionTypes.R, _emptyPercentageDictionary }
                                           });
 
         Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                     _raiseReactionStatisticsMock.Object,
-                                     _raiseReactionsAnalyzerMock.Object,
-                                     _raiseReactionAnalyzerMake,
-                                     _validAnalyzablePokerPlayersStub,
-                                     _actionStatisticsSetStub.Object,
-                                     _validBetSizes);
-
-
-        #region Constants and Fields
+                                      _handBrowserViewModelMock.Object,
+                                      _raiseReactionStatisticsMock.Object,
+                                      _raiseReactionsAnalyzerMock.Object,
+                                      _raiseReactionAnalyzerMake,
+                                      _validAnalyzablePokerPlayersStub,
+                                      _validBetSizes,
+                                      _playerName,
+                                      _validActionSequence,
+                                      _validInPosition,
+                                      _validStreet);
 
         It should_have_value_0_at_row_0_col_0
             = () => _sut.Rows.ElementAt(0).Cells[0].Value.ShouldEqual(0);
@@ -358,19 +412,75 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                           });
 
         Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                     _raiseReactionStatisticsMock.Object,
-                                     _raiseReactionsAnalyzerMock.Object,
-                                     _raiseReactionAnalyzerMake,
-                                     _validAnalyzablePokerPlayersStub,
-                                     _actionStatisticsSetStub.Object,
-                                     _validBetSizes);
-
+                                      _handBrowserViewModelMock.Object,
+                                      _raiseReactionStatisticsMock.Object,
+                                      _raiseReactionsAnalyzerMock.Object,
+                                      _raiseReactionAnalyzerMake,
+                                      _validAnalyzablePokerPlayersStub,
+                                      _validBetSizes,
+                                      _playerName,
+                                      _validActionSequence,
+                                      _validInPosition,
+                                      _validStreet);
 
         It should_have_value_0_in_the_counts_row_at_col_0
             = () => _sut.Rows.Last().Cells[0].Value.ShouldEqual(0);
 
         It should_have_value_1_in_the_counts_row_at_col_1
             = () => _sut.Rows.Last().Cells[1].Value.ShouldEqual(1);
+
+        #endregion
+    }
+
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
+    public class given_no_cell_has_been_selected
+        : ConstructedSut_Ctx
+    {
+        #region Constants and Fields
+
+        It should_not_be_executable
+            = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeFalse();
+
+        #endregion
+    }
+
+   
+
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
+    public class given_one_cell_is_selected : ConstructedSut_Ctx
+    {
+        Establish context = () => _sut.AddToSelection(0, 0);
+
+        It should_be_executable
+            = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeTrue();
+    }
+
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
+    public class given_one_cell_is_selected_and_the_user_executes_the_command : ConstructedSut_Ctx
+    {
+        Establish context = () => { 
+            _sut.AddToSelection(0, 0);
+
+            var analyzablePlayersDictionaryStub = new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>>
+                {
+                    {
+                        ActionTypes.F, new Dictionary<int, IList<IAnalyzablePokerPlayer>>
+                            { { (int)_validRaiseSizes[0], _validAnalyzablePokerPlayersStub } }
+                        }
+                };
+
+            _raiseReactionStatisticsMock.SetupGet(s => s.AnalyzablePlayersDictionary).Returns(analyzablePlayersDictionaryStub);
+        };
+
+        Because of = () => _sut.BrowseHandsCommand.Execute(null);
+
+        #region Constants and Fields
+
+        It should_initialize_HandBrowserViewModel_with_the_analyzable_players_who_correspond_to_the_cell
+            = () => _handBrowserViewModelMock.Verify(hb => hb.Browse(_validAnalyzablePokerPlayersStub));
+
+        It should_set_its_ChildViewModel_to_the_HandBrowserViewModel
+            = () => _sut.ChildViewModel.ShouldEqual<IDetailedStatisticsAnalyzerContentViewModel>(_handBrowserViewModelMock.Object);
 
         #endregion
     }

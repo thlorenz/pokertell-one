@@ -256,7 +256,7 @@ namespace PokerTell.PokerHand.ViewModels
 
             SelectedRow = rowToSelect;
         }
-
+        
         public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
         {
             _hand = hand;

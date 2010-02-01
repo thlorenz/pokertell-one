@@ -38,25 +38,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
            
         }
 
-        [Test]
-        public void AddSelection_RowAndColumn_AddsTupleForRowColumnToSelectedCells()
-        {
-            const int row = 0;
-            const int column = 1;
-            _sut.AddToSelection(row, column);
-
-            _sut.SelectedCells.ShouldContain(new Tuple<int, int>(row, column));
-        }
-
-        [Test]
-        public void ClearSelection_SelectedCellsContainItems_SelectedCellsAreCleared()
-        {
-            _sut.AddToSelection(0, 0);
-
-            _sut.ClearSelection();
-
-            _sut.SelectedCells.ShouldBeEmpty();
-        }
+        
 
         [Test]
         public void SelectedAnalyzablePlayers_SelectedCellsAreEmpty_ReturnsEmptyList()
@@ -127,7 +109,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         }
 
         [Test]
-        public void SelectedColumnRange_Cell_0_0_Selected_Returns_0_0()
+        public void SelectedColumnsSpan_Cell_0_0_Selected_Returns_0_0()
         {
             _sut.AddToSelection(0, 0);
 
@@ -135,7 +117,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         }
 
         [Test]
-        public void SelectedColumnRange_Cells_0_1_0_2_Selected_Returns_1_2()
+        public void SelectedColumnsSpan_Cells_0_1_0_2_Selected_Returns_1_2()
         {
             _sut
                 .AddToSelection(0, 1)
@@ -144,18 +126,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             _sut.SelectedColumnsSpanGet.ShouldBeEqualTo(Tuple.New(1, 2));
         }
 
-        [Test]
-        public void SetChildViewModel_Always_RaisesChildViewModelChangedEventWithThatViewModel()
-        {
-            var viewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
-            var wasRaisedWithViewModel = false;
-
-            _sut.ChildViewModelChanged += vm => wasRaisedWithViewModel = vm.Equals(viewModelStub);
-
-            _sut.ChildViewModelSet = viewModelStub;
-
-            wasRaisedWithViewModel.ShouldBeTrue();
-        }
+        
     }
 
     class DetailedStatisticsViewModelImpl : DetailedStatisticsViewModel
@@ -172,7 +143,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             get { return base.SelectedColumnsSpan; }
         }
 
-        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
         {
             return this;
         }

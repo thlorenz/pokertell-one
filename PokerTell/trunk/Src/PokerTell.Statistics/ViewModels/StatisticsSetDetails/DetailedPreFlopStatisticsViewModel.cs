@@ -6,6 +6,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using System.Text;
     using System.Windows.Input;
 
+    using Base;
+
     using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
@@ -30,17 +32,17 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var foldRow = 
-                new DetailedStatisticsRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");
+                new StatisticsTableRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");
             var callRow =
-                new DetailedStatisticsRowViewModel("Call", statisticsSet.ActionSequenceStatistics.ElementAt(1).Percentages, "%");
+                new StatisticsTableRowViewModel("Call", statisticsSet.ActionSequenceStatistics.ElementAt(1).Percentages, "%");
             var raiseRow =
-                new DetailedStatisticsRowViewModel("Raise", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
+                new StatisticsTableRowViewModel("Raise", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
             var countRow =
-                new DetailedStatisticsRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
+                new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
-            Rows = new List<IDetailedStatisticsRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
+            Rows = new List<IStatisticsTableRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
 
-            DetailedStatisticsDescription =
+            StatisticsDescription =
                 string.Format(
                             "Player {0} {1} on the {2} in {3} pot",
                             statisticsSet.PlayerName,

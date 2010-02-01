@@ -17,7 +17,7 @@ namespace PokerTell.LiveTracker.Tests
     using PokerTell.LiveTracker.ViewModels;
     using PokerTell.UnitTests.Tools;
 
-    public class TableStatisticsViewModelTests
+    public class PokerTableStatisticsViewModelTests
     {
         #region Constants and Fields
 
@@ -25,7 +25,7 @@ namespace PokerTell.LiveTracker.Tests
 
         StubBuilder _stub;
 
-        TableStatisticsViewModelTester _sut;
+        PokerTableStatisticsViewModelTester _sut;
 
         IEventAggregator _eventAggregator;
 
@@ -43,7 +43,7 @@ namespace PokerTell.LiveTracker.Tests
                 .Returns(_stub.Out<IPlayerStatisticsViewModel>);
             
             _eventAggregator = new EventAggregator();
-            _sut = new TableStatisticsViewModelTester(_eventAggregator, _playerStatisticsViewModelMakeStub.Object);
+            _sut = new PokerTableStatisticsViewModelTester(_eventAggregator, _playerStatisticsViewModelMakeStub.Object);
         }
 
         [Test]
@@ -268,9 +268,9 @@ namespace PokerTell.LiveTracker.Tests
 
         #endregion
 
-        class TableStatisticsViewModelTester : TableStatisticsViewModel
+        class PokerTableStatisticsViewModelTester : PokerTableStatisticsViewModel
         {
-            public TableStatisticsViewModelTester(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
+            public PokerTableStatisticsViewModelTester(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
                 : base(eventAggregator, playerStatisticsViewModelMake, new StubBuilder().Out<IDetailedStatisticsAnalyzerViewModel>())
             {
             }

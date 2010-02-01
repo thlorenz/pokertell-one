@@ -6,6 +6,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
     using Analyzation;
 
+    using Base;
+
     using Infrastructure;
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.Statistics;
@@ -62,13 +64,13 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var betRow =
-                new DetailedStatisticsRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
+                new StatisticsTableRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
             var countRow =
-                new DetailedStatisticsRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
+                new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
-            Rows = new List<IDetailedStatisticsRowViewModel>(new[] { betRow, countRow });
+            Rows = new List<IStatisticsTableRowViewModel>(new[] { betRow, countRow });
 
-            DetailedStatisticsDescription =
+            StatisticsDescription =
                 string.Format(
                     "Player {0} {1} on the {2} {3} position",
                     statisticsSet.PlayerName,

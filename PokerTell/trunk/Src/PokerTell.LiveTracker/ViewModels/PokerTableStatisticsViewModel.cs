@@ -15,7 +15,7 @@ namespace PokerTell.LiveTracker.ViewModels
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
-    public class TableStatisticsViewModel : NotifyPropertyChanged
+    public class PokerTableStatisticsViewModel : NotifyPropertyChanged
     {
         #region Constants and Fields
 
@@ -33,7 +33,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Constructors and Destructors
 
-        public TableStatisticsViewModel(
+        public PokerTableStatisticsViewModel(
             IEventAggregator eventAggregator, 
             IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
             IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
@@ -92,7 +92,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Public Methods
 
-        public TableStatisticsViewModel UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
+        public PokerTableStatisticsViewModel UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
         {
             var playersStatisticsList = ValidateAndConvertToList(playersStatistics);
             var playersList = Players.ToList();

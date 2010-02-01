@@ -71,7 +71,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
                 new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopActionStatisticsViewModel()),
                 new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel()));
 
-            var tableStatisticsViewModel = new TableStatisticsViewModel(
+            var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
                 eventAggregator,
                 new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
                 detailedStatisticsAnalyzerViewModel);
