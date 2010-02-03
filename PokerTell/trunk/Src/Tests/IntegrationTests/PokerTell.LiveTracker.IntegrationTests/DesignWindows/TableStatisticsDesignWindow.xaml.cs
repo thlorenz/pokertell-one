@@ -7,18 +7,28 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
 
     using DesignViewModels;
 
+    using Infrastructure.Interfaces.PokerHand;
+
     using Microsoft.Practices.Composite.Events;
 
-    /// <summary>
+    using Statistics.Interfaces;
+
+   /// <summary>
     /// Interaction logic for StatisticsSetSummaryDesignWindow.xaml
     /// </summary>
     public partial class TableStatisticsDesignWindow : Window
     {
         #region Constructors and Destructors
 
-        public TableStatisticsDesignWindow(IEventAggregator eventAggregator)
+
+
+        public TableStatisticsDesignWindow(
+           IEventAggregator eventAggregator,
+            IHandBrowserViewModel handBrowserViewModel,
+         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
         {
-            DataContext = new TableStatisticsDesignModel(eventAggregator);
+            DataContext = new PokerTableStatisticsDesignModel(eventAggregator, handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber);
             InitializeComponent();
         }
 

@@ -1,13 +1,11 @@
 namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 {
-    // ReSharper disable InconsistentNaming
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
     using Infrastructure.Services;
 
     using Interfaces;
@@ -23,64 +21,47 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
     using It = Machine.Specifications.It;
 
+    // ReSharper disable InconsistentNaming
     public abstract class DetailedRaiseReactionStatisticsViewModelSpecs
     {
         /* 
-         *  Specification
-         *  Subject is DetailedRaiseReactionStatisticsViewModel
-         *  
-         *  Constructor
-         *  
-         *      * given 0 analyzable players
-         *          it should throw an ArgumentException
-         *      
-         *      * given valid data
-         *          it should contain player name in description
-         *          it should contain and was raised in description
-         *          it should analyze the data with the RaiseReactionsAnalyzer
-         *          it should intialize RaiseReactionStatistics with the RaiseReactionAnalyzer
-         *      
-         *      * given valid data and and valid RaiseReactionStatistics
-         *          it should create 4 rows
-         *          it should create the first, second and third row with percentage unit
-         *          it should create the fourth row without a unit since it shows the counts
-         *          it should create one column for each item in the statistics PercentagesDictionary
-         *          
-         *      * given valid flop data with ActionSequence HeroB and out of position and betsizes 0.2 and 0.5
-         *          it should contain "bet" in description
-         *          it should contain "out" of position in description
-         *          it should contain "flop" in description
-         *          it should contain "0.2 to 0.5" of the pot in description
-         *          
-         *      * given valid turn data with ActionSequence HeroB and in position and betsizes 0.2 and 0.2
-         *          it should contain "bet" in description
-         *          it should contain "in position" in description
-         *          it should contain "turn" in description
-         *          it should contain "0.2 of the pot" in description
-         *          it should not contain "0.2 to 0.2" in description           
-         *          
-         *      * given the PercentagesDictionary has value 0 at 0 0 and value 50 at 1 1
-         *          it should have value 0 at row 0 col 0
-         *          it should have value 50 at row 1 col 1
-         *          
-         *      * given the TotalCountsDictionary has value 0 in col 0 and value 1 in col 1
-         *          it should have value 0 in the counts row at col 0
-         *          it should have value 1 in the counts row at col 1
-         *          
-         *  Browse hands command
-         *      * given no cell has been selected
-         *          It should not be executable
-         *      
-         *      * given one cell is selected 
-         *          It should be executable
-         *      
-         *      * given one cell is selected when the user executes it
-         *          It should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
-         *          It should set its ChildViewModel to the HandBrowserViewModel
-         *      
-         */
+          *  Specification
+          *  Subject is DetailedRaiseReactionStatisticsViewModel
+          *  
+             Initialization
+                 given 0 analyzable players
+                    » should throw an ArgumentException
 
-        #region Constants and Fields
+                 given valid data
+                    » should build raise reaction statistics for it
+                    » should get statistics description from raise reaction describer
+
+                 given valid data and valid RaiseReactionStatistics
+                    » should create 4 rows
+                    » should create one column for each item in the statistics PercentagesDictionary
+                    » should create the first second and third row with percentage unit
+                    » should create the fourth row without a unit since it shows the counts
+
+                 given the PercentagesDictionary has value 0 at 0 0 and value 50 at 1 1
+                    » should have value 0 at row 0 col 0
+                    » should have value 50 at row 1 col 1
+
+                 given the TotalCountsDictionary has value 0 in col 0 and value 1 in col 1
+                    » should have value 0 in the counts row at col 0
+                    » should have value 1 in the counts row at col 1
+
+             Browse hands command
+                 given no cell has been selected
+                    » should not be executable
+
+                 given one cell is selected
+                    » should be executable
+
+                 given one cell is selected and the user executes the command
+                    » should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
+                    » should set its ChildViewModel to the HandBrowserViewModel
+          *      
+          */
 
         protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
 
@@ -96,7 +77,11 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static Mock<IRaiseReactionAnalyzer> _raiseReactionAnalyzerStub;
 
-        protected static Mock<IRaiseReactionStatistics> _raiseReactionStatisticsMock;
+        protected static Mock<IPostFlopHeroActsRaiseReactionDescriber> _raiseReactionDescriberStub;
+
+        protected static Mock<IRaiseReactionStatisticsBuilder> _raiseReactionStatisticsBuilderMock;
+
+        protected static Mock<IRaiseReactionStatistics> _raiseReactionStatisticsStub;
 
         protected static Mock<IRaiseReactionsAnalyzer> _raiseReactionsAnalyzerMock;
 
@@ -110,9 +95,12 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static bool _validInPosition;
 
+        protected static double[] _validRaiseSizes;
+
         protected static Streets _validStreet;
 
         Establish context = () => {
+
             _playerName = "somePlayer";
             _validStreet = Streets.Flop;
             _validActionSequence = ActionSequences.HeroB;
@@ -120,146 +108,121 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             _validBetSizes = Tuple.New(0.5, 0.7);
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _validAnalyzablePokerPlayersStub = new[] { _analyzablePokerPlayerStub.Object };
-            _raiseReactionsAnalyzerMock = new Mock<IRaiseReactionsAnalyzer>();
             _validRaiseSizes = new[] { 1.0, 2.0 };
-            _raiseReactionsAnalyzerMock.SetupGet(r => r.RaiseSizeKeys).Returns(_validRaiseSizes);
-
-            _raiseReactionStatisticsMock = new Mock<IRaiseReactionStatistics>();
+           
+            _raiseReactionStatisticsStub = new Mock<IRaiseReactionStatistics>();
 
             _emptyPercentageDictionary = new Dictionary<int, int>();
             _emptyCountsDictionary = new Dictionary<int, int>();
 
-            _raiseReactionStatisticsMock.SetupGet(r => r.PercentagesDictionary).Returns(
-                new Dictionary<ActionTypes, IDictionary<int, int>>
-                    {
-                        { ActionTypes.F, _emptyPercentageDictionary },
-                        { ActionTypes.C, _emptyPercentageDictionary },
-                        { ActionTypes.R, _emptyPercentageDictionary }
-                    });
-            _raiseReactionStatisticsMock.SetupGet(r => r.TotalCountsByColumnDictionary)
+            _raiseReactionStatisticsStub.SetupGet(r => r.PercentagesDictionary).Returns(
+                new Dictionary<ActionTypes, IDictionary<int, int>> {
+                    { ActionTypes.F, _emptyPercentageDictionary },
+                    { ActionTypes.C, _emptyPercentageDictionary },
+                    { ActionTypes.R, _emptyPercentageDictionary }
+                });
+            _raiseReactionStatisticsStub.SetupGet(r => r.TotalCountsByColumnDictionary)
                 .Returns(_emptyCountsDictionary);
 
             _raiseReactionAnalyzerStub = new Mock<IRaiseReactionAnalyzer>();
             _raiseReactionAnalyzerMake = new Constructor<IRaiseReactionAnalyzer>(() => _raiseReactionAnalyzerStub.Object);
+
             _handBrowserViewModelMock = new Mock<IHandBrowserViewModel>();
+           
+            _raiseReactionStatisticsBuilderMock = new Mock<IRaiseReactionStatisticsBuilder>();
+            _raiseReactionStatisticsBuilderMock
+                .Setup(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet))
+                .Returns(_raiseReactionStatisticsStub.Object);
+            _raiseReactionDescriberStub = new Mock<IPostFlopHeroActsRaiseReactionDescriber>();
+
+            _sut = new DetailedRaiseReactionStatisticsViewModel(
+                _handBrowserViewModelMock.Object,
+                _raiseReactionStatisticsBuilderMock.Object,
+                _raiseReactionDescriberStub.Object);
         };
-
-        protected static double[] _validRaiseSizes;
-
-        #endregion
     }
 
-    public abstract class ConstructedSut_Ctx : DetailedRaiseReactionStatisticsViewModelSpecs
+    public abstract class Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized :
+        DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        Establish context = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                             _handBrowserViewModelMock.Object,
-                                             _raiseReactionStatisticsMock.Object,
-                                             _raiseReactionsAnalyzerMock.Object,
-                                             _raiseReactionAnalyzerMake,
-                                             _validAnalyzablePokerPlayersStub,
-                                             _validBetSizes,
-                                             _playerName,
-                                             _validActionSequence,
-                                             _validInPosition,
-                                             _validStreet);
-    }
-
-
-    
-
-
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
-    public class given_0_analyzable_players : DetailedRaiseReactionStatisticsViewModelSpecs
-    {
-        #region Constants and Fields
-
-        static Exception exception;
-
-        Because of = () => exception = Catch.Exception(
-                                           () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                                            _handBrowserViewModelMock.Object,
-                                                            _raiseReactionStatisticsMock.Object,
-                                                            _raiseReactionsAnalyzerMock.Object,
-                                                            _raiseReactionAnalyzerMake,
-                                                            Enumerable.Empty<IAnalyzablePokerPlayer>(),
-                                                            _validBetSizes,
-                                                            _playerName,
-                                                            _validActionSequence,
-                                                            _validInPosition,
-                                                            _validStreet));
-
-        It should_throw_an_ArgumentException
-            = () => exception.ShouldBeOfType<ArgumentException>();
-
-        #endregion
-    }
-
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
-    public class given_valid_data : DetailedRaiseReactionStatisticsViewModelSpecs
-    {
-        #region Constants and Fields
-
-        Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                      _handBrowserViewModelMock.Object,
-                                      _raiseReactionStatisticsMock.Object,
-                                      _raiseReactionsAnalyzerMock.Object,
-                                      _raiseReactionAnalyzerMake,
+        Establish context = () => _sut.InitializeWith(
                                       _validAnalyzablePokerPlayersStub,
                                       _validBetSizes,
                                       _playerName,
                                       _validActionSequence,
                                       _validInPosition,
                                       _validStreet);
-
-        It should_analyze_the_data_with_the_RaiseReactionsAnalyzer
-            = () => _raiseReactionsAnalyzerMock.Verify(
-                        a => a.AnalyzeAndAdd(
-                                 _raiseReactionAnalyzerStub.Object,
-                                 _analyzablePokerPlayerStub.Object,
-                                 _validStreet,
-                                 _validActionSequence));
-
-        It should_contain__and_was_raised__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("and was raised");
-
-        It should_contain_player_name_in_description
-            = () => _sut.StatisticsDescription.ShouldContain(_playerName);
-
-        It should_initialize_RaiseReactionStatistics_with_the_RaiseReactionAnalyzer =
-            () => _raiseReactionStatisticsMock.Verify(s => s.InitializeWith(_raiseReactionsAnalyzerMock.Object));
-
-        #endregion
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    public class given_0_analyzable_players : DetailedRaiseReactionStatisticsViewModelSpecs
+    {
+        static Exception exception;
+
+        Because of = () => exception = Catch.Exception(
+                                           () => _sut.InitializeWith(
+                                                     Enumerable.Empty<IAnalyzablePokerPlayer>(),
+                                                     _validBetSizes,
+                                                     _playerName,
+                                                     _validActionSequence,
+                                                     _validInPosition,
+                                                     _validStreet));
+
+        It should_throw_an_ArgumentException
+            = () => exception.ShouldBeOfType<ArgumentException>();
+    }
+
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    public class given_valid_data : DetailedRaiseReactionStatisticsViewModelSpecs
+    {
+        static string description;
+        
+        Establish context = () => {
+            description = "some description";
+            _raiseReactionDescriberStub.Setup(
+                d => d.Describe(_playerName, _validAnalyzablePokerPlayersStub.First(), _validStreet, _validBetSizes))
+                .Returns(description);
+        };
+        
+        Because of = () => _sut.InitializeWith(
+                               _validAnalyzablePokerPlayersStub,
+                               _validBetSizes,
+                               _playerName,
+                               _validActionSequence,
+                               _validInPosition,
+                               _validStreet);
+
+        It should_build_raise_reaction_statistics_for_it
+            = () => _raiseReactionStatisticsBuilderMock.Verify(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet));
+
+        It should_get_statistics_description_from_raise_reaction_describer
+            = () => _sut.StatisticsDescription.ShouldEqual(description);
+
+        
+    }
+
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
     public class given_valid_data_and_valid_RaiseReactionStatistics : DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        #region Constants and Fields
-
         Establish context = () => {
             _emptyPercentageDictionary.Add(1, 0);
             _emptyPercentageDictionary.Add(2, 0);
 
-            _raiseReactionStatisticsMock.SetupGet(r => r.PercentagesDictionary).Returns(
-                new Dictionary<ActionTypes, IDictionary<int, int>>
-                    {
-                        { ActionTypes.F, _emptyPercentageDictionary },
-                        { ActionTypes.C, _emptyPercentageDictionary },
-                        { ActionTypes.R, _emptyPercentageDictionary }
-                    });
+            _raiseReactionStatisticsStub.SetupGet(r => r.PercentagesDictionary).Returns(
+                new Dictionary<ActionTypes, IDictionary<int, int>> {
+                    { ActionTypes.F, _emptyPercentageDictionary },
+                    { ActionTypes.C, _emptyPercentageDictionary },
+                    { ActionTypes.R, _emptyPercentageDictionary }
+                });
         };
 
-        Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                      _handBrowserViewModelMock.Object,
-                                      _raiseReactionStatisticsMock.Object,
-                                      _raiseReactionsAnalyzerMock.Object,
-                                      _raiseReactionAnalyzerMake,
-                                      _validAnalyzablePokerPlayersStub,
-                                      _validBetSizes,
-                                      _playerName,
-                                      _validActionSequence,
-                                      _validInPosition,
-                                      _validStreet);
+        Because of = () => _sut.InitializeWith(
+                               _validAnalyzablePokerPlayersStub,
+                               _validBetSizes,
+                               _playerName,
+                               _validActionSequence,
+                               _validInPosition,
+                               _validStreet);
 
         It should_create_4_rows
             = () => _sut.Rows.Count().ShouldEqual(4);
@@ -276,178 +239,70 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         It should_create_the_fourth_row_without_a_unit_since_it_shows_the_counts
             = () => _sut.Rows.Last().Unit.ShouldBeEmpty();
-
-        #endregion
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
-    public class given_valid_flop_data_with_ActionSequence_HeroB_and_out_of_position_and_betsizes_0_2_and_0_5
-        : DetailedRaiseReactionStatisticsViewModelSpecs
-    {
-        #region Constants and Fields
 
-        Establish context = () => {
-            _validStreet = Streets.Flop;
-            _validActionSequence = ActionSequences.HeroB;
-            _validInPosition = false;
-            _validBetSizes = Tuple.New(0.2, 0.5);
-        };
-
-        Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                      _handBrowserViewModelMock.Object,
-                                      _raiseReactionStatisticsMock.Object,
-                                      _raiseReactionsAnalyzerMock.Object,
-                                      _raiseReactionAnalyzerMake,
-                                      _validAnalyzablePokerPlayersStub,
-                                      _validBetSizes,
-                                      _playerName,
-                                      _validActionSequence,
-                                      _validInPosition,
-                                      _validStreet);
-
-        It should_contain__0_2_to_0_5_of_the_pot__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("0.2 to 0.5");
-
-        It should_contain__bet__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("bet");
-
-        It should_contain__flop__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("flop");
-
-        It should_contain__out_of_position__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("out of position");
-
-        #endregion
-    }
-
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
-    public class given_valid_turn_data_with_ActionSequence_HeroB_and_in_position_and_betsizes_0_2_and_0_2
-        : DetailedRaiseReactionStatisticsViewModelSpecs
-    {
-        #region Constants and Fields
-
-        Establish context = () => {
-            _validStreet = Streets.Turn;
-            _validActionSequence = ActionSequences.HeroB;
-            _validInPosition = true;
-            _validBetSizes = Tuple.New(0.2, 0.2);
-        };
-
-        Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                      _handBrowserViewModelMock.Object,
-                                      _raiseReactionStatisticsMock.Object,
-                                      _raiseReactionsAnalyzerMock.Object,
-                                      _raiseReactionAnalyzerMake,
-                                      _validAnalyzablePokerPlayersStub,
-                                      _validBetSizes,
-                                      _playerName,
-                                      _validActionSequence,
-                                      _validInPosition,
-                                      _validStreet);
-
-        It should_contain__0_2_of_the_pot__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("0.2 of the pot");
-
-        It should_contain__bet__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("bet");
-
-        It should_contain__in_position__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("in position");
-
-        It should_contain__turn__in_description
-            = () => _sut.StatisticsDescription.ShouldContain("turn");
-
-        It should_not_contain__0_2_to_0_2__in_description
-            = () => _sut.StatisticsDescription.Contains("0.2 to 0.2").ShouldBeFalse();
-
-        #endregion
-    }
-
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
     public class given_the_PercentagesDictionary_has_value_0_at_0_0_and_value_50_at_1_1
         : DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        #region Constants and Fields
+        Establish context = () => _raiseReactionStatisticsStub.SetupGet(r => r.PercentagesDictionary).Returns(
+                                      new Dictionary<ActionTypes, IDictionary<int, int>> {
+                                          { ActionTypes.F, new Dictionary<int, int> { { 1, 0 }, { 2, 0 } } },
+                                          { ActionTypes.C, new Dictionary<int, int> { { 1, 0 }, { 2, 50 } } },
+                                          { ActionTypes.R, _emptyPercentageDictionary }
+                                      });
 
-        Establish context = () => _raiseReactionStatisticsMock.SetupGet(r => r.PercentagesDictionary).Returns(
-                                      new Dictionary<ActionTypes, IDictionary<int, int>>
-                                          {
-                                              { ActionTypes.F, new Dictionary<int, int> { { 1, 0 }, { 2, 0 } } },
-                                              { ActionTypes.C, new Dictionary<int, int> { { 1, 0 }, { 2, 50 } } },
-                                              { ActionTypes.R, _emptyPercentageDictionary }
-                                          });
-
-        Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                      _handBrowserViewModelMock.Object,
-                                      _raiseReactionStatisticsMock.Object,
-                                      _raiseReactionsAnalyzerMock.Object,
-                                      _raiseReactionAnalyzerMake,
-                                      _validAnalyzablePokerPlayersStub,
-                                      _validBetSizes,
-                                      _playerName,
-                                      _validActionSequence,
-                                      _validInPosition,
-                                      _validStreet);
+        Because of = () => _sut.InitializeWith(
+                               _validAnalyzablePokerPlayersStub,
+                               _validBetSizes,
+                               _playerName,
+                               _validActionSequence,
+                               _validInPosition,
+                               _validStreet);
 
         It should_have_value_0_at_row_0_col_0
             = () => _sut.Rows.ElementAt(0).Cells[0].Value.ShouldEqual(0);
 
         It should_have_value_50_at_row_1_col_1
             = () => _sut.Rows.ElementAt(1).Cells[1].Value.ShouldEqual(50);
-
-        #endregion
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Constructor")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
     public class given_the_TotalCountsDictionary_has_value_0_in_col_0_and_value_1_in_col_1
         : DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        #region Constants and Fields
+        Establish context = () => _raiseReactionStatisticsStub.SetupGet(r => r.TotalCountsByColumnDictionary).Returns(
+                                      new Dictionary<int, int> {
+                                          { 1, 0 },
+                                          { 2, 1 }
+                                      });
 
-        Establish context = () => _raiseReactionStatisticsMock.SetupGet(r => r.TotalCountsByColumnDictionary).Returns(
-                                      new Dictionary<int, int>
-                                          {
-                                              { 1, 0 },
-                                              { 2, 1 }
-                                          });
-
-        Because of = () => _sut = new DetailedRaiseReactionStatisticsViewModel(
-                                      _handBrowserViewModelMock.Object,
-                                      _raiseReactionStatisticsMock.Object,
-                                      _raiseReactionsAnalyzerMock.Object,
-                                      _raiseReactionAnalyzerMake,
-                                      _validAnalyzablePokerPlayersStub,
-                                      _validBetSizes,
-                                      _playerName,
-                                      _validActionSequence,
-                                      _validInPosition,
-                                      _validStreet);
+        Because of = () => _sut.InitializeWith(
+                               _validAnalyzablePokerPlayersStub,
+                               _validBetSizes,
+                               _playerName,
+                               _validActionSequence,
+                               _validInPosition,
+                               _validStreet);
 
         It should_have_value_0_in_the_counts_row_at_col_0
             = () => _sut.Rows.Last().Cells[0].Value.ShouldEqual(0);
 
         It should_have_value_1_in_the_counts_row_at_col_1
             = () => _sut.Rows.Last().Cells[1].Value.ShouldEqual(1);
-
-        #endregion
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
     public class given_no_cell_has_been_selected
-        : ConstructedSut_Ctx
+        : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
-        #region Constants and Fields
-
         It should_not_be_executable
             = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeFalse();
-
-        #endregion
     }
 
-   
-
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
-    public class given_one_cell_is_selected : ConstructedSut_Ctx
+    public class given_one_cell_is_selected : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
         Establish context = () => _sut.AddToSelection(0, 0);
 
@@ -456,33 +311,33 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
-    public class given_one_cell_is_selected_and_the_user_executes_the_command : ConstructedSut_Ctx
+    public class given_one_cell_is_selected_and_the_user_executes_the_command :
+        Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
-        Establish context = () => { 
+        Establish context = () => {
             _sut.AddToSelection(0, 0);
 
-            var analyzablePlayersDictionaryStub = new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>>
-                {
+            var analyzablePlayersDictionaryStub =
+                new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> {
                     {
-                        ActionTypes.F, new Dictionary<int, IList<IAnalyzablePokerPlayer>>
-                            { { (int)_validRaiseSizes[0], _validAnalyzablePokerPlayersStub } }
+                        ActionTypes.F,
+                        new Dictionary<int, IList<IAnalyzablePokerPlayer>> {
+                            { (int)_validRaiseSizes[0], _validAnalyzablePokerPlayersStub }
+                        }
                         }
                 };
 
-            _raiseReactionStatisticsMock.SetupGet(s => s.AnalyzablePlayersDictionary).Returns(analyzablePlayersDictionaryStub);
+            _raiseReactionStatisticsStub.SetupGet(s => s.AnalyzablePlayersDictionary).Returns(
+                analyzablePlayersDictionaryStub);
         };
 
         Because of = () => _sut.BrowseHandsCommand.Execute(null);
 
-        #region Constants and Fields
-
         It should_initialize_HandBrowserViewModel_with_the_analyzable_players_who_correspond_to_the_cell
-            = () => _handBrowserViewModelMock.Verify(hb => hb.Browse(_validAnalyzablePokerPlayersStub));
+            = () => _handBrowserViewModelMock.Verify(hb => hb.InitializeWith(_validAnalyzablePokerPlayersStub));
 
         It should_set_its_ChildViewModel_to_the_HandBrowserViewModel
-            = () => _sut.ChildViewModel.ShouldEqual<IDetailedStatisticsAnalyzerContentViewModel>(_handBrowserViewModelMock.Object);
-
-        #endregion
+            = () => _sut.ChildViewModel.ShouldEqual(_handBrowserViewModelMock.Object);
     }
 
     // ReSharper restore InconsistentNaming

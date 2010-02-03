@@ -1,113 +1,116 @@
 namespace PokerTell.LiveTracker.IntegrationTests
 {
-    using System;
+   using System;
 
-    using DesignWindows;
+   using DesignWindows;
 
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-    using Infrastructure.Interfaces.Statistics;
-    using Infrastructure.Services;
+   using Infrastructure.Interfaces.PokerHand;
+   using Infrastructure.Interfaces.Repository;
+   using Infrastructure.Interfaces.Statistics;
+   using Infrastructure.Services;
 
-    using Microsoft.Practices.Composite.Events;
-    using Microsoft.Practices.Unity;
+   using Microsoft.Practices.Composite.Events;
+   using Microsoft.Practices.Unity;
 
-    using Moq;
+   using Moq;
 
-    using NUnit.Framework;
+   using NUnit.Framework;
 
-    using PokerHand.Analyzation;
-    using PokerHand.Dao;
+   using PokerHand.Analyzation;
+   using PokerHand.Dao;
 
-    using PokerTell.IntegrationTests;
+   using PokerTell.IntegrationTests;
 
-    using Repository;
-    using Repository.Interfaces;
-    using Repository.NHibernate;
+   using Repository;
+   using Repository.Interfaces;
+   using Repository.NHibernate;
 
-    using Statistics;
-    using Statistics.Filters;
-    using Statistics.Interfaces;
-    using Statistics.ViewModels;
-    using Statistics.ViewModels.StatisticsSetDetails;
+   using Statistics;
+   using Statistics.Filters;
+   using Statistics.Interfaces;
+   using Statistics.ViewModels;
+   using Statistics.ViewModels.StatisticsSetDetails;
 
-    using ViewModels;
+   using ViewModels;
 
-    public class TableStatisticsViewWithDatabaseTests : DatabaseConnectedPerformanceTests
-    {
-        #region Constants and Fields
+   public class TableStatisticsViewWithDatabaseTests : DatabaseConnectedPerformanceTests
+   {
+      const string PokerStars = "PokerStars";
 
-        const string PokerStars = "PokerStars";
+      IUnityContainer _container;
 
-        IUnityContainer _container;
+      StubBuilder _stub;
 
-        StubBuilder _stub;
+      IHandBrowserViewModel _handBrowserViewModelStub;
 
-        #endregion
+      IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-        #region Public Methods
+      IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
 
-        [Test]
-        public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
-        {
-            SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
+      [Test]
+      public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
+      {
+         SetupMySqlConnection("data source = localhost; user id = root; database=firstnh;");
 
-            Func<string, IPlayerStatistics> get =
-                playerName => _container
-                                  .RegisterInstance(_sessionFactoryManagerStub.Object)
-                                  .Resolve<IPlayerStatistics>()
-                                  .InitializePlayer(playerName, PokerStars)
-                                  .UpdateStatistics();
+         Func<string, IPlayerStatistics> get =
+            playerName => _container
+                             .RegisterInstance(_sessionFactoryManagerStub.Object)
+                             .Resolve<IPlayerStatistics>()
+                             .InitializePlayer(playerName, PokerStars)
+                             .UpdateStatistics();
 
-            const string salemorguy = "salemorguy";
-            const string greystoke = "Greystoke-11";
-            const string renniweg = "renniweg";
+         const string salemorguy = "salemorguy";
+         const string greystoke = "Greystoke-11";
+         const string renniweg = "renniweg";
 
-            var eventAggregator = new EventAggregator();
-            new PlayerStatisticsService(eventAggregator);
+         var eventAggregator = new EventAggregator();
+         new PlayerStatisticsService(eventAggregator);
 
-            var detailedStatisticsAnalyzerViewModel = new DetailedStatisticsAnalyzerViewModel(
-                new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel()),
-                new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopActionStatisticsViewModel()),
-                new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel()));
+         var detailedStatisticsAnalyzerViewModel = new DetailedStatisticsAnalyzerViewModel(
+            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel(_handBrowserViewModelStub, _raiseReactionStatisticsBuilder, _raiseReactionDescriber)),
+            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopActionStatisticsViewModel(_handBrowserViewModelStub,_raiseReactionStatisticsBuilder, _raiseReactionDescriber)),
+            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel(_handBrowserViewModelStub, _raiseReactionStatisticsBuilder, _raiseReactionDescriber)));
 
-            var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
-                eventAggregator,
-                new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
-                detailedStatisticsAnalyzerViewModel);
-            var designWindow = new TableStatisticsDesignWindow(eventAggregator)
-                { Topmost = true, DataContext = tableStatisticsViewModel };
+         var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
+            eventAggregator,
+            new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
+            detailedStatisticsAnalyzerViewModel);
+         var designWindow = new TableStatisticsDesignWindow(eventAggregator, _handBrowserViewModelStub, _raiseReactionStatisticsBuilder, _raiseReactionDescriber)
+         { Topmost = true, DataContext = tableStatisticsViewModel };
 
-            tableStatisticsViewModel.UpdateWith(new[] { get(renniweg), get(greystoke), get(salemorguy) });
+         tableStatisticsViewModel.UpdateWith(new[] { get(renniweg), get(greystoke), get(salemorguy) });
 
-            designWindow.ShowDialog();
-        }
+         designWindow.ShowDialog();
+      }
 
-        [SetUp]
-        public void _Init()
-        {
-            _stub = new StubBuilder();
+      [SetUp]
+      public void _Init()
+      {
+         _stub = new StubBuilder();
 
-            _container = new UnityContainer()
-                .RegisterInstance<IEventAggregator>(new EventAggregator())
+         _container = new UnityContainer()
+            .RegisterInstance<IEventAggregator>(new EventAggregator())
 
-                // Converted Constructors
-                .RegisterConstructor<IConvertedPokerAction, ConvertedPokerAction>()
-                .RegisterConstructor<IConvertedPokerActionWithId, ConvertedPokerActionWithId>()
-                .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
-                .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
-                .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
+            // Converted Constructors
+            .RegisterConstructor<IConvertedPokerAction, ConvertedPokerAction>()
+            .RegisterConstructor<IConvertedPokerActionWithId, ConvertedPokerActionWithId>()
+            .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
+            .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
+            .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
 
-                // Daos 
-                .RegisterType<IPlayerIdentityDao, PlayerIdentityDao>()
-                .RegisterType<IConvertedPokerPlayerDao, ConvertedPokerPlayerDao>()
-                .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
-                .RegisterInstance(_stub.Out<IRepositoryParser>())
-                .RegisterType<ITransactionManager, TransactionManager>()
-                .RegisterType<IRepository, Repository>()
-                .RegisterType<IPlayerStatistics, PlayerStatistics>();
-        }
+            // Daos 
+            .RegisterType<IPlayerIdentityDao, PlayerIdentityDao>()
+            .RegisterType<IConvertedPokerPlayerDao, ConvertedPokerPlayerDao>()
+            .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
+            .RegisterInstance(_stub.Out<IRepositoryParser>())
+            .RegisterType<ITransactionManager, TransactionManager>()
+            .RegisterType<IRepository, Repository>()
+            .RegisterType<IPlayerStatistics, PlayerStatistics>();
 
-        #endregion
-    }
+         _handBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
+         _raiseReactionStatisticsBuilder = new Mock<IRaiseReactionStatisticsBuilder>().Object;
+         _raiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
+
+      }
+   }
 }

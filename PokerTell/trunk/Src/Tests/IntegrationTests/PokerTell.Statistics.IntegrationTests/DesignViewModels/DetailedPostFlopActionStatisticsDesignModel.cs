@@ -2,6 +2,7 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
     using Interfaces;
@@ -15,7 +16,11 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
     public class DetailedPostFlopActionStatisticsDesignModel : DetailedPostFlopActionStatisticsViewModel
     {
 
-        public DetailedPostFlopActionStatisticsDesignModel()
+        public DetailedPostFlopActionStatisticsDesignModel(
+           IHandBrowserViewModel handBrowserViewModel,
+            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+            IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+           : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {

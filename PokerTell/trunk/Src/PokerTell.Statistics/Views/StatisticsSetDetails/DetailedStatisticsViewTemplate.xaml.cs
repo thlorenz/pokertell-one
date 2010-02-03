@@ -4,6 +4,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
 
     using Interfaces;
 
+    using ViewModels.Base;
     using ViewModels.StatisticsSetDetails;
 
     using Microsoft.Windows.Controls;
@@ -21,7 +22,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
             UpdateViewModelWithCurrentSelection(grid);
         }
 
-        static bool IsOnAnotherRow(DataGridCellInfo gridCellInfo, DetailedStatisticsRowViewModel firstFoundSelectedRow)
+        static bool IsOnAnotherRow(DataGridCellInfo gridCellInfo, StatisticsTableRowViewModel firstFoundSelectedRow)
         {
             return gridCellInfo.Item != firstFoundSelectedRow;
         }
@@ -32,12 +33,12 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         /// <param name="grid"></param>
         static void LimitSelectionToOneRow(DataGrid grid)
         {
-            DetailedStatisticsRowViewModel firstSelectedRowFound = null;
+            StatisticsTableRowViewModel firstSelectedRowFound = null;
             foreach (DataGridCellInfo gridCellInfo in grid.SelectedCells)
             {
                 if (firstSelectedRowFound == null)
                 {
-                    firstSelectedRowFound = (DetailedStatisticsRowViewModel)gridCellInfo.Item;
+                    firstSelectedRowFound = (StatisticsTableRowViewModel)gridCellInfo.Item;
                 }
                 else if (IsOnAnotherRow(gridCellInfo, firstSelectedRowFound))
                 {
@@ -53,7 +54,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         /// </summary>
         /// <param name="grid"></param>
         /// <param name="firstSelectedRowFound">Row that user is trying to select</param>
-        static void ClearSelectionIfRowIsNotSelectable(DataGrid grid, DetailedStatisticsRowViewModel firstSelectedRowFound)
+        static void ClearSelectionIfRowIsNotSelectable(DataGrid grid, StatisticsTableRowViewModel firstSelectedRowFound)
         {
             if (firstSelectedRowFound != null && !firstSelectedRowFound.IsSelectable)
             {

@@ -1,178 +1,158 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ActionSequences.cs" company="">
-// </copyright>
-// <summary>
-//   Enumeration of possible action sequences
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace PokerTell.Infrastructure.Enumerations.PokerHand
 {
     using System;
     using System.Collections.Generic;
 
+    using Tools.FunctionalCSharp;
+
     /// <summary>
-    /// Enumeration of possible action sequences
+    ///   Enumeration of possible action sequences
     /// </summary>
     public enum ActionSequences
     {
         /// <summary>
-        /// Identifies Sequence as a non standard sequence that can not be included in detailed analysis
+        ///   Identifies Sequence as a non standard sequence that can not be included in detailed analysis
         /// </summary>
         NonStandard,
 
         /// <summary>
-        /// Identifies Sequence as Hero acts ActionSequence collection to DetailStatistic, applies to in and out of position
+        ///   Identifies Sequence as Hero acts ActionSequence collection to DetailStatistic, applies to in and out of position
         /// </summary>
-        HeroActs, 
+        HeroActs,
 
         /// <summary>
-        /// Hero checks, applies to in and out of position
+        ///   Hero checks, applies to in and out of position
         /// </summary>
-        HeroX, 
+        HeroX,
 
         /// <summary>
-        /// Hero bets, applies to in and out of position
+        ///   Hero bets, applies to in and out of position
         /// </summary>
-        HeroB, 
+        HeroB,
 
         /// <summary>
-        /// Identifies it as Opponent bets ActionSequence collection to DetailStatistics, applies to in and out of position
+        ///   Identifies it as Opponent bets ActionSequence collection to DetailStatistics, applies to in and out of position
         /// </summary>
-        OppB, 
+        OppB,
 
         /// <summary>
-        /// Opponent bets and Hero folds, applies to in and out of position
+        ///   Opponent bets and Hero folds, applies to in and out of position
         /// </summary>
-        OppBHeroF, 
+        OppBHeroF,
 
         /// <summary>
-        /// Opponent bets and Hero calls, applies to in and out of position
+        ///   Opponent bets and Hero calls, applies to in and out of position
         /// </summary>
-        OppBHeroC, 
+        OppBHeroC,
 
         /// <summary>
-        /// Opponent bets and Hero raises, applies to in and out of position
+        ///   Opponent bets and Hero raises, applies to in and out of position
         /// </summary>
-        OppBHeroR, 
+        OppBHeroR,
 
         /// <summary>
-        /// Identifies it as Hero checks ActionSequence collection to DetailStatistics
+        ///   Identifies it as Hero checks ActionSequence collection to DetailStatistics
         /// </summary>
-        HeroXOppB, 
+        HeroXOppB,
 
         /// <summary>
-        /// Hero checks, opponent bets and Hero folds, applies only to out of position
+        ///   Hero checks, opponent bets and Hero folds, applies only to out of position
         /// </summary>
-        HeroXOppBHeroF, 
+        HeroXOppBHeroF,
 
         /// <summary>
-        /// Hero checks, opponent bets and Hero calls, applies only to out of position
+        ///   Hero checks, opponent bets and Hero calls, applies only to out of position
         /// </summary>
-        HeroXOppBHeroC, 
+        HeroXOppBHeroC,
 
         /// <summary>
-        /// Hero checks, opponent bets and Hero raises, applies only to out of position
+        ///   Hero checks, opponent bets and Hero raises, applies only to out of position
         /// </summary>
-        HeroXOppBHeroR, 
+        HeroXOppBHeroR,
 
         /// <summary>
-        /// Identifies the Preflop ActionSequence to have occured in unraised pot
+        ///   Identifies the Preflop ActionSequence to have occured in unraised pot
         /// </summary>
-        PreFlopNoFrontRaise, 
+        PreFlopNoFrontRaise,
 
         /// <summary>
-        /// Hero folds Preflop
+        ///   Hero folds Preflop
         /// </summary>
-        HeroF, 
+        HeroF,
 
         /// <summary>
-        /// Hero calls Preflop
+        ///   Hero calls Preflop
         /// </summary>
-        HeroC, 
+        HeroC,
 
         /// <summary>
-        /// Hero raises Preflop
+        ///   Hero raises Preflop
         /// </summary>
-        HeroR, 
+        HeroR,
 
         /// <summary>
-        /// Identifies the Preflop ActionSequence (Reaction) to have occured in raised pot
+        ///   Identifies the Preflop ActionSequence (Reaction) to have occured in raised pot
         /// </summary>
-        PreFlopFrontRaise, 
+        PreFlopFrontRaise,
 
         /// <summary>
-        /// Opponent raises, Hero folds Preflop
+        ///   Opponent raises, Hero folds Preflop
         /// </summary>
-        OppRHeroF, 
+        OppRHeroF,
 
         /// <summary>
-        /// Opponent raises, Hero calls Preflop
+        ///   Opponent raises, Hero calls Preflop
         /// </summary>
-        OppRHeroC, 
+        OppRHeroC,
 
         /// <summary>
-        /// Opponent raises, Hero raises Preflop
+        ///   Opponent raises, Hero raises Preflop
         /// </summary>
         OppRHeroR
     }
 
     /// <summary>
-    /// The action sequences utility.
+    ///   The action sequences utility.
     /// </summary>
     public static class ActionSequencesUtility
     {
-        #region Properties
-
-        /// <summary>
-        /// Gets Bets.
-        /// </summary>
+        /// <summary>Gets Bets.</summary>
         public static IList<ActionSequences> Bets
         {
             get { return new[] { ActionSequences.HeroB, ActionSequences.OppB, ActionSequences.HeroXOppB }; }
         }
 
-        /// <summary>
-        /// Gets Calls.
-        /// </summary>
+        /// <summary>Gets Calls.</summary>
         public static IList<ActionSequences> Calls
         {
             get
             {
-                return new[]
-                    {
-                        ActionSequences.HeroC, ActionSequences.OppBHeroC, ActionSequences.OppRHeroC, 
-                        ActionSequences.HeroXOppBHeroC
-                    };
+                return new[] {
+                    ActionSequences.HeroC, ActionSequences.OppBHeroC, ActionSequences.OppRHeroC,
+                    ActionSequences.HeroXOppBHeroC
+                };
             }
         }
 
-        /// <summary>
-        /// Gets Checks.
-        /// </summary>
+        /// <summary>Gets Checks.</summary>
         public static IList<ActionSequences> Checks
         {
             get { return new[] { ActionSequences.HeroX }; }
         }
 
-        /// <summary>
-        /// Gets Folds.
-        /// </summary>
+        /// <summary>Gets Folds.</summary>
         public static IList<ActionSequences> Folds
         {
             get
             {
-                return new[]
-                    {
-                        ActionSequences.HeroF, ActionSequences.OppBHeroF, ActionSequences.OppRHeroF, 
-                        ActionSequences.HeroXOppBHeroF
-                    };
+                return new[] {
+                    ActionSequences.HeroF, ActionSequences.OppBHeroF, ActionSequences.OppRHeroF,
+                    ActionSequences.HeroXOppBHeroF
+                };
             }
         }
 
-        /// <summary>
-        /// Gets GetAll.
-        /// </summary>
+        /// <summary>Gets GetAll.</summary>
         public static IEnumerable<ActionSequences> GetAll
         {
             get
@@ -190,7 +170,7 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// Gets GetAllPostFlop.
+        ///   Gets GetAllPostFlop.
         /// </summary>
         public static IEnumerable<ActionSequences> GetAllPostFlop
         {
@@ -214,7 +194,7 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// Gets GetAllPreflop.
+        ///   Gets GetAllPreflop.
         /// </summary>
         public static IEnumerable<ActionSequences> GetAllPreflop
         {
@@ -233,7 +213,7 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// Gets GetHeroActs.
+        ///   Gets GetHeroActs.
         /// </summary>
         public static IList<ActionSequences> GetHeroActs
         {
@@ -241,21 +221,20 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// Gets GetHeroChecksThenReacts.
+        ///   Gets GetHeroChecksThenReacts.
         /// </summary>
         public static IList<ActionSequences> GetHeroChecksThenReacts
         {
             get
             {
-                return new[]
-                    {
-                        ActionSequences.HeroXOppBHeroF, ActionSequences.HeroXOppBHeroC, ActionSequences.HeroXOppBHeroR 
-                    };
+                return new[] {
+                    ActionSequences.HeroXOppBHeroF, ActionSequences.HeroXOppBHeroC, ActionSequences.HeroXOppBHeroR
+                };
             }
         }
 
         /// <summary>
-        /// Gets GetHeroReacts.
+        ///   Gets GetHeroReacts.
         /// </summary>
         public static IList<ActionSequences> GetHeroReacts
         {
@@ -263,7 +242,7 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// Gets GetPreflopRaised.
+        ///   Gets GetPreflopRaised.
         /// </summary>
         public static IList<ActionSequences> GetPreflopRaised
         {
@@ -271,42 +250,33 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// Gets GetPreflopUnraised.
+        ///   Gets GetPreflopUnraised.
         /// </summary>
         public static IList<ActionSequences> GetPreflopUnraised
         {
             get { return new[] { ActionSequences.HeroF, ActionSequences.HeroC, ActionSequences.HeroR }; }
         }
 
-        /// <summary>
-        /// Gets Raises.
-        /// </summary>
+        /// <summary>Gets Raises.</summary>
         public static IList<ActionSequences> Raises
         {
             get
             {
-                return new[]
-                    {
-                        ActionSequences.HeroR, ActionSequences.OppBHeroR, ActionSequences.OppRHeroR, 
-                        ActionSequences.HeroXOppBHeroR
-                    };
+                return new[] {
+                    ActionSequences.HeroR, ActionSequences.OppBHeroR, ActionSequences.OppRHeroR,
+                    ActionSequences.HeroXOppBHeroR
+                };
             }
         }
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
-        /// The get last action in.
+        ///   The get last action in.
         /// </summary>
         /// <param name="actionSequence">
-        /// The action sequence.
+        ///   The action sequence.
         /// </param>
-        /// <returns>
-        /// </returns>
-        /// <exception cref="ArgumentException">
-        /// </exception>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public static ActionTypes GetLastActionIn(ActionSequences actionSequence)
         {
             if (Folds.Contains(actionSequence))
@@ -338,16 +308,15 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         }
 
         /// <summary>
-        /// The name last action in sequence.
+        ///   The name last action in sequence.
         /// </summary>
         /// <param name="actionSequence">
-        /// The action sequence.
+        ///   The action sequence.
         /// </param>
         /// <returns>
-        /// The name last action in sequence.
+        ///   The name last action in sequence.
         /// </returns>
-        /// <exception cref="NotSupportedException">
-        /// </exception>
+        /// <exception cref="NotSupportedException"></exception>
         public static string NameLastActionInSequence(ActionSequences actionSequence)
         {
             if (Folds.Contains(actionSequence))
@@ -378,6 +347,15 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
             throw new NotSupportedException("Cannot name last action of " + actionSequence);
         }
 
-        #endregion
+        public static string NamePastTenseOfLastActionSequence(ActionSequences actionSequence)
+        {
+            ActionTypes lastAction = GetLastActionIn(actionSequence);
+            return
+                lastAction.Match()
+                    .With(a => a == ActionTypes.F, _ => "folded")
+                    .With(a => a == ActionTypes.C, _ => "called")
+                    .With(a => a == ActionTypes.R, _ => "raised")
+                    .Do();
+        }
     }
 }

@@ -1,136 +1,115 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+   using System.Collections.Generic;
+   using System.Linq;
 
-    using Base;
+   using Base;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
+   using Infrastructure.Enumerations.PokerHand;
+   using Infrastructure.Interfaces;
+   using Infrastructure.Interfaces.PokerHand;
+   using Infrastructure.Interfaces.Statistics;
 
-    using Interfaces;
+   using Interfaces;
 
-    using Tools.FunctionalCSharp;
-    using Tools.Interfaces;
-    using Tools.WPF.ViewModels;
+   using Tools.FunctionalCSharp;
+   using Tools.Interfaces;
 
-    public abstract class DetailedStatisticsViewModel : StatisticsTableViewModel, IDetailedStatisticsViewModel
-    {
-        #region Constants and Fields
+   public abstract class DetailedStatisticsViewModel : StatisticsTableViewModel, IDetailedStatisticsViewModel
+   {
+      protected readonly IHandBrowserViewModel _handBrowserViewModel;
 
-        
+      protected readonly IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-        #endregion
+      protected readonly IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
 
-        #region Constructors and Destructors
+      protected DetailedStatisticsViewModel(
+         IHandBrowserViewModel handBrowserViewModel,
+         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber,
+         string columnHeaderTitle)
+         : base(columnHeaderTitle)
+      {
+         _raiseReactionDescriber = raiseReactionDescriber;
+         _raiseReactionStatisticsBuilder = raiseReactionStatisticsBuilder;
+         _handBrowserViewModel = handBrowserViewModel;
+      }
 
-        protected DetailedStatisticsViewModel(string columnHeaderTitle)
-            : base(columnHeaderTitle)
-        {
-        }
+      /// <summary>
+      ///   Assumes that cells have been selected and that they are all in the same row.
+      ///   It returns the ActionSequence associated with the row of the first selected cell.
+      /// </summary>
+      public ActionSequences SelectedActionSequence
+      {
+         get
+         {
+            int row = SelectedCells.First().First;
 
-        #endregion
+            return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row).ActionSequence;
+         }
+      }
 
-        #region Events
+      /// <summary>
+      ///   Returns all AnalyzablePokerPlayers whose percentages were selected on the table
+      /// </summary>
+      public IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+      {
+         get
+         {
+            return SelectedCells.SelectMany(
+               selectedCell => {
+                  int row = selectedCell.First;
+                  int col = selectedCell.Second;
+                  return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row).MatchingPlayers[col];
+               });
+         }
+      }
 
-       
+      /// <summary>
+      ///   Provides the data for the Viewmodel
+      ///   Needs to be set via InitializeWith before ViewModel becomes useful
+      /// </summary>
+      protected IActionSequenceStatisticsSet ActionSequenceStatisticsSet { get; private set; }
 
-        #endregion
+      protected string PlayerName
+      {
+         get { return ActionSequenceStatisticsSet.PlayerName; }
+      }
 
-        #region Properties
+      protected ITuple<int, int> SelectedColumnsSpan
+      {
+         get
+         {
+            int lowestSelectedColumnIndex = SelectedCells.Min(cell => cell.Second);
+            int highestSelectedColumnIndex = SelectedCells.Max(cell => cell.Second);
+            return Tuple.New(lowestSelectedColumnIndex, highestSelectedColumnIndex);
+         }
+      }
 
-        /// <summary>
-        ///   Assumes that cells have been selected and that they are all in the same row.
-        ///   It returns the ActionSequence associated with the row of the first selected cell.
-        /// </summary>
-        public ActionSequences SelectedActionSequence
-        {
-            get
-            {
-                int row = SelectedCells.First().First;
+      /// <summary>
+      ///   The street for which the given ActionSequenceStatisticsSet applies
+      /// </summary>
+      protected Streets Street
+      {
+         get { return ActionSequenceStatisticsSet.Street; }
+      }
 
-                return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row).ActionSequence;
-            }
-        }
-        
+      /// <summary>
+      ///   Needs to be called to fill viewmodel with data
+      /// </summary>
+      /// <param name="statisticsSet">
+      ///   Provides underlying data
+      /// </param>
+      /// <returns>
+      ///   Itself to enable fluent interface
+      /// </returns>
+      public IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
+      {
+         ActionSequenceStatisticsSet = statisticsSet;
+         return CreateTableAndDescriptionFor(statisticsSet);
+      }
 
-        /// <summary>
-        ///   Returns all AnalyzablePokerPlayers whose percentages were selected on the table
-        /// </summary>
-        public IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
-        {
-            get
-            {
-                return SelectedCells.SelectMany(
-                    selectedCell => {
-                        int row = selectedCell.First;
-                        int col = selectedCell.Second;
-                        return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row).MatchingPlayers[col];
-                    });
-            }
-        }
-
-        /// <summary>
-        ///   Provides the data for the Viewmodel
-        ///   Needs to be set via InitializeWith before ViewModel becomes useful
-        /// </summary>
-        protected IActionSequenceStatisticsSet ActionSequenceStatisticsSet { get; private set; }
-
-        protected string PlayerName
-        {
-            get { return ActionSequenceStatisticsSet.PlayerName; }
-        }
-
-        protected ITuple<int, int> SelectedColumnsSpan
-        {
-            get
-            {
-                int lowestSelectedColumnIndex = SelectedCells.Min(cell => cell.Second);
-                int highestSelectedColumnIndex = SelectedCells.Max(cell => cell.Second);
-                return Tuple.New(lowestSelectedColumnIndex, highestSelectedColumnIndex);
-            }
-        }
-
-        /// <summary>
-        ///   The street for which the given ActionSequenceStatisticsSet applies
-        /// </summary>
-        protected Streets Street
-        {
-            get { return ActionSequenceStatisticsSet.Street; }
-        }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IDetailedStatisticsViewModel
-
-        /// <summary>
-        ///   Needs to be called to fill viewmodel with data
-        /// </summary>
-        /// <param name="statisticsSet">
-        ///   Provides underlying data
-        /// </param>
-        /// <returns>
-        ///   Itself to enable fluent interface
-        /// </returns>
-        public IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
-        {
-            ActionSequenceStatisticsSet = statisticsSet;
-            return CreateTableAndDescriptionFor(statisticsSet);
-        }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
-
-        protected abstract IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet);
-
-        #endregion
-
-    }
+      protected abstract IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
+         IActionSequenceStatisticsSet statisticsSet);
+   }
 }

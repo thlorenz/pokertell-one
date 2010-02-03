@@ -1,90 +1,82 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Windows.Input;
+   using System.Collections.Generic;
+   using System.Linq;
+   using System.Windows.Input;
 
-    using Analyzation;
+   using Analyzation;
 
-    using Base;
+   using Base;
 
-    using Infrastructure;
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
+   using Infrastructure;
+   using Infrastructure.Enumerations.PokerHand;
+   using Infrastructure.Interfaces;
+   using Infrastructure.Interfaces.PokerHand;
+   using Infrastructure.Interfaces.Statistics;
 
-    using Interfaces;
+   using Interfaces;
 
-    using Tools.FunctionalCSharp;
-    using Tools.WPF;
+   using Tools.FunctionalCSharp;
+   using Tools.WPF;
 
-    public class DetailedPostFlopActionStatisticsViewModel : DetailedStatisticsViewModel
-    {
-        #region Constants and Fields
+   public class DetailedPostFlopActionStatisticsViewModel : DetailedStatisticsViewModel
+   {
+      static readonly double[] BetSizeKeys = ApplicationProperties.BetSizeKeys;
 
-        static readonly double[] BetSizeKeys = ApplicationProperties.BetSizeKeys;
+      ICommand _investigateRaiseReactionCommand;
 
-        ICommand _investigateRaiseReactionCommand;
+      public DetailedPostFlopActionStatisticsViewModel(
+         IHandBrowserViewModel handBrowserViewModel,
+         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+         : base(handBrowserViewModel,raiseReactionStatisticsBuilder, raiseReactionDescriber, "Bet Size")
+      {
+      }
 
-        #endregion
+      public ICommand InvestigateRaiseReactionCommand
+      {
+         get
+         {
+            return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand {
+               ExecuteDelegate = _ => {
+                  Tuple<double, double> selectedBetSizes = Tuple.New(
+                     BetSizeKeys[SelectedColumnsSpan.First],
+                     BetSizeKeys[SelectedColumnsSpan.Second]);
+//                  ChildViewModel =
+//                     new DetailedRaiseReactionStatisticsViewModel(_handBrowserViewModel
+//                                                                  )
+//                        .InitializeWith(SelectedAnalyzablePlayers,
+//                                        selectedBetSizes,
+//                                        PlayerName,
+//                                        SelectedActionSequence,
+//                                        false,
+//                                        Street);
+               },
+               CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
+            });
+         }
+      }
 
-        #region Constructors and Destructors
+      protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
+         IActionSequenceStatisticsSet statisticsSet)
+      {
+         var betRow =
+            new StatisticsTableRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
+         var countRow =
+            new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
-        public DetailedPostFlopActionStatisticsViewModel()
-            : base("Bet Size")
-        {
-            
-        }
+         Rows = new List<IStatisticsTableRowViewModel>(new[] { betRow, countRow });
 
-        #endregion
+         StatisticsDescription =
+            string.Format(
+               "Player {0} {1} on the {2} {3} position",
+               statisticsSet.PlayerName,
+               statisticsSet.ActionSequence,
+               statisticsSet.Street,
+               statisticsSet.InPosition ? "in" : "out of");
 
-        #region Properties
+         return this;
+      }
 
-        public ICommand InvestigateRaiseReactionCommand
-        {
-            get
-            {
-                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = _ => {
-                            Tuple<double, double> selectedBetSizes = Tuple.New(
-                                BetSizeKeys[SelectedColumnsSpan.First],
-                                BetSizeKeys[SelectedColumnsSpan.Second]);
-
-                        //    ChildViewModel = new DetailedRaiseReactionStatisticsViewModel(raiseReactionStatisticsMock.Object, null, SelectedAnalyzablePlayers, PlayerName, Street, SelectedActionSequence, selectedBetSizes);
-                        },
-                        CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
-                    });
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
-        {
-            var betRow =
-                new StatisticsTableRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
-            var countRow =
-                new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
-
-            Rows = new List<IStatisticsTableRowViewModel>(new[] { betRow, countRow });
-
-            StatisticsDescription =
-                string.Format(
-                    "Player {0} {1} on the {2} {3} position",
-                    statisticsSet.PlayerName,
-                    statisticsSet.ActionSequence,
-                    statisticsSet.Street,
-                    statisticsSet.InPosition ? "in" : "out of");
-
-            return this;
-        }
-
-        void CreateRaiseReactionViewModel()
-        {
-        }
-
-        #endregion
-    }
+   }
 }

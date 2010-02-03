@@ -8,93 +8,59 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
     using Base;
 
     using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
     using Interfaces;
 
-    using Tools.FunctionalCSharp;
     using Tools.Interfaces;
     using Tools.WPF;
 
     public class DetailedRaiseReactionStatisticsViewModel : StatisticsTableViewModel
     {
-        #region Constants and Fields
-
-        readonly ActionSequences _actionSequence;
-
-        readonly IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
-
         readonly IHandBrowserViewModel _handBrowserViewModel;
 
-        readonly bool _inPosition;
+        readonly IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
 
-        readonly string _playerName;
+        readonly IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-        readonly IConstructor<IRaiseReactionAnalyzer> _raiseReactionAnalyzerMake;
+        ActionSequences _actionSequence;
 
-        readonly IRaiseReactionStatistics _raiseReactionStatistics;
-
-        readonly IRaiseReactionsAnalyzer _raiseReactionsAnalyzer;
-
-        readonly ITuple<double, double> _selectedBetSizeSpan;
-
-        readonly Streets _street;
+        IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
 
         ICommand _browseHandsCommand;
 
-        #endregion
+        bool _inPosition;
 
-        #region Constructors and Destructors
+        string _playerName;
+
+        IRaiseReactionStatistics _raiseReactionStatistics;
+
+        ITuple<double, double> _selectedBetSizeSpan;
+
+        Streets _street;
 
         public DetailedRaiseReactionStatisticsViewModel(
             IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatistics raiseReactionStatistics,
-            IRaiseReactionsAnalyzer raiseReactionsAnalyzer,
-            IConstructor<IRaiseReactionAnalyzer> raiseReactionAnalyzerMake,
-            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
-            ITuple<double, double> selectedBetSizeSpan,
-            string playerName,
-            ActionSequences actionSequence,
-            bool inPosition,
-            Streets street)
+            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+            IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
             : base("Raise Size")
         {
+            _raiseReactionDescriber = raiseReactionDescriber;
+            _raiseReactionStatisticsBuilder = raiseReactionStatisticsBuilder;
             _handBrowserViewModel = handBrowserViewModel;
-            _playerName = playerName;
-            _selectedBetSizeSpan = selectedBetSizeSpan;
-            _street = street;
-            _inPosition = inPosition;
-            _actionSequence = actionSequence;
-            _raiseReactionAnalyzerMake = raiseReactionAnalyzerMake;
-            _raiseReactionsAnalyzer = raiseReactionsAnalyzer;
-            _raiseReactionStatistics = raiseReactionStatistics;
-            _analyzablePokerPlayers = analyzablePokerPlayers;
-
-            if (analyzablePokerPlayers.Count() < 1)
-            {
-                throw new ArgumentException("need at least one analyzable Player");
-            }
-
-            CreateTableAndDescription();
         }
-
-        #endregion
-
-        #region Properties
 
         public ICommand BrowseHandsCommand
         {
             get
             {
-                return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => {
-                            _handBrowserViewModel.Browse(SelectedAnalyzablePlayers);
-                            ChildViewModel = _handBrowserViewModel;
-                        },
-                        CanExecuteDelegate = arg => SelectedCells.Count > 0
-                    });
+                return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand {
+                    ExecuteDelegate = arg => {
+                        _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
+                        ChildViewModel = _handBrowserViewModel;
+                    },
+                    CanExecuteDelegate = arg => SelectedCells.Count > 0
+                });
             }
         }
 
@@ -108,58 +74,58 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                         int col = selectedCell.Second;
                         return
                             _raiseReactionStatistics.AnalyzablePlayersDictionary.ElementAt(row)
-                                .Value[(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]];
+                                .Value[(int)_raiseReactionStatistics.AnalyzablePlayersDictionary.Keys.ElementAt(col)];
                     });
             }
         }
 
-        #endregion
+        public DetailedRaiseReactionStatisticsViewModel InitializeWith(
+            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
+            ITuple<double, double> selectedBetSizeSpan,
+            string playerName,
+            ActionSequences actionSequence,
+            bool inPosition,
+            Streets street)
+        {
+            _playerName = playerName;
+            _selectedBetSizeSpan = selectedBetSizeSpan;
+            _street = street;
+            _inPosition = inPosition;
+            _actionSequence = actionSequence;
 
-        #region Methods
+            _analyzablePokerPlayers = analyzablePokerPlayers;
+
+            if (analyzablePokerPlayers.Count() < 1)
+            {
+                throw new ArgumentException("need at least one analyzable Player");
+            }
+
+            CreateTableAndDescription();
+
+            return this;
+        }
 
         protected void CreateTableAndDescription()
         {
-            CreateDescription();
+            _raiseReactionStatistics = _raiseReactionStatisticsBuilder
+                .Build(_analyzablePokerPlayers, _actionSequence, _street);
 
-            AnalyzeStatistics();
+            Rows = new List<IStatisticsTableRowViewModel> {
+                new StatisticsTableRowViewModel(
+                    "Fold", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.F].Values, "%"),
+                new StatisticsTableRowViewModel(
+                    "Call", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.C].Values, "%"),
+                new StatisticsTableRowViewModel(
+                    "Raise", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.R].Values, "%"),
+                new StatisticsTableRowViewModel(
+                    "Count", _raiseReactionStatistics.TotalCountsByColumnDictionary.Values, string.Empty)
+            };
 
-            Rows = new List<IStatisticsTableRowViewModel>
-                {
-                    new StatisticsTableRowViewModel(
-                        "Fold", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.F].Values, "%"),
-                    new StatisticsTableRowViewModel(
-                        "Call", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.C].Values, "%"),
-                    new StatisticsTableRowViewModel(
-                        "Raise", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.R].Values, "%"),
-                    new StatisticsTableRowViewModel(
-                        "Count", _raiseReactionStatistics.TotalCountsByColumnDictionary.Values, string.Empty)
-                };
+            StatisticsDescription = _raiseReactionDescriber
+                .Describe(_playerName,
+                          _analyzablePokerPlayers.First(),
+                          _street,
+                          _selectedBetSizeSpan);
         }
-
-        void AnalyzeStatistics()
-        {
-            _analyzablePokerPlayers.ForEach(
-                analyzablePlayer => _raiseReactionsAnalyzer
-                                        .AnalyzeAndAdd(_raiseReactionAnalyzerMake.New, analyzablePlayer, _street, _actionSequence));
-
-            _raiseReactionStatistics.InitializeWith(_raiseReactionsAnalyzer);
-        }
-
-        void CreateDescription()
-        {
-            StatisticsDescription =
-                string.Format(
-                    "{0} {1} {2} of the pot {3} on the {4} and was raised",
-                    _playerName,
-                    ActionSequencesUtility.NameLastActionInSequence(_actionSequence).ToLower(),
-                    (_selectedBetSizeSpan.First == _selectedBetSizeSpan.Second)
-                        ? _selectedBetSizeSpan.First.ToString()
-                        : _selectedBetSizeSpan.First + " to " + _selectedBetSizeSpan.Second,
-                    _inPosition ? "in position" : "out of position",
-                    _street.ToString().ToLower()
-                    );
-        }
-
-        #endregion
     }
 }

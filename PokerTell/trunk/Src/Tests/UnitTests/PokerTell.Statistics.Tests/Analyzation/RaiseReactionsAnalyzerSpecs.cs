@@ -15,91 +15,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
     using Statistics.Analyzation;
 
-    using It = Moq.It;
-    using it = Machine.Specifications.It;
-
-    [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
-    public class given_0_raise_sizes
-        : RaiseReactionsAnalyzerSpecs
-    {
-        static Exception exception;
-
-        Because of = () => {
-            _raiseSizeKeys = new double[] { };
-            exception = Catch.Exception(() => _sut = new RaiseReactionsAnalyzer(_raiseSizeKeys, _analyzationPreparerStub.Object));
-        };
-
-        it should_fail_with_an_ArgumentException =
-            () => exception.ShouldBeOfType<ArgumentException>();
-    }
-
-    [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
-    public class given_2_raise_sizes
-        : RaiseReactionsAnalyzer_2_raise_sizes_Ctx
-    {
-        it should_create_an_empty_RaiseReactionAnlayzers_list =
-            () => _sut.RaiseReactionAnalyzers.Count().ShouldEqual(0);
-    }
-
-    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
-    public class given_AnalyzationPreparer_was_successfull_and_results_are_valid_and_standard
-        : AnalyzationPreparer_Successfull_Ctx
-    {
-        Because of = () => {
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
-            _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
-        };
-
-        it should_add_them_to_the_RaiseReactionAnalyzers_list =
-            () => _sut.RaiseReactionAnalyzers.ShouldContainOnly(_raiseReactionAnalyzerStub.Object);
-    }
-
-    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
-    public class given_AnalyzationPreparer_was_successfull_and_results_are_valid_but_non_standard
-        : AnalyzationPreparer_Successfull_Ctx
-    {
-        Because of = () => {
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(false);
-            _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
-        };
-
-        it should_not_add_them_to_the_RaiseReactionAnalyzers_list =
-            () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
-    }
-
-    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
-    public class given_AnalyzationPreparer_was_successfull_but_results_are_invalid
-        : AnalyzationPreparer_Successfull_Ctx
-    {
-        Because of = () => {
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(false);
-            _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
-        };
-
-        it should_not_add_them_to_the_RaiseReactionAnalyzers_list =
-            () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
-    }
-
-    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
-    public class given_results_would_be_valid_but_AnalyzationPreparer_was_unsuccessfull
-        : RaiseReactionsAnalyzer_2_raise_sizes_Ctx
-    {
-        Because of = () => {
-            _analyzationPreparerStub.SetupGet(p => p.WasSuccessful).Returns(false);
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
-            _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
-            _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
-        };
-
-        it should_not_add_anything_to_the_list =
-            () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
-    }
+    using It = Machine.Specifications.It;
 
     public abstract class RaiseReactionsAnalyzerSpecs
     {
@@ -108,40 +24,42 @@ namespace PokerTell.Statistics.Tests.Analyzation
          *  Subject: RaiseReactionsAnalyzer
          *  
          *  Constructor
-         *      * given 0 raise sizes
-         *          it should fail with an argument exception
+         *      given 0 raise sizes
+         *        It should fail with an argument exception
          *      
-         *      * given 2 raise sizes
-         *          it should create an empty RaiseReactionAnalyzers list
+         *      given 2 raise sizes
+         *        It should create an empty RaiseReactionAnalyzers list
          *          
          *  Analyzation
-         *      * given AnalyzationPreparer was successfull
-         *          * and results are valid and standard
-         *              it should add them to the RaiseReactionAnalyzers list
-         *          * but results are invalid
-         *              it should not add them to the RaiseReactionAnalyzers list
-         *          * and results are valid but non standard  
-         *              it should not add them to the RaiseReactionAnalyzers list
-         *      * given results would be valid but AnalyzationPreparer was unsuccessful
-         *          it should not add anything to the list
+         *      given AnalyzationPreparer was successfull
+         *          and results are valid and standard
+         *              It should add them to the RaiseReactionAnalyzers list
+         *          but results are invalid
+         *              It should not add them to the RaiseReactionAnalyzers list
+         *          and results are valid but non standard  
+         *              It should not add them to the RaiseReactionAnalyzers list
+         *      given results would be valid but AnalyzationPreparer was unsuccessful
+         *          It should not add anything to the list
         */
 
-        protected static IRaiseReactionsAnalyzer _sut;
+        #region Constants and Fields
 
-        protected static double[] _raiseSizeKeys;
+        protected static ActionSequences SomeActionSequence;
+
+        protected static Streets SomeStreet;
+
+        protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
 
         protected static Mock<IReactionAnalyzationPreparer> _analyzationPreparerStub;
 
         protected static Mock<IRaiseReactionAnalyzer> _raiseReactionAnalyzerStub;
 
-        protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
+        protected static double[] _raiseSizeKeys;
 
-        protected static Streets SomeStreet;
-
-        protected static ActionSequences SomeActionSequence;
+        protected static IRaiseReactionsAnalyzer _sut;
 
         Establish context = () => {
-            It.Is<string>(a => a == string.Empty);
+            Moq.It.Is<string>(a => a == string.Empty);
             SomeStreet = Streets.Flop;
             SomeActionSequence = ActionSequences.HeroC;
 
@@ -150,20 +68,137 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _analyzablePokerPlayerStub.SetupGet(p => p.Sequences).Returns(new IConvertedPokerRound[(int)Streets.River]);
         };
+
+        #endregion
     }
 
-    public abstract class RaiseReactionsAnalyzer_2_raise_sizes_Ctx
+    public abstract class Ctx_RaiseReactionsAnalyzer_2_raise_sizes
         : RaiseReactionsAnalyzerSpecs
     {
+        #region Constants and Fields
+
         Establish context = () => {
             _raiseSizeKeys = new[] { 1.0, 2.0 };
             _sut = new RaiseReactionsAnalyzer(_raiseSizeKeys, _analyzationPreparerStub.Object);
         };
+
+        #endregion
     }
 
-    public abstract class AnalyzationPreparer_Successfull_Ctx
-        : RaiseReactionsAnalyzer_2_raise_sizes_Ctx
+    public abstract class Ctx_AnalyzationPreparer_Successfull
+        : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
     {
+        #region Constants and Fields
+
         Establish context = () => _analyzationPreparerStub.SetupGet(p => p.WasSuccessful).Returns(true);
+
+        #endregion
+    }
+
+    [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
+    public class given_0_raise_sizes
+        : RaiseReactionsAnalyzerSpecs
+    {
+        #region Constants and Fields
+
+        static Exception exception;
+
+        Because of = () => {
+            _raiseSizeKeys = new double[] { };
+            exception = Catch.Exception(() => _sut = new RaiseReactionsAnalyzer(_raiseSizeKeys, _analyzationPreparerStub.Object));
+        };
+
+        It should_fail_with_an_ArgumentException =
+            () => exception.ShouldBeOfType<ArgumentException>();
+
+        #endregion
+    }
+
+    [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
+    public class given_2_raise_sizes
+        : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
+    {
+        #region Constants and Fields
+
+        It should_create_an_empty_RaiseReactionAnlayzers_list =
+            () => _sut.RaiseReactionAnalyzers.Count().ShouldEqual(0);
+
+        #endregion
+    }
+
+    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
+    public class given_AnalyzationPreparer_was_successfull_and_results_are_valid_and_standard
+        : Ctx_AnalyzationPreparer_Successfull
+    {
+        #region Constants and Fields
+
+        Because of = () => {
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
+            _sut.AnalyzeAndAdd(
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+        };
+
+        It should_add_them_to_the_RaiseReactionAnalyzers_list =
+            () => _sut.RaiseReactionAnalyzers.ShouldContainOnly(_raiseReactionAnalyzerStub.Object);
+
+        #endregion
+    }
+
+    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
+    public class given_AnalyzationPreparer_was_successfull_and_results_are_valid_but_non_standard
+        : Ctx_AnalyzationPreparer_Successfull
+    {
+        #region Constants and Fields
+
+        Because of = () => {
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(false);
+            _sut.AnalyzeAndAdd(
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+        };
+
+        It should_not_add_them_to_the_RaiseReactionAnalyzers_list =
+            () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
+
+        #endregion
+    }
+
+    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
+    public class given_AnalyzationPreparer_was_successfull_but_results_are_invalid
+        : Ctx_AnalyzationPreparer_Successfull
+    {
+        #region Constants and Fields
+
+        Because of = () => {
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(false);
+            _sut.AnalyzeAndAdd(
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+        };
+
+        It should_not_add_them_to_the_RaiseReactionAnalyzers_list =
+            () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
+
+        #endregion
+    }
+
+    [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
+    public class given_results_would_be_valid_but_AnalyzationPreparer_was_unsuccessfull
+        : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
+    {
+        #region Constants and Fields
+
+        Because of = () => {
+            _analyzationPreparerStub.SetupGet(p => p.WasSuccessful).Returns(false);
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
+            _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
+            _sut.AnalyzeAndAdd(
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+        };
+
+        It should_not_add_anything_to_the_list =
+            () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
+
+        #endregion
     }
 }

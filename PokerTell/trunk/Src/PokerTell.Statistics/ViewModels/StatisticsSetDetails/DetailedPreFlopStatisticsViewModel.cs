@@ -1,56 +1,49 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Windows.Input;
+   using System.Collections.Generic;
+   using System.Linq;
 
-    using Base;
+   using Base;
 
-    using Infrastructure.Interfaces.Statistics;
+   using Infrastructure.Interfaces.PokerHand;
+   using Infrastructure.Interfaces.Statistics;
 
-    using Interfaces;
+   using Interfaces;
 
-    using Tools.WPF;
+   public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel
+   {
+      public DetailedPreFlopStatisticsViewModel(
+         IHandBrowserViewModel handBrowserViewModel,
+         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+         
+         : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber, "Position")
+      {
+      }
 
-    public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel
-    {
-        #region Constants and Fields
+      protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
+         IActionSequenceStatisticsSet statisticsSet)
+      {
+         var foldRow =
+            new StatisticsTableRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");
+         var callRow =
+            new StatisticsTableRowViewModel("Call", statisticsSet.ActionSequenceStatistics.ElementAt(1).Percentages, "%");
+         var raiseRow =
+            new StatisticsTableRowViewModel("Raise", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
+         var countRow =
+            new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
-        #endregion
+         Rows = new List<IStatisticsTableRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
 
-        #region Constructors and Destructors
+         StatisticsDescription =
+            string.Format(
+               "Player {0} {1} on the {2} in {3} pot",
+               statisticsSet.PlayerName,
+               statisticsSet.ActionSequence,
+               statisticsSet.Street,
+               statisticsSet.RaisedPot ? "a raised" : "an unraised");
 
-        public DetailedPreFlopStatisticsViewModel()
-            : base("Position")
-        {
-        }
-
-        #endregion
-
-        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
-        {
-            var foldRow = 
-                new StatisticsTableRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");
-            var callRow =
-                new StatisticsTableRowViewModel("Call", statisticsSet.ActionSequenceStatistics.ElementAt(1).Percentages, "%");
-            var raiseRow =
-                new StatisticsTableRowViewModel("Raise", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
-            var countRow =
-                new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
-
-            Rows = new List<IStatisticsTableRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
-
-            StatisticsDescription =
-                string.Format(
-                            "Player {0} {1} on the {2} in {3} pot",
-                            statisticsSet.PlayerName,
-                            statisticsSet.ActionSequence,
-                            statisticsSet.Street,
-                            statisticsSet.RaisedPot ? "a raised" : "an unraised");
-
-            return this;
-        }
-    }
+         return this;
+      }
+   }
 }
