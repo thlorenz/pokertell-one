@@ -3,6 +3,8 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
     using System;
     using System.Collections.Generic;
 
+    using Tools.FunctionalCSharp;
+
     /// <summary>
     /// Enumeration of all strategic Players Positions
     /// </summary>
@@ -75,6 +77,21 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         {
             return StrategicPositions.SB.To(StrategicPositions.BU);
             
+        }
+
+        public static string NamePosition(StrategicPositions strategicPosition)
+        {
+            return
+                strategicPosition.Match()
+                .With(p => p ==StrategicPositions.SB, _ => "the small blind")
+                .With(p => p ==StrategicPositions.BB, _ => "the big blind")
+                .With(p => p ==StrategicPositions.EA, _ => "early position")
+                .With(p => p ==StrategicPositions.MI, _ => "middle position")
+                .With(p => p ==StrategicPositions.LT, _ => "late position")
+                .With(p => p ==StrategicPositions.CO, _ => "the cut-off")
+                .With(p => p ==StrategicPositions.BU, _ => "the button")
+                .Do();
+
         }
     }
 }

@@ -26,7 +26,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
            IEventAggregator eventAggregator,
             IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+         IRaiseReactionDescriber raiseReactionDescriber)
         {
             DataContext = new PokerTableStatisticsDesignModel(eventAggregator, handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber);
             InitializeComponent();

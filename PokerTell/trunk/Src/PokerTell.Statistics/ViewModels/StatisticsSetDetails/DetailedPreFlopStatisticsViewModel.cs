@@ -15,7 +15,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       public DetailedPreFlopStatisticsViewModel(
          IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+         IRaiseReactionDescriber raiseReactionDescriber)
          
          : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber, "Position")
       {

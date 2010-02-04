@@ -45,7 +45,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
       IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-      IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
+      IRaiseReactionDescriber _raiseReactionDescriber;
 
       [Test]
       public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
@@ -109,7 +109,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
          _handBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
          _raiseReactionStatisticsBuilder = new Mock<IRaiseReactionStatisticsBuilder>().Object;
-         _raiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
+         _raiseReactionDescriber = new Mock<IRaiseReactionDescriber>().Object;
 
       }
    }

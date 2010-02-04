@@ -4,17 +4,13 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
     using Infrastructure;
     using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Services;
 
     using Interfaces;
 
     using Moq;
 
     using NUnit.Framework;
-
-    using PokerHand.Analyzation;
 
     using Statistics.Analyzation;
 
@@ -26,9 +22,6 @@ namespace PokerTell.Statistics.Tests.Analyzation
         #region Constants and Fields
 
         const int HeroPosition = 2;
-
-        readonly IConstructor<IConvertedPokerActionWithId> _pokerActionWithIdMake =
-            new Constructor<IConvertedPokerActionWithId>(() => new ConvertedPokerActionWithId());
 
         IReactionAnalyzationPreparer _analyzationPreparer;
 

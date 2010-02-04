@@ -21,12 +21,12 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
       protected readonly IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-      protected readonly IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
+      protected readonly IRaiseReactionDescriber _raiseReactionDescriber;
 
       protected DetailedStatisticsViewModel(
          IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber,
+         IRaiseReactionDescriber raiseReactionDescriber,
          string columnHeaderTitle)
          : base(columnHeaderTitle)
       {

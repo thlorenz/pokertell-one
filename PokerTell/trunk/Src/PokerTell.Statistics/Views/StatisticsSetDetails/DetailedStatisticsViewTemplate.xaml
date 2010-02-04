@@ -73,7 +73,7 @@
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopReactionStatisticsViewModel}" >
+   <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopReactionStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -102,8 +102,8 @@
     <System:String x:Key="MediumRaise">3x</System:String>
     <System:String x:Key="LargeRaise">5x</System:String>
     <System:String x:Key="VeryLargeRaise">9x</System:String>
-
-    <DataTemplate DataType="{x:Type Analyzation:DetailedRaiseReactionStatisticsViewModel}" >
+<!--
+  <DataTemplate DataType="{x:Type Analyzation:DetailedRaiseReactionStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -114,8 +114,8 @@
                     <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
                 </dg:DataGrid.Columns>
             </dg:DataGrid>
-          <!--  <Button Content="Investigate" Command="{Binding InvestigateCommand}" /> -->
-        </StackPanel>
+           <Button Content="Investigate" Command="{Binding InvestigateCommand}" /> -->
+      <!--  </StackPanel>
     </DataTemplate>
-    
+    -->
 </ResourceDictionary>

@@ -13,7 +13,7 @@ namespace PokerTell.PokerHand.Tests.Fakes
     {
         #region Constants and Fields
 
-        public bool InterceptOnSetMethods;
+        public readonly bool InterceptOnSetMethods;
 
         #endregion
 

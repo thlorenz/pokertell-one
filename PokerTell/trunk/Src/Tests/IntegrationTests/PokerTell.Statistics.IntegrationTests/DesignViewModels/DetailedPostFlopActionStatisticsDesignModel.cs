@@ -19,7 +19,7 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
         public DetailedPostFlopActionStatisticsDesignModel(
            IHandBrowserViewModel handBrowserViewModel,
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-            IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+            IRaiseReactionDescriber raiseReactionDescriber)
            : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
             Rows = new List<IStatisticsTableRowViewModel>

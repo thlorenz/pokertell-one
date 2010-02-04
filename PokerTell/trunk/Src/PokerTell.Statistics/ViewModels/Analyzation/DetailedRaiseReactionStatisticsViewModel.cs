@@ -15,11 +15,11 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
     using Tools.Interfaces;
     using Tools.WPF;
 
-    public class DetailedRaiseReactionStatisticsViewModel : StatisticsTableViewModel
+    public class DetailedRaiseReactionStatisticsViewModel<T> : StatisticsTableViewModel, IDetailedRaiseReactionStatisticsViewModel<T>
     {
         readonly IHandBrowserViewModel _handBrowserViewModel;
 
-        readonly IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
+        readonly IRaiseReactionDescriber<T> _raiseReactionDescriber;
 
         readonly IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
@@ -35,14 +35,14 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
         IRaiseReactionStatistics _raiseReactionStatistics;
 
-        ITuple<double, double> _selectedBetSizeSpan;
+        ITuple<T, T> _selectedBetSizeSpan;
 
         Streets _street;
 
         public DetailedRaiseReactionStatisticsViewModel(
             IHandBrowserViewModel handBrowserViewModel,
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-            IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+            IRaiseReactionDescriber<T> raiseReactionDescriber)
             : base("Raise Size")
         {
             _raiseReactionDescriber = raiseReactionDescriber;
@@ -79,18 +79,16 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             }
         }
 
-        public DetailedRaiseReactionStatisticsViewModel InitializeWith(
+        public IDetailedRaiseReactionStatisticsViewModel<T> InitializeWith(
             IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
-            ITuple<double, double> selectedBetSizeSpan,
+            ITuple<T, T> selectedBetSizeSpan,
             string playerName,
             ActionSequences actionSequence,
-            bool inPosition,
             Streets street)
         {
             _playerName = playerName;
             _selectedBetSizeSpan = selectedBetSizeSpan;
             _street = street;
-            _inPosition = inPosition;
             _actionSequence = actionSequence;
 
             _analyzablePokerPlayers = analyzablePokerPlayers;

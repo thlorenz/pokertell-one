@@ -20,7 +20,7 @@ namespace PokerTell.Infrastructure
         public const int TablesPerPage = 5;
 
         /// <summary>
-        /// Keys used to normalize the true bet sizes to
+        /// Keys used to normalize the true bet sizes
         /// in order to make a statistical analysis
         /// </summary>
         public static double[] BetSizeKeys

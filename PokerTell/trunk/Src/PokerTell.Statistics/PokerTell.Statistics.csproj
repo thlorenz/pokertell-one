@@ -76,7 +76,7 @@
     <Compile Include="Analyzation\HandBrowser.cs" />
     <Compile Include="Analyzation\PostFlopHeroActsRaiseReactionDescriber.cs" />
     <Compile Include="Analyzation\PreFlopRaiseReactionDescriber.cs" />
-    <Compile Include="Interfaces\IPostFlopHeroActsRaiseReactionDescriber.cs" />
+    <Compile Include="Interfaces\IRaiseReactionDescriber.cs" />
     <Compile Include="Interfaces\IRaiseReactionStatisticsBuilder.cs" />
     <Compile Include="Analyzation\RaiseReactionStatisticsBuilder.cs" />
     <Compile Include="Interfaces\IHandBrowser.cs" />
@@ -115,6 +115,7 @@
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModel.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterViewModel.cs" />
     <Compile Include="ViewModels\Analyzation\HandBrowserViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedRaiseReactionStatisticsViewModel.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />
     <Compile Include="ViewModels\Filters\ValueViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />

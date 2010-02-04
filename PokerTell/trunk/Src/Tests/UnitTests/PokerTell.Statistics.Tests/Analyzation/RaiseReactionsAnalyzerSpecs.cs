@@ -42,8 +42,6 @@ namespace PokerTell.Statistics.Tests.Analyzation
          *          It should not add anything to the list
         */
 
-        #region Constants and Fields
-
         protected static ActionSequences SomeActionSequence;
 
         protected static Streets SomeStreet;
@@ -68,39 +66,27 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _analyzablePokerPlayerStub.SetupGet(p => p.Sequences).Returns(new IConvertedPokerRound[(int)Streets.River]);
         };
-
-        #endregion
     }
 
     public abstract class Ctx_RaiseReactionsAnalyzer_2_raise_sizes
         : RaiseReactionsAnalyzerSpecs
     {
-        #region Constants and Fields
-
         Establish context = () => {
             _raiseSizeKeys = new[] { 1.0, 2.0 };
             _sut = new RaiseReactionsAnalyzer(_raiseSizeKeys, _analyzationPreparerStub.Object);
         };
-
-        #endregion
     }
 
     public abstract class Ctx_AnalyzationPreparer_Successfull
         : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
     {
-        #region Constants and Fields
-
         Establish context = () => _analyzationPreparerStub.SetupGet(p => p.WasSuccessful).Returns(true);
-
-        #endregion
     }
 
     [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
     public class given_0_raise_sizes
         : RaiseReactionsAnalyzerSpecs
     {
-        #region Constants and Fields
-
         static Exception exception;
 
         Because of = () => {
@@ -110,28 +96,20 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         It should_fail_with_an_ArgumentException =
             () => exception.ShouldBeOfType<ArgumentException>();
-
-        #endregion
     }
 
     [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
     public class given_2_raise_sizes
         : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
     {
-        #region Constants and Fields
-
         It should_create_an_empty_RaiseReactionAnlayzers_list =
             () => _sut.RaiseReactionAnalyzers.Count().ShouldEqual(0);
-
-        #endregion
     }
 
     [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
     public class given_AnalyzationPreparer_was_successfull_and_results_are_valid_and_standard
         : Ctx_AnalyzationPreparer_Successfull
     {
-        #region Constants and Fields
-
         Because of = () => {
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
@@ -141,16 +119,12 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         It should_add_them_to_the_RaiseReactionAnalyzers_list =
             () => _sut.RaiseReactionAnalyzers.ShouldContainOnly(_raiseReactionAnalyzerStub.Object);
-
-        #endregion
     }
 
     [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
     public class given_AnalyzationPreparer_was_successfull_and_results_are_valid_but_non_standard
         : Ctx_AnalyzationPreparer_Successfull
     {
-        #region Constants and Fields
-
         Because of = () => {
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(false);
@@ -160,16 +134,12 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         It should_not_add_them_to_the_RaiseReactionAnalyzers_list =
             () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
-
-        #endregion
     }
 
     [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
     public class given_AnalyzationPreparer_was_successfull_but_results_are_invalid
         : Ctx_AnalyzationPreparer_Successfull
     {
-        #region Constants and Fields
-
         Because of = () => {
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(false);
             _sut.AnalyzeAndAdd(
@@ -178,16 +148,12 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         It should_not_add_them_to_the_RaiseReactionAnalyzers_list =
             () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
-
-        #endregion
     }
 
     [Subject(typeof(RaiseReactionsAnalyzer), "Analyzation")]
     public class given_results_would_be_valid_but_AnalyzationPreparer_was_unsuccessfull
         : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
     {
-        #region Constants and Fields
-
         Because of = () => {
             _analyzationPreparerStub.SetupGet(p => p.WasSuccessful).Returns(false);
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
@@ -198,7 +164,5 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         It should_not_add_anything_to_the_list =
             () => _sut.RaiseReactionAnalyzers.ShouldNotContain(_raiseReactionAnalyzerStub.Object);
-
-        #endregion
     }
 }

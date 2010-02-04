@@ -11,7 +11,7 @@ namespace PokerTell.Statistics.Analyzation
 
    using Tools.Interfaces;
 
-   public class PostFlopHeroActsRaiseReactionDescriber : IPostFlopHeroActsRaiseReactionDescriber
+   public class PostFlopHeroActsRaiseReactionDescriber : IRaiseReactionDescriber
    {
       public string Describe(string playerName, 
          IAnalyzablePokerPlayer analyzablePokerPlayer, 

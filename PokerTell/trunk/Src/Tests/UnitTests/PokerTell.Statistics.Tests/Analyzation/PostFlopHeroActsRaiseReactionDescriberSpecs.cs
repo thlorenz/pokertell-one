@@ -52,7 +52,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
       protected static string _playerName;
 
-      protected static IPostFlopHeroActsRaiseReactionDescriber _sut;
+      protected static IRaiseReactionDescriber _sut;
 
       protected static ITuple<double, double> _validBetSizes;
 
@@ -77,7 +77,8 @@ namespace PokerTell.Statistics.Tests.Analyzation
       };
    }
 
-   public class when_fred_bet_on_flop_out_of_position
+    [Subject(typeof(PostFlopHeroActsRaiseReactionDescriber), "Description")]
+   public class given_fred_bet_on_flop_out_of_position
       : PostFlopHeroActsRaiseReactionDescriberSpecs
    {
       static string description;
@@ -94,23 +95,25 @@ namespace PokerTell.Statistics.Tests.Analyzation
       Because of =
          () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validBetSizes);
 
-      It should_contain__bet__in_description
+      It should_contain__bet__
          = () => description.ShouldContain("bet");
 
-      It should_contain__flop__in_description
+      It should_contain__flop__
          = () => description.ShouldContain("flop");
 
-      It should_contain__fred___in_description
+      It should_contain__fred___
          = () => description.Contains("fred").ShouldBeTrue();
 
-      It should_contain__out_of_position__in_description
+      It should_contain__out_of_position__
          = () => description.ShouldContain("out of position");
 
-      It should_contain_and_was_raised_in_description
+      It should_contain_and_was_raised_
          = () => description.ShouldContain("and was raised");
    }
 
-   public class when_fred_bet_on_turn_in_position
+
+    [Subject(typeof(PostFlopHeroActsRaiseReactionDescriber), "Description")]
+    public class given_fred_bet_on_turn_in_position
       : PostFlopHeroActsRaiseReactionDescriberSpecs
    {
       static string description;
@@ -127,22 +130,23 @@ namespace PokerTell.Statistics.Tests.Analyzation
       Because of =
          () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Turn, _validBetSizes);
 
-      It should_contain___in_position___in_description
+      It should_contain___in_position__
          = () => description.ShouldContain("in position");
 
-      It should_contain___turn___in_description
+      It should_contain___turn__
          = () => description.ShouldContain("turn");
 
-      It should_contain__bet__in_description
+      It should_contain__bet__
          = () => description.ShouldContain("bet");
 
-      It should_contain__fred___in_description
+      It should_contain__fred__
          = () => description.Contains("fred").ShouldBeTrue();
 
-      It should_contain_and_was_raised_in_description
+      It should_contain__and_was_raised__
          = () => description.ShouldContain("and was raised");
    }
 
+    [Subject(typeof(PostFlopHeroActsRaiseReactionDescriber), "Description")]
    public class when_betsizes_are_0_2_and_0_5
       : Ctx_PostFlopHeroActsRaiseReactionDescriber_ValidFlopAnalyzablePlayer
    {
@@ -153,11 +157,12 @@ namespace PokerTell.Statistics.Tests.Analyzation
       Because of =
          () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validBetSizes);
 
-      It should_contain__0_2_to_0_5__of_the_pot_in_description
+      It should_contain__0_2_to_0_5_of_the_pot__
          = () => description.ShouldContain("0.2 to 0.5 of the pot");
    }
 
-   public class when_betsizes_are_0_2_and_0_2
+    [Subject(typeof(PostFlopHeroActsRaiseReactionDescriber), "Description")]
+   public class given_betsizes_are_0_2_and_0_2
       : Ctx_PostFlopHeroActsRaiseReactionDescriber_ValidFlopAnalyzablePlayer
    {
       static string description;
@@ -167,10 +172,10 @@ namespace PokerTell.Statistics.Tests.Analyzation
       Because of =
          () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validBetSizes);
 
-      It should_contain__0_2_of_the_pot___in_description
+      It should_contain__0_2_of_the_pot__
          = () => description.ShouldContain("0.2 of the pot");
 
-      It should_not_contain__0_2_to_0_2___in_description
+      It should_not_contain__0_2_to_0_2__
          = () => description.Contains("0.2 to 0.2 of the pot").ShouldBeFalse();
    }
 }

@@ -31,7 +31,7 @@ namespace PokerTell.Statistics.IntegrationTests
    {
       static readonly IHandBrowserViewModel HandBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
 
-      static readonly IPostFlopHeroActsRaiseReactionDescriber RaiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
+      static readonly IRaiseReactionDescriber RaiseReactionDescriber = new Mock<IRaiseReactionDescriber>().Object;
 
       static readonly IRaiseReactionStatisticsBuilder RaiseReactionStatisticsBuilder =
          new Mock<IRaiseReactionStatisticsBuilder>().Object;

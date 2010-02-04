@@ -79,6 +79,7 @@
     <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Analyzation\RaiseReactionAnalyzerSpecs.cs" />
     <Compile Include="Analyzation\RaiseReactionAnalyzerTests.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,6 +114,7 @@
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopActionStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />

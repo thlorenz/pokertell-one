@@ -23,7 +23,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       public DetailedPostFlopReactionStatisticsViewModel(
          IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+         IRaiseReactionDescriber raiseReactionDescriber)
          
          : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber, "Bet Size")
       {

@@ -20,7 +20,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
            IEventAggregator eventAggregator,
             IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+         IRaiseReactionDescriber raiseReactionDescriber)
             : base(eventAggregator,
                    new Constructor<IPlayerStatisticsViewModel>(() => null),
                    new DetailedStatisticsAnalyzerViewModel(

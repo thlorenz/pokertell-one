@@ -77,7 +77,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static Mock<IRaiseReactionAnalyzer> _raiseReactionAnalyzerStub;
 
-        protected static Mock<IPostFlopHeroActsRaiseReactionDescriber> _raiseReactionDescriberStub;
+        protected static Mock<IRaiseReactionDescriber<double>> _raiseReactionDescriberStub;
 
         protected static Mock<IRaiseReactionStatisticsBuilder> _raiseReactionStatisticsBuilderMock;
 
@@ -85,7 +85,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static Mock<IRaiseReactionsAnalyzer> _raiseReactionsAnalyzerMock;
 
-        protected static DetailedRaiseReactionStatisticsViewModel _sut;
+        protected static DetailedRaiseReactionStatisticsViewModel<double> _sut;
 
         protected static ActionSequences _validActionSequence;
 
@@ -133,9 +133,9 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             _raiseReactionStatisticsBuilderMock
                 .Setup(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet))
                 .Returns(_raiseReactionStatisticsStub.Object);
-            _raiseReactionDescriberStub = new Mock<IPostFlopHeroActsRaiseReactionDescriber>();
+            _raiseReactionDescriberStub = new Mock<IRaiseReactionDescriber<double>>();
 
-            _sut = new DetailedRaiseReactionStatisticsViewModel(
+            _sut = new DetailedRaiseReactionStatisticsViewModel<double>(
                 _handBrowserViewModelMock.Object,
                 _raiseReactionStatisticsBuilderMock.Object,
                 _raiseReactionDescriberStub.Object);
@@ -150,11 +150,10 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                       _validBetSizes,
                                       _playerName,
                                       _validActionSequence,
-                                      _validInPosition,
                                       _validStreet);
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
     public class given_0_analyzable_players : DetailedRaiseReactionStatisticsViewModelSpecs
     {
         static Exception exception;
@@ -165,14 +164,13 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                                      _validBetSizes,
                                                      _playerName,
                                                      _validActionSequence,
-                                                     _validInPosition,
                                                      _validStreet));
 
         It should_throw_an_ArgumentException
             = () => exception.ShouldBeOfType<ArgumentException>();
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
     public class given_valid_data : DetailedRaiseReactionStatisticsViewModelSpecs
     {
         static string description;
@@ -189,7 +187,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
-                               _validInPosition,
                                _validStreet);
 
         It should_build_raise_reaction_statistics_for_it
@@ -201,7 +198,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
     public class given_valid_data_and_valid_RaiseReactionStatistics : DetailedRaiseReactionStatisticsViewModelSpecs
     {
         Establish context = () => {
@@ -221,7 +218,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
-                               _validInPosition,
                                _validStreet);
 
         It should_create_4_rows
@@ -242,7 +238,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     }
 
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
     public class given_the_PercentagesDictionary_has_value_0_at_0_0_and_value_50_at_1_1
         : DetailedRaiseReactionStatisticsViewModelSpecs
     {
@@ -258,7 +254,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
-                               _validInPosition,
                                _validStreet);
 
         It should_have_value_0_at_row_0_col_0
@@ -268,7 +263,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             = () => _sut.Rows.ElementAt(1).Cells[1].Value.ShouldEqual(50);
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Initialization")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
     public class given_the_TotalCountsDictionary_has_value_0_in_col_0_and_value_1_in_col_1
         : DetailedRaiseReactionStatisticsViewModelSpecs
     {
@@ -283,7 +278,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
-                               _validInPosition,
                                _validStreet);
 
         It should_have_value_0_in_the_counts_row_at_col_0
@@ -293,7 +287,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             = () => _sut.Rows.Last().Cells[1].Value.ShouldEqual(1);
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Browse hands command")]
     public class given_no_cell_has_been_selected
         : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
@@ -301,7 +295,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeFalse();
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Browse hands command")]
     public class given_one_cell_is_selected : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
         Establish context = () => _sut.AddToSelection(0, 0);
@@ -310,7 +304,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeTrue();
     }
 
-    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel), "Browse hands command")]
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Browse hands command")]
     public class given_one_cell_is_selected_and_the_user_executes_the_command :
         Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
