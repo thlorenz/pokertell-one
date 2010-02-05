@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzation\HandBrowserSpecs.cs" />
+    <Compile Include="Analyzation\PostFlopHeroReactsRaiseReactionDescriberSpecs.cs" />
     <Compile Include="Analyzation\PostFlopHeroActsRaiseReactionDescriberSpecs.cs" />
     <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs">
       <SubType>Code</SubType>
@@ -114,9 +115,11 @@
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
-    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopActionStatisticsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroActsStatisticsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableViewModelTests.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\PostFlopHeroReactsRaiseReactionStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModelTests.cs" />

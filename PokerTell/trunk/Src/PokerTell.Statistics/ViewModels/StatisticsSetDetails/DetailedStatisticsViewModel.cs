@@ -19,19 +19,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
    {
       protected readonly IHandBrowserViewModel _handBrowserViewModel;
 
-      protected readonly IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-      protected readonly IRaiseReactionDescriber _raiseReactionDescriber;
-
-      protected DetailedStatisticsViewModel(
-         IHandBrowserViewModel handBrowserViewModel,
-         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IRaiseReactionDescriber raiseReactionDescriber,
-         string columnHeaderTitle)
+      protected DetailedStatisticsViewModel(IHandBrowserViewModel handBrowserViewModel, string columnHeaderTitle)
          : base(columnHeaderTitle)
       {
-         _raiseReactionDescriber = raiseReactionDescriber;
-         _raiseReactionStatisticsBuilder = raiseReactionStatisticsBuilder;
          _handBrowserViewModel = handBrowserViewModel;
       }
 

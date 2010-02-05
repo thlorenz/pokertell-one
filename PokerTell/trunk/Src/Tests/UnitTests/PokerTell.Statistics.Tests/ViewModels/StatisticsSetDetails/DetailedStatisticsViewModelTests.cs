@@ -34,7 +34,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public void _Init()
         {
             _stub = new StubBuilder();
-            _sut = new DetailedStatisticsViewModelImpl(_stub.Out<IHandBrowserViewModel>(), _stub.Out<IRaiseReactionStatisticsBuilder>(),_stub.Out<IRaiseReactionDescriber>());
+            _sut = new DetailedStatisticsViewModelImpl(_stub.Out<IHandBrowserViewModel>(), _stub.Out<IRaiseReactionStatisticsBuilder>(),_stub.Out<IPostFlopHeroActsRaiseReactionDescriber>());
         }
 
         
@@ -50,7 +50,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         {
             var analyzablePokerPlayer1 = _stub.Out<IAnalyzablePokerPlayer>();
             var analyzablePokerPlayer2 = _stub.Out<IAnalyzablePokerPlayer>();
-
+             
             var analyzablePokerPlayersStub = new[] { new List<IAnalyzablePokerPlayer> { analyzablePokerPlayer1 }, new List<IAnalyzablePokerPlayer> { analyzablePokerPlayer2 } };
             var statisticStub = _stub.Setup<IActionSequenceStatistic>()
                 .Get(s => s.MatchingPlayers).Returns(analyzablePokerPlayersStub)
@@ -135,8 +135,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public DetailedStatisticsViewModelImpl(
            IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IRaiseReactionDescriber raiseReactionDescriber)
-            : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber, "columnHeaderTitle")
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+            : base(handBrowserViewModel, "columnHeaderTitle")
         {
         }
 

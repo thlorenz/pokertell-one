@@ -31,7 +31,7 @@ namespace PokerTell.Statistics.IntegrationTests
    {
       static readonly IHandBrowserViewModel HandBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
 
-      static readonly IRaiseReactionDescriber RaiseReactionDescriber = new Mock<IRaiseReactionDescriber>().Object;
+      static readonly IPostFlopHeroActsRaiseReactionDescriber RaiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
 
       static readonly IRaiseReactionStatisticsBuilder RaiseReactionStatisticsBuilder =
          new Mock<IRaiseReactionStatisticsBuilder>().Object;
@@ -73,7 +73,7 @@ namespace PokerTell.Statistics.IntegrationTests
       public void DetailedStatisticsViewTemplate_DetailedPostFlopActionStatisticsViewModel()
       {
          var designWindow = new DetailedStatisticsDesignWindow
-         { Topmost = true, DataContext = new DetailedPostFlopActionStatisticsDesignModel(HandBrowserViewModelStub, RaiseReactionStatisticsBuilder, RaiseReactionDescriber) };
+         { Topmost = true, DataContext = new DetailedPostFlopHeroActsStatisticsDesignModel(HandBrowserViewModelStub, RaiseReactionStatisticsBuilder, RaiseReactionDescriber) };
          designWindow.ShowDialog();
       }
 

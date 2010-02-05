@@ -7,6 +7,8 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 
     using Interfaces;
 
+    using Moq;
+
     using ViewModels.Base;
     using ViewModels.StatisticsSetDetails;
 
@@ -17,8 +19,8 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
         public DetailedPreFlopStatisticsDesignModel(
            IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IRaiseReactionDescriber raiseReactionDescriber)
-           : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+           : base(handBrowserViewModel, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>())
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {

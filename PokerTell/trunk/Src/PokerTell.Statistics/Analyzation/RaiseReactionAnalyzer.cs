@@ -132,7 +132,7 @@ namespace PokerTell.Statistics.Analyzation
 
             SetHerosReaction(actionsAfterHeroRaise);
 
-            if (_heroReaction == null || !PokerActionsUtility.Reactions.Contains(HeroReactionType))
+            if (_heroReaction == null || !ActionTypesUtility.Reactions.Contains(HeroReactionType))
             {
                 return false;
             }

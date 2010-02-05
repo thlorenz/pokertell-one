@@ -22,7 +22,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
          _handBrowser = handBrowser;
       }
 
-      public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged;
+      public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
 
       public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
 

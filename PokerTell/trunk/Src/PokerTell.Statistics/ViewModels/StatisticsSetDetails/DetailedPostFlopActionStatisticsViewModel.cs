@@ -16,18 +16,19 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using Tools.FunctionalCSharp;
     using Tools.WPF;
 
-    public class DetailedPostFlopActionStatisticsViewModel : DetailedStatisticsViewModel
+    public class DetailedPostFlopHeroActsStatisticsViewModel : DetailedStatisticsViewModel
     {
         static readonly double[] BetSizeKeys = ApplicationProperties.BetSizeKeys;
 
+        readonly IPostFlopHeroActsRaiseReactionStatisticsViewModel _raiseReactionStatisticsViewModel;
+
         ICommand _investigateRaiseReactionCommand;
 
-        public DetailedPostFlopActionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-            IRaiseReactionDescriber raiseReactionDescriber)
-            : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber, "Bet Size")
+        public DetailedPostFlopHeroActsStatisticsViewModel(
+            IHandBrowserViewModel handBrowserViewModel, IPostFlopHeroActsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
+            : base(handBrowserViewModel, "Bet Size")
         {
+            _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
         }
 
         public ICommand InvestigateRaiseReactionCommand
@@ -36,18 +37,17 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
             {
                 return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand {
                     ExecuteDelegate = _ => {
+                        
                         Tuple<double, double> selectedBetSizes = Tuple.New(
                             BetSizeKeys[SelectedColumnsSpan.First],
                             BetSizeKeys[SelectedColumnsSpan.Second]);
-                        //                  ChildViewModel =
-                        //                     new DetailedRaiseReactionStatisticsViewModel(_handBrowserViewModel
-                        //                                                                  )
-                        //                        .InitializeWith(SelectedAnalyzablePlayers,
-                        //                                        selectedBetSizes,
-                        //                                        PlayerName,
-                        //                                        SelectedActionSequence,
-                        //                                        false,
-                        //                                        Street);
+                        
+                        ChildViewModel =
+                            _raiseReactionStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers,
+                                                                             selectedBetSizes,
+                                                                             PlayerName,
+                                                                             SelectedActionSequence,
+                                                                             Street);
                     },
                     CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
                 });

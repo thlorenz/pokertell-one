@@ -45,7 +45,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
       IRaiseReactionStatisticsBuilder _raiseReactionStatisticsBuilder;
 
-      IRaiseReactionDescriber _raiseReactionDescriber;
+      IPostFlopHeroActsRaiseReactionDescriber _raiseReactionDescriber;
 
       [Test]
       public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
@@ -67,8 +67,8 @@ namespace PokerTell.LiveTracker.IntegrationTests
          new PlayerStatisticsService(eventAggregator);
 
          var detailedStatisticsAnalyzerViewModel = new DetailedStatisticsAnalyzerViewModel(
-            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel(_handBrowserViewModelStub, _raiseReactionStatisticsBuilder, _raiseReactionDescriber)),
-            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopActionStatisticsViewModel(_handBrowserViewModelStub,_raiseReactionStatisticsBuilder, _raiseReactionDescriber)),
+            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel(_handBrowserViewModelStub, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>())),
+            new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopHeroActsStatisticsViewModel(_handBrowserViewModelStub, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>())),
             new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel(_handBrowserViewModelStub, _raiseReactionStatisticsBuilder, _raiseReactionDescriber)));
 
          var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
@@ -109,7 +109,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
          _handBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
          _raiseReactionStatisticsBuilder = new Mock<IRaiseReactionStatisticsBuilder>().Object;
-         _raiseReactionDescriber = new Mock<IRaiseReactionDescriber>().Object;
+         _raiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
 
       }
    }

@@ -74,7 +74,7 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
     /// <summary>
     /// The action what utility.
     /// </summary>
-    public static class PokerActionsUtility
+    public static class ActionTypesUtility
     {
         #region Constants and Fields
 

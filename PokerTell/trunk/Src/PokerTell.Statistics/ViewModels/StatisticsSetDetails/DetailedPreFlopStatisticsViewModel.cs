@@ -2,26 +2,32 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
    using System.Collections.Generic;
    using System.Linq;
+   using System.Windows.Input;
 
    using Base;
 
+   using Infrastructure;
+   using Infrastructure.Enumerations.PokerHand;
    using Infrastructure.Interfaces.PokerHand;
    using Infrastructure.Interfaces.Statistics;
 
    using Interfaces;
 
-   public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel
-   {
-      public DetailedPreFlopStatisticsViewModel(
-         IHandBrowserViewModel handBrowserViewModel,
-         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IRaiseReactionDescriber raiseReactionDescriber)
-         
-         : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber, "Position")
-      {
-      }
+   using Tools.FunctionalCSharp;
+   using Tools.WPF;
 
-      protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
+    public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel
+   {
+        
+        readonly IPreFlopRaiseReactionStatisticsViewModel _raiseReactionStatisticsViewModel;
+
+       public DetailedPreFlopStatisticsViewModel(IHandBrowserViewModel handBrowserViewModel, IPreFlopRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
+         : base(handBrowserViewModel, "Position")
+       {
+           _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
+       }
+
+       protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
          IActionSequenceStatisticsSet statisticsSet)
       {
          var foldRow =
@@ -45,5 +51,30 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
          return this;
       }
+
+        ICommand _investigateRaiseReactionCommand;
+
+        public ICommand InvestigateRaiseReactionCommand
+        {
+            get
+            {
+                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand {
+                    ExecuteDelegate = _ => {
+                        
+                        Tuple<StrategicPositions, StrategicPositions> selectedPositions = Tuple.New(
+                             StrategicPositionsUtility.GetAllPositionsInOrder().ElementAt(SelectedColumnsSpan.First),
+                            StrategicPositionsUtility.GetAllPositionsInOrder().ElementAt(SelectedColumnsSpan.Second));
+                        
+                        ChildViewModel =
+                            _raiseReactionStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers,
+                                                                             selectedPositions,
+                                                                             PlayerName,
+                                                                             SelectedActionSequence,
+                                                                             Street);
+                    },
+                    CanExecuteDelegate = arg => SelectedCells.Count() > 0 && ActionSequencesUtility.Raises.Contains(SelectedActionSequence)
+                });
+            }
+        }
    }
 }

@@ -56,7 +56,7 @@ namespace PokerTell.Statistics.Analyzation
         {
             var sb = new StringBuilder();
             sb.AppendLine("Percentages: \n");
-            //            foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
+            //            foreach (ActionTypes reaction in ActionTypesUtility.Reactions)
             //            {
             //                ActionTypes reaction1 = reaction;
             //                string line = _raiseReactionAnalyzer.RaiseSizeKeys.Aggregate(
@@ -94,7 +94,7 @@ namespace PokerTell.Statistics.Analyzation
             foreach (double raiseSize in _raiseReactionsAnalyzer.RaiseSizeKeys)
             {
                 var raiseSizeKey = (int)raiseSize;
-                foreach (ActionTypes actionWhat in PokerActionsUtility.Reactions)
+                foreach (ActionTypes actionWhat in ActionTypesUtility.Reactions)
                 {
                     PercentagesDictionary[actionWhat][raiseSizeKey] =
                         AnalyzablePlayersDictionary[actionWhat][raiseSizeKey].Count > 0
@@ -109,17 +109,17 @@ namespace PokerTell.Statistics.Analyzation
              * so we take the easy way out and used the uncool alternative above
                 
                new AcrossRowsPercentagesCalculator().CalculatePercentages(
-                    () => PokerActionsUtility.Reactions.Count(),
+                    () => ActionTypesUtility.Reactions.Count(),
                     row => _raiseReactionsAnalyzer.RaiseSizeKeys.Length,
-                    (row, col) => AnalyzablePlayersDictionary[PokerActionsUtility.Reactions.ElementAt(row)][(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]].Count,
-                    (perc, row, col) => PercentagesDictionary[PokerActionsUtility.Reactions.ElementAt(row)][(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]] = perc);
+                    (row, col) => AnalyzablePlayersDictionary[ActionTypesUtility.Reactions.ElementAt(row)][(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]].Count,
+                    (perc, row, col) => PercentagesDictionary[ActionTypesUtility.Reactions.ElementAt(row)][(int)_raiseReactionsAnalyzer.RaiseSizeKeys[col]] = perc);
              */
         }
 
         void CreateAnalyzablePlayersDictionary()
         {
             AnalyzablePlayersDictionary = new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>>();
-            foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
+            foreach (ActionTypes reaction in ActionTypesUtility.Reactions)
             {
                 AnalyzablePlayersDictionary.Add(reaction, new Dictionary<int, IList<IAnalyzablePokerPlayer>>());
 
@@ -133,7 +133,7 @@ namespace PokerTell.Statistics.Analyzation
         void CreatePercentagesDictionary()
         {
             PercentagesDictionary = new Dictionary<ActionTypes, IDictionary<int, int>>();
-            foreach (ActionTypes reaction in PokerActionsUtility.Reactions)
+            foreach (ActionTypes reaction in ActionTypesUtility.Reactions)
             {
                 PercentagesDictionary.Add(reaction, new Dictionary<int, int>());
                 foreach (double ratioSizeKey in _raiseReactionsAnalyzer.RaiseSizeKeys)

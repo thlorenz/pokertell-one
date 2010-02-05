@@ -7,10 +7,12 @@ namespace PokerTell.Statistics.Interfaces
 
    using Tools.Interfaces;
 
-    /// <summary>
-    /// Helps describing the situation in which the player first bet and then was raised
-    /// </summary>
-   public interface IRaiseReactionDescriber : IRaiseReactionDescriber<double>
+   
+   public interface IPostFlopHeroActsRaiseReactionDescriber : IRaiseReactionDescriber<double>
+   {
+   }
+
+   public interface IPostFlopHeroReactsRaiseReactionDescriber : IRaiseReactionDescriber<double>
    {
    }
 
@@ -21,6 +23,9 @@ namespace PokerTell.Statistics.Interfaces
    {
    }
 
+   /// <summary>
+   /// Helps describing the situation in which the player first bet and then was raised
+   /// </summary>
    public interface IRaiseReactionDescriber<T>
    {
 

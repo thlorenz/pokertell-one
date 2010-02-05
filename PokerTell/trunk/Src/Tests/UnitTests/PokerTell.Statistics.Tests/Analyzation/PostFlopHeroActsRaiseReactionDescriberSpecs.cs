@@ -50,15 +50,12 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
       protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
 
-      protected static string _playerName;
-
-      protected static IRaiseReactionDescriber _sut;
+      protected static IPostFlopHeroActsRaiseReactionDescriber _sut;
 
       protected static ITuple<double, double> _validBetSizes;
 
       Establish context = () => {
          _validBetSizes = Tuple.New(0.5, 0.7);
-         _playerName = "somePlayer";
          _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
          _sut = new PostFlopHeroActsRaiseReactionDescriber();
       };

@@ -7,20 +7,22 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 
     using Interfaces;
 
+    using Moq;
+
     using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
 
     using System.Linq;
 
     using ViewModels.Base;
 
-    public class DetailedPostFlopActionStatisticsDesignModel : DetailedPostFlopActionStatisticsViewModel
+    public class DetailedPostFlopHeroActsStatisticsDesignModel : DetailedPostFlopHeroActsStatisticsViewModel
     {
 
-        public DetailedPostFlopActionStatisticsDesignModel(
+        public DetailedPostFlopHeroActsStatisticsDesignModel(
            IHandBrowserViewModel handBrowserViewModel,
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-            IRaiseReactionDescriber raiseReactionDescriber)
-           : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
+            IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+            : base(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>())
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {

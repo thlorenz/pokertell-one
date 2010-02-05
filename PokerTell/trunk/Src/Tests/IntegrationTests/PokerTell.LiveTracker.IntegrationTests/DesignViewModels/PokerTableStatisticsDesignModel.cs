@@ -6,7 +6,9 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
 
     using Microsoft.Practices.Composite.Events;
 
-    using Statistics.Interfaces;
+   using Moq;
+
+   using Statistics.Interfaces;
     using Statistics.ViewModels;
     using Statistics.ViewModels.StatisticsSetDetails;
 
@@ -20,12 +22,12 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
            IEventAggregator eventAggregator,
             IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IRaiseReactionDescriber raiseReactionDescriber)
+         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
             : base(eventAggregator,
                    new Constructor<IPlayerStatisticsViewModel>(() => null),
                    new DetailedStatisticsAnalyzerViewModel(
-                       new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)),
-                       new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopActionStatisticsViewModel(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)),
+                       new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel(handBrowserViewModel, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>())),
+                       new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopHeroActsStatisticsViewModel(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>())),
                        new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber))))
         {
             Players.Add(new PlayerStatisticsDesignModel("renniweg", 3000, 2000, 1000, 2500, 1500, 500));
