@@ -49,7 +49,7 @@
     <System:String x:Key="LargeBet">0.9</System:String>
     <System:String x:Key="VeryLargeBet">1.5</System:String>
 
-    <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopActionStatisticsViewModel}" >
+    <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroActsStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -73,7 +73,7 @@
         </StackPanel>
     </DataTemplate>
 
-   <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopReactionStatisticsViewModel}" >
+   <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroReactsStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -88,10 +88,10 @@
             </dg:DataGrid>
 
            <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
                     <Image Source="../../Resources/InvestigateIcon.png" />
                 </Button>
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
                     <Image Source="../../Resources/InvestigateIcon.png" />
                 </Button>
             </StackPanel>

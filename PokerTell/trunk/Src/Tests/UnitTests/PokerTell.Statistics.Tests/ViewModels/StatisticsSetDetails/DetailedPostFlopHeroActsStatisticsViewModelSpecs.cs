@@ -115,6 +115,4 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                                              Moq.It.IsAny<Streets>()));
         }
     }
-
-    
 }

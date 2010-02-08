@@ -35,22 +35,23 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         {
             get
             {
-                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand {
-                    ExecuteDelegate = _ => {
-                        
-                        Tuple<double, double> selectedBetSizes = Tuple.New(
-                            BetSizeKeys[SelectedColumnsSpan.First],
-                            BetSizeKeys[SelectedColumnsSpan.Second]);
-                        
-                        ChildViewModel =
-                            _raiseReactionStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers,
-                                                                             selectedBetSizes,
-                                                                             PlayerName,
-                                                                             SelectedActionSequence,
-                                                                             Street);
-                    },
-                    CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
-                });
+                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = _ => {
+                            Tuple<double, double> selectedBetSizes = Tuple.New(
+                                BetSizeKeys[SelectedColumnsSpan.First],
+                                BetSizeKeys[SelectedColumnsSpan.Second]);
+
+                            ChildViewModel =
+                                _raiseReactionStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers,
+                                                                                 selectedBetSizes,
+                                                                                 PlayerName,
+                                                                                 SelectedActionSequence,
+                                                                                 Street);
+                        },
+                        CanExecuteDelegate =
+                            arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
+                    });
             }
         }
 

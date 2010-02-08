@@ -119,7 +119,7 @@
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableViewModelTests.cs" />
-    <Compile Include="ViewModels\StatisticsSetDetails\PostFlopHeroReactsRaiseReactionStatisticsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroReactsStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModelTests.cs" />

@@ -28,9 +28,9 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
                    new DetailedStatisticsAnalyzerViewModel(
                        new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPreFlopStatisticsViewModel(handBrowserViewModel, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>())),
                        new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopHeroActsStatisticsViewModel(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>())),
-                       new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopReactionStatisticsViewModel(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber))))
+                       new Constructor<IDetailedStatisticsViewModel>(() => new DetailedPostFlopHeroReactsStatisticsViewModel(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroReactsRaiseReactionStatisticsViewModel>()))))
         {
-            Players.Add(new PlayerStatisticsDesignModel("renniweg", 3000, 2000, 1000, 2500, 1500, 500));
+
             Players.Add(new PlayerStatisticsDesignModel("Greystoke-11", 3001, 2001, 1001, 2501, 1501, 501));
             Players.Add(new PlayerStatisticsDesignModel("satina13", 3002, 2002, 1002, 2502, 1502, 502));
             Players.Add(new PlayerStatisticsDesignModel("salemorguy", 3003, 2003, 1003, 2503, 1503, 503));

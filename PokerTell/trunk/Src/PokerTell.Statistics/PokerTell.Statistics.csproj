@@ -132,8 +132,8 @@
     <Compile Include="ViewModels\PreFlopStatisticsSetsViewModel.cs" />
     <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModel.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableCellViewModel.cs" />
-    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopActionStatisticsViewModel.cs" />
-    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopReactionStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroActsStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroReactsStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModel.cs" />
     <Compile Include="ViewModels\Analyzation\DetailedRaiseReactionStatisticsViewModels.cs" />
