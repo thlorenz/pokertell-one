@@ -12,7 +12,6 @@
 
     <DataTemplate x:Key="DetailedStatisticsViewTemplate">
         <StackPanel>
-          <!--  <Label Content="{Binding DetailedStatisticsDescription}"  /> -->
             <ContentPresenter Content="{Binding}" />
         </StackPanel>
     </DataTemplate>
@@ -30,9 +29,12 @@
                     <dg:DataGridTextColumn Header="CO" Binding="{Binding Cells[5].Value}" />
                     <dg:DataGridTextColumn Header="BU" Binding="{Binding Cells[6].Value}" />
                 </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
             </dg:DataGrid>
             <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
                     <Image Source="../../Resources/InvestigateIcon.png" />
                 </Button>
                 <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
@@ -61,9 +63,12 @@
                     <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
                 </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
             </dg:DataGrid>
            <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
+                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
                     <Image Source="../../Resources/InvestigateIcon.png" />
                 </Button>
                 <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
@@ -76,24 +81,27 @@
    <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroReactsStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
-                </dg:DataGrid.Columns>
-            </dg:DataGrid>
+                     SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
+            </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
 
-           <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </Button>
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </Button>
+       <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
+            <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
+                <Image Source="../../Resources/InvestigateIcon.png" />
+            </Button>
+            <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
+                <Image Source="../../Resources/InvestigateIcon.png" />
+            </Button>
             </StackPanel>
         </StackPanel>
     </DataTemplate>
@@ -102,8 +110,8 @@
     <System:String x:Key="MediumRaise">3x</System:String>
     <System:String x:Key="LargeRaise">5x</System:String>
     <System:String x:Key="VeryLargeRaise">9x</System:String>
-<!--
-  <DataTemplate DataType="{x:Type Analyzation:DetailedRaiseReactionStatisticsViewModel}" >
+
+  <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroActsRaiseReactionStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -113,9 +121,42 @@
                     <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
                 </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
             </dg:DataGrid>
-           <Button Content="Investigate" Command="{Binding InvestigateCommand}" /> -->
-      <!--  </StackPanel>
+      </StackPanel>
     </DataTemplate>
-    -->
+  <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroReactsRaiseReactionStatisticsViewModel}" >
+        <StackPanel Orientation="Horizontal">
+            <dg:DataGrid ItemsSource="{Binding Rows}"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+                </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
+            </dg:DataGrid>
+      </StackPanel>
+    </DataTemplate>
+  <DataTemplate DataType="{x:Type Analyzation:PreFlopRaiseReactionStatisticsViewModel}" >
+        <StackPanel Orientation="Horizontal">
+            <dg:DataGrid ItemsSource="{Binding Rows}"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+                </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
+            </dg:DataGrid>
+      </StackPanel>
+    </DataTemplate>
 </ResourceDictionary>

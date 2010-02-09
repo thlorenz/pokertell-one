@@ -52,6 +52,7 @@ namespace PokerTell.Statistics.ViewModels.Base
                 RaisePropertyChanged(() => StatisticsDescription);
             }
         }
+
         IDetailedStatisticsAnalyzerContentViewModel _childViewModel;
 
         /// <summary>

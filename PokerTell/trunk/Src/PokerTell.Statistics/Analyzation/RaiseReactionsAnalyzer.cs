@@ -17,7 +17,7 @@ namespace PokerTell.Statistics.Analyzation
 
         public IEnumerable<IRaiseReactionAnalyzer> RaiseReactionAnalyzers
         {
-            get { return _raiseReactionAnalyzers; }
+        get { return _raiseReactionAnalyzers; }
         }
 
         public IRaiseReactionsAnalyzer AnalyzeAndAdd(
@@ -33,7 +33,6 @@ namespace PokerTell.Statistics.Analyzation
             {
                 raiseReactionAnalyzer
                     .AnalyzeUsingDataFrom(analyzablePokerPlayer, _reactionAnalyzationPreparer, RaiseSizeKeys);
-
                 if (raiseReactionAnalyzer.IsValidResult & raiseReactionAnalyzer.IsStandardSituation)
                 {
                     _raiseReactionAnalyzers.Add(raiseReactionAnalyzer);
@@ -43,15 +42,20 @@ namespace PokerTell.Statistics.Analyzation
             return this;
         }
 
-        public RaiseReactionsAnalyzer(double[] raiseSizeKeys, IReactionAnalyzationPreparer reactionAnalyzationPreparer)
+        public RaiseReactionsAnalyzer(IReactionAnalyzationPreparer reactionAnalyzationPreparer)
         {
+            _reactionAnalyzationPreparer = reactionAnalyzationPreparer;
+        }
+
+        public IRaiseReactionsAnalyzer InitializeWith(double[] raiseSizeKeys)
+        {
+            RaiseSizeKeys = raiseSizeKeys;
             if (raiseSizeKeys.Length < 1)
             {
                 throw new ArgumentException("need at least one raiseSize");
             }
 
-            _reactionAnalyzationPreparer = reactionAnalyzationPreparer;
-            RaiseSizeKeys = raiseSizeKeys;
+            return this;
         }
     }
 }

@@ -9,10 +9,10 @@
 
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
-                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
-                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
-                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
-                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -23,26 +23,30 @@
                 <RowDefinition />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            
+
             <StackPanel Grid.Row="0" Orientation="Horizontal">
                 <ListBox ItemsSource="{Binding Players}"
                          SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"
                          FontSize="10"/>
                 <ContentControl DataContext="{Binding SelectedPlayer}" Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
             </StackPanel>
-           
-            
-            
+
+
+
+            <StackPanel Grid.Row="1" MaxHeight=" 20" Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Top" DataContext="{Binding DetailedStatisticsAnalyzer}" > 
+                <Button Content="&lt;" Padding="3" Command="{Binding NavigateBackwardCommand}"/>
+                <Button Content="&gt;"  Padding="3" Command="{Binding NavigateForwardCommand}"/>
+            </StackPanel>
             <Viewbox Grid.Row="1" Width="220" Height="100" DataContext="{Binding DetailedStatisticsAnalyzer}" Stretch="Uniform">
                 <ContentControl Content="{Binding CurrentViewModel}" ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"/>
             </Viewbox>
-            
+
             <TabControl Grid.Row="2" DataContext="{Binding SelectedPlayer}">
                 <TabItem Header="Flop" Content="{Binding FlopStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                 <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                 <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
             </TabControl>
-            
+
             <Button Grid.Row="2"
                     Command="{Binding FilterAdjustmentRequestedCommand}" 
                     Content="Filter"
@@ -51,7 +55,7 @@
                     Padding="5, 3"
                     Margin="0"
                     MaxHeight="22"/>
-            
+
         </Grid>
 
     </DataTemplate>

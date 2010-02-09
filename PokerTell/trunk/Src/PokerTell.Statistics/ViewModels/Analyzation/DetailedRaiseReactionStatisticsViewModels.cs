@@ -5,53 +5,53 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
     using System.Linq;
     using System.Windows.Input;
 
-    using Base;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-
-    using Interfaces;
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Statistics.Interfaces;
+    using PokerTell.Statistics.ViewModels.Base;
 
     using Tools.Interfaces;
     using Tools.WPF;
 
-    public class PostFlopHeroActsRaiseReactionStatisticsViewModel : DetailedRaiseReactionStatisticsViewModel<double>,
+    public class PostFlopHeroActsRaiseReactionStatisticsViewModel : DetailedRaiseReactionStatisticsViewModel<double>, 
                                                                     IPostFlopHeroActsRaiseReactionStatisticsViewModel
     {
         public PostFlopHeroActsRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+            IHandBrowserViewModel handBrowserViewModel, 
+            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
         }
     }
 
-    public class PostFlopHeroReactsRaiseReactionStatisticsViewModel : DetailedRaiseReactionStatisticsViewModel<double>,
-                                                                    IPostFlopHeroReactsRaiseReactionStatisticsViewModel
+    public class PostFlopHeroReactsRaiseReactionStatisticsViewModel : DetailedRaiseReactionStatisticsViewModel<double>, 
+                                                                      IPostFlopHeroReactsRaiseReactionStatisticsViewModel
     {
         public PostFlopHeroReactsRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+            IHandBrowserViewModel handBrowserViewModel, 
+            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IPostFlopHeroReactsRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
         }
     }
 
-    public class PreFlopRaiseReactionStatisticsViewModel : DetailedRaiseReactionStatisticsViewModel<StrategicPositions>,
+    public class PreFlopRaiseReactionStatisticsViewModel : DetailedRaiseReactionStatisticsViewModel<StrategicPositions>, 
                                                            IPreFlopRaiseReactionStatisticsViewModel
     {
         public PreFlopRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+            IHandBrowserViewModel handBrowserViewModel, 
+            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IPreFlopRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
         }
     }
 
-    public class DetailedRaiseReactionStatisticsViewModel<T> : StatisticsTableViewModel, IDetailedRaiseReactionStatisticsViewModel<T>
+    public class DetailedRaiseReactionStatisticsViewModel<T> : StatisticsTableViewModel, 
+                                                               IDetailedRaiseReactionStatisticsViewModel<T>
     {
         readonly IHandBrowserViewModel _handBrowserViewModel;
 
@@ -74,8 +74,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         Streets _street;
 
         public DetailedRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
+            IHandBrowserViewModel handBrowserViewModel, 
+            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IRaiseReactionDescriber<T> raiseReactionDescriber)
             : base("Raise Size")
         {
@@ -88,13 +88,14 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         {
             get
             {
-                return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand {
-                    ExecuteDelegate = arg => {
-                        _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
-                        ChildViewModel = _handBrowserViewModel;
-                    },
-                    CanExecuteDelegate = arg => SelectedCells.Count > 0
-                });
+                return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
+                            ChildViewModel = _handBrowserViewModel;
+                        }, 
+                        CanExecuteDelegate = arg => SelectedCells.Count > 0
+                    });
             }
         }
 
@@ -114,10 +115,10 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         }
 
         public IDetailedRaiseReactionStatisticsViewModel<T> InitializeWith(
-            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
-            ITuple<T, T> selectedRatioSizeSpan,
-            string playerName,
-            ActionSequences actionSequence,
+            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, 
+            ITuple<T, T> selectedRatioSizeSpan, 
+            string playerName, 
+            ActionSequences actionSequence, 
             Streets street)
         {
             _playerName = playerName;
@@ -131,8 +132,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             {
                 throw new ArgumentException("need at least one analyzable Player");
             }
-
+            _raiseReactionStatisticsBuilder.InitializeWith(ApplicationProperties.RaiseSizeKeys);
             CreateTableAndDescription();
+            
 
             return this;
         }
@@ -142,21 +144,22 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             _raiseReactionStatistics = _raiseReactionStatisticsBuilder
                 .Build(_analyzablePokerPlayers, _actionSequence, _street);
 
-            Rows = new List<IStatisticsTableRowViewModel> {
-                new StatisticsTableRowViewModel(
-                    "Fold", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.F].Values, "%"),
-                new StatisticsTableRowViewModel(
-                    "Call", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.C].Values, "%"),
-                new StatisticsTableRowViewModel(
-                    "Raise", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.R].Values, "%"),
-                new StatisticsTableRowViewModel(
-                    "Count", _raiseReactionStatistics.TotalCountsByColumnDictionary.Values, string.Empty)
-            };
+            Rows = new List<IStatisticsTableRowViewModel>
+                {
+                    new StatisticsTableRowViewModel(
+                        "Fold", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.F].Values, "%"), 
+                    new StatisticsTableRowViewModel(
+                        "Call", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.C].Values, "%"), 
+                    new StatisticsTableRowViewModel(
+                        "Raise", _raiseReactionStatistics.PercentagesDictionary[ActionTypes.R].Values, "%"), 
+                    new StatisticsTableRowViewModel(
+                        "Count", _raiseReactionStatistics.TotalCountsByColumnDictionary.Values, string.Empty)
+                };
 
             StatisticsDescription = _raiseReactionDescriber
-                .Describe(_playerName,
-                          _analyzablePokerPlayers.First(),
-                          _street,
+                .Describe(_playerName, 
+                          _analyzablePokerPlayers.First(), 
+                          _street, 
                           _selectedRationSizeSpan);
         }
     }

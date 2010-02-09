@@ -33,12 +33,7 @@ namespace PokerTell.Statistics.Interfaces
     {
         ICommand BrowseHandsCommand { get; }
 
-        IDetailedRaiseReactionStatisticsViewModel<T> InitializeWith(
-            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
-            ITuple<T, T> selectedRatioSizeSpan,
-            string playerName,
-            ActionSequences actionSequence,
-            Streets street);
+        IDetailedRaiseReactionStatisticsViewModel<T> InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, ITuple<T, T> selectedRatioSizeSpan, string playerName, ActionSequences actionSequence, Streets street);
     }
 
 

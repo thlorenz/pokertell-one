@@ -30,7 +30,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       ///   Assumes that cells have been selected and that they are all in the same row.
       ///   It returns the ActionSequence associated with the row of the first selected cell.
       /// </summary>
-      public ActionSequences SelectedActionSequence
+      public virtual ActionSequences SelectedActionSequence
       {
          get
          {
@@ -43,7 +43,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       /// <summary>
       ///   Returns all AnalyzablePokerPlayers whose percentages were selected on the table
       /// </summary>
-      public IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+      public virtual IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
       {
          get
          {

@@ -38,17 +38,11 @@ namespace PokerTell.Statistics.Analyzation
                 "{0} {1} {2} of the pot {3} on the {4} and was raised",
                 playerName,
                 ActionSequencesUtility.NameLastActionInSequence(actionSequence).ToLower(),
-                DescribeBetSizes(ratioSizes),
+                 PostFlopRaiseReactionDescriberUtils.DescribeBetSizes(ratioSizes),
                 PostFlopRaiseReactionDescriberUtils.DescribePosition(analyzablePokerPlayer, street),
                 street.ToString().ToLower());
         }
 
-        static string DescribeBetSizes(ITuple<double, double> ratioSizes)
-        {
-            return (ratioSizes.First == ratioSizes.Second)
-                       ? ratioSizes.First.ToString()
-                       : ratioSizes.First + " to " + ratioSizes.Second;
-        }
     }
 
     public class PostFlopHeroReactsRaiseReactionDescriber : IPostFlopHeroReactsRaiseReactionDescriber
@@ -56,10 +50,10 @@ namespace PokerTell.Statistics.Analyzation
         public string Describe(string playerName, IAnalyzablePokerPlayer analyzablePokerPlayer, Streets street, ITuple<double, double> ratioSizes)
         {
             ActionSequences actionSequence = analyzablePokerPlayer.ActionSequences[(int)street];
-            return string.Format("{0} {1} {2} when {3} on the {4}, and was reraised",
+            return string.Format("{0} {1} ({2} of the pot), when {3} on the {4}, and was reraised",
                                  playerName,
                                  DescribeAction(actionSequence),
-                                 DescribeRaiseSizes(ratioSizes),
+                                 PostFlopRaiseReactionDescriberUtils.DescribeBetSizes(ratioSizes),
                                  PostFlopRaiseReactionDescriberUtils.DescribePosition(analyzablePokerPlayer, street),
                                  street.ToString().ToLower());
         }
@@ -74,12 +68,6 @@ namespace PokerTell.Statistics.Analyzation
                    " a " + ActionTypesUtility.Name(ActionTypes.B).ToLower();
         }
 
-        static string DescribeRaiseSizes(ITuple<double, double> ratioSizes)
-        {
-            return (ratioSizes.First == ratioSizes.Second)
-                       ? string.Format("{0}x", ratioSizes.First)
-                       : string.Format("between {0}x and {1}x", ratioSizes.First, ratioSizes.Second);
-        }
     }
 
     internal static class PostFlopRaiseReactionDescriberUtils
@@ -87,6 +75,13 @@ namespace PokerTell.Statistics.Analyzation
         internal static string DescribePosition(IAnalyzablePokerPlayer analyzablePokerPlayer, Streets street)
         {
             return (bool)analyzablePokerPlayer.InPosition[(int)street] ? "in position" : "out of position";
+        }
+
+        internal static string DescribeBetSizes(ITuple<double, double> ratioSizes)
+        {
+            return (ratioSizes.First == ratioSizes.Second)
+                       ? ratioSizes.First.ToString()
+                       : ratioSizes.First + " to " + ratioSizes.Second;
         }
     }
 }

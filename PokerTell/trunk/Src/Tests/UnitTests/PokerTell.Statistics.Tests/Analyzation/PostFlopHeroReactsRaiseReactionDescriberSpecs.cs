@@ -26,20 +26,20 @@ namespace PokerTell.Statistics.Tests.Analyzation
            *  
            *  Description 
            *  
-                when fred raised a bet 2x when in position on the flop and was reraised
+                when fred raised a bet 0.2 of the pot, when in position on the flop, and was reraised
                     » should contain " flop"  
                     » should contain " fred"   
                     » should contain " in position"  
                     » should contain " raised a bet"  
                     » should contain " was reraised"  
-                when fred check raised a bet between 2 x and 5x when out of position on the turn and was reraised
+                when fred check raised a bet between 0.2 and 0.5 of the pot, when out of position on the turn, and was reraised
                     » should contain " and was raised"  
                     » should contain " check-raised a bet"  
                     » should contain " fred"   
                     » should contain " out of position"   
                     » should contain " turn"   
-                when freds raise sizes are 2x and 5x
-                    » should contain " between 2 x and 5x" 
+                when freds raise sizes are 0.2 and 0.5
+                    » should contain " between 0.2 and 0.5" 
                 when betsizes are 3x and 3x
                     » should contain " 3x"   
                     » should not contain " between 3 x and 3x"    
@@ -49,10 +49,10 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         protected static IPostFlopHeroReactsRaiseReactionDescriber _sut;
 
-        protected static ITuple<double, double> _validRaiseSizes;
+        protected static ITuple<double, double> _validBetSizes;
 
         Establish context = () => {
-            _validRaiseSizes = Tuple.New(0.5, 0.7);
+            _validBetSizes = Tuple.New(0.5, 0.7);
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _sut = new PostFlopHeroReactsRaiseReactionDescriber();
         };
@@ -72,7 +72,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
     }
 
     [Subject(typeof(PostFlopHeroReactsRaiseReactionDescriber), "Description")]
-    public class when_fred_raised_a_bet_2x_when_in_position_on_the_flop_and_was_reraised
+    public class when_fred_raised_a_bet_02_when_in_position_on_the_flop_and_was_reraised
         : PostFlopHeroReactsRaiseReactionDescriberSpecs
     {
         static string description;
@@ -86,7 +86,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
                 .Returns(new bool?[] { null, true });
         };
 
-        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validRaiseSizes);
+        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validBetSizes);
 
         It should_contain__flop__
             = () => description.ShouldContain("flop");
@@ -105,7 +105,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
     }
 
     [Subject(typeof(PostFlopHeroReactsRaiseReactionDescriber), "Description")]
-    public class when_fred_check_raised_a_bet_between_2_x_and_5x_when_out_of_position_on_the_turn_and_was_reraised
+    public class when_fred_check_raised_a_bet_between_0_2_and_0_5_when_out_of_position_on_the_turn_and_was_reraised
         : PostFlopHeroReactsRaiseReactionDescriberSpecs
     {
         static string description;
@@ -119,7 +119,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
                 .Returns(new bool?[] { null, null, false });
         };
 
-        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Turn, _validRaiseSizes);
+        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Turn, _validBetSizes);
 
         It should_contain__and_was_raised__
             = () => description.ShouldContain("was reraised");
@@ -138,33 +138,33 @@ namespace PokerTell.Statistics.Tests.Analyzation
     }
 
     [Subject(typeof(PostFlopHeroReactsRaiseReactionDescriber), "Description")]
-    public class when_freds_raise_sizes_are_2x_and_5x
+    public class when_freds_raise_sizes_are_0_2_and_0_5
         : Ctx_PostFlopHeroReactsRaiseReactionDescriber_HeroRaisedABetOnFlop
     {
         static string description;
 
-        Establish context = () => { _validRaiseSizes = Tuple.New(2.0, 5.0); };
+        Establish context = () => { _validBetSizes = Tuple.New(0.2, 0.5); };
 
-        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validRaiseSizes);
+        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validBetSizes);
 
-        It should_contain__between_2_x_and_5x__
-            = () => description.ShouldContain("between 2x and 5x");
+        It should_contain__between_0_2_and_0_5__
+            = () => description.ShouldContain("(0.2 to 0.5 of the pot)");
     }
 
     [Subject(typeof(PostFlopHeroReactsRaiseReactionDescriber), "Description")]
-    public class when_betsizes_are_3x_and_3x
+    public class when_betsizes_are_0_3_and_0_3_
         : Ctx_PostFlopHeroReactsRaiseReactionDescriber_HeroRaisedABetOnFlop
     {
         static string description;
 
-        Establish context = () => { _validRaiseSizes = Tuple.New(3.0, 3.0); };
+        Establish context = () => { _validBetSizes = Tuple.New(0.3, 0.3); };
 
-        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validRaiseSizes);
+        Because of = () => description = _sut.Describe("fred", _analyzablePokerPlayerStub.Object, Streets.Flop, _validBetSizes);
 
-        It should_contain__3x___
-            = () => description.ShouldContain("3x");
+        It should_contain_0_3___
+            = () => description.ShouldContain("0.3");
 
-        It should_not_contain__between_3_x_and_3x____
-            = () => description.Contains("between 3x and 3x").ShouldBeFalse();
+        It should_not_contain__between_0_3_and_0_3___
+            = () => description.Contains("(0.3 to 0.3)").ShouldBeFalse();
     }
 }

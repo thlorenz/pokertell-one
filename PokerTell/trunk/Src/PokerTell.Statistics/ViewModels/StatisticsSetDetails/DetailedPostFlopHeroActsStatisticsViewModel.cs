@@ -50,7 +50,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                                                                  Street);
                         },
                         CanExecuteDelegate =
-                            arg => SelectedCells.Count() > 0 && SelectedActionSequence == ActionSequences.HeroB
+                            arg => SelectedCells.Count() > 0
                     });
             }
         }
@@ -75,5 +75,26 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
             return this;
         }
+
+        public override IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+        {
+            get
+            {
+            return SelectedCells.SelectMany(
+               selectedCell => {
+                  int col = selectedCell.Second;
+                  return ActionSequenceStatisticsSet.ActionSequenceStatistics.Last().MatchingPlayers[col];
+               });
+            }
+        }
+
+        public override ActionSequences SelectedActionSequence
+        {
+            get
+            {
+                return ActionSequences.HeroB;
+            }
+        }
+
     }
 }

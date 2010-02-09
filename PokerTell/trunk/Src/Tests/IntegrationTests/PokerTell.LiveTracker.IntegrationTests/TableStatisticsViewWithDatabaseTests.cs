@@ -90,13 +90,14 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
          tableStatisticsViewModel.UpdateWith(new[]
              {
-                // get(renniweg), 
+                 get(renniweg), 
                  get(greystoke), 
                  get(salemorguy)
              });
 
          designWindow.ShowDialog();
       }
+
 
       [SetUp]
       public void _Init()
@@ -129,7 +130,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
             .RegisterType<IRaiseReactionStatistics, RaiseReactionStatistics>()
              .RegisterType<IRaiseReactionStatisticsBuilder, RaiseReactionStatisticsBuilder>()
 
-            .RegisterType<IHandBrowser, HandBrowser>()
+             .RegisterInstance<IHandBrowser>(new StubBuilder().Out<IHandBrowser>())
             .RegisterInstance<IHandHistoryViewModel>(new StubBuilder().Out<IHandHistoryViewModel>())
             .RegisterType<IHandBrowserViewModel, HandBrowserViewModel>()
 
@@ -139,17 +140,18 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
             .RegisterType<IPreFlopRaiseReactionStatisticsViewModel, PreFlopRaiseReactionStatisticsViewModel>()
             .RegisterType<IPostFlopHeroActsRaiseReactionStatisticsViewModel, PostFlopHeroActsRaiseReactionStatisticsViewModel>()
-            .RegisterType<IPostFlopHeroReactsRaiseReactionStatisticsViewModel, PostFlopHeroReactsRaiseReactionStatisticsViewModel>()
-
-            .RegisterType<IPreFlopRaiseReactionStatisticsViewModel, PreFlopRaiseReactionStatisticsViewModel>()
-            .RegisterType<IPostFlopHeroActsRaiseReactionStatisticsViewModel, PostFlopHeroActsRaiseReactionStatisticsViewModel>()
             .RegisterType<IPostFlopHeroReactsRaiseReactionStatisticsViewModel, PostFlopHeroReactsRaiseReactionStatisticsViewModel>();
 
 
          _handBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
          _raiseReactionStatisticsBuilder = new Mock<IRaiseReactionStatisticsBuilder>().Object;
          _raiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
-
       }
+
+       [Test]
+       public void Dependencies_Are_Complete()
+       {
+           _container.Resolve<IPreFlopRaiseReactionStatisticsViewModel>();
+       }
    }
 }

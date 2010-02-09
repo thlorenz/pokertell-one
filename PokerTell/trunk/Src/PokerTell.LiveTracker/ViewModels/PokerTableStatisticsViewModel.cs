@@ -82,8 +82,6 @@ namespace PokerTell.LiveTracker.ViewModels
             {
                 _selectedPlayer = value;
                 
-               
-                
                 RaisePropertyChanged(() => SelectedPlayer);
             }
         }

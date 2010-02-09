@@ -11,5 +11,7 @@ namespace PokerTell.Statistics.Interfaces
          IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
          ActionSequences actionSequence,
          Streets street);
+
+       IRaiseReactionStatisticsBuilder InitializeWith(double[] raiseSizeKeys);
    }
 }

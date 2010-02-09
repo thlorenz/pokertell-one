@@ -100,7 +100,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         protected static Streets _validStreet;
 
         Establish context = () => {
-
             _playerName = "somePlayer";
             _validStreet = Streets.Flop;
             _validActionSequence = ActionSequences.HeroB;
@@ -145,8 +144,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     public abstract class Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized :
         DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        Establish context = () => _sut.InitializeWith(
-                                      _validAnalyzablePokerPlayersStub,
+        Establish context = () => _sut.InitializeWith(_validAnalyzablePokerPlayersStub,
                                       _validBetSizes,
                                       _playerName,
                                       _validActionSequence,
@@ -159,8 +157,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         static Exception exception;
 
         Because of = () => exception = Catch.Exception(
-                                           () => _sut.InitializeWith(
-                                                     Enumerable.Empty<IAnalyzablePokerPlayer>(),
+                                           () => _sut.InitializeWith(Enumerable.Empty<IAnalyzablePokerPlayer>(),
                                                      _validBetSizes,
                                                      _playerName,
                                                      _validActionSequence,
@@ -182,8 +179,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                 .Returns(description);
         };
         
-        Because of = () => _sut.InitializeWith(
-                               _validAnalyzablePokerPlayersStub,
+        Because of = () => _sut.InitializeWith(_validAnalyzablePokerPlayersStub,
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
@@ -213,8 +209,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                 });
         };
 
-        Because of = () => _sut.InitializeWith(
-                               _validAnalyzablePokerPlayersStub,
+        Because of = () => _sut.InitializeWith(_validAnalyzablePokerPlayersStub,
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
@@ -249,8 +244,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                           { ActionTypes.R, _emptyPercentageDictionary }
                                       });
 
-        Because of = () => _sut.InitializeWith(
-                               _validAnalyzablePokerPlayersStub,
+        Because of = () => _sut.InitializeWith(_validAnalyzablePokerPlayersStub,
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,
@@ -273,8 +267,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                           { 2, 1 }
                                       });
 
-        Because of = () => _sut.InitializeWith(
-                               _validAnalyzablePokerPlayersStub,
+        Because of = () => _sut.InitializeWith(_validAnalyzablePokerPlayersStub,
                                _validBetSizes,
                                _playerName,
                                _validActionSequence,

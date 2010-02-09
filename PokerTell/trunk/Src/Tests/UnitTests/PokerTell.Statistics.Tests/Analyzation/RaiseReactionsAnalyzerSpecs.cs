@@ -23,7 +23,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
          *  Specifications
          *  Subject: RaiseReactionsAnalyzer
          *  
-         *  Constructor
+         *  Initialization
          *      given 0 raise sizes
          *        It should fail with an argument exception
          *      
@@ -73,7 +73,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
     {
         Establish context = () => {
             _raiseSizeKeys = new[] { 1.0, 2.0 };
-            _sut = new RaiseReactionsAnalyzer(_raiseSizeKeys, _analyzationPreparerStub.Object);
+            _sut = new RaiseReactionsAnalyzer(_analyzationPreparerStub.Object).InitializeWith(_raiseSizeKeys);
         };
     }
 
@@ -83,7 +83,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
         Establish context = () => _analyzationPreparerStub.SetupGet(p => p.WasSuccessful).Returns(true);
     }
 
-    [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
+    [Subject(typeof(RaiseReactionsAnalyzer), "Initialization")]
     public class given_0_raise_sizes
         : RaiseReactionsAnalyzerSpecs
     {
@@ -91,14 +91,14 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         Because of = () => {
             _raiseSizeKeys = new double[] { };
-            exception = Catch.Exception(() => _sut = new RaiseReactionsAnalyzer(_raiseSizeKeys, _analyzationPreparerStub.Object));
+            exception = Catch.Exception(() => _sut = new RaiseReactionsAnalyzer(_analyzationPreparerStub.Object).InitializeWith(_raiseSizeKeys));
         };
 
         It should_fail_with_an_ArgumentException =
             () => exception.ShouldBeOfType<ArgumentException>();
     }
 
-    [Subject(typeof(RaiseReactionsAnalyzer), "Constructor")]
+    [Subject(typeof(RaiseReactionsAnalyzer), "Initialization")]
     public class given_2_raise_sizes
         : Ctx_RaiseReactionsAnalyzer_2_raise_sizes
     {

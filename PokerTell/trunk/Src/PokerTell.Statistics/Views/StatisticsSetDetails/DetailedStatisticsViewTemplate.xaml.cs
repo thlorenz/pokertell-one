@@ -1,13 +1,8 @@
 namespace PokerTell.Statistics.Views.StatisticsSetDetails
 {
-    using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
-
-    using ViewModels.Base;
-    using ViewModels.StatisticsSetDetails;
-
     using Microsoft.Windows.Controls;
+
+    using PokerTell.Statistics.Interfaces;
 
     public partial class DetailedStatisticsViewTemplate
     {
@@ -22,7 +17,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
             UpdateViewModelWithCurrentSelection(grid);
         }
 
-        static bool IsOnAnotherRow(DataGridCellInfo gridCellInfo, StatisticsTableRowViewModel firstFoundSelectedRow)
+        static bool IsOnAnotherRow(DataGridCellInfo gridCellInfo, IStatisticsTableRowViewModel firstFoundSelectedRow)
         {
             return gridCellInfo.Item != firstFoundSelectedRow;
         }
@@ -33,12 +28,12 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         /// <param name="grid"></param>
         static void LimitSelectionToOneRow(DataGrid grid)
         {
-            StatisticsTableRowViewModel firstSelectedRowFound = null;
+            IStatisticsTableRowViewModel firstSelectedRowFound = null;
             foreach (DataGridCellInfo gridCellInfo in grid.SelectedCells)
             {
                 if (firstSelectedRowFound == null)
                 {
-                    firstSelectedRowFound = (StatisticsTableRowViewModel)gridCellInfo.Item;
+                    firstSelectedRowFound = (IStatisticsTableRowViewModel)gridCellInfo.Item;
                 }
                 else if (IsOnAnotherRow(gridCellInfo, firstSelectedRowFound))
                 {
@@ -54,7 +49,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         /// </summary>
         /// <param name="grid"></param>
         /// <param name="firstSelectedRowFound">Row that user is trying to select</param>
-        static void ClearSelectionIfRowIsNotSelectable(DataGrid grid, StatisticsTableRowViewModel firstSelectedRowFound)
+        static void ClearSelectionIfRowIsNotSelectable(DataGrid grid, IStatisticsTableRowViewModel firstSelectedRowFound)
         {
             if (firstSelectedRowFound != null && !firstSelectedRowFound.IsSelectable)
             {
@@ -64,7 +59,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
 
         static void UpdateViewModelWithCurrentSelection(DataGrid grid)
         {
-            var viewModel = (IDetailedStatisticsViewModel)grid.DataContext;
+            var viewModel = (IStatisticsTableViewModel)grid.DataContext;
             viewModel.ClearSelection();
 
             foreach (DataGridCellInfo gridCellInfo in grid.SelectedCells)

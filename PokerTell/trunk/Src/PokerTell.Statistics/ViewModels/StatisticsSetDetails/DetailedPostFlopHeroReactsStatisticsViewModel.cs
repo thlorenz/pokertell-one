@@ -20,7 +20,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         ICommand _investigateRaiseReactionCommand;
 
 
-        static readonly double[] RaiseSizeKeys = ApplicationProperties.RaiseSizeKeys;
+        static readonly double[] BetSizeKeys = ApplicationProperties.BetSizeKeys;
 
         readonly IPostFlopHeroReactsRaiseReactionStatisticsViewModel _raiseReactionStatisticsViewModel;
 
@@ -39,11 +39,11 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
                     {
                         ExecuteDelegate = _ => {
-                            var raiseSizes = Tuple.New(RaiseSizeKeys[SelectedColumnsSpan.First], RaiseSizeKeys[SelectedColumnsSpan.Second]);
+                            var betSizes = Tuple.New(BetSizeKeys[SelectedColumnsSpan.First], BetSizeKeys[SelectedColumnsSpan.Second]);
 
                             ChildViewModel =
                                 _raiseReactionStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers,
-                                                                                 raiseSizes,
+                                                                                 betSizes,
                                                                                  PlayerName,
                                                                                  SelectedActionSequence,
                                                                                  Street);
