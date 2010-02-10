@@ -2,7 +2,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Statistics="clr-namespace:PokerTell.Infrastructure.Interfaces.Statistics;assembly=PokerTell.Infrastructure">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="C:\SD\PokerTell\Src\PokerTell\Resources\ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
         <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForSelectorsHeaderViewTemplate.xaml" />
         <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForSelectorsViewTemplate.xaml" />
         <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForInputsViewTemplate.xaml" />

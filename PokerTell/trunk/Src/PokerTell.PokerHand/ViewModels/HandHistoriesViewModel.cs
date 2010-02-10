@@ -250,7 +250,7 @@ namespace PokerTell.PokerHand.ViewModels
                 IHandHistoryViewModel handHistoryViewModel = _handHistoryViewModelMake.New;
 
                 handHistoryViewModel
-                    .Initialize(_handHistoriesFilter.ShowPreflopFolds)
+                    .InitializeWith(_handHistoriesFilter.ShowPreflopFolds)
                     .UpdateWith(hand);
 
                 handHistoryViewModels.Add(handHistoryViewModel);

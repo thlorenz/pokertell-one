@@ -5,7 +5,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="C:\SD\PokerTell\Src\PokerTell\Resources\ExpressionDark.xaml"/>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
                 <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/Filters/RangeFilterForSelectorsViewTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

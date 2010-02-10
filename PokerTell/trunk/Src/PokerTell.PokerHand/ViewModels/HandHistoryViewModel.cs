@@ -11,11 +11,13 @@ namespace PokerTell.PokerHand.ViewModels
 
     using Tools.WPF.ViewModels;
 
+    /// <summary>
+    /// ViewModel to show data of a handhistorie
+    /// By default show preflop folds is false, to change use InitializeWith(true)
+    /// </summary>
     [Serializable]
     public class HandHistoryViewModel : NotifyPropertyChanged, IHandHistoryViewModel
     {
-        #region Constants and Fields
-
         protected Action<IPokerHandCondition> _adjustToConditionAction;
 
         [NonSerialized]
@@ -38,27 +40,16 @@ namespace PokerTell.PokerHand.ViewModels
 
         bool _visible;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public HandHistoryViewModel()
-            : this(false)
         {
+            InitializeWith(false);
         }
-
-        public HandHistoryViewModel(bool showPreflopFolds)
-        {
-            Initialize(showPreflopFolds);
-        }
-
-        #endregion
-
         #region Properties
 
         public Action<IPokerHandCondition> AdjustToConditionAction
         {
-            get {
+            get
+            {
                 return _adjustToConditionAction ??
                        (_adjustToConditionAction = new Action<IPokerHandCondition>(AdjustToCondition));
             }
@@ -213,7 +204,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region IHandHistoryViewModel
 
-        public IHandHistoryViewModel Initialize(bool showPreflopFolds)
+        public IHandHistoryViewModel InitializeWith(bool showPreflopFolds)
         {
             CreateBoardAndPlayerRows();
 
@@ -222,7 +213,7 @@ namespace PokerTell.PokerHand.ViewModels
             SelectedRow = -1;
             IsSelected = false;
             Visible = true;
-           
+
             return this;
         }
 
@@ -256,7 +247,7 @@ namespace PokerTell.PokerHand.ViewModels
 
             SelectedRow = rowToSelect;
         }
-        
+
         public IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand)
         {
             _hand = hand;
@@ -308,14 +299,17 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != typeof(HandHistoryViewModel))
             {
                 return false;
             }
+
             return Equals((HandHistoryViewModel)obj);
         }
 
@@ -335,6 +329,7 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;

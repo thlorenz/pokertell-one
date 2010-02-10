@@ -26,7 +26,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
         public void TableStatisticsViewTemplate()
         {
-            var designWindow = new TableStatisticsDesignWindow(new EventAggregator(),HandBrowserViewModelStub, RaiseReactionStatisticsBuilder, RaiseReactionDescriber) { Topmost = true };
+            var designWindow = new TableStatisticsDesignWindow(new EventAggregator(),HandBrowserViewModelStub) { Topmost = true };
             designWindow.ShowDialog();
         }
 

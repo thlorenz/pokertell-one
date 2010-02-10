@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Composite.Presentation, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
@@ -91,6 +95,10 @@
     <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
       <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
       <Name>Tools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PokerTell.DatabaseSetup\PokerTell.DatabaseSetup.csproj">
+      <Project>{37A0380D-A3ED-46B8-8A04-0871E916E41C}</Project>
+      <Name>PokerTell.DatabaseSetup</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>

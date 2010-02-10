@@ -22,13 +22,9 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
 
 
 
-        public TableStatisticsDesignWindow(
-           IEventAggregator eventAggregator,
-            IHandBrowserViewModel handBrowserViewModel,
-         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+        public TableStatisticsDesignWindow(IEventAggregator eventAggregator, IHandBrowserViewModel handBrowserViewModel)
         {
-            DataContext = new PokerTableStatisticsDesignModel(eventAggregator, handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber);
+            DataContext = new PokerTableStatisticsDesignModel(eventAggregator, handBrowserViewModel);
             InitializeComponent();
         }
 

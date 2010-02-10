@@ -47,7 +47,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         IHandHistoryViewModel UpdateWith(IConvertedPokerHand hand);
 
-        IHandHistoryViewModel Initialize(bool showPreflopFolds);
+        IHandHistoryViewModel InitializeWith(bool showPreflopFolds);
 
         /// <summary>
         /// Selects Player with given name

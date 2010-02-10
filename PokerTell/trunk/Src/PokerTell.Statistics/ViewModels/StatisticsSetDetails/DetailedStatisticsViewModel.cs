@@ -2,6 +2,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
    using System.Collections.Generic;
    using System.Linq;
+   using System.Windows.Input;
 
    using Base;
 
@@ -14,8 +15,9 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
    using Tools.FunctionalCSharp;
    using Tools.Interfaces;
+   using Tools.WPF;
 
-   public abstract class DetailedStatisticsViewModel : StatisticsTableViewModel, IDetailedStatisticsViewModel
+    public abstract class DetailedStatisticsViewModel : StatisticsTableViewModel, IDetailedStatisticsViewModel
    {
       protected readonly IHandBrowserViewModel _handBrowserViewModel;
 
@@ -99,6 +101,23 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
          ActionSequenceStatisticsSet = statisticsSet;
          return CreateTableAndDescriptionFor(statisticsSet);
       }
+
+        ICommand _browseHandsCommand;
+
+        public ICommand BrowseHandsCommand
+        {
+            get
+            {
+                return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
+                            ChildViewModel = _handBrowserViewModel;
+                        }, 
+                        CanExecuteDelegate = arg => SelectedCells.Count > 0
+                    });
+            }
+        }
 
       protected abstract IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
          IActionSequenceStatisticsSet statisticsSet);

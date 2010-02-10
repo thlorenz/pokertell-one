@@ -63,7 +63,6 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
         IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
 
-        ICommand _browseHandsCommand;
 
         string _playerName;
 
@@ -83,6 +82,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             _raiseReactionStatisticsBuilder = raiseReactionStatisticsBuilder;
             _handBrowserViewModel = handBrowserViewModel;
         }
+
+        ICommand _browseHandsCommand;
 
         public ICommand BrowseHandsCommand
         {

@@ -7,8 +7,36 @@
     xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails" xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation">
 
     <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
         <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    
+    <Style x:Key="InvestigateRaiseButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="MaxWidth" Value="15" />
+        <Setter Property="MaxHeight" Value="15" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="FontSize" Value="8" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Command" Value="{Binding InvestigateRaiseReactionCommand}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Source="../../Resources/InvestigateIcon.png" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="BrowseHandHistoriesButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
+        <Setter Property="Command" Value="{Binding BrowseHandsCommand}" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Image Source="../../Resources/BrowseIcon.png" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <DataTemplate x:Key="DetailedStatisticsViewTemplate">
         <StackPanel>
@@ -33,13 +61,9 @@
                     <TextBlock Text="{Binding StatisticsDescription}"/>
                 </dg:DataGrid.ToolTip>
             </dg:DataGrid>
-            <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </Button>
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </Button>
+         <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Right">
+                <Button Style="{StaticResource InvestigateRaiseButtonStyle}"/>
+                <Button Style="{StaticResource BrowseHandHistoriesButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </DataTemplate>
@@ -67,13 +91,9 @@
                     <TextBlock Text="{Binding StatisticsDescription}"/>
                 </dg:DataGrid.ToolTip>
             </dg:DataGrid>
-           <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </Button>
-                <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateCommand}" FontSize="8">
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </Button>
+           <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Right">
+                <Button Style="{StaticResource InvestigateRaiseButtonStyle}"/>
+                <Button Style="{StaticResource BrowseHandHistoriesButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </DataTemplate>
@@ -95,13 +115,9 @@
                 </dg:DataGrid.ToolTip>
         </dg:DataGrid>
 
-       <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Center">
-            <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
-                <Image Source="../../Resources/InvestigateIcon.png" />
-            </Button>
-            <Button MaxWidth="15" MaxHeight="15" Margin="2" Padding="1" Command="{Binding InvestigateRaiseReactionCommand}" FontSize="8">
-                <Image Source="../../Resources/InvestigateIcon.png" />
-            </Button>
+       <StackPanel VerticalAlignment="Bottom" Margin="2,12,2,2" HorizontalAlignment="Right">
+                <Button Style="{StaticResource InvestigateRaiseButtonStyle}"/>
+                <Button Style="{StaticResource BrowseHandHistoriesButtonStyle}"/>
             </StackPanel>
         </StackPanel>
     </DataTemplate>
@@ -125,7 +141,8 @@
                     <TextBlock Text="{Binding StatisticsDescription}"/>
                 </dg:DataGrid.ToolTip>
             </dg:DataGrid>
-      </StackPanel>
+            <Button Style="{StaticResource BrowseHandHistoriesButtonStyle}"/>
+        </StackPanel>
     </DataTemplate>
   <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroReactsRaiseReactionStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
@@ -141,6 +158,7 @@
                     <TextBlock Text="{Binding StatisticsDescription}"/>
                 </dg:DataGrid.ToolTip>
             </dg:DataGrid>
+            <Button Style="{StaticResource BrowseHandHistoriesButtonStyle}"/>
       </StackPanel>
     </DataTemplate>
   <DataTemplate DataType="{x:Type Analyzation:PreFlopRaiseReactionStatisticsViewModel}" >
@@ -157,6 +175,27 @@
                     <TextBlock Text="{Binding StatisticsDescription}"/>
                 </dg:DataGrid.ToolTip>
             </dg:DataGrid>
+            <Button Style="{StaticResource BrowseHandHistoriesButtonStyle}"/>
       </StackPanel>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type Analyzation:HandBrowserViewModel}">
+        
+        <StackPanel Orientation="Horizontal">
+            <dg:DataGrid DataContext="{Binding CurrentHandHistory}"
+                         ItemsSource="{Binding PlayerRows}"
+                         HeadersVisibility="Column">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="Player" Binding="{Binding PlayerName}" />
+                    <dg:DataGridTextColumn Header="Position" Binding="{Binding Position}" />
+                    <dg:DataGridTextColumn Header="Cards" Binding="{Binding HoleCards}" />
+                    <dg:DataGridTextColumn Header="M" Binding="{Binding M}" />
+                    <dg:DataGridTextColumn Header="Preflop" Binding="{Binding Preflop}" />
+                    <dg:DataGridTextColumn Header="Flop" Binding="{Binding Flop}" />
+                    <dg:DataGridTextColumn Header="Turn" Binding="{Binding Turn}" />
+                    <dg:DataGridTextColumn Header="River" Binding="{Binding River}" />
+                </dg:DataGrid.Columns>
+            </dg:DataGrid>
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>

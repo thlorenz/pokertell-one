@@ -68,7 +68,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
         [Test]
         public void AddsAllPlayersToRows_IfShowPreflopFoldsIsRequested()
         {
-            _handHistoryViewModel = new HandHistoryViewModel(true);
+            _handHistoryViewModel = new HandHistoryViewModel().InitializeWith(true);
             _handHistoryViewModel.UpdateWith(_pokerHand);
 
             Assert.That(_handHistoryViewModel.PlayerRows.Count, Is.EqualTo(6));

@@ -18,11 +18,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
     {
         #region Constructors and Destructors
 
-        public PokerTableStatisticsDesignModel(
-           IEventAggregator eventAggregator,
-            IHandBrowserViewModel handBrowserViewModel,
-         IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-         IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
+        public PokerTableStatisticsDesignModel(IEventAggregator eventAggregator, IHandBrowserViewModel handBrowserViewModel)
             : base(eventAggregator,
                    new Constructor<IPlayerStatisticsViewModel>(() => null),
                    new DetailedStatisticsAnalyzerViewModel(
