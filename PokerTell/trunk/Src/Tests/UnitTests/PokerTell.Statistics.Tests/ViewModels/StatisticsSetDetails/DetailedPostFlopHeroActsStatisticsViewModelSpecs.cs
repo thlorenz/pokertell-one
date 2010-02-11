@@ -72,6 +72,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 = () =>
                 {
                     _sut.SelectedCells.Add(Tuple.New(0, 0));
+                    
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeTrue();
                 };
 

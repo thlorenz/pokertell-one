@@ -1,8 +1,6 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels"
-                        
-    >
+    xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels" >
 
     <DataTemplate x:Key="TableStatisticsViewTemplate" DataType="{x:Type ViewModels:PokerTableStatisticsViewModel}" >
         <DataTemplate.Resources>
@@ -13,6 +11,7 @@
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -21,39 +20,88 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <ListBox ItemsSource="{Binding Players}"
-                         SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"
-                         FontSize="10"/>
-                <ContentControl DataContext="{Binding SelectedPlayer}" Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
+            <!-- Top Row -->
+            <StackPanel Grid.Row="0" DataContext="{Binding DetailedStatisticsAnalyzer}">
+                <!-- <Viewbox Stretch="Uniform" Height="20" Width="400">
+                    <Label Content="{Binding CurrentViewModel.StatisticsDescription}" FontSize="10" HorizontalAlignment="Center"/>
+                </Viewbox> -->
+                <Viewbox Stretch="Uniform" Height="100" Width="400">
+                    <!-- Statistics Analyzer -->
+                    <ContentControl Content="{Binding CurrentViewModel}" 
+                                    ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"
+                                    HorizontalContentAlignment="Center"/>
+                </Viewbox>
             </StackPanel>
 
-            <StackPanel Grid.Row="1" MaxHeight="15" Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Top" DataContext="{Binding DetailedStatisticsAnalyzer}" > 
-                <Button Content="&lt;" Padding="2" Command="{Binding NavigateBackwardCommand}"/>
-                <Button Content="&gt;"  Padding="2" Command="{Binding NavigateForwardCommand}"/>
-            </StackPanel>
-            <Viewbox Grid.Row="1" Width="220" Height="100" DataContext="{Binding DetailedStatisticsAnalyzer}" Stretch="Uniform">
-                <ContentControl Content="{Binding CurrentViewModel}" ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"/>
-            </Viewbox>
+            <!-- Bottom Row -->
+            <StackPanel x:Name="bottomRowStackPanel" Grid.Row="1" Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal">
 
-            <TabControl Grid.Row="2" DataContext="{Binding SelectedPlayer}">
-                <TabItem Header="Flop" Content="{Binding FlopStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
-                <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
-                <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
-            </TabControl>
+                    <!-- Preflop Set -->
+                    <ContentControl DataContext="{Binding SelectedPlayer}" Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
 
-            <Button Grid.Row="2"
-                    Command="{Binding FilterAdjustmentRequestedCommand}" 
+                    <Grid>
+                        <!-- Postflop sets -->
+                        <TabControl  DataContext="{Binding SelectedPlayer}">
+                            <TabItem Header="Flop" Content="{Binding FlopStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
+                            <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
+                            <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
+                        </TabControl>
+
+                        <!-- Filter Command -->
+                        <Button Command="{Binding FilterAdjustmentRequestedCommand}" 
                     Content="Filter"
                     VerticalAlignment="Top"
                     HorizontalAlignment="Right"
                     Padding="5, 3"
                     Margin="0"
                     MaxHeight="22"/>
-
+                    </Grid>
+                    <StackPanel Orientation="Vertical">
+                        <!-- StatisticsAnalyzer Commanding -->
+                        <GroupBox Header="Investigator">
+                            <StackPanel Orientation="Vertical" DataContext="{Binding DetailedStatisticsAnalyzer}">
+                                <!-- Navigation -->
+                                <Border BorderThickness="2" BorderBrush="{StaticResource LightBorderBrush}">
+                                    <StackPanel  MaxHeight="25" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top"  >
+                                        <Button Content="&lt;" Padding="10,3" Command="{Binding NavigateBackwardCommand}"/>
+                                        <Button Content="&gt;"  Padding="10,3" Command="{Binding NavigateForwardCommand}"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border BorderThickness="2" BorderBrush="{StaticResource LightBorderBrush}">
+                                <!-- Investigation Commands -->
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                    <Button Style="{StaticResource BrowseHandsButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayBrowseHands, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
+                                    <Button Style="{StaticResource InvestigateRaiseButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayInvestigateRaise, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
+                                    <Button Style="{StaticResource InvestigateHoleCardsButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayInvestigateHoleCards, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
+                                </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Players">
+                            <!-- List of Players-->
+                            <ListBox ItemsSource="{Binding Players}"
+                                     SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"
+                                     VerticalContentAlignment="Stretch"
+                                     FontSize="10"/>
+                        </GroupBox>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
         </Grid>
 
     </DataTemplate>

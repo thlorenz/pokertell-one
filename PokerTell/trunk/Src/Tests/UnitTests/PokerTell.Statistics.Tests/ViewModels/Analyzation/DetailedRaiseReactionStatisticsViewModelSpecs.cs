@@ -50,16 +50,19 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                     » should have value 0 in the counts row at col 0
                     » should have value 1 in the counts row at col 1
 
-             Browse hands command
-                 given no cell has been selected
-                    » should not be executable
+            Browse hands command
+                given no cell has been selected
+                    ¯ should not be executable
 
-                 given one cell is selected
-                    » should be executable
+                given one cell has been selected but it contains no analyzable players
+                    ¯ should not be executable
 
-                 given one cell is selected and the user executes the command
-                    » should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
-                    » should set its ChildViewModel to the HandBrowserViewModel
+                given one cell is selected and it contains analyzable players
+                    ¯ should be executable
+
+                given one cell is selected and the user executes the command
+                    ¯ should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
+                    ¯ should set its ChildViewModel to the HandBrowserViewModel
           *      
           */
 
@@ -83,9 +86,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static Mock<IRaiseReactionStatistics> _raiseReactionStatisticsStub;
 
-        protected static Mock<IRaiseReactionsAnalyzer> _raiseReactionsAnalyzerMock;
 
-        protected static DetailedRaiseReactionStatisticsViewModel<double> _sut;
+        protected static DetailedRaiseReactionStatisticsViewModelImpl _sut;
 
         protected static ActionSequences _validActionSequence;
 
@@ -134,11 +136,29 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                 .Returns(_raiseReactionStatisticsStub.Object);
             _raiseReactionDescriberStub = new Mock<IRaiseReactionDescriber<double>>();
 
-            _sut = new DetailedRaiseReactionStatisticsViewModel<double>(
+            _sut = new DetailedRaiseReactionStatisticsViewModelImpl(
                 _handBrowserViewModelMock.Object,
                 _raiseReactionStatisticsBuilderMock.Object,
                 _raiseReactionDescriberStub.Object);
         };
+    }
+
+    public class DetailedRaiseReactionStatisticsViewModelImpl : DetailedRaiseReactionStatisticsViewModel<double>
+    {
+        public DetailedRaiseReactionStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, IRaiseReactionDescriber<double> raiseReactionDescriber)
+            : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
+        {
+        }
+
+        internal List<IAnalyzablePokerPlayer> SelectedAnalyzablePlayersSet { private get; set; }
+
+        protected override IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+        {
+            get
+            {
+                return SelectedAnalyzablePlayersSet;
+            }
+        }
     }
 
     public abstract class Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized :
@@ -190,8 +210,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         It should_get_statistics_description_from_raise_reaction_describer
             = () => _sut.StatisticsDescription.ShouldEqual(description);
-
-        
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
@@ -289,9 +307,25 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Browse hands command")]
-    public class given_one_cell_is_selected : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
+    public class given_one_cell_has_been_selected_but_it_contains_no_analyzable_players : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
-        Establish context = () => _sut.AddToSelection(0, 0);
+        Establish context = () =>
+        {
+            _sut.AddToSelection(0, 0);
+            _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer>();
+        };
+
+        It should_not_be_executable = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeFalse();
+    }
+
+    [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Browse hands command")]
+    public class given_one_cell_is_selected_and_it_contains_analyzable_players : Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
+    {
+        Establish context = () =>
+        {
+            _sut.AddToSelection(0, 0);
+            _sut.SelectedAnalyzablePlayersSet = _validAnalyzablePokerPlayersStub.ToList(); 
+        };
 
         It should_be_executable
             = () => _sut.BrowseHandsCommand.CanExecute(null).ShouldBeTrue();
@@ -301,21 +335,10 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     public class given_one_cell_is_selected_and_the_user_executes_the_command :
         Ctx_DetailedRaiseReactionStatisticsViewModel_Initialized
     {
-        Establish context = () => {
+        Establish context = () =>
+        {
             _sut.AddToSelection(0, 0);
-
-            var analyzablePlayersDictionaryStub =
-                new Dictionary<ActionTypes, IDictionary<int, IList<IAnalyzablePokerPlayer>>> {
-                    {
-                        ActionTypes.F,
-                        new Dictionary<int, IList<IAnalyzablePokerPlayer>> {
-                            { (int)_validRaiseSizes[0], _validAnalyzablePokerPlayersStub }
-                        }
-                        }
-                };
-
-            _raiseReactionStatisticsStub.SetupGet(s => s.AnalyzablePlayersDictionary).Returns(
-                analyzablePlayersDictionaryStub);
+            _sut.SelectedAnalyzablePlayersSet = _validAnalyzablePokerPlayersStub.ToList();
         };
 
         Because of = () => _sut.BrowseHandsCommand.Execute(null);

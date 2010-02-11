@@ -25,6 +25,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
          : base(handBrowserViewModel, "Position")
        {
            _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
+
+            MayBrowseHands = true;
+            MayInvestigateHoleCards = true;
+            MayInvestigateRaise = true;
        }
 
        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(

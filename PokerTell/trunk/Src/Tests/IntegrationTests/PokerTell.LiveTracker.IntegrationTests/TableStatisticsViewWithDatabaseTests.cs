@@ -1,6 +1,7 @@
 namespace PokerTell.LiveTracker.IntegrationTests
 {
     using System;
+    using System.Windows;
 
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Unity;
@@ -38,9 +39,12 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
         StubBuilder _stub;
 
-        [Test]
-        [RequiresSTA]
-        public void UpdateWith_NoFilterSet_ProducesPlayerStatisticsFromDatabase()
+        public TableStatisticsViewWithDatabaseTests()
+        {
+            _Init();
+        }
+
+        public Window ConnectToDataBase_LoadSomePLayers_ShowTheirStatistics_InTheLiveStats()
         {
             Func<string, IPlayerStatistics> get =
                 playerName => _container
@@ -88,6 +92,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
                 });
 
             designWindow.ShowDialog();
+            return designWindow;
         }
 
         [SetUp]

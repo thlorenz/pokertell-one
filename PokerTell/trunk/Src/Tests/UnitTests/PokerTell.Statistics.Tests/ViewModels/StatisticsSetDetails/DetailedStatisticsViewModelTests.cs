@@ -9,12 +9,9 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
-    using PokerTell.Statistics.Interfaces;
-    using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
     using PokerTell.UnitTests.Tools;
 
     using Tools.FunctionalCSharp;
-    using Tools.Interfaces;
 
     public class DetailedStatisticsViewModelTests
     {
@@ -124,29 +121,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 .AddToSelection(0, 2);
 
             _sut.SelectedColumnsSpanGet.ShouldBeEqualTo(Tuple.New(1, 2));
-        }
-    }
-
-    internal class DetailedStatisticsViewModelImpl : DetailedStatisticsViewModel
-    {
-        public IDetailedStatisticsViewModel ChildViewModelSet
-        {
-            set { ChildViewModel = value; }
-        }
-
-        public DetailedStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel)
-            : base(handBrowserViewModel, "columnHeaderTitle")
-        {
-        }
-
-        public ITuple<int, int> SelectedColumnsSpanGet
-        {
-            get { return SelectedColumnsSpan; }
-        }
-
-        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(IActionSequenceStatisticsSet statisticsSet)
-        {
-            return this;
         }
     }
 }

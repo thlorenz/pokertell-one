@@ -23,6 +23,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
+            MayBrowseHands = true;
+            MayInvestigateHoleCards = false;
+            MayInvestigateRaise = false;
         }
     }
 
@@ -35,6 +38,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             IPostFlopHeroReactsRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
+            MayBrowseHands = true;
+            MayInvestigateHoleCards = false;
+            MayInvestigateRaise = false;
         }
     }
 
@@ -47,6 +53,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             IPreFlopRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
+            MayBrowseHands = true;
+            MayInvestigateHoleCards = false;
+            MayInvestigateRaise = false;
         }
     }
 
@@ -62,7 +71,6 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         ActionSequences _actionSequence;
 
         IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
-
 
         string _playerName;
 
@@ -95,12 +103,12 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                             _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
                             ChildViewModel = _handBrowserViewModel;
                         }, 
-                        CanExecuteDelegate = arg => SelectedCells.Count > 0
+                        CanExecuteDelegate = arg => SelectedCells.Count > 0 && SelectedAnalyzablePlayers.Count() > 0
                     });
             }
         }
 
-        protected IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+        protected virtual IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
         {
             get
             {
@@ -109,8 +117,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                         int row = selectedCell.First;
                         int col = selectedCell.Second;
                         return
-                            _raiseReactionStatistics.AnalyzablePlayersDictionary.ElementAt(row)
-                                .Value[(int)_raiseReactionStatistics.AnalyzablePlayersDictionary.Keys.ElementAt(col)];
+                            _raiseReactionStatistics.AnalyzablePlayersDictionary
+                                .ElementAt(row).Value
+                                .ElementAt(col).Value;
                     });
             }
         }
@@ -133,9 +142,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             {
                 throw new ArgumentException("need at least one analyzable Player");
             }
+
             _raiseReactionStatisticsBuilder.InitializeWith(ApplicationProperties.RaiseSizeKeys);
             CreateTableAndDescription();
-            
 
             return this;
         }

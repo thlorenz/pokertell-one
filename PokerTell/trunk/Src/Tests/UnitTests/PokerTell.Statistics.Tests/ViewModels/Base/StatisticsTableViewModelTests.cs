@@ -21,7 +21,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Base
         [SetUp]
         public void _Init()
         {
-            _sut = new StatisticsTableViewModel("someDescription");
+            _sut = new StatisticsTableViewModelImpl("someDescription");
             _stub = new StubBuilder();
         }
 
@@ -56,6 +56,14 @@ namespace PokerTell.Statistics.Tests.ViewModels.Base
             _sut.ChildViewModel = viewModelStub;
 
             wasRaisedWithViewModel.ShouldBeTrue();
+        }
+
+        class StatisticsTableViewModelImpl : StatisticsTableViewModel
+        {
+            public StatisticsTableViewModelImpl(string columnHeaderTitle)
+                : base(columnHeaderTitle)
+            {
+            }
         }
     }
 }

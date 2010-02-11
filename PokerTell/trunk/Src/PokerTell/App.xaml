@@ -6,7 +6,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
-                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ConvertersResource.xaml"/>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
            
             

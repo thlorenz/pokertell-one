@@ -113,8 +113,8 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                         ExecuteDelegate = arg => {
                             _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
                             ChildViewModel = _handBrowserViewModel;
-                        }, 
-                        CanExecuteDelegate = arg => SelectedCells.Count > 0
+                        },
+                        CanExecuteDelegate = arg => SelectedCells.Count > 0 && SelectedAnalyzablePlayers.Count() > 0
                     });
             }
         }

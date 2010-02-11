@@ -4,6 +4,8 @@ namespace PokerTell.Statistics.ViewModels
     using System.Collections.Generic;
     using System.Windows.Input;
 
+    using Base;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.Statistics;
@@ -42,6 +44,7 @@ namespace PokerTell.Statistics.ViewModels
             _detailedPreFlopStatisticsViewModelMake = detailedPreFlopStatisticsViewModelMake;
 
             ViewModelHistory = new List<IDetailedStatisticsAnalyzerContentViewModel>();
+            CurrentViewModel = StatisticsTableViewModel.Emty;
         }
 
         #endregion

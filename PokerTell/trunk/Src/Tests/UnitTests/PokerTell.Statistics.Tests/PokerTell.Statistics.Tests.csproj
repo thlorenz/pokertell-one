@@ -117,6 +117,8 @@
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroActsStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelImpl.cs" />
+    <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelTests.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableViewModelTests.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroReactsStatisticsViewModelSpecs.cs" />

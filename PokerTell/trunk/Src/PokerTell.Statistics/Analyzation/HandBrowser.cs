@@ -33,7 +33,6 @@ namespace PokerTell.Statistics.Analyzation
                 (_hands[handIndex] = _repository.RetrieveConvertedHand(_handIds.ElementAt(handIndex)));
       }
 
-      // InitializeWith(analyzablePokerPlayers.Select(p => p.HandId));
       public IHandBrowser InitializeWith(IEnumerable<int> handIds)
       {
          if (handIds.Count() < 1)

@@ -1,6 +1,7 @@
 namespace PokerTell.Statistics.Interfaces
 {
     using System.Collections.Generic;
+    using System.Windows.Input;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
@@ -26,6 +27,8 @@ namespace PokerTell.Statistics.Interfaces
         /// It returns the ActionSequence associated with the row of the first selected cell.
         /// </summary>
         ActionSequences SelectedActionSequence { get; }
+
+        ICommand BrowseHandsCommand { get; }
 
         #endregion
 

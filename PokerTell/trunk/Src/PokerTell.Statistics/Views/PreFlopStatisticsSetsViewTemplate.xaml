@@ -27,9 +27,9 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
@@ -39,7 +39,7 @@
                             <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
                             <Label Content="{Binding TotalCountPreFlopUnraisedPot}" HorizontalContentAlignment="Center" FontSize="12"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="0" Grid.Column="1">
+                        <StackPanel Grid.Row="1" Grid.Column="0">
                             <Label Content="Raised Pot" Style="{StaticResource HeaderLabelStyle}"/>
                             <ContentControl Content="{Binding PreFlopRaisedPotStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
                             <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
