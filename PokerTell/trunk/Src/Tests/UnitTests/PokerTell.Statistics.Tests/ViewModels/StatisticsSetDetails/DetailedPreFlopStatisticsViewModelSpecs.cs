@@ -20,7 +20,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
     using It = Machine.Specifications.It;
 
     // ReSharper disable InconsistentNaming
-
     [Subject(typeof(DetailedPreFlopStatisticsViewModel))]
     public abstract class DetailedPreFlopStatisticsViewModelSpecs
     {
@@ -28,25 +27,34 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         * Specifications
         * Subject: DetailedPreFlopStatisticsViewModel
         * 
-        * Investigate Raise
-        *      
+        Investigate Raise
             Execute
                 » should assign the raise reaction statistics model to its child view model
                 » should initialize the raise reaction statistics model with the data of the selected cells
 
-            given statistics for raised pot CanExecute
+           given statistics for raised pot CanExecute
                 » should be false when no cells have been selected
-                » should be false when only cells  in the call row have been selected
-                » should be false when only cells  in the fold row have been selected
-                » should be true when one cell in raise row has been selected
-                » should be true when two cells in raise row have been selected
+                » should be false when only cells in the call row have been selected and it contains analyzable players
+                » should be false when only cells in the fold row have been selected and it contains analyzable players
+                » should be true when one cell in raise row has been selected and it contains analyzable players
+                » should be false when one cell in raise row has been selected but it contains no analyzable players
 
             given statistics for unraised pot CanExecute
                 » should be false when no cells have been selected
-                » should be false when only cells  in the call row have been selected
-                » should be false when only cells  in the fold row have been selected
-                » should be true when one cell in raise row has been selected
-                » should be true when two cells in raise row have been selected
+                » should be false when only cells in the call row have been selected and it contains analyzable players
+                » should be false when only cells in the fold row have been selected and it contains analyzable players
+                » should be true when one cell in raise row has been selected and it contains analyzable players
+                » should be false when one cell in raise row has been selected but it contains no analyzable players
+          
+        InvestigateHoleCards 
+            given statistics for unraised pot CanExecute
+                » should be false when no cells have been selected
+                » should be true when cell in the call row has been selected and it contains analyzable players
+                » should be false when cell in the call row has been selected but it contains no analyzable players
+                » should be true when cell in the fold row has been selected and it contains analyzable players
+                » should be false when cell in the fold row has been selected but it contains no analyzable players
+                » should be true when cell in raise row has been selected and it contains analyzable players
+                » should be false when cell in raise row has been selected but it contains no analyzable players
         */
 
         protected static Mock<IHandBrowserViewModel> _handBrowserViewModelStub;
@@ -55,7 +63,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
         protected static Mock<IActionSequenceStatisticsSet> _statisticsSetStub;
 
-        protected static DetailedPreFlopStatisticsViewModel _sut;
+        protected static DetailedPreFlopStatisticsViewModelImpl _sut;
 
         static Mock<IActionSequenceStatistic> _callStatisticStub;
 
@@ -77,6 +85,22 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             { _foldStatisticStub.Object, _callStatisticStub.Object, _raiseStatisticStub.Object });
         };
 
+        public class DetailedPreFlopStatisticsViewModelImpl : DetailedPreFlopStatisticsViewModel
+        {
+            public DetailedPreFlopStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IPreFlopRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
+                : base(handBrowserViewModel, raiseReactionStatisticsViewModel)
+            {
+                SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer>();
+            }
+            
+            public List<IAnalyzablePokerPlayer> SelectedAnalyzablePlayersSet { private get; set; }
+
+            public override IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+            {
+                get { return SelectedAnalyzablePlayersSet; }
+            }
+        }
+
         public abstract class Ctx_DetailedPreFlopStatisticsViewModel_UnraisedPot
             : DetailedPreFlopStatisticsViewModelSpecs
         {
@@ -86,7 +110,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 _callStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroC);
                 _raiseStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroR);
 
-                _sut = new DetailedPreFlopStatisticsViewModel(_handBrowserViewModelStub.Object, _raiseReactionStatisticsViewModelMock.Object);
+                _sut = new DetailedPreFlopStatisticsViewModelImpl(_handBrowserViewModelStub.Object,
+                                                                  _raiseReactionStatisticsViewModelMock.Object);
                 _sut.InitializeWith(_statisticsSetStub.Object);
             };
         }
@@ -132,36 +157,39 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 _callStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppRHeroC);
                 _raiseStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppRHeroR);
 
-                _sut = new DetailedPreFlopStatisticsViewModel(_handBrowserViewModelStub.Object, _raiseReactionStatisticsViewModelMock.Object);
+                _sut = new DetailedPreFlopStatisticsViewModelImpl(_handBrowserViewModelStub.Object,
+                                                                  _raiseReactionStatisticsViewModelMock.Object);
                 _sut.InitializeWith(_statisticsSetStub.Object);
             };
 
             It should_be_false_when_no_cells_have_been_selected
                 = () => _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
 
-            It should_be_false_when_only_cells__in_the_call_row_have_been_selected
+            It should_be_false_when_only_cells_in_the_call_row_have_been_selected_and_it_contains_analyzable_players
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(1, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
                 };
 
-            It should_be_false_when_only_cells__in_the_fold_row_have_been_selected
+            It should_be_false_when_only_cells_in_the_fold_row_have_been_selected_and_it_contains_analyzable_players 
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(0, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
                 };
 
-            It should_be_true_when_one_cell_in_raise_row_has_been_selected
+            It should_be_true_when_one_cell_in_raise_row_has_been_selected_and_it_contains_analyzable_players 
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(2, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeTrue();
                 };
 
-            It should_be_true_when_two_cells_in_raise_row_have_been_selected
+            It should_be_false_when_one_cell_in_raise_row_has_been_selected_but_it_contains_no_analyzable_players 
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(2, 0));
-                    _sut.SelectedCells.Add(Tuple.New(2, 1));
-                    _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeTrue();
+                    _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
                 };
         }
 
@@ -173,29 +201,79 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             It should_be_false_when_no_cells_have_been_selected
                 = () => _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
 
-            It should_be_false_when_only_cells__in_the_call_row_have_been_selected
+            It should_be_false_when_only_cells_in_the_call_row_have_been_selected_and_it_contains_analyzable_players
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(1, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
                 };
 
-            It should_be_false_when_only_cells__in_the_fold_row_have_been_selected
+            It should_be_false_when_only_cells_in_the_fold_row_have_been_selected_and_it_contains_analyzable_players 
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(0, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
                 };
 
-            It should_be_true_when_one_cell_in_raise_row_has_been_selected
+            It should_be_true_when_one_cell_in_raise_row_has_been_selected_and_it_contains_analyzable_players 
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(2, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                     _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeTrue();
                 };
 
-            It should_be_true_when_two_cells_in_raise_row_have_been_selected
+            It should_be_false_when_one_cell_in_raise_row_has_been_selected_but_it_contains_no_analyzable_players 
                 = () => {
                     _sut.SelectedCells.Add(Tuple.New(2, 0));
-                    _sut.SelectedCells.Add(Tuple.New(2, 1));
-                    _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeTrue();
+                    _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
+                };
+        }
+         
+        [Subject(typeof(DetailedPreFlopStatisticsViewModel), "InvestigateHoleCards")]
+        [SetupForEachSpecification]
+        public class given_statistics_for_unraised_pot_InvestigateHoleCards_CanExecute
+            : Ctx_DetailedPreFlopStatisticsViewModel_UnraisedPot
+        {
+            It should_be_false_when_no_cells_have_been_selected
+                = () => _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeFalse();
+
+            It should_be_true_when_cell_in_the_call_row_has_been_selected_and_it_contains_analyzable_players
+                = () => {
+                    _sut.SelectedCells.Add(Tuple.New(1, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
+                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeTrue();
+                };
+
+            It should_be_false_when_cell_in_the_call_row_has_been_selected_but_it_contains_no_analyzable_players
+                = () => {
+                    _sut.SelectedCells.Add(Tuple.New(1, 0));
+                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeFalse();
+                };
+
+            It should_be_true_when_cell_in_the_fold_row_has_been_selected_and_it_contains_analyzable_players 
+                = () => {
+                    _sut.SelectedCells.Add(Tuple.New(0, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
+                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeTrue();
+                };
+
+            It should_be_false_when_cell_in_the_fold_row_has_been_selected_but_it_contains_no_analyzable_players 
+                = () => {
+                    _sut.SelectedCells.Add(Tuple.New(0, 0));
+                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeFalse();
+                };
+
+            It should_be_true_when_cell_in_raise_row_has_been_selected_and_it_contains_analyzable_players 
+                = () => {
+                    _sut.SelectedCells.Add(Tuple.New(2, 0));
+                    _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
+                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeTrue();
+                };
+
+            It should_be_false_when_cell_in_raise_row_has_been_selected_but_it_contains_no_analyzable_players 
+                = () => {
+                    _sut.SelectedCells.Add(Tuple.New(2, 0));
+                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeFalse();
                 };
         }
     }

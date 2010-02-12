@@ -50,9 +50,9 @@ namespace PokerTell.Statistics.Tests.Analyzation
             IConvertedPokerRound sequence = "[2]X,[1]B,[2]R3.0,[1]R4.0,[2]R3.0".ToConvertedPokerRoundWithIds();
             _analyzationPreparer.PrepareAnalyzationFor(sequence, HeroPosition, ActionSequences.HeroXOppBHeroR);
 
-            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, _raiseSizes);
+            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, true, _raiseSizes);
 
-            _sut.OpponentRaiseSize.ShouldBeEqualTo(5);
+            _sut.ConsideredRaiseSize.ShouldBeEqualTo(5);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             IConvertedPokerRound sequence = sequenceString.ToConvertedPokerRoundWithIds();
             _analyzationPreparer.PrepareAnalyzationFor(sequence, HeroPosition, actionSequence);
 
-            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, _raiseSizes);
+            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, true, _raiseSizes);
 
             _sut.IsStandardSituation.ShouldBeFalse();
         }
@@ -77,7 +77,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             IConvertedPokerRound sequence = "[2]B0.3,[3]R2.0".ToConvertedPokerRoundWithIds();
             _analyzationPreparer.PrepareAnalyzationFor(sequence, HeroPosition, ActionSequences.HeroB);
 
-            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, _raiseSizes);
+            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, true, _raiseSizes);
 
             _sut.IsValidResult.ShouldBeFalse();
         }
@@ -93,7 +93,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             IConvertedPokerRound sequence = sequenceString.ToConvertedPokerRoundWithIds();
             _analyzationPreparer.PrepareAnalyzationFor(sequence, HeroPosition, actionSequence);
 
-            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, _raiseSizes);
+            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, true, _raiseSizes);
 
             _sut.IsStandardSituation.ShouldBeTrue();
         }
@@ -104,7 +104,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             IConvertedPokerRound sequence = "[2]X,[1]B,[2]R3.0,[1]R3.0,[2]R3.0".ToConvertedPokerRoundWithIds();
             _analyzationPreparer.PrepareAnalyzationFor(sequence, HeroPosition, ActionSequences.HeroXOppBHeroR);
 
-            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, _raiseSizes);
+            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, true, _raiseSizes);
 
             _sut.IsStandardSituation.ShouldBeTrue();
         }
@@ -118,7 +118,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             IConvertedPokerRound sequence = sequenceString.ToConvertedPokerRoundWithIds();
             _analyzationPreparer.PrepareAnalyzationFor(sequence, HeroPosition, ActionSequences.HeroB);
 
-            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, _raiseSizes);
+            _sut.AnalyzeUsingDataFrom(_stub.Out<IAnalyzablePokerPlayer>(), _analyzationPreparer, true, _raiseSizes);
 
             _sut.HeroReactionType.ShouldBeEqualTo(expectedReaction);
             _sut.IsValidResult.ShouldBeTrue();

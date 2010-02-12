@@ -8,7 +8,11 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
     using Moq;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Interfaces;
     using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
+
+    using Tools.Interfaces;
 
     using It = Machine.Specifications.It;
 
@@ -31,7 +35,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                     ¯ should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
                     ¯ should set its ChildViewModel to the HandBrowserViewModel
          */
-
         protected static DetailedStatisticsViewModelImpl _sut;
 
         protected static IAnalyzablePokerPlayer[] _validAnalyzablePokerPlayersStub;
@@ -47,6 +50,32 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
             _sut = new DetailedStatisticsViewModelImpl(_handBrowserViewModelMock.Object);
         };
+
+        protected class DetailedStatisticsViewModelImpl : DetailedStatisticsViewModel
+        {
+            public DetailedStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel)
+                : base(handBrowserViewModel, "columnHeaderTitle")
+            {
+            }
+
+            public ITuple<int, int> SelectedColumnsSpanGet
+            {
+                get { return SelectedColumnsSpan; }
+            }
+
+            internal List<IAnalyzablePokerPlayer> SelectedAnalyzablePlayersSet { private get; set; }
+
+            public override IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+            {
+                get { return SelectedAnalyzablePlayersSet; }
+            }
+
+            protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
+                IActionSequenceStatisticsSet statisticsSet)
+            {
+                return this;
+            }
+        }
 
         [Subject(typeof(DetailedStatisticsViewModel), "Browse hands command")]
         public class given_no_cell_has_been_selected : DetailedStatisticsViewModelSpecs

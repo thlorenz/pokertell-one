@@ -53,8 +53,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                                                                  SelectedActionSequence,
                                                                                  Street);
                         },
-                        CanExecuteDelegate =
-                            arg => SelectedCells.Count() > 0
+                        CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedAnalyzablePlayers.Count() > 0
                     });
             }
         }

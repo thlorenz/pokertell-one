@@ -26,6 +26,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             MayBrowseHands = true;
             MayInvestigateHoleCards = false;
             MayInvestigateRaise = false;
+            ConsiderOpponentsRaiseSize = true;
         }
     }
 
@@ -41,6 +42,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             MayBrowseHands = true;
             MayInvestigateHoleCards = false;
             MayInvestigateRaise = false;
+            ConsiderOpponentsRaiseSize = false;
         }
     }
 
@@ -56,6 +58,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             MayBrowseHands = true;
             MayInvestigateHoleCards = false;
             MayInvestigateRaise = false;
+            ConsiderOpponentsRaiseSize = false;
         }
     }
 
@@ -79,6 +82,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         ITuple<T, T> _selectedRationSizeSpan;
 
         Streets _street;
+        protected bool ConsiderOpponentsRaiseSize;
 
         public DetailedRaiseReactionStatisticsViewModel(
             IHandBrowserViewModel handBrowserViewModel, 
@@ -152,7 +156,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         protected void CreateTableAndDescription()
         {
             _raiseReactionStatistics = _raiseReactionStatisticsBuilder
-                .Build(_analyzablePokerPlayers, _actionSequence, _street);
+                .Build(_analyzablePokerPlayers, _actionSequence, _street, ConsiderOpponentsRaiseSize);
 
             Rows = new List<IStatisticsTableRowViewModel>
                 {

@@ -34,7 +34,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
          get { return _currentHandIndex; }
          set {
             _currentHandIndex = value;
-            CurrentHandHistory.UpdateWith(_handBrowser.Hand(_currentHandIndex)); }
+            CurrentHandHistory.UpdateWith(_handBrowser.Hand(_currentHandIndex)); 
+            RaisePropertyChanged(() => CurrentHandIndex);
+         }
       }
 
       public IHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
@@ -43,10 +45,9 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
          _handBrowser.InitializeWith(reversedHandIds);
 
-         CurrentHandIndex = 0;
-
-         HandCount = _handBrowser.PotentialHandsCount;
-         return this;
+          CurrentHandIndex = 0;
+          HandCount = _handBrowser.PotentialHandsCount;
+          return this;
       }
    }
 }

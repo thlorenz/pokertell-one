@@ -26,15 +26,16 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
          * 
          * Investigate Raise
          *      
-         *      CanExecute
-         *          It should be false when no cells have been selected
-         *          It should be true when one cell in raising column has been selected
-         *          It should be true when two cells in raising column have been selected
-         *          It should be false when one cell in folding column have been selected
-         *          It should be false when one cell in calling column have been selected
-         *      Execute
-         *          It should initialize the raise reaction statistics model with the data of the selected cells
-         *          It should assign the raise reaction statistics model to its child view model
+                CanExecute
+                    » should be false when no cells have been selected
+                    » should be true when one cell in raising column has been selected and it contains analyzable players
+                    » should be false when one cell in raising column has been selected but it contains no analyzable players
+                    » should be false when one cell in folding column has been selected and it contains analyzable players
+                    » should be false when one cell in calling column has been selected and it contains analyzable players
+
+                Execute
+                    » should assign the raise reaction statistics model to its child view model
+                    » should initialize the raise reaction statistics model with the data of the selected cells
          */
         protected static Mock<IHandBrowserViewModel> _handBrowserViewModelStub;
 
@@ -42,7 +43,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
         protected static Mock<IActionSequenceStatisticsSet> _statisticsSetStub;
 
-        protected static DetailedPostFlopHeroReactsStatisticsViewModel _sut;
+        protected static DetailedPostFlopHeroReactsStatisticsViewModelImpl _sut;
 
         static Mock<IActionSequenceStatistic> _foldStatisticStub;
 
@@ -66,7 +67,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                     _foldStatisticStub.Object, _callStatisticStub.Object, _raiseStatisticStub.Object
                 });
 
-            _sut = new DetailedPostFlopHeroReactsStatisticsViewModel(_handBrowserViewModelStub.Object, 
+            _sut = new DetailedPostFlopHeroReactsStatisticsViewModelImpl(_handBrowserViewModelStub.Object, 
                                                                      _raiseReactionStatisticsViewModelMock.Object);
             _sut.InitializeWith(_statisticsSetStub.Object);
         };
@@ -76,31 +77,60 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         static Mock<IActionSequenceStatistic> _raiseStatisticStub;
     }
 
+        public class DetailedPostFlopHeroReactsStatisticsViewModelImpl : DetailedPostFlopHeroReactsStatisticsViewModel
+        {
+            public DetailedPostFlopHeroReactsStatisticsViewModelImpl(
+                IHandBrowserViewModel handBrowserViewModel, 
+                IPostFlopHeroReactsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
+                : base(handBrowserViewModel, raiseReactionStatisticsViewModel)
+            {
+                    SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer>();
+            }
+
+            public List<IAnalyzablePokerPlayer> SelectedAnalyzablePlayersSet { private get; set; }
+
+            public override IEnumerable<IAnalyzablePokerPlayer> SelectedAnalyzablePlayers
+            {
+                get { return SelectedAnalyzablePlayersSet; }
+            }
+        }
+
     [SetupForEachSpecification]
+    [Subject(typeof(DetailedPostFlopHeroReactsStatisticsViewModel), "Investigate Raise Command")]
     public class CanExecute : DetailedPostFlopHeroReactsStatisticsViewModelSpecs
     {
         It should_be_false_when_no_cells_have_been_selected
             = () => _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
 
-        It should_be_true_when_one_cell_in_raisin_column_has_been_selected
+        It should_be_true_when_one_cell_in_raising_column_has_been_selected_and_it_contains_analyzable_players
             = () => {
                 _sut.SelectedCells.Add(Tuple.New(2, 0));
+                _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                 _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeTrue();
             };
 
-        It should_be_false_when_one_cell_in_folding_column_has_been_selected
+        It should_be_false_when_one_cell_in_raising_column_has_been_selected_but_it_contains_no_analyzable_players
             = () => {
-                _sut.SelectedCells.Add(Tuple.New(0, 0));
+                _sut.SelectedCells.Add(Tuple.New(2, 0));
                 _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
             };
 
-        It should_be_false_when_one_cell_in_calling_column_has_been_selected
+        It should_be_false_when_one_cell_in_folding_column_has_been_selected_and_it_contains_analyzable_players
+            = () => {
+                _sut.SelectedCells.Add(Tuple.New(0, 0));
+                _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
+                _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
+            };
+
+        It should_be_false_when_one_cell_in_calling_column_has_been_selected_and_it_contains_analyzable_players
             = () => {
                 _sut.SelectedCells.Add(Tuple.New(1, 0));
+                _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer> { new Mock<IAnalyzablePokerPlayer>().Object };
                 _sut.InvestigateRaiseReactionCommand.CanExecute(null).ShouldBeFalse();
             };
     }
 
+    [Subject(typeof(DetailedPostFlopHeroReactsStatisticsViewModel), "Investigate Raise Command")]
     public class Execute : DetailedPostFlopHeroReactsStatisticsViewModelSpecs
     {
             Establish context_InvestigateWith_Returns_Itself = () =>

@@ -48,6 +48,8 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         protected static RaiseReactionStatisticsBuilder _sut;
 
+        protected static bool _considerOpponentsRaiseSize;
+
         Establish context = () => {
             _analyzablePokerPlayerStub_1 = new Mock<IAnalyzablePokerPlayer>();
             _analyzablePokerPlayerStub_2 = new Mock<IAnalyzablePokerPlayer>();
@@ -56,6 +58,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _raiseReactionStatisticsMock = new Mock<IRaiseReactionStatistics>();
             _raiseReactionsAnalyzerMock = new Mock<IRaiseReactionsAnalyzer>();
 
+            _considerOpponentsRaiseSize = false;
             _raiseReactionStatisticsMock
                 .Setup(s => s.InitializeWith(Moq.It.IsAny<IRaiseReactionsAnalyzer>()))
                 .Returns(_raiseReactionStatisticsMock.Object);
@@ -87,7 +90,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
         Because of =
             () =>
             exception =
-            Catch.Exception(() => _sut.Build(Enumerable.Empty<IAnalyzablePokerPlayer>(), ActionSequences.HeroB, Streets.Flop));
+            Catch.Exception(() => _sut.Build(Enumerable.Empty<IAnalyzablePokerPlayer>(), ActionSequences.HeroB, Streets.Flop, _considerOpponentsRaiseSize));
 
         It should_throw_an_ArgumentException
             = () => exception.ShouldBeOfType(typeof(ArgumentException));
@@ -107,7 +110,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             () => returnedStatistics = _sut.Build(
                                            new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object },
                                            PassedActionSequence,
-                                           PassedStreet);
+                                           PassedStreet, _considerOpponentsRaiseSize);
 
         It should_analyze_first_player_passing_the_given_street_and_action_sequence
             = () => _raiseReactionsAnalyzerMock.Verify(
@@ -115,7 +118,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
                                  _raiseReactionAnalyzerStub.Object, 
                                  Moq.It.Is<IAnalyzablePokerPlayer>(p => p.Equals(_analyzablePokerPlayerStub_1.Object)), 
                                  PassedStreet, 
-                                 PassedActionSequence));
+                                 PassedActionSequence, _considerOpponentsRaiseSize));
 
         It should_analyze_second_player_passing_the_given_street_and_action_sequence
             = () => _raiseReactionsAnalyzerMock.Verify(
@@ -123,7 +126,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
                                  _raiseReactionAnalyzerStub.Object, 
                                  Moq.It.Is<IAnalyzablePokerPlayer>(p => p.Equals(_analyzablePokerPlayerStub_2.Object)), 
                                  PassedStreet, 
-                                 PassedActionSequence));
+                                 PassedActionSequence, _considerOpponentsRaiseSize));
 
         It should_initialize_statistics_with_the_raise_reactions_analyzer
             = () => _raiseReactionStatisticsMock.Verify(

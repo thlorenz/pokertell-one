@@ -81,11 +81,12 @@ namespace PokerTell.Statistics.Analyzation
             TotalCountsByColumnDictionary = new Dictionary<int, int>();
             foreach (double raiseSizeKey in _raiseReactionsAnalyzer.RaiseSizeKeys)
             {
-                TotalCountsByColumnDictionary.Add(
-                    (int)raiseSizeKey,
+                var totalCount =
                     AnalyzablePlayersDictionary[ActionTypes.F][(int)raiseSizeKey].Count +
                     AnalyzablePlayersDictionary[ActionTypes.C][(int)raiseSizeKey].Count +
-                    AnalyzablePlayersDictionary[ActionTypes.R][(int)raiseSizeKey].Count);
+                    AnalyzablePlayersDictionary[ActionTypes.R][(int)raiseSizeKey].Count;
+
+                TotalCountsByColumnDictionary.Add((int)raiseSizeKey, totalCount);
             }
         }
 
@@ -144,13 +145,11 @@ namespace PokerTell.Statistics.Analyzation
         }
 
         void PopulateAnalyzablePlayersDictionary()
-            
         {
             foreach (IRaiseReactionAnalyzer raiseReactionAnalyzer in _raiseReactionsAnalyzer.RaiseReactionAnalyzers)
             {
-                AnalyzablePlayersDictionary
-                    [raiseReactionAnalyzer.HeroReactionType]
-                    [raiseReactionAnalyzer.OpponentRaiseSize].Add(raiseReactionAnalyzer.AnalyzablePokerPlayer);
+                AnalyzablePlayersDictionary [raiseReactionAnalyzer.HeroReactionType] [raiseReactionAnalyzer.ConsideredRaiseSize]
+                    .Add(raiseReactionAnalyzer.AnalyzablePokerPlayer);
             }
         }
 

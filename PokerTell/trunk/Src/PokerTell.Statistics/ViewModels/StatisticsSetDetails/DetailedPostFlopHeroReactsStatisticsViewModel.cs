@@ -27,7 +27,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         public DetailedPostFlopHeroReactsStatisticsViewModel(
             IHandBrowserViewModel handBrowserViewModel, 
             IPostFlopHeroReactsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
-            : base(handBrowserViewModel, "Raise Size")
+            : base(handBrowserViewModel, "Bet Size")
         {
             _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
 
@@ -52,7 +52,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                                                                  SelectedActionSequence,
                                                                                  Street);
                         }, 
-                        CanExecuteDelegate = _ => SelectedCells.Count() > 0 && ActionSequencesUtility.Raises.Contains(SelectedActionSequence)
+                        CanExecuteDelegate = _ => SelectedCells.Count() > 0 && ActionSequencesUtility.Raises.Contains(SelectedActionSequence) && SelectedAnalyzablePlayers.Count() > 0
                     });
             }
         }

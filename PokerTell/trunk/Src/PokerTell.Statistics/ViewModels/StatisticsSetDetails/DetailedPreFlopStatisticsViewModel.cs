@@ -62,10 +62,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         {
             get
             {
-                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand {
-                    ExecuteDelegate = _ => {
-                        
-                        Tuple<StrategicPositions, StrategicPositions> selectedPositions = Tuple.New(
+                return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = _ => {
+                            Tuple<StrategicPositions, StrategicPositions> selectedPositions = Tuple.New(
                              StrategicPositionsUtility.GetAllPositionsInOrder().ElementAt(SelectedColumnsSpan.First),
                             StrategicPositionsUtility.GetAllPositionsInOrder().ElementAt(SelectedColumnsSpan.Second));
                         
@@ -76,8 +76,22 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                                                              SelectedActionSequence,
                                                                              Street);
                     },
-                    CanExecuteDelegate = arg => SelectedCells.Count() > 0 && ActionSequencesUtility.Raises.Contains(SelectedActionSequence)
+                    CanExecuteDelegate = arg => SelectedCells.Count() > 0 && ActionSequencesUtility.Raises.Contains(SelectedActionSequence) && SelectedAnalyzablePlayers.Count() > 0
                 });
+            }
+        }
+
+        ICommand _showCardsCommand;
+
+        public ICommand InvestigateHoleCardsCommand
+        {
+            get
+            {
+                return _showCardsCommand ?? (_showCardsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => { },
+                        CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedAnalyzablePlayers.Count() > 0
+                    });
             }
         }
    }

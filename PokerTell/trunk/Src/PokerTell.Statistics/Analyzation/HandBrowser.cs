@@ -29,18 +29,19 @@ namespace PokerTell.Statistics.Analyzation
 
       public IConvertedPokerHand Hand(int handIndex)
       {
-         return _hands[handIndex] ??
-                (_hands[handIndex] = _repository.RetrieveConvertedHand(_handIds.ElementAt(handIndex)));
+          return _hands[handIndex] ?? (_hands[handIndex] =
+             _repository.RetrieveConvertedHand(_handIds.ElementAt(handIndex)));
       }
 
-      public IHandBrowser InitializeWith(IEnumerable<int> handIds)
+       public IHandBrowser InitializeWith(IEnumerable<int> handIds)
       {
          if (handIds.Count() < 1)
          {
             throw new ArgumentException("need at least one hand id");
          }
 
-         _handIds = handIds;
+          // Need to make copy here otherwise they somehow get emptied after the first retrieval
+         _handIds = handIds.ToArray();
          _hands = new IConvertedPokerHand[_handIds.Count()];
 
          return this;

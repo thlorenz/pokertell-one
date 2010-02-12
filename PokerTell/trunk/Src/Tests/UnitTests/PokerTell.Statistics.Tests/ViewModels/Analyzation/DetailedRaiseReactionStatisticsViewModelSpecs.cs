@@ -94,10 +94,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         protected static IAnalyzablePokerPlayer[] _validAnalyzablePokerPlayersStub;
 
         protected static ITuple<double, double> _validBetSizes;
-
-        protected static bool _validInPosition;
-
-        protected static double[] _validRaiseSizes;
+        protected static bool _considerOpponentsRaiseSize; 
 
         protected static Streets _validStreet;
 
@@ -105,12 +102,10 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             _playerName = "somePlayer";
             _validStreet = Streets.Flop;
             _validActionSequence = ActionSequences.HeroB;
-            _validInPosition = false;
             _validBetSizes = Tuple.New(0.5, 0.7);
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _validAnalyzablePokerPlayersStub = new[] { _analyzablePokerPlayerStub.Object };
-            _validRaiseSizes = new[] { 1.0, 2.0 };
-           
+            _considerOpponentsRaiseSize = false;           
             _raiseReactionStatisticsStub = new Mock<IRaiseReactionStatistics>();
 
             _emptyPercentageDictionary = new Dictionary<int, int>();
@@ -132,7 +127,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
            
             _raiseReactionStatisticsBuilderMock = new Mock<IRaiseReactionStatisticsBuilder>();
             _raiseReactionStatisticsBuilderMock
-                .Setup(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet))
+                .Setup(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet, _considerOpponentsRaiseSize))
                 .Returns(_raiseReactionStatisticsStub.Object);
             _raiseReactionDescriberStub = new Mock<IRaiseReactionDescriber<double>>();
 
@@ -206,7 +201,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validStreet);
 
         It should_build_raise_reaction_statistics_for_it
-            = () => _raiseReactionStatisticsBuilderMock.Verify(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet));
+            = () => _raiseReactionStatisticsBuilderMock.Verify(b => b.Build(_validAnalyzablePokerPlayersStub, _validActionSequence, _validStreet, _considerOpponentsRaiseSize));
 
         It should_get_statistics_description_from_raise_reaction_describer
             = () => _sut.StatisticsDescription.ShouldEqual(description);

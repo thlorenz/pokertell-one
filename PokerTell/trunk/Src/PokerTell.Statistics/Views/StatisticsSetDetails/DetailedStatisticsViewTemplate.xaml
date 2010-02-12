@@ -51,7 +51,7 @@
 
 
     <DataTemplate DataType="{x:Type Base:EmptyStatisticsTableViewModel}" />
-        
+
     <DataTemplate DataType="{x:Type ViewModels:DetailedPreFlopStatisticsViewModel}" >
         <StackPanel Orientation="Vertical">
             <dg:DataGrid ItemsSource="{Binding Rows}"
@@ -174,8 +174,13 @@
 
     <DataTemplate DataType="{x:Type Analyzation:HandBrowserViewModel}">
 
-        <StackPanel Orientation="Horizontal">
-            <dg:DataGrid DataContext="{Binding CurrentHandHistory}"
+        <Grid HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <dg:DataGrid Grid.Column="0"
+                         DataContext="{Binding CurrentHandHistory, Mode=OneWay}"
                          ItemsSource="{Binding PlayerRows}"
                          HeadersVisibility="Column">
                 <dg:DataGrid.Columns>
@@ -195,6 +200,14 @@
                     <dg:DataGridTextColumn Header="River" Binding="{Binding River}" />
                 </dg:DataGrid.Columns>
             </dg:DataGrid>
-        </StackPanel>
+            <ScrollBar Grid.Column="1"
+                       Minimum="0"
+                       Maximum="{Binding HandCount}"
+                       Value="{Binding CurrentHandIndex, Mode=OneWayToSource}"
+                       SmallChange="1"
+                       LargeChange="10"
+                       MaxWidth="25"
+                       MinHeight="100"/>
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

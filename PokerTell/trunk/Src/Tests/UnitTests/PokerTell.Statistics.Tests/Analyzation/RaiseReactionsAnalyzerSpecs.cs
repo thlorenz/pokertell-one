@@ -56,11 +56,13 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
         protected static IRaiseReactionsAnalyzer _sut;
 
+        protected static bool _considerOpponentsRaiseSize;
+
         Establish context = () => {
             Moq.It.Is<string>(a => a == string.Empty);
             SomeStreet = Streets.Flop;
             SomeActionSequence = ActionSequences.HeroC;
-
+            _considerOpponentsRaiseSize = true; 
             _analyzationPreparerStub = new Mock<IReactionAnalyzationPreparer>();
             _raiseReactionAnalyzerStub = new Mock<IRaiseReactionAnalyzer>();
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
@@ -114,7 +116,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
             _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence, _considerOpponentsRaiseSize);
         };
 
         It should_add_them_to_the_RaiseReactionAnalyzers_list =
@@ -129,7 +131,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(false);
             _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence, _considerOpponentsRaiseSize);
         };
 
         It should_not_add_them_to_the_RaiseReactionAnalyzers_list =
@@ -143,7 +145,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
         Because of = () => {
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(false);
             _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence, _considerOpponentsRaiseSize);
         };
 
         It should_not_add_them_to_the_RaiseReactionAnalyzers_list =
@@ -159,7 +161,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsValidResult).Returns(true);
             _raiseReactionAnalyzerStub.SetupGet(r => r.IsStandardSituation).Returns(true);
             _sut.AnalyzeAndAdd(
-                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence);
+                _raiseReactionAnalyzerStub.Object, _analyzablePokerPlayerStub.Object, SomeStreet, SomeActionSequence, _considerOpponentsRaiseSize);
         };
 
         It should_not_add_anything_to_the_list =

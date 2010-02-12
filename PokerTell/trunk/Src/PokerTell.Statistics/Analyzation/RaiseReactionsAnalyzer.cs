@@ -17,14 +17,15 @@ namespace PokerTell.Statistics.Analyzation
 
         public IEnumerable<IRaiseReactionAnalyzer> RaiseReactionAnalyzers
         {
-        get { return _raiseReactionAnalyzers; }
+            get { return _raiseReactionAnalyzers; }
         }
 
         public IRaiseReactionsAnalyzer AnalyzeAndAdd(
-            IRaiseReactionAnalyzer raiseReactionAnalyzer,
-            IAnalyzablePokerPlayer analyzablePokerPlayer,
-            Streets street,
-            ActionSequences actionSequence)
+            IRaiseReactionAnalyzer raiseReactionAnalyzer, 
+            IAnalyzablePokerPlayer analyzablePokerPlayer, 
+            Streets street, 
+            ActionSequences actionSequence, 
+            bool considerOpponentsRaiseSize)
         {
             _reactionAnalyzationPreparer.PrepareAnalyzationFor(
                 analyzablePokerPlayer.Sequences[(int)street], analyzablePokerPlayer.Position, actionSequence);
@@ -32,7 +33,7 @@ namespace PokerTell.Statistics.Analyzation
             if (_reactionAnalyzationPreparer.WasSuccessful)
             {
                 raiseReactionAnalyzer
-                    .AnalyzeUsingDataFrom(analyzablePokerPlayer, _reactionAnalyzationPreparer, RaiseSizeKeys);
+                    .AnalyzeUsingDataFrom(analyzablePokerPlayer, _reactionAnalyzationPreparer, true, RaiseSizeKeys);
                 if (raiseReactionAnalyzer.IsValidResult & raiseReactionAnalyzer.IsStandardSituation)
                 {
                     _raiseReactionAnalyzers.Add(raiseReactionAnalyzer);

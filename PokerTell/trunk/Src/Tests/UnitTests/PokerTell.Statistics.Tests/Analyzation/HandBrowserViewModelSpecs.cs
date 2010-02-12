@@ -82,10 +82,10 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
       
       Because of = () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object });
 
-      It should_initialize_hand_browser_with_their_hand_ids_sorted_backwards
-         = () => _handBrowserMock.Verify(b => b.InitializeWith(new [] {_handId2, _handId1}));
+       It should_initialize_hand_browser_with_their_hand_ids_sorted_backwards
+           = () => _handBrowserMock.Verify(b => b.InitializeWith(new[] { _handId2, _handId1 }));
 
-      It should_update_hand_history_viewmodel_with_first_hand_of_hand_browser
+       It should_update_hand_history_viewmodel_with_first_hand_of_hand_browser
          = () => _handHistoryViewModelMock.Verify(
                     hh => hh.UpdateWith(Moq.It.Is<IConvertedPokerHand>(
                                            h => h.Equals(_pokerHandStub_2.Object))));

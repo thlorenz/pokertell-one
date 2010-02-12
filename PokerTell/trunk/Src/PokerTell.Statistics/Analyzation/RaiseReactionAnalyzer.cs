@@ -5,12 +5,11 @@ namespace PokerTell.Statistics.Analyzation
     using System.Linq;
     using System.Reflection;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-
-    using Interfaces;
-
     using log4net;
+
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Statistics.Interfaces;
 
     using Tools;
 
@@ -26,6 +25,8 @@ namespace PokerTell.Statistics.Analyzation
         IReactionAnalyzationPreparer _analyzationPreparer;
 
         IConvertedPokerActionWithId _heroReaction;
+
+        bool _considerOpponentsRaiseSize;
 
         public IAnalyzablePokerPlayer AnalyzablePokerPlayer { get; set; }
 
@@ -52,17 +53,17 @@ namespace PokerTell.Statistics.Analyzation
         /// <summary>
         ///   Indicates the ratio of the opponents raise to which the hero reacted
         /// </summary>
-        public int OpponentRaiseSize { get; private set; }
+        public int ConsideredRaiseSize { get; private set; }
 
         public double[] RaiseSizeKeys { get; protected set; }
 
         public override string ToString()
         {
             return string.Format(
-                "OpponentRaiseSize: {0}, IsStandardSituation: {1}, IsValidResult: {2}, HeroReactionType: {3}",
-                OpponentRaiseSize,
-                IsStandardSituation,
-                IsValidResult,
+                "ConsideredRaiseSize: {0}, IsStandardSituation: {1}, IsValidResult: {2}, HeroReactionType: {3}", 
+                ConsideredRaiseSize, 
+                IsStandardSituation, 
+                IsValidResult, 
                 _heroReaction);
         }
 
@@ -75,17 +76,21 @@ namespace PokerTell.Statistics.Analyzation
         /// <param name="analyzationPreparer">
         ///   Provides StartingIndex (Hero's original action) and Sequence
         /// </param>
+        /// <param name="considerOpponentsRaiseSize">If true, it will determine the opponents re(raise) size and set the Considered raise size to it.
+        /// So far this only is done like this for PostFlopHero acts. In all other cases set it to false and the raise size of the hero is used.</param>
         /// <param name="raiseSizeKeys">
         ///   Raise sizes to which the Opponent Raise size should be normalized to
         /// </param>
         public IRaiseReactionAnalyzer AnalyzeUsingDataFrom(
-            IAnalyzablePokerPlayer analyzablePokerPlayer, IReactionAnalyzationPreparer analyzationPreparer, double[] raiseSizeKeys)
+            IAnalyzablePokerPlayer analyzablePokerPlayer, 
+            IReactionAnalyzationPreparer analyzationPreparer, 
+            bool considerOpponentsRaiseSize, 
+            double[] raiseSizeKeys)
         {
+            _considerOpponentsRaiseSize = considerOpponentsRaiseSize;
             AnalyzablePokerPlayer = analyzablePokerPlayer;
             _analyzationPreparer = analyzationPreparer;
             RaiseSizeKeys = raiseSizeKeys;
-
-
 
             try
             {
@@ -97,6 +102,7 @@ namespace PokerTell.Statistics.Analyzation
 
                 IsValidResult = false;
             }
+
             return this;
         }
 
@@ -121,7 +127,7 @@ namespace PokerTell.Statistics.Analyzation
 
         bool AnalyzeReaction()
         {
-            IEnumerable<IConvertedPokerActionWithId> foundRaises = SetRaiseSize();
+            IEnumerable<IConvertedPokerActionWithId> foundRaises = SetConsideredRaiseSize();
 
             if (foundRaises.Count() == 0)
             {
@@ -174,25 +180,41 @@ namespace PokerTell.Statistics.Analyzation
                                 : null;
         }
 
-        IEnumerable<IConvertedPokerActionWithId> SetRaiseSize()
+        IEnumerable<IConvertedPokerActionWithId> SetConsideredRaiseSize()
         {
             const ActionTypes actionToLookFor = ActionTypes.R;
 
-            var actionsAfterHerosInitialAction = 
+            var actionsAfterHerosInitialAction =
                 _analyzationPreparer.Sequence.Actions.Skip(_analyzationPreparer.StartingActionIndex);
 
-            IEnumerable<IConvertedPokerActionWithId> foundRaises =
+            IEnumerable<IConvertedPokerActionWithId> opponentsRaises =
                 from IConvertedPokerActionWithId action in actionsAfterHerosInitialAction
                 where action.What.Equals(actionToLookFor) && !action.Id.Equals(_analyzationPreparer.HeroPosition)
                 select action;
 
-            if (foundRaises.Count() > 0)
+            if (_considerOpponentsRaiseSize && opponentsRaises.Count() > 0)
             {
-                OpponentRaiseSize =
-                    (int)Normalizer.NormalizeToKeyValues(RaiseSizeKeys, foundRaises.First().Ratio);
+                ConsideredRaiseSize =
+                    (int)Normalizer.NormalizeToKeyValues(RaiseSizeKeys, opponentsRaises.First().Ratio);
+            }
+            else if (!_considerOpponentsRaiseSize)
+            {
+                IEnumerable<IConvertedPokerActionWithId> herosRaises =
+                    from IConvertedPokerActionWithId action in actionsAfterHerosInitialAction
+                    where action.What.Equals(actionToLookFor) && action.Id.Equals(_analyzationPreparer.HeroPosition)
+                    select action;
+                if (herosRaises.Count() > 0)
+                {
+                    ConsideredRaiseSize = (int)Normalizer.NormalizeToKeyValues(RaiseSizeKeys, herosRaises.First().Ratio);
+                }
+                else
+                {
+                    // Returning empty list will let caller know that the appropriate reaction was not found
+                    return herosRaises;
+                }
             }
 
-            return foundRaises;
+            return opponentsRaises;
         }
     }
 }
