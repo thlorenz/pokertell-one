@@ -88,7 +88,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public class DetailedPreFlopStatisticsViewModelImpl : DetailedPreFlopStatisticsViewModel
         {
             public DetailedPreFlopStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IPreFlopRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
-                : base(handBrowserViewModel, raiseReactionStatisticsViewModel)
+                : base(handBrowserViewModel, raiseReactionStatisticsViewModel, new StubBuilder().Out<IDetailedPreFlopStatisticsDescriber>())
             {
                 SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer>();
             }

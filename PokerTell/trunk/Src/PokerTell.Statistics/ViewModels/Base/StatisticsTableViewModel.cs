@@ -18,6 +18,7 @@ namespace PokerTell.Statistics.ViewModels.Base
         public StatisticsTableViewModel(string columnHeaderTitle)
         {
             SelectedCells = new List<ITuple<int, int>>();
+            SavedSelectedCells = new List<ITuple<int, int>>();
             ColumnHeaderTitle = columnHeaderTitle;
         }
 
@@ -59,6 +60,20 @@ namespace PokerTell.Statistics.ViewModels.Base
             }
         }
 
+        string _statisticsHint;
+
+        /// <summary>
+        /// Gives a hint on how to interpret the statistics, e.g. what the RaiseSizes indicate
+        /// </summary>
+        public string StatisticsHint
+        {
+            get { return _statisticsHint; }
+            protected set
+            {
+                _statisticsHint = value;
+                RaisePropertyChanged(() => StatisticsHint);
+            }
+        }
         IDetailedStatisticsAnalyzerContentViewModel _childViewModel;
 
         /// <summary>
@@ -89,6 +104,16 @@ namespace PokerTell.Statistics.ViewModels.Base
         {
             SelectedCells.Clear();
         }
+
+        /// <summary>
+        /// Saves the selected cells into SavedSelectedCells e.g. when the data grid is unloading 
+        /// </summary>
+        public void SaveSelectedCells()
+        {
+            SavedSelectedCells = new List<ITuple<int, int>>(SelectedCells);
+        }
+
+        public List<ITuple<int, int>> SavedSelectedCells { get; protected set; }
 
         public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
     }

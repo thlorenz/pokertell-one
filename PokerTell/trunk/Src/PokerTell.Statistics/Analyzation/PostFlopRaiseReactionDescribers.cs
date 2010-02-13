@@ -1,11 +1,15 @@
 namespace PokerTell.Statistics.Analyzation
 {
+    using System;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
     using Interfaces;
 
     using Tools.Interfaces;
+
+    using Utilities;
 
     public class PostFlopHeroActsRaiseReactionDescriber : IPostFlopHeroActsRaiseReactionDescriber
     {
@@ -39,10 +43,20 @@ namespace PokerTell.Statistics.Analyzation
                 playerName,
                 ActionSequencesUtility.NameLastActionInSequence(actionSequence).ToLower(),
                  PostFlopRaiseReactionDescriberUtils.DescribeBetSizes(ratioSizes),
-                PostFlopRaiseReactionDescriberUtils.DescribePosition(analyzablePokerPlayer, street),
+                StatisticsDescriberUtils.DescribePosition(analyzablePokerPlayer, street),
                 street.ToString().ToLower());
         }
 
+        /// <summary>
+        /// Gives a hint about how the statistics presentation is to be interpreted, e.g. if the raise size refers to the opponent or the hero
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="analyzablePokerPlayer"></param>
+        /// <returns></returns>
+        public string Hint(string playerName, IAnalyzablePokerPlayer analyzablePokerPlayer)
+        {
+            return string.Format("Raise Size refers to the amount the opponent raised after {0} bet.", playerName);
+        }
     }
 
     public class PostFlopHeroReactsRaiseReactionDescriber : IPostFlopHeroReactsRaiseReactionDescriber
@@ -54,8 +68,20 @@ namespace PokerTell.Statistics.Analyzation
                                  playerName,
                                  DescribeAction(actionSequence),
                                  PostFlopRaiseReactionDescriberUtils.DescribeBetSizes(ratioSizes),
-                                 PostFlopRaiseReactionDescriberUtils.DescribePosition(analyzablePokerPlayer, street),
+                                 StatisticsDescriberUtils.DescribePosition(analyzablePokerPlayer, street),
                                  street.ToString().ToLower());
+        }
+
+        /// <summary>
+        /// Gives a hint about how the statistics presentation is to be interpreted, e.g. if the raise size refers to the opponent or the hero
+        /// </summary>
+        /// <param name="playerName"></param>
+        /// <param name="analyzablePokerPlayer"></param>
+        /// <returns></returns>
+        public string Hint(string playerName, IAnalyzablePokerPlayer analyzablePokerPlayer)
+        {
+            return string.Format("Raise Size refers to the amount {0} raised after his opponent bet.", playerName);
+            
         }
 
         static string DescribeAction(ActionSequences actionSequence)
@@ -69,14 +95,9 @@ namespace PokerTell.Statistics.Analyzation
         }
 
     }
-
+    
     internal static class PostFlopRaiseReactionDescriberUtils
     {
-        internal static string DescribePosition(IAnalyzablePokerPlayer analyzablePokerPlayer, Streets street)
-        {
-            return (bool)analyzablePokerPlayer.InPosition[(int)street] ? "in position" : "out of position";
-        }
-
         internal static string DescribeBetSizes(ITuple<double, double> ratioSizes)
         {
             return (ratioSizes.First == ratioSizes.Second)

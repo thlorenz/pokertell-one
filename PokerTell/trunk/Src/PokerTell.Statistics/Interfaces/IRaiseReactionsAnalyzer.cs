@@ -11,11 +11,7 @@ namespace PokerTell.Statistics.Interfaces
 
         IEnumerable<IRaiseReactionAnalyzer> RaiseReactionAnalyzers { get; }
 
-        IRaiseReactionsAnalyzer AnalyzeAndAdd(
-            IRaiseReactionAnalyzer raiseReactionAnalyzer,
-            IAnalyzablePokerPlayer analyzablePokerPlayer,
-            Streets street,
-            ActionSequences actionSequence);
+        IRaiseReactionsAnalyzer AnalyzeAndAdd(IRaiseReactionAnalyzer raiseReactionAnalyzer, IAnalyzablePokerPlayer analyzablePokerPlayer, Streets street, ActionSequences actionSequence, bool considerOpponentsRaiseSize);
 
         IRaiseReactionsAnalyzer InitializeWith(double[] raiseSizeKeys);
     }

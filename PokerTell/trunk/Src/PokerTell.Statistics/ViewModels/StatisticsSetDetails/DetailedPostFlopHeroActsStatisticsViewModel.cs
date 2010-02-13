@@ -25,8 +25,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         ICommand _investigateRaiseReactionCommand;
 
         public DetailedPostFlopHeroActsStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel, IPostFlopHeroActsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
-            : base(handBrowserViewModel, "Bet Size")
+            IHandBrowserViewModel handBrowserViewModel,
+            IPostFlopHeroActsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel,
+            IDetailedPostFlopHeroActsStatisticsDescriber detailedStatisticsDescriber)
+            : base(handBrowserViewModel, detailedStatisticsDescriber, "Bet Size")
         {
             _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
 
@@ -42,6 +44,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
                     {
                         ExecuteDelegate = _ => {
+                            SaveSelectedCells();
                             Tuple<double, double> selectedBetSizes = Tuple.New(
                                 BetSizeKeys[SelectedColumnsSpan.First],
                                 BetSizeKeys[SelectedColumnsSpan.Second]);
@@ -58,8 +61,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
             }
         }
 
-        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
-            IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var betRow =
                 new StatisticsTableRowViewModel("Bet", statisticsSet.ActionSequenceStatistics.Last().Percentages, "%");
@@ -67,14 +69,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
             Rows = new List<IStatisticsTableRowViewModel>(new[] { betRow, countRow });
-
-            StatisticsDescription =
-                string.Format(
-                    "Player {0} {1} on the {2} {3} position",
-                    statisticsSet.PlayerName,
-                    statisticsSet.ActionSequence,
-                    statisticsSet.Street,
-                    statisticsSet.InPosition ? "in" : "out of");
 
             return this;
         }

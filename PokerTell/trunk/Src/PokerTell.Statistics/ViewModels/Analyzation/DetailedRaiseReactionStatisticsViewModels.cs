@@ -104,6 +104,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                 return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
+                            SaveSelectedCells();
                             _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
                             ChildViewModel = _handBrowserViewModel;
                         }, 
@@ -175,6 +176,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                           _analyzablePokerPlayers.First(), 
                           _street, 
                           _selectedRationSizeSpan);
+            StatisticsHint = _raiseReactionDescriber
+                .Hint(_playerName, _analyzablePokerPlayers.First());
         }
     }
 }

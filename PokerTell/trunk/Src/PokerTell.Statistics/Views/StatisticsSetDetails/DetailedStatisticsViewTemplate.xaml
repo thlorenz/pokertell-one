@@ -11,6 +11,8 @@
         <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- Styles -->
+    <!-- Investigator Buttons -->
     <Style x:Key="InvestigateRaiseButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="MaxHeight" Value="25" />
         <Setter Property="Margin" Value="2" />
@@ -43,6 +45,46 @@
         <Setter Property="Command" Value="{Binding InvestigateHoleCardsCommand}" />
         <Setter Property="Content" Value="Show Cards"/>
     </Style>
+    <!--
+            <GroupBox Header="Information" Width="200">
+                <TextBlock Foreground="AntiqueWhite" Text="{Binding StatisticsDescription}" TextAlignment="Left" FontSize="8" TextWrapping="Wrap"/>
+            </GroupBox>
+    -->
+
+    <!-- Staistics AnalyzerView Styles-->
+    <Style x:Key="StatisticsInformationPanelStyle" TargetType="{x:Type ContentControl}">
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Padding="3" Margin="0,2" CornerRadius="1" BorderThickness="1"  BorderBrush="{StaticResource LightBorderBrush}" Background="{StaticResource DarkBorderBrush}">
+                        <Border.Resources>
+                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
+                                <Setter Property="FontSize" Value="8"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Style>
+                        </Border.Resources>
+                        <StackPanel Orientation="Vertical">
+                            <Border CornerRadius="1" BorderThickness="1" Margin="0,2" BorderBrush="{StaticResource LightBorderBrush}">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Margin="1" Text="Situation:" />
+                                    <TextBlock Margin="1" Foreground="AntiqueWhite" Text="{Binding StatisticsDescription}" TextAlignment="Left" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                            <Border CornerRadius="1" BorderThickness="1" Margin="0,2" BorderBrush="{StaticResource LightBorderBrush}">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Margin="1" Text="Hint:" />
+                                    <TextBlock Margin="1" Foreground="AntiqueWhite" Text="{Binding StatisticsHint}" TextAlignment="Left" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Container Template -->
     <DataTemplate x:Key="DetailedStatisticsViewTemplate">
         <StackPanel>
             <ContentPresenter Content="{Binding}" />
@@ -50,11 +92,15 @@
     </DataTemplate>
 
 
+    <!-- Empty Statistics -->
     <DataTemplate DataType="{x:Type Base:EmptyStatisticsTableViewModel}" />
 
+    <!-- DetailedPreFlopStatisticsViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:DetailedPreFlopStatisticsViewModel}" >
-        <StackPanel Orientation="Vertical">
-            <dg:DataGrid ItemsSource="{Binding Rows}"
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="180" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="SB" Binding="{Binding Cells[0].Value}" />
@@ -79,9 +125,12 @@
     <System:String x:Key="LargeBet">0.9</System:String>
     <System:String x:Key="VeryLargeBet">1.5</System:String>
 
+    <!--   DetailedPostFlopHeroActsStatisticsViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroActsStatisticsViewModel}" >
-        <StackPanel Orientation="Vertical">
-            <dg:DataGrid ItemsSource="{Binding Rows}"
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="200" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
@@ -98,9 +147,12 @@
         </StackPanel>
     </DataTemplate>
 
+    <!--   DetailedPostFlopHeroReactsStatisticsViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroReactsStatisticsViewModel}" >
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="200" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
                      SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
@@ -123,9 +175,12 @@
     <System:String x:Key="LargeRaise">5x</System:String>
     <System:String x:Key="VeryLargeRaise">9x</System:String>
 
+    <!-- PostFlopHeroActsRaiseReactionStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroActsRaiseReactionStatisticsViewModel}" >
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
@@ -139,9 +194,13 @@
             </dg:DataGrid>
         </StackPanel>
     </DataTemplate>
+
+    <!-- PostFlopHeroReactsRaiseReactionStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroReactsRaiseReactionStatisticsViewModel}" >
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
@@ -156,8 +215,10 @@
         </StackPanel>
     </DataTemplate>
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaiseReactionStatisticsViewModel}" >
-        <StackPanel Orientation="Vertical">
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
@@ -172,8 +233,8 @@
         </StackPanel>
     </DataTemplate>
 
+    <!-- HandBrowserViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:HandBrowserViewModel}">
-
         <Grid HorizontalAlignment="Stretch">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

@@ -48,13 +48,13 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             _validAnalyzablePokerPlayersStub = new[] { _analyzablePokerPlayerStub.Object };
             _handBrowserViewModelMock = new Mock<IHandBrowserViewModel>();
 
-            _sut = new DetailedStatisticsViewModelImpl(_handBrowserViewModelMock.Object);
+            _sut = new DetailedStatisticsViewModelImpl(_handBrowserViewModelMock.Object, new Mock<IDetailedStatisticsDescriber>().Object);
         };
 
         protected class DetailedStatisticsViewModelImpl : DetailedStatisticsViewModel
         {
-            public DetailedStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel)
-                : base(handBrowserViewModel, "columnHeaderTitle")
+            public DetailedStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber)
+                : base(handBrowserViewModel, detailedStatisticsDescriber, "columnHeaderTitle")
             {
             }
 
@@ -70,7 +70,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 get { return SelectedAnalyzablePlayersSet; }
             }
 
-            protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
+            protected override IDetailedStatisticsViewModel CreateTableFor(
                 IActionSequenceStatisticsSet statisticsSet)
             {
                 return this;

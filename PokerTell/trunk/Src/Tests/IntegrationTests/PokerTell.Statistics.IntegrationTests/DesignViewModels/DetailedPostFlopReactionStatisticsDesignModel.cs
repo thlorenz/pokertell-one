@@ -14,11 +14,12 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 
     public class DetailedPostFlopReactionStatisticsDesignModel : DetailedPostFlopHeroReactsStatisticsViewModel
     {
+        static readonly StubBuilder _stub = new StubBuilder();
         public DetailedPostFlopReactionStatisticsDesignModel(
            IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
          IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
-            : base(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroReactsRaiseReactionStatisticsViewModel>())
+            : base(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroReactsRaiseReactionStatisticsViewModel>(), _stub.Out<IDetailedPostFlopHeroReactsStatisticsDescriber>())
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {

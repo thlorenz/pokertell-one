@@ -6,10 +6,12 @@
 namespace Tools.WPF.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq.Expressions;
 
     using Tools.GenericUtilities;
+    using Tools.Interfaces;
 
     /// <summary>
     /// Abstract ViewModel that implements property name check when RaisePropertyChanged is raised

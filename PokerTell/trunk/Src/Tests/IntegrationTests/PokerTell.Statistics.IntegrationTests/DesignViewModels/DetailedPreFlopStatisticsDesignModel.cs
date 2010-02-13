@@ -16,11 +16,12 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
     {
         #region Constructors and Destructors
 
+        static readonly StubBuilder _stub = new StubBuilder();
         public DetailedPreFlopStatisticsDesignModel(
            IHandBrowserViewModel handBrowserViewModel,
          IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
          IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
-           : base(handBrowserViewModel, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>())
+           : base(handBrowserViewModel, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>(),_stub.Out<IDetailedPreFlopStatisticsDescriber>())
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {

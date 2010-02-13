@@ -1,5 +1,9 @@
 namespace PokerTell.Statistics.Views.StatisticsSetDetails
 {
+    using System;
+    using System.Linq;
+    using System.Windows;
+
     using Microsoft.Windows.Controls;
 
     using PokerTell.Statistics.Interfaces;
@@ -73,5 +77,33 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         }
 
         #endregion
+        /// <summary>
+        /// Datagrid Loaded makes sure that the selected cells are restored again when the user returns to it
+        /// The ViewModel itself is responsible for saving them e.g. when a command is executes that causes
+        /// navigation to a new DataGrid (e.g. Investigate Raise)
+        /// </summary>
+        /// <param name="sender">DataGrid</param>
+        /// <param name="e">Ignored</param>
+        void DataGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            var viewModel = (IStatisticsTableViewModel)grid.DataContext;
+            grid.SelectedCellsChanged -= DataGrid_SelectedCellsChanged;
+
+            viewModel.SavedSelectedCells.ForEach(selectedCell => grid.SelectedCells.Add(
+                                                     new DataGridCellInfo(viewModel.Rows.ElementAt(selectedCell.First), 
+                                                                          grid.Columns[selectedCell.Second])));
+            
+            grid.SelectedCellsChanged += DataGrid_SelectedCellsChanged;
+
+            UpdateViewModelWithCurrentSelection(grid);
+        }
+
+        void DataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            var grid = (DataGrid)sender;
+            var viewModel = (IStatisticsTableViewModel)grid.DataContext;
+            viewModel.SaveSelectedCells();
+        }
     }
 }

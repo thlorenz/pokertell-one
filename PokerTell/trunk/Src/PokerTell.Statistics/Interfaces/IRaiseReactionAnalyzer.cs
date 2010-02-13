@@ -14,7 +14,7 @@ namespace PokerTell.Statistics.Interfaces
         /// <param name="analyzablePokerPlayer">Player whose data os examined</param>
         /// <param name="analyzationPreparer">Provides StartingIndex (Hero's original action) and Sequence</param>
         /// <param name="raiseSizeKeys">Raise sizes to which the Opponent Raise size should be normalized to</param>
-        IRaiseReactionAnalyzer AnalyzeUsingDataFrom(IAnalyzablePokerPlayer analyzablePokerPlayer, IReactionAnalyzationPreparer analyzationPreparer, double[] raiseSizeKeys);
+        IRaiseReactionAnalyzer AnalyzeUsingDataFrom(IAnalyzablePokerPlayer analyzablePokerPlayer, IReactionAnalyzationPreparer analyzationPreparer, bool considerOpponentsRaiseSize, double[] raiseSizeKeys);
 
         /// <summary>
         /// Indicates how hero reacted to a raise by the opponent (e.g. fold)
@@ -36,7 +36,7 @@ namespace PokerTell.Statistics.Interfaces
         /// <summary>
         /// Indicates the ratio of the opponents raise to which the hero reacted
         /// </summary>
-        int OpponentRaiseSize { get; }
+        int ConsideredRaiseSize { get; }
 
         IAnalyzablePokerPlayer AnalyzablePokerPlayer { get; }
 

@@ -7,10 +7,7 @@ namespace PokerTell.Statistics.Interfaces
 
    public interface IRaiseReactionStatisticsBuilder
    {
-      IRaiseReactionStatistics Build(
-         IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers,
-         ActionSequences actionSequence,
-         Streets street);
+      IRaiseReactionStatistics Build(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, ActionSequences actionSequence, Streets street, bool considerOpponentsRaiseSize);
 
        IRaiseReactionStatisticsBuilder InitializeWith(double[] raiseSizeKeys);
    }

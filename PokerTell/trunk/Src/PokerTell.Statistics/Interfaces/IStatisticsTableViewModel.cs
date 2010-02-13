@@ -2,7 +2,7 @@ namespace PokerTell.Statistics.Interfaces
 {
     using System.Collections.Generic;
 
-    using Infrastructure.Interfaces.Statistics;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
 
     using Tools.Interfaces;
 
@@ -22,8 +22,20 @@ namespace PokerTell.Statistics.Interfaces
         /// </summary>
         string StatisticsDescription { get; }
 
+        List<ITuple<int, int>> SavedSelectedCells { get; }
+
+        /// <summary>
+        /// Gives a hint on how to interpret the statistics, e.g. what the RaiseSizes indicate
+        /// </summary>
+        string StatisticsHint { get; }
+
         IStatisticsTableViewModel AddToSelection(int row, int column);
 
         void ClearSelection();
+
+        /// <summary>
+        /// Saves the selected cells into SavedSelectedCells e.g. when the data grid is unloading 
+        /// </summary>
+        void SaveSelectedCells();
     }
 }

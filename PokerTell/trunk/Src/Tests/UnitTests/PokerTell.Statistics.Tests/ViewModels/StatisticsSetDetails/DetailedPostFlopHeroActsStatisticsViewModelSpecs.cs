@@ -65,7 +65,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             public DetailedPostFlopHeroActsStatisticsViewModelImpl(
                 IHandBrowserViewModel handBrowserViewModel, 
                 IPostFlopHeroActsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
-                : base(handBrowserViewModel, raiseReactionStatisticsViewModel)
+                : base(handBrowserViewModel, raiseReactionStatisticsViewModel, new StubBuilder().Out<IDetailedPostFlopHeroActsStatisticsDescriber>())
             {
                     SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer>();
             }

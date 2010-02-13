@@ -92,6 +92,9 @@
     <Compile Include="Analyzation\ValueCardTests.cs" />
     <Compile Include="Analyzation\ValuedHolecardsAverageTests.cs" />
     <Compile Include="Analyzation\ValuedHoleCardsTests.cs" />
+    <Compile Include="Detailed\DetailedPostFlopHeroActsStatisticsDescriberSpecs.cs" />
+    <Compile Include="Detailed\DetailedPostFlopHeroReactsStatisticsDescriberSpecs.cs" />
+    <Compile Include="Detailed\DetailedPreFlopStatisticsDescriberSpecs.cs" />
     <Compile Include="Factories\StringToSequenceExtension.cs" />
     <Compile Include="Utilities\AcrossRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticsSetTests.cs" />

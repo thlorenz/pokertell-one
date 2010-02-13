@@ -22,13 +22,14 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       protected readonly IHandBrowserViewModel _handBrowserViewModel;
 
 
-      protected DetailedStatisticsViewModel(IHandBrowserViewModel handBrowserViewModel, string columnHeaderTitle)
+      protected DetailedStatisticsViewModel(IHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber, string columnHeaderTitle)
          : base(columnHeaderTitle)
       {
-         _handBrowserViewModel = handBrowserViewModel;
+          _detailedStatisticsDescriber = detailedStatisticsDescriber;
+          _handBrowserViewModel = handBrowserViewModel;
       }
 
-      /// <summary>
+        /// <summary>
       ///   Assumes that cells have been selected and that they are all in the same row.
       ///   It returns the ActionSequence associated with the row of the first selected cell.
       /// </summary>
@@ -99,10 +100,14 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       public IDetailedStatisticsViewModel InitializeWith(IActionSequenceStatisticsSet statisticsSet)
       {
          ActionSequenceStatisticsSet = statisticsSet;
-         return CreateTableAndDescriptionFor(statisticsSet);
+         StatisticsDescription = _detailedStatisticsDescriber.Describe(statisticsSet.PlayerName, statisticsSet.ActionSequence, statisticsSet.Street, statisticsSet.InPosition);
+         StatisticsHint = _detailedStatisticsDescriber.Hint(statisticsSet.PlayerName);
+         return CreateTableFor(statisticsSet);
       }
 
         ICommand _browseHandsCommand;
+
+        readonly IDetailedStatisticsDescriber _detailedStatisticsDescriber;
 
         public ICommand BrowseHandsCommand
         {
@@ -111,6 +116,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 return _browseHandsCommand ?? (_browseHandsCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
+                            SaveSelectedCells();
                             _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
                             ChildViewModel = _handBrowserViewModel;
                         },
@@ -119,7 +125,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
             }
         }
 
-      protected abstract IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
-         IActionSequenceStatisticsSet statisticsSet);
+        protected abstract IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet);
    }
 }

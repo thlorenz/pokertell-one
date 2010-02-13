@@ -26,8 +26,9 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         public DetailedPostFlopHeroReactsStatisticsViewModel(
             IHandBrowserViewModel handBrowserViewModel, 
-            IPostFlopHeroReactsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
-            : base(handBrowserViewModel, "Bet Size")
+            IPostFlopHeroReactsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel,
+IDetailedPostFlopHeroReactsStatisticsDescriber detailedStatisticsDescriber)
+            : base(handBrowserViewModel, detailedStatisticsDescriber, "Bet Size")
         {
             _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
 
@@ -43,6 +44,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 return _investigateRaiseReactionCommand ?? (_investigateRaiseReactionCommand = new SimpleCommand
                     {
                         ExecuteDelegate = _ => {
+                            SaveSelectedCells();
                             var betSizes = Tuple.New(BetSizeKeys[SelectedColumnsSpan.First], BetSizeKeys[SelectedColumnsSpan.Second]);
 
                             ChildViewModel =
@@ -57,8 +59,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
             }
         }
 
-        protected override IDetailedStatisticsViewModel CreateTableAndDescriptionFor(
-            IActionSequenceStatisticsSet statisticsSet)
+        protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
         {
             var foldRow =
                 new StatisticsTableRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");
@@ -71,13 +72,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
             Rows = new List<IStatisticsTableRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
 
-            StatisticsDescription =
-                string.Format(
-                "Player {0} {1} on the {2} {3} position", 
-                    statisticsSet.PlayerName, 
-                    statisticsSet.ActionSequence, 
-                    statisticsSet.Street, 
-                    statisticsSet.InPosition ? "in" : "out of");
             return this;
         }
     }

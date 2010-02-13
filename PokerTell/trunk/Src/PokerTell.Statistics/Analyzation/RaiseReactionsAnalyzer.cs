@@ -33,7 +33,7 @@ namespace PokerTell.Statistics.Analyzation
             if (_reactionAnalyzationPreparer.WasSuccessful)
             {
                 raiseReactionAnalyzer
-                    .AnalyzeUsingDataFrom(analyzablePokerPlayer, _reactionAnalyzationPreparer, true, RaiseSizeKeys);
+                    .AnalyzeUsingDataFrom(analyzablePokerPlayer, _reactionAnalyzationPreparer, considerOpponentsRaiseSize, RaiseSizeKeys);
                 if (raiseReactionAnalyzer.IsValidResult & raiseReactionAnalyzer.IsStandardSituation)
                 {
                     _raiseReactionAnalyzers.Add(raiseReactionAnalyzer);

@@ -76,6 +76,9 @@
     <Compile Include="Analyzation\HandBrowser.cs" />
     <Compile Include="Analyzation\PostFlopRaiseReactionDescribers.cs" />
     <Compile Include="Analyzation\PreFlopRaiseReactionDescriber.cs" />
+    <Compile Include="Utilities\StatisticsDescriberUtils.cs" />
+    <Compile Include="Detailed\DetailedStatisticsDescribers.cs" />
+    <Compile Include="Interfaces\IDetailedStatisticsDescribers.cs" />
     <Compile Include="Interfaces\IPostFlopHeroActsRaiseReactionDescribers.cs" />
     <Compile Include="Interfaces\IRaiseReactionStatisticsBuilder.cs" />
     <Compile Include="Analyzation\RaiseReactionStatisticsBuilder.cs" />

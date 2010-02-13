@@ -31,6 +31,8 @@ namespace PokerTell.LiveTracker.IntegrationTests
     using PokerTell.Statistics.ViewModels.Analyzation;
     using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
 
+    using Statistics.Detailed;
+
     public class TableStatisticsViewWithDatabaseTests : DatabaseConnectedPerformanceTests
     {
         const string PokerStars = "PokerStars";
@@ -132,6 +134,9 @@ namespace PokerTell.LiveTracker.IntegrationTests
                 .RegisterType<IHandBrowser, HandBrowser>()
                 .RegisterType<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHandBrowserViewModel, HandBrowserViewModel>()
+                .RegisterType<IDetailedPreFlopStatisticsDescriber, DetailedPreFlopStatisticsDescriber>()
+                .RegisterType<IDetailedPostFlopHeroActsStatisticsDescriber, DetailedPostFlopHeroActsStatisticsDescriber>()
+                .RegisterType<IDetailedPostFlopHeroReactsStatisticsDescriber, DetailedPostFlopHeroReactsStatisticsDescriber>()
                 .RegisterType<IPreFlopRaiseReactionDescriber, PreFlopRaiseReactionDescriber>()
                 .RegisterType<IPostFlopHeroActsRaiseReactionDescriber, PostFlopHeroActsRaiseReactionDescriber>()
                 .RegisterType<IPostFlopHeroReactsRaiseReactionDescriber, PostFlopHeroReactsRaiseReactionDescriber>()

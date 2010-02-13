@@ -18,11 +18,9 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
     public class DetailedPostFlopHeroActsStatisticsDesignModel : DetailedPostFlopHeroActsStatisticsViewModel
     {
 
-        public DetailedPostFlopHeroActsStatisticsDesignModel(
-           IHandBrowserViewModel handBrowserViewModel,
-            IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
-            IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
-            : base(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>())
+        static readonly StubBuilder _stub = new StubBuilder();
+        public DetailedPostFlopHeroActsStatisticsDesignModel(IHandBrowserViewModel handBrowserViewModel)
+            : base(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>(),_stub.Out<IDetailedPostFlopHeroActsStatisticsDescriber>())
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {
