@@ -1,5 +1,6 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Input;
@@ -19,10 +20,16 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         public DetailedPreFlopStatisticsViewModel(
             IHandBrowserViewModel handBrowserViewModel, 
+            IPreFlopUnraisedPotCallingHandStrengthStatisticsViewModel preFlopUnraisedPotCallingHandStrengthStatisticsViewModel, 
+            IPreFlopRaisedPotCallingHandStrengthStatisticsViewModel preFlopRaisedPotCallingHandStrengthStatisticsViewModel, 
+            IPreFlopRaisingHandStrengthStatisticsViewModel preFlopRaisingHandStrengthStatisticsViewModel, 
             IPreFlopRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel, 
             IDetailedPreFlopStatisticsDescriber detailedStatisticsDescriber)
             : base(handBrowserViewModel, detailedStatisticsDescriber, "Position")
         {
+            _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel = preFlopUnraisedPotCallingHandStrengthStatisticsViewModel;
+            _preFlopRaisedPotCallingHandStrengthStatisticsViewModel = preFlopRaisedPotCallingHandStrengthStatisticsViewModel;
+            _preFlopRaisingHandStrengthStatisticsViewModel = preFlopRaisingHandStrengthStatisticsViewModel;
             _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
 
             MayBrowseHands = true;
@@ -42,7 +49,6 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
             Rows = new List<IStatisticsTableRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
-
             return this;
         }
 
@@ -77,13 +83,38 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         ICommand _showCardsCommand;
 
+        readonly IPreFlopRaisingHandStrengthStatisticsViewModel _preFlopRaisingHandStrengthStatisticsViewModel;
+
+        readonly IPreFlopRaisedPotCallingHandStrengthStatisticsViewModel _preFlopRaisedPotCallingHandStrengthStatisticsViewModel;
+
+        readonly IPreFlopUnraisedPotCallingHandStrengthStatisticsViewModel _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel;
+
         public ICommand InvestigateHoleCardsCommand
         {
             get
             {
                 return _showCardsCommand ?? (_showCardsCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => { }, 
+                        ExecuteDelegate = arg => {
+                            switch (SelectedActionSequence)
+                            {
+                                case ActionSequences.HeroC: 
+                                    _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, SelectedActionSequence);
+                                    ChildViewModel = _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel;
+                                    break;
+                                case ActionSequences.HeroR: 
+                                case ActionSequences.OppRHeroR: 
+                                    _preFlopRaisingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, SelectedActionSequence);
+                                    ChildViewModel = _preFlopRaisingHandStrengthStatisticsViewModel;
+                                    break;
+                                case ActionSequences.OppRHeroC:
+                                    _preFlopRaisedPotCallingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, SelectedActionSequence);
+                                    ChildViewModel = _preFlopRaisedPotCallingHandStrengthStatisticsViewModel;
+                                    break;
+
+                                default: throw new ArgumentException("Cannot investigate holecards for this action sequence: " + SelectedActionSequence);
+                            }
+                        }, 
                         CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedAnalyzablePlayers.Count() > 0
                     });
             }

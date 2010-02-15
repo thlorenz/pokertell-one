@@ -73,7 +73,7 @@ namespace PokerTell.Statistics.IntegrationTests
       public void DetailedStatisticsViewTemplate_DetailedPostFlopActionStatisticsViewModel()
       {
          var designWindow = new DetailedStatisticsDesignWindow
-         { Topmost = true, DataContext = new DetailedPostFlopHeroActsStatisticsDesignModel(HandBrowserViewModelStub, RaiseReactionStatisticsBuilder, RaiseReactionDescriber) };
+         { Topmost = true, DataContext = new DetailedPostFlopHeroActsStatisticsDesignModel(HandBrowserViewModelStub) };
          designWindow.ShowDialog();
       }
 
@@ -86,8 +86,8 @@ namespace PokerTell.Statistics.IntegrationTests
 
       public void DetailedStatisticsViewTemplate_DetailedPreFlopStatisticsViewModel()
       {
-         var designWindow = new DetailedStatisticsDesignWindow
-         { Topmost = true, DataContext = new DetailedPreFlopStatisticsDesignModel(HandBrowserViewModelStub, RaiseReactionStatisticsBuilder, RaiseReactionDescriber) };
+         var designWindow = new DetailedStatisticsDesignWindow();
+       //  { Topmost = true, DataContext = new DetailedPreFlopStatisticsDesignModel(HandBrowserViewModelStub, RaiseReactionStatisticsBuilder, RaiseReactionDescriber) };
          designWindow.ShowDialog();
       }
 

@@ -27,7 +27,8 @@ namespace PokerTell.Statistics.Tests.Analyzation
                 .Get(vhc => vhc.ChenValue).Returns(2)
                 .Get(vhc => vhc.SklanskyMalmuthGrouping).Returns(3).Out;
 
-            _sut = new ValuedHoleCardsAverage(new []{valuedHoleCards1, valuedHoleCards2 });
+            _sut = new ValuedHoleCardsAverage();
+            _sut.InitializeWith(new []{valuedHoleCards1, valuedHoleCards2 });
         }
 
         [Test]

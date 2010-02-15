@@ -9,7 +9,7 @@ namespace PokerTell.Statistics.Analyzation
     {
         public ICollection<IAnalyzablePokerPlayer> AnalyzablePokerPlayers { get; private set; }
 
-        public ValuedHoleCardsAverage AverageHandStrength { get; private set; }
+        public IValuedHoleCardsAverage AverageHandStrength { get; private set; }
 
         public ICollection<IValuedHoleCards> KnownCards { get; private set; }
 
@@ -28,7 +28,7 @@ namespace PokerTell.Statistics.Analyzation
             }
 
             var valuedHoleCards = new ValuedHoleCards(analyzer.HeroHoleCards);
-            if (valuedHoleCards.IsValid)
+            if (valuedHoleCards.AreValid)
             {
                 KnownCards.Add(valuedHoleCards);
             }
@@ -36,7 +36,7 @@ namespace PokerTell.Statistics.Analyzation
 
         public void CalculateAverageHandStrength()
         {
-            AverageHandStrength = new ValuedHoleCardsAverage(KnownCards);
+            AverageHandStrength = new ValuedHoleCardsAverage().InitializeWith(KnownCards);
         }
     }
 }

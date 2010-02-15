@@ -14,7 +14,7 @@ namespace PokerTell.Statistics.Analyzation
     {
         #region Constructors and Destructors
 
-        public PreflopCallingAnalyzer(IAnalyzablePokerPlayer analyzablePokerPlayer,IReactionAnalyzationPreparer analyzationPreparer, bool raisedPot)
+        public PreflopCallingAnalyzer(IAnalyzablePokerPlayer analyzablePokerPlayer, IReactionAnalyzationPreparer analyzationPreparer, bool raisedPot)
         {
             AnalyzablePokerPlayer = analyzablePokerPlayer;
             

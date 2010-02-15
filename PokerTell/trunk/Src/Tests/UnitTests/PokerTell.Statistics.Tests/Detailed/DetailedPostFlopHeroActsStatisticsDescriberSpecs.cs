@@ -16,6 +16,7 @@ namespace PokerTell.Statistics.Tests.Detailed
         protected static string description;
 
         protected static string hint;
+
         [Subject(typeof(DetailedPostFlopHeroActsStatisticsDescriber), "Describe")]
         public class given_fred_bet_on_the_flop_in_position : DetailedPostFlopHeroActsStatisticsDescriberSpecs
         {

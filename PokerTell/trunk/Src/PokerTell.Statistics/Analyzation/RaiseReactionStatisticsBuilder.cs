@@ -29,7 +29,11 @@ namespace PokerTell.Statistics.Analyzation
             _raiseReactionStatistics = raiseReactionStatistics;
         }
 
-        public IRaiseReactionStatistics Build(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, ActionSequences actionSequence, Streets street, bool considerOpponentsRaiseSize)
+        public IRaiseReactionStatistics Build(
+            IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, 
+            ActionSequences actionSequence, 
+            Streets street, 
+            bool considerOpponentsRaiseSize)
         {
             if (analyzablePokerPlayers.Count() < 1)
             {
@@ -37,11 +41,11 @@ namespace PokerTell.Statistics.Analyzation
             }
 
             analyzablePokerPlayers.ForEach(
-                analyzablePlayer => _raiseReactionsAnalyzer
-                                        .AnalyzeAndAdd(_raiseReactionAnalyzerMake.New, 
-                                                       analyzablePlayer, 
-                                                       street, 
-                                                       actionSequence, considerOpponentsRaiseSize));
+                analyzablePlayer => _raiseReactionsAnalyzer.AnalyzeAndAdd(_raiseReactionAnalyzerMake.New, 
+                                                                          analyzablePlayer, 
+                                                                          street, 
+                                                                          actionSequence, 
+                                                                          considerOpponentsRaiseSize));
 
             return _raiseReactionStatistics.InitializeWith(_raiseReactionsAnalyzer);
         }

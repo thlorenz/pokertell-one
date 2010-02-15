@@ -13,7 +13,7 @@ namespace PokerTell.Statistics.Analyzation
 
     /// <summary>
     /// Orders and values two given HoleCards. and determines if they are suited.
-    /// ChenValue and Sklansky Malmuth Grouping are assigned. If everything went good IsValid is set to true.
+    /// ChenValue and Sklansky Malmuth Grouping are assigned. If everything went good AreValid is set to true.
     /// AreSuited will indicate suitedness and the Cards are stored in ValuedCards Property for later.
     /// </summary>
     public class ValuedHoleCards : IValuedHoleCards
@@ -22,7 +22,7 @@ namespace PokerTell.Statistics.Analyzation
 
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public ITuple<ValuedCard, ValuedCard> ValuedCards { get; private set;}
+        public ITuple<IValuedCard, IValuedCard> ValuedCards { get; private set; }
 
         #endregion
 
@@ -44,19 +44,28 @@ namespace PokerTell.Statistics.Analyzation
             DetermineValidityAndValueCards(card1, card2);
         }
 
+        public ValuedHoleCards(string strCards)
+        {
+            InitializeWith(strCards);
+        }
+
+        public ValuedHoleCards()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ValuedHoleCards"/> class. 
         /// Constructs Cards from a given string.
         /// If Identification fails, construction is aborted and the Cards
-        /// property of this remains null. To identify this error, the Chen Value will be set to -1 and IsValid to false;
+        /// property of this remains null. To identify this error, the Chen Value will be set to -1 and AreValid to false;
         /// This will most likely happen, when the cards were not known and we
         /// are passed "?? ??"
-        /// So after this we need to check IsValid
+        /// So after this we need to check AreValid
         /// </summary>
         /// <param name="strCards">
         /// Cards to identify "?? ??" if unknown
         /// </param>
-        public ValuedHoleCards(string strCards)
+        public IValuedHoleCards InitializeWith(string strCards)
         {
             const string patCards = "(?<Card1>([A,K,Q,J,T]|[0-9])[schd]) *" + "(?<Card2>([A,K,Q,J,T]|[0-9])[schd])";
 
@@ -79,6 +88,7 @@ namespace PokerTell.Statistics.Analyzation
                 excep.Data.Add("strCards", strCards);
                 Log.Error("Unexpected", excep);
             }
+            return this;
         }
 
         #endregion
@@ -89,7 +99,7 @@ namespace PokerTell.Statistics.Analyzation
 
         public int SklanskyMalmuthGrouping { get; private set; }
 
-        public bool IsValid { get; private set; }
+        public bool AreValid { get; private set; }
 
         public bool AreSuited { get; private set; }
 
@@ -123,6 +133,7 @@ namespace PokerTell.Statistics.Analyzation
             {
                 return gapBetweenCards;
             }
+
             if (gapBetweenCards < 4)
             {
                 return 4;
@@ -213,7 +224,6 @@ namespace PokerTell.Statistics.Analyzation
             string strAddOne;
             string strSubtractOne;
 
-
             if (AreSuited)
             {
                 strAddOne = "J8s,96s,86s,75s,65s,54s,32s";
@@ -275,9 +285,9 @@ namespace PokerTell.Statistics.Analyzation
 
         private void DetermineValidityAndValueCards(string card1, string card2)
         {
-            IsValid = ExtractValuedCards(card1, card2);
+            AreValid = ExtractValuedCards(card1, card2);
 
-            if (IsValid)
+            if (AreValid)
             {
                 SortCards();
                 DetermineSuitedness();
@@ -294,7 +304,7 @@ namespace PokerTell.Statistics.Analyzation
 
         bool ExtractValuedCards(string card1, string card2)
         {
-            ValuedCards = Tuple.New(new ValuedCard(card1), new ValuedCard(card2));
+            ValuedCards = Tuple.New((IValuedCard) new ValuedCard(card1), (IValuedCard) new ValuedCard(card2));
 
             return ValuedCards.First.Rank != CardRank.Unknown && ValuedCards.Second.Rank != CardRank.Unknown;
         }

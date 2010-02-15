@@ -83,7 +83,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _callingHandStrengthStatistic.Add(_mockAnalyzer.Object);
 
             int expectedChenValue =
-                new ValuedHoleCardsAverage(new[] { new ValuedHoleCards(cards1), new ValuedHoleCards(cards2) }).ChenValue;
+                new ValuedHoleCardsAverage().InitializeWith(new[] { new ValuedHoleCards(cards1), new ValuedHoleCards(cards2) }).ChenValue;
             _callingHandStrengthStatistic.CalculateAverageHandStrength();
 
             Assert.That(_callingHandStrengthStatistic.AverageHandStrength.ChenValue, Is.EqualTo(expectedChenValue));

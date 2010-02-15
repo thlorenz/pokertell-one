@@ -10,7 +10,7 @@ namespace PokerTell.Statistics.Interfaces
     {
         ICollection<IAnalyzablePokerPlayer> AnalyzablePokerPlayers { get; }
 
-        ValuedHoleCardsAverage AverageHandStrength { get; }
+        IValuedHoleCardsAverage AverageHandStrength { get; }
 
         ICollection<IValuedHoleCards> KnownCards { get; }
 

@@ -10,10 +10,12 @@ namespace PokerTell.Statistics.Interfaces
 
         int SklanskyMalmuthGrouping { get; }
 
-        bool IsValid { get; }
+        bool AreValid { get; }
 
-        ITuple<ValuedCard, ValuedCard> ValuedCards { get; }
+        ITuple<IValuedCard, IValuedCard> ValuedCards { get; }
 
         bool AreSuited { get; }
+
+        IValuedHoleCards InitializeWith(string strCards);
     }
 }

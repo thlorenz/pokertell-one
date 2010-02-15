@@ -1,10 +1,13 @@
 ﻿namespace PokerTell.Statistics.Analyzation
 {
     using System;
+
+    using Interfaces;
+
     /// <summary>
     /// Determines the Rank, SUit and value(according to rank) of a card given as a string in the form: "RankSuit" e.g. "Ac"
     /// </summary>
-    public class ValuedCard
+    public class ValuedCard : IValuedCard
     {
         #region Constructors and Destructors
 

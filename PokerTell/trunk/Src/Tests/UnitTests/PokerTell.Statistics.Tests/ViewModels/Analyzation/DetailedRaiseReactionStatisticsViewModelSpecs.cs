@@ -264,10 +264,10 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validStreet);
 
         It should_have_value_0_at_row_0_col_0
-            = () => _sut.Rows.ElementAt(0).Cells[0].Value.ShouldEqual(0);
+            = () => _sut.Rows.ElementAt(0).Cells[0].Value.ShouldEqual("0");
 
         It should_have_value_50_at_row_1_col_1
-            = () => _sut.Rows.ElementAt(1).Cells[1].Value.ShouldEqual(50);
+            = () => _sut.Rows.ElementAt(1).Cells[1].Value.ShouldEqual("50");
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Initialization")]
@@ -287,10 +287,10 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                                _validStreet);
 
         It should_have_value_0_in_the_counts_row_at_col_0
-            = () => _sut.Rows.Last().Cells[0].Value.ShouldEqual(0);
+            = () => _sut.Rows.Last().Cells[0].Value.ShouldEqual("0");
 
         It should_have_value_1_in_the_counts_row_at_col_1
-            = () => _sut.Rows.Last().Cells[1].Value.ShouldEqual(1);
+            = () => _sut.Rows.Last().Cells[1].Value.ShouldEqual("1");
     }
 
     [Subject(typeof(DetailedRaiseReactionStatisticsViewModel<double>), "Browse hands command")]

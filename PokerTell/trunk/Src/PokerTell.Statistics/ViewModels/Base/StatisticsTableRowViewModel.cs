@@ -11,17 +11,27 @@ namespace PokerTell.Statistics.ViewModels.Base
     {
         #region Constructors and Destructors
 
-        public StatisticsTableRowViewModel(string title, IEnumerable<int> values, string unit)
+        StatisticsTableRowViewModel(string title, string unit)
         {
             Title = title;
 
             Cells = new List<IStatisticsTableCellViewModel>();
-            values.ToList().ForEach(value => Cells.Add(new StatisticsTableCellViewModel(value)));
 
             Unit = unit;
 
             IsSelectable = Unit.Length > 0;
-            
+        }
+
+        public StatisticsTableRowViewModel(string title, IEnumerable<string> values, string unit)
+            : this(title, unit)
+        {
+            values.ToList().ForEach(value => Cells.Add(new StatisticsTableCellViewModel(value)));
+        }
+
+        public StatisticsTableRowViewModel(string title, IEnumerable<int> values, string unit)
+            : this(title, unit)
+        {
+            values.ToList().ForEach(value => Cells.Add(new StatisticsTableCellViewModel(value)));
         }
 
         #endregion

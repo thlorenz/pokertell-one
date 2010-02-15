@@ -6,5 +6,6 @@
     <Converters:BoolToVisibleOrCollapsedConverter x:Key="BoolToVisibleOrCollapsedConverter" />
     <Converters:BoolToVisibleOrHiddenConverter x:Key="BoolToVisibleOrHiddenConverter" />
     <Converters:HeaderInfoToHeaderConverter x:Key="HeaderInfoToHeaderConverter"/>
+    <Converters:CountToMaximumConverter x:Key="CountToMaximumConverter"/>
     
 </ResourceDictionary>

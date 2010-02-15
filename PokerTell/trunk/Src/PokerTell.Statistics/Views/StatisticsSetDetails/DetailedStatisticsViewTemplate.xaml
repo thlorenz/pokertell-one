@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:System="clr-namespace:System;assembly=mscorlib" 
     xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" 
-    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails" xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation" xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base">
+    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails" xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation" xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base" xmlns:Interfaces="clr-namespace:PokerTell.Statistics.Interfaces">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
         <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
@@ -233,6 +234,65 @@
         </StackPanel>
     </DataTemplate>
 
+    <!-- PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel-->
+    <DataTemplate DataType="{x:Type Analyzation:PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel}" >
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="5:1" Binding="{Binding Cells[0].Value}" />
+                    <dg:DataGridTextColumn Header="3:1" Binding="{Binding Cells[1].Value}" />
+                    <dg:DataGridTextColumn Header="5:2" Binding="{Binding Cells[2].Value}" />
+                    <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[3].Value}" />
+                </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
+            </dg:DataGrid>
+        </StackPanel>
+    </DataTemplate>
+    
+    <!-- PreFlopRaisedPotCallingHandStrengthStatisticsViewModel-->
+    <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisedPotCallingHandStrengthStatisticsViewModel}" >
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="2:1" Binding="{Binding Cells[0].Value}" />
+                    <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[1].Value}" />
+                    <dg:DataGridTextColumn Header="5:4" Binding="{Binding Cells[2].Value}" />
+                </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
+            </dg:DataGrid>
+        </StackPanel>
+    </DataTemplate>
+    
+    <!-- PreFlopRaisingHandStrengthStatisticsViewModel -->
+    <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisingHandStrengthStatisticsViewModel}" >
+        <StackPanel Orientation="Horizontal">
+            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                <dg:DataGrid.Columns>
+                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+                </dg:DataGrid.Columns>
+                <dg:DataGrid.ToolTip>
+                    <TextBlock Text="{Binding StatisticsDescription}"/>
+                </dg:DataGrid.ToolTip>
+            </dg:DataGrid>
+        </StackPanel>
+    </DataTemplate>
+    
     <!-- HandBrowserViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:HandBrowserViewModel}">
         <Grid HorizontalAlignment="Stretch">
@@ -263,7 +323,7 @@
             </dg:DataGrid>
             <ScrollBar Grid.Column="1"
                        Minimum="0"
-                       Maximum="{Binding HandCount}"
+                       Maximum="{Binding HandCount, Converter={StaticResource CountToMaximumConverter}}"
                        Value="{Binding CurrentHandIndex, Mode=OneWayToSource}"
                        SmallChange="1"
                        LargeChange="10"

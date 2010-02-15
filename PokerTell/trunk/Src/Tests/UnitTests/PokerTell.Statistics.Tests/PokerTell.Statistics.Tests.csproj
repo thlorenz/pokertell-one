@@ -80,6 +80,7 @@
     <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Analyzation\PreFlopHandStrengthStatisticsSpecs.cs" />
     <Compile Include="Analyzation\RaiseReactionAnalyzerSpecs.cs" />
     <Compile Include="Analyzation\RaiseReactionAnalyzerTests.cs">
       <SubType>Code</SubType>

@@ -8,7 +8,7 @@ namespace PokerTell.Statistics.Analyzation
 
     using Tools.Extensions;
 
-    public class ValuedHoleCardsAverage
+    public class ValuedHoleCardsAverage : IValuedHoleCardsAverage
     {
         #region Constructors and Destructors
 
@@ -24,8 +24,10 @@ namespace PokerTell.Statistics.Analyzation
         /// <param name="cardsCollection">
         /// HoldemCards
         /// </param>
-        public ValuedHoleCardsAverage(IEnumerable<IValuedHoleCards> cardsCollection)
+        public IValuedHoleCardsAverage InitializeWith(IEnumerable<IValuedHoleCards> cardsCollection)
         {
+            IsValid = false;
+
             if (cardsCollection.Count() > 0)
             {
                 double sumChen = 0;
@@ -42,6 +44,8 @@ namespace PokerTell.Statistics.Analyzation
 
                 IsValid = true;
             }
+
+            return this;
         }
 
         #endregion

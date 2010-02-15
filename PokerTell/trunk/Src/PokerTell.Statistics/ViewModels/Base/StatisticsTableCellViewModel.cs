@@ -11,15 +11,19 @@ namespace PokerTell.Statistics.ViewModels.Base
         #region Constructors and Destructors
 
         public StatisticsTableCellViewModel(int value)
+            : this(value.ToString())
+        {
+        }
+
+        public StatisticsTableCellViewModel(string value)
         {
             Value = value;
         }
-
         #endregion
 
         #region Properties
 
-        public int Value { get; protected set; }
+        public string Value { get; protected set; }
 
         #endregion
 

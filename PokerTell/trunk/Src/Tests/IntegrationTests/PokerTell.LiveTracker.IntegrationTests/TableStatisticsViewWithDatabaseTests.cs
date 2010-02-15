@@ -88,7 +88,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
             tableStatisticsViewModel.UpdateWith(new[]
                 {
-                   // get(renniweg), 
+                    get(renniweg), 
                     get(greystoke), 
                     get(salemorguy)
                 });
@@ -128,21 +128,39 @@ namespace PokerTell.LiveTracker.IntegrationTests
                 // Statistics
                 .RegisterType<IReactionAnalyzationPreparer, ReactionAnalyzationPreparer>()
                 .RegisterTypeAndConstructor<IRaiseReactionAnalyzer, RaiseReactionAnalyzer>()
+                
                 .RegisterType<IRaiseReactionsAnalyzer, RaiseReactionsAnalyzer>()
                 .RegisterType<IRaiseReactionStatistics, RaiseReactionStatistics>()
                 .RegisterType<IRaiseReactionStatisticsBuilder, RaiseReactionStatisticsBuilder>()
+                
                 .RegisterType<IHandBrowser, HandBrowser>()
                 .RegisterType<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IHandBrowserViewModel, HandBrowserViewModel>()
+                
                 .RegisterType<IDetailedPreFlopStatisticsDescriber, DetailedPreFlopStatisticsDescriber>()
                 .RegisterType<IDetailedPostFlopHeroActsStatisticsDescriber, DetailedPostFlopHeroActsStatisticsDescriber>()
                 .RegisterType<IDetailedPostFlopHeroReactsStatisticsDescriber, DetailedPostFlopHeroReactsStatisticsDescriber>()
+                
                 .RegisterType<IPreFlopRaiseReactionDescriber, PreFlopRaiseReactionDescriber>()
                 .RegisterType<IPostFlopHeroActsRaiseReactionDescriber, PostFlopHeroActsRaiseReactionDescriber>()
                 .RegisterType<IPostFlopHeroReactsRaiseReactionDescriber, PostFlopHeroReactsRaiseReactionDescriber>()
+                
                 .RegisterType<IPreFlopRaiseReactionStatisticsViewModel, PreFlopRaiseReactionStatisticsViewModel>()
                 .RegisterType<IPostFlopHeroActsRaiseReactionStatisticsViewModel, PostFlopHeroActsRaiseReactionStatisticsViewModel>()
-                .RegisterType<IPostFlopHeroReactsRaiseReactionStatisticsViewModel, PostFlopHeroReactsRaiseReactionStatisticsViewModel>();
+                .RegisterType<IPostFlopHeroReactsRaiseReactionStatisticsViewModel, PostFlopHeroReactsRaiseReactionStatisticsViewModel>()
+                
+                .RegisterConstructor<IValuedHoleCards, ValuedHoleCards>()
+                .RegisterType<IValuedHoleCardsAverage, ValuedHoleCardsAverage>()
+
+                .RegisterType<IPreFlopHandStrengthStatistics, PreFlopHandStrengthStatistics>()
+                
+                .RegisterType<IPreFlopUnraisedPotCallingHandStrengthDescriber, PreFlopUnraisedPotCallingHandStrengthDescriber>()
+                .RegisterType<IPreFlopRaisedPotCallingHandStrengthDescriber, PreFlopRaisedPotCallingHandStrengthDescriber>()
+                .RegisterType<IPreFlopRaisingHandStrengthDescriber, PreFlopRaisingHandStrengthDescriber>()
+                
+                .RegisterType<IPreFlopUnraisedPotCallingHandStrengthStatisticsViewModel, PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel>()
+                .RegisterType<IPreFlopRaisedPotCallingHandStrengthStatisticsViewModel, PreFlopRaisedPotCallingHandStrengthStatisticsViewModel>()
+                .RegisterType<IPreFlopRaisingHandStrengthStatisticsViewModel, PreFlopRaisingHandStrengthStatisticsViewModel>();
         }
 
         [Test]

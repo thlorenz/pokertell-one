@@ -74,7 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzation\HandBrowser.cs" />
+    <Compile Include="Analyzation\PreFlopHandStrengthDescribers.cs" />
+    <Compile Include="Interfaces\IPreFlopHandStrengthStatistics.cs" />
+    <Compile Include="Interfaces\IPreFlopHandStrengthStatisticsDescribers.cs" />
+    <Compile Include="Interfaces\IPreFlopHandStrengthStatisticsViewModels.cs" />
+    <Compile Include="Interfaces\IValuedHoleCardsAverage.cs" />
+    <Compile Include="Interfaces\IValuedCard.cs" />
     <Compile Include="Analyzation\PostFlopRaiseReactionDescribers.cs" />
+    <Compile Include="Analyzation\PreFlopHandStrengthStatistics.cs" />
     <Compile Include="Analyzation\PreFlopRaiseReactionDescriber.cs" />
     <Compile Include="Utilities\StatisticsDescriberUtils.cs" />
     <Compile Include="Detailed\DetailedStatisticsDescribers.cs" />
@@ -119,6 +126,7 @@
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterViewModel.cs" />
     <Compile Include="ViewModels\Analyzation\HandBrowserViewModel.cs" />
     <Compile Include="Interfaces\IDetailedRaiseReactionStatisticsViewModels.cs" />
+    <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />
     <Compile Include="ViewModels\Filters\ValueViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />
