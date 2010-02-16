@@ -9,7 +9,7 @@ namespace PokerTell.Statistics.Interfaces
     {
         IEnumerable<IAnalyzablePokerPlayer> AnalyzablePlayersWithKnownCards { get; }
 
-        IEnumerable<IAnalyzablePokerPlayer>[] SortedAnalyzablePokerPlayers { get; }
+        IEnumerable<IAnalyzablePokerPlayer>[] SortedAnalyzablePokerPlayersWithKnownCards { get; }
 
         double[] RatiosUsed { get; }
 

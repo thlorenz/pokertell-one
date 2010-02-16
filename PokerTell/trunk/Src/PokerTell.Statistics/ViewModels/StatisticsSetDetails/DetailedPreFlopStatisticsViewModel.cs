@@ -96,19 +96,20 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 return _showCardsCommand ?? (_showCardsCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
+                            SaveSelectedCells();
                             switch (SelectedActionSequence)
                             {
                                 case ActionSequences.HeroC: 
-                                    _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, SelectedActionSequence);
+                                    _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, PlayerName, SelectedActionSequence);
                                     ChildViewModel = _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel;
                                     break;
                                 case ActionSequences.HeroR: 
                                 case ActionSequences.OppRHeroR: 
-                                    _preFlopRaisingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, SelectedActionSequence);
+                                    _preFlopRaisingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, PlayerName, SelectedActionSequence);
                                     ChildViewModel = _preFlopRaisingHandStrengthStatisticsViewModel;
                                     break;
                                 case ActionSequences.OppRHeroC:
-                                    _preFlopRaisedPotCallingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, SelectedActionSequence);
+                                    _preFlopRaisedPotCallingHandStrengthStatisticsViewModel.InitializeWith(SelectedAnalyzablePlayers, PlayerName, SelectedActionSequence);
                                     ChildViewModel = _preFlopRaisedPotCallingHandStrengthStatisticsViewModel;
                                     break;
 

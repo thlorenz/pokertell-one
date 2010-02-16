@@ -75,6 +75,7 @@
   <ItemGroup>
     <Compile Include="Analyzation\HandBrowser.cs" />
     <Compile Include="Analyzation\PreFlopHandStrengthDescribers.cs" />
+    <Compile Include="Analyzation\PreFlopHandStrengthVisualizer.cs" />
     <Compile Include="Interfaces\IPreFlopHandStrengthStatistics.cs" />
     <Compile Include="Interfaces\IPreFlopHandStrengthStatisticsDescribers.cs" />
     <Compile Include="Interfaces\IPreFlopHandStrengthStatisticsViewModels.cs" />
@@ -98,7 +99,6 @@
     <Compile Include="Analyzation\PreflopCallingAnalyzer.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Analyzation\PreflopCallingHandStrengthStatistic.cs" />
     <Compile Include="Analyzation\RaiseReactionAnalyzer.cs">
       <SubType>Code</SubType>
     </Compile>

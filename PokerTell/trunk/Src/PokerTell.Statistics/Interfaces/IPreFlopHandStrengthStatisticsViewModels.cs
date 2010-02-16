@@ -1,4 +1,4 @@
-﻿
+
 
 namespace PokerTell.Statistics.Interfaces
 {
@@ -21,6 +21,6 @@ namespace PokerTell.Statistics.Interfaces
 
     public interface IPreFlopHandStrengthStatisticsViewModel : IStatisticsTableViewModel
     {
-        void InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, ActionSequences actionSequence);
+        IPreFlopHandStrengthStatisticsViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, string playerName, ActionSequences actionSequence);
     }
 }

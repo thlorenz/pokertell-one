@@ -46,24 +46,31 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
         static readonly double[] RaiseSizeKeys = ApplicationProperties.RaiseSizeKeys;
 
+        readonly IPreFlopHandStrengthDescriber _handStrengthDescriber;
+
         public PreFlopHandStrengthStatisticsViewModel(IPreFlopHandStrengthStatistics preFlopHandStrengthStatistics, IPreFlopHandStrengthDescriber handStrengthDescriber, string columnHeaderTitle)
             : base(columnHeaderTitle)
         {
+            _handStrengthDescriber = handStrengthDescriber;
             _preFlopHandStrengthStatistics = preFlopHandStrengthStatistics;
             _preFlopHandStrengthStatistics.InitializeWith(UnraisedPotCallingRatios, RaisedPotCallingRatios, RaiseSizeKeys);
         }
 
-        public void InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, ActionSequences actionSequence)
+        public IPreFlopHandStrengthStatisticsViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, string playerName, ActionSequences actionSequence)
         {
             _preFlopHandStrengthStatistics.BuildStatisticsFor(analyzablePokerPlayers, actionSequence);
-            var kownCards = _preFlopHandStrengthStatistics.KnownCards.Select(c => c.Count());
+            var kownCardsCount = _preFlopHandStrengthStatistics.KnownCards.Select(c => c.Count());
 
             Rows = new List<IStatisticsTableRowViewModel>
                {
-                   new StatisticsTableRowViewModel("ChenValue", _preFlopHandStrengthStatistics.AverageChenValues, "(avg)"), 
-                   new StatisticsTableRowViewModel("SM Grouping", _preFlopHandStrengthStatistics.AverageSklanskyMalmuthGroupings, "(avg)"), 
-                   new StatisticsTableRowViewModel("Known Cards", kownCards, string.Empty), 
+                   new StatisticsTableRowViewModel("Chen", _preFlopHandStrengthStatistics.AverageChenValues, "(avg)"), 
+                   new StatisticsTableRowViewModel("S&M", _preFlopHandStrengthStatistics.AverageSklanskyMalmuthGroupings, "(avg)"), 
+                   new StatisticsTableRowViewModel("Counts", kownCardsCount, string.Empty), 
                };
+            
+            StatisticsDescription = _handStrengthDescriber.Describe(playerName, actionSequence);
+            StatisticsHint = _handStrengthDescriber.Hint(playerName);
+            return this;
         }
     }
 }

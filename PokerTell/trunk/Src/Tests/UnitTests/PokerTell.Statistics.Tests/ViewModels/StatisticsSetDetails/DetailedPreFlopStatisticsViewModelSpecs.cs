@@ -89,6 +89,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         static Mock<IActionSequenceStatistic> _foldStatisticStub;
 
         static Mock<IActionSequenceStatistic> _raiseStatisticStub;
+        const string SomePlayerName = "somePlayer";
 
         Establish spec_Context = () => {
             _raiseReactionStatisticsViewModelMock = new Mock<IPreFlopRaiseReactionStatisticsViewModel>();
@@ -373,7 +374,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
             It should_initialize_unraised_pot_calling_statistics_viewmodel_with_selected_analyzable_players_and_selected_actionsequence
                 = () => _preFlopUnraisedPotCallingHandStrengthStatisticsViewModelMock.Verify(
-                            m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, _sut.SelectedActionSequence));
+                            m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, SomePlayerName, _sut.SelectedActionSequence));
 
             It should_assign_the_unraised_pot_statistics_viewmodel_to_the_child_viewmodel
                 = () => _sut.ChildViewModel.ShouldBeTheSameAs(_preFlopUnraisedPotCallingHandStrengthStatisticsViewModelMock.Object);
@@ -392,7 +393,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
             It should_initialize_raising_statistics_viewmodel_with_selected_analyzable_players_and_selected_actionsequence
                 = () => _preFlopRaisingHandStrengthStatisticsViewModelMock.Verify(
-                        m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, _sut.SelectedActionSequence));
+                        m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, SomePlayerName, _sut.SelectedActionSequence));
 
             It should_assign_the_raising_statistics_viewmodel_to_the_child_viewmodel
                 = () => _sut.ChildViewModel.ShouldBeTheSameAs(_preFlopRaisingHandStrengthStatisticsViewModelMock.Object);
@@ -411,7 +412,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
             It should_initialize_raising_statistics_viewmodel_with_selected_analyzable_players_and_selected_actionsequence
                 = () => _preFlopRaisingHandStrengthStatisticsViewModelMock.Verify(
-                        m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, _sut.SelectedActionSequence));
+                        m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, SomePlayerName, _sut.SelectedActionSequence));
             
             It should_assign_the_raising_statistics_viewmodel_to_the_child_viewmodel
                 = () => _sut.ChildViewModel.ShouldBeTheSameAs(_preFlopRaisingHandStrengthStatisticsViewModelMock.Object);
@@ -430,7 +431,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
             It should_initialize_raised_pot_calling_statistics_viewmodel_with_selected_analyzable_players_and_selected_actionsequence
                 = () => _preFlopRaisedPotCallingHandStrengthStatisticsViewModelMock.Verify(
-                        m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, _sut.SelectedActionSequence));
+                        m => m.InitializeWith(_sut.SelectedAnalyzablePlayers, SomePlayerName, _sut.SelectedActionSequence));
 
             It should_assign_the_raised_pot_statistics_viewmodel_to_the_child_viewmodel
                 = () => _sut.ChildViewModel.ShouldBeTheSameAs(_preFlopRaisedPotCallingHandStrengthStatisticsViewModelMock.Object);

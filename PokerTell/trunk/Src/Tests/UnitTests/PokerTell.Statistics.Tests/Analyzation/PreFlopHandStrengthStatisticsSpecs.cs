@@ -58,6 +58,9 @@ namespace PokerTell.Statistics.Tests.Analyzation
             _hero1 = new Mock<IAnalyzablePokerPlayer>();
             _hero2 = new Mock<IAnalyzablePokerPlayer>();
             _hero3 = new Mock<IAnalyzablePokerPlayer>();
+            _hero1.SetupGet(h => h.Position).Returns(1);
+            _hero2.SetupGet(h => h.Position).Returns(2);
+            _hero3.SetupGet(h => h.Position).Returns(3);
 
             _analyzablePokerPlayers = new[] { _hero1.Object, _hero2.Object, _hero3.Object };
 
@@ -72,9 +75,11 @@ namespace PokerTell.Statistics.Tests.Analyzation
             PreFlopHandStrengthStatisticsSpecs
         {
             Establish context = () => {
-                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "C0.1".ToConvertedPokerRound() });
-                _hero2.SetupGet(h => h.Sequences).Returns(new[] { "C0.1".ToConvertedPokerRound() });
-                _hero3.SetupGet(h => h.Sequences).Returns(new[] { "C0.1".ToConvertedPokerRound() });
+                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "[1]C0.1".ToConvertedPokerRound() });
+
+                _hero2.SetupGet(h => h.Sequences).Returns(new[] { "[2]C0.1".ToConvertedPokerRound() });
+
+                _hero3.SetupGet(h => h.Sequences).Returns(new[] { "[3]C0.1".ToConvertedPokerRound() });
                 _valuedHoleCardsMock.SetupGet(v => v.AreValid).Returns(true);
             };
         }
@@ -158,21 +163,23 @@ namespace PokerTell.Statistics.Tests.Analyzation
             Ctx_all_have_known_cards
         {
             Establish context = () => {
-                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "C0.1".ToConvertedPokerRound() });
-                _hero2.SetupGet(h => h.Sequences).Returns(new[] { "C0.2".ToConvertedPokerRound() });
-                _hero3.SetupGet(h => h.Sequences).Returns(new[] { "C0.9".ToConvertedPokerRound() });
+                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "[1]C0.1".ToConvertedPokerRound() });
+                _hero2.SetupGet(h => h.Sequences).Returns(new[] { "[2]C0.2".ToConvertedPokerRound() });
+
+                // Hero3 has other players actions in his sequence, but it will still be found using his position as id
+                _hero3.SetupGet(h => h.Sequences).Returns(new[] { "[0]F,[1]C0.1,[2]C0.2,[3]C0.9".ToConvertedPokerRound() });
             };
 
             Because of = () => _sut.BuildStatisticsFor(_analyzablePokerPlayers, ActionSequences.HeroC);
 
             It SortedAnalyzablePokerPlayers_should_have_same_length_as_there_are_items_in_unraised_pot_calling_ratios
-                = () => _sut.SortedAnalyzablePokerPlayers.Length.ShouldEqual(_unraisedPotCallingRatios.Length);
+                = () => _sut.SortedAnalyzablePokerPlayersWithKnownCards.Length.ShouldEqual(_unraisedPotCallingRatios.Length);
 
             It SortedAnalyzablePokerPlayers_at_col_0_should_contain_only_hero1
-                = () => _sut.SortedAnalyzablePokerPlayers[0].ShouldContainOnly(_hero1.Object);
+                = () => _sut.SortedAnalyzablePokerPlayersWithKnownCards[0].ShouldContainOnly(_hero1.Object);
 
             It SortedAnalyzablePokerPlayers_at_col_1_should_contain_only_hero2_and_hero3
-                = () => _sut.SortedAnalyzablePokerPlayers[1].ShouldContainOnly(_hero2.Object, _hero3.Object);
+                = () => _sut.SortedAnalyzablePokerPlayersWithKnownCards[1].ShouldContainOnly(_hero2.Object, _hero3.Object);
         }
 
         [Subject(typeof(PreFlopHandStrengthStatistics), "BuildStatisticsFor")]
@@ -184,7 +191,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
             Establish context = () => {
                 _hero1.SetupGet(h => h.Holecards).Returns(HoleCards);
-                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "C0.1".ToConvertedPokerRound() });
+                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "[1]C0.1".ToConvertedPokerRound() });
                 _analyzablePokerPlayers = new[] { _hero1.Object };
                 _valuedHoleCardsMock.SetupGet(h => h.AreValid).Returns(true);
                 _valuedHoleCardsAverageMock.SetupGet(v => v.IsValid).Returns(true);
@@ -217,7 +224,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
             Establish context = () => {
                 _hero1.SetupGet(h => h.Holecards).Returns(HoleCards);
-                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "C0.1".ToConvertedPokerRound() });
+                _hero1.SetupGet(h => h.Sequences).Returns(new[] { "[1]C0.1".ToConvertedPokerRound() });
                 _analyzablePokerPlayers = new[] { _hero1.Object };
                 _valuedHoleCardsMock.SetupGet(h => h.AreValid).Returns(false);
                 _valuedHoleCardsAverageMock.SetupGet(v => v.IsValid).Returns(false);

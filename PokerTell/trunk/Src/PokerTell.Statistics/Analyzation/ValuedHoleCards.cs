@@ -68,7 +68,7 @@ namespace PokerTell.Statistics.Analyzation
         public IValuedHoleCards InitializeWith(string strCards)
         {
             const string patCards = "(?<Card1>([A,K,Q,J,T]|[0-9])[schd]) *" + "(?<Card2>([A,K,Q,J,T]|[0-9])[schd])";
-
+            
             // Deal with "AsKs" and "As Ks"
             try
             {
@@ -83,7 +83,7 @@ namespace PokerTell.Statistics.Analyzation
                     DetermineValidityAndValueCards(card1, card2);
                 }
             }
-            catch (Exception excep)
+            catch (Exception excep)  
             {
                 excep.Data.Add("strCards", strCards);
                 Log.Error("Unexpected", excep);
@@ -99,7 +99,8 @@ namespace PokerTell.Statistics.Analyzation
 
         public int SklanskyMalmuthGrouping { get; private set; }
 
-        public bool AreValid { get; private set; }
+        public bool AreValid { get; private set;
+        }
 
         public bool AreSuited { get; private set; }
 

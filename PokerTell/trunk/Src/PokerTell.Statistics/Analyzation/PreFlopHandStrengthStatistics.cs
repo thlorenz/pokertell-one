@@ -29,13 +29,13 @@ namespace PokerTell.Statistics.Analyzation
 
         public IEnumerable<IAnalyzablePokerPlayer> AnalyzablePlayersWithKnownCards { get; protected set; }
 
-        List<IAnalyzablePokerPlayer>[] _sortedAnalyzablePokerPlayers;
+        List<IAnalyzablePokerPlayer>[] _sortedAnalyzablePokerPlayersWithKnownCards;
 
         readonly IConstructor<IValuedHoleCards> _valuedHoleCardsMake;
 
-        public IEnumerable<IAnalyzablePokerPlayer>[] SortedAnalyzablePokerPlayers
+        public IEnumerable<IAnalyzablePokerPlayer>[] SortedAnalyzablePokerPlayersWithKnownCards
         {
-            get { return _sortedAnalyzablePokerPlayers; }
+            get { return _sortedAnalyzablePokerPlayersWithKnownCards; }
         }
 
         public double[] RatiosUsed { get; protected set; }
@@ -106,11 +106,11 @@ namespace PokerTell.Statistics.Analyzation
         {
             InitializeKnownCards();
 
-            foreach (int i in 0.To(_sortedAnalyzablePokerPlayers.Length - 1))
+            foreach (int i in 0.To(_sortedAnalyzablePokerPlayersWithKnownCards.Length - 1))
             {
                 var iCopy = i;
 
-                _sortedAnalyzablePokerPlayers[iCopy].ForEach(p =>
+                _sortedAnalyzablePokerPlayersWithKnownCards[iCopy].ForEach(p =>
                 {
                     var valuedHoleCards = _valuedHoleCardsMake.New.InitializeWith(p.Holecards);
                     if (valuedHoleCards.AreValid)
@@ -132,13 +132,14 @@ namespace PokerTell.Statistics.Analyzation
 
         void SortAnalyzablePlayersWithKnownCardsByColumn()
         {
-            InitializeSortedAnalyzablePokerPlayers();
+            InitializeSortedAnalyzablePokerPlayersWithKnownCards();
 
-            AnalyzablePlayersWithKnownCards.ForEach(p => {
-                var firstActionRatio = p.Sequences[(int)Streets.PreFlop].Actions.First().Ratio;
-                var normalizedRatio = Normalizer.NormalizeToKeyValues(RatiosUsed, firstActionRatio);
+            AnalyzablePlayersWithKnownCards.ForEach(hero => {
+                var allPreflopActions = hero.Sequences[(int)Streets.PreFlop].Actions.ToList();
+                var firstHeroActionRatio = allPreflopActions.Find(a => ((IConvertedPokerActionWithId)a).Id == hero.Position).Ratio;
+                var normalizedRatio = Normalizer.NormalizeToKeyValues(RatiosUsed, firstHeroActionRatio);
                 var index = Array.IndexOf(RatiosUsed, normalizedRatio);
-                _sortedAnalyzablePokerPlayers[index].Add(p);
+                _sortedAnalyzablePokerPlayersWithKnownCards[index].Add(hero);
             });
         }
 
@@ -155,12 +156,12 @@ namespace PokerTell.Statistics.Analyzation
             }
         }
 
-        void InitializeSortedAnalyzablePokerPlayers()
+        void InitializeSortedAnalyzablePokerPlayersWithKnownCards()
         {
-            _sortedAnalyzablePokerPlayers = new List<IAnalyzablePokerPlayer>[RatiosUsed.Length];
-            for (int i = 0; i < _sortedAnalyzablePokerPlayers.Length; i++)
+            _sortedAnalyzablePokerPlayersWithKnownCards = new List<IAnalyzablePokerPlayer>[RatiosUsed.Length];
+            for (int i = 0; i < _sortedAnalyzablePokerPlayersWithKnownCards.Length; i++)
             {
-                _sortedAnalyzablePokerPlayers[i] = new List<IAnalyzablePokerPlayer>();
+                _sortedAnalyzablePokerPlayersWithKnownCards[i] = new List<IAnalyzablePokerPlayer>();
             }
         }
     }

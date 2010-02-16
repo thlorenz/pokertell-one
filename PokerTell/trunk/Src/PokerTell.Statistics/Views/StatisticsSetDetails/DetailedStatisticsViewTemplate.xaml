@@ -237,7 +237,7 @@
     <!-- PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel-->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
-            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -257,7 +257,7 @@
     <!-- PreFlopRaisedPotCallingHandStrengthStatisticsViewModel-->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisedPotCallingHandStrengthStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
-            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">
@@ -276,7 +276,7 @@
     <!-- PreFlopRaisingHandStrengthStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisingHandStrengthStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
-            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
+            <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged">

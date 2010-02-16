@@ -132,7 +132,9 @@ namespace PokerTell.PokerHand.Analyzation
         public int Position { get; set; }
 
         /// <summary>
-        /// List of all PokerRound Sequences for current hand Preflop Flop
+        /// List of all PokerRound Sequences for current hand Preflop, Flop etc.
+        /// These contain actions of all players with their ID included
+        /// They will be initialized when first demanded to shorten the initial startup.
         /// </summary>
         public IConvertedPokerRound[] Sequences
         {
