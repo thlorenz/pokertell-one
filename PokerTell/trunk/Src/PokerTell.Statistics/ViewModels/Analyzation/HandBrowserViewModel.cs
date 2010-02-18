@@ -25,7 +25,12 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
       // This event does not occur here because this ViewModel the last in the chain
       public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
 
-      public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
+       public bool ShowMeAsPopup
+       {
+        get { return false; }
+       }
+
+       public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
 
       public int HandCount { get; protected set; }
 

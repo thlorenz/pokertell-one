@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:System="clr-namespace:System;assembly=mscorlib" 
     xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" 
-    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails" xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation" xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base" xmlns:Interfaces="clr-namespace:PokerTell.Statistics.Interfaces">
+    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails" xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation" xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base" xmlns:Interfaces="clr-namespace:PokerTell.Statistics.Interfaces" xmlns:Analyzation1="clr-namespace:PokerTell.Statistics.Analyzation">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
@@ -22,35 +22,19 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Command" Value="{Binding InvestigateRaiseReactionCommand}" />
         <Setter Property="Content" Value="Show Raise"/>
-        <!-- <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Source="../../Resources/InvestigateIcon.png" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter> -->
+    </Style>
+    <Style x:Key="VisualizeHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
+        <Setter Property="Command" Value="{Binding VisualizeStartingHandsCommand}" />
+        <Setter Property="Content" Value="Visualize Hands"/>
     </Style>
     <Style x:Key="BrowseHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
         <Setter Property="Command" Value="{Binding BrowseHandsCommand}" />
         <Setter Property="Content" Value="Browse Hands"/>
-        <!--        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Image Source="../../Resources/BrowseIcon.png" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter> -->
     </Style>
-
     <Style x:Key="InvestigateHoleCardsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
         <Setter Property="Command" Value="{Binding InvestigateHoleCardsCommand}" />
         <Setter Property="Content" Value="Show Cards"/>
     </Style>
-    <!--
-            <GroupBox Header="Information" Width="200">
-                <TextBlock Foreground="AntiqueWhite" Text="{Binding StatisticsDescription}" TextAlignment="Left" FontSize="8" TextWrapping="Wrap"/>
-            </GroupBox>
-    -->
 
     <!-- Staistics AnalyzerView Styles-->
     <Style x:Key="StatisticsInformationPanelStyle" TargetType="{x:Type ContentControl}">
@@ -102,7 +86,7 @@
             <ContentControl Width="180" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="SB" Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="BB" Binding="{Binding Cells[1].Value}" />
@@ -132,7 +116,7 @@
             <ContentControl Width="200" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
@@ -154,7 +138,7 @@
             <ContentControl Width="200" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
-                     SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                     SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
@@ -182,7 +166,7 @@
             <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
@@ -202,7 +186,7 @@
             <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
                          Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
@@ -219,8 +203,8 @@
         <StackPanel Orientation="Horizontal">
             <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
+
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
@@ -239,8 +223,7 @@
         <StackPanel Orientation="Horizontal">
             <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                     SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="5:1" Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="3:1" Binding="{Binding Cells[1].Value}" />
@@ -253,14 +236,13 @@
             </dg:DataGrid>
         </StackPanel>
     </DataTemplate>
-    
+
     <!-- PreFlopRaisedPotCallingHandStrengthStatisticsViewModel-->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisedPotCallingHandStrengthStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                          SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="2:1" Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[1].Value}" />
@@ -272,14 +254,14 @@
             </dg:DataGrid>
         </StackPanel>
     </DataTemplate>
-    
+
     <!-- PreFlopRaisingHandStrengthStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisingHandStrengthStatisticsViewModel}" >
         <StackPanel Orientation="Horizontal">
             <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
             <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged">
+                         
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
                 <dg:DataGrid.Columns>
                     <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
                     <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
@@ -292,7 +274,56 @@
             </dg:DataGrid>
         </StackPanel>
     </DataTemplate>
-    
+
+    <!-- StartingHandsVisualizerViewModel -->
+    <DataTemplate x:Key="StartingHandsTemplate" DataType="{x:Type Analyzation:PreFlopStartingHandsVisualizerViewModel}">
+        <Border Background="{StaticResource DarkBorderBrush}"
+                            BorderBrush="{StaticResource LightBorderBrush}" 
+                            BorderThickness="4"
+                            CornerRadius="5"
+                            Padding="5"
+                            Width="340" 
+                            Height="280"
+                            ToolTipService.ShowDuration="20"
+                            ToolTip="{Binding StatisticsDescription}">
+            <!-- Width and Height work best when sideLength is 20 and pairMargin is 30 -->
+            <ItemsControl ItemsSource="{Binding StartingHands}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type Analyzation1:StartingHand}">
+                        <Canvas>
+                            <Border Canvas.Left="{Binding Left}"
+                                Canvas.Top="{Binding Top}" 
+                                Width="{Binding SideLength}" 
+                                Height="{Binding SideLength}" 
+                                BorderBrush="{StaticResource LightBorderBrush}" 
+                                BorderThickness="1"
+                                Background="{StaticResource DarkBorderBrush}"    
+                                CornerRadius="2">
+                                <Grid>
+                                    <Border Height="{Binding FillHeight}" VerticalAlignment="Bottom" Background="Red" CornerRadius="2"/>
+                                    <TextBlock 
+                                        x:Name="Display"
+                                        Foreground="White" 
+                                         Text="{Binding Display}" 
+                                         HorizontalAlignment="Center" 
+                                         VerticalAlignment="Center" 
+                                         FontSize="11"/>
+                                </Grid>
+                            </Border>
+                        </Canvas>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Count}" Value="0">
+                                <Setter  TargetName="Display" Property="Foreground" Value="Black" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border >
+    </DataTemplate>
+
+
+
     <!-- HandBrowserViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:HandBrowserViewModel}">
         <Grid HorizontalAlignment="Stretch">

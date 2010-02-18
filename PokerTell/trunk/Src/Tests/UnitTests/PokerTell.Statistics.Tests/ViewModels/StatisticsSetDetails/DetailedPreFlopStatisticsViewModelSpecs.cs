@@ -49,8 +49,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 » should be false when no cells have been selected
                 » should be true when cell in the call row has been selected and it contains analyzable players
                 » should be false when cell in the call row has been selected but it contains no analyzable players
-                » should be true when cell in the fold row has been selected and it contains analyzable players
-                » should be false when cell in the fold row has been selected but it contains no analyzable players
+                » should be false when cell in the fold row has been selected and it contains analyzable players
                 » should be true when cell in raise row has been selected and it contains analyzable players
                 » should be false when cell in raise row has been selected but it contains no analyzable players
           
@@ -111,6 +110,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             _statisticsSetStub.SetupGet(s => s.ActionSequenceStatistics).Returns(new[] {
                     _foldStatisticStub.Object, _callStatisticStub.Object, _raiseStatisticStub.Object
                 });
+            _statisticsSetStub.SetupGet(s => s.PlayerName).Returns(SomePlayerName);
 
             _sut = new DetailedPreFlopStatisticsViewModelImpl(
                 _handBrowserViewModelStub.Object, 
@@ -328,19 +328,12 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                     _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeFalse();
                 };
 
-            It should_be_true_when_cell_in_the_fold_row_has_been_selected_and_it_contains_analyzable_players
-                = () => {
+            It should_be_false_when_cell_in_the_fold_row_has_been_selected_and_it_contains_analyzable_players = () => {
                     _sut.SelectedCells.Add(Tuple.New(0, 0));
                     _sut.SelectedAnalyzablePlayersSet = new List<IAnalyzablePokerPlayer>
                         {
                             new Mock<IAnalyzablePokerPlayer>().Object
                         };
-                    _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeTrue();
-                };
-
-            It should_be_false_when_cell_in_the_fold_row_has_been_selected_but_it_contains_no_analyzable_players
-                = () => {
-                    _sut.SelectedCells.Add(Tuple.New(0, 0));
                     _sut.InvestigateHoleCardsCommand.CanExecute(null).ShouldBeFalse();
                 };
 

@@ -16,6 +16,12 @@ namespace PokerTell.Statistics.Interfaces
 
         bool AreSuited { get; }
 
+        /// <summary>
+        /// Format depends on the suitedness of cards.
+        /// </summary>
+        /// <returns>"Rank1Rank2" for unsuited and "Rank1Rank2s" for suited cards</returns>
+        string Name { get; }
+
         IValuedHoleCards InitializeWith(string strCards);
     }
 }

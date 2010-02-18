@@ -104,17 +104,26 @@ namespace PokerTell.Statistics.Analyzation
 
         public bool AreSuited { get; private set; }
 
-        #endregion
-
-        #region Public Methods
         /// <summary>
         /// Format depends on the suitedness of cards.
         /// </summary>
         /// <returns>"Rank1Rank2" for unsuited and "Rank1Rank2s" for suited cards</returns>
-        public override string ToString()
+        public string Name
         {
+          get
+          {
             var suitedIndicator = ValuedCards.First.Suit == ValuedCards.Second.Suit ? "s" : string.Empty;
             return ValuedCards.First + ValuedCards.Second.ToString() + suitedIndicator;
+          }  
+        } 
+
+        #endregion
+
+        #region Public Methods
+        
+        public override string ToString()
+        {
+            return Name;
         }
 
         #endregion

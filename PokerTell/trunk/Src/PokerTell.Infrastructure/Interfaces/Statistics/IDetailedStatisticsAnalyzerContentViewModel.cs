@@ -5,5 +5,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
     public interface IDetailedStatisticsAnalyzerContentViewModel
     {
         event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged;
+
+        bool ShowMeAsPopup { get; }
     }
 }

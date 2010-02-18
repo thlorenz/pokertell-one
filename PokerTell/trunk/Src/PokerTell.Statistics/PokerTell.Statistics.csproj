@@ -74,8 +74,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analyzation\HandBrowser.cs" />
+    <Compile Include="Interfaces\IPreFlopStartingHandsVisualizer.cs" />
+    <Compile Include="Interfaces\IPreFlopStartingHandsVisualizerViewModel.cs" />
+    <Compile Include="Interfaces\IStartingHand.cs" />
     <Compile Include="Analyzation\PreFlopHandStrengthDescribers.cs" />
-    <Compile Include="Analyzation\PreFlopHandStrengthVisualizer.cs" />
+    <Compile Include="Analyzation\PreFlopStartingHandsVisualizer.cs" />
+    <Compile Include="Analyzation\StartingHand.cs" />
     <Compile Include="Interfaces\IPreFlopHandStrengthStatistics.cs" />
     <Compile Include="Interfaces\IPreFlopHandStrengthStatisticsDescribers.cs" />
     <Compile Include="Interfaces\IPreFlopHandStrengthStatisticsViewModels.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="ViewModels\Analyzation\HandBrowserViewModel.cs" />
     <Compile Include="Interfaces\IDetailedRaiseReactionStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModels.cs" />
+    <Compile Include="ViewModels\Analyzation\PreFlopStartingHandsVisualizerViewModel .cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />
     <Compile Include="ViewModels\Filters\ValueViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />

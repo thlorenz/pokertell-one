@@ -10,9 +10,8 @@ namespace PokerTell.Statistics.Tests.Analyzation
     public abstract class PreFlopHandStrengthVisualizerSpecs
     {
         /*
-           
-                PreFlopHandStrengthVisualizer 
-         *      IntializeWith
+                PreFlopStartingHandsVisualizer 
+                IntializeWith
                    given sideLength 1 pairMargin 0 » StartingHands should have a key for each possible starting hand 13x13
                         » StartingHands with key " AA"  should have coordinates top 0 left 0
                         » StartingHands with key " AK"  should have coordinates top 1 left 0
@@ -48,13 +47,13 @@ namespace PokerTell.Statistics.Tests.Analyzation
                    when visualizing twice with 1 AA
                         » StartingHands with key " AA"  should have count 1 because it resets the StartingHand Counts each time
          */
-        protected static PreFlopHandStrengthVisualizer _sut;
+        protected static PreFlopStartingHandsVisualizer _sut;
 
         Establish specContext = () => {
-           _sut = new PreFlopHandStrengthVisualizer();  
+           _sut = new PreFlopStartingHandsVisualizer();  
         };
 
-        [Subject(typeof(PreFlopHandStrengthVisualizer), "IntializeWith")]
+        [Subject(typeof(PreFlopStartingHandsVisualizer), "IntializeWith")]
         public class given_sideLength_1_pairMargin_0 : PreFlopHandStrengthVisualizerSpecs
         {
             Because of = () => _sut.InitializeWith(1, 0);
@@ -96,7 +95,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             It StartingHands_with_key___AKs___should_also_have_Display___AK__ = () => _sut.StartingHands["AKs"].Display.ShouldEqual("AK");
         }
 
-        [Subject(typeof(PreFlopHandStrengthVisualizer), "IntializeWith")]
+        [Subject(typeof(PreFlopStartingHandsVisualizer), "IntializeWith")]
         public class given_sideLength_2_pairMargin_0 : PreFlopHandStrengthVisualizerSpecs
         {
             Because of = () => _sut.InitializeWith(2, 0);
@@ -122,7 +121,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             };
         }
 
-        [Subject(typeof(PreFlopHandStrengthVisualizer), "IntializeWith")]
+        [Subject(typeof(PreFlopStartingHandsVisualizer), "IntializeWith")]
         public class given_sideLength_1_pairMargin_1 : PreFlopHandStrengthVisualizerSpecs
         {
             Because of = () => _sut.InitializeWith(1, 1);
@@ -153,7 +152,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             };
         }
 
-        [Subject(typeof(PreFlopHandStrengthVisualizer), "Visualize")]
+        [Subject(typeof(PreFlopStartingHandsVisualizer), "Visualize")]
         public class given_sidelength_10_and_4_AA_2_T7_and_1_32s_as_known_cards : PreFlopHandStrengthVisualizerSpecs
         {
             static string[] _valuedHoleCards;
@@ -175,7 +174,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
             It StartingHands_with_key___32s___should_have_FillHeight_one_fourth = () => _sut.StartingHands["32s"].FillHeight.ShouldEqual(2.5);
         }
 
-        [Subject(typeof(PreFlopHandStrengthVisualizer), "Visualize")]
+        [Subject(typeof(PreFlopStartingHandsVisualizer), "Visualize")]
         public class when_visualizing_twice_with_1_AA : PreFlopHandStrengthVisualizerSpecs
         {
             Because of = () => _sut.InitializeWith(1, 0).Visualize(new[] { "AA" }).Visualize(new[] { "AA" });

@@ -24,15 +24,15 @@
 
             <!-- Top Row -->
             <StackPanel Grid.Row="0" DataContext="{Binding DetailedStatisticsAnalyzer}">
-                <!-- <Viewbox Stretch="Uniform" Height="20" Width="400">
-                    <Label Content="{Binding CurrentViewModel.StatisticsDescription}" FontSize="10" HorizontalAlignment="Center"/>
-                </Viewbox> -->
                 <Viewbox Stretch="Uniform" Height="100" Width="400">
                     <!-- Statistics Analyzer -->
                     <ContentControl Content="{Binding CurrentViewModel}" 
                                     ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"
                                     HorizontalContentAlignment="Center"/>
                 </Viewbox>
+                <Popup AllowsTransparency="True" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Bottom"  StaysOpen="False">
+                    <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource StartingHandsTemplate}" />
+                </Popup>
             </StackPanel>
 
             <!-- Bottom Row -->
@@ -71,24 +71,29 @@
                                     </StackPanel>
                                 </Border>
                                 <Border BorderThickness="2" BorderBrush="{StaticResource LightBorderBrush}">
-                                <!-- Investigation Commands -->
-                                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                                    <Button Style="{StaticResource BrowseHandsButtonStyle}"
+                                    <!-- Investigation Commands -->
+                                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                        <Button Style="{StaticResource VisualizeHandsButtonStyle}"
                                             VerticalAlignment="Bottom"
                                             HorizontalAlignment="Center"
                                             DataContext="{Binding CurrentViewModel}"
-                                            Visibility="{Binding MayBrowseHands, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
-                                    <Button Style="{StaticResource InvestigateRaiseButtonStyle}"
+                                            Visibility="{Binding MayVisualizeHands, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+                                        <Button Style="{StaticResource BrowseHandsButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayBrowseHands, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+                                        <Button Style="{StaticResource InvestigateRaiseButtonStyle}"
                                             VerticalAlignment="Bottom"
                                             HorizontalAlignment="Center"
                                             DataContext="{Binding CurrentViewModel}"
                                             Visibility="{Binding MayInvestigateRaise, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
-                                    <Button Style="{StaticResource InvestigateHoleCardsButtonStyle}"
+                                        <Button Style="{StaticResource InvestigateHoleCardsButtonStyle}"
                                             VerticalAlignment="Bottom"
                                             HorizontalAlignment="Center"
                                             DataContext="{Binding CurrentViewModel}"
                                             Visibility="{Binding MayInvestigateHoleCards, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
-                                </StackPanel>
+                                    </StackPanel>
                                 </Border>
                             </StackPanel>
                         </GroupBox>

@@ -1,6 +1,5 @@
 namespace PokerTell.Statistics.Views.StatisticsSetDetails
 {
-    using System;
     using System.Linq;
     using System.Windows;
 
@@ -8,11 +7,13 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
 
     using PokerTell.Statistics.Interfaces;
 
+    using Tools.FunctionalCSharp;
+
     public partial class DetailedStatisticsViewTemplate
     {
         #region Methods
 
-        protected virtual void DataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        protected virtual void DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow(object sender, SelectedCellsChangedEventArgs e)
         {
             var grid = (DataGrid)sender;
 
@@ -77,6 +78,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         }
 
         #endregion
+
         /// <summary>
         /// Datagrid Loaded makes sure that the selected cells are restored again when the user returns to it
         /// The ViewModel itself is responsible for saving them e.g. when a command is executes that causes
@@ -88,22 +90,41 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         {
             var grid = (DataGrid)sender;
             var viewModel = (IStatisticsTableViewModel)grid.DataContext;
-            grid.SelectedCellsChanged -= DataGrid_SelectedCellsChanged;
+            grid.SelectedCellsChanged -= DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow;
 
             viewModel.SavedSelectedCells.ForEach(selectedCell => grid.SelectedCells.Add(
-                                                     new DataGridCellInfo(viewModel.Rows.ElementAt(selectedCell.First), 
-                                                                          grid.Columns[selectedCell.Second])));
-            
-            grid.SelectedCellsChanged += DataGrid_SelectedCellsChanged;
+                                                                     new DataGridCellInfo(viewModel.Rows.ElementAt(selectedCell.First), 
+                                                                                          grid.Columns[selectedCell.Second])));
+
+            grid.SelectedCellsChanged += DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow;
 
             UpdateViewModelWithCurrentSelection(grid);
         }
 
-        void DataGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        void DataGrid_SelectedCellsChanged_SelectEntireColumn(object sender, SelectedCellsChangedEventArgs e)
         {
             var grid = (DataGrid)sender;
+
+            UpdateViewModelWithCurrentSelection(grid);
+
             var viewModel = (IStatisticsTableViewModel)grid.DataContext;
-            viewModel.SaveSelectedCells();
+            var selectedColumns = viewModel.SelectedCells.Select(c => c.Second);
+
+            grid.SelectedCellsChanged -= DataGrid_SelectedCellsChanged_SelectEntireColumn;
+            foreach (int row in 0.To(grid.Items.Count - 1))
+            {
+                int rowIndex = row;
+                selectedColumns.ForEach(col => {
+                    var tobeAddedCell = new DataGridCellInfo(viewModel.Rows.ElementAt(rowIndex), grid.Columns[col]);
+                    if (! grid.SelectedCells.Contains(tobeAddedCell))
+                    {
+                        grid.SelectedCells.Add(tobeAddedCell);
+                    }
+                });
+            }
+
+            grid.SelectedCellsChanged += DataGrid_SelectedCellsChanged_SelectEntireColumn;
+            UpdateViewModelWithCurrentSelection(grid);
         }
     }
 }

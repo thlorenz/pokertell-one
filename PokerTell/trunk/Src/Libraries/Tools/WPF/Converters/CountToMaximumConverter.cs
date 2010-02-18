@@ -4,6 +4,7 @@ namespace Tools.WPF.Converters
     using System.Diagnostics;
     using System.Globalization;
     using System.Windows.Data;
+    using System.Windows.Media;
 
     [ValueConversion(typeof(int), typeof(double))]
     public class CountToMaximumConverter : IValueConverter

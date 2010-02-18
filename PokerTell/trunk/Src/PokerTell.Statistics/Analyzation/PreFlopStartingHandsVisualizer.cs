@@ -7,13 +7,13 @@ namespace PokerTell.Statistics.Analyzation
 
     using Tools.FunctionalCSharp;
 
-    public class PreFlopHandStrengthVisualizer
+    public class PreFlopStartingHandsVisualizer : IPreFlopStartingHandsVisualizer
     {
         static readonly char[] CardRanks = { 'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2' };
 
         int _sideLength;
 
-        public PreFlopHandStrengthVisualizer InitializeWith(int sideLength, int pairMargin)
+        public IPreFlopStartingHandsVisualizer InitializeWith(int sideLength, int pairMargin)
         {
             _sideLength = sideLength;
            
@@ -30,7 +30,7 @@ namespace PokerTell.Statistics.Analyzation
                     var left = (x * _sideLength) + pairOffset;
                     var top = y * _sideLength;
                     var display = string.Format("{0}{1}", CardRanks[x], CardRanks[y]);
-                    var startingHand = new StartingHand(top, left, display);
+                    var startingHand = new StartingHand(top, left, _sideLength, display);
 
                     StartingHands.Add(startingHand.Display, startingHand);
                 }
@@ -46,7 +46,7 @@ namespace PokerTell.Statistics.Analyzation
                     var left = (x * _sideLength) + pairOffset;
                     var top = y * _sideLength;
                     var display = string.Format("{0}{1}", CardRanks[y], CardRanks[x]);
-                    var startingHand = new StartingHand(top, left, display);
+                    var startingHand = new StartingHand(top, left, _sideLength, display);
 
                     StartingHands.Add(startingHand.Display + "s", startingHand);
                 }
@@ -55,7 +55,7 @@ namespace PokerTell.Statistics.Analyzation
             return this;
         }
 
-        public PreFlopHandStrengthVisualizer Visualize(IEnumerable<string> holeCards)
+        public IPreFlopStartingHandsVisualizer Visualize(IEnumerable<string> holeCards)
         {
             CountOccurencesOfEachStartingHand(holeCards);
 
@@ -78,38 +78,5 @@ namespace PokerTell.Statistics.Analyzation
         }
 
         public IDictionary<string, IStartingHand> StartingHands { get; protected set; }
-    }
-
-    public class StartingHand : IStartingHand
-    {
-        public StartingHand(int top, int left, string display)
-        {
-            Top = top;
-            Left = left;
-            Display = display;
-        }
-
-        public int Left { get; set; }
-
-        public int Top { get; set; }
-
-        public int Count { get; set; }
-
-        public double FillHeight { get; set; }
-
-        public string Display { get; set; }
-    }
-
-    public interface IStartingHand
-    {
-        int Left { get; }
-
-        int Top { get; }
-
-        int Count { get; set; }
-
-        double FillHeight { get; set; }
-
-        string Display { get; }
     }
 }

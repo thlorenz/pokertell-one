@@ -39,6 +39,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
         protected override IDetailedStatisticsViewModel CreateTableFor(IActionSequenceStatisticsSet statisticsSet)
         {
+            
             var foldRow =
                 new StatisticsTableRowViewModel("Fold", statisticsSet.ActionSequenceStatistics.First().Percentages, "%");
             var callRow =
@@ -49,6 +50,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                 new StatisticsTableRowViewModel("Count", statisticsSet.SumOfCountsByColumn, string.Empty);
 
             Rows = new List<IStatisticsTableRowViewModel>(new[] { foldRow, callRow, raiseRow, countRow });
+
             return this;
         }
 
@@ -73,8 +75,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                                                                  SelectedActionSequence, 
                                                                                  Street);
                         }, 
-                        CanExecuteDelegate =
-                            arg =>
+                        CanExecuteDelegate = arg =>
                             SelectedCells.Count() > 0 && ActionSequencesUtility.Raises.Contains(SelectedActionSequence) &&
                             SelectedAnalyzablePlayers.Count() > 0
                     });
@@ -97,6 +98,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                     {
                         ExecuteDelegate = arg => {
                             SaveSelectedCells();
+
                             switch (SelectedActionSequence)
                             {
                                 case ActionSequences.HeroC: 
@@ -116,9 +118,13 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                                 default: throw new ArgumentException("Cannot investigate holecards for this action sequence: " + SelectedActionSequence);
                             }
                         }, 
-                        CanExecuteDelegate = arg => SelectedCells.Count() > 0 && SelectedAnalyzablePlayers.Count() > 0
+                        CanExecuteDelegate = arg => 
+                            SelectedCells.Count() > 0 && 
+                            ActionSequencesUtility.GetLastActionIn(SelectedActionSequence) != ActionTypes.F && 
+                            SelectedAnalyzablePlayers.Count() > 0
                     });
             }
         }
+
     }
 }
