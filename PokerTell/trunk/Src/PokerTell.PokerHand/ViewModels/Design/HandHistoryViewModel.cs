@@ -10,4 +10,10 @@ namespace PokerTell.PokerHand.ViewModels.Design
             UpdateWith(new DesignHelper().CreateSamplePokerHand(12));
         }
     }
+
+    
+    public static class HandHistoryDesign
+    {
+        public static HandHistoryViewModel Model = new HandHistoryViewModel();
+    }
 }

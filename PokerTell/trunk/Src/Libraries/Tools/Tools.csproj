@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\..\Build\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -168,6 +168,7 @@
     <Compile Include="WPF\Converters\BoolToVisibleOrCollapsedConverter.cs" />
     <Compile Include="WPF\Converters\CountToMaximumConverter.cs" />
     <Compile Include="WPF\Converters\HeaderInfoToHeaderConverter.cs" />
+    <Compile Include="WPF\Converters\StringToBrushConverter.cs" />
     <Compile Include="WPF\DesignAndRunTimeDataContext.cs" />
     <Compile Include="WPF\DesignTimeHelper.cs" />
     <Compile Include="WPF\EventBehaviourFactory\ControlBehavior.cs" />

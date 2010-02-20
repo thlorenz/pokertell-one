@@ -63,6 +63,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interfaces\IOverlayStatisticsPanelSettingsViewModel.cs" />
+    <Compile Include="Interfaces\IOverlayStatisticsPanelViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\OverlayStatisticsPanelSettingsViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\OverlayStatisticsPanelViewModel.cs" />
     <Compile Include="ViewModels\PokerTableStatisticsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,4 +97,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

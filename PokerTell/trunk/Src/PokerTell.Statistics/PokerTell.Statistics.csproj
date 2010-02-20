@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\Build\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -160,6 +160,10 @@
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
+    <Compile Include="ViewModels\_Design\PlayerStatisticsDesignModel.cs" />
+    <Compile Include="ViewModels\_Design\PostFlopStatisticsSetsDesignModel.cs" />
+    <Compile Include="ViewModels\_Design\PreFlopStatisticsSetsDesignModel.cs" />
+    <Compile Include="ViewModels\_Design\StatisticsSetSummaryDesignModel.cs" />
     <Compile Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml.cs">
       <DependentUpon>AnalyzablePokerPlayersFilterAdjustmentView.xaml</DependentUpon>
     </Compile>
@@ -235,6 +239,9 @@
   <ItemGroup>
     <Resource Include="Resources\BrowseIcon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -243,4 +250,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

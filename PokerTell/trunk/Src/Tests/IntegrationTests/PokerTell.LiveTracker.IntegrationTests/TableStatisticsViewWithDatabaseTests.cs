@@ -88,7 +88,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
             tableStatisticsViewModel.UpdateWith(new[]
                 {
-                    get(renniweg), 
+                  //  get(renniweg), 
                     get(greystoke), 
                     get(salemorguy)
                 });

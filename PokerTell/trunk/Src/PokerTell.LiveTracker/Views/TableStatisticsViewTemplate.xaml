@@ -11,6 +11,7 @@
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
@@ -23,17 +24,17 @@
             </Grid.RowDefinitions>
 
             <!-- Top Row -->
-            <StackPanel Grid.Row="0" DataContext="{Binding DetailedStatisticsAnalyzer}">
-                <Viewbox Stretch="Uniform" Height="100" Width="400">
+            <Viewbox Grid.Row="0" Width="410" Height="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
+            <StackPanel DataContext="{Binding DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
                     <!-- Statistics Analyzer -->
                     <ContentControl Content="{Binding CurrentViewModel}" 
                                     ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"
-                                    HorizontalContentAlignment="Center"/>
-                </Viewbox>
+                                    HorizontalContentAlignment="Stretch"/>
                 <Popup AllowsTransparency="True" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Bottom"  StaysOpen="False">
-                    <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource StartingHandsTemplate}" />
+                    <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}" />
                 </Popup>
             </StackPanel>
+                </Viewbox>
 
             <!-- Bottom Row -->
             <StackPanel x:Name="bottomRowStackPanel" Grid.Row="1" Orientation="Horizontal">

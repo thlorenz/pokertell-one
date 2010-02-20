@@ -51,7 +51,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 
         public IStatisticsSetSummaryRowViewModel UpdateWith(int percentage, int[] percentagesByColumn)
         {
-            Percentage = string.Format("{0}%", percentage);
+            Percentage = string.Format("{0:0#}", percentage);
             
             BarGraph.UpdateWith(percentagesByColumn);
             

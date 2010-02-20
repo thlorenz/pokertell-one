@@ -2,7 +2,7 @@ namespace PokerTell.StatisticsIntegrationTests.DesignWindows
 {
     using System.Windows;
 
-    using DesignViewModels;
+    using Statistics.IntegrationTests.DesignViewModels;
 
     /// <summary>
     /// Interaction logic for StatisticsSetSummaryDesignWindow.xaml

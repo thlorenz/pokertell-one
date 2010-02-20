@@ -16,6 +16,10 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         int TotalCountPreFlopRaisedPot { get; }
 
+        int TotalCounts { get; }
+
+        string Steals { get; set; }
+
         IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
 
         event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;

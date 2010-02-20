@@ -2,32 +2,28 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 {
     using System.Collections.Generic;
 
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
-
     using Moq;
 
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Statistics.Interfaces;
+    using PokerTell.Statistics.ViewModels.Base;
     using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
-
-    using System.Linq;
-
-    using ViewModels.Base;
 
     public class DetailedPostFlopHeroActsStatisticsDesignModel : DetailedPostFlopHeroActsStatisticsViewModel
     {
+        static readonly StubBuilder Stub = new StubBuilder();
 
-        static readonly StubBuilder _stub = new StubBuilder();
         public DetailedPostFlopHeroActsStatisticsDesignModel(IHandBrowserViewModel handBrowserViewModel)
-            : base(handBrowserViewModel, new StubBuilder().Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>(),_stub.Out<IDetailedPostFlopHeroActsStatisticsDescriber>())
+            : base(
+                handBrowserViewModel, 
+                Stub.Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>(), 
+                Stub.Out<IDetailedPostFlopHeroActsStatisticsDescriber>())
         {
             Rows = new List<IStatisticsTableRowViewModel>
                 {
-                    new StatisticsTableRowViewModel("Bet", new[] { 20, 30, 12, 40, 30, 12 }, "%"),
+                    new StatisticsTableRowViewModel("Bet", new[] { 20, 30, 12, 40, 30, 12 }, "%"), 
                     new StatisticsTableRowViewModel("Count", new[] { 1, 4, 30, 34, 33, 30, 12 }, string.Empty)
                 };
         }
-       
     }
 }

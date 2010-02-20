@@ -55,6 +55,14 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
+        bool _showHandNote;
+
+        public bool ShowHandNote
+        {
+            get { return _showHandNote; }
+            set { _showHandNote = value; }
+        }
+
         public string Ante
         {
             get { return Hand.Ante.ToString(); }

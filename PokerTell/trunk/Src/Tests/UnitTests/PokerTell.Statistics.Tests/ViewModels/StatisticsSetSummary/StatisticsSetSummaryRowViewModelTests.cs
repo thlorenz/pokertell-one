@@ -37,7 +37,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
         {
             _sut
                 .UpdateWith(50, null)
-                .Percentage.ShouldBeEqualTo("50%");
+                .Percentage.ShouldBeEqualTo("50");
         }
 
         [Test]

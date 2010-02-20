@@ -116,6 +116,7 @@
     <Compile Include="Analyzation\HandBrowserViewModelSpecs.cs" />
     <Compile Include="Analyzation\PreFlopRaiseReactionDescriberSpecs.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModelSpecs.cs" />
     <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />

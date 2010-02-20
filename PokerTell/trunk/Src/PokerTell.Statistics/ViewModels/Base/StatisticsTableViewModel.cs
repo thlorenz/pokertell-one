@@ -30,7 +30,7 @@ namespace PokerTell.Statistics.ViewModels.Base
 
         public bool MayVisualizeHands { get; protected set; }
 
-        public bool ShowMeAsPopup { get; protected set; }
+        public bool ShowAsPopup { get; protected set; }
 
         /// <summary>
         ///   Indicates the values in the the columnheaders

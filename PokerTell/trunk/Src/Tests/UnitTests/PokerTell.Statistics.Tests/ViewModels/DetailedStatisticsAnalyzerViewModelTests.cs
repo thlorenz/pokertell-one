@@ -279,8 +279,6 @@ namespace PokerTell.Statistics.Tests.ViewModels
             preFlopStatisticsViewModelMock.Verify(vm => vm.InitializeWith(statisticsSetStub));
         }
 
-        
-
         [SetUp]
         public void _Init()
         {

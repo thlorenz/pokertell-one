@@ -12,6 +12,8 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Statistics.ViewModels;
 
+    using Statistics.IntegrationTests.DesignViewModels;
+
     using StatisticsIntegrationTests.DesignViewModels;
 
     public class PlayerStatisticsDesignModel : PlayerStatisticsViewModel

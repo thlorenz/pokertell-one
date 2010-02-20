@@ -9,7 +9,7 @@
             <Converters:BoolToVisibleOrCollapsedConverter x:Key="BoolToVisibleOrCollapsedConverter"/>
         </DataTemplate.Resources>
         <Border 
-                Background="White" CornerRadius="4" Padding="2"
+                Background="White" CornerRadius="2" Padding="2"
                 Visibility="{Binding Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
 
             <StackPanel Orientation="Horizontal"
@@ -25,13 +25,17 @@
                         <Setter Property="MaxHeight" Value="15" />
                     </Style>
                 </StackPanel.Resources>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" >
                     <Label Content="{Binding Rank1, Mode=OneWay}" />
-                    <Label Content="{Binding Suit1, Mode=OneWay}" />
+                    <Label>
+                        <Image Source="{Binding Suit1.Source, Mode=OneWay}" />
+                    </Label>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" >
                     <Label Content="{Binding Rank2, Mode=OneWay}"/>
-                    <Label Content="{Binding Suit2, Mode=OneWay}" />
+                    <Label>
+                        <Image Source="{Binding Suit2.Source, Mode=OneWay}" />
+                    </Label>
                 </StackPanel>
             </StackPanel>
             

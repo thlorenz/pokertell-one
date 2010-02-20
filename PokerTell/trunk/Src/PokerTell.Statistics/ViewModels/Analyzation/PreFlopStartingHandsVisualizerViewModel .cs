@@ -22,6 +22,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
             _startingHandsVisualizer.InitializeWith(20, 30);
             StartingHands = new ObservableCollection<IStartingHand>();
             StatisticsDescription = DescribeStatistics();
+            ShowAsPopup = true;
         }
 
         public IPreFlopStartingHandsVisualizerViewModel Visualize(IEnumerable<string> startingHands)

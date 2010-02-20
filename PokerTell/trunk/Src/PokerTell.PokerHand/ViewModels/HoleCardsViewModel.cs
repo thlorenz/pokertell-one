@@ -114,7 +114,7 @@ namespace PokerTell.PokerHand.ViewModels
                 Suit2 = Suits.GetSuitImageFrom(m.Groups["hs2"].ToString());
             }
 
-            Visible = (string.IsNullOrEmpty(holeCardsString) || holeCardsString.Contains("?")) ? false : true;
+            Visible = !string.IsNullOrEmpty(holeCardsString) && !holeCardsString.Contains("?");
         }
 
         #endregion

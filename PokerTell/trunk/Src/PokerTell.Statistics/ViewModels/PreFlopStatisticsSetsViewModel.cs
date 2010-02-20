@@ -1,6 +1,7 @@
 namespace PokerTell.Statistics.ViewModels
 {
     using System;
+    using System.Linq;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
@@ -42,6 +43,7 @@ namespace PokerTell.Statistics.ViewModels
             {
                 _totalCountPreFlopRaisedPot = value;
                 RaisePropertyChanged(() => TotalCountPreFlopRaisedPot);
+                RaisePropertyChanged(() => TotalCounts);
             }
         }
 
@@ -54,9 +56,26 @@ namespace PokerTell.Statistics.ViewModels
             {
                 _totalCountPreFlopUnraisedPot = value;
                 RaisePropertyChanged(() => TotalCountPreFlopUnraisedPot);
+                RaisePropertyChanged(() => TotalCounts);
             }
         }
 
+        public int TotalCounts
+        {
+            get { return TotalCountPreFlopUnraisedPot + TotalCountPreFlopRaisedPot; }
+        }
+
+        public string Steals
+        {
+            get { return _steals; }
+            set
+            {
+                _steals = value;
+                RaisePropertyChanged(() => Steals);
+            }
+        }
+
+        string _steals;
         #endregion
 
         #region Implemented Interfaces
@@ -70,6 +89,9 @@ namespace PokerTell.Statistics.ViewModels
 
             TotalCountPreFlopUnraisedPot = playerStatistics.TotalCountPreFlopUnraisedPot;
             TotalCountPreFlopRaisedPot = playerStatistics.TotalCountPreFlopRaisedPot;
+
+            Steals = string.Format("{0:0#}",
+                playerStatistics.PreFlopUnraisedPot.ActionSequenceStatistics.Last().Percentages[(int)StrategicPositions.BU]);
 
             return this;
         }

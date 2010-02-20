@@ -2,10 +2,9 @@ namespace PokerTell.StatisticsIntegrationTests.DesignWindows
 {
     using System.Windows;
 
-    using DesignViewModels;
-
     using Infrastructure.Enumerations.PokerHand;
 
+    using Statistics.IntegrationTests.DesignViewModels;
     using Statistics.ViewModels;
 
     /// <summary>

@@ -25,7 +25,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
       // This event does not occur here because this ViewModel the last in the chain
       public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
 
-       public bool ShowMeAsPopup
+       public bool ShowAsPopup
        {
         get { return false; }
        }

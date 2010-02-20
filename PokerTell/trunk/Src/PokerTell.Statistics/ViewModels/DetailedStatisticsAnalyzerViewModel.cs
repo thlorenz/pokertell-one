@@ -117,7 +117,7 @@ namespace PokerTell.Statistics.ViewModels
 
         public IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsAnalyzerContentViewModel viewModel)
         {
-            if (viewModel is IPreFlopStartingHandsVisualizerViewModel)
+            if (viewModel.ShowAsPopup)
             {
                 PopupViewModel = viewModel;
                 ShowPopup = true;
@@ -167,7 +167,6 @@ namespace PokerTell.Statistics.ViewModels
             if (index > -1 && index < ViewModelHistory.Count)
             {
                 CurrentViewModel = ViewModelHistory[index];
-                ShowPopup = false;
                 RaisePropertyChanged(() => CurrentViewModel);
             }
 

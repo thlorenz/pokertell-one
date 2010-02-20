@@ -7,5 +7,5 @@
     <Converters:BoolToVisibleOrHiddenConverter x:Key="BoolToVisibleOrHiddenConverter" />
     <Converters:HeaderInfoToHeaderConverter x:Key="HeaderInfoToHeaderConverter"/>
     <Converters:CountToMaximumConverter x:Key="CountToMaximumConverter"/>
-    
+    <Converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 </ResourceDictionary>

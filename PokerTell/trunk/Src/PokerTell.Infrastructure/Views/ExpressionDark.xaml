@@ -1,4 +1,4 @@
-﻿<!--
+<!--
 // (c) Copyright Microsoft Corporation.
 // This source is subject to Microsoft Public License (Ms-PL).
 // Please see http://go.microsoft.com/fwlink/?LinkID=131993 for details.
@@ -2763,7 +2763,7 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Stroke="#8E6EA6F5" StrokeThickness="1" RadiusX="2" RadiusY="2" />
+                    <Rectangle Stroke="#8E6EA6F5" StrokeThickness="5" RadiusX="2" RadiusY="2" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

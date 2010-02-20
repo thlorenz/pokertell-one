@@ -1,8 +1,8 @@
-namespace PokerTell.StatisticsIntegrationTests.DesignViewModels
+namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 {
     using Infrastructure.Enumerations.PokerHand;
 
-    using Statistics.ViewModels;
+    using ViewModels;
 
     public class PostFlopStatisticsSetsDesignModel : PostFlopStatisticsSetsViewModel
     {
