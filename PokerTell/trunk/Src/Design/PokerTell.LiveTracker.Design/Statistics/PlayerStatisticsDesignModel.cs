@@ -6,17 +6,17 @@ namespace PokerTell.LiveTracker.Design.Statistics
 
     public class PlayerStatisticsDesignModel : PlayerStatisticsViewModel
     {
-        public PlayerStatisticsDesignModel()
+        public PlayerStatisticsDesignModel(int seatNumber)
         {
             PreFlopStatisticsSets = new PreFlopStatisticsSetsDesignModel();
-            FlopStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.Flop);
-            TurnStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.Turn);
-            RiverStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.River);
+            FlopStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.Flop, seatNumber);
+            TurnStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.Turn, seatNumber);
+            RiverStatisticsSets = new PostFlopStatisticsSetsDesignModel(Streets.River, seatNumber);
         }
     }
 
     public static class PlayerStatisticsDesign
     {
-        public static PlayerStatisticsViewModel Model = new PlayerStatisticsDesignModel();
+        public static PlayerStatisticsViewModel Model = new PlayerStatisticsDesignModel(1);
     }
 }

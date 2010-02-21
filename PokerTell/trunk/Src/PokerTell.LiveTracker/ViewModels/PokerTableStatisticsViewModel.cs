@@ -6,6 +6,8 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Linq;
     using System.Windows.Input;
 
+    using Interfaces;
+
     using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure.Events;
@@ -15,7 +17,7 @@ namespace PokerTell.LiveTracker.ViewModels
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
-    public class PokerTableStatisticsViewModel : NotifyPropertyChanged
+    public class PokerTableStatisticsViewModel : NotifyPropertyChanged, IPokerTableStatisticsViewModel
     {
         #region Constants and Fields
 
@@ -73,7 +75,7 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        public ObservableCollection<IPlayerStatisticsViewModel> Players { get; protected set; }
+        public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
         public IPlayerStatisticsViewModel SelectedPlayer
         {
@@ -90,7 +92,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Public Methods
 
-        public PokerTableStatisticsViewModel UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
+        public IPokerTableStatisticsViewModel UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
         {
             var playersStatisticsList = ValidateAndConvertToList(playersStatistics);
             var playersList = Players.ToList();

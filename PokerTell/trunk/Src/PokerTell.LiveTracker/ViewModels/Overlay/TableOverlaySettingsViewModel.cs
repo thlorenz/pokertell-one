@@ -6,7 +6,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
     using Tools.WPF.ViewModels;
 
-    public class OverlayStatisticsPanelSettingsViewModel : NotifyPropertyChanged, IOverlayStatisticsPanelSettingsViewModel
+    public class TableOverlaySettingsViewModel : NotifyPropertyChanged, ITableOverlaySettingsViewModel
     {
         bool _showPreFlop;
 
@@ -101,6 +101,30 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             {
                 _background = value;
                 RaisePropertyChanged(() => Background);
+            }
+        }
+
+        string _inPositionForeground;
+
+        public string InPositionForeground
+        {
+            get { return _inPositionForeground; }
+            set
+            {
+                _inPositionForeground = value;
+                RaisePropertyChanged(() => InPositionForeground);
+            }
+        }
+
+        string _outOfPositionForeground;
+
+        public string OutOfPositionForeground
+        {
+            get { return _outOfPositionForeground; }
+            set
+            {
+                _outOfPositionForeground = value;
+                RaisePropertyChanged(() => OutOfPositionForeground);
             }
         }
     }

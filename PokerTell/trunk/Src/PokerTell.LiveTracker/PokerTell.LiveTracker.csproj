@@ -63,10 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interfaces\IOverlayStatisticsPanelSettingsViewModel.cs" />
-    <Compile Include="Interfaces\IOverlayStatisticsPanelViewModel.cs" />
-    <Compile Include="ViewModels\Overlay\OverlayStatisticsPanelSettingsViewModel.cs" />
-    <Compile Include="ViewModels\Overlay\OverlayStatisticsPanelViewModel.cs" />
+    <Compile Include="Interfaces\ITableOverlaySettingsViewModel.cs" />
+    <Compile Include="Interfaces\IPlayerOverlayViewModel.cs" />
+    <Compile Include="Interfaces\IPlayerStatusViewModel.cs" />
+    <Compile Include="Interfaces\IPokerTableStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\HarringtonMViewModel.cs" />
+    <Compile Include="Interfaces\IHarringtonMViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\TableOverlaySettingsViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\PlayerOverlayViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\PlayerStatusViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\TableOverlayViewModel.cs" />
     <Compile Include="ViewModels\PokerTableStatisticsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +90,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Overlay\PlayerOverlayViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Overlay\TableOverlayView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\TableStatisticsViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

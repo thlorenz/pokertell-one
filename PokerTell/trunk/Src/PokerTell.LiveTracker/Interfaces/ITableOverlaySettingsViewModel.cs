@@ -1,6 +1,6 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
-    public interface IOverlayStatisticsPanelSettingsViewModel
+    public interface ITableOverlaySettingsViewModel
     {
         bool ShowPreFlop { get; set; }
 

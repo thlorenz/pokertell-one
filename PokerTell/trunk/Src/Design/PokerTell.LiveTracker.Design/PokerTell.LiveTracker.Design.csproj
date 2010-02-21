@@ -51,8 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LiveTracker\OverlayStatisticsPanelDesignModel.cs" />
-    <Compile Include="LiveTracker\OverlayStatisticsPanelSettingsDesignModel.cs" />
+    <Compile Include="LiveTracker\HarringtonMDesignModel.cs" />
+    <Compile Include="LiveTracker\PlayerOverlayDesignModel.cs" />
+    <Compile Include="LiveTracker\TableOverlayDesignModel.cs" />
+    <Compile Include="LiveTracker\TableOverlaySettingsDesignModel.cs" />
+    <Compile Include="LiveTracker\PlayerStatusDesignModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Statistics\PlayerStatisticsDesignModel.cs" />
     <Compile Include="Statistics\PostFlopStatisticsSetsDesignModel.cs" />
