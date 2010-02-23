@@ -7,12 +7,10 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     public class PlayerOverlayDesignModel : PlayerOverlayViewModel
     {
-        public PlayerOverlayDesignModel(int seatNumber, IPlayerStatusViewModel playerStatus, double left, double top)
+        public PlayerOverlayDesignModel(int seatNumber, IPlayerStatusViewModel playerStatus, double left, double top, ITableOverlaySettingsViewModel overlaySettings)
             : base(playerStatus)
         {
-            InitializeWith(
-                new PlayerStatisticsDesignModel(seatNumber), 
-                new TableOverlaySettingsDesignModel(true, true, true, false, 200, 100, 0.8, "#FF0000FF", "White", "Yellow"));
+            InitializeWith(overlaySettings, seatNumber);
 
             Left = left;
             Top = top;
@@ -23,6 +21,6 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     {
         static readonly IPlayerStatusViewModel PlayerStatus = new PlayerStatusDesignModel(true, new HarringtonMDesignModel(10, 20, 40));
 
-        public static PlayerOverlayDesignModel Model = new PlayerOverlayDesignModel(1, PlayerStatus, 50, 10);
+        public static PlayerOverlayDesignModel Model = new PlayerOverlayDesignModel(1, PlayerStatus, 50, 10, TableOverlaySettingsDesign.Model);
     }
 }

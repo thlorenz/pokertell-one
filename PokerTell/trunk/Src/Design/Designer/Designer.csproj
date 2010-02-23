@@ -5,13 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{C001E0E9-9278-4C30-A756-EA599DEC7426}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerTell.LiveTracker.Design</RootNamespace>
-    <AssemblyName>PokerTell.LiveTracker.Design</AssemblyName>
+    <RootNamespace>Designer</RootNamespace>
+    <AssemblyName>Designer</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,9 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -46,42 +45,55 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LiveTracker\HarringtonMDesignModel.cs" />
-    <Compile Include="LiveTracker\PlayerOverlayDesignModel.cs" />
-    <Compile Include="LiveTracker\TableOverlayDesignModel.cs" />
-    <Compile Include="LiveTracker\TableOverlaySettingsDesignModel.cs" />
-    <Compile Include="LiveTracker\PlayerStatusDesignModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statistics\PlayerStatisticsDesignModel.cs" />
-    <Compile Include="Statistics\PostFlopStatisticsSetsDesignModel.cs" />
-    <Compile Include="Statistics\PreFlopStatisticsSetsDesignModel.cs" />
-    <Compile Include="Statistics\StatisticsSetSummaryDesignModel.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Tools\Tools.csproj">
       <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
       <Name>Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
-      <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
-      <Name>PokerTell.Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\PokerTell.LiveTracker\PokerTell.LiveTracker.csproj">
       <Project>{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}</Project>
       <Name>PokerTell.LiveTracker</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\PokerTell.PokerHand\PokerTell.PokerHand.csproj">
-      <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
-      <Name>PokerTell.PokerHand</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\PokerTell.Statistics\PokerTell.Statistics.csproj">
-      <Project>{40A1B01E-8BBC-4F9E-B5E8-AA0BE4C70988}</Project>
-      <Name>PokerTell.Statistics</Name>
+    <ProjectReference Include="..\PokerTell.LiveTracker.Design\PokerTell.LiveTracker.Design.csproj">
+      <Project>{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}</Project>
+      <Name>PokerTell.LiveTracker.Design</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -92,7 +104,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
-  </PropertyGroup>
 </Project>

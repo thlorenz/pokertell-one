@@ -162,6 +162,8 @@
       <DependentUpon>CommandButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="WPF\Controls\DragCanvas.cs" />
+    <Compile Include="WPF\Controls\ResizeAdorner.cs" />
+    <Compile Include="WPF\Controls\ResizeAdornerProvider.cs" />
     <Compile Include="WPF\ConvertColor.cs" />
     <Compile Include="WPF\Converters\BoolToVisibleOrHiddenConverter.cs" />
     <Compile Include="WPF\Converters\ColorToSolidColorBrushConverter.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="WPF\Utilities.cs" />
     <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />
+    <Compile Include="WPF\Interfaces\IColorViewModel.cs" />
     <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\ItemsRegionViewModel.cs" />
     <Compile Include="WPF\ViewModels\NotifyPropertyChanged.cs" />

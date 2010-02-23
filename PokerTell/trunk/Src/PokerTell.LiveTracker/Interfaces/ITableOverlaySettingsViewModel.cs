@@ -1,5 +1,7 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
+    using Tools.WPF.Interfaces;
+
     public interface ITableOverlaySettingsViewModel
     {
         bool ShowPreFlop { get; set; }
@@ -14,6 +16,14 @@ namespace PokerTell.LiveTracker.Interfaces
 
         double Height { get; set; }
 
-        double Opacity { get; set; }
+        IColorViewModel Background { get; set; }
+
+        IColorViewModel InPositionForeground { get; set; }
+
+        IColorViewModel OutOfPositionForeground { get; set; }
+
+        int PreferredSeat { get; set; }
+
+        bool ShowHarringtonM { get; set; }
     }
 }

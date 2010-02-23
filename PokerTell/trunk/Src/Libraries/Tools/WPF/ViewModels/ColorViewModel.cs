@@ -1,22 +1,24 @@
-/*
- * User: Thorsten Lorenz
- * Date: 7/28/2009
- * 
-*/
-using System.Windows.Media;
-
 namespace Tools.WPF.ViewModels
 {
-    public class ColorViewModel : NotifyPropertyChanged
+    using System.Windows.Media;
+
+    using Controls;
+
+    using Interfaces;
+
+    /// <summary>
+    /// Provides different formats of a given Color.
+    /// Right now it is used with the <see cref="ColorPicker"/>
+    /// </summary>
+    public class ColorViewModel : NotifyPropertyChanged, IColorViewModel
     {
-        private Color _color;
-        public ColorViewModel() : this("UnNamed") {}
-
-        public ColorViewModel(string Name)
+        public ColorViewModel(string colorString)
         {
-            this.Name = Name;
+            ColorString = colorString;
         }
-
+        
+        Color _color;
+     
         public Color Color
         {
             get { return _color; }
@@ -24,16 +26,22 @@ namespace Tools.WPF.ViewModels
             {
                 _color = value;
                 RaisePropertyChanged(() => Color);
-                RaisePropertyChanged(() => SolidColorBrush);
+                RaisePropertyChanged(() => Brush);
+                RaisePropertyChanged(() => ColorString);
             }
         }
 
-        public Brush SolidColorBrush
+        public Brush Brush
         {
             get { return new SolidColorBrush(Color); }
             set { Color = ((SolidColorBrush) value).Color; }
         }
 
-        public string Name { get; private set; }
+        public string ColorString
+        {
+            get { return new ColorConverter().ConvertToString(Color); }
+            set { Color = (Color)ColorConverter.ConvertFromString(value); }
+        }
+     
     }
 }

@@ -1,6 +1,6 @@
 namespace PokerTell.LiveTracker.Design.LiveTracker
 {
-    using ViewModels;
+    using ViewModels.Overlay;
 
     public class HarringtonMDesignModel : HarringtonMViewModel
     {

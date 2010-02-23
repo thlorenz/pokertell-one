@@ -1,9 +1,14 @@
-namespace PokerTell.LiveTracker.Tests
+namespace PokerTell.LiveTracker.Tests.ViewModels
 {
     using System;
     using System.Collections.Generic;
 
     using Infrastructure.Events;
+    using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
+
+    using LiveTracker.ViewModels;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -11,11 +16,7 @@ namespace PokerTell.LiveTracker.Tests
 
     using NUnit.Framework;
 
-    using PokerTell.Infrastructure.Interfaces;
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.Statistics;
-    using PokerTell.LiveTracker.ViewModels;
-    using PokerTell.UnitTests.Tools;
+    using UnitTests.Tools;
 
     public class PokerTableStatisticsViewModelTests
     {
@@ -105,7 +106,7 @@ namespace PokerTell.LiveTracker.Tests
 
             _sut.UpdateWith(new[] { differentPlayerStatistics });
 
-           differentPlayerMock.Verify(p => p.UpdateWith(differentPlayerStatistics));
+            differentPlayerMock.Verify(p => p.UpdateWith(differentPlayerStatistics));
         }
 
         [Test]
@@ -239,7 +240,7 @@ namespace PokerTell.LiveTracker.Tests
             player2Mock.VerifySet(p => p.Filter = filterStub);
         }
 
-       #endregion
+        #endregion
 
         #region Methods
 

@@ -79,6 +79,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{C867FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.Design", "Src\Design\PokerTell.LiveTracker.Design\PokerTell.LiveTracker.Design.csproj", "{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designer", "Src\Design\Designer\Designer.csproj", "{C001E0E9-9278-4C30-A756-EA599DEC7426}"
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
@@ -201,6 +203,10 @@ Global
 		{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C001E0E9-9278-4C30-A756-EA599DEC7426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C001E0E9-9278-4C30-A756-EA599DEC7426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C001E0E9-9278-4C30-A756-EA599DEC7426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C001E0E9-9278-4C30-A756-EA599DEC7426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -236,5 +242,6 @@ Global
 		{E7C42C0E-6C03-4362-B617-7D22EA38DA05} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
 		{4723C858-EB6E-42F8-BF83-F22E4496FB2D} = {81D4959A-E771-4F3A-BEE1-73A0E3B65104}
 		{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5} = {C867FE86-BEEA-4337-A0E4-678C8E48BF65}
+		{C001E0E9-9278-4C30-A756-EA599DEC7426} = {C867FE86-BEEA-4337-A0E4-678C8E48BF65}
 	EndGlobalSection
 EndGlobal

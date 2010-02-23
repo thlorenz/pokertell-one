@@ -1,9 +1,8 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
-    using System.Windows.Media;
-
     using Interfaces;
 
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class TableOverlaySettingsViewModel : NotifyPropertyChanged, ITableOverlaySettingsViewModel
@@ -56,6 +55,18 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
+        bool _showHarringtonM;
+
+        public bool ShowHarringtonM
+        {
+            get { return _showHarringtonM; }
+            set
+            {
+                _showHarringtonM = value;
+                RaisePropertyChanged(() => ShowHarringtonM);
+            }
+        }
+
         double _width;
 
         public double Width
@@ -80,21 +91,9 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        double _opacity;
+        IColorViewModel _background;
 
-        public double Opacity
-        {
-            get { return _opacity; }
-            set
-            {
-                _opacity = value;
-                RaisePropertyChanged(() => Opacity);
-            }
-        }
-
-        string _background;
-
-        public string Background
+        public IColorViewModel Background
         {
             get { return _background; }
             set
@@ -104,9 +103,9 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        string _inPositionForeground;
+        IColorViewModel _inPositionForeground;
 
-        public string InPositionForeground
+        public IColorViewModel InPositionForeground
         {
             get { return _inPositionForeground; }
             set
@@ -116,15 +115,27 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        string _outOfPositionForeground;
+        IColorViewModel _outOfPositionForeground;
 
-        public string OutOfPositionForeground
+        public IColorViewModel OutOfPositionForeground
         {
             get { return _outOfPositionForeground; }
             set
             {
                 _outOfPositionForeground = value;
                 RaisePropertyChanged(() => OutOfPositionForeground);
+            }
+        }
+
+        int _preferredSeat;
+
+        public int PreferredSeat
+        {
+            get { return _preferredSeat; }
+            set
+            {
+                _preferredSeat = value;
+                RaisePropertyChanged(() => PreferredSeat);
             }
         }
     }

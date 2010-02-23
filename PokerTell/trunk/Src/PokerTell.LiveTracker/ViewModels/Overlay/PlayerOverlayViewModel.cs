@@ -1,5 +1,9 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
+    using System;
+
+    using Infrastructure.Interfaces.PokerHand;
+
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
 
@@ -12,11 +16,21 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             PlayerStatus = playerStatus;
         }
 
-        public IPlayerOverlayViewModel InitializeWith(IPlayerStatisticsViewModel playerStatistics, ITableOverlaySettingsViewModel settings)
+        public IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber)
         {
-            PlayerStatistics = playerStatistics;
             Settings = settings;
+            
             return this;
+        }
+
+        public IPlayerOverlayViewModel UpdateWith(IPlayerStatisticsViewModel playerStatistics, IConvertedPokerPlayer pokerPlayer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IPlayerOverlayViewModel ShowHoleCardsFor(int showHoleCardsDuration)
+        {
+            throw new NotImplementedException();
         }
 
         // UpdateWith PlayerStatistics and PlayerStatus?

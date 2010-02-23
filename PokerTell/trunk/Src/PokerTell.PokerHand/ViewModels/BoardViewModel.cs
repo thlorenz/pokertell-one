@@ -1,5 +1,6 @@
 namespace PokerTell.PokerHand.ViewModels
 {
+    using System;
     using System.Text;
     using System.Text.RegularExpressions;
     using System.Windows;
@@ -171,6 +172,11 @@ namespace PokerTell.PokerHand.ViewModels
                 _suit5 = value;
                 RaisePropertyChanged(() => Suit5);
             }
+        }
+
+        public IBoardViewModel HideBoardAfter(int seconds)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

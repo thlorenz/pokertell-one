@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="PokerTell.LiveTracker.Views.Overlay.ColorPickerExpander"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools">
+    <Expander x:Name="expColorPickerArea" Expanded="ColorPickerExpander_Expanded" >
+
+        <Expander.Header>
+            <StackPanel Orientation="Horizontal">
+                <Ellipse x:Name="ColorSampleEllipse" Width="9" Height="9"
+                                 Fill="{Binding Brush, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Stroke="White"
+                                 StrokeThickness="1"
+                                 Margin="4, 1, 4, 1" />
+                <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContentControl},
+                                          AncestorLevel=2}, Path=Tag}"/>
+            </StackPanel>
+        </Expander.Header>
+
+        <ctrl:ColorPicker x:Name="ColorPickerControl"
+                                Width="100"
+                                Height="110"
+                                Margin="2,2,2,2"
+                                SelectedColor="{Binding Color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+    </Expander>
+</UserControl>

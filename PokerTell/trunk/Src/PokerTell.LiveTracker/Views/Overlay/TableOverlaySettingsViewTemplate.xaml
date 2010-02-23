@@ -1,0 +1,76 @@
+<ResourceDictionary
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
+  xmlns:Converters="clr-namespace:PokerTell.LiveTracker.Converters"
+  xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools"
+  xmlns:UsrCtrl="clr-namespace:PokerTell.LiveTracker.Views.Overlay">
+
+    <Converters:PreferredSeatToStringConverter x:Key="PreferredSeatToStringConverter" />
+    
+    <!-- TableOverlaySettingsViewTemplate -->
+    <!-- DataContext="{x:Static Design:LiveTracker.TableOverlaySettingsDesign.Model}" -->
+    <DataTemplate DataType="{x:Type ViewModels:TableOverlaySettingsViewModel}">
+        <Expander MinWidth="150"
+                     Height="Auto"
+                     Margin="5,5,150,5"
+                     HorizontalAlignment="Right"
+                     HorizontalContentAlignment="Right"
+                     VerticalContentAlignment="Center"
+                     VerticalAlignment="Top"
+                     Header="Settings">
+
+            <StackPanel Orientation="Vertical">
+                <!-- Colors -->
+                <Expander Header="Colors">
+                    <StackPanel>
+                        <UsrCtrl:ColorPickerExpander Tag="Background" DataContext="{Binding Background}"/>
+                        <UsrCtrl:ColorPickerExpander Tag="Foreground1" DataContext="{Binding OutOfPositionForeground}"/>
+                        <UsrCtrl:ColorPickerExpander Tag="Foreground2" DataContext="{Binding InPositionForeground}"/>
+                    </StackPanel>
+                </Expander>
+                <!-- Tells -->
+                <Expander Header="Show Tells">
+                    <ListBox>
+                        <CheckBox Content="Preflop" IsChecked="{Binding ShowPreFlop, Mode=TwoWay}"/>
+                        <CheckBox Content="Flop" IsChecked="{Binding ShowFlop, Mode=TwoWay}"/>
+                        <CheckBox Content="Turn" IsChecked="{Binding ShowTurn, Mode=TwoWay}"/>
+                        <CheckBox Content="River" IsChecked="{Binding ShowRiver, Mode=TwoWay}"/>
+                        <CheckBox Content="M Value" IsChecked="{Binding ShowHarringtonM, Mode=TwoWay}"/>
+                    </ListBox>
+                </Expander>
+                <!-- Adjust Positions -->
+                <Expander Header="Adjust Positions">
+                    <CheckBox Content="Mucked Cards" IsChecked="{Binding PositioningMuckedCards, Mode=TwoWay}"/>
+                </Expander>
+                <!-- Preferred Seat -->
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="PreferredSeat"/>
+                            <TextBlock Foreground="Wheat"
+                                               Margin="10, 0, 5, 0" 
+                                               Text="{Binding PreferredSeat, Converter={StaticResource PreferredSeatToStringConverter}}"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <Slider Width="Auto"
+                                    Height="Auto"
+                                    MaxHeight="40"
+                                    Margin="3"
+                                    Minimum="0"
+                                    Maximum="{Binding TotalSeats, Mode=OneWay}"
+                                    TickFrequency="1"
+                                    TickPlacement="BottomRight"
+                                    IsSnapToTickEnabled="True"
+                                    IsMoveToPointEnabled="True"
+                                    Value="{Binding PreferredSeat}"/>
+                </Expander>
+                <!-- Save/Undo -->
+                <StackPanel Orientation="Horizontal" MaxHeight="30">
+                    <Button Content="Save Changes"  Margin="2" Padding="5" />
+                    <Button Content="Undo Changes"  Margin="2" Padding="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Expander>
+    </DataTemplate>
+</ResourceDictionary>

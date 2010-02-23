@@ -1,10 +1,5 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
-    using System;
-    using System.Collections.Generic;
-
-    using Enumerations.PokerHand;
-
     public interface IPokerPlayer
     {
         /// <summary>

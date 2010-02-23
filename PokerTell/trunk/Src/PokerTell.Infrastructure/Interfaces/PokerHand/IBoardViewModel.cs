@@ -25,5 +25,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         Image Suit4 { get; set; }
 
         Image Suit5 { get; set; }
+
+        IBoardViewModel HideBoardAfter(int seconds);
     }
 }
