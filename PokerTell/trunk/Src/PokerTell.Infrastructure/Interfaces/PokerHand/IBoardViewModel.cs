@@ -1,10 +1,9 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System.ComponentModel;
     using System.Windows.Controls;
 
-    using Tools.WPF.Interfaces;
-
-    public interface IBoardViewModel : IPositionedViewModel<string>
+    public interface IBoardViewModel : INotifyPropertyChanged
     {
         string Rank1 { get; set; }
 
@@ -26,6 +25,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         Image Suit5 { get; set; }
 
-        IBoardViewModel HideBoardAfter(int seconds);
+        bool Visible { get; set; }
+
+        void UpdateWith(string boardString);
     }
 }

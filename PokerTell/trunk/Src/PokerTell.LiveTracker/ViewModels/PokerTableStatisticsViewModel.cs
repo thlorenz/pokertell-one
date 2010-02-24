@@ -108,7 +108,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
         public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)
         {
-            throw new NotImplementedException();
+            return Players.FirstOrDefault(p => p.PlayerName == playerName);
         }
 
         #endregion

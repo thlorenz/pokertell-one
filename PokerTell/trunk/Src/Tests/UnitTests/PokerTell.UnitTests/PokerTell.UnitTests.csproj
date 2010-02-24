@@ -60,10 +60,14 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Fakes\MockUserConfiguration.cs" />
     <Compile Include="Tools\Affirmer.cs" />
+    <Compile Include="Tools\CustomDispatcherTimers.cs" />
     <Compile Include="Tools\For.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleFactory.cs" />

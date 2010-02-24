@@ -1,12 +1,14 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
     using System;
+    using System.Linq;
+    using System.Windows;
 
-    using Infrastructure.Interfaces.PokerHand;
-
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
 
+    using Tools.FunctionalCSharp;
     using Tools.WPF.ViewModels;
 
     public class PlayerOverlayViewModel : NotifyPropertyChanged, IPlayerOverlayViewModel
@@ -18,6 +20,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber)
         {
+            _seatNumber = seatNumber;
             Settings = settings;
             
             return this;
@@ -25,42 +28,55 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IPlayerOverlayViewModel UpdateWith(IPlayerStatisticsViewModel playerStatistics, IConvertedPokerPlayer pokerPlayer)
         {
-            throw new NotImplementedException();
+            _mostRecentPokerPlayer = pokerPlayer;
+
+            if (playerStatistics == null || pokerPlayer == null)
+            {
+                PlayerStatus.IsPresent = false;
+                return this;
+            }
+
+            PlayerStatus.HarringtonM.Value = pokerPlayer.MAfter;
+            PlayerStatus.IsPresent = true;
+            return this;
         }
 
         public IPlayerOverlayViewModel ShowHoleCardsFor(int showHoleCardsDuration)
         {
-            throw new NotImplementedException();
+            if (PlayerStatus.IsPresent && !string.IsNullOrEmpty(_mostRecentPokerPlayer.Holecards))
+            {
+                PlayerStatus.ShowHoleCardsFor(showHoleCardsDuration, _mostRecentPokerPlayer.Holecards);
+            }
+
+            return this;
         }
 
-        // UpdateWith PlayerStatistics and PlayerStatus?
         public ITableOverlaySettingsViewModel Settings { get; set; }
 
         public IPlayerStatisticsViewModel PlayerStatistics { get; set; }
 
         public IPlayerStatusViewModel PlayerStatus { get; set; }
 
-
-        double _left;
-
         public double Left
         {
-            get { return _left; }
+            get { return Settings.PlayerStatisticsPanelPositions[_seatNumber].X; }
             set
             {
-                _left = value;
+                Settings.PlayerStatisticsPanelPositions[_seatNumber] = new Point(value, Top);
                 RaisePropertyChanged(() => Left);
             }
         }
 
-        double _top;
+        int _seatNumber;
+
+        IConvertedPokerPlayer _mostRecentPokerPlayer;
 
         public double Top
         {
-            get { return _top; }
+            get { return Settings.PlayerStatisticsPanelPositions[_seatNumber].Y; }
             set
             {
-                _top = value;
+                Settings.PlayerStatisticsPanelPositions[_seatNumber] = new Point(Top, value);
                 RaisePropertyChanged(() => Top);
             }
         }

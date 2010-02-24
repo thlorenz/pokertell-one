@@ -18,6 +18,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
     using UnitTests.Tools;
 
+    using Utilities;
+
     public class PokerTableStatisticsViewModelTests
     {
         #region Constants and Fields
@@ -78,7 +80,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             AddPlayerMock(player1);
 
             var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
-            var differentPlayerMock = PlayerMockFor(differentPlayer);
+            var differentPlayerMock = Utils.PlayerStatisticsVM_MockFor(differentPlayer);
             
             _playerStatisticsViewModelMakeStub
                 .SetupGet(make => make.New)
@@ -98,7 +100,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             AddPlayerMock(player1);
 
             var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
-            var differentPlayerMock = PlayerMockFor(differentPlayer);
+            var differentPlayerMock = Utils.PlayerStatisticsVM_MockFor(differentPlayer);
 
             _playerStatisticsViewModelMakeStub
                 .SetupGet(make => make.New)
@@ -159,7 +161,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         public void FilterAdjustmentCommand_OnePlayer_RaisesFilterAdjustmentEventWithNameOfSelectedPlayer()
         {
             const string player1 = "player1";
-            _sut.SelectedPlayer = PlayerMockFor(player1).Object;
+            _sut.SelectedPlayer = Utils.PlayerStatisticsVM_MockFor(player1).Object;
             
             bool eventFiredWithCorrectName = false;
             _eventAggregator
@@ -176,7 +178,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         {
             const string player1 = "player1";
             var filterStub = new Mock<IAnalyzablePokerPlayersFilter>();
-            var player1Stub = PlayerMockFor(player1);
+            var player1Stub = Utils.PlayerStatisticsVM_MockFor(player1);
             player1Stub.SetupGet(p => p.Filter).Returns(filterStub.Object);
 
             _sut.SelectedPlayer = player1Stub.Object;
@@ -244,16 +246,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         #region Methods
 
-        static Mock<IPlayerStatisticsViewModel> PlayerMockFor(string name)
-        {
-            var playerViewModelMock = new Mock<IPlayerStatisticsViewModel>();
-            playerViewModelMock.SetupGet(pvm => pvm.PlayerName).Returns(name);
-            return playerViewModelMock;
-        }
-
         Mock<IPlayerStatisticsViewModel> AddPlayerMock(string name)
         {
-            var playerViewModelMock = PlayerMockFor(name);
+            var playerViewModelMock = Utils.PlayerStatisticsVM_MockFor(name);
             _sut.Players.Add(playerViewModelMock.Object);
             return playerViewModelMock;
         }

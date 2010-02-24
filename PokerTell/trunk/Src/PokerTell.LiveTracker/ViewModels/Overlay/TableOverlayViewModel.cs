@@ -11,24 +11,33 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
     public class TableOverlayViewModel : ITableOverlayViewModel
     {
-        readonly IBoardViewModel _boardViewModel;
+        readonly IOverlayBoardViewModel _boardViewModel;
 
         int _showHoleCardsDuration;
 
         IEnumerable<IConvertedPokerPlayer> _convertedPokerPlayers;
 
-        public TableOverlayViewModel(IBoardViewModel boardViewModel)
+        ISeatMapper _seatMapper;
+
+        public TableOverlayViewModel(IOverlayBoardViewModel boardViewModel)
         {
             _boardViewModel = boardViewModel;
         }
 
-        public IBoardViewModel BoardViewModel
+        public IOverlayBoardViewModel BoardViewModel
         {
             get { return _boardViewModel; }
         }
 
-        public ITableOverlayViewModel InitializeWith(ISeatMapper seatMapper, ITableOverlaySettingsViewModel overlaySettings, IGameHistoryViewModel gameHistory, IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, IList<IPlayerOverlayViewModel> playerOverlays, int showHoleCardsDuration)
+        public ITableOverlayViewModel InitializeWith(
+            ISeatMapper seatMapper, 
+            ITableOverlaySettingsViewModel overlaySettings, 
+            IGameHistoryViewModel gameHistory, 
+            IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, 
+            IList<IPlayerOverlayViewModel> playerOverlays, 
+            int showHoleCardsDuration)
         {
+            _seatMapper = seatMapper;
             _showHoleCardsDuration = showHoleCardsDuration;
             PokerTableStatisticsViewModel = pokerTableStatisticsViewModel;
             GameHistory = gameHistory;
@@ -39,6 +48,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             {
                 playerOverlays[seat].InitializeWith(overlaySettings, seat);
             }
+
+            OverlaySettings.PreferredSeatChanged += UpdatePlayerOverlays;
 
             return this;
         }
@@ -59,7 +70,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         void ShowBoardAndHoleCards(string board)
         {
-            if (!string.IsNullOrEmpty(board) && _convertedPokerPlayers .Any(p => !string.IsNullOrEmpty(p.Holecards)))
+            if (!string.IsNullOrEmpty(board) && _convertedPokerPlayers.Any(p => !string.IsNullOrEmpty(p.Holecards)))
             {
                 BoardViewModel.UpdateWith(board);
                 BoardViewModel.HideBoardAfter(_showHoleCardsDuration);
@@ -71,11 +82,20 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         {
             for (int index = 0; index < PlayerOverlays.Count; index++)
             {
-                var playerOverlayIndex = index;
-                var pokerPlayer = _convertedPokerPlayers .FirstOrDefault(p => p.SeatNumber == playerOverlayIndex + 1);
+                var playerSeat = index + 1;
 
-                UpdatePlayerOverlayFor(pokerPlayer, index);
+                var pokerPlayer = _convertedPokerPlayers.FirstOrDefault(p => p.SeatNumber == playerSeat);
+
+                int mappedSeatIndex = GetMappedSeatIndexFor(playerSeat);
+
+                UpdatePlayerOverlayFor(pokerPlayer, mappedSeatIndex);
             }
+        }
+
+        int GetMappedSeatIndexFor(int playerSeat)
+        {
+            var mappedSeat = _seatMapper.Map(playerSeat, OverlaySettings.PreferredSeat);
+            return mappedSeat - 1;
         }
 
         void UpdatePlayerOverlayFor(IConvertedPokerPlayer pokerPlayer, int index)

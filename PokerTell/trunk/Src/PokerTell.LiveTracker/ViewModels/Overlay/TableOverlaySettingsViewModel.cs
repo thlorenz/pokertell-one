@@ -1,7 +1,12 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+
     using Interfaces;
 
+    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
@@ -67,6 +72,10 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
+        public IList<Point> PlayerStatisticsPanelPositions { get; protected set; }
+
+        public event Action PreferredSeatChanged = delegate { };
+        
         double _width;
 
         public double Width
@@ -135,6 +144,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             set
             {
                 _preferredSeat = value;
+                PreferredSeatChanged();
                 RaisePropertyChanged(() => PreferredSeat);
             }
         }

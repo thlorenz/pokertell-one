@@ -5,8 +5,6 @@
  */
 namespace PokerTell.LiveTracker.Overlay
 {
-    using System;
-
     using Interfaces;
 
     /// <summary>

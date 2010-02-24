@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\PreferredSeatToStringConverter.cs" />
+    <Compile Include="Interfaces\IOverlayBoardViewModel.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
     <Compile Include="Overlay\SeatMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Interfaces\IPlayerOverlayViewModel.cs" />
     <Compile Include="Interfaces\IPlayerStatusViewModel.cs" />
     <Compile Include="Interfaces\IPokerTableStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\OverlayBoardViewModel.cs" />
     <Compile Include="ViewModels\Overlay\HarringtonMViewModel.cs" />
     <Compile Include="Interfaces\IHarringtonMViewModel.cs" />
     <Compile Include="Interfaces\ITableOverlayViewModel.cs" />
@@ -142,6 +144,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

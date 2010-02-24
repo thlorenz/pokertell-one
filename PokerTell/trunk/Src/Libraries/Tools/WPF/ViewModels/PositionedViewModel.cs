@@ -6,17 +6,11 @@ namespace Tools.WPF.ViewModels
 
     public abstract class PositionedViewModel<T> : NotifyPropertyChanged, IPositionedViewModel<T>
     {
-        #region Constants and Fields
-
         double _left;
 
         double _top;
 
         bool _visible;
-
-        #endregion
-
-        #region Properties
 
         public double Left
         {
@@ -51,22 +45,12 @@ namespace Tools.WPF.ViewModels
             }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public abstract void UpdateWith(T data);
-
-        #endregion
-
-        #region Methods
 
         public void SetLocationTo(Point location)
         {
             Left = location.X;
             Top = location.Y;
         }
-
-        #endregion
     }
 }

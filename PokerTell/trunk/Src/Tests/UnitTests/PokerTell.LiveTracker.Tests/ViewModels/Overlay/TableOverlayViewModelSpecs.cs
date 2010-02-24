@@ -27,7 +27,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
         protected static Mock<IPlayerOverlayViewModel> _playerOverlay_1_VM_Mock;
 
-        protected static Mock<IBoardViewModel> _boardVM_Mock;
+        protected static Mock<IOverlayBoardViewModel> _boardVM_Mock;
 
         protected static ITableOverlayViewModel _sut;
 
@@ -36,7 +36,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         protected static int ShowHoleCardsDuration;
 
         Establish specContext = () => {
-            _boardVM_Mock = new Mock<IBoardViewModel>();
+            _boardVM_Mock = new Mock<IOverlayBoardViewModel>();
             _gameHistoryVM_Stub = new Mock<IGameHistoryViewModel>();
             _pokerTableStatisticsVM_Stub = new Mock<IPokerTableStatisticsViewModel>();
             _tableOverlaySettingsVM_Stub = new Mock<ITableOverlaySettingsViewModel>();
@@ -45,7 +45,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             var playerOverlayVMs = new[] { _playerOverlay_0_VM_Mock.Object, _playerOverlay_1_VM_Mock.Object };
 
             _seatMapper_Stub = new Mock<ISeatMapper>();
-            _seatMapper_Stub.Setup(sm => sm.Map(Moq.It.IsAny<int>(), Moq.It.IsAny<int>())).Returns(0);
+            _seatMapper_Stub.Setup(sm => sm.Map(0, 0)).Returns(0);
+            _seatMapper_Stub.Setup(sm => sm.Map(1, 0)).Returns(1);
+            _seatMapper_Stub.Setup(sm => sm.Map(2, 0)).Returns(2);
 
             ShowHoleCardsDuration = 1;
 
@@ -132,7 +134,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateWith(null, null));
         }
 
-        [Subject(typeof(TableOverlayViewModel), "UpdateWith, no preferred Seat")]
+        [Subject(typeof(TableOverlayViewModel), "UpdateWith, preferred Seat")]
         public class when_ted_in_seat_1_is_passed_and_the_seatMapper_maps_his_seat_to_seat_2 : Ctx_Ted_In_Seat1
         {
             protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
@@ -143,6 +145,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _pokerTableStatisticsVM_Stub
                     .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
                     .Returns(tedsStatisticsVM_Stub.Object);
+                _seatMapper_Stub.Setup(sm => sm.Map(1, Moq.It.IsAny<int>())).Returns(2);
             };
 
             Because of = () => _sut.UpdateWith(_convertedPlayers, null);
@@ -150,6 +153,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_update_playeroverlay_1_with_teds_converted_Player
                 = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateWith(Moq.It.IsAny<IPlayerStatisticsViewModel>(), _ted.Object));
         }
+
         [Subject(typeof(TableOverlayViewModel), "UpdateWith, no preferred Seat")]
         public class when_ted_in_seat_1_is_passed_and_his_statistics_are_not_available : Ctx_Ted_In_Seat1
         {
@@ -221,6 +225,27 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_not_tell_teds_PlayerOverlayVM_to_show_his_holecards
                 = () => _playerOverlay_0_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration), Times.Never());
+        }
+
+        [Subject(typeof(TableOverlayViewModel), "PreferredSeat")]
+        public class when_preferred_seat_changed_and_ted_is_in_seat_1_and_the_seatMapper_maps_his_seat_to_seat_2 : Ctx_Ted_In_Seat1
+        {
+            protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
+
+            Establish context = () =>
+            {
+                tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
+                _pokerTableStatisticsVM_Stub
+                    .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
+                    .Returns(tedsStatisticsVM_Stub.Object);
+                _sut.UpdateWith(_convertedPlayers, null);
+                _seatMapper_Stub.Setup(sm => sm.Map(1, Moq.It.IsAny<int>())).Returns(2);
+            };
+
+            Because of = () => _tableOverlaySettingsVM_Stub.Raise(set => set.PreferredSeatChanged += null);
+
+            It should_update_playeroverlay_1_with_teds_converted_Player
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateWith(Moq.It.IsAny<IPlayerStatisticsViewModel>(), _ted.Object));
         }
     }
 }

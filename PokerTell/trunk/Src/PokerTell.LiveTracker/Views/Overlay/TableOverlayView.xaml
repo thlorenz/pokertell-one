@@ -1,0 +1,31 @@
+﻿<Window x:Class="PokerTell.LiveTracker.Views.Overlay.TableOverlayView"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+                <ResourceDictionary Source="PlayerOverlayViewTemplate.xaml"/>
+                <ResourceDictionary Source="TableOverlaySettingsViewTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Viewbox Grid.Row="1" >
+            <ItemsControl ItemsSource="{Binding PlayerOverlays}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Width="800" Height="400" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </Viewbox>
+        <ContentControl Grid.Row="0" Grid.RowSpan="2" Content="{Binding OverlaySettings}" Opacity="0.98"/>
+    </Grid>
+</Window>

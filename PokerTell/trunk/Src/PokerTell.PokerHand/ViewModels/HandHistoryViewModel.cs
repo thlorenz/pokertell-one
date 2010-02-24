@@ -9,6 +9,7 @@ namespace PokerTell.PokerHand.ViewModels
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
+    using Tools.Interfaces;
     using Tools.WPF.ViewModels;
 
     /// <summary>

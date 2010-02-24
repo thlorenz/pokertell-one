@@ -1,5 +1,7 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
+    using System;
+
     using Interfaces;
 
     using Tools.WPF.ViewModels;
@@ -19,5 +21,10 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         }
 
         public IHarringtonMViewModel HarringtonM { get; set; }
+
+        public IPlayerStatusViewModel ShowHoleCardsFor(int duration, string holecards)
+        {
+            return this;
+        }
     }
 }

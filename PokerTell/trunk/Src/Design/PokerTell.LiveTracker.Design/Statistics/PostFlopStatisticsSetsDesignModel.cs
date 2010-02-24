@@ -19,8 +19,7 @@ namespace PokerTell.LiveTracker.Design.Statistics
 
             HeroXOrHeroBInPositionStatisticsSet = StatisticsSetSummaryDesignModel.GetHeroXOrHeroBSetSummaryDesignModel((int)(1 + street + seatNumber));
             OppBIntoHeroInPositionStatisticsSet =
-                StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel(02 + (3 * (int)street + seatNumber), 
-                                                                                           04 + (3 * (int)street + seatNumber));
+                StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel(02 + (3 * (int)street + seatNumber), 04 + (3 * (int)street + seatNumber));
 
             TotalCountOutOfPosition = 2345;
             TotalCountInPosition = 1003;

@@ -72,7 +72,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
+    <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="ViewModels\BoardViewModelSpecs.cs" />
+    <Compile Include="ViewModels\PokerTableStatisticsViewModelSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\Overlay\PlayerOverlayViewModelSpecs.cs" />
+    <Compile Include="ViewModels\Overlay\TableOverlaySettingsViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\TableOverlayViewModelSpecs.cs" />
     <Compile Include="ViewModels\PokerTableStatisticsViewModelTests.cs" />
   </ItemGroup>

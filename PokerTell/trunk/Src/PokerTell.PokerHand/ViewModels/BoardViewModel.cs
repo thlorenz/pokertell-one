@@ -5,16 +5,16 @@ namespace PokerTell.PokerHand.ViewModels
     using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Threading;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.GenericUtilities;
+    using Tools.Interfaces;
     using Tools.WPF.ViewModels;
 
-    public class BoardViewModel : PositionedViewModel<string>, IBoardViewModel
+    public class BoardViewModel : NotifyPropertyChanged, IBoardViewModel
     {
-        #region Constants and Fields
-
         const string PatBoardCard = @"(?<rank>" + PatRank + ")(?<suit>" + PatSuit + ")";
 
         const string PatRank = @"[2-9TJQKA]";
@@ -41,28 +41,26 @@ namespace PokerTell.PokerHand.ViewModels
 
         Image _suit5;
 
-        #endregion
-
-        #region Constructors and Destructors
-
-        public BoardViewModel(Point location)
+        public BoardViewModel()
         {
-            Left = location.X;
-            Top = location.Y;
-
             CreateEmptyBoard();
-
+            
             Visible = false;
         }
 
-        public BoardViewModel()
-            : this(new Point(0, 0))
-        {
-        }
-
-        #endregion
-
         #region Properties
+
+        bool _visible;
+        public bool Visible
+        {
+            get { return _visible; }
+
+            set
+            {
+                _visible = value;
+                RaisePropertyChanged(() => Visible);
+            }
+        }
 
         public string Rank1
         {
@@ -262,7 +260,7 @@ namespace PokerTell.PokerHand.ViewModels
 
         #region IPositionedViewModel<string>
 
-        public override void UpdateWith(string boardString)
+        public void UpdateWith(string boardString)
         {
             Visible = string.IsNullOrEmpty(boardString) ? false : true;
 

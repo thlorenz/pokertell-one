@@ -15,6 +15,10 @@
     public partial class App : Application
     {
 
+        const string DesignerPath = @"C:\SD\PokerTell\Src\Design\Designer\";
+
+        const string PokerStars_6max_Background = "PokerTables/PokerStars/PokerStars.6-max.jpg";
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -25,7 +29,9 @@
 
         static void RunTableOverlaySettings()
         {
-            var win = new TableOverlayView(TableOverlayDesign.Model) { Topmost = true, Background = Brushes.DarkRed };
+            var img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_6max_Background);
+
+            var win = new TableOverlayView(TableOverlayDesign.Model) { Topmost = true, Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill } };
             win.Show();
         }
 

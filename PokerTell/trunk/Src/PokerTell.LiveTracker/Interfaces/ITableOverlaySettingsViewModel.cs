@@ -1,5 +1,10 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+
+    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
     public interface ITableOverlaySettingsViewModel
@@ -25,5 +30,9 @@ namespace PokerTell.LiveTracker.Interfaces
         int PreferredSeat { get; set; }
 
         bool ShowHarringtonM { get; set; }
+
+        IList<Point> PlayerStatisticsPanelPositions { get; }
+
+        event Action PreferredSeatChanged;
     }
 }

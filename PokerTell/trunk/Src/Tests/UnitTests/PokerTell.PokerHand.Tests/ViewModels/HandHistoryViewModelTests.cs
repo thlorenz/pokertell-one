@@ -14,6 +14,8 @@ namespace PokerTell.PokerHand.Tests.ViewModels
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.ViewModels;
 
+    using Tools.Interfaces;
+
     using UnitTests;
     using UnitTests.Tools;
 

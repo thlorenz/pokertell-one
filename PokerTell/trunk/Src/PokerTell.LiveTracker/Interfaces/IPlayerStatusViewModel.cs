@@ -5,5 +5,7 @@ namespace PokerTell.LiveTracker.Interfaces
         bool IsPresent { get; set; }
 
         IHarringtonMViewModel HarringtonM { get; set; }
+
+        IPlayerStatusViewModel ShowHoleCardsFor(int duration, string holecards);
     }
 }
