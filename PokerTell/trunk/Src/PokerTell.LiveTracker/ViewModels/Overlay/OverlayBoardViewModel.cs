@@ -1,6 +1,7 @@
-namespace PokerTell.LiveTracker.ViewModels
+namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
     using System;
+    using System.Windows;
     using System.Windows.Controls;
 
     using Infrastructure.Interfaces.PokerHand;
@@ -19,41 +20,52 @@ namespace PokerTell.LiveTracker.ViewModels
         {
             _dispatcherTimer = dispatcherTimer;
             _boardViewModel = boardViewModel;
+
+            _dispatcherTimer.Tick += (s, e) => {
+                _dispatcherTimer.Stop();
+                _boardViewModel.Visible = false;
+            };
         }
-
-        double _left;
-
-        double _top;
 
         readonly IBoardViewModel _boardViewModel;
 
         readonly IDispatcherTimer _dispatcherTimer;
 
+        ITableOverlaySettingsViewModel _overlaySettings;
+
         public double Left
         {
-            get { return _left; }
+            get { return _overlaySettings.BoardPosition.X; }
 
             set
             {
-                _left = value;
+                _overlaySettings.BoardPosition = new Point(value, Top);
                 RaisePropertyChanged(() => Left);
             }
         }
 
         public double Top
         {
-            get { return _top; }
+            get { return _overlaySettings.BoardPosition.Y; }
 
             set
             {
-                _top = value;
+                _overlaySettings.BoardPosition = new Point(Left, value);
                 RaisePropertyChanged(() => Top);
             }
         }
 
         public IOverlayBoardViewModel HideBoardAfter(int seconds)
         {
-            throw new NotImplementedException();
+            _dispatcherTimer.Interval = TimeSpan.FromSeconds(seconds);
+            _dispatcherTimer.Start();
+            return this;
+        }
+
+        public IOverlayBoardViewModel InitializeWith(ITableOverlaySettingsViewModel overlaySettings)
+        {
+            _overlaySettings = overlaySettings;
+            return this;
         }
 
         public string Rank1
@@ -125,6 +137,15 @@ namespace PokerTell.LiveTracker.ViewModels
         public void UpdateWith(string boardString)
         {
             _boardViewModel.UpdateWith(boardString);
+        }
+
+        /// <summary>
+        /// Necessary to prevent memory leaks
+        /// http://geekswithblogs.net/dotnetrodent/archive/2009/11/05/136015.aspx
+        /// </summary>
+        public void Dispose()
+        {
+            _dispatcherTimer.Stop();
         }
     }
 }

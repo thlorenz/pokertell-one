@@ -6,7 +6,8 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     public class PlayerStatusDesignModel : PlayerStatusViewModel
     {
-        public PlayerStatusDesignModel(bool isPresent, IHarringtonMViewModel harringtonM)
+        public PlayerStatusDesignModel(bool isPresent, IHarringtonMViewModel harringtonM, IOverlayHoleCardsViewModel holeCardsViewModel)
+            : base(harringtonM, holeCardsViewModel)
         {
             IsPresent = isPresent;
             HarringtonM = harringtonM;

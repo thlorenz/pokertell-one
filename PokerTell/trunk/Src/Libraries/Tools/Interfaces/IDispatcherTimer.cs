@@ -37,32 +37,6 @@ namespace Tools.Interfaces
     /// </summary> 
     public class DispatcherTimerAdapter : DispatcherTimer, IDispatcherTimer
     {
-        #region Constructors and Destructors
-
-        public DispatcherTimerAdapter()
-        {
-        }
-
-        public DispatcherTimerAdapter(DispatcherPriority priority)
-            : base(priority)
-        {
-        }
-
-        public DispatcherTimerAdapter(DispatcherPriority priority, Dispatcher dispatcher)
-            : base(priority, dispatcher)
-        {
-        }
-
-        public DispatcherTimerAdapter(
-            TimeSpan timeSpan, 
-            DispatcherPriority priority, 
-            EventHandler callback, 
-            Dispatcher dispatcher)
-            : base(timeSpan, priority, callback, dispatcher)
-        {
-        }
-
-        #endregion
     }
 
 }

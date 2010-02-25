@@ -33,6 +33,12 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IList<Point> PlayerStatisticsPanelPositions { get; }
 
+        Point BoardPosition { get; set; }
+
+        IList<Point> HarringtonMPositions { get; }
+
+        IList<Point> HoleCardsPositions { get; }
+
         event Action PreferredSeatChanged;
     }
 }

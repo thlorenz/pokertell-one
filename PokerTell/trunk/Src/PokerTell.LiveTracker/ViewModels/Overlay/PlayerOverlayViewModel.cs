@@ -1,14 +1,11 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
-    using System;
-    using System.Linq;
     using System.Windows;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
 
-    using Tools.FunctionalCSharp;
     using Tools.WPF.ViewModels;
 
     public class PlayerOverlayViewModel : NotifyPropertyChanged, IPlayerOverlayViewModel
@@ -22,12 +19,15 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         {
             _seatNumber = seatNumber;
             Settings = settings;
-            
+
+            PlayerStatus.InitializeWith(Settings.HoleCardsPositions, Settings.HarringtonMPositions, seatNumber);
             return this;
         }
 
         public IPlayerOverlayViewModel UpdateWith(IPlayerStatisticsViewModel playerStatistics, IConvertedPokerPlayer pokerPlayer)
         {
+            PlayerStatistics = playerStatistics;
+
             _mostRecentPokerPlayer = pokerPlayer;
 
             if (playerStatistics == null || pokerPlayer == null)
@@ -53,7 +53,17 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public ITableOverlaySettingsViewModel Settings { get; set; }
 
-        public IPlayerStatisticsViewModel PlayerStatistics { get; set; }
+        IPlayerStatisticsViewModel _playerStatistics;
+
+        public IPlayerStatisticsViewModel PlayerStatistics
+        {
+            get { return _playerStatistics; }
+            set
+            {
+                _playerStatistics = value;
+                RaisePropertyChanged(() => PlayerStatistics);
+            }
+        }
 
         public IPlayerStatusViewModel PlayerStatus { get; set; }
 

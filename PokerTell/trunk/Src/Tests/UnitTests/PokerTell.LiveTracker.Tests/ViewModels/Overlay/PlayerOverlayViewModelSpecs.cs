@@ -1,5 +1,7 @@
 namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 {
+    using System;
+    using System.Collections.Generic;
     using System.Windows;
 
     using Machine.Specifications;
@@ -44,6 +46,29 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _overlaySettings_Stub.SetupGet(os => os.PlayerStatisticsPanelPositions).Returns(new[] { new Point(left, top) });
                 _sut.InitializeWith(_overlaySettings_Stub.Object, SeatNumber);
             };
+        }
+
+        [Subject(typeof(PlayerOverlayViewModel), "InitializeWith")]
+        public class when_initialized_with_settings : PlayerOverlayViewModelSpecs
+        {
+            static IList<Point> harringtonMPositions;
+
+            static IList<Point> holeCardsPositions;
+
+            const int seat = 1;
+
+            Establish context = () => {
+                harringtonMPositions = new[] { new Point(1, 1) };
+                holeCardsPositions = new[] { new Point(2, 2) };
+                _overlaySettings_Stub.SetupGet(os => os.HarringtonMPositions).Returns(harringtonMPositions);
+                _overlaySettings_Stub.SetupGet(os => os.HoleCardsPositions).Returns(holeCardsPositions);
+            };
+
+            Because of = () => _sut.InitializeWith(_overlaySettings_Stub.Object, seat);
+
+            It should_initialize_the_PlayerStatus_viewmodel_with_the_harringtonM_and_holecards_positions_and_the_seat_number
+                = () => _playerStatusVM_Mock.Verify(ps => ps.InitializeWith(holeCardsPositions, harringtonMPositions, seat));
+
         }
 
         [Subject(typeof(PlayerOverlayViewModel), "Position")]

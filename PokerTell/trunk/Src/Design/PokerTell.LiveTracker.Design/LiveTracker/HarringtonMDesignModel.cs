@@ -4,11 +4,9 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     public class HarringtonMDesignModel : HarringtonMViewModel
     {
-        public HarringtonMDesignModel(int value, int left, int top)
+        public HarringtonMDesignModel(int value)
         {
             Value = value;
-            Left = left;
-            Top = top;
         }   
     }
 }

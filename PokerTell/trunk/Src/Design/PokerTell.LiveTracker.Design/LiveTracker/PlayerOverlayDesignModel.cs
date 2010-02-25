@@ -1,12 +1,24 @@
 namespace PokerTell.LiveTracker.Design.LiveTracker
 {
+    using System.Linq;
+    using System.Windows.Threading;
+
+    using PokerHand.ViewModels;
+
     using PokerTell.LiveTracker.Design.Statistics;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
+    using Tools.Interfaces;
+
     public class PlayerOverlayDesignModel : PlayerOverlayViewModel
     {
+        public PlayerOverlayDesignModel(IPlayerStatusViewModel playerStatus, ITableOverlaySettingsViewModel overlaySettings)
+            : this(0, playerStatus, overlaySettings)
+        {
+        }
+
         public PlayerOverlayDesignModel(int seatNumber, IPlayerStatusViewModel playerStatus, ITableOverlaySettingsViewModel overlaySettings)
             : base(playerStatus)
         {
@@ -18,8 +30,11 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     public static class PlayerOverlayDesign
     {
-        static readonly IPlayerStatusViewModel PlayerStatus = new PlayerStatusDesignModel(true, new HarringtonMDesignModel(10, 20, 40));
-
-        public static PlayerOverlayDesignModel Model = new PlayerOverlayDesignModel(1, PlayerStatus, TableOverlaySettingsDesign.Model);
+        public static IPlayerOverlayViewModel Model =
+            AutoWiring
+                .ConfigureTableOverlayDependencies()
+                .Resolve<ITableOverlayViewModel>()
+                .PlayerOverlays
+                .First();
     }
 }

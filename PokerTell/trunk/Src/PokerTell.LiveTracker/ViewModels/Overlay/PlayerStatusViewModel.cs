@@ -1,6 +1,8 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
     using System;
+    using System.Collections.Generic;
+    using System.Windows;
 
     using Interfaces;
 
@@ -8,6 +10,12 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
     public class PlayerStatusViewModel : NotifyPropertyChanged, IPlayerStatusViewModel
     {
+        public PlayerStatusViewModel(IHarringtonMViewModel harringtonM, IOverlayHoleCardsViewModel holeCards)
+        {
+            HarringtonM = harringtonM;
+            HoleCards = holeCards;
+        }
+
         bool _ispresent;
 
         public bool IsPresent
@@ -20,10 +28,21 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        public IHarringtonMViewModel HarringtonM { get; set; }
+        public IOverlayHoleCardsViewModel HoleCards { get; protected set; }
+
+        public IHarringtonMViewModel HarringtonM { get;  protected set; }
 
         public IPlayerStatusViewModel ShowHoleCardsFor(int duration, string holecards)
         {
+            HoleCards.UpdateWith(holecards);
+            HoleCards.HideHoleCardsAfter(duration);
+            return this;
+        }
+
+        public IPlayerStatusViewModel InitializeWith(IList<Point> holeCardsPositions, IList<Point> harringtonMPositions, int seatNumber)
+        {
+            HoleCards.InitializeWith(holeCardsPositions, seatNumber);
+            HarringtonM.InitializeWith(harringtonMPositions, seatNumber);
             return this;
         }
     }

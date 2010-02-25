@@ -1,10 +1,12 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System;
     using System.ComponentModel;
-    using System.Windows;
     using System.Windows.Controls;
 
-    public interface IHoleCardsViewModel : INotifyPropertyChanged
+    using Tools.Interfaces;
+
+    public interface IHoleCardsViewModel : INotifyPropertyChanged, IFluentInterface
     {
         string Rank1 { get; set; }
 
@@ -14,14 +16,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
         Image Suit2 { get; set; }
 
-        double Left { get; set; }
-
-        double Top { get; set; }
-
         bool Visible { get; set; }
 
         void UpdateWith(string holeCardsString);
-
-        void SetLocationTo(Point location);
     }
 }

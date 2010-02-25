@@ -1,5 +1,9 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+
     using Interfaces;
 
     using Tools.FunctionalCSharp;
@@ -20,28 +24,37 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        double _left;
+        IList<Point> _harringtonMPositions;
+
+        int _seatNumber;
 
         public double Left
         {
-            get { return _left; }
+            get { return _harringtonMPositions[_seatNumber].X; }
+
             set
             {
-                _left = value;
+                _harringtonMPositions[_seatNumber] = new Point(value, Top);
                 RaisePropertyChanged(() => Left);
             }
         }
 
-        double _top;
-
         public double Top
         {
-            get { return _top; }
+            get { return _harringtonMPositions[_seatNumber].Y; }
+
             set
             {
-                _top = value;
+                _harringtonMPositions[_seatNumber] = new Point(Left, value);
                 RaisePropertyChanged(() => Top);
             }
+        }
+
+        public IHarringtonMViewModel InitializeWith(IList<Point> harringtonMPositions, int seatNumber)
+        {
+            _seatNumber = seatNumber;
+            _harringtonMPositions = harringtonMPositions;
+            return this;
         }
 
         public string Zone

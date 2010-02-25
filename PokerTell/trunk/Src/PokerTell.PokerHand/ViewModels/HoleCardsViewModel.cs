@@ -1,11 +1,10 @@
 namespace PokerTell.PokerHand.ViewModels
 {
-    using System;
     using System.Text.RegularExpressions;
     using System.Windows;
     using System.Windows.Controls;
 
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.WPF.ViewModels;
 
@@ -31,11 +30,8 @@ namespace PokerTell.PokerHand.ViewModels
         #endregion
 
         #region Constructors and Destructors
-
-        public HoleCardsViewModel(Point location)
+        public HoleCardsViewModel()
         {
-            SetLocationTo(location);
-
             Suit1 = Suits.Unknown;
             Suit2 = Suits.Unknown;
 
@@ -45,43 +41,11 @@ namespace PokerTell.PokerHand.ViewModels
             Visible = false;
         }
 
-        public HoleCardsViewModel()
-            : this(new Point(0, 0))
-        {
-        }
-
         #endregion
 
         #region Properties
 
-
-        double _left;
-
-        double _top;
-
         bool _visible;
-
-        public double Left
-        {
-            get { return _left; }
-
-            set
-            {
-                _left = value;
-                RaisePropertyChanged(() => Left);
-            }
-        }
-
-        public double Top
-        {
-            get { return _top; }
-
-            set
-            {
-                _top = value;
-                RaisePropertyChanged(() => Top);
-            }
-        }
 
         public bool Visible
         {
@@ -156,12 +120,6 @@ namespace PokerTell.PokerHand.ViewModels
             }
 
             Visible = !string.IsNullOrEmpty(holeCardsString) && !holeCardsString.Contains("?");
-        }
-
-        public void SetLocationTo(Point location)
-        {
-            Left = location.X;
-            Top = location.Y;
         }
 
         #endregion

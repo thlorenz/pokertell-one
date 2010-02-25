@@ -3,14 +3,33 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     using System.Collections.Generic;
     using System.Windows;
 
+    using Interfaces;
+
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
     using Tools.WPF.ViewModels;
 
     public class TableOverlaySettingsDesignModel : TableOverlaySettingsViewModel
     {
-        public TableOverlaySettingsDesignModel(bool showPreFlop, bool showFlop, bool showTurn, bool showRiver, bool showHarringtonM, double width, double height, string background, string outOfPositionForeground, string inPositionForeground, int preferredSeat, IEnumerable<Point> playerStatisticPositions)
+        public TableOverlaySettingsDesignModel(
+            int totalSeats,
+            bool showPreFlop, 
+            bool showFlop, 
+            bool showTurn, 
+            bool showRiver, 
+            bool showHarringtonM, 
+            double width, 
+            double height, 
+            string background, 
+            string outOfPositionForeground, 
+            string inPositionForeground, 
+            int preferredSeat, 
+            IEnumerable<Point> playerStatisticPositions, 
+            IList<Point> harringtonMPositions, 
+            IList<Point> holeCardsPositions, 
+            Point boardPosition)
         {
+            TotalSeats = totalSeats;
             ShowPreFlop = showPreFlop;
             ShowFlop = showFlop;
             ShowTurn = showTurn;
@@ -28,6 +47,10 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
             PreferredSeat = preferredSeat;
             PlayerStatisticsPanelPositions = new List<Point>(playerStatisticPositions);
+
+            HarringtonMPositions = harringtonMPositions;
+            HoleCardsPositions = holeCardsPositions;
+            BoardPosition = boardPosition;
         }
     }
 
@@ -35,18 +58,20 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     {
         static readonly IEnumerable<Point> StatisticsPositions = new[]
             {
-                new Point(600, 20),
-                new Point(650, 120),
-                new Point(600, 220),
-                new Point(300, 220),
-                new Point(100, 120),
-                new Point(300, 20),
+                new Point(600, 20), 
+                new Point(650, 120), 
+                new Point(600, 220), 
+                new Point(300, 220), 
+                new Point(100, 120), 
+                new Point(300, 20), 
             };
 
-        public static TableOverlaySettingsViewModel Model
+        public static ITableOverlaySettingsViewModel Model
         {
-
-            get { return new TableOverlaySettingsDesignModel(true, true, true, false, true, 100, 50, "#FF0000FF", "White", "Yellow", 0, StatisticsPositions); }
+            get
+            {
+                return AutoWiring.ConfigureTableOverlayDependencies().Resolve<ITableOverlaySettingsViewModel>();
+            }
         }
     }
 }
