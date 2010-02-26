@@ -135,8 +135,8 @@
                        Padding="5, 2, 5, 2"
                        Visibility="{Binding PlayerStatus.IsPresent, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
                        Background="{Binding Settings.Background.Brush}" 
-                       Canvas.Top="{Binding Top}"
-                       Canvas.Left="{Binding Left}"  >
+                       Canvas.Top="{Binding Position.Top}"
+                       Canvas.Left="{Binding Position.Left}"  >
             <Viewbox x:Name="StatisticsViewbox"  Width="{Binding Settings.Width, Mode=TwoWay}" Height="{Binding Settings.Height, Mode=TwoWay}" Stretch="Fill" 
                      MouseEnter="ResizableElement_MouseEnter"
                      >

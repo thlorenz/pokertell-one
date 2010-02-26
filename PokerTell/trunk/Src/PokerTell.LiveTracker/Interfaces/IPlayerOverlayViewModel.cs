@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
+    using Tools.WPF.Interfaces;
+
     using ViewModels;
 
     public interface IPlayerOverlayViewModel
@@ -11,11 +13,9 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IPlayerStatisticsViewModel PlayerStatistics { get; }
 
-        double Left { get; set; }
-
-        double Top { get; set; }
-
         IPlayerStatusViewModel PlayerStatus { get; set; }
+
+        IPositionViewModel Position { get; }
 
         IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber);
 

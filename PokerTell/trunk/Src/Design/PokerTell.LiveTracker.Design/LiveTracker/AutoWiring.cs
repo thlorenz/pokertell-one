@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker.Design.LiveTracker
 {
+    using System.Collections.Generic;
     using System.Windows;
 
     using Microsoft.Practices.Unity;
@@ -15,6 +16,8 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     using Tools.FunctionalCSharp;
     using Tools.Interfaces;
+    using Tools.WPF.Interfaces;
+    using Tools.WPF.ViewModels;
 
     public static class AutoWiring
     {
@@ -24,6 +27,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
             var container = new UnityContainer()
                 .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
+                .RegisterType<IPositionViewModel, PositionViewModel>()
                 .RegisterInstance<ITableOverlaySettingsViewModel>(overlaySettings)
                 .RegisterType<IHarringtonMViewModel, HarringtonMViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
@@ -35,6 +39,10 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 .RegisterInstance(new SeatMapper().InitializeWith(6).UpdateWith(3))
                 .RegisterInstance(new Mock<IGameHistoryViewModel>().Object);
 
+            container
+                .RegisterConstructor(() => container.Resolve<IOverlayHoleCardsViewModel>())
+                .RegisterType<IOverlaySettingsAidViewModel, OverlaySettingsAidViewModel>();
+
             IPlayerOverlayViewModel[] playerOverlays = GetPlayerOverlays(overlaySettings, container);
 
             var pokerTableStatisticsViewModel = GetPokerTableStatisticsViewModel(6);
@@ -44,13 +52,14 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             var tableOverlay = container.Resolve<TableOverlayViewModel>();
             tableOverlay
                 .InitializeWith(
-                container.Resolve<ISeatMapper>(),
-                container.Resolve<ITableOverlaySettingsViewModel>(),
-                container.Resolve<IGameHistoryViewModel>(),
-                container.Resolve<IPokerTableStatisticsViewModel>(),
-                playerOverlays,
+                container.Resolve<ISeatMapper>(), 
+                overlaySettings, 
+                //container.Resolve<ITableOverlaySettingsViewModel>(), 
+                container.Resolve<IGameHistoryViewModel>(), 
+                container.Resolve<IPokerTableStatisticsViewModel>(), 
+                playerOverlays, 
                 4)
-                .UpdateWith(GetPokerPlayers(), string.Empty);
+                .UpdateWith(GetPokerPlayers(), "As Kh Qh");
 
             container.RegisterInstance<ITableOverlayViewModel>(tableOverlay);
 
@@ -73,74 +82,82 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
         static IPlayerOverlayViewModel[] GetPlayerOverlays(TableOverlaySettingsDesignModel overlaySettings, IUnityContainer container)
         {
-            var po0 = container.Resolve<IPlayerOverlayViewModel>()
-                .InitializeWith(overlaySettings, 0);
-            var po1 = container.Resolve<IPlayerOverlayViewModel>()
-                .InitializeWith(overlaySettings, 1);
-            var po2 = container.Resolve<IPlayerOverlayViewModel>()
-                .InitializeWith(overlaySettings, 2);
-            var po3 = container.Resolve<IPlayerOverlayViewModel>()
-                .InitializeWith(overlaySettings, 3);
-            var po4 = container.Resolve<IPlayerOverlayViewModel>()
-                .InitializeWith(overlaySettings, 4);
-            var po5 = container.Resolve<IPlayerOverlayViewModel>()
-                .InitializeWith(overlaySettings, 5);
+            var po0 = container.Resolve<IPlayerOverlayViewModel>();
+            var po1 = container.Resolve<IPlayerOverlayViewModel>();
+            var po2 = container.Resolve<IPlayerOverlayViewModel>();
+            var po3 = container.Resolve<IPlayerOverlayViewModel>();
+            var po4 = container.Resolve<IPlayerOverlayViewModel>();
+            var po5 = container.Resolve<IPlayerOverlayViewModel>();
 
             return new[] { po0, po1, po2, po3, po4, po5 };
         }
 
-        static IConvertedPokerPlayer[] GetPokerPlayers()
+        internal static IConvertedPokerPlayer[] GetPokerPlayers()
         {
             return new[]
                 {
-                    PokerPlayerWithM(1, "player1", 4), PokerPlayerWithM(2, "player2", 6), PokerPlayerWithM(3, "player3", 9), 
-                    PokerPlayerWithM(4, "player4", 14), PokerPlayerWithM(5, "player5", 22), PokerPlayerWithM(6, "player6", 40)
+                    PokerPlayerWith(1, "player1", 4), PokerPlayerWith(2, "player2", 6), PokerPlayerWith(3, "player3", 9), 
+                    PokerPlayerWith(4, "player4", 14), PokerPlayerWith(5, "player5", 22), PokerPlayerWith(6, "player6", 40)
                 };
         }
 
-        static IConvertedPokerPlayer PokerPlayerWithM(int seat, string name, int mAfter)
+        internal static IEnumerable<Mock<IConvertedPokerPlayer>> GetPokerPlayerStubs()
         {
-            var player = new Mock<IConvertedPokerPlayer>();
-            player.SetupGet(p => p.SeatNumber).Returns(seat);
-            player.SetupGet(p => p.MAfter).Returns(mAfter);
-            player.SetupGet(p => p.Name).Returns(name);
-            return player.Object;
+            return new[]
+                {
+                    PokerPlayerStubWith(1, "player1", 4), PokerPlayerStubWith(2, "player2", 6), PokerPlayerStubWith(3, "player3", 9), 
+                    PokerPlayerStubWith(4, "player4", 14), PokerPlayerStubWith(5, "player5", 22), PokerPlayerStubWith(6, "player6", 40)
+                };
+        }
+
+        internal static IConvertedPokerPlayer PokerPlayerWith(int seat, string name, int mAfter)
+        {
+            return PokerPlayerStubWith(seat, name, mAfter).Object;
+        }
+
+        internal static Mock<IConvertedPokerPlayer> PokerPlayerStubWith(int seat, string name, int mAfter)
+        {
+            var playerStub = new Mock<IConvertedPokerPlayer>();
+            playerStub.SetupGet(p => p.SeatNumber).Returns(seat);
+            playerStub.SetupGet(p => p.MAfter).Returns(mAfter);
+            playerStub.SetupGet(p => p.Name).Returns(name);
+            return playerStub;
         }
 
         static TableOverlaySettingsDesignModel GetOverlaySettings()
         {
             var statisticsPositions = new[]
                 {
-                    new Point(600, 20), 
-                    new Point(650, 120), 
-                    new Point(600, 220), 
-                    new Point(300, 220), 
-                    new Point(100, 120), 
-                    new Point(300, 20), 
+                    new PositionViewModel(600, 20), 
+                    new PositionViewModel(650, 120), 
+                    new PositionViewModel(600, 220), 
+                    new PositionViewModel(300, 220), 
+                    new PositionViewModel(100, 120), 
+                    new PositionViewModel(300, 20), 
                 };
 
             var harringtonMPositions = new[]
                 {
-                    new Point(550, 20), 
-                    new Point(600, 120), 
-                    new Point(550, 220), 
-                    new Point(250, 220), 
-                    new Point(50, 120), 
-                    new Point(250, 20), 
+                    new PositionViewModel(550, 20), 
+                    new PositionViewModel(600, 120), 
+                    new PositionViewModel(550, 220), 
+                    new PositionViewModel(250, 220), 
+                    new PositionViewModel(50, 120), 
+                    new PositionViewModel(250, 20), 
                 };
 
             var holeCardsPositions = new[]
                 {
-                    new Point(550, 10), 
-                    new Point(600, 110), 
-                    new Point(550, 210), 
-                    new Point(250, 210), 
-                    new Point(50, 110), 
-                    new Point(250, 10), 
+                    new PositionViewModel(550, 10), 
+                    new PositionViewModel(600, 110), 
+                    new PositionViewModel(550, 210), 
+                    new PositionViewModel(250, 210), 
+                    new PositionViewModel(50, 110), 
+                    new PositionViewModel(250, 10), 
                 };
 
             return new TableOverlaySettingsDesignModel(
-                6,
+                6, 
                 true, 
                 true, 
                 true, 
@@ -155,7 +172,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 statisticsPositions, 
                 harringtonMPositions, 
                 holeCardsPositions, 
-                new Point(300, 300));
+                new PositionViewModel(300, 10));
         }
     }
 }

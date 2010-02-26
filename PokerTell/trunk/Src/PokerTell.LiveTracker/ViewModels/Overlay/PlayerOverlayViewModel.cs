@@ -6,6 +6,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
 
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class PlayerOverlayViewModel : NotifyPropertyChanged, IPlayerOverlayViewModel
@@ -17,10 +18,11 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber)
         {
-            _seatNumber = seatNumber;
             Settings = settings;
 
-            PlayerStatus.InitializeWith(Settings.HoleCardsPositions, Settings.HarringtonMPositions, seatNumber);
+            Position = Settings.PlayerStatisticsPanelPositions[seatNumber];
+
+            PlayerStatus.InitializeWith(Settings.HoleCardsPositions[seatNumber], Settings.HarringtonMPositions[seatNumber]);
             return this;
         }
 
@@ -67,28 +69,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IPlayerStatusViewModel PlayerStatus { get; set; }
 
-        public double Left
-        {
-            get { return Settings.PlayerStatisticsPanelPositions[_seatNumber].X; }
-            set
-            {
-                Settings.PlayerStatisticsPanelPositions[_seatNumber] = new Point(value, Top);
-                RaisePropertyChanged(() => Left);
-            }
-        }
-
-        int _seatNumber;
+        public IPositionViewModel Position { get; protected set;  }
 
         IConvertedPokerPlayer _mostRecentPokerPlayer;
-
-        public double Top
-        {
-            get { return Settings.PlayerStatisticsPanelPositions[_seatNumber].Y; }
-            set
-            {
-                Settings.PlayerStatisticsPanelPositions[_seatNumber] = new Point(Top, value);
-                RaisePropertyChanged(() => Top);
-            }
-        }
     }
 }

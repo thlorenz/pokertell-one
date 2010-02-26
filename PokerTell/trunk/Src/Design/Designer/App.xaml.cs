@@ -1,6 +1,7 @@
 ﻿namespace Designer
 {
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Media;
 
     using PokerTell.LiveTracker.Design.LiveTracker;
@@ -30,9 +31,12 @@
         static void RunTableOverlaySettings()
         {
             var img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_6max_Background);
-
-            var win = new TableOverlayView(TableOverlayDesign.Model) { Topmost = true, Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill } };
+            var viewModel = TableOverlayDesign.Model;
+            var controllerViewModel = new TableOverlayControllerViewModel(viewModel);
+            var win = new TableOverlayView(viewModel) { Topmost = true, Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill } };
+            var ctrlWin = new TableOverlayControllerWindow(controllerViewModel) { Topmost = true };
             win.Show();
+            ctrlWin.Show();
         }
 
         static void RunColorPickerExpanderView()

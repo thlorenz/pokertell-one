@@ -68,6 +68,7 @@
     <Compile Include="Converters\PreferredSeatToStringConverter.cs" />
     <Compile Include="Interfaces\IOverlayBoardViewModel.cs" />
     <Compile Include="Interfaces\IOverlayHoleCardsViewModel.cs" />
+    <Compile Include="Interfaces\IOverlaySettingsAidViewModel.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
     <Compile Include="Overlay\SeatMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Interfaces\ITableOverlayViewModel.cs" />
     <Compile Include="Interfaces\IGameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModel.cs" />
     <Compile Include="Views\Overlay\HarringtonMPanel.xaml.cs">
       <DependentUpon>HarringtonMPanel.xaml</DependentUpon>
     </Compile>
@@ -119,6 +121,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Overlay\HarringtonMPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlay\OverlayBoardViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlay\OverlayHoleCardsViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

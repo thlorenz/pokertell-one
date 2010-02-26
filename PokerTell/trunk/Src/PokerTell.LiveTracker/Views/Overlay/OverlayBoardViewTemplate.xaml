@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+       xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
+       xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,/PokerTell.PokerHand;component/Views/BoardView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <DataTemplate DataType="{x:Type ViewModels:OverlayBoardViewModel}">
+        <ctrl:DragCanvas AllowDragging="{Binding AllowDragging}" AllowDragOutOfView="True">
+            <ContentControl Canvas.Left="{Binding Position.Left, Mode=TwoWay}" Canvas.Top="{Binding Position.Top, Mode=TwoWay}" Content="{Binding BoardViewModel}" />
+        </ctrl:DragCanvas>
+    </DataTemplate>
+</ResourceDictionary>

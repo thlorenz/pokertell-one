@@ -4,14 +4,20 @@ namespace PokerTell.LiveTracker.Interfaces
 
     using Infrastructure.Interfaces.PokerHand;
 
-    public interface IOverlayBoardViewModel : IBoardViewModel, IDisposable
-    {
-        double Left { get; set; }
+    using Tools.WPF.Interfaces;
 
-        double Top { get; set; }
+    public interface IOverlayBoardViewModel : IDisposable
+    {
+        IBoardViewModel BoardViewModel { get; }
+
+        IPositionViewModel Position { get; }
+
+        bool AllowDragging { get; set; }
 
         IOverlayBoardViewModel HideBoardAfter(int seconds);
 
-        IOverlayBoardViewModel InitializeWith(ITableOverlaySettingsViewModel overlaySettings);
+        void UpdateWith(string boardString);
+
+        IOverlayBoardViewModel InitializeWith(IPositionViewModel position);
     }
 }

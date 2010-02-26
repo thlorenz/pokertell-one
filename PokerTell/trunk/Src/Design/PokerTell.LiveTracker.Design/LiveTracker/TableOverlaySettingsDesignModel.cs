@@ -7,6 +7,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class TableOverlaySettingsDesignModel : TableOverlaySettingsViewModel
@@ -24,10 +25,10 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             string outOfPositionForeground, 
             string inPositionForeground, 
             int preferredSeat, 
-            IEnumerable<Point> playerStatisticPositions, 
-            IList<Point> harringtonMPositions, 
-            IList<Point> holeCardsPositions, 
-            Point boardPosition)
+            IEnumerable<IPositionViewModel> playerStatisticPositions, 
+            IList<IPositionViewModel> harringtonMPositions, 
+            IList<IPositionViewModel> holeCardsPositions, 
+            IPositionViewModel boardPosition)
         {
             TotalSeats = totalSeats;
             ShowPreFlop = showPreFlop;
@@ -46,7 +47,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             InPositionForeground = new ColorViewModel(inPositionForeground);
 
             PreferredSeat = preferredSeat;
-            PlayerStatisticsPanelPositions = new List<Point>(playerStatisticPositions);
+            PlayerStatisticsPanelPositions = new List<IPositionViewModel>(playerStatisticPositions);
 
             HarringtonMPositions = harringtonMPositions;
             HoleCardsPositions = holeCardsPositions;

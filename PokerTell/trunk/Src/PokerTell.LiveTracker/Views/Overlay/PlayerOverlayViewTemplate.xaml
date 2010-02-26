@@ -7,28 +7,35 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+        <ResourceDictionary Source="OverlayHoleCardsViewTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!-- PlayerOverlayViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:PlayerOverlayViewModel}">
-        <ctrl:DragCanvas AllowDragging="True"  AllowDragOutOfView="True">
-           
-            <Views:PlayerStatisticsPanel />
-            <!-- HarringtonM -->
-            <Border   Margin="3"
+        <Grid>
+
+            <!-- HoleCards-->
+            <ContentControl Content="{Binding PlayerStatus.HoleCards}" />
+
+            <ctrl:DragCanvas AllowDragging="True" AllowDragOutOfView="True">
+                <!-- Player Statistics -->
+                <Views:PlayerStatisticsPanel />
+
+                <!-- HarringtonM -->
+                <Border   Margin="3"
                             Padding="1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Canvas.Left="{Binding PlayerStatus.HarringtonM.Left}"
-                            Canvas.Top="{Binding PlayerStatus.HarringtonM.Top}"
+                            Canvas.Left="{Binding PlayerStatus.HarringtonM.Position.Left}"
+                            Canvas.Top="{Binding PlayerStatus.HarringtonM.Position.Top}"
                             Background="{Binding Settings.Background.Brush}"
-                            BorderThickness="3"
+                            BorderThickness="2"
                             CornerRadius="20"
                             Visibility="{Binding Settings.ShowHarringtonM, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
-                <Border.Style>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="BorderBrush" Value="{Binding PlayerStatus.HarringtonM.Zone}" />
-                        <!--  <Style.Triggers> this animation will only work after binding the color to a static resource -> see WPF notes (HarringtonM)
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="BorderBrush" Value="{Binding PlayerStatus.HarringtonM.Zone}" />
+                            <!--  <Style.Triggers> this animation will only work after binding the color to a static resource -> see WPF notes (HarringtonM)
                                             <Trigger  Property="BorderBrush" Value="Red">
                                                 <Trigger.EnterActions>
                                                     <BeginStoryboard> 
@@ -44,15 +51,16 @@
                                                 </Trigger.EnterActions>
                                            </Trigger>
                                          </Style.Triggers> -->
-                    </Style>
-                </Border.Style>
-                <TextBlock MinWidth="13.5"
+                        </Style>
+                    </Border.Style>
+                    <TextBlock MinWidth="13.5"
                                          Foreground="{Binding Settings.OutOfPositionForeground.Brush}"
                                          Text="{Binding PlayerStatus.HarringtonM.Value}"
                                          TextAlignment="Center"
                                          HorizontalAlignment="Center"
                                          VerticalAlignment="Center"/>
-            </Border>
-        </ctrl:DragCanvas>
+                </Border>
+            </ctrl:DragCanvas>
+        </Grid>
     </DataTemplate>
 </ResourceDictionary>

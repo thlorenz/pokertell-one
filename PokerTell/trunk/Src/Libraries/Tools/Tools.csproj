@@ -178,6 +178,7 @@
     <Compile Include="WPF\EventBehaviourFactory\TextBoxBehaviour.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionView.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionViewModel.cs" />
+    <Compile Include="WPF\Interfaces\IPositionViewModel.cs" />
     <Compile Include="WPF\Utilities.cs" />
     <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="WPF\ViewModels\PositionedViewModel.cs" />
     <Compile Include="WPF\ViewModels\ItemsRegionViewModel.cs" />
     <Compile Include="WPF\ViewModels\NotifyPropertyChanged.cs" />
+    <Compile Include="WPF\ViewModels\PositionViewModel.cs" />
     <Compile Include="WPF\Views\DialogView.cs" />
     <Compile Include="WPF\Views\ItemsRegionView.cs" />
     <Compile Include="Wrappers\CallWindowProc.cs" />

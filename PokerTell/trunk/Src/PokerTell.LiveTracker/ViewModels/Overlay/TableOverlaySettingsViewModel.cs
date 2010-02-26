@@ -71,13 +71,13 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        public IList<Point> PlayerStatisticsPanelPositions { get;  protected set; }
+        public IList<IPositionViewModel> PlayerStatisticsPanelPositions { get;  protected set; }
 
-        public IList<Point> HarringtonMPositions { get; protected set; }
+        public IList<IPositionViewModel> HarringtonMPositions { get; protected set; }
 
-        public IList<Point> HoleCardsPositions { get;  protected set; }
+        public IList<IPositionViewModel> HoleCardsPositions { get;  protected set; }
 
-        public Point BoardPosition { get; set; }
+        public IPositionViewModel BoardPosition { get; set; }
 
         public event Action PreferredSeatChanged = delegate { };
         
@@ -163,6 +163,18 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             {
                 _totalSeats = value;
                 RaisePropertyChanged(() => TotalSeats);
+            }
+        }
+
+        bool _positioningMuckedCards;
+
+        public bool PositioningMuckedCards
+        {
+            get { return _positioningMuckedCards; }
+            set
+            {
+                _positioningMuckedCards = value;
+                RaisePropertyChanged(() => PositioningMuckedCards);
             }
         }
     }

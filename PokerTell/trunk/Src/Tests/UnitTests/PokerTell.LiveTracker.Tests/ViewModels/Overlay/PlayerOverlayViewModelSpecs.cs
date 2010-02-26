@@ -13,6 +13,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
+    using Tools.WPF.Interfaces;
+    using Tools.WPF.ViewModels;
+
     using It = Machine.Specifications.It;
 
     // Resharper disable InconsistentNaming
@@ -43,62 +46,33 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             protected const double top = 2.0;
 
             Establish context = () => {
-                _overlaySettings_Stub.SetupGet(os => os.PlayerStatisticsPanelPositions).Returns(new[] { new Point(left, top) });
+                _overlaySettings_Stub.SetupGet(os => os.PlayerStatisticsPanelPositions).Returns(new[] { new PositionViewModel(left, top) });
                 _sut.InitializeWith(_overlaySettings_Stub.Object, SeatNumber);
             };
         }
 
         [Subject(typeof(PlayerOverlayViewModel), "InitializeWith")]
-        public class when_initialized_with_settings : PlayerOverlayViewModelSpecs
+        public class when_initialized_with_settings_and_seat_1 : PlayerOverlayViewModelSpecs
         {
-            static IList<Point> harringtonMPositions;
+            static IList<IPositionViewModel> harringtonMPositions;
 
-            static IList<Point> holeCardsPositions;
+            static IList<IPositionViewModel> holeCardsPositions;
 
             const int seat = 1;
 
             Establish context = () => {
-                harringtonMPositions = new[] { new Point(1, 1) };
-                holeCardsPositions = new[] { new Point(2, 2) };
+                harringtonMPositions = new[] { null, new PositionViewModel(1, 1) };
+                holeCardsPositions = new[] { null, new PositionViewModel(2, 2) };
+                _overlaySettings_Stub.SetupGet(os => os.PlayerStatisticsPanelPositions).Returns(new IPositionViewModel[] {null, null});
                 _overlaySettings_Stub.SetupGet(os => os.HarringtonMPositions).Returns(harringtonMPositions);
                 _overlaySettings_Stub.SetupGet(os => os.HoleCardsPositions).Returns(holeCardsPositions);
             };
 
             Because of = () => _sut.InitializeWith(_overlaySettings_Stub.Object, seat);
 
-            It should_initialize_the_PlayerStatus_viewmodel_with_the_harringtonM_and_holecards_positions_and_the_seat_number
-                = () => _playerStatusVM_Mock.Verify(ps => ps.InitializeWith(holeCardsPositions, harringtonMPositions, seat));
+            It should_initialize_the_PlayerStatus_viewmodel_with_the_harringtonM_and_holecards_positions_of_seat_1
+                = () => _playerStatusVM_Mock.Verify(ps => ps.InitializeWith(holeCardsPositions[seat], harringtonMPositions[seat]));
 
-        }
-
-        [Subject(typeof(PlayerOverlayViewModel), "Position")]
-        public class when_initialized_with_settings_and_seat_number_0 : Ctx_initialized_with_settings_and_seat_number_0
-        {
-            It Left_returns_left_returned_by_settings_for_the_PlayerStatisticsPanelPositions_at_that_seat_number = () => _sut.Left.ShouldEqual(left);
-
-            It Top_returns_top_returned_by_settings_for_the_PlayerStatisticsPanelPositions_at_that_seat_number = () => _sut.Top.ShouldEqual(top);
-        }
-
-        [Subject(typeof(PlayerOverlayViewModel), "Position")]
-        public class when_initialized_with_settings_and_seat_number_0_setting_Left : Ctx_initialized_with_settings_and_seat_number_0
-        {
-            const double newLeft = 1.1;
-
-            Because of = () => _sut.Left = newLeft;
-
-            It should_set_X_on_the_settings_for_the_PlayerStatisticsPanelPositions_at_that_seat_number_to_the_new_value
-                = () => _overlaySettings_Stub.Object.PlayerStatisticsPanelPositions[SeatNumber].X.ShouldEqual(newLeft);
-        }
-
-        [Subject(typeof(PlayerOverlayViewModel), "Position")]
-        public class when_initialized_with_settings_and_seat_number_0_setting_Top : Ctx_initialized_with_settings_and_seat_number_0
-        {
-            const double newTop = 1.1;
-
-            Because of = () => _sut.Top = newTop;
-
-            It should_set_Y_on_the_settings_for_the_PlayerStatisticsPanelPositions_at_that_seat_number_to_the_new_value
-                = () => _overlaySettings_Stub.Object.PlayerStatisticsPanelPositions[SeatNumber].Y.ShouldEqual(newTop);
         }
 
         [Subject(typeof(PlayerOverlayViewModel), "UpdateWith")]
@@ -138,6 +112,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_set_PlayerStatus_IsPresent_to_true = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = true);
 
             It should_set_PlayerStatus_HarringtonM_Value_to_MAfter_of_converted_player = () => _harrintonM_VM_Stub.VerifySet(hm => hm.Value = M);
+
+            It should_assign_the_passed_PlayerStatistics_ViewModel = () => _sut.PlayerStatistics.ToString().ShouldEqual(_playerStatisticsVM_Stub.Object.ToString());
         }
 
         [Subject(typeof(PlayerOverlayViewModel), "ShowHoleCardsFor")]

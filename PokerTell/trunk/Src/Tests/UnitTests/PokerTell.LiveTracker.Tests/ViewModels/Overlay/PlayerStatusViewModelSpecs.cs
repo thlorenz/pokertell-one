@@ -11,6 +11,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
     using Moq;
 
+    using Tools.WPF.Interfaces;
+    using Tools.WPF.ViewModels;
+
     using It = Machine.Specifications.It;
 
     // Resharper disable InconsistentNaming
@@ -29,26 +32,24 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         };
 
         [Subject(typeof(PlayerStatusViewModel), "InitializeWith")]
-        public class when_initialized_with_holeCards_and_harringtonM_positions_and_seatNumber : PlayerStatusViewModelSpecs
+        public class when_initialized_with_holeCards_and_harringtonM_position : PlayerStatusViewModelSpecs
         {
-            static IList<Point> harringtonMPositions;
+            static IPositionViewModel harringtonMPosition;
 
-            static IList<Point> holeCardsPositions;
-
-            const int seat = 1;
+            static IPositionViewModel holeCardsPosition;
 
             Establish context = () => {
-                harringtonMPositions = new[] { new Point(1, 1) };
-                holeCardsPositions = new[] { new Point(2, 2) };
+                harringtonMPosition = new PositionViewModel(1, 1);
+                holeCardsPosition = new PositionViewModel(2, 2);
             };
 
-            Because of = () => _sut.InitializeWith(holeCardsPositions, harringtonMPositions, seat);
+            Because of = () => _sut.InitializeWith(holeCardsPosition, harringtonMPosition);
 
-            It should_initialize_the_harringtonM_viewmodel_with_the_harringtonM_positions_and_the_seat
-                = () => _harringtonVM_Mock.Verify(h => h.InitializeWith(harringtonMPositions, seat));
+            It should_initialize_the_harringtonM_viewmodel_with_the_harringtonM_position
+                = () => _harringtonVM_Mock.Verify(h => h.InitializeWith(harringtonMPosition));
 
-            It should_initialize_the_holecards_viewmodel_with_the_holecards_positions_and_the_seat
-                = () => _holeCardsVM_Mock.Verify(h => h.InitializeWith(holeCardsPositions, seat));
+            It should_initialize_the_holecards_viewmodel_with_the_holecards_position
+                = () => _holeCardsVM_Mock.Verify(h => h.InitializeWith(holeCardsPosition));
         }
 
         [Subject(typeof(PlayerStatusViewModel), "ShowHoleCardsFor")]

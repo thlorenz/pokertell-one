@@ -17,6 +17,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
     // Resharper disable InconsistentNaming
     public abstract class TableOverlayViewModelSpecs
     {
+        protected static Mock<IOverlaySettingsAidViewModel> _overlaySettingsAidVM_Mock;
+
         protected static Mock<IPokerTableStatisticsViewModel> _pokerTableStatisticsVM_Stub;
 
         protected static Mock<ITableOverlaySettingsViewModel> _tableOverlaySettingsVM_Stub;
@@ -37,6 +39,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
         Establish specContext = () => {
             _boardVM_Mock = new Mock<IOverlayBoardViewModel>();
+            _overlaySettingsAidVM_Mock = new Mock<IOverlaySettingsAidViewModel>();
             _gameHistoryVM_Stub = new Mock<IGameHistoryViewModel>();
             _pokerTableStatisticsVM_Stub = new Mock<IPokerTableStatisticsViewModel>();
             _tableOverlaySettingsVM_Stub = new Mock<ITableOverlaySettingsViewModel>();
@@ -51,7 +54,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             ShowHoleCardsDuration = 1;
 
-            _sut = new TableOverlayViewModel(_boardVM_Mock.Object)
+            _sut = new TableOverlayViewModel(_boardVM_Mock.Object, _overlaySettingsAidVM_Mock.Object)
                 .InitializeWith(_seatMapper_Stub.Object, 
                                 _tableOverlaySettingsVM_Stub.Object, 
                                 _gameHistoryVM_Stub.Object, 
@@ -98,6 +101,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_initialize_player1_Overlay_with_the_overlay_settings_and_Seat_1
                 = () => _playerOverlay_1_VM_Mock.Verify(p => p.InitializeWith(_tableOverlaySettingsVM_Stub.Object, 1));
+
+            It should_initialize_the_overlay_setiings_aid_with_the_overlay_settings
+                = () => _overlaySettingsAidVM_Mock.Verify(sa => sa.InitializeWith(_tableOverlaySettingsVM_Stub.Object));
         }
 
         [Subject(typeof(TableOverlayViewModel), "UpdateWith, no preferred Seat")]

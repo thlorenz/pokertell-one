@@ -7,7 +7,7 @@ namespace PokerTell.LiveTracker.Interfaces
     using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
-    public interface ITableOverlaySettingsViewModel
+    public interface ITableOverlaySettingsViewModel : IFluentInterface
     {
         bool ShowPreFlop { get; set; }
 
@@ -31,13 +31,17 @@ namespace PokerTell.LiveTracker.Interfaces
 
         bool ShowHarringtonM { get; set; }
 
-        IList<Point> PlayerStatisticsPanelPositions { get; }
+        IList<IPositionViewModel> PlayerStatisticsPanelPositions { get; }
 
-        Point BoardPosition { get; set; }
+        IPositionViewModel BoardPosition { get; set; }
 
-        IList<Point> HarringtonMPositions { get; }
+        IList<IPositionViewModel> HarringtonMPositions { get; }
 
-        IList<Point> HoleCardsPositions { get; }
+        IList<IPositionViewModel> HoleCardsPositions { get; }
+
+        int TotalSeats { get; set; }
+
+        bool PositioningMuckedCards { get; set; }
 
         event Action PreferredSeatChanged;
     }

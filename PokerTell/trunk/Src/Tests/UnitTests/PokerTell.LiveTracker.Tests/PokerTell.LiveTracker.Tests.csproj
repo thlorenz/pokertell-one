@@ -73,9 +73,9 @@
   <ItemGroup>
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
     <Compile Include="Utilities\Utils.cs" />
-    <Compile Include="ViewModels\Overlay\HarringtonMViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\PlayerStatusViewModelSpecs.cs" />
     <Compile Include="ViewModels\PokerTableStatisticsViewModelSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

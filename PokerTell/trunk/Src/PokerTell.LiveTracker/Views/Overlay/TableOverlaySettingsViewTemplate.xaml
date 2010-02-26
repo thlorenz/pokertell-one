@@ -3,7 +3,6 @@
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
   xmlns:Converters="clr-namespace:PokerTell.LiveTracker.Converters"
-  xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools"
   xmlns:UsrCtrl="clr-namespace:PokerTell.LiveTracker.Views.Overlay">
 
     <Converters:PreferredSeatToStringConverter x:Key="PreferredSeatToStringConverter" />

@@ -7,6 +7,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using Interfaces;
 
     using Tools.FunctionalCSharp;
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class HarringtonMViewModel : NotifyPropertyChanged, IHarringtonMViewModel
@@ -24,36 +25,11 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        IList<Point> _harringtonMPositions;
+        public IPositionViewModel Position { get; protected set; }
 
-        int _seatNumber;
-
-        public double Left
+        public IHarringtonMViewModel InitializeWith(IPositionViewModel position)
         {
-            get { return _harringtonMPositions[_seatNumber].X; }
-
-            set
-            {
-                _harringtonMPositions[_seatNumber] = new Point(value, Top);
-                RaisePropertyChanged(() => Left);
-            }
-        }
-
-        public double Top
-        {
-            get { return _harringtonMPositions[_seatNumber].Y; }
-
-            set
-            {
-                _harringtonMPositions[_seatNumber] = new Point(Left, value);
-                RaisePropertyChanged(() => Top);
-            }
-        }
-
-        public IHarringtonMViewModel InitializeWith(IList<Point> harringtonMPositions, int seatNumber)
-        {
-            _seatNumber = seatNumber;
-            _harringtonMPositions = harringtonMPositions;
+            Position = position;
             return this;
         }
 

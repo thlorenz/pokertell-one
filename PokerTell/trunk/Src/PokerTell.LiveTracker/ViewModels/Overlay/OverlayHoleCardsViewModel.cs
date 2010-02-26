@@ -10,11 +10,11 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using Interfaces;
 
     using Tools.Interfaces;
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class OverlayHoleCardsViewModel : NotifyPropertyChanged, IOverlayHoleCardsViewModel
     {
-
         public OverlayHoleCardsViewModel(IHoleCardsViewModel holeCardsViewModel, IDispatcherTimer dispatcherTimer)
         {
             _dispatcherTimer = dispatcherTimer;
@@ -22,7 +22,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
             _dispatcherTimer.Tick += (s, e) => {
                 _dispatcherTimer.Stop();
-                _holeCardsViewModel.Visible = false;
+                HoleCardsViewModel.Visible = false;
             };
         }
 
@@ -30,36 +30,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         readonly IDispatcherTimer _dispatcherTimer;
 
-        int _seatNumber;
+        public IPositionViewModel Position { get; protected set; }
 
-        IList<Point> _holeCardPositions;
+        public bool AllowDragging { get; set; }
 
-        public double Left
+        public IOverlayHoleCardsViewModel InitializeWith(IPositionViewModel position)
         {
-            get { return _holeCardPositions[_seatNumber].X; }
+            Position = position;
 
-            set
-            {
-                _holeCardPositions[_seatNumber] = new Point(value, Top);
-                RaisePropertyChanged(() => Left);
-            }
-        }
-
-        public double Top
-        {
-            get { return _holeCardPositions[_seatNumber].Y; }
-
-            set
-            {
-                _holeCardPositions[_seatNumber] = new Point(Left, value);
-                RaisePropertyChanged(() => Top);
-            }
-        }
-
-        public IOverlayHoleCardsViewModel InitializeWith(IList<Point> holeCardPositions, int seatNumber)
-        {
-            _holeCardPositions = holeCardPositions;
-            _seatNumber = seatNumber;
             return this;
         }
 
@@ -79,45 +57,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             _dispatcherTimer.Stop();
         }
 
-        public void SetLocationTo(Point location)
+        public IHoleCardsViewModel HoleCardsViewModel
         {
-            Left = location.X;
-            Top = location.Y;
-        }
-
-        public string Rank1
-        {
-            get { return _holeCardsViewModel.Rank1; }
-            set { _holeCardsViewModel.Rank1 = value; }
-        }
-
-        public string Rank2
-        {
-            get { return _holeCardsViewModel.Rank2; }
-            set { _holeCardsViewModel.Rank2 = value; }
-        }
-
-        public Image Suit1
-        {
-            get { return _holeCardsViewModel.Suit1; }
-            set { _holeCardsViewModel.Suit1 = value; }
-        }
-
-        public Image Suit2
-        {
-            get { return _holeCardsViewModel.Suit2; }
-            set { _holeCardsViewModel.Suit2 = value; }
-        }
-
-        public bool Visible
-        {
-            get { return _holeCardsViewModel.Visible; }
-            set { _holeCardsViewModel.Visible = value; }
+            get { return _holeCardsViewModel; }
         }
 
         public void UpdateWith(string holeCardsString)
         {
-            _holeCardsViewModel.UpdateWith(holeCardsString);
+            HoleCardsViewModel.UpdateWith(holeCardsString);
         }
     }
 }

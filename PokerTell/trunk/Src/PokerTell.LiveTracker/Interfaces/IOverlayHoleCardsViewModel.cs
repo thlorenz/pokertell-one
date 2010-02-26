@@ -2,23 +2,20 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel;
     using System.Windows;
 
-    using Infrastructure.Interfaces.PokerHand;
+    using Tools.WPF.Interfaces;
 
-    using ViewModels.Overlay;
-
-    public interface IOverlayHoleCardsViewModel : IHoleCardsViewModel, IDisposable
+    public interface IOverlayHoleCardsViewModel : IDisposable
     {
-        double Left { get; set; }
-
-        double Top { get; set; }
-
-        void SetLocationTo(Point location);
-
-        IOverlayHoleCardsViewModel InitializeWith(IList<Point> holeCardPositions, int seatNumber);
-
         IOverlayHoleCardsViewModel HideHoleCardsAfter(int seconds);
+
+        void UpdateWith(string holeCardsString);
+
+        IOverlayHoleCardsViewModel InitializeWith(IPositionViewModel position);
+
+        IPositionViewModel Position { get; }
+
+        bool AllowDragging { get; set; }
     }
 }

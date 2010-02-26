@@ -14,6 +14,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IGameHistoryViewModel GameHistory { get; }
 
+        IOverlaySettingsAidViewModel OverlaySettingsAid { get; }
+
         ITableOverlayViewModel UpdateWith(IEnumerable<IConvertedPokerPlayer> pokerPlayers, string board);
 
         ITableOverlayViewModel InitializeWith(ISeatMapper seatMapper, ITableOverlaySettingsViewModel overlaySettings, IGameHistoryViewModel gameHistory, IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, IList<IPlayerOverlayViewModel> playerOverlays, int showHoleCardsDuration);

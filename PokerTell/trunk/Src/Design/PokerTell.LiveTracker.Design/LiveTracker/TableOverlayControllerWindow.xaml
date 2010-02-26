@@ -1,0 +1,14 @@
+﻿<Window x:Class="PokerTell.LiveTracker.Design.LiveTracker.TableOverlayControllerWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:LiveTracker="clr-namespace:PokerTell.LiveTracker.Design.LiveTracker"
+    Title="TableOverlayControllerWindow" SizeToContent="WidthAndHeight" Top="0" Left="0">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type LiveTracker:TableOverlayControllerViewModel}">
+            <Button MaxHeight="20" MaxWidth="100" Content="UpdateWith" Command="{Binding UpdateWithCommand}" Margin="10"/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <ContentControl Content="{Binding}" />
+    </Grid>
+</Window>

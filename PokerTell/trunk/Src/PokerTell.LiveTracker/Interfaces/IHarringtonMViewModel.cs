@@ -4,15 +4,14 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Windows;
 
     using Tools.Interfaces;
+    using Tools.WPF.Interfaces;
 
     public interface IHarringtonMViewModel : IFluentInterface
     {
         int Value { get; set; }
 
-        double Left { get; set; }
+        IPositionViewModel Position { get; }
 
-        double Top { get; set; }
-
-        IHarringtonMViewModel InitializeWith(IList<Point> harringtonMPositions, int seatNumber);
+        IHarringtonMViewModel InitializeWith(IPositionViewModel position);
     }
 }

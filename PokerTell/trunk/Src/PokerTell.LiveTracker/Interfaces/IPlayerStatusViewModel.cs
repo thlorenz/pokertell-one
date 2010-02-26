@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Collections.Generic;
     using System.Windows;
 
+    using Tools.WPF.Interfaces;
+
     public interface IPlayerStatusViewModel
     {
         bool IsPresent { get; set; }
@@ -13,6 +15,6 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IPlayerStatusViewModel ShowHoleCardsFor(int duration, string holecards);
 
-        IPlayerStatusViewModel InitializeWith(IList<Point> holeCardsPositions, IList<Point> harringtonMPositions, int seatNumber);
+        IPlayerStatusViewModel InitializeWith(IPositionViewModel holeCardsPosition, IPositionViewModel harringtonMPosition);
     }
 }

@@ -6,6 +6,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
     using Interfaces;
 
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class PlayerStatusViewModel : NotifyPropertyChanged, IPlayerStatusViewModel
@@ -39,10 +40,10 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             return this;
         }
 
-        public IPlayerStatusViewModel InitializeWith(IList<Point> holeCardsPositions, IList<Point> harringtonMPositions, int seatNumber)
+        public IPlayerStatusViewModel InitializeWith(IPositionViewModel holeCardsPosition, IPositionViewModel harringtonMPosition)
         {
-            HoleCards.InitializeWith(holeCardsPositions, seatNumber);
-            HarringtonM.InitializeWith(harringtonMPositions, seatNumber);
+            HoleCards.InitializeWith(holeCardsPosition);
+            HarringtonM.InitializeWith(harringtonMPosition);
             return this;
         }
     }
