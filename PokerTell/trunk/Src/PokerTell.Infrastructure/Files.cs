@@ -37,7 +37,7 @@ namespace PokerTell.Infrastructure
 
         public const string xmlUserConfig = @"\User.config";
 
-        public static readonly string dirAppData = Application.StartupPath.Contains(@"TestDriven.NET")
+        public static readonly string AppDataDirectory = Application.StartupPath.Contains(@"TestDriven.NET")
                                                        ? dirAbsolutForUnitTestingOnly
                                                        : Static.GetUserDataPath(ApplicationProperties.ApplicationName);
 

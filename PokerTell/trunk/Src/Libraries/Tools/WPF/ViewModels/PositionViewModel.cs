@@ -37,5 +37,10 @@ namespace Tools.WPF.ViewModels
                 RaisePropertyChanged(() => Top);
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("Left: {0}, Top: {1}", _left, _top);
+        }
     }
 }

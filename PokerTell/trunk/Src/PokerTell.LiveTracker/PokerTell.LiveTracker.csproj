@@ -70,6 +70,10 @@
     <Compile Include="Interfaces\IOverlayHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\IOverlaySettingsAidViewModel.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
+    <Compile Include="Interfaces\ILayoutXDocumentHandler.cs" />
+    <Compile Include="Interfaces\ILayoutManager.cs" />
+    <Compile Include="Overlay\LayoutManager.cs" />
+    <Compile Include="Overlay\LayoutXDocumentHandler.cs" />
     <Compile Include="Overlay\SeatMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\ITableOverlaySettingsViewModel.cs" />

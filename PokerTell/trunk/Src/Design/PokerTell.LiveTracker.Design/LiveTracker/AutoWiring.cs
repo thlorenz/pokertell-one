@@ -23,12 +23,13 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     {
         public static IUnityContainer ConfigureTableOverlayDependencies()
         {
-            TableOverlaySettingsDesignModel overlaySettings = GetOverlaySettings();
+            var layoutManager = new LayoutManager(new LayoutXDocumentHandler());
+            ITableOverlaySettingsViewModel overlaySettings = layoutManager.Load("PokerStars", 6);
 
             var container = new UnityContainer()
                 .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
                 .RegisterType<IPositionViewModel, PositionViewModel>()
-                .RegisterInstance<ITableOverlaySettingsViewModel>(overlaySettings)
+                .RegisterInstance(overlaySettings)
                 .RegisterType<IHarringtonMViewModel, HarringtonMViewModel>()
                 .RegisterType<IHoleCardsViewModel, HoleCardsViewModel>()
                 .RegisterType<IOverlayHoleCardsViewModel, OverlayHoleCardsViewModel>()
@@ -43,7 +44,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 .RegisterConstructor(() => container.Resolve<IOverlayHoleCardsViewModel>())
                 .RegisterType<IOverlaySettingsAidViewModel, OverlaySettingsAidViewModel>();
 
-            IPlayerOverlayViewModel[] playerOverlays = GetPlayerOverlays(overlaySettings, container);
+            IPlayerOverlayViewModel[] playerOverlays = GetPlayerOverlays(container.Resolve<ITableOverlaySettingsViewModel>(), container);
 
             var pokerTableStatisticsViewModel = GetPokerTableStatisticsViewModel(6);
 
@@ -53,8 +54,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             tableOverlay
                 .InitializeWith(
                 container.Resolve<ISeatMapper>(), 
-                overlaySettings, 
-                //container.Resolve<ITableOverlaySettingsViewModel>(), 
+                container.Resolve<ITableOverlaySettingsViewModel>(), 
                 container.Resolve<IGameHistoryViewModel>(), 
                 container.Resolve<IPokerTableStatisticsViewModel>(), 
                 playerOverlays, 
@@ -62,6 +62,9 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 .UpdateWith(GetPokerPlayers(), "As Kh Qh");
 
             container.RegisterInstance<ITableOverlayViewModel>(tableOverlay);
+
+            overlaySettings.SaveChanges += () => layoutManager.Save(overlaySettings, "PokerStars");
+            overlaySettings.UndoChanges += () => tableOverlay.InitializeOverlaySettings(layoutManager.Load("PokerStars", 6));
 
             return container;
         }
@@ -80,7 +83,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             return tableStatistics.Object;
         }
 
-        static IPlayerOverlayViewModel[] GetPlayerOverlays(TableOverlaySettingsDesignModel overlaySettings, IUnityContainer container)
+        static IPlayerOverlayViewModel[] GetPlayerOverlays(ITableOverlaySettingsViewModel overlaySettings, IUnityContainer container)
         {
             var po0 = container.Resolve<IPlayerOverlayViewModel>();
             var po1 = container.Resolve<IPlayerOverlayViewModel>();
@@ -124,7 +127,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             return playerStub;
         }
 
-        static TableOverlaySettingsDesignModel GetOverlaySettings()
+        static ITableOverlaySettingsViewModel GetOverlaySettings()
         {
             var statisticsPositions = new[]
                 {
@@ -156,7 +159,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                     new PositionViewModel(250, 10), 
                 };
 
-            return new TableOverlaySettingsDesignModel(
+            return new TableOverlaySettingsViewModel().InitializeWith(
                 6, 
                 true, 
                 true, 

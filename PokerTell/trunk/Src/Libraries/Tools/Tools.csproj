@@ -130,6 +130,7 @@
     <Compile Include="Interfaces\ITimer.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interfaces\IXDocumentHandler.cs" />
     <Compile Include="Localization\LocalizationSettings.cs" />
     <Compile Include="Localization\WpfUtils.cs" />
     <Compile Include="Log4NetAppenders.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="Wrappers\ProcessMemoryReader.cs" />
     <Compile Include="Wrappers\SetWindowPos.cs" />
     <Compile Include="Wrappers\User32.cs" />
+    <Compile Include="Xml\Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Themes\generic.xaml">

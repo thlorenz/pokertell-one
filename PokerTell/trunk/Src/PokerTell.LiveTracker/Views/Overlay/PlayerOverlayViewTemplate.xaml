@@ -19,15 +19,17 @@
 
             <ctrl:DragCanvas AllowDragging="True" AllowDragOutOfView="True">
                 <!-- Player Statistics -->
-                <Views:PlayerStatisticsPanel />
+                <Views:PlayerStatisticsPanel 
+                       Canvas.Top="{Binding Position.Top, Mode=TwoWay}"
+                       Canvas.Left="{Binding Position.Left, Mode=TwoWay}" />
 
                 <!-- HarringtonM -->
                 <Border   Margin="3"
                             Padding="1"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Canvas.Left="{Binding PlayerStatus.HarringtonM.Position.Left}"
-                            Canvas.Top="{Binding PlayerStatus.HarringtonM.Position.Top}"
+                            Canvas.Left="{Binding PlayerStatus.HarringtonM.Position.Left, Mode=TwoWay}"
+                            Canvas.Top="{Binding PlayerStatus.HarringtonM.Position.Top, Mode=TwoWay}"
                             Background="{Binding Settings.Background.Brush}"
                             BorderThickness="2"
                             CornerRadius="20"

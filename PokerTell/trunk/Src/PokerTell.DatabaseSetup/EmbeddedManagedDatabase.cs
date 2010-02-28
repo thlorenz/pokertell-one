@@ -37,7 +37,7 @@ namespace PokerTell.DatabaseSetup
             _dataProviderInfo = dataProviderInfo;
             _dataProvider = dataProvider;
 
-            _databaseDirectory = string.Format("{0}{1}", Files.dirAppData, Files.dirData);
+            _databaseDirectory = string.Format("{0}{1}", Files.AppDataDirectory, Files.dirData);
 
             ValidateDatabaseDirectoryAndRecreateIfNeccessary();
         }

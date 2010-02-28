@@ -77,9 +77,6 @@
     <Compile Include="Analyzation\HandBrowserSpecs.cs" />
     <Compile Include="Analyzation\PostFlopHeroReactsRaiseReactionDescriberSpecs.cs" />
     <Compile Include="Analyzation\PostFlopHeroActsRaiseReactionDescriberSpecs.cs" />
-    <Compile Include="Analyzation\PreflopCallingRatioAnalyzerTests.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Analyzation\PreFlopHandStrengthVisualizerSpecs.cs" />
     <Compile Include="Analyzation\PreFlopHandStrengthStatisticsSpecs.cs" />
     <Compile Include="Analyzation\RaiseReactionAnalyzerSpecs.cs" />

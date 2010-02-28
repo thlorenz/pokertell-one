@@ -25,10 +25,15 @@ namespace Tools.WPF.ViewModels
             set
             {
                 _color = value;
-                RaisePropertyChanged(() => Color);
-                RaisePropertyChanged(() => Brush);
-                RaisePropertyChanged(() => ColorString);
+                RaisePropertyChangedForAllProperties();
             }
+        }
+
+        public void RaisePropertyChangedForAllProperties()
+        {
+            RaisePropertyChanged(() => Color);
+            RaisePropertyChanged(() => Brush);
+            RaisePropertyChanged(() => ColorString);
         }
 
         public Brush Brush
@@ -42,6 +47,9 @@ namespace Tools.WPF.ViewModels
             get { return new ColorConverter().ConvertToString(Color); }
             set { Color = (Color)ColorConverter.ConvertFromString(value); }
         }
-     
+        public override string ToString()
+        {
+            return ColorString;
+        }
     }
 }

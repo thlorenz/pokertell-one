@@ -66,8 +66,8 @@
                 </Expander>
                 <!-- Save/Undo -->
                 <StackPanel Orientation="Horizontal" MaxHeight="30">
-                    <Button Content="Save Changes"  Margin="2" Padding="5" />
-                    <Button Content="Undo Changes"  Margin="2" Padding="5"/>
+                    <Button Content="Save Changes" Command="{Binding SaveChangesCommand}"  Margin="2" Padding="5" />
+                    <Button Content="Undo Changes" Command="{Binding UndoChangesCommand}" Margin="2" Padding="5"/>
                 </StackPanel>
             </StackPanel>
         </Expander>

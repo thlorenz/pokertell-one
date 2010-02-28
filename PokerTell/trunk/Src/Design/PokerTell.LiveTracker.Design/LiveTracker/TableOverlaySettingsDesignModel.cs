@@ -38,8 +38,8 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
             ShowHarringtonM = showHarringtonM;
 
-            Width = width;
-            Height = height;
+            StatisticsPanelWidth = width;
+            StatisticsPanelHeight = height;
 
             Background = new ColorViewModel(background);
 

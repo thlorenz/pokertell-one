@@ -17,7 +17,7 @@ namespace PokerTell.User
 
         public UserConfiguration()
         {
-            string configFile = Files.dirAppData + Files.xmlUserConfig;
+            string configFile = Files.AppDataDirectory + Files.xmlUserConfig;
 
             // Map the new configuration file.
             var configFileMap =

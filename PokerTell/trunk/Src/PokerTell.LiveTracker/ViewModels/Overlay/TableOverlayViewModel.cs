@@ -8,8 +8,9 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
+    using Tools.WPF.ViewModels;
 
-    public class TableOverlayViewModel : ITableOverlayViewModel
+    public class TableOverlayViewModel : NotifyPropertyChanged, ITableOverlayViewModel
     {
         readonly IOverlayBoardViewModel _board;
 
@@ -51,7 +52,26 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public void InitializeOverlaySettings(ITableOverlaySettingsViewModel overlaySettings)
         {
+//            OverlaySettings.InitializeWith(
+//                overlaySettings.TotalSeats,
+//                overlaySettings.ShowPreFlop,
+//                overlaySettings.ShowFlop,
+//                overlaySettings.ShowTurn,
+//                overlaySettings.ShowRiver,
+//                overlaySettings.ShowHarringtonM,
+//                overlaySettings.StatisticsPanelWidth,
+//                overlaySettings.StatisticsPanelHeight,
+//                overlaySettings.Background.ColorString,
+//                overlaySettings.OutOfPositionForeground.ColorString,
+//                overlaySettings.InPositionForeground.ColorString,
+//                overlaySettings.PreferredSeat,
+//                overlaySettings.PlayerStatisticsPanelPositions,
+//                overlaySettings.HarringtonMPositions,
+//                overlaySettings.HoleCardsPositions,
+//                overlaySettings.BoardPosition);
+
             OverlaySettings = overlaySettings;
+
             Board.InitializeWith(OverlaySettings.BoardPosition);
             OverlaySettingsAid.InitializeWith(OverlaySettings);
             for (int seat = 0; seat < PlayerOverlays.Count; seat++)
@@ -60,6 +80,11 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
 
             OverlaySettings.PreferredSeatChanged += UpdatePlayerOverlays;
+            OverlaySettings.RaisePropertyChangedForAllProperties();
+            
+            RaisePropertyChanged(() => PlayerOverlays);
+            RaisePropertyChanged(() => OverlaySettings);
+            RaisePropertyChanged(() => OverlaySettingsAid);
         }
 
         public ITableOverlayViewModel UpdateWith(IEnumerable<IConvertedPokerPlayer> pokerPlayers, string board)

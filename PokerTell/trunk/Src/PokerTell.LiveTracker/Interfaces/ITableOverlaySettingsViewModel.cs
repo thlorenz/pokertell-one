@@ -3,6 +3,7 @@ namespace PokerTell.LiveTracker.Interfaces
     using System;
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Input;
 
     using Tools.Interfaces;
     using Tools.WPF.Interfaces;
@@ -17,9 +18,9 @@ namespace PokerTell.LiveTracker.Interfaces
 
         bool ShowRiver { get; set; }
 
-        double Width { get; set; }
+        double StatisticsPanelWidth { get; set; }
 
-        double Height { get; set; }
+        double StatisticsPanelHeight { get; set; }
 
         IColorViewModel Background { get; set; }
 
@@ -39,10 +40,22 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IList<IPositionViewModel> HoleCardsPositions { get; }
 
-        int TotalSeats { get; set; }
+        int TotalSeats { get; }
 
         bool PositioningMuckedCards { get; set; }
 
+        ICommand SaveChangesCommand { get; }
+
+        ICommand UndoChangesCommand { get; }
+
         event Action PreferredSeatChanged;
+
+        ITableOverlaySettingsViewModel InitializeWith(int totalSeats, bool showPreFlop, bool showFlop, bool showTurn, bool showRiver, bool showHarringtonM, double width, double height, string background, string outOfPositionForeground, string inPositionForeground, int preferredSeat, IList<IPositionViewModel> playerStatisticPositions, IList<IPositionViewModel> harringtonMPositions, IList<IPositionViewModel> holeCardsPositions, IPositionViewModel boardPosition);
+
+        event Action SaveChanges;
+
+        event Action UndoChanges;
+
+        ITableOverlaySettingsViewModel RaisePropertyChangedForAllProperties();
     }
 }

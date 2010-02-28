@@ -134,12 +134,11 @@
                        CornerRadius="10"
                        Padding="5, 2, 5, 2"
                        Visibility="{Binding PlayerStatus.IsPresent, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
-                       Background="{Binding Settings.Background.Brush}" 
-                       Canvas.Top="{Binding Position.Top}"
-                       Canvas.Left="{Binding Position.Left}"  >
-            <Viewbox x:Name="StatisticsViewbox"  Width="{Binding Settings.Width, Mode=TwoWay}" Height="{Binding Settings.Height, Mode=TwoWay}" Stretch="Fill" 
-                     MouseEnter="ResizableElement_MouseEnter"
-                     >
+                       Background="{Binding Settings.Background.Brush}" >
+            <Viewbox Width="{Binding Settings.StatisticsPanelWidth, Mode=TwoWay}" 
+                     Height="{Binding Settings.StatisticsPanelHeight, Mode=TwoWay}" 
+                     Stretch="Fill" 
+                     MouseEnter="ResizableElement_MouseEnter" >
                 <StackPanel Orientation="Vertical" >
                     <!-- Preflop -->
                     <!-- Bind Visibility to Main Settings Show PreFlop -->
