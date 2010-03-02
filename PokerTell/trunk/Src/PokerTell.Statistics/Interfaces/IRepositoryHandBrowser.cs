@@ -6,9 +6,9 @@ namespace PokerTell.Statistics.Interfaces
 
    using Tools.Interfaces;
 
-   public interface IHandBrowser : IFluentInterface
+   public interface IRepositoryHandBrowser : IFluentInterface
    {
-      IHandBrowser InitializeWith(IEnumerable<int> handIds);
+      IRepositoryHandBrowser InitializeWith(IEnumerable<int> handIds);
 
       int PotentialHandsCount { get; }
 

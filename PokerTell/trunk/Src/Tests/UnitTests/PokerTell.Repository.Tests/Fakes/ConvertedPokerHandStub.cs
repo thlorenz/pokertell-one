@@ -116,6 +116,9 @@ namespace PokerTell.Repository.Tests.Fakes
         /// </summary>
         public ulong TournamentId { get; set; }
 
+        public string HeroName { get; set; }
+        
+
         #endregion
 
         #region Indexers

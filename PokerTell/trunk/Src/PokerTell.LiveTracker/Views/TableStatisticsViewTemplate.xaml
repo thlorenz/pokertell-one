@@ -10,9 +10,10 @@
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsWithInformationPanelViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+                    <ResourceDictionary Source="InvestigatorViewTemplates.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -25,16 +26,16 @@
 
             <!-- Top Row -->
             <Viewbox Grid.Row="0" Width="410" Height="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
-            <StackPanel DataContext="{Binding DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
+                <StackPanel DataContext="{Binding DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
                     <!-- Statistics Analyzer -->
                     <ContentControl Content="{Binding CurrentViewModel}" 
-                                    ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"
+                                    ContentTemplate="{StaticResource DetailedStatisticsWithInformationPanelViewTemplate}"
                                     HorizontalContentAlignment="Stretch"/>
-                <Popup AllowsTransparency="True" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Bottom"  StaysOpen="False">
-                    <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}" />
-                </Popup>
-            </StackPanel>
-                </Viewbox>
+                    <Popup AllowsTransparency="True" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Bottom"  StaysOpen="False">
+                        <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource DetailedStatisticsWithInformationPanelViewTemplate}" />
+                    </Popup>
+                </StackPanel>
+            </Viewbox>
 
             <!-- Bottom Row -->
             <StackPanel x:Name="bottomRowStackPanel" Grid.Row="1" Orientation="Horizontal">
@@ -64,38 +65,8 @@
                         <!-- StatisticsAnalyzer Commanding -->
                         <GroupBox Header="Investigator">
                             <StackPanel Orientation="Vertical" DataContext="{Binding DetailedStatisticsAnalyzer}">
-                                <!-- Navigation -->
-                                <Border BorderThickness="2" BorderBrush="{StaticResource LightBorderBrush}">
-                                    <StackPanel  MaxHeight="25" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top"  >
-                                        <Button Content="&lt;" Padding="10,3" Command="{Binding NavigateBackwardCommand}"/>
-                                        <Button Content="&gt;"  Padding="10,3" Command="{Binding NavigateForwardCommand}"/>
-                                    </StackPanel>
-                                </Border>
-                                <Border BorderThickness="2" BorderBrush="{StaticResource LightBorderBrush}">
-                                    <!-- Investigation Commands -->
-                                    <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                                        <Button Style="{StaticResource VisualizeHandsButtonStyle}"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Center"
-                                            DataContext="{Binding CurrentViewModel}"
-                                            Visibility="{Binding MayVisualizeHands, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
-                                        <Button Style="{StaticResource BrowseHandsButtonStyle}"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Center"
-                                            DataContext="{Binding CurrentViewModel}"
-                                            Visibility="{Binding MayBrowseHands, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
-                                        <Button Style="{StaticResource InvestigateRaiseButtonStyle}"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Center"
-                                            DataContext="{Binding CurrentViewModel}"
-                                            Visibility="{Binding MayInvestigateRaise, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
-                                        <Button Style="{StaticResource InvestigateHoleCardsButtonStyle}"
-                                            VerticalAlignment="Bottom"
-                                            HorizontalAlignment="Center"
-                                            DataContext="{Binding CurrentViewModel}"
-                                            Visibility="{Binding MayInvestigateHoleCards, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
-                                    </StackPanel>
-                                </Border>
+                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource InvestigatorNavigationTemplate}" />
+                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource InvestigatorCommandsTemplate}" />
                             </StackPanel>
                         </GroupBox>
                         <GroupBox Header="Players">

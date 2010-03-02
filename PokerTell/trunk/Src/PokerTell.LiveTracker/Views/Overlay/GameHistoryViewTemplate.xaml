@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Overlay="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <DataTemplate DataType="{x:Type Overlay:GameHistoryViewModel}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ContentControl Content="{Binding CurrentHandHistory, Mode=OneWay}" />
+            <ScrollBar Grid.Column="1"
+                       Minimum="0"
+                       Maximum="{Binding HandCount, Converter={StaticResource CountToMaximumConverter}}"
+                       Value="{Binding CurrentHandIndex, Mode=TwoWay}"
+                       Height="150"
+                       SmallChange="1"
+                       LargeChange="5"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

@@ -25,7 +25,7 @@ namespace Tools.Xml
         public static IList<IPositionViewModel> GetPositionsFrom(XElement element)
         {
             var positionElems = element.Elements("Position");
-            return positionElems.Select(elem => GetPositionFrom(elem)).ToList();
+            return positionElems.Select(elem => GetPositionFrom(elem, 10, 10)).ToList();
         }
 
         public static bool GetBoolFrom(XElement element, bool alternative)
@@ -61,11 +61,16 @@ namespace Tools.Xml
             return alternative;
         }
 
-        public static IPositionViewModel GetPositionFrom(XElement element)
+        public static IPositionViewModel GetPositionFrom(XElement element, double alternateLeft, double alternateTop)
         {
-            var left = GetDoubleFrom(element.Element("Left"), 10.0);
+            if (element == null)
+            {
+                return new PositionViewModel(alternateLeft, alternateTop);
+            }
 
-            var top = GetDoubleFrom(element.Element("Top"), 10.0);
+            var left = GetDoubleFrom(element.Element("Left"), alternateLeft);
+
+            var top = GetDoubleFrom(element.Element("Top"), alternateTop);
 
             return new PositionViewModel(left, top);
         }

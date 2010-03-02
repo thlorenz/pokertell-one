@@ -235,7 +235,6 @@
     <Content Include="WPF\Controls\ColorPicker\Derived From\ColorPickerCustomControl\ColorPickerSampleApplication\ColorPickerSampleApplication.sln" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="GenericDataTypes\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -77,11 +77,11 @@ namespace PokerTell.LiveTracker.IntegrationTests
                                                         detailedPostFlopHeroReactsStatisticsViewModelMake);
 
             var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
-                eventAggregator, 
-                new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()), 
+                eventAggregator,
+                new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
                 detailedStatisticsAnalyzerViewModel);
             var designWindow = new TableStatisticsDesignWindow(eventAggregator, 
-                                                               _container.Resolve<IHandBrowserViewModel>())
+                                                               _container.Resolve<IRepositoryHandBrowserViewModel>())
                 {
                     Topmost = true, DataContext = tableStatisticsViewModel 
                 };
@@ -136,10 +136,10 @@ namespace PokerTell.LiveTracker.IntegrationTests
                 .RegisterType<IRaiseReactionStatistics, RaiseReactionStatistics>()
                 .RegisterType<IRaiseReactionStatisticsBuilder, RaiseReactionStatisticsBuilder>()
 
-                // HandBrowser
-                .RegisterType<IHandBrowser, HandBrowser>()
+                // RepositoryHandBrowser
+                .RegisterType<IRepositoryHandBrowser, RepositoryHandBrowser>()
                 .RegisterType<IHandHistoryViewModel, HandHistoryViewModel>()
-                .RegisterType<IHandBrowserViewModel, HandBrowserViewModel>()
+                .RegisterType<IRepositoryHandBrowserViewModel, RepositoryHandBrowserViewModel>()
 
                 // Detailed Statistics Describers
                 .RegisterType<IDetailedPreFlopStatisticsDescriber, DetailedPreFlopStatisticsDescriber>()
@@ -181,7 +181,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
         [Test]
         public void Dependencies_Are_Complete()
         {
-            _container.Resolve<IHandBrowserViewModel>();
+            _container.Resolve<IRepositoryHandBrowserViewModel>();
         }
     }
 }

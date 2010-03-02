@@ -80,6 +80,7 @@
     <Compile Include="Interfaces\IPlayerOverlayViewModel.cs" />
     <Compile Include="Interfaces\IPlayerStatusViewModel.cs" />
     <Compile Include="Interfaces\IPokerTableStatisticsViewModel.cs" />
+    <Compile Include="ViewModels\Overlay\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModel.cs" />
     <Compile Include="ViewModels\Overlay\HarringtonMViewModel.cs" />
     <Compile Include="Interfaces\IHarringtonMViewModel.cs" />
@@ -90,8 +91,11 @@
     <Compile Include="Views\Overlay\HarringtonMPanel.xaml.cs">
       <DependentUpon>HarringtonMPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Overlay\PlayerStatisticsPanel.xaml.cs">
-      <DependentUpon>PlayerStatisticsPanel.xaml</DependentUpon>
+    <Compile Include="Views\Overlay\OverlayDetailsView.xaml.cs">
+      <DependentUpon>OverlayDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Overlay\PlayerStatisticsPanelView.xaml.cs">
+      <DependentUpon>PlayerStatisticsPanelView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\Overlay\TableOverlaySettingsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\PlayerOverlayViewModel.cs" />
@@ -124,6 +128,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\InvestigatorViewTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Overlay\GameHistoryViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Overlay\HarringtonMPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,11 +144,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Overlay\OverlayDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Overlay\OverlayHoleCardsViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Overlay\PlayerStatisticsPanel.xaml">
+    <Page Include="Views\Overlay\PlayerStatisticsPanelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

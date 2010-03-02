@@ -1,13 +1,9 @@
 namespace PokerTell.LiveTracker.Design.LiveTracker
 {
     using System.Linq;
-    using System.Windows.Threading;
-
-    using PokerHand.ViewModels;
 
     using PokerTell.LiveTracker.Design.Statistics;
     using PokerTell.LiveTracker.Interfaces;
-    using PokerTell.LiveTracker.ViewModels;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
     using Tools.Interfaces;

@@ -19,7 +19,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         readonly IPreFlopRaiseReactionStatisticsViewModel _raiseReactionStatisticsViewModel;
 
         public DetailedPreFlopStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel, 
+            IRepositoryHandBrowserViewModel handBrowserViewModel, 
             IPreFlopUnraisedPotCallingHandStrengthStatisticsViewModel preFlopUnraisedPotCallingHandStrengthStatisticsViewModel, 
             IPreFlopRaisedPotCallingHandStrengthStatisticsViewModel preFlopRaisedPotCallingHandStrengthStatisticsViewModel, 
             IPreFlopRaisingHandStrengthStatisticsViewModel preFlopRaisingHandStrengthStatisticsViewModel, 

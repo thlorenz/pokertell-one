@@ -49,6 +49,12 @@ namespace PokerTell.LiveTracker.Overlay
 
         const string Top = "Top";
 
+        const string OverlayDetailsPosition = "OverlayDetailsPosition";
+
+        const string OverlayDetailsWidth = "OverlayDetailsWidth";
+
+        const string OverlayDetailsHeight = "OverlayDetailsHeight";
+
         readonly ILayoutXDocumentHandler _xDocumentHandler;
 
         public LayoutManager(ILayoutXDocumentHandler xDocumentHandler)
@@ -78,30 +84,36 @@ namespace PokerTell.LiveTracker.Overlay
                     OutOfPositionForeground = Utils.GetStringFrom(xml.Element(OutOfPositionForeground), "White"), 
                     InPositionForeground = Utils.GetStringFrom(xml.Element(InPositionForeground), "Yellow"), 
                     PreferredSeat = Utils.GetIntFrom(xml.Element(PreferredSeat), 0), 
-                    BoardPosition = Utils.GetPositionFrom(xml.Element(BoardPosition)), 
+                    BoardPosition = Utils.GetPositionFrom(xml.Element(BoardPosition), 10, 10), 
                     PlayerStatisticsPanelPositions = Utils.GetPositionsFrom(xml.Element(PlayerStatisticsPanelPositions)), 
                     HarringtonMPositions = Utils.GetPositionsFrom(xml.Element(HarringtonMPositions)), 
                     HoleCardsPositions = Utils.GetPositionsFrom(xml.Element(HoleCardsPositions)), 
+                    OverlayDetailsPosition = Utils.GetPositionFrom(xml.Element(OverlayDetailsPosition), 300, 200),
+                    OverlayDetailsWidth = Utils.GetDoubleFrom(xml.Element(OverlayDetailsWidth), 400),
+                    OverlayDetailsHeight = Utils.GetDoubleFrom(xml.Element(OverlayDetailsHeight), 200)
                 };
 
             var os = new TableOverlaySettingsViewModel()
                 .InitializeWith(
-                seats, 
-                layout.ShowPreFlop, 
-                layout.ShowFlop, 
-                layout.ShowTurn, 
-                layout.ShowRiver, 
-                layout.ShowHarringtonM, 
-                layout.StatisticsPanelWidth, 
-                layout.StatisticsPanelHeight, 
-                layout.Background, 
-                layout.OutOfPositionForeground, 
-                layout.InPositionForeground, 
-                layout.PreferredSeat, 
-                layout.PlayerStatisticsPanelPositions, 
-                layout.HarringtonMPositions, 
-                layout.HoleCardsPositions, 
-                layout.BoardPosition);
+                seats,
+                layout.ShowPreFlop,
+                layout.ShowFlop,
+                layout.ShowTurn,
+                layout.ShowRiver,
+                layout.ShowHarringtonM,
+                layout.StatisticsPanelWidth,
+                layout.StatisticsPanelHeight,
+                layout.Background,
+                layout.OutOfPositionForeground,
+                layout.InPositionForeground,
+                layout.PreferredSeat,
+                layout.PlayerStatisticsPanelPositions,
+                layout.HarringtonMPositions,
+                layout.HoleCardsPositions,
+                layout.BoardPosition,
+                layout.OverlayDetailsPosition,
+                layout.OverlayDetailsWidth,
+                layout.OverlayDetailsHeight);
 
             return os;
         }
@@ -125,7 +137,10 @@ namespace PokerTell.LiveTracker.Overlay
                     new XElement(BoardPosition, new XElement(Left, os.BoardPosition.Left), new XElement(Top, os.BoardPosition.Top)), 
                     Utils.XElementForPositions(PlayerStatisticsPanelPositions, os.PlayerStatisticsPanelPositions), 
                     Utils.XElementForPositions(HarringtonMPositions, os.HarringtonMPositions), 
-                    Utils.XElementForPositions(HoleCardsPositions, os.HoleCardsPositions));
+                    Utils.XElementForPositions(HoleCardsPositions, os.HoleCardsPositions),
+                    new XElement(OverlayDetailsPosition, new XElement(Left, os.OverlayDetailsPosition.Left), new XElement(Top, os.OverlayDetailsPosition.Top)),
+                    new XElement(OverlayDetailsWidth, os.OverlayDetailsWidth),
+                    new XElement(OverlayDetailsHeight, os.OverlayDetailsHeight));
         }
 
         public ILayoutManager Save(ITableOverlaySettingsViewModel overlaySettings, string pokerSite)

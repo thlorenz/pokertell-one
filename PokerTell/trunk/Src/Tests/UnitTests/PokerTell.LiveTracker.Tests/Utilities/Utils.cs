@@ -38,22 +38,25 @@ namespace PokerTell.LiveTracker.Tests.Utilities
                 };
 
             return new TableOverlaySettingsViewModel().InitializeWith(
-                2, 
-                true, 
-                true, 
-                true, 
-                true, 
-                true, 
-                120, 
-                55, 
-                "#FF0000FF", 
-                "White", 
-                "Yellow", 
-                0, 
-                statisticsPositions, 
-                harringtonMPositions, 
-                holeCardsPositions, 
-                new PositionViewModel(300, 10));
+                2,
+                true,
+                true,
+                true,
+                true,
+                true,
+                120,
+                55,
+                "#FF0000FF",
+                "White",
+                "Yellow",
+                0,
+                statisticsPositions,
+                harringtonMPositions,
+                holeCardsPositions,
+                new PositionViewModel(300, 10),
+                new PositionViewModel(300, 210),
+                400,
+                200);
         }
 
         internal static ITableOverlaySettingsViewModel GetOverlaySettings_5Max()
@@ -86,7 +89,7 @@ namespace PokerTell.LiveTracker.Tests.Utilities
                 };
 
             return new TableOverlaySettingsViewModel().InitializeWith(
-                5, 
+                5,
                 true, 
                 true, 
                 true, 
@@ -101,7 +104,10 @@ namespace PokerTell.LiveTracker.Tests.Utilities
                 statisticsPositions, 
                 harringtonMPositions, 
                 holeCardsPositions, 
-                new PositionViewModel(300, 10));
+                new PositionViewModel(300, 10), 
+                new PositionViewModel(300, 210),
+                400,
+                200);
         }
 
         internal static ITableOverlaySettingsViewModel GetOverlaySettings_6Max()
@@ -152,7 +158,10 @@ namespace PokerTell.LiveTracker.Tests.Utilities
                 statisticsPositions, 
                 harringtonMPositions, 
                 holeCardsPositions, 
-                new PositionViewModel(300, 10));
+                new PositionViewModel(300, 10), 
+                new PositionViewModel(300, 210),
+                400,
+                200);
         }
     }
 }

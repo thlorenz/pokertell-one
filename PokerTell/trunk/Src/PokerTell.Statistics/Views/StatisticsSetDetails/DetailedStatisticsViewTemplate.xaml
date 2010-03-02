@@ -1,72 +1,17 @@
 <ResourceDictionary x:Class="PokerTell.Statistics.Views.StatisticsSetDetails.DetailedStatisticsViewTemplate"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:System="clr-namespace:System;assembly=mscorlib" 
-    xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" 
-    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails" xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation" xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base" xmlns:Interfaces="clr-namespace:PokerTell.Statistics.Interfaces" xmlns:Analyzation1="clr-namespace:PokerTell.Statistics.Analyzation">
+    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetDetails"
+    xmlns:Analyzation="clr-namespace:PokerTell.Statistics.ViewModels.Analyzation" 
+    xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
         <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
-        <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
+        <ResourceDictionary Source="StartingHandsVisualizerViewTemplate.xaml"/>
+        <ResourceDictionary Source="RepositoryHandBrowserViewTemplate.xaml"/>
+        <ResourceDictionary Source="DetailedStatisticsDataGridTemplates.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
-    <!-- Styles -->
-    <!-- Investigator Buttons -->
-    <Style x:Key="InvestigateRaiseButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="MaxHeight" Value="25" />
-        <Setter Property="Margin" Value="2" />
-        <Setter Property="Padding" Value="8,3" />
-        <Setter Property="FontSize" Value="8" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="Command" Value="{Binding InvestigateRaiseReactionCommand}" />
-        <Setter Property="Content" Value="Show Raise"/>
-    </Style>
-    <Style x:Key="VisualizeHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
-        <Setter Property="Command" Value="{Binding VisualizeStartingHandsCommand}" />
-        <Setter Property="Content" Value="Visualize Hands"/>
-    </Style>
-    <Style x:Key="BrowseHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
-        <Setter Property="Command" Value="{Binding BrowseHandsCommand}" />
-        <Setter Property="Content" Value="Browse Hands"/>
-    </Style>
-    <Style x:Key="InvestigateHoleCardsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
-        <Setter Property="Command" Value="{Binding InvestigateHoleCardsCommand}" />
-        <Setter Property="Content" Value="Show Cards"/>
-    </Style>
-
-    <!-- Staistics AnalyzerView Styles-->
-    <Style x:Key="StatisticsInformationPanelStyle" TargetType="{x:Type ContentControl}">
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <Border Padding="3" Margin="0,2" CornerRadius="1" BorderThickness="1"  BorderBrush="{StaticResource LightBorderBrush}" Background="{StaticResource DarkBorderBrush}">
-                        <Border.Resources>
-                            <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                                <Setter Property="FontSize" Value="8"/>
-                                <Setter Property="Foreground" Value="White"/>
-                            </Style>
-                        </Border.Resources>
-                        <StackPanel Orientation="Vertical">
-                            <Border CornerRadius="1" BorderThickness="1" Margin="0,2" BorderBrush="{StaticResource LightBorderBrush}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Margin="1" Text="Situation:" />
-                                    <TextBlock Margin="1" Foreground="AntiqueWhite" Text="{Binding StatisticsDescription}" TextAlignment="Left" TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Border>
-                            <Border CornerRadius="1" BorderThickness="1" Margin="0,2" BorderBrush="{StaticResource LightBorderBrush}">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Margin="1" Text="Hint:" />
-                                    <TextBlock Margin="1" Foreground="AntiqueWhite" Text="{Binding StatisticsHint}" TextAlignment="Left" TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>
-                    </Border>
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
     <!-- Container Template -->
     <DataTemplate x:Key="DetailedStatisticsViewTemplate">
@@ -75,270 +20,56 @@
         </StackPanel>
     </DataTemplate>
 
-
     <!-- Empty Statistics -->
     <DataTemplate DataType="{x:Type Base:EmptyStatisticsTableViewModel}" />
 
     <!-- DetailedPreFlopStatisticsViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:DetailedPreFlopStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="180" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="SB" Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="BB" Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="EA" Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="MI" Binding="{Binding Cells[3].Value}" />
-                    <dg:DataGridTextColumn Header="LT" Binding="{Binding Cells[4].Value}" />
-                    <dg:DataGridTextColumn Header="CO" Binding="{Binding Cells[5].Value}" />
-                    <dg:DataGridTextColumn Header="BU" Binding="{Binding Cells[6].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl DataContext="{Binding}" Content="{Binding}" ContentTemplate="{StaticResource DetailedPreFlopStatisticsDataGridTemplate}"/>
     </DataTemplate>
-
-    <System:String x:Key="VerySmallBet">0.1</System:String>
-    <System:String x:Key="SmallBet">0.3</System:String>
-    <System:String x:Key="MediumBet">0.5</System:String>
-    <System:String x:Key="MediumLargeBet">0.7</System:String>
-    <System:String x:Key="LargeBet">0.9</System:String>
-    <System:String x:Key="VeryLargeBet">1.5</System:String>
 
     <!--   DetailedPostFlopHeroActsStatisticsViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroActsStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="200" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DetailedPostFlopHeroActsStatisticsDataGridTemplate}"/>
     </DataTemplate>
 
     <!--   DetailedPostFlopHeroReactsStatisticsViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:DetailedPostFlopHeroReactsStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="200" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                     SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource DetailedPostFlopHeroReactsStatisticsDataGridTemplate}"/>
     </DataTemplate>
-
-    <System:String x:Key="SmallRaise">2x</System:String>
-    <System:String x:Key="MediumRaise">3x</System:String>
-    <System:String x:Key="LargeRaise">5x</System:String>
-    <System:String x:Key="VeryLargeRaise">9x</System:String>
 
     <!-- PostFlopHeroActsRaiseReactionStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroActsRaiseReactionStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PostFlopHeroActsRaiseReactionStatisticsDataGridTemplate}"/>
     </DataTemplate>
 
     <!-- PostFlopHeroReactsRaiseReactionStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PostFlopHeroReactsRaiseReactionStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PostFlopHeroReactsRaiseReactionStatisticsDataGridTemplate}"/>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type Analyzation:PreFlopRaiseReactionStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="250" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
 
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+    <!--PreFlopRaiseReactionStatisticsViewModel-->
+    <DataTemplate DataType="{x:Type Analyzation:PreFlopRaiseReactionStatisticsViewModel}" >
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PreFlopRaiseReactionStatisticsDataGridTemplate}"/>
     </DataTemplate>
 
     <!-- PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel-->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                     SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="5:1" Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="3:1" Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="5:2" Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[3].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PreFlopUnraisedPotCallingHandStrengthStatisticsDataGridTemplate}"/>
     </DataTemplate>
 
     <!-- PreFlopRaisedPotCallingHandStrengthStatisticsViewModel-->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisedPotCallingHandStrengthStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                          SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="2:1" Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="5:4" Binding="{Binding Cells[2].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PreFlopRaisedPotCallingHandStrengthStatisticsDataGridTemplate}"/>
     </DataTemplate>
 
     <!-- PreFlopRaisingHandStrengthStatisticsViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopRaisingHandStrengthStatisticsViewModel}" >
-        <StackPanel Orientation="Horizontal">
-            <ContentControl Width="320" Content="{Binding}" Style="{StaticResource StatisticsInformationPanelStyle}"/>
-            <dg:DataGrid ItemsSource="{Binding Rows}"
-                         
-                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
-                <dg:DataGrid.Columns>
-                    <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
-                    <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
-                </dg:DataGrid.Columns>
-                <dg:DataGrid.ToolTip>
-                    <TextBlock Text="{Binding StatisticsDescription}"/>
-                </dg:DataGrid.ToolTip>
-            </dg:DataGrid>
-        </StackPanel>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource PreFlopRaisingHandStrengthStatisticsDataGridTemplate}"/>
     </DataTemplate>
 
     <!-- StartingHandsVisualizerViewModel -->
     <DataTemplate DataType="{x:Type Analyzation:PreFlopStartingHandsVisualizerViewModel}">
-        <Border Background="{StaticResource DarkBorderBrush}"
-                            BorderBrush="{StaticResource LightBorderBrush}" 
-                            BorderThickness="4"
-                            CornerRadius="5"
-                            Padding="5"
-                            Width="340" 
-                            Height="280"
-                            ToolTipService.ShowDuration="20000"
-                            ToolTip="{Binding StatisticsDescription}">
-            <!-- Width and Height work best when sideLength is 20 and pairMargin is 30 -->
-            <ItemsControl ItemsSource="{Binding StartingHands}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type Analyzation1:StartingHand}">
-                        <Canvas>
-                            <Border Canvas.Left="{Binding Left}"
-                                Canvas.Top="{Binding Top}" 
-                                Width="{Binding SideLength}" 
-                                Height="{Binding SideLength}" 
-                                BorderBrush="{StaticResource LightBorderBrush}" 
-                                BorderThickness="1"
-                                Background="{StaticResource DarkBorderBrush}"    
-                                CornerRadius="2">
-                                <Grid>
-                                    <Border Height="{Binding FillHeight}" VerticalAlignment="Bottom" Background="Red" CornerRadius="2"/>
-                                    <TextBlock 
-                                        x:Name="Display"
-                                        Foreground="White" 
-                                         Text="{Binding Display}" 
-                                         HorizontalAlignment="Center" 
-                                         VerticalAlignment="Center" 
-                                         FontSize="11"/>
-                                </Grid>
-                            </Border>
-                        </Canvas>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding Count}" Value="0">
-                                <Setter  TargetName="Display" Property="Foreground" Value="Black" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </Border >
-    </DataTemplate>
-
-
-
-    <!-- HandBrowserViewModel -->
-    <DataTemplate DataType="{x:Type Analyzation:HandBrowserViewModel}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <ContentControl Content="{Binding CurrentHandHistory, Mode=OneWay}" />
-            <ScrollBar Grid.Column="1"
-                       Minimum="0"
-                       Maximum="{Binding HandCount, Converter={StaticResource CountToMaximumConverter}}"
-                       Value="{Binding CurrentHandIndex, Mode=OneWayToSource}"
-                       Height="150"
-                       SmallChange="1"
-                       LargeChange="10"/>
-                      
-        </Grid>
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource StartingHandsVisualizerViewTemplate}"/>
     </DataTemplate>
 </ResourceDictionary>

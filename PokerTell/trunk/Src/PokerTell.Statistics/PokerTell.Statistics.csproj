@@ -73,7 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analyzation\HandBrowser.cs" />
+    <Compile Include="Analyzation\RepositoryHandBrowser.cs" />
     <Compile Include="Interfaces\IPreFlopStartingHandsVisualizer.cs" />
     <Compile Include="Interfaces\IPreFlopStartingHandsVisualizerViewModel.cs" />
     <Compile Include="Interfaces\IStartingHand.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Interfaces\IPostFlopHeroActsRaiseReactionDescribers.cs" />
     <Compile Include="Interfaces\IRaiseReactionStatisticsBuilder.cs" />
     <Compile Include="Analyzation\RaiseReactionStatisticsBuilder.cs" />
-    <Compile Include="Interfaces\IHandBrowser.cs" />
+    <Compile Include="Interfaces\IRepositoryHandBrowser.cs" />
     <Compile Include="Analyzation\RaiseReactionsAnalyzer.cs" />
     <Compile Include="Analyzation\RaiseReactionStatistics.cs">
       <SubType>Code</SubType>
@@ -125,7 +125,7 @@
     <Compile Include="Interfaces\IReactionAnalyzationPreparer.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModel.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterViewModel.cs" />
-    <Compile Include="ViewModels\Analyzation\HandBrowserViewModel.cs" />
+    <Compile Include="ViewModels\Analyzation\RepositoryHandBrowserViewModel.cs" />
     <Compile Include="Interfaces\IDetailedRaiseReactionStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopStartingHandsVisualizerViewModel .cs" />
@@ -164,8 +164,8 @@
     <Compile Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml.cs">
       <DependentUpon>AnalyzablePokerPlayersFilterAdjustmentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\StatisticsSetDetails\DetailedStatisticsViewTemplate.xaml.cs">
-      <DependentUpon>DetailedStatisticsViewTemplate.xaml</DependentUpon>
+    <Compile Include="Views\StatisticsSetDetails\DetailedStatisticsDataGridTemplates.xaml.cs">
+      <DependentUpon>DetailedStatisticsDataGridTemplates.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml">
       <SubType>Designer</SubType>
@@ -199,15 +199,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\StatisticsSetDetails\DetailedStatisticsDataGridTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\StatisticsSetDetails\DetailedDataGridStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\StatisticsSetDetails\DetailedStatisticsViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsSetDetails\RepositoryHandBrowserViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StatisticsSetDetails\StartingHandsVisualizerViewTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\StatisticsSetSummary\BarGraphViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\StatisticsSetDetails\DetailedStatisticsViewTemplate.xaml">
+    <Page Include="Views\StatisticsSetDetails\DetailedStatisticsWithInformationPanelViewTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

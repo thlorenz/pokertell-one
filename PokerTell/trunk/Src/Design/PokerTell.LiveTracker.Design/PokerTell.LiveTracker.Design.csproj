@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LiveTracker\AutoWiring.cs" />
+    <Compile Include="LiveTracker\GameHistoryDesignModel.cs" />
     <Compile Include="LiveTracker\HarringtonMDesignModel.cs" />
     <Compile Include="LiveTracker\PlayerOverlayDesignModel.cs" />
     <Compile Include="LiveTracker\TableOverlayControllerViewModel.cs" />
@@ -79,11 +80,24 @@
     <Compile Include="LiveTracker\TableOverlayDesignModel.cs" />
     <Compile Include="LiveTracker\TableOverlaySettingsDesignModel.cs" />
     <Compile Include="LiveTracker\PlayerStatusDesignModel.cs" />
+    <Compile Include="PokerHand\DesignHelper.cs" />
+    <Compile Include="PokerHand\HandHistoryDesignModel.cs" />
+    <Compile Include="Statistics\DetailedPreFlopStatisticsDesignModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Statistics\PlayerStatisticsDesignModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Statistics\PostFlopStatisticsSetsDesignModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Statistics\PreFlopStatisticsSetsDesignModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Statistics\StatisticsSetSummaryDesignModel.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statistics\PlayerStatisticsDesignModel.cs" />
-    <Compile Include="Statistics\PostFlopStatisticsSetsDesignModel.cs" />
-    <Compile Include="Statistics\PreFlopStatisticsSetsDesignModel.cs" />
-    <Compile Include="Statistics\StatisticsSetSummaryDesignModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Tools\Tools.csproj">

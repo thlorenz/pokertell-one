@@ -8,5 +8,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             AutoWiring
                 .ConfigureTableOverlayDependencies()
                 .Resolve<ITableOverlayViewModel>();
+
+        
     }
 }

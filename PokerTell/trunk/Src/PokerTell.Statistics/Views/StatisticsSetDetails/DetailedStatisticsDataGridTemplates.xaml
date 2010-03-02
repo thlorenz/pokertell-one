@@ -1,0 +1,177 @@
+<ResourceDictionary x:Class="PokerTell.Statistics.Views.StatisticsSetDetails.DetailedStatisticsDataGridTemplates"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:System="clr-namespace:System;assembly=mscorlib" 
+    xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" >
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+        <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <!-- DetailedPreFlopStatisticsViewModel -->
+    <DataTemplate x:Key="DetailedPreFlopStatisticsDataGridTemplate">
+        <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="SB" Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="BB" Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="EA" Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="MI" Binding="{Binding Cells[3].Value}" />
+                <dg:DataGridTextColumn Header="LT" Binding="{Binding Cells[4].Value}" />
+                <dg:DataGridTextColumn Header="CO" Binding="{Binding Cells[5].Value}" />
+                <dg:DataGridTextColumn Header="BU" Binding="{Binding Cells[6].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <System:String x:Key="VerySmallBet">0.1</System:String>
+    <System:String x:Key="SmallBet">0.3</System:String>
+    <System:String x:Key="MediumBet">0.5</System:String>
+    <System:String x:Key="MediumLargeBet">0.7</System:String>
+    <System:String x:Key="LargeBet">0.9</System:String>
+    <System:String x:Key="VeryLargeBet">1.5</System:String>
+
+    <!--   DetailedPostFlopHeroActsStatisticsViewModel -->
+    <DataTemplate x:Key="DetailedPostFlopHeroActsStatisticsDataGridTemplate">
+        <dg:DataGrid DataContext="{Binding}" ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <!--   DetailedPostFlopHeroReactsStatisticsViewModel -->
+    <DataTemplate x:Key="DetailedPostFlopHeroReactsStatisticsDataGridTemplate" >
+        <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                     SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <System:String x:Key="SmallRaise">2x</System:String>
+    <System:String x:Key="MediumRaise">3x</System:String>
+    <System:String x:Key="LargeRaise">5x</System:String>
+    <System:String x:Key="VeryLargeRaise">9x</System:String>
+
+    <!-- PostFlopHeroActsRaiseReactionStatisticsViewModel -->
+    <DataTemplate x:Key="PostFlopHeroActsRaiseReactionStatisticsDataGridTemplate">
+        <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <!-- PostFlopHeroReactsRaiseReactionStatisticsViewModel -->
+    <DataTemplate x:Key="PostFlopHeroReactsRaiseReactionStatisticsDataGridTemplate">
+        <dg:DataGrid ItemsSource="{Binding Rows}"
+                         Loaded="DataGrid_Loaded"
+                         SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <!--PreFlopRaiseReactionStatisticsViewModel-->
+    <DataTemplate x:Key="PreFlopRaiseReactionStatisticsDataGridTemplate" >
+        <dg:DataGrid ItemsSource="{Binding Rows}" SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <!-- PreFlopUnraisedPotCallingHandStrengthStatisticsViewModel-->
+    <DataTemplate x:Key="PreFlopUnraisedPotCallingHandStrengthStatisticsDataGridTemplate">
+        <dg:DataGrid ItemsSource="{Binding Rows}" SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="5:1" Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="3:1" Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="5:2" Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[3].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <!-- PreFlopRaisedPotCallingHandStrengthStatisticsViewModel-->
+    <DataTemplate x:Key="PreFlopRaisedPotCallingHandStrengthStatisticsDataGridTemplate">
+        <dg:DataGrid ItemsSource="{Binding Rows}"
+                          SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="2:1" Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="3:2" Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="5:4" Binding="{Binding Cells[2].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+
+    <!-- PreFlopRaisingHandStrengthStatisticsViewModel -->
+    <DataTemplate x:Key="PreFlopRaisingHandStrengthStatisticsDataGridTemplate">
+        <dg:DataGrid ItemsSource="{Binding Rows}" SelectedCellsChanged="DataGrid_SelectedCellsChanged_SelectEntireColumn">
+            <dg:DataGrid.Columns>
+                <dg:DataGridTextColumn Header="{StaticResource SmallRaise}"     Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource MediumRaise}"    Binding="{Binding Cells[1].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource LargeRaise}"     Binding="{Binding Cells[2].Value}" />
+                <dg:DataGridTextColumn Header="{StaticResource VeryLargeRaise}" Binding="{Binding Cells[3].Value}" />
+            </dg:DataGrid.Columns>
+            <dg:DataGrid.ToolTip>
+                <TextBlock Text="{Binding StatisticsDescription}"/>
+            </dg:DataGrid.ToolTip>
+        </dg:DataGrid>
+    </DataTemplate>
+</ResourceDictionary>

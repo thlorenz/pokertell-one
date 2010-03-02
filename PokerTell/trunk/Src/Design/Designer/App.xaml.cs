@@ -34,9 +34,10 @@
             var viewModel = TableOverlayDesign.Model;
             var controllerViewModel = new TableOverlayControllerViewModel(viewModel);
             var win = new TableOverlayView(viewModel) { Topmost = true, Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill } };
-            var ctrlWin = new TableOverlayControllerWindow(controllerViewModel) { Topmost = true };
             win.Show();
-            ctrlWin.Show();
+
+//            var ctrlWin = new TableOverlayControllerWindow(controllerViewModel) { Topmost = true };
+//            ctrlWin.Show();
         }
 
         static void RunColorPickerExpanderView()

@@ -31,6 +31,16 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             get { return _board; }
         }
 
+        public IPokerTableStatisticsViewModel PokerTableStatisticsViewModel { get; protected set; }
+
+        public IList<IPlayerOverlayViewModel> PlayerOverlays { get; protected set; }
+
+        public ITableOverlaySettingsViewModel OverlaySettings { get; protected set; }
+
+        public IGameHistoryViewModel GameHistory { get; protected set; }
+
+        public IOverlaySettingsAidViewModel OverlaySettingsAid { get; protected set; }
+
         public ITableOverlayViewModel InitializeWith(
             ISeatMapper seatMapper, 
             ITableOverlaySettingsViewModel overlaySettings, 
@@ -50,43 +60,6 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             return this;
         }
 
-        public void InitializeOverlaySettings(ITableOverlaySettingsViewModel overlaySettings)
-        {
-//            OverlaySettings.InitializeWith(
-//                overlaySettings.TotalSeats,
-//                overlaySettings.ShowPreFlop,
-//                overlaySettings.ShowFlop,
-//                overlaySettings.ShowTurn,
-//                overlaySettings.ShowRiver,
-//                overlaySettings.ShowHarringtonM,
-//                overlaySettings.StatisticsPanelWidth,
-//                overlaySettings.StatisticsPanelHeight,
-//                overlaySettings.Background.ColorString,
-//                overlaySettings.OutOfPositionForeground.ColorString,
-//                overlaySettings.InPositionForeground.ColorString,
-//                overlaySettings.PreferredSeat,
-//                overlaySettings.PlayerStatisticsPanelPositions,
-//                overlaySettings.HarringtonMPositions,
-//                overlaySettings.HoleCardsPositions,
-//                overlaySettings.BoardPosition);
-
-            OverlaySettings = overlaySettings;
-
-            Board.InitializeWith(OverlaySettings.BoardPosition);
-            OverlaySettingsAid.InitializeWith(OverlaySettings);
-            for (int seat = 0; seat < PlayerOverlays.Count; seat++)
-            {
-                PlayerOverlays[seat].InitializeWith(OverlaySettings, seat);
-            }
-
-            OverlaySettings.PreferredSeatChanged += UpdatePlayerOverlays;
-            OverlaySettings.RaisePropertyChangedForAllProperties();
-            
-            RaisePropertyChanged(() => PlayerOverlays);
-            RaisePropertyChanged(() => OverlaySettings);
-            RaisePropertyChanged(() => OverlaySettingsAid);
-        }
-
         public ITableOverlayViewModel UpdateWith(IEnumerable<IConvertedPokerPlayer> pokerPlayers, string board)
         {
             _convertedPokerPlayers = pokerPlayers;
@@ -99,6 +72,20 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             ShowBoardAndHoleCards(board);
 
             return this;
+        }
+
+        void InitializeOverlaySettings(ITableOverlaySettingsViewModel overlaySettings)
+        {
+            OverlaySettings = overlaySettings;
+
+            Board.InitializeWith(OverlaySettings.BoardPosition);
+            OverlaySettingsAid.InitializeWith(OverlaySettings);
+            for (int seat = 0; seat < PlayerOverlays.Count; seat++)
+            {
+                PlayerOverlays[seat].InitializeWith(OverlaySettings, seat);
+            }
+
+            OverlaySettings.PreferredSeatChanged += UpdatePlayerOverlays;
         }
 
         void ShowBoardAndHoleCards(string board)
@@ -148,15 +135,5 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
             PlayerOverlays[index].UpdateWith(playerStatisticsViewModel, pokerPlayer);
         }
-
-        public IPokerTableStatisticsViewModel PokerTableStatisticsViewModel { get; protected set; }
-
-        public IList<IPlayerOverlayViewModel> PlayerOverlays { get; protected set; }
-
-        public ITableOverlaySettingsViewModel OverlaySettings { get; protected set; }
-
-        public IGameHistoryViewModel GameHistory { get; protected set; }
-
-        public IOverlaySettingsAidViewModel OverlaySettingsAid { get; protected set; }
     }
 }

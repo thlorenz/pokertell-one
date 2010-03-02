@@ -25,7 +25,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         ICommand _investigateRaiseReactionCommand;
 
         public DetailedPostFlopHeroActsStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel,
+            IRepositoryHandBrowserViewModel handBrowserViewModel,
             IPostFlopHeroActsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel,
             IDetailedPostFlopHeroActsStatisticsDescriber detailedStatisticsDescriber)
             : base(handBrowserViewModel, detailedStatisticsDescriber, "Bet Size")

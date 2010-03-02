@@ -2,6 +2,7 @@
    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    xmlns:Overlay="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
+   xmlns:Views="clr-namespace:PokerTell.LiveTracker.Views.Overlay"
         Width="800" Height="520" >
     <Window.Resources>
         <ResourceDictionary>
@@ -23,8 +24,10 @@
                     <Viewbox Grid.Row="1" >
                         <Canvas Width="800" Height="400">
                             <!-- Board -->
-                             <ContentControl Content="{Binding Board}" />
+                            <ContentControl Content="{Binding Board}" />
                             
+                            <Views:OverlayDetailsView  Content="{Binding}" />
+
                             <!-- PlayerOverlays -->
                             <ItemsControl ItemsSource="{Binding PlayerOverlays}" />
 

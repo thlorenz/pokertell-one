@@ -19,7 +19,7 @@
 
             <ctrl:DragCanvas AllowDragging="True" AllowDragOutOfView="True">
                 <!-- Player Statistics -->
-                <Views:PlayerStatisticsPanel 
+                <Views:PlayerStatisticsPanelView 
                        Canvas.Top="{Binding Position.Top, Mode=TwoWay}"
                        Canvas.Left="{Binding Position.Left, Mode=TwoWay}" />
 

@@ -9,7 +9,7 @@ namespace PokerTell.Statistics.Analyzation
 
    using Interfaces;
 
-   public class HandBrowser : IHandBrowser
+   public class RepositoryHandBrowser : IRepositoryHandBrowser
    {
       readonly IRepository _repository;
 
@@ -17,7 +17,7 @@ namespace PokerTell.Statistics.Analyzation
 
       IConvertedPokerHand[] _hands;
 
-      public HandBrowser(IRepository repository)
+      public RepositoryHandBrowser(IRepository repository)
       {
          _repository = repository;
       }
@@ -33,7 +33,7 @@ namespace PokerTell.Statistics.Analyzation
              _repository.RetrieveConvertedHand(_handIds.ElementAt(handIndex)));
       }
 
-       public IHandBrowser InitializeWith(IEnumerable<int> handIds)
+       public IRepositoryHandBrowser InitializeWith(IEnumerable<int> handIds)
       {
          if (handIds.Count() < 1)
          {

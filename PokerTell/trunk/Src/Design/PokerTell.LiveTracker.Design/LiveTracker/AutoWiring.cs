@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     using System.Collections.Generic;
     using System.Windows;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using Microsoft.Practices.Unity;
 
     using Moq;
@@ -38,13 +40,13 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 .RegisterType<IPlayerStatusViewModel, PlayerStatusViewModel>()
                 .RegisterType<IPlayerOverlayViewModel, PlayerOverlayViewModel>()
                 .RegisterInstance(new SeatMapper().InitializeWith(6).UpdateWith(3))
-                .RegisterInstance(new Mock<IGameHistoryViewModel>().Object);
+                .RegisterInstance<IGameHistoryViewModel>(new GameHistoryDesignModel());
 
             container
                 .RegisterConstructor(() => container.Resolve<IOverlayHoleCardsViewModel>())
                 .RegisterType<IOverlaySettingsAidViewModel, OverlaySettingsAidViewModel>();
 
-            IPlayerOverlayViewModel[] playerOverlays = GetPlayerOverlays(container.Resolve<ITableOverlaySettingsViewModel>(), container);
+            IPlayerOverlayViewModel[] playerOverlays = GetPlayerOverlays(container);
 
             var pokerTableStatisticsViewModel = GetPokerTableStatisticsViewModel(6);
 
@@ -64,7 +66,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
             container.RegisterInstance<ITableOverlayViewModel>(tableOverlay);
 
             overlaySettings.SaveChanges += () => layoutManager.Save(overlaySettings, "PokerStars");
-            overlaySettings.UndoChanges += () => tableOverlay.InitializeOverlaySettings(layoutManager.Load("PokerStars", 6));
+            overlaySettings.UndoChanges += revertTo => revertTo(layoutManager.Load("PokerStars", 6));
 
             return container;
         }
@@ -80,10 +82,17 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                     .Returns(new PlayerStatisticsDesignModel(seatIndex));
             }
 
+            var statisticsAnalyzer = new Mock<IDetailedStatisticsAnalyzerViewModel>();
+            statisticsAnalyzer
+                .SetupGet(sa => sa.CurrentViewModel)
+                .Returns(new DetailedPreFlopStatisticsDesignModel());
+            tableStatistics
+                .SetupGet(s => s.DetailedStatisticsAnalyzer)
+                .Returns(statisticsAnalyzer.Object);
             return tableStatistics.Object;
         }
 
-        static IPlayerOverlayViewModel[] GetPlayerOverlays(ITableOverlaySettingsViewModel overlaySettings, IUnityContainer container)
+        static IPlayerOverlayViewModel[] GetPlayerOverlays(IUnityContainer container)
         {
             var po0 = container.Resolve<IPlayerOverlayViewModel>();
             var po1 = container.Resolve<IPlayerOverlayViewModel>();
@@ -175,7 +184,10 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 statisticsPositions, 
                 harringtonMPositions, 
                 holeCardsPositions, 
-                new PositionViewModel(300, 10));
+                new PositionViewModel(300, 10), 
+                new PositionViewModel(300, 210),
+                400,
+                200);
         }
     }
 }

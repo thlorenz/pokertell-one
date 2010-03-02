@@ -436,6 +436,7 @@ namespace PokerTell.PokerHand.Analyzation
             TotalSeats = aquiredHand.TotalSeats;
             TournamentId = aquiredHand.TournamentId;
             Ante = aquiredHand.Ante;
+            HeroName = aquiredHand.HeroName;
         }
 
         #endregion

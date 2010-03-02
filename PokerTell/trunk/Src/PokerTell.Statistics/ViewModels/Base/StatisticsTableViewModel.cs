@@ -64,6 +64,8 @@ namespace PokerTell.Statistics.ViewModels.Base
             }
         }
 
+        public bool ShowStatisticsInformationPanel { get; set; } 
+
         string _statisticsHint;
 
         /// <summary>

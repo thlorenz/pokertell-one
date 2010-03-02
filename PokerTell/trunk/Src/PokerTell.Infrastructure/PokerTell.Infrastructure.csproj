@@ -125,7 +125,7 @@
     <Compile Include="Interfaces\PokerHand\IConvertedPokerPlayer.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerPlayerDao.cs" />
     <Compile Include="Interfaces\PokerHand\IConvertedPokerRound.cs" />
-    <Compile Include="Interfaces\PokerHand\IHandBrowserViewModel.cs" />
+    <Compile Include="Interfaces\PokerHand\IRepositoryHandBrowserViewModel.cs" />
     <Compile Include="Interfaces\PokerHand\IHandHistoriesFilter.cs" />
     <Compile Include="Interfaces\PokerHand\IHandHistoriesView.cs" />
     <Compile Include="Interfaces\PokerHand\IHandHistoriesViewModel.cs" />

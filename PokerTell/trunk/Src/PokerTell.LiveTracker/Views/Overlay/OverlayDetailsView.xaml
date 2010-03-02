@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="PokerTell.LiveTracker.Views.Overlay.OverlayDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools"
+    >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
+                <ResourceDictionary Source="../InvestigatorViewTemplates.xaml"/>
+                <ResourceDictionary Source="GameHistoryViewTemplate.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TabControl}">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+       </ResourceDictionary>
+        
+    </UserControl.Resources>
+    <ctrl:DragCanvas AllowDragging="True" AllowDragOutOfView="True" >
+        <!-- Important: Only with this exact Border around the ViewBox does the resizing work. -->
+        <Border Canvas.Left="{Binding OverlaySettings.OverlayDetailsPosition.Left, Mode=TwoWay}" 
+                Canvas.Top="{Binding OverlaySettings.OverlayDetailsPosition.Top, Mode=TwoWay}" 
+                HorizontalAlignment="Center" VerticalAlignment="Center"
+                CornerRadius="10"
+                BorderThickness="0.2"
+                BorderBrush="{StaticResource LightBorderBrush}"
+                Padding="0.1,2, 0.1, 0.1" >
+            <!-- This seemingly redundant Viewbox is needed to enable resizing as well (including Width and Height bindings and the Stretch=Fill-->
+            <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
+                 Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}" 
+                 Stretch="Fill"
+                 MouseEnter="ResizableElement_MouseEnter" >
+                <TabControl TabStripPlacement="Bottom" >
+                    <TabControl.Items>
+                        <TabItem Header="Statistics">
+                            <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth}" 
+                                     Height="{Binding OverlaySettings.OverlayDetailsHeight}" 
+                                     Stretch="Fill">
+                                <StackPanel Orientation="Horizontal">
+                                    <StackPanel DataContext="{Binding PokerTableStatisticsViewModel.DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
+                                        <!-- Statistics Analyzer -->
+                                        <ContentControl Content="{Binding CurrentViewModel}" 
+                                    ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"
+                                    HorizontalContentAlignment="Stretch"/>
+                                        <Popup AllowsTransparency="True" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Bottom"  StaysOpen="False">
+                                            <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}" />
+                                        </Popup>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical" DataContext="{Binding PokerTableStatisticsViewModel.DetailedStatisticsAnalyzer}">
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource InvestigatorNavigationTemplate}" />
+                                        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource InvestigatorCommandsTemplate}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Viewbox>
+                        </TabItem>
+                        <TabItem Header="Hand History">
+                            <!-- This Viewbox makes sure, that the Content will fill the area instead of the header getting big when content is small-->
+                            <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth}" 
+                                     Height="{Binding OverlaySettings.OverlayDetailsHeight}" 
+                                     Stretch="Fill">
+                                <ContentControl Content="{Binding GameHistory}" />
+                            </Viewbox>
+                        </TabItem>
+                    </TabControl.Items>
+                </TabControl>
+            </Viewbox>
+        </Border>
+    </ctrl:DragCanvas>
+</UserControl>

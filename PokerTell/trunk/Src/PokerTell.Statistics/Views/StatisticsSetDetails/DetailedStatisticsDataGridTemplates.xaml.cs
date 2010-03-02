@@ -9,7 +9,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
 
     using Tools.FunctionalCSharp;
 
-    public partial class DetailedStatisticsViewTemplate
+    public partial class DetailedStatisticsDataGridTemplates
     {
         #region Methods
 
@@ -65,6 +65,10 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
         static void UpdateViewModelWithCurrentSelection(DataGrid grid)
         {
             var viewModel = (IStatisticsTableViewModel)grid.DataContext;
+
+            // This null check was not necessary before extracting DatGridTemplates into this Resource
+            if (viewModel == null) return;
+
             viewModel.ClearSelection();
 
             foreach (DataGridCellInfo gridCellInfo in grid.SelectedCells)
@@ -108,6 +112,10 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
             UpdateViewModelWithCurrentSelection(grid);
 
             var viewModel = (IStatisticsTableViewModel)grid.DataContext;
+            
+            // This null check was not necessary before extracting DatGridTemplates into this Resource
+            if (viewModel == null) return;
+
             var selectedColumns = viewModel.SelectedCells.Select(c => c.Second);
 
             grid.SelectedCellsChanged -= DataGrid_SelectedCellsChanged_SelectEntireColumn;

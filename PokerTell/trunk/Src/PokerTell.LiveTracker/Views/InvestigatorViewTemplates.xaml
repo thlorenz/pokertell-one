@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+   
+    <!-- Investigator Buttons -->
+    <Style x:Key="InvestigateRaiseButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="MaxHeight" Value="25" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="8,3" />
+        <Setter Property="FontSize" Value="8" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="Command" Value="{Binding InvestigateRaiseReactionCommand}" />
+        <Setter Property="Content" Value="Show Raise"/>
+    </Style>
+    <Style x:Key="VisualizeHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
+        <Setter Property="Command" Value="{Binding VisualizeStartingHandsCommand}" />
+        <Setter Property="Content" Value="Visualize Hands"/>
+    </Style>
+    <Style x:Key="BrowseHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
+        <Setter Property="Command" Value="{Binding BrowseHandsCommand}" />
+        <Setter Property="Content" Value="Browse Hands"/>
+    </Style>
+    <Style x:Key="InvestigateHoleCardsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
+        <Setter Property="Command" Value="{Binding InvestigateHoleCardsCommand}" />
+        <Setter Property="Content" Value="Show Cards"/>
+    </Style>
+    
+    <DataTemplate x:Key="InvestigatorCommandsTemplate">
+        <Border BorderThickness="1" BorderBrush="{StaticResource LightBorderBrush}" CornerRadius="2">
+            <!-- Investigation Commands -->
+            <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button Style="{StaticResource VisualizeHandsButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayVisualizeHands, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+                <Button Style="{StaticResource BrowseHandsButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayBrowseHands, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+                <Button Style="{StaticResource InvestigateRaiseButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayInvestigateRaise, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
+                <Button Style="{StaticResource InvestigateHoleCardsButtonStyle}"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalAlignment="Center"
+                                            DataContext="{Binding CurrentViewModel}"
+                                            Visibility="{Binding MayInvestigateHoleCards, Converter={StaticResource BoolToVisibleOrHiddenConverter}}"/>
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+    <DataTemplate x:Key="InvestigatorNavigationTemplate">
+        <!-- Navigation -->
+        <Border BorderThickness="1" BorderBrush="{StaticResource LightBorderBrush}" CornerRadius="2">
+            <StackPanel  MaxHeight="25" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top"  >
+                <Button Content="&lt;" Padding="10,3" Command="{Binding NavigateBackwardCommand}"/>
+                <Button Content="&gt;"  Padding="10,3" Command="{Binding NavigateForwardCommand}"/>
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+</ResourceDictionary>

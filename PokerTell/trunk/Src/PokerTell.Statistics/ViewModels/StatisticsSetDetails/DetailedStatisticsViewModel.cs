@@ -19,10 +19,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
 
     public abstract class DetailedStatisticsViewModel : StatisticsTableViewModel, IDetailedStatisticsViewModel
    {
-      protected readonly IHandBrowserViewModel _handBrowserViewModel;
+      protected readonly IRepositoryHandBrowserViewModel _handBrowserViewModel;
 
 
-      protected DetailedStatisticsViewModel(IHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber, string columnHeaderTitle)
+      protected DetailedStatisticsViewModel(IRepositoryHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber, string columnHeaderTitle)
          : base(columnHeaderTitle)
       {
           _detailedStatisticsDescriber = detailedStatisticsDescriber;

@@ -74,6 +74,7 @@
     <Compile Include="Overlay\LayoutManagerSpecs.cs" />
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
     <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="ViewModels\Overlay\GameHistoryViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModelSpecs.cs" />

@@ -10,16 +10,16 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
    using Tools.WPF.ViewModels;
 
-   public class HandBrowserViewModel : NotifyPropertyChanged, IHandBrowserViewModel
+   public class RepositoryHandBrowserViewModel : NotifyPropertyChanged, IRepositoryHandBrowserViewModel
    {
-      readonly IHandBrowser _handBrowser;
+      readonly IRepositoryHandBrowser _repositoryHandBrowser;
 
       int _currentHandIndex;
 
-      public HandBrowserViewModel(IHandBrowser handBrowser, IHandHistoryViewModel handHistoryViewModel)
+      public RepositoryHandBrowserViewModel(IRepositoryHandBrowser repositoryHandBrowser, IHandHistoryViewModel handHistoryViewModel)
       {
          CurrentHandHistory = handHistoryViewModel;
-         _handBrowser = handBrowser;
+         _repositoryHandBrowser = repositoryHandBrowser;
       }
 
       // This event does not occur here because this ViewModel the last in the chain
@@ -30,7 +30,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         get { return false; }
        }
 
-       public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
+      public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
 
       public int HandCount { get; protected set; }
 
@@ -39,19 +39,19 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
          get { return _currentHandIndex; }
          set {
             _currentHandIndex = value;
-            CurrentHandHistory.UpdateWith(_handBrowser.Hand(_currentHandIndex)); 
+            CurrentHandHistory.UpdateWith(_repositoryHandBrowser.Hand(_currentHandIndex)); 
             RaisePropertyChanged(() => CurrentHandIndex);
          }
       }
 
-      public IHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+      public IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
       {
          var reversedHandIds = analyzablePokerPlayers.Select(p => p.HandId).Reverse();
 
-         _handBrowser.InitializeWith(reversedHandIds);
+         _repositoryHandBrowser.InitializeWith(reversedHandIds);
 
           CurrentHandIndex = 0;
-          HandCount = _handBrowser.PotentialHandsCount;
+          HandCount = _repositoryHandBrowser.PotentialHandsCount;
           return this;
       }
    }

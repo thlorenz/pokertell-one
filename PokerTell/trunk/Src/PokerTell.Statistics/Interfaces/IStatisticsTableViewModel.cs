@@ -29,6 +29,8 @@ namespace PokerTell.Statistics.Interfaces
         /// </summary>
         string StatisticsHint { get; }
 
+        bool ShowStatisticsInformationPanel { get; set; }
+
         IStatisticsTableViewModel AddToSelection(int row, int column);
 
         void ClearSelection();

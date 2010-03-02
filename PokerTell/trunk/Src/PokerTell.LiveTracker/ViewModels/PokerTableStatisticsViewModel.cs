@@ -51,6 +51,18 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Properties
 
+        public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
+
+        public IPlayerStatisticsViewModel SelectedPlayer
+        {
+            get { return _selectedPlayer; }
+            set
+            {
+                _selectedPlayer = value;
+                RaisePropertyChanged(() => SelectedPlayer);
+            }
+        }
+
         public IDetailedStatisticsAnalyzerViewModel DetailedStatisticsAnalyzer
         {
             get { return _detailedStatisticsAnalyzer; }
@@ -75,18 +87,6 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
-
-        public IPlayerStatisticsViewModel SelectedPlayer
-        {
-            get { return _selectedPlayer; }
-            set
-            {
-                _selectedPlayer = value;
-                
-                RaisePropertyChanged(() => SelectedPlayer);
-            }
-        }
 
         #endregion
 
@@ -151,9 +151,9 @@ namespace PokerTell.LiveTracker.ViewModels
             if (matchingPlayer == null)
             {
                 matchingPlayer = _playerStatisticsViewModelMake.New;
-                
+
                 matchingPlayer.SelectedStatisticsSetEvent +=
-                    sequenceStatisticsSet => DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
+                    sequenceStatisticsSet => { Console.WriteLine("Selected: "); DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet); };
                 
                 Players.Add(matchingPlayer);
             }

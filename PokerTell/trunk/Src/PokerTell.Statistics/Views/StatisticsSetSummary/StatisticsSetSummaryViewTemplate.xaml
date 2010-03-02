@@ -18,7 +18,6 @@
         <Border MaxHeight="80" MaxWidth="75"
              WPF:CommandBehavior.Event="MouseDown"
              WPF:CommandBehavior.Command="{Binding SelectStatisticsSetCommand}"   
-             WPF:CommandBehavior.Parameter="and bound it!"   
              Background="#FF424141"
              CornerRadius="3"
              Margin="0,0"

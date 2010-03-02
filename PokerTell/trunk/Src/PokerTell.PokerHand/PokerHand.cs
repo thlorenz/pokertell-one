@@ -173,6 +173,17 @@ namespace PokerTell.PokerHand
             set { _tableName = value; }
         }
 
+        string _heroName;
+
+        public string HeroName
+        {
+            get { return _heroName; }
+            set
+            {
+                _heroName = value;
+            }
+        }
+
         /// <summary>
         /// String representation of time obtained from TimeStamp
         /// </summary>

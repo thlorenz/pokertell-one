@@ -48,14 +48,20 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ICommand UndoChangesCommand { get; }
 
+        double OverlayDetailsWidth { get; set; }
+
+        double OverlayDetailsHeight { get; set; }
+
+        IPositionViewModel OverlayDetailsPosition { get; set; }
+
         event Action PreferredSeatChanged;
 
-        ITableOverlaySettingsViewModel InitializeWith(int totalSeats, bool showPreFlop, bool showFlop, bool showTurn, bool showRiver, bool showHarringtonM, double width, double height, string background, string outOfPositionForeground, string inPositionForeground, int preferredSeat, IList<IPositionViewModel> playerStatisticPositions, IList<IPositionViewModel> harringtonMPositions, IList<IPositionViewModel> holeCardsPositions, IPositionViewModel boardPosition);
+        ITableOverlaySettingsViewModel InitializeWith(int totalSeats, bool showPreFlop, bool showFlop, bool showTurn, bool showRiver, bool showHarringtonM, double statisticsPanelWidth, double statisticsPanelHeight, string background, string outOfPositionForeground, string inPositionForeground, int preferredSeat, IList<IPositionViewModel> playerStatisticPositions, IList<IPositionViewModel> harringtonMPositions, IList<IPositionViewModel> holeCardsPositions, IPositionViewModel boardPosition, IPositionViewModel overlayDetailsPosition, double overlayDetailsWidth, double overlayDetailsHeight);
 
         event Action SaveChanges;
 
-        event Action UndoChanges;
+        event Action<Action<ITableOverlaySettingsViewModel>> UndoChanges;
 
-        ITableOverlaySettingsViewModel RaisePropertyChangedForAllProperties();
+        ITableOverlaySettingsViewModel RevertTo(ITableOverlaySettingsViewModel os);
     }
 }

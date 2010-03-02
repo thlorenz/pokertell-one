@@ -101,6 +101,30 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
+        double _overlayDetailsWidth;
+
+        public double OverlayDetailsWidth
+        {
+            get { return _overlayDetailsWidth; }
+            set
+            {
+                _overlayDetailsWidth = value;
+                RaisePropertyChanged(() => OverlayDetailsWidth);
+            }
+        }
+
+        double _overlayDetailsHeight;
+
+        public double OverlayDetailsHeight
+        {
+            get { return _overlayDetailsHeight; }
+            set
+            {
+                _overlayDetailsHeight = value;
+                RaisePropertyChanged(() => OverlayDetailsHeight);
+            }
+        }
+
         IColorViewModel _background;
 
         public IColorViewModel Background
@@ -172,19 +196,13 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IPositionViewModel BoardPosition { get; set; }
 
+        public IPositionViewModel OverlayDetailsPosition { get; set; }
+
         public event Action PreferredSeatChanged = delegate { };
 
         public event Action SaveChanges = delegate { };
 
-        public event Action UndoChanges = delegate { };
-
-        public ITableOverlaySettingsViewModel RaisePropertyChangedForAllProperties()
-        {
-            Background.RaisePropertyChangedForAllProperties();
-            OutOfPositionForeground.RaisePropertyChangedForAllProperties();
-            InPositionForeground.RaisePropertyChangedForAllProperties();
-            return this;
-        }
+        public event Action<Action<ITableOverlaySettingsViewModel>> UndoChanges = delegate { };
 
         ICommand _saveChangesCommand;
 
@@ -212,8 +230,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 return _undoChangesCommand ?? (_undoChangesCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
+                            UndoChanges(savedSettings => RevertTo(savedSettings));
                             _settingsModified = false;
-                            UndoChanges();
                         }, 
                         CanExecuteDelegate = arg => _settingsModified
                     });
@@ -227,8 +245,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             bool showTurn, 
             bool showRiver, 
             bool showHarringtonM, 
-            double width, 
-            double height, 
+            double statisticsPanelWidth, 
+            double statisticsPanelHeight, 
             string background, 
             string outOfPositionForeground, 
             string inPositionForeground, 
@@ -236,7 +254,10 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             IList<IPositionViewModel> playerStatisticPositions, 
             IList<IPositionViewModel> harringtonMPositions, 
             IList<IPositionViewModel> holeCardsPositions, 
-            IPositionViewModel boardPosition)
+            IPositionViewModel boardPosition, 
+            IPositionViewModel overlayDetailsPosition, 
+            double overlayDetailsWidth, 
+            double overlayDetailsHeight)
         {
             TotalSeats = totalSeats;
             ShowPreFlop = showPreFlop;
@@ -246,8 +267,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
             ShowHarringtonM = showHarringtonM;
 
-            StatisticsPanelWidth = width;
-            StatisticsPanelHeight = height;
+            StatisticsPanelWidth = statisticsPanelWidth;
+            StatisticsPanelHeight = statisticsPanelHeight;
 
             Background = new ColorViewModel(background);
 
@@ -255,11 +276,16 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             InPositionForeground = new ColorViewModel(inPositionForeground);
 
             PreferredSeat = preferredSeat;
-            PlayerStatisticsPanelPositions = new List<IPositionViewModel>(playerStatisticPositions);
 
+            PlayerStatisticsPanelPositions = new List<IPositionViewModel>(playerStatisticPositions);
             HarringtonMPositions = harringtonMPositions;
             HoleCardsPositions = holeCardsPositions;
+
             BoardPosition = boardPosition;
+
+            OverlayDetailsPosition = overlayDetailsPosition;
+            OverlayDetailsWidth = overlayDetailsWidth;
+            OverlayDetailsHeight = overlayDetailsHeight;
 
             RegisterSettingsModificationEvents();
 
@@ -278,13 +304,58 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             HoleCardsPositions.ForEach(p => p.PropertyChanged += SettingsModified);
 
             BoardPosition.PropertyChanged += SettingsModified;
-
+            OverlayDetailsPosition.PropertyChanged += SettingsModified;
+           
             PropertyChanged += SettingsModified;
         }
 
         void SettingsModified(object sender, PropertyChangedEventArgs e)
         {
             _settingsModified = true;
+        }
+
+        public ITableOverlaySettingsViewModel RevertTo(ITableOverlaySettingsViewModel os)
+        {
+            ShowPreFlop = os.ShowPreFlop;
+            ShowFlop = os.ShowFlop;
+            ShowTurn = os.ShowTurn;
+            ShowRiver = os.ShowRiver;
+            ShowHarringtonM = os.ShowHarringtonM;
+
+            StatisticsPanelWidth = os.StatisticsPanelWidth;
+            StatisticsPanelHeight = os.StatisticsPanelHeight;
+
+            Background.Color = os.Background.Color;
+            OutOfPositionForeground.Color = os.OutOfPositionForeground.Color;
+            InPositionForeground.Color = os.InPositionForeground.Color;
+
+            PreferredSeat = os.PreferredSeat;
+
+            RevertPositions(PlayerStatisticsPanelPositions, os.PlayerStatisticsPanelPositions);
+            RevertPositions(HarringtonMPositions, os.HarringtonMPositions);
+            RevertPositions(HoleCardsPositions, os.HoleCardsPositions);
+
+            RevertPosition(BoardPosition, os.BoardPosition);
+            
+            RevertPosition(OverlayDetailsPosition, os.OverlayDetailsPosition);
+            OverlayDetailsWidth = os.OverlayDetailsWidth;
+            OverlayDetailsHeight = os.OverlayDetailsHeight;
+
+            return this;
+        }
+
+        static void RevertPositions(IList<IPositionViewModel> targetPositions, IList<IPositionViewModel> sourcePositions)
+        {
+            foreach (var pos in 0.To(targetPositions.Count - 1))
+            {
+                RevertPosition(targetPositions[pos], sourcePositions[pos]);
+            }
+        }
+
+        static void RevertPosition(IPositionViewModel targetPosition, IPositionViewModel sourcePosition)
+        {
+            targetPosition.Left = sourcePosition.Left;
+            targetPosition.Top = sourcePosition.Top;
         }
 
         public override string ToString()

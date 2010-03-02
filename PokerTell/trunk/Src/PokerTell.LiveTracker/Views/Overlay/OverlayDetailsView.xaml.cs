@@ -8,11 +8,11 @@
     using Tools.WPF.Controls;
 
     /// <summary>
-    /// Interaction logic for PlayerStatisticsPanel.xaml
+    /// Interaction logic for OverlayDetailsView.xaml
     /// </summary>
-    public partial class PlayerStatisticsPanel : UserControl
+    public partial class OverlayDetailsView : UserControl
     {
-        public PlayerStatisticsPanel()
+        public OverlayDetailsView()
         {
             InitializeComponent();
         }
@@ -25,7 +25,7 @@
         {
             _selectedElement = e.Source as UIElement;
             AddResizeAdorner();
-           
+
             e.Handled = true;
         }
 
@@ -35,16 +35,6 @@
             {
                 _adornerLayer = AdornerLayer.GetAdornerLayer(_selectedElement);
                 _adornerLayer.Add(new ResizeAdorner(_selectedElement));
-            }
-        }
-
-        public void RemoveResizeAdorner()
-        {
-            if (_selectedElement != null)
-            {
-                // Remove the adorner from the selected element
-                _adornerLayer.Remove(_adornerLayer.GetAdorners(_selectedElement)[0]);
-                _selectedElement = null;
             }
         }
     }

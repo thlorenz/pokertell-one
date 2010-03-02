@@ -18,7 +18,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                                                                     IPostFlopHeroActsRaiseReactionStatisticsViewModel
     {
         public PostFlopHeroActsRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel, 
+            IRepositoryHandBrowserViewModel handBrowserViewModel, 
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
@@ -34,7 +34,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                                                                       IPostFlopHeroReactsRaiseReactionStatisticsViewModel
     {
         public PostFlopHeroReactsRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel, 
+            IRepositoryHandBrowserViewModel handBrowserViewModel, 
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IPostFlopHeroReactsRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
@@ -50,7 +50,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                                                            IPreFlopRaiseReactionStatisticsViewModel
     {
         public PreFlopRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel, 
+            IRepositoryHandBrowserViewModel handBrowserViewModel, 
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IPreFlopRaiseReactionDescriber raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
@@ -65,7 +65,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
     public class DetailedRaiseReactionStatisticsViewModel<T> : StatisticsTableViewModel, 
                                                                IDetailedRaiseReactionStatisticsViewModel<T>
     {
-        readonly IHandBrowserViewModel _handBrowserViewModel;
+        readonly IRepositoryHandBrowserViewModel _handBrowserViewModel;
 
         readonly IRaiseReactionDescriber<T> _raiseReactionDescriber;
 
@@ -85,7 +85,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         protected bool ConsiderOpponentsRaiseSize;
 
         public DetailedRaiseReactionStatisticsViewModel(
-            IHandBrowserViewModel handBrowserViewModel, 
+            IRepositoryHandBrowserViewModel handBrowserViewModel, 
             IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, 
             IRaiseReactionDescriber<T> raiseReactionDescriber)
             : base("Raise Size")
@@ -117,7 +117,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         {
             get
             {
-                return SelectedCells.SelectMany(
+                return SelectedCells
+                    .SelectMany(
                     selectedCell => {
                         int row = selectedCell.First;
                         int col = selectedCell.Second;

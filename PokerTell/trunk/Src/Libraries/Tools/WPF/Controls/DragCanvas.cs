@@ -271,9 +271,9 @@ namespace Tools.WPF.Controls
 
         #region OnPreviewMouseLeftButtonDown
 
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            base.OnPreviewMouseLeftButtonDown(e);
+            base.OnPreviewMouseRightButtonDown(e);
 
             _isDragInProgress = false;
 
@@ -302,6 +302,7 @@ namespace Tools.WPF.Controls
             // Set the Handled flag so that a control being dragged 
             // does not react to the mouse input.
             e.Handled = true;
+            
 
             _isDragInProgress = true;
         }
@@ -406,10 +407,9 @@ namespace Tools.WPF.Controls
         #endregion // OnPreviewMouseMove
 
         #region OnHostPreviewMouseUp
-
-        protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        protected override void OnPreviewMouseRightButtonUp(MouseButtonEventArgs e)
         {
-            base.OnPreviewMouseUp(e);
+            base.OnPreviewMouseRightButtonUp(e);
 
             // Reset the field whether the left or right mouse button was 
             // released, in case a context menu was opened on the drag element.
