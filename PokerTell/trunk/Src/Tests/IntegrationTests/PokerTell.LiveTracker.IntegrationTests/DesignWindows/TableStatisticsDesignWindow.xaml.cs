@@ -22,7 +22,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
 
 
 
-        public TableStatisticsDesignWindow(IEventAggregator eventAggregator, IHandBrowserViewModel handBrowserViewModel)
+        public TableStatisticsDesignWindow(IEventAggregator eventAggregator, IRepositoryHandBrowserViewModel handBrowserViewModel)
         {
             //DataContext = new PokerTableStatisticsDesignModel(eventAggregator, handBrowserViewModel);
             InitializeComponent();

@@ -13,7 +13,7 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
     {
         static readonly StubBuilder Stub = new StubBuilder();
 
-        public DetailedPostFlopHeroActsStatisticsDesignModel(IHandBrowserViewModel handBrowserViewModel)
+        public DetailedPostFlopHeroActsStatisticsDesignModel(IRepositoryHandBrowserViewModel handBrowserViewModel)
             : base(
                 handBrowserViewModel, 
                 Stub.Out<IPostFlopHeroActsRaiseReactionStatisticsViewModel>(), 

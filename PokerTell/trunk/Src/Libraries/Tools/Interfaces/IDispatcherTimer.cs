@@ -33,7 +33,7 @@ namespace Tools.Interfaces
     }
 
     /// <summary>
-    /// Adapts the Dispatcher class to implement the ITimer interface.
+    /// Adapts the DispatcherTimer class to implement the <see cref="IDispatcherTimer"/> interface.
     /// </summary> 
     public class DispatcherTimerAdapter : DispatcherTimer, IDispatcherTimer
     {

@@ -18,7 +18,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignViewModels
 
         //static readonly StubBuilder _stub = new StubBuilder();
 
-        //public PokerTableStatisticsDesignModel(IEventAggregator eventAggregator, IHandBrowserViewModel handBrowserViewModel)
+        //public PokerTableStatisticsDesignModel(IEventAggregator eventAggregator, IRepositoryHandBrowserViewModel handBrowserViewModel)
         //    : base(eventAggregator, 
         //           new Constructor<IPlayerStatisticsViewModel>(() => null), 
         //           new DetailedStatisticsAnalyzerViewModel(

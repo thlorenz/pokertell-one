@@ -18,7 +18,7 @@ namespace PokerTell.Statistics.IntegrationTests.DesignViewModels
 
     //    static readonly StubBuilder _stub = new StubBuilder();
     //    public DetailedPreFlopStatisticsDesignModel(
-    //       IHandBrowserViewModel handBrowserViewModel,
+    //       IRepositoryHandBrowserViewModel handBrowserViewModel,
     //     IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder,
     //     IPostFlopHeroActsRaiseReactionDescriber raiseReactionDescriber)
     //       : base(handBrowserViewModel, _preFlopUnraisedPotCallingHandStrengthStatisticsViewModel, _preFlopRaisedPotCallingHandStrengthStatisticsViewModel, _preFlopRaisingHandStrengthStatisticsViewModel, new StubBuilder().Out<IPreFlopRaiseReactionStatisticsViewModel>(),_stub.Out<IDetailedPreFlopStatisticsDescriber>())

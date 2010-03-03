@@ -61,8 +61,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                     ¯ should be executable
 
                 given one cell is selected and the user executes the command
-                    ¯ should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
-                    ¯ should set its ChildViewModel to the HandBrowserViewModel
+                    ¯ should initialize RepositoryHandBrowserViewModel with the analyzable players who correspond to the cell
+                    ¯ should set its ChildViewModel to the RepositoryHandBrowserViewModel
           *      
           */
 
@@ -72,7 +72,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         protected static Dictionary<int, int> _emptyPercentageDictionary;
 
-        protected static Mock<IHandBrowserViewModel> _handBrowserViewModelMock;
+        protected static Mock<IRepositoryHandBrowserViewModel> _handBrowserViewModelMock;
 
         protected static string _playerName;
 
@@ -123,7 +123,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             _raiseReactionAnalyzerStub = new Mock<IRaiseReactionAnalyzer>();
             _raiseReactionAnalyzerMake = new Constructor<IRaiseReactionAnalyzer>(() => _raiseReactionAnalyzerStub.Object);
 
-            _handBrowserViewModelMock = new Mock<IHandBrowserViewModel>();
+            _handBrowserViewModelMock = new Mock<IRepositoryHandBrowserViewModel>();
            
             _raiseReactionStatisticsBuilderMock = new Mock<IRaiseReactionStatisticsBuilder>();
             _raiseReactionStatisticsBuilderMock
@@ -140,7 +140,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
     public class DetailedRaiseReactionStatisticsViewModelImpl : DetailedRaiseReactionStatisticsViewModel<double>
     {
-        public DetailedRaiseReactionStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, IRaiseReactionDescriber<double> raiseReactionDescriber)
+        public DetailedRaiseReactionStatisticsViewModelImpl(IRepositoryHandBrowserViewModel handBrowserViewModel, IRaiseReactionStatisticsBuilder raiseReactionStatisticsBuilder, IRaiseReactionDescriber<double> raiseReactionDescriber)
             : base(handBrowserViewModel, raiseReactionStatisticsBuilder, raiseReactionDescriber)
         {
         }

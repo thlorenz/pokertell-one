@@ -94,6 +94,7 @@
     <Compile Include="Enumerations\PokerHand\ActionSequences.cs" />
     <Compile Include="Events\AdjustAnalyzablePokerPlayersFilterEvent.cs" />
     <Compile Include="Events\DatabaseInUseChangedEvent.cs" />
+    <Compile Include="Events\NewHandEvent.cs" />
     <Compile Include="Events\ProgressUpdateEvent.cs" />
     <Compile Include="Events\UserConfirmActionEvent.cs" />
     <Compile Include="Events\UserMessageEvent.cs" />

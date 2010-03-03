@@ -33,7 +33,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             set
             {
                 _currentHandIndex = value;
-
+                
                 CurrentHandHistory.UpdateWith(_convertedHands[_currentHandIndex]);
                 RaisePropertyChanged(() => CurrentHandIndex);
             }

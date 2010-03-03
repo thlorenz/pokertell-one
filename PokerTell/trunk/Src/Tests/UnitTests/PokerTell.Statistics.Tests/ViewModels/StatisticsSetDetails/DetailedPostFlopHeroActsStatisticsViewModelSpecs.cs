@@ -35,7 +35,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                     » should assign the raise reaction statistics model to its child view model
                     » should initialize the raise reaction statistics model with the data of the selected cells
          */
-        protected static Mock<IHandBrowserViewModel> _handBrowserViewModelStub;
+        protected static Mock<IRepositoryHandBrowserViewModel> _handBrowserViewModelStub;
 
         protected static Mock<IPostFlopHeroActsRaiseReactionStatisticsViewModel> _raiseReactionStatisticsViewModelMock;
 
@@ -48,7 +48,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         Establish basicContext = () => {
             _raiseReactionStatisticsViewModelMock = new Mock<IPostFlopHeroActsRaiseReactionStatisticsViewModel>();
 
-            _handBrowserViewModelStub = new Mock<IHandBrowserViewModel>();
+            _handBrowserViewModelStub = new Mock<IRepositoryHandBrowserViewModel>();
 
             _actionSequenceStatisticStub = new Mock<IActionSequenceStatistic>();
             _actionSequenceStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroB);
@@ -63,7 +63,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public class DetailedPostFlopHeroActsStatisticsViewModelImpl : DetailedPostFlopHeroActsStatisticsViewModel
         {
             public DetailedPostFlopHeroActsStatisticsViewModelImpl(
-                IHandBrowserViewModel handBrowserViewModel, 
+                IRepositoryHandBrowserViewModel handBrowserViewModel, 
                 IPostFlopHeroActsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel)
                 : base(handBrowserViewModel, raiseReactionStatisticsViewModel, new StubBuilder().Out<IDetailedPostFlopHeroActsStatisticsDescriber>())
             {

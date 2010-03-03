@@ -29,7 +29,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public void _Init()
         {
             _stub = new StubBuilder();
-            _sut = new DetailedStatisticsViewModelImpl(_stub.Out<IHandBrowserViewModel>(), _stub.Out<IDetailedStatisticsDescriber>());
+            _sut = new DetailedStatisticsViewModelImpl(_stub.Out<IRepositoryHandBrowserViewModel>(), _stub.Out<IDetailedStatisticsDescriber>());
         }
 
         [Test]
@@ -131,7 +131,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
 
         class DetailedStatisticsViewModelImpl : DetailedStatisticsViewModel
         {
-            public DetailedStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber)
+            public DetailedStatisticsViewModelImpl(IRepositoryHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber)
                 : base(handBrowserViewModel, detailedStatisticsDescriber, "columnHeaderTitle")
             {
             }

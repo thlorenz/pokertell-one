@@ -19,7 +19,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
    {
       /*
          *  Specifications
-         *  Subject: HandBrowser
+         *  Subject: RepositoryHandBrowser
          *  
          *  Initialization
          *       
@@ -65,7 +65,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
 
       protected static Mock<IRepository> _repositoryMock;
 
-      protected static HandBrowser _sut;
+      protected static RepositoryHandBrowser _sut;
 
       Establish context = () => {
          _handId_1 = 1;
@@ -83,7 +83,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
          _repositoryMock.Setup(r => r.RetrieveConvertedHand(_handId_1)).Returns(_handStub_1.Object);
          _repositoryMock.Setup(r => r.RetrieveConvertedHand(_handId_2)).Returns(_handStub_2.Object);
          _repositoryMock.Setup(r => r.RetrieveConvertedHand(_handId_3)).Returns(_handStub_3.Object);
-         _sut = new HandBrowser(_repositoryMock.Object);
+         _sut = new RepositoryHandBrowser(_repositoryMock.Object);
       };
    }
 
@@ -97,7 +97,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
       Establish context = () => _sut.InitializeWith(new[] { _handId_1, _handId_2, _handId_3 });
    }
 
-   [Subject(typeof(HandBrowser), "Initialization")]
+   [Subject(typeof(RepositoryHandBrowser), "Initialization")]
    public class given_0_hand_Ids : HandBrowserSpecs
    {
       protected static Exception exception;
@@ -108,7 +108,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
          = () => exception.ShouldBeOfType<ArgumentException>();
    }
 
-   [Subject(typeof(HandBrowser), "Initialization")]
+   [Subject(typeof(RepositoryHandBrowser), "Initialization")]
    public class given_1_hand_Id : Ctx_HandBrowser_intitialized_with_1_handId
    {
       It should_have_1_potential_hand
@@ -118,7 +118,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
          = () => _repositoryMock.Verify(r => r.RetrieveConvertedHand(Moq.It.IsAny<int>()), Times.Never());
    }
 
-   [Subject(typeof(HandBrowser), "Hand Retrieval, given 1 analyzable player")]
+   [Subject(typeof(RepositoryHandBrowser), "Hand Retrieval, given 1 analyzable player")]
    public class when_the_first_hand_is_accessed_for_the_first_time : Ctx_HandBrowser_intitialized_with_1_handId
    {
       static IConvertedPokerHand returnedHand;
@@ -132,7 +132,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
          = () => returnedHand.Id.ShouldEqual(_handId_1);
    }
 
-   [Subject(typeof(HandBrowser), "Hand Retrieval, given 1 analyzable player")]
+   [Subject(typeof(RepositoryHandBrowser), "Hand Retrieval, given 1 analyzable player")]
    public class when_the_first_hand_is_accessed_for_the_second_time : Ctx_HandBrowser_intitialized_with_1_handId
    {
       static IConvertedPokerHand returnedHand;
@@ -148,14 +148,14 @@ namespace PokerTell.Statistics.Tests.Analyzation
          = () => returnedHand.Id.ShouldEqual(_handId_1);
    }
 
-   [Subject(typeof(HandBrowser), "Initialization")]
+   [Subject(typeof(RepositoryHandBrowser), "Initialization")]
    public class given_3_analyzable_players : Ctx_HandBrowser_intitialized_with_3_handIds
    {
       It should_have_3_potential_hands
          = () => _sut.PotentialHandsCount.ShouldEqual(3);
    }
 
-   [Subject(typeof(HandBrowser), "Hand Retrieval, given 3 analyzable players")]
+   [Subject(typeof(RepositoryHandBrowser), "Hand Retrieval, given 3 analyzable players")]
    public class when_the_3rd_hand_is_accessed_for_the_first_time : Ctx_HandBrowser_intitialized_with_3_handIds
    {
       static IConvertedPokerHand returnedHand;
@@ -174,7 +174,7 @@ namespace PokerTell.Statistics.Tests.Analyzation
          = () => returnedHand.Id.ShouldEqual(_handId_3);
    }
 
-   [Subject(typeof(HandBrowser), "Hand Retrieval, given 3 analyzable players")]
+   [Subject(typeof(RepositoryHandBrowser), "Hand Retrieval, given 3 analyzable players")]
    public class when_the_3rd_hand_is_accessed_for_the_second_time : Ctx_HandBrowser_intitialized_with_3_handIds
    {
       static IConvertedPokerHand returnedHand;

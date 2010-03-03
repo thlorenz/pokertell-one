@@ -71,8 +71,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameControllerSpecs.cs" />
     <Compile Include="Overlay\LayoutManagerSpecs.cs" />
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
+    <Compile Include="Tracking\GamesTrackerSpecs.cs" />
+    <Compile Include="Tracking\NewHandsTrackerSpecs.cs" />
     <Compile Include="Utilities\Utils.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModelSpecs.cs" />

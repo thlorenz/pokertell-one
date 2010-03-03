@@ -72,5 +72,6 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </summary>
         ulong TournamentId { get; set; }
 
+        string HeroName { get; set; }
     }
 }

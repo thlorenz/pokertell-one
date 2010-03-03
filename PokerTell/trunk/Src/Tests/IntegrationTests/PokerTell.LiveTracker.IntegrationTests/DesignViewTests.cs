@@ -16,7 +16,7 @@ namespace PokerTell.LiveTracker.IntegrationTests
 
     public class DesignViewTests : TestWithLog
     {
-       static readonly IHandBrowserViewModel HandBrowserViewModelStub = new Mock<IHandBrowserViewModel>().Object;
+       static readonly IRepositoryHandBrowserViewModel HandBrowserViewModelStub = new Mock<IRepositoryHandBrowserViewModel>().Object;
 
       static readonly IPostFlopHeroActsRaiseReactionDescriber RaiseReactionDescriber = new Mock<IPostFlopHeroActsRaiseReactionDescriber>().Object;
 

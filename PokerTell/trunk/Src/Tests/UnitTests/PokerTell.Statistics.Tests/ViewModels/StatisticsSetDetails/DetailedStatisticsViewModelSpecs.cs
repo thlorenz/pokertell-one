@@ -32,28 +32,28 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                     ¯ should be executable
 
                 given one cell is selected and the user executes the command
-                    ¯ should initialize HandBrowserViewModel with the analyzable players who correspond to the cell
-                    ¯ should set its ChildViewModel to the HandBrowserViewModel
+                    ¯ should initialize RepositoryHandBrowserViewModel with the analyzable players who correspond to the cell
+                    ¯ should set its ChildViewModel to the RepositoryHandBrowserViewModel
          */
         protected static DetailedStatisticsViewModelImpl _sut;
 
         protected static IAnalyzablePokerPlayer[] _validAnalyzablePokerPlayersStub;
 
-        protected static Mock<IHandBrowserViewModel> _handBrowserViewModelMock;
+        protected static Mock<IRepositoryHandBrowserViewModel> _handBrowserViewModelMock;
 
         protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
 
         Establish mainContext = () => {
             _analyzablePokerPlayerStub = new Mock<IAnalyzablePokerPlayer>();
             _validAnalyzablePokerPlayersStub = new[] { _analyzablePokerPlayerStub.Object };
-            _handBrowserViewModelMock = new Mock<IHandBrowserViewModel>();
+            _handBrowserViewModelMock = new Mock<IRepositoryHandBrowserViewModel>();
 
             _sut = new DetailedStatisticsViewModelImpl(_handBrowserViewModelMock.Object, new Mock<IDetailedStatisticsDescriber>().Object);
         };
 
         protected class DetailedStatisticsViewModelImpl : DetailedStatisticsViewModel
         {
-            public DetailedStatisticsViewModelImpl(IHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber)
+            public DetailedStatisticsViewModelImpl(IRepositoryHandBrowserViewModel handBrowserViewModel, IDetailedStatisticsDescriber detailedStatisticsDescriber)
                 : base(handBrowserViewModel, detailedStatisticsDescriber, "columnHeaderTitle")
             {
             }

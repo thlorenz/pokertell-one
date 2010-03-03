@@ -108,6 +108,9 @@
     <Compile Include="FunctionalCSharp\Option.cs" />
     <Compile Include="FunctionalCSharp\MemoizationExtensions.cs" />
     <Compile Include="FunctionalCSharp\Table.cs" />
+    <Compile Include="Interfaces\IFileSystemWatcher.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interfaces\ITuple.cs" />
     <Compile Include="FunctionalCSharp\Tuple.cs" />
     <Compile Include="GenericRanges\BlinkingColorCodedRange.cs" />

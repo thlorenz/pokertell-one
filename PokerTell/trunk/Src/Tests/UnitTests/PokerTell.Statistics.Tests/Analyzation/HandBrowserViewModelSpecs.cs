@@ -17,7 +17,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
    {
       /*
        *    Specifications
-       *    Subject: HandBrowserViewModel
+       *    Subject: RepositoryHandBrowserViewModel
        *    
        *    Initialization
        *       given 2 analyzable players
@@ -32,15 +32,15 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
       protected static Mock<IHandHistoryViewModel> _handHistoryViewModelMock;
 
-      protected static Mock<IHandBrowser> _handBrowserMock;
+      protected static Mock<IRepositoryHandBrowser> _handBrowserMock;
 
-      protected static HandBrowserViewModel _sut;
+      protected static RepositoryHandBrowserViewModel _sut;
 
       Establish context = () => {
          _handHistoryViewModelMock = new Mock<IHandHistoryViewModel>();
-         _handBrowserMock = new Mock<IHandBrowser>();
+         _handBrowserMock = new Mock<IRepositoryHandBrowser>();
 
-         _sut = new HandBrowserViewModel(_handBrowserMock.Object, _handHistoryViewModelMock.Object);
+         _sut = new RepositoryHandBrowserViewModel(_handBrowserMock.Object, _handHistoryViewModelMock.Object);
       };
    }
 
@@ -75,7 +75,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
    }
   
  
-   [Subject(typeof(HandBrowserViewModel), "Initialization")]
+   [Subject(typeof(RepositoryHandBrowserViewModel), "Initialization")]
    public class given_2_analyzable_players
       : Ctx_HandBrowserViewModel_Ready_to_intialize_2_analyzable_players
    {
@@ -94,7 +94,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
          = () => _sut.HandCount.ShouldEqual(_handBrowserMock.Object.PotentialHandsCount);
       }
 
-   [Subject(typeof(HandBrowserViewModel), "Browsing, initialized with 2 analyzable players")]
+   [Subject(typeof(RepositoryHandBrowserViewModel), "Browsing, initialized with 2 analyzable players")]
    public class when_user_browses_to_second_hand
       : Ctx_HandBrowserViewModel_Ready_to_intialize_2_analyzable_players
    {

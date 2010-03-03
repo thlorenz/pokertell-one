@@ -66,12 +66,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\PreferredSeatToStringConverter.cs" />
+    <Compile Include="Events\LiveTrackerSettingsChangedEvent.cs" />
+    <Compile Include="GameController.cs" />
     <Compile Include="Interfaces\IOverlayBoardViewModel.cs" />
     <Compile Include="Interfaces\IOverlayHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\IOverlaySettingsAidViewModel.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
     <Compile Include="Interfaces\ILayoutXDocumentHandler.cs" />
     <Compile Include="Interfaces\ILayoutManager.cs" />
+    <Compile Include="Interfaces\ITableAttacher.cs" />
     <Compile Include="Overlay\LayoutManager.cs" />
     <Compile Include="Overlay\LayoutXDocumentHandler.cs" />
     <Compile Include="Overlay\SeatMapper.cs" />
@@ -80,6 +83,17 @@
     <Compile Include="Interfaces\IPlayerOverlayViewModel.cs" />
     <Compile Include="Interfaces\IPlayerStatusViewModel.cs" />
     <Compile Include="Interfaces\IPokerTableStatisticsViewModel.cs" />
+    <Compile Include="Interfaces\INewHandsTracker.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Tracking\GamesTracker.cs" />
+    <Compile Include="Interfaces\IGameController.cs" />
+    <Compile Include="Interfaces\IGamesTracker.cs" />
+    <Compile Include="Interfaces\ILiveTrackerSettings.cs" />
+    <Compile Include="Tracking\NewHandsTracker.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModel.cs" />
     <Compile Include="ViewModels\Overlay\HarringtonMViewModel.cs" />
@@ -176,6 +190,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

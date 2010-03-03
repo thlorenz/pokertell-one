@@ -69,7 +69,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
                 » should initialize raised pot calling statistics viewmodel with selected analyzable players and selected actionsequence
                 » should assign the raised pot statistics viewmodel to the child viewmodel
         */
-        protected static Mock<IHandBrowserViewModel> _handBrowserViewModelStub;
+        protected static Mock<IRepositoryHandBrowserViewModel> _handBrowserViewModelStub;
 
         protected static Mock<IPreFlopRaiseReactionStatisticsViewModel> _raiseReactionStatisticsViewModelMock;
 
@@ -93,7 +93,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         Establish spec_Context = () => {
             _raiseReactionStatisticsViewModelMock = new Mock<IPreFlopRaiseReactionStatisticsViewModel>();
 
-            _handBrowserViewModelStub = new Mock<IHandBrowserViewModel>();
+            _handBrowserViewModelStub = new Mock<IRepositoryHandBrowserViewModel>();
 
             _preFlopUnraisedPotCallingHandStrengthStatisticsViewModelMock =
                 new Mock<IPreFlopUnraisedPotCallingHandStrengthStatisticsViewModel>();
@@ -123,7 +123,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         public class DetailedPreFlopStatisticsViewModelImpl : DetailedPreFlopStatisticsViewModel
         {
             public DetailedPreFlopStatisticsViewModelImpl(
-                IHandBrowserViewModel handBrowserViewModel, 
+                IRepositoryHandBrowserViewModel handBrowserViewModel, 
                 IPreFlopUnraisedPotCallingHandStrengthStatisticsViewModel preFlopUnraisedPotCallingHandStrengthStatisticsViewModel, 
                 IPreFlopRaisedPotCallingHandStrengthStatisticsViewModel preFlopRaisedPotCallingHandStrengthStatisticsViewModel, 
                 IPreFlopRaisingHandStrengthStatisticsViewModel preFlopRaisingHandStrengthStatisticsViewModel, 
