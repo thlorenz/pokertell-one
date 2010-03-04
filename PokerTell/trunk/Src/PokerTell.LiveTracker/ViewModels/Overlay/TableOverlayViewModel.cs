@@ -4,6 +4,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using System.Collections.Generic;
     using System.Linq;
 
+    using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.LiveTracker.Interfaces;
 
@@ -20,10 +21,16 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         ISeatMapper _seatMapper;
 
-        public TableOverlayViewModel(IOverlayBoardViewModel boardViewModel, IOverlaySettingsAidViewModel overlaySettingsAid)
+        readonly IConstructor<IPlayerOverlayViewModel> _playerOverlayViewModelMake;
+
+        public TableOverlayViewModel(
+            IOverlayBoardViewModel boardViewModel, 
+            IOverlaySettingsAidViewModel overlaySettingsAid, 
+            IConstructor<IPlayerOverlayViewModel> playerOverlayViewModelMake)
         {
             _board = boardViewModel;
             OverlaySettingsAid = overlaySettingsAid;
+            _playerOverlayViewModelMake = playerOverlayViewModelMake;
         }
 
         public IOverlayBoardViewModel Board
@@ -46,18 +53,27 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             ITableOverlaySettingsViewModel overlaySettings, 
             IGameHistoryViewModel gameHistory, 
             IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, 
-            IList<IPlayerOverlayViewModel> playerOverlays, 
             int showHoleCardsDuration)
         {
             _seatMapper = seatMapper;
             _showHoleCardsDuration = showHoleCardsDuration;
             PokerTableStatisticsViewModel = pokerTableStatisticsViewModel;
             GameHistory = gameHistory;
-            PlayerOverlays = playerOverlays;
+
+            CreatePlayerOverlays(overlaySettings.TotalSeats);
 
             InitializeOverlaySettings(overlaySettings);
 
             return this;
+        }
+
+        void CreatePlayerOverlays(int totalSeats)
+        {
+            PlayerOverlays = new List<IPlayerOverlayViewModel>();
+            foreach (var _ in 1.To(totalSeats))
+            {
+                PlayerOverlays.Add(_playerOverlayViewModelMake.New);
+            }
         }
 
         public ITableOverlayViewModel UpdateWith(IEnumerable<IConvertedPokerPlayer> pokerPlayers, string board)

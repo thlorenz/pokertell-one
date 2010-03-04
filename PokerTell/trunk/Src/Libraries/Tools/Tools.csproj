@@ -183,6 +183,7 @@
     <Compile Include="WPF\Interfaces\IItemsRegionView.cs" />
     <Compile Include="WPF\Interfaces\IItemsRegionViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionViewModel.cs" />
+    <Compile Include="WPF\Interfaces\IWindowManager.cs" />
     <Compile Include="WPF\Utilities.cs" />
     <Compile Include="WPF\ViewModels\ColorViewModel.cs" />
     <Compile Include="WPF\Interfaces\IPositionedViewModel.cs" />

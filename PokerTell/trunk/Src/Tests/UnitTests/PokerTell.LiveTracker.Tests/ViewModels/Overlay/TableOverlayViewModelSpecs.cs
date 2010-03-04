@@ -9,6 +9,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Infrastructure.Services;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
@@ -45,7 +46,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             _tableOverlaySettingsVM_Stub = new Mock<ITableOverlaySettingsViewModel>();
             _playerOverlay_0_VM_Mock = new Mock<IPlayerOverlayViewModel>();
             _playerOverlay_1_VM_Mock = new Mock<IPlayerOverlayViewModel>();
-            var playerOverlayVMs = new[] { _playerOverlay_0_VM_Mock.Object, _playerOverlay_1_VM_Mock.Object };
 
             _seatMapper_Stub = new Mock<ISeatMapper>();
             _seatMapper_Stub.Setup(sm => sm.Map(0, 0)).Returns(0);
@@ -54,14 +54,23 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             ShowHoleCardsDuration = 1;
 
-            _sut = new TableOverlayViewModel(_boardVM_Mock.Object, _overlaySettingsAidVM_Mock.Object)
-                .InitializeWith(_seatMapper_Stub.Object, 
-                                _tableOverlaySettingsVM_Stub.Object, 
-                                _gameHistoryVM_Stub.Object, 
-                                _pokerTableStatisticsVM_Stub.Object, 
-                                playerOverlayVMs, 
-                                ShowHoleCardsDuration);
+            int playerOverlaysCreated = 0;
+            playerOverlaysConstructor = new Constructor<IPlayerOverlayViewModel>(() => 
+            {
+                if (playerOverlaysCreated == 0)
+                {
+                    playerOverlaysCreated++;
+                    return _playerOverlay_0_VM_Mock.Object;
+                }
+                else
+                {
+                    return _playerOverlay_1_VM_Mock.Object;
+                }
+            });
+            _sut = new TableOverlayViewModel(_boardVM_Mock.Object, _overlaySettingsAidVM_Mock.Object, playerOverlaysConstructor);
         };
+
+        static Constructor<IPlayerOverlayViewModel> playerOverlaysConstructor;
 
         public abstract class Ctx_Ted_In_Seat1 : TableOverlayViewModelSpecs
         {
@@ -76,6 +85,12 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _ted.SetupGet(t => t.SeatNumber).Returns(1);
                 _ted.SetupGet(t => t.Name).Returns(tedsName);
                 _convertedPlayers = new[] { _ted.Object };
+                _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(2);
+                _sut.InitializeWith(_seatMapper_Stub.Object, 
+                                _tableOverlaySettingsVM_Stub.Object, 
+                                _gameHistoryVM_Stub.Object, 
+                                _pokerTableStatisticsVM_Stub.Object, 
+                                ShowHoleCardsDuration);
             };
         }
 
@@ -90,11 +105,32 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _bob.SetupGet(b => b.SeatNumber).Returns(2);
                 _bob.SetupGet(b => b.Name).Returns(bobsName);
                 _convertedPlayers = new[] { _ted.Object, _bob.Object };
+                _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(2);
+                _sut.InitializeWith(_seatMapper_Stub.Object, 
+                                _tableOverlaySettingsVM_Stub.Object, 
+                                _gameHistoryVM_Stub.Object, 
+                                _pokerTableStatisticsVM_Stub.Object, 
+                                ShowHoleCardsDuration);
             };
         }
 
+        [Subject(typeof(TableOverlayViewModel), "InitializedWith")]
+        public class when_initialized_with_overlay_settings_for_6_total_seats : TableOverlayViewModelSpecs
+        {
+            Establish context = () => {
+                _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(6);
+                _sut.InitializeWith(_seatMapper_Stub.Object, 
+                                _tableOverlaySettingsVM_Stub.Object, 
+                                _gameHistoryVM_Stub.Object, 
+                                _pokerTableStatisticsVM_Stub.Object, 
+                                ShowHoleCardsDuration);
+            };
+
+            It should_create_6_Player_Overlays = () => _sut.PlayerOverlays.Count.ShouldEqual(6);
+        }
+
         [Subject(typeof(TableOverlayViewModel), "InitializeWith")]
-        public class when_initialized_with_2_players : TableOverlayViewModelSpecs
+        public class when_initialized_with_2_players : Ctx_Ted_in_Seat1_and_Bob_in_Seat2
         {
             It should_initialize_player0_Overlay_with_the_overlay_settings_and_Seat_0
                 = () => _playerOverlay_0_VM_Mock.Verify(p => p.InitializeWith(_tableOverlaySettingsVM_Stub.Object, 0));
@@ -145,8 +181,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         {
             protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
 
-            Establish context = () =>
-            {
+            Establish context = () => {
                 tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
                 _pokerTableStatisticsVM_Stub
                     .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
@@ -238,8 +273,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         {
             protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
 
-            Establish context = () =>
-            {
+            Establish context = () => {
                 tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
                 _pokerTableStatisticsVM_Stub
                     .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))

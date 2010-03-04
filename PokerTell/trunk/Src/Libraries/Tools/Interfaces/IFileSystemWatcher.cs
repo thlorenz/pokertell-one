@@ -42,12 +42,6 @@ namespace Tools.Interfaces
         void Dispose();
 
         event EventHandler Disposed;
-
-        object GetLifetimeService();
-
-        object InitializeLifetimeService();
-
-        ObjRef CreateObjRef(Type requestedType);
     }
 
     /// <summary>

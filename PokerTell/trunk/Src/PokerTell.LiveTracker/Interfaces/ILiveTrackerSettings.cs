@@ -1,7 +1,15 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
-    public interface ILiveTrackerSettings
+    using Tools.Interfaces;
+
+    public interface ILiveTrackerSettings : IFluentInterface
     {
         bool AutoTrack { get; }
+
+        bool ShowTableOverlay { get; }
+
+        int ShowHoleCardsDuration { get; }
+
+        bool ShowLiveStatsWindowOnStartup { get; }
     }
 }

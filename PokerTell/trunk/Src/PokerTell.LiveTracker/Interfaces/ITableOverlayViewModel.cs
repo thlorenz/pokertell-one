@@ -4,7 +4,9 @@ namespace PokerTell.LiveTracker.Interfaces
 
     using Infrastructure.Interfaces.PokerHand;
 
-    public interface ITableOverlayViewModel
+    using Tools.Interfaces;
+
+    public interface ITableOverlayViewModel : IFluentInterface
     {
         IPokerTableStatisticsViewModel PokerTableStatisticsViewModel { get; }
 
@@ -20,6 +22,6 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ITableOverlayViewModel UpdateWith(IEnumerable<IConvertedPokerPlayer> pokerPlayers, string board);
 
-        ITableOverlayViewModel InitializeWith(ISeatMapper seatMapper, ITableOverlaySettingsViewModel overlaySettings, IGameHistoryViewModel gameHistory, IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, IList<IPlayerOverlayViewModel> playerOverlays, int showHoleCardsDuration);
+        ITableOverlayViewModel InitializeWith(ISeatMapper seatMapper, ITableOverlaySettingsViewModel overlaySettings, IGameHistoryViewModel gameHistory, IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, int showHoleCardsDuration);
     }
 }

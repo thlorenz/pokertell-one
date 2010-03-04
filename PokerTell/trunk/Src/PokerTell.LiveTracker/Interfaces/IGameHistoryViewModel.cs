@@ -2,7 +2,9 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    public interface IGameHistoryViewModel
+    using Tools.Interfaces;
+
+    public interface IGameHistoryViewModel : IFluentInterface
     {
         IHandHistoryViewModel CurrentHandHistory { get; }
 

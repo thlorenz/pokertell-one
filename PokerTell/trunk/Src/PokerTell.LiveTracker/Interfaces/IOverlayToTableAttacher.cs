@@ -4,33 +4,22 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Windows;
 
     using Tools.GenericUtilities;
+    using Tools.WPF.Interfaces;
 
-    public interface ITableAttacher : IDisposable
+    public interface IOverlayToTableAttacher : IDisposable
     {
-        #region Events
-
         event EventHandler<GenericEventArgs<Point, Size>> PositionOrSizeOfTableChanged;
 
         event EventHandler<GenericEventArgs<string>> TableChanged;
 
         event EventHandler<GenericEventArgs<string>> TableClosed;
 
-        #endregion
-
-        #region Properties
-
         string FullText { get; set; }
 
         string TableName { get; set; }
 
-        #endregion
-
-        #region Public Methods
-
         void Activate();
 
-        void InitializeWith(string tableName, string processName);
-
-        #endregion
+        IOverlayToTableAttacher InitializeWith(IWindowManager tableOverlayWindow, string pokerSite, string tableName);
     }
 }

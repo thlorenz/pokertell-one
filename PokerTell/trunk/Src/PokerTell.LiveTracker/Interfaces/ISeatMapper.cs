@@ -1,6 +1,8 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
-    public interface ISeatMapper
+    using Tools.Interfaces;
+
+    public interface ISeatMapper : IFluentInterface
     {
         ISeatMapper InitializeWith(int totalSeats);
 
