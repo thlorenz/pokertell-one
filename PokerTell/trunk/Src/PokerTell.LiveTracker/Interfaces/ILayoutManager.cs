@@ -1,6 +1,8 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
-    public interface ILayoutManager
+    using Tools.Interfaces;
+
+    public interface ILayoutManager : IFluentInterface
     {
         ITableOverlaySettingsViewModel Load(string pokerSite, int seats);
 
