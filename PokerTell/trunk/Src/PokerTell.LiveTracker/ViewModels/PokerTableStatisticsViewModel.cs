@@ -92,7 +92,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
         #region Public Methods
 
-        public IPokerTableStatisticsViewModel UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
+        public void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
         {
             var playersStatisticsList = ValidateAndConvertToList(playersStatistics);
             var playersList = Players.ToList();
@@ -102,8 +102,6 @@ namespace PokerTell.LiveTracker.ViewModels
             UpdatePlayersWithStatisticsAddingNewOnesIfNeeded(playersList, playersStatisticsList);
 
             SelectFirstPlayerIfSelectedPlayerIsNotAtTheTableAnymore();
-
-            return this;
         }
 
         public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)

@@ -71,6 +71,7 @@
     <Compile Include="Interfaces\IOverlayBoardViewModel.cs" />
     <Compile Include="Interfaces\IOverlayHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\IOverlaySettingsAidViewModel.cs" />
+    <Compile Include="Interfaces\IPlayerStatisticsUpdater.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
     <Compile Include="Interfaces\ILayoutXDocumentHandler.cs" />
     <Compile Include="Interfaces\ILayoutManager.cs" />

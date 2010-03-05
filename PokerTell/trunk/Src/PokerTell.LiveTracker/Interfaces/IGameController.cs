@@ -13,11 +13,13 @@ namespace PokerTell.LiveTracker.Interfaces
     {
         ILiveTrackerSettings LiveTrackerSettings { get; set; }
 
-        string HeroName { get; set; }
+        string HeroName { get; }
 
         IDictionary<string, IPlayerStatistics> PlayerStatistics { get; }
 
-        bool IsLaunched { get; set; }
+        bool IsLaunched { get; }
+
+        string PokerSite { get; }
 
         IGameController NewHand(IConvertedPokerHand convertedPokerHand);
 

@@ -6,7 +6,9 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     using PokerHand;
 
-    public interface IPlayerStatistics
+    using Tools.Interfaces;
+
+    public interface IPlayerStatistics : IFluentInterface
     {
         IActionSequenceStatisticsSet[] HeroXOrHeroBOutOfPosition { get; }
 
@@ -35,10 +37,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         IAnalyzablePokerPlayersFilter Filter { get; set; }
 
         IPlayerStatistics UpdateStatistics();
-
-        /*  OverlayStatisticsTexts OverlayText { get; set; }
-
-          */
 
         IPlayerStatistics InitializePlayer(string playerName, string pokerSite);
     }

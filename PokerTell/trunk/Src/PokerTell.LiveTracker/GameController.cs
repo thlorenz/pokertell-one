@@ -32,28 +32,36 @@ namespace PokerTell.LiveTracker
 
         IWindowManager _liveStatsWindow;
 
-        public string HeroName { get; set; }
+        readonly IPlayerStatisticsUpdater _playerStatisticsUpdater;
+
+        public string HeroName { get; protected set; }
 
         public IDictionary<string, IPlayerStatistics> PlayerStatistics { get; protected set; }
 
-        public bool IsLaunched { get; set; }
+        public bool IsLaunched { get; protected set; }
+
+        public string PokerSite { get; protected set; }
 
         public GameController(
             ILayoutManager layoutManager, 
             IGameHistoryViewModel gameHistory, 
             IPokerTableStatisticsViewModel pokerTableStatistics, 
             IConstructor<IPlayerStatistics> playerStatisticsMake, 
-            ISeatMapper seatMapper,
-            IOverlayToTableAttacher overlayToTableAttacher,
+            IPlayerStatisticsUpdater playerStatisticsUpdater, 
+            ISeatMapper seatMapper, 
+            IOverlayToTableAttacher overlayToTableAttacher, 
             ITableOverlayViewModel tableOverlay)
         {
             _layoutManager = layoutManager;
             _gameHistory = gameHistory;
             _pokerTableStatistics = pokerTableStatistics;
-            _playerStatisticsMake = playerStatisticsMake;
+            _playerStatisticsMake = playerStatisticsMake; 
+            _playerStatisticsUpdater = playerStatisticsUpdater;
             _seatMapper = seatMapper;
             _overlayToTableAttacher = overlayToTableAttacher;
             _tableOverlay = tableOverlay;
+
+            RegisterEvents();
 
             PlayerStatistics = new Dictionary<string, IPlayerStatistics>();
         }
@@ -78,9 +86,37 @@ namespace PokerTell.LiveTracker
 
             _tableOverlay.UpdateWith(convertedPokerHand.Players, convertedPokerHand.Board);
 
-            convertedPokerHand.Players.ForEach(p => PlayerStatistics.Add(p.Name, _playerStatisticsMake.New));
+            UpdatePlayerStatistics(convertedPokerHand);
 
             return this;
+        }
+
+        void RegisterEvents()
+        {
+            _playerStatisticsUpdater.FinishedUpdatingPlayerStatistics += _pokerTableStatistics.UpdateWith;
+            _overlayToTableAttacher.TableClosed += () => {
+              ShuttingDown();
+              _tableOverlayWindow.Dispose();
+              _liveStatsWindow.Dispose();
+              _overlayToTableAttacher.Dispose();
+            };
+        }
+
+        void UpdatePlayerStatistics(IConvertedPokerHand convertedPokerHand)
+        {
+            var playerStatisticsToUpdate = new List<IPlayerStatistics>();
+            convertedPokerHand.Players.ForEach(p => {
+                if (!PlayerStatistics.ContainsKey(p.Name))
+                {
+                    var playerStatistics = _playerStatisticsMake.New;
+                    playerStatistics.InitializePlayer(p.Name, convertedPokerHand.Site);
+                    PlayerStatistics.Add(p.Name, playerStatistics);
+                }
+                 
+                playerStatisticsToUpdate.Add(PlayerStatistics[p.Name]);
+            });
+
+            _playerStatisticsUpdater.Update(playerStatisticsToUpdate);
         }
 
         void UpdateSeatMapper(IConvertedPokerHand convertedPokerHand)
@@ -92,6 +128,8 @@ namespace PokerTell.LiveTracker
         void Launch(IConvertedPokerHand convertedPokerHand)
         {
             HeroName = convertedPokerHand.HeroName;
+
+            PokerSite = convertedPokerHand.Site;
 
             if (LiveTrackerSettings.ShowLiveStatsWindowOnStartup)
                 SetupLiveStatsWindow();
@@ -114,8 +152,11 @@ namespace PokerTell.LiveTracker
         {
             _seatMapper.InitializeWith(convertedPokerHand.TotalSeats);
             var overlaySettings = _layoutManager.Load(convertedPokerHand.Site, convertedPokerHand.TotalSeats);
+            overlaySettings.SaveChanges += () => _layoutManager.Save(overlaySettings, convertedPokerHand.Site);
+            overlaySettings.UndoChanges += revertTo => revertTo(_layoutManager.Load(convertedPokerHand.Site, convertedPokerHand.TotalSeats));
+
             _tableOverlay.InitializeWith(_seatMapper, overlaySettings, _gameHistory, _pokerTableStatistics, LiveTrackerSettings.ShowHoleCardsDuration);
-            
+
             _tableOverlayWindow
                 .CreateWindow()
                 .DataContext = _tableOverlay;
