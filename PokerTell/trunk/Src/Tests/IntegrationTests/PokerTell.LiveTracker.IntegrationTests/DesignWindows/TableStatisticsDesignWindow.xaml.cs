@@ -1,30 +1,19 @@
-namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
+namespace PokerTell.LiveTracker.DesignWithDatabase.DesignWindows
 {
     using System.Windows;
     using System.Windows.Input;
-
-    using Infrastructure.Enumerations.PokerHand;
-
-    using DesignViewModels;
 
     using Infrastructure.Interfaces.PokerHand;
 
     using Microsoft.Practices.Composite.Events;
 
-    using Statistics.Interfaces;
-
-   /// <summary>
+    /// <summary>
     /// Interaction logic for StatisticsSetSummaryDesignWindow.xaml
     /// </summary>
     public partial class TableStatisticsDesignWindow : Window
     {
-        #region Constructors and Destructors
-
-
-
         public TableStatisticsDesignWindow(IEventAggregator eventAggregator, IRepositoryHandBrowserViewModel handBrowserViewModel)
         {
-            //DataContext = new PokerTableStatisticsDesignModel(eventAggregator, handBrowserViewModel);
             InitializeComponent();
         }
 
@@ -35,6 +24,5 @@ namespace PokerTell.LiveTracker.IntegrationTests.DesignWindows
                 DragMove();
             }
         }
-        #endregion
     }
 }
