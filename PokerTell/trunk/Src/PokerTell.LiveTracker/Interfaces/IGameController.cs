@@ -19,8 +19,6 @@ namespace PokerTell.LiveTracker.Interfaces
 
         bool IsLaunched { get; }
 
-        string PokerSite { get; }
-
         IGameController NewHand(IConvertedPokerHand convertedPokerHand);
 
         event Action ShuttingDown;

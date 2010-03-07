@@ -116,6 +116,83 @@ namespace PokerTell.LiveTracker.Tests
             };
         }
 
+        public abstract class Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched : Ctx_NewHand
+        {
+            protected const string bob = "bob";
+
+            protected const string ted = "ted";
+
+            protected const string jim = "jim";
+
+            protected static Mock<IPlayerStatistics> bobsStats_Mock;
+
+            protected static Mock<IPlayerStatistics> tedsStats_Mock;
+
+            protected static Mock<IPlayerStatistics> jimsStats_Mock;
+
+            protected static Mock<IConvertedPokerPlayer> bob_Stub;
+
+            protected static Mock<IConvertedPokerPlayer> ted_Stub;
+
+            protected static Mock<IConvertedPokerPlayer> jim_Stub;
+
+            protected static int statsMade;
+
+            Establish newHandWithBobTedAndJim_Context = () => {
+                bob_Stub = new Mock<IConvertedPokerPlayer>();
+                ted_Stub = new Mock<IConvertedPokerPlayer>();
+                jim_Stub = new Mock<IConvertedPokerPlayer>();
+
+                bob_Stub.SetupGet(p => p.Name).Returns(bob);
+                ted_Stub.SetupGet(p => p.Name).Returns(ted);
+                jim_Stub.SetupGet(p => p.Name).Returns(jim);
+
+                bobsStats_Mock = new Mock<IPlayerStatistics>();
+                tedsStats_Mock = new Mock<IPlayerStatistics>();
+                jimsStats_Mock = new Mock<IPlayerStatistics>();
+
+                var bobsPlayerIdentity_Stub = new Mock<IPlayerIdentity>();
+                var tedsPlayerIdentity_Stub = new Mock<IPlayerIdentity>();
+                var jimsPlayerIdentity_Stub = new Mock<IPlayerIdentity>();
+
+                bobsStats_Mock.Setup(s => s.InitializePlayer(Moq.It.IsAny<string>(), Moq.It.IsAny<string>())).Returns(bobsStats_Mock.Object);
+                tedsStats_Mock.Setup(s => s.InitializePlayer(Moq.It.IsAny<string>(), Moq.It.IsAny<string>())).Returns(tedsStats_Mock.Object);
+                jimsStats_Mock.Setup(s => s.InitializePlayer(Moq.It.IsAny<string>(), Moq.It.IsAny<string>())).Returns(jimsStats_Mock.Object);
+
+                bobsPlayerIdentity_Stub.SetupGet(pi => pi.Name).Returns(bob);
+                tedsPlayerIdentity_Stub.SetupGet(pi => pi.Name).Returns(ted);
+                jimsPlayerIdentity_Stub.SetupGet(pi => pi.Name).Returns(jim);
+                bobsStats_Mock.SetupGet(s => s.PlayerIdentity).Returns(bobsPlayerIdentity_Stub.Object);
+                tedsStats_Mock.SetupGet(s => s.PlayerIdentity).Returns(tedsPlayerIdentity_Stub.Object);
+                jimsStats_Mock.SetupGet(s => s.PlayerIdentity).Returns(jimsPlayerIdentity_Stub.Object);
+
+                statsMade = 0;
+                _playerStatisticsMake = new Constructor<IPlayerStatistics>(
+                    () => statsMade.Match()
+                              .With(s => s == 0, s => { statsMade++; return bobsStats_Mock.Object; })
+                              .With(s => s == 1, s => { statsMade++; return tedsStats_Mock.Object; })
+                              .With(s => s == 2, s => { statsMade++; return jimsStats_Mock.Object; })
+                              .Do());
+
+                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object, jim_Stub.Object });
+
+                _sut = new GameControllerSut(
+                    _layoutManager_Mock.Object, 
+                    _gameHistory_Mock.Object, 
+                    _pokerTableStatistics_Mock.Object, 
+                    _playerStatisticsMake, 
+                    _playerStatisticsUpdater_Mock.Object,
+                    _seatMapper_Mock.Object, 
+                    _tableAttacher_Mock.Object, 
+                    _tableOverlay_Mock.Object);
+                _sut.InitializeWith(_liveStatsWindow_Mock.Object, _tableOverlayWindow_Mock.Object);
+
+                _sut.LiveTrackerSettings = _liveTrackerSettings_Stub.Object;
+                _sut.SetHeroName(bob)
+                    .SetIsLaunched(true);
+            };
+        }
+
         [Subject(typeof(GameController), "New Hand, first time")]
         public class when_told_for_the_first_time_that_a_new_hand_was_found_and_the_user_does_not_want_to_see_the_overlay : Ctx_NewHand
         {
@@ -145,8 +222,6 @@ namespace PokerTell.LiveTracker.Tests
                 = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, pokerSite, tableName), Times.Never());
 
             It should_not_show_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
-
-            It should_obtain_the_poker_site_from_the_hand = () => _sut.PokerSite.SequenceEqual(pokerSite);
 
             It should_set_IsLaunched_to_true = () => _sut.IsLaunched.ShouldBeTrue();
         }
@@ -298,86 +373,10 @@ namespace PokerTell.LiveTracker.Tests
             It should_update_the_seat_mapper_with_seat_2 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seat));
         }
 
-        public abstract class Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_IsLaunched : Ctx_NewHand
-        {
-            protected const string bob = "bob";
-
-            protected const string ted = "ted";
-
-            protected const string jim = "jim";
-
-            protected static Mock<IPlayerStatistics> bobsStats_Mock;
-
-            protected static Mock<IPlayerStatistics> tedsStats_Mock;
-
-            protected static Mock<IPlayerStatistics> jimsStats_Mock;
-
-            protected static Mock<IConvertedPokerPlayer> bob_Stub;
-
-            protected static Mock<IConvertedPokerPlayer> ted_Stub;
-
-            protected static Mock<IConvertedPokerPlayer> jim_Stub;
-
-            protected static int statsMade;
-
-            Establish newHandWithBobTedAndJim_Context = () => {
-                bob_Stub = new Mock<IConvertedPokerPlayer>();
-                ted_Stub = new Mock<IConvertedPokerPlayer>();
-                jim_Stub = new Mock<IConvertedPokerPlayer>();
-
-                bob_Stub.SetupGet(p => p.Name).Returns(bob);
-                ted_Stub.SetupGet(p => p.Name).Returns(ted);
-                jim_Stub.SetupGet(p => p.Name).Returns(jim);
-
-                bobsStats_Mock = new Mock<IPlayerStatistics>();
-                tedsStats_Mock = new Mock<IPlayerStatistics>();
-                jimsStats_Mock = new Mock<IPlayerStatistics>();
-
-                var bobsPlayerIdentity_Stub = new Mock<IPlayerIdentity>();
-                var tedsPlayerIdentity_Stub = new Mock<IPlayerIdentity>();
-                var jimsPlayerIdentity_Stub = new Mock<IPlayerIdentity>();
-
-                bobsStats_Mock.Setup(s => s.InitializePlayer(Moq.It.IsAny<string>(), Moq.It.IsAny<string>())).Returns(bobsStats_Mock.Object);
-                tedsStats_Mock.Setup(s => s.InitializePlayer(Moq.It.IsAny<string>(), Moq.It.IsAny<string>())).Returns(tedsStats_Mock.Object);
-                jimsStats_Mock.Setup(s => s.InitializePlayer(Moq.It.IsAny<string>(), Moq.It.IsAny<string>())).Returns(jimsStats_Mock.Object);
-
-                bobsPlayerIdentity_Stub.SetupGet(pi => pi.Name).Returns(bob);
-                tedsPlayerIdentity_Stub.SetupGet(pi => pi.Name).Returns(ted);
-                jimsPlayerIdentity_Stub.SetupGet(pi => pi.Name).Returns(jim);
-                bobsStats_Mock.SetupGet(s => s.PlayerIdentity).Returns(bobsPlayerIdentity_Stub.Object);
-                tedsStats_Mock.SetupGet(s => s.PlayerIdentity).Returns(tedsPlayerIdentity_Stub.Object);
-                jimsStats_Mock.SetupGet(s => s.PlayerIdentity).Returns(jimsPlayerIdentity_Stub.Object);
-
-                statsMade = 0;
-                _playerStatisticsMake = new Constructor<IPlayerStatistics>(
-                    () => statsMade.Match()
-                              .With(s => s == 0, s => { statsMade++; return bobsStats_Mock.Object; })
-                              .With(s => s == 1, s => { statsMade++; return tedsStats_Mock.Object; })
-                              .With(s => s == 2, s => { statsMade++; return jimsStats_Mock.Object; })
-                              .Do());
-
-                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object, jim_Stub.Object });
-
-                _sut = new GameControllerSut(
-                    _layoutManager_Mock.Object, 
-                    _gameHistory_Mock.Object, 
-                    _pokerTableStatistics_Mock.Object, 
-                    _playerStatisticsMake, 
-                    _playerStatisticsUpdater_Mock.Object,
-                    _seatMapper_Mock.Object, 
-                    _tableAttacher_Mock.Object, 
-                    _tableOverlay_Mock.Object);
-                _sut.InitializeWith(_liveStatsWindow_Mock.Object, _tableOverlayWindow_Mock.Object);
-
-                _sut.LiveTrackerSettings = _liveTrackerSettings_Stub.Object;
-                _sut.SetHeroName(bob)
-                    .SetIsLaunched(true);
-            };
-        }
 
             [Subject(typeof(GameController), "NewHand")]
             public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_are_empty
-                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_IsLaunched
+                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
             {
                 Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
@@ -408,7 +407,7 @@ namespace PokerTell.LiveTracker.Tests
 
             [Subject(typeof(GameController), "NewHand")]
             public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_contain_bob_and_ted
-                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_IsLaunched
+                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
             {
                 Establish context = () => {
                     _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
@@ -443,7 +442,7 @@ namespace PokerTell.LiveTracker.Tests
 
             [Subject(typeof(GameController), "NewHand")]
             public class when_told_about_new_hand_with_only_bob_and_ted_and_PlayerStatistics_contain_bob_ted_and_jim
-                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_IsLaunched
+                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
             {
                 Establish context = () => {
                     _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
