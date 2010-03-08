@@ -15,6 +15,7 @@ namespace PokerTell.LiveTracker.Tests
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
     using It = Machine.Specifications.It;
@@ -219,7 +220,12 @@ namespace PokerTell.LiveTracker.Tests
                                                   Times.Never());
 
             It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, pokerSite, tableName), Times.Never());
+                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object,
+                                                                     Moq.It.IsAny<IDispatcherTimer>(),
+                                                                     Moq.It.IsAny<IDispatcherTimer>(),
+                                                                     pokerSite,
+                                                                     tableName),
+                                                   Times.Never());
 
             It should_not_show_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
 
@@ -250,7 +256,11 @@ namespace PokerTell.LiveTracker.Tests
                                                                           showHoleCardsDuration));
 
             It should_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, pokerSite, tableName));
+                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object,
+                                                                     Moq.It.IsAny<IDispatcherTimer>(),
+                                                                     Moq.It.IsAny<IDispatcherTimer>(),
+                                                                     pokerSite,
+                                                                     tableName));
 
             It should_create_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.CreateWindow());
 
@@ -324,9 +334,11 @@ namespace PokerTell.LiveTracker.Tests
                                                   Times.Never());
 
             It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window_again
-                =
-                () =>
-                _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, Moq.It.IsAny<string>(), Moq.It.IsAny<string>()), 
+                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object,
+                                                                     Moq.It.IsAny<IDispatcherTimer>(),
+                                                                     Moq.It.IsAny<IDispatcherTimer>(),
+                                                                     pokerSite,
+                                                                     tableName),
                                            Times.Never());
 
             It should_not_show_the_overlay_window_again = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());

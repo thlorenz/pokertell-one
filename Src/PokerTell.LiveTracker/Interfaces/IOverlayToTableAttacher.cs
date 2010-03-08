@@ -21,6 +21,11 @@ namespace PokerTell.LiveTracker.Interfaces
 
         void Activate();
 
-        IOverlayToTableAttacher InitializeWith(IWindowManager tableOverlayWindow, string pokerSite, string tableName);
+        IOverlayToTableAttacher InitializeWith(
+            IWindowManager tableOverlayWindow,
+            IDispatcherTimer watchTableTimer,
+            IDispatcherTimer waitThenTryToFindTableAgainTimer,
+            string pokerSite,
+            string tableName);
     }
 }

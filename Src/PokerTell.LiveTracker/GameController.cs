@@ -10,6 +10,7 @@ namespace PokerTell.LiveTracker
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
     public class GameController : IGameController
@@ -158,7 +159,14 @@ namespace PokerTell.LiveTracker
                 .DataContext = _tableOverlay;
             _tableOverlayWindow.Show();
 
-            _overlayToTableAttacher.InitializeWith(_tableOverlayWindow, convertedPokerHand.Site, convertedPokerHand.TableName);
+            var watchTableTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(1000) };
+            var waitThenTryToFindTableAgainTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(3000) };
+          
+            _overlayToTableAttacher.InitializeWith(_tableOverlayWindow, 
+                                                   watchTableTimer, 
+                                                   waitThenTryToFindTableAgainTimer, 
+                                                   convertedPokerHand.Site, 
+                                                   convertedPokerHand.TableName);
         }
 
         ITableOverlaySettingsViewModel SetupOverlaySettings(IConvertedPokerHand convertedPokerHand)
