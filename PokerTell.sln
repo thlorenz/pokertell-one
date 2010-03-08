@@ -90,10 +90,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.IntegrationTests", "Src\Tests\IntegrationTests\PokerTell.LiveTracker.IntegrationTests\PokerTell.LiveTracker.IntegrationTests.csproj", "{BCAB9E17-3B22-4442-9E4F-88E609FD0AA5}"
 EndProject
 Global
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -258,5 +254,9 @@ Global
 		{134B575D-D973-4691-AC8E-3DB0E19D26C5} = {BE3038E0-B795-49E6-9955-CEF4EA796F93}
 		{8D965387-4FD2-4AF8-B369-14B28BCB9BD6} = {1FBB26EB-AD14-451D-85F5-22A897CC33B5}
 		{D69E7BA2-6666-4A43-A9F3-C50A240FB0D0} = {0C0C549B-906B-444C-83A8-179673E1849D}
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
