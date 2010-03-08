@@ -4,11 +4,10 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.PokerRooms;
 
     public class PokerHandParser : Base.PokerHandParser
     {
-        #region Constructors and Destructors
-
         public PokerHandParser(
             IConstructor<IAquiredPokerHand> aquiredHandMake,
             IConstructor<IAquiredPokerPlayer> aquiredPlayerMake,
@@ -16,7 +15,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             IConstructor<IAquiredPokerAction> aquiredActionMake)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
-            Site = "Full Tilt Poker";
+            Site = FullTiltPokerInfo.Site;
 
             AnteParser = new AnteParser();
             BlindsParser = new BlindsParser();
@@ -32,7 +31,5 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             TotalPotParser = new TotalPotParser();
             TotalSeatsParser = new TotalSeatsParser();
         }
-
-        #endregion
     }
 }

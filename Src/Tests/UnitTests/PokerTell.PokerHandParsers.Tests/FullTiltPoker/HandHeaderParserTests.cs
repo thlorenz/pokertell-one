@@ -4,13 +4,15 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
     using Base;
 
+    using Infrastructure.PokerRooms;
+
     public class HandHeaderParserTests : Tests.HandHeaderParserTests
     {
         #region Properties
 
         protected override string SiteName
         {
-            get { return "Full Tilt Poker"; }
+            get { return FullTiltPokerInfo.Site; }
         }
 
         #endregion
