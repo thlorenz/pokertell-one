@@ -1,0 +1,31 @@
+<Window x:Class="PokerTell.LiveTracker.Design.Statistics.TableStatisticsDesignWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="SuperPlayers Table"
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"    
+    ResizeMode="CanResizeWithGrip"    
+    ShowInTaskbar="True"   
+        
+    MouseDown="WindowBorder_MouseDown"
+    Width="300" Height="200" >
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+                <ResourceDictionary Source="pack://application:,,/PokerTell.LiveTracker;component/Views/TableStatisticsViewTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Border BorderBrush="{StaticResource LightToDarkToLightBorderBrush}" 
+            BorderThickness="2"
+            CornerRadius="5" 
+            Background="{StaticResource LightToDarkToLightBorderBrush}"
+            Padding="3, 0, 3, 0">
+    <Viewbox Stretch="Fill">
+        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource TableStatisticsViewTemplate}" />
+     </Viewbox>
+     </Border>   
+</Window>
