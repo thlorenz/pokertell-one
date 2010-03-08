@@ -53,6 +53,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -80,10 +81,13 @@
     <Compile Include="Interfaces\ILayoutXDocumentHandler.cs" />
     <Compile Include="Interfaces\ILayoutManager.cs" />
     <Compile Include="Interfaces\IOverlayToTableAttacher.cs" />
+    <Compile Include="Interfaces\ITableAttacher.cs" />
     <Compile Include="Interfaces\IWindowFinder.cs" />
+    <Compile Include="Interfaces\IWindowManipulator.cs" />
     <Compile Include="Overlay\LayoutManager.cs" />
     <Compile Include="Overlay\LayoutXDocumentHandler.cs" />
     <Compile Include="Overlay\SeatMapper.cs" />
+    <Compile Include="Overlay\WindowManipulator.cs" />
     <Compile Include="PlayerStatisticsUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\ITableOverlaySettingsViewModel.cs" />
