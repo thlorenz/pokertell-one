@@ -6,8 +6,6 @@ namespace PokerTell.SessionReview.ViewModels
 
     public class SessionReviewSettingsViewModel : NotifyPropertyChanged
     {
-        #region Constants and Fields
-
         readonly IAlwaysTrueCondition _alwaysTrueCondition;
 
         readonly IHandHistoriesViewModel _handHistoriesViewModel;
@@ -15,10 +13,6 @@ namespace PokerTell.SessionReview.ViewModels
         readonly IInvestedMoneyCondition _investedMoneyCondition;
 
         readonly ISawFlopCondition _sawFlopCondition;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public SessionReviewSettingsViewModel(
             IHandHistoriesViewModel handHistoriesViewModel, 
@@ -36,10 +30,6 @@ namespace PokerTell.SessionReview.ViewModels
             ConnectToHandHistoryFilterEvents();
         }
 
-        #endregion
-
-        #region Properties
-
         public IHandHistoriesViewModel HandHistoriesViewModel
         {
             get { return _handHistoriesViewModel; }
@@ -49,10 +39,6 @@ namespace PokerTell.SessionReview.ViewModels
         {
             get { return HandHistoriesViewModel.HandHistoriesFilter; }
         }
-
-        #endregion
-
-        #region Methods
 
         void ClearAllFilters()
         {
@@ -96,7 +82,5 @@ namespace PokerTell.SessionReview.ViewModels
             FilterOutHandHistoriesWhereHeroDidNotInvestMoney();
             FilterOutHandHistoriesWhereHeroDidNotSeeTheFlop();
         }
-
-        #endregion
     }
 }

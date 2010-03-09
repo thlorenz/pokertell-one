@@ -7,8 +7,8 @@ namespace PokerTell.PokerHand.ViewModels
     using System.Runtime.Serialization;
     using System.Windows.Input;
 
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     using Tools.Interfaces;
     using Tools.WPF;
@@ -17,8 +17,6 @@ namespace PokerTell.PokerHand.ViewModels
     [Serializable]
     public class HandHistoriesViewModel : NotifyPropertyChanged, IHandHistoriesViewModel
     {
-        #region Constants and Fields
-
         protected readonly IItemsPagesManager<IHandHistoryViewModel> _itemsPagesManager;
 
         readonly IHandHistoriesFilter _handHistoriesFilter;
@@ -50,13 +48,9 @@ namespace PokerTell.PokerHand.ViewModels
         [NonSerialized]
         ICommand _unselectAllShownHandHistoriesCommand;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public HandHistoriesViewModel(
-            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake,
-            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager,
+            IConstructor<IHandHistoryViewModel> handHistoryViewModelMake, 
+            IItemsPagesManager<IHandHistoryViewModel> itemsPagesManager, 
             IHandHistoriesFilter handHistoriesFilter)
         {
             _handHistoriesFilter = handHistoriesFilter;
@@ -65,16 +59,8 @@ namespace PokerTell.PokerHand.ViewModels
             _pageNumbers = new ObservableCollection<int>();
         }
 
-        #endregion
-
-        #region Events
-
         [field: NonSerialized]
         public event Action PageTurn;
-
-        #endregion
-
-        #region Properties
 
         public int CurrentPage
         {
@@ -105,7 +91,7 @@ namespace PokerTell.PokerHand.ViewModels
                         ExecuteDelegate = arg => {
                             _itemsPagesManager.NavigateBackward();
                             UpdatePageInfo();
-                        },
+                        }, 
                         CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateBackward
                     });
             }
@@ -120,7 +106,7 @@ namespace PokerTell.PokerHand.ViewModels
                         ExecuteDelegate = arg => {
                             _itemsPagesManager.NavigateForward();
                             UpdatePageInfo();
-                        },
+                        }, 
                         CanExecuteDelegate = arg => _itemsPagesManager.CanNavigateForward
                     });
             }
@@ -142,7 +128,7 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 return _selectAllHandHistoriesOnPageCommand ?? (_selectAllHandHistoriesOnPageCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => SetAllHandHistoriesOnPageSelectedTo(true),
+                        ExecuteDelegate = arg => SetAllHandHistoriesOnPageSelectedTo(true), 
                         CanExecuteDelegate = arg => true
                     });
             }
@@ -154,7 +140,7 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 return _selectAllShownHandHistoriesCommand ?? (_selectAllShownHandHistoriesCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => SetAllShownHandHistorieSelectedTo(true),
+                        ExecuteDelegate = arg => SetAllShownHandHistorieSelectedTo(true), 
                         CanExecuteDelegate = arg => true
                     });
             }
@@ -187,7 +173,7 @@ namespace PokerTell.PokerHand.ViewModels
                 return _unselectAllHandHistoriesOnPageCommand ??
                        (_unselectAllHandHistoriesOnPageCommand = new SimpleCommand
                            {
-                               ExecuteDelegate = arg => SetAllHandHistoriesOnPageSelectedTo(false),
+                               ExecuteDelegate = arg => SetAllHandHistoriesOnPageSelectedTo(false), 
                                CanExecuteDelegate = arg => true
                            });
             }
@@ -200,15 +186,11 @@ namespace PokerTell.PokerHand.ViewModels
                 return _unselectAllShownHandHistoriesCommand ??
                        (_unselectAllShownHandHistoriesCommand = new SimpleCommand
                            {
-                               ExecuteDelegate = arg => SetAllShownHandHistorieSelectedTo(false),
+                               ExecuteDelegate = arg => SetAllShownHandHistorieSelectedTo(false), 
                                CanExecuteDelegate = arg => true
                            });
             }
         }
-
-        #endregion
-
-        #region Public Methods
 
         public void SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue()
         {
@@ -218,12 +200,6 @@ namespace PokerTell.PokerHand.ViewModels
                     HandHistoriesFilter.SelectHero ? HandHistoriesFilter.HeroName : null);
             }
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IHandHistoriesViewModel
 
         public IHandHistoriesViewModel ApplyFilter(IPokerHandCondition condition)
         {
@@ -244,6 +220,12 @@ namespace PokerTell.PokerHand.ViewModels
             IEnumerable<IConvertedPokerHand> convertedPokerHands, int itemsPerPage)
         {
             var handHistoryViewModels = new List<IHandHistoryViewModel>();
+
+            if (!string.IsNullOrEmpty(_handHistoriesFilter.HeroName) && convertedPokerHands.Count() > 0 &&
+                !string.IsNullOrEmpty(convertedPokerHands.First().HeroName))
+            {
+                _handHistoriesFilter.HeroName = convertedPokerHands.First().HeroName;
+            }
 
             foreach (IConvertedPokerHand hand in convertedPokerHands)
             {
@@ -270,12 +252,6 @@ namespace PokerTell.PokerHand.ViewModels
             InitializeWith(convertedPokerHands, 10);
             return this;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         protected virtual void FilterOutUnselectedHandHistoriesIfShowSelectedOnlyIsTrue()
         {
@@ -359,7 +335,5 @@ namespace PokerTell.PokerHand.ViewModels
                 _pageNumbers.Add(i + 1);
             }
         }
-
-        #endregion
     }
 }

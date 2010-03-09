@@ -9,8 +9,6 @@ namespace PokerTell.PokerHand.Services
     [Serializable]
     public class HandHistoriesFilter : NotifyPropertyChanged, IHandHistoriesFilter
     {
-        #region Constants and Fields
-
         string _heroName;
 
         bool _selectHero;
@@ -24,10 +22,6 @@ namespace PokerTell.PokerHand.Services
         bool _showSawFlop;
 
         bool _showSelectedOnly;
-
-        #endregion
-
-        #region Events
 
         [field: NonSerialized]
         public event Action HeroNameChanged;
@@ -49,10 +43,6 @@ namespace PokerTell.PokerHand.Services
 
         [field: NonSerialized]
         public event Action ShowSelectedOnlyChanged;
-
-        #endregion
-
-        #region Properties
 
         public string HeroName
         {
@@ -124,10 +114,6 @@ namespace PokerTell.PokerHand.Services
             }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
@@ -192,10 +178,6 @@ namespace PokerTell.PokerHand.Services
                     _showSelectedOnly);
         }
 
-        #endregion
-
-        #region Methods
-
         void InvokeHeroNameChanged()
         {
             Action changed = HeroNameChanged;
@@ -258,7 +240,5 @@ namespace PokerTell.PokerHand.Services
                 changed();
             }
         }
-
-        #endregion
     }
 }

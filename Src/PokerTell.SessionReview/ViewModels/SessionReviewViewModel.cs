@@ -3,24 +3,21 @@
     using System.Reflection;
     using System.Text;
 
-    using Infrastructure;
-    using Infrastructure.Interfaces.PokerHand;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Win32;
 
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.SessionReview.Views;
+
     using Tools.Serialization;
     using Tools.WPF.ViewModels;
 
-    using Views;
-
     internal class SessionReviewViewModel : ItemsRegionViewModel, ISessionReviewViewModel
     {
-        #region Constants and Fields
-
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -31,10 +28,6 @@
         DelegateCommand<object> _createReportCommand;
 
         DelegateCommand<object> _saveCommand;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public SessionReviewViewModel(IRegionManager regionManager, IHandHistoriesViewModel handHistoriesViewModel)
         {
@@ -49,10 +42,6 @@
 
             HeaderInfo = "SessionReview " + GetHashCode() + " for: " + _handHistoriesViewModel.GetHashCode();
         }
-
-        #endregion
-
-        #region Properties
 
         public DelegateCommand<object> CreateReportCommand
         {
@@ -73,10 +62,6 @@
             get { return _saveCommand ?? (_saveCommand = new DelegateCommand<object>(Save, arg => IsActive)); }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public void CreateReport(object arg)
         {
             Log.InfoFormat("SessionReview->CreatingReport: {0}", GetHashCode());
@@ -91,9 +76,9 @@
             Log.InfoFormat("SessionReview->Saving: {0}", GetHashCode());
             var saveFileDialog = new SaveFileDialog
                 {
-                    AddExtension = true,
-                    DefaultExt = "pthh",
-                    Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*",
+                    AddExtension = true, 
+                    DefaultExt = "pthh", 
+                    Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*", 
                     Title = "Save PokerTell Session Review"
                 };
             saveFileDialog.FileName = "SessionReview" + "." + saveFileDialog.DefaultExt;
@@ -103,10 +88,6 @@
                 BinarySerializer.Serialize(_handHistoriesViewModel, saveFileDialog.FileName);
             }
         }
-
-        #endregion
-
-        #region Methods
 
         protected override void OnIsActiveChanged()
         {
@@ -129,8 +110,8 @@
             string heroName = filter.SelectHero ? filter.HeroName : null;
 
             string htmlHandHistories = HtmlStringBuilder.BuildFrom(
-                _handHistoriesViewModel.SelectedHandHistories,
-                filter.ShowPreflopFolds,
+                _handHistoriesViewModel.SelectedHandHistories, 
+                filter.ShowPreflopFolds, 
                 heroName);
 
             Encoding enc = Encoding.UTF8;
@@ -144,7 +125,5 @@
 
             return htmlBegin + htmlHandHistories + htmlEnd;
         }
-
-        #endregion
     }
 }
