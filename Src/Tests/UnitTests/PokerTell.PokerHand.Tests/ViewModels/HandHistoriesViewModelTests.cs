@@ -1,38 +1,38 @@
+// Resharper disable InconsistentNaming
 namespace PokerTell.PokerHand.Tests.ViewModels
 {
     using System.Collections.Generic;
     using System.Linq;
 
-    using Fakes;
-
-    using Infrastructure.Interfaces.PokerHand;
-
     using Microsoft.Practices.Unity;
+
+    using Moq;
 
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Services;
+    using PokerTell.PokerHand.Tests.Fakes;
     using PokerTell.PokerHand.ViewModels;
+    using PokerTell.UnitTests;
+    using PokerTell.UnitTests.Tools;
 
     using Tools;
     using Tools.Interfaces;
 
-    using UnitTests;
-    using UnitTests.Tools;
-
-    [TestFixture, RequiresSTA]
+    [TestFixture]
+    [RequiresSTA]
     public class HandHistoriesViewModelTests : TestWithLog
     {
         IHandHistoriesViewModel _viewModel;
 
         IUnityContainer _container;
 
-        #region Public Methods
-
         [SetUp]
         public void _Init()
         {
+
             _container = new UnityContainer()
                 .RegisterConstructor<IHandHistoryViewModel, HandHistoryViewModel>()
                 .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>()
@@ -41,7 +41,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
 
             _viewModel = _container.Resolve<IHandHistoriesViewModel>();
         }
-        
+
         [Test]
         public void InitializeWith_EmptyHands_KeepsHandHistoryViewModelsEmpty()
         {
@@ -56,12 +56,45 @@ namespace PokerTell.PokerHand.Tests.ViewModels
         public void InitializeWith_OneHand_AddsOneHandHistoryViewModels()
         {
             var hand = new ConvertedPokerHand();
-                
+
             var hands = new List<IConvertedPokerHand> { hand };
 
             _viewModel.InitializeWith(hands);
 
             Assert.That(_viewModel.HandHistoriesOnPage.Count(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void InitializeWith_OneHandWithHeroName_AssignsHeroNameToFilterHeroName()
+        {
+            var handHistoriesFilter_Mock = new Mock<IHandHistoriesFilter>();
+            const string heroName = "some hero";
+            var hand = new ConvertedPokerHand { HeroName = heroName };
+
+            var hands = new List<IConvertedPokerHand> { hand };
+            
+            _container
+                .RegisterInstance(handHistoriesFilter_Mock.Object)
+                .Resolve<IHandHistoriesViewModel>()
+                .InitializeWith(hands);
+
+            handHistoriesFilter_Mock.VerifySet(f => f.HeroName = heroName);
+        }
+
+        [Test]
+        public void InitializeWith_OneHandWithoutHeroName_DoesNotAssignHeroNameToFilterHeroName()
+        {
+            var handHistoriesFilter_Mock = new Mock<IHandHistoriesFilter>();
+            var hand = new ConvertedPokerHand();
+
+            var hands = new List<IConvertedPokerHand> { hand };
+            
+            _container
+                .RegisterInstance(handHistoriesFilter_Mock.Object)
+                .Resolve<IHandHistoriesViewModel>()
+                .InitializeWith(hands);
+
+            handHistoriesFilter_Mock.VerifySet(f => f.HeroName = It.IsAny<string>(),Times.Never());
         }
 
         [Test]
@@ -76,7 +109,6 @@ namespace PokerTell.PokerHand.Tests.ViewModels
 
             Assert.That(_viewModel.HandHistoriesOnPage.Count(), Is.EqualTo(2));
         }
-        
 
         [Test]
         public void BinaryDeserialize_Serialized_RestoresItemsHandHistoriesOnPage()
@@ -86,7 +118,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
             var hands = new List<IConvertedPokerHand> { hand1, hand2 };
 
             _viewModel.InitializeWith(hands);
-           
+
             Assert.That(_viewModel.BinaryDeserializedInMemory().HandHistoriesOnPage, 
                         Is.EqualTo(_viewModel.HandHistoriesOnPage));
         }
@@ -96,12 +128,12 @@ namespace PokerTell.PokerHand.Tests.ViewModels
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
-           
+
             var hands = new List<IConvertedPokerHand> { hand1, hand2 };
 
             _viewModel.InitializeWith(hands);
-           
-            Assert.That(_viewModel.BinaryDeserializedInMemory().SelectedHandHistories,
+
+            Assert.That(_viewModel.BinaryDeserializedInMemory().SelectedHandHistories, 
                         Is.EqualTo(_viewModel.SelectedHandHistories));
         }
 
@@ -115,7 +147,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
 
             _viewModel
                 .InitializeWith(hands);
-          
+
             Assert.That(_viewModel.BinaryDeserializedInMemory().PageNumbers, Is.EqualTo(_viewModel.PageNumbers));
         }
 
@@ -135,7 +167,6 @@ namespace PokerTell.PokerHand.Tests.ViewModels
 
         [Test]
         public void SelectAllHandHistoriesOnPage_TwoHandsOnPage_SelectsTwoHands()
-
         {
             var hand1 = new ConvertedPokerHand();
             var hand2 = new ConvertedPokerHand();
@@ -281,20 +312,18 @@ namespace PokerTell.PokerHand.Tests.ViewModels
             var hand2 = new ConvertedPokerHand { Id = 2 };
 
             var hands = new List<IConvertedPokerHand> { hand1, hand2 };
-          
+
             var filterCondition = new StubConditionWithHandId { HandIdToMatch = hand1.Id };
 
             _viewModel
                 .InitializeWith(hands)
                 .SelectAllShownHandHistoriesCommand.Execute(null);
-                
+
             _viewModel
                 .ApplyFilter(filterCondition)
                 .UnselectAllShownHandHistoriesCommand.Execute(null);
-               
+
             Assert.That(_viewModel.SelectedHandHistories.Count(), Is.EqualTo(1));
         }
-
-        #endregion
     }
 }

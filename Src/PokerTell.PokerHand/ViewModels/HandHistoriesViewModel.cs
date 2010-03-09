@@ -221,7 +221,7 @@ namespace PokerTell.PokerHand.ViewModels
         {
             var handHistoryViewModels = new List<IHandHistoryViewModel>();
 
-            if (!string.IsNullOrEmpty(_handHistoriesFilter.HeroName) && convertedPokerHands.Count() > 0 &&
+            if (string.IsNullOrEmpty(_handHistoriesFilter.HeroName) && convertedPokerHands.Count() > 0 &&
                 !string.IsNullOrEmpty(convertedPokerHands.First().HeroName))
             {
                 _handHistoriesFilter.HeroName = convertedPokerHands.First().HeroName;
