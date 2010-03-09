@@ -223,6 +223,41 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             It should_stop_waiting_for_a_new_table_name = () => _sut.WaitingForNewTableName.ShouldBeFalse();
         }
+
+        [Subject(typeof(OverlayToTableAttacher), "Table is lost")]
+        public class when_the_window_manipulator_says_it_lost_the_table_while_trying_to_place_the_overlay_on_top_of_it : OverlayToTableAttacherSpecs
+        {
+            Establish context = () => _windowManipulator_Mock
+                                          .Setup(wm => wm.PlaceThisWindowDirectlyOnTopOfYours(Moq.It.IsAny<IWindowManager>(), Moq.It.IsAny<Action>()))
+                                          .Callback((IWindowManager _, Action tableLostCallback) => tableLostCallback());
+
+            Because of = () => _watchTableTimer_Stub.Raise(wt => wt.Tick += null, null, null);
+
+            It should_stop_to_watch_the_table = () => _watchTableTimer_Stub.Verify(wt => wt.Stop());
+
+            It should_try_to_find_the_table_again = () => _findTableAgainTimer_Mock.Verify(ft => ft.Start());
+        }
+
+        [Subject(typeof(OverlayToTableAttacher), "Finding table again")]
+        public class when_the_find_table_again_timer_fires : OverlayToTableAttacherSpecs
+        {
+            Because of = () => _findTableAgainTimer_Mock.Raise(ft => ft.Tick += null, null, null);
+
+            It should_try_to_find_the_poker_table = () =>
+                _windowFinder_Mock.Verify(
+                    wf => wf.FindWindowMatching(Moq.It.IsAny<Regex>(), Moq.It.IsAny<Regex>(), Moq.It.IsAny<Func<IntPtr, bool>>()));
+        }
+
+        [Subject(typeof(OverlayToTableAttacher), "Dispose")]
+        public class when_it_is_disposed : OverlayToTableAttacherSpecs
+        {
+            Because of = () => _sut.Dispose();
+
+            It should_stop_the_watcher_timer = () => _watchTableTimer_Stub.Verify(wt => wt.Stop());
+
+            It should_stop_the_find_table_again_timer = () => _findTableAgainTimer_Mock.Verify(ft => ft.Stop());
+        }
+
     }
 
     public class OverlayToTableAttacherSut : OverlayToTableAttacher

@@ -15,11 +15,6 @@ namespace PokerTell.LiveTracker.Overlay
     /// <summary>
     /// Description of OverlayToTableAttacher.
     /// </summary>
-    /// <remarks>
-    /// The way this class is designed it is only possible to test a subset, but it has been proven to work in the past.
-    /// So for now this will have to do.
-    /// Specifically the callback actions couldn't be tested.
-    /// </remarks>
     public class OverlayToTableAttacher : IOverlayToTableAttacher
     {
         public OverlayToTableAttacher(IWindowManipulator windowManipulator, IWindowFinder windowFinder)
@@ -91,7 +86,7 @@ namespace PokerTell.LiveTracker.Overlay
             _watchTableTimer.Tick += WatchTableTimer_Tick;
 
             _waitThenTryToFindTableAgainTimer = waitThenTryToFindTableAgainTimer;
-            _waitThenTryToFindTableAgainTimer.Tick += delegate { TryToFindTableAgain(); };
+            _waitThenTryToFindTableAgainTimer.Tick += (sender, args) => AttachToTableWith(TableName, _processName);
 
             return this;
         }
@@ -146,11 +141,6 @@ namespace PokerTell.LiveTracker.Overlay
                FullText = _windowManipulator
                    .SetTextTo(TableName, newFullText => { TableChanged(newFullText); _waitingForNewTableName = true; });
             }
-        }
-
-        void TryToFindTableAgain()
-        {
-            AttachToTableWith(TableName, _processName);
         }
     }
 }
