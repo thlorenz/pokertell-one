@@ -198,6 +198,7 @@
     <Compile Include="WPF\ViewModels\PositionViewModel.cs" />
     <Compile Include="WPF\Views\DialogView.cs" />
     <Compile Include="WPF\Views\ItemsRegionView.cs" />
+    <Compile Include="WPF\WindowManager.cs" />
     <Compile Include="Wrappers\CallWindowProc.cs" />
     <Compile Include="Wrappers\HandHistoryReader.cs" />
     <Compile Include="Wrappers\HotKey.cs" />

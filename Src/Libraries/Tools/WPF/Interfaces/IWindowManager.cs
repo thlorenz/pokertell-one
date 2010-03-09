@@ -8,11 +8,9 @@ namespace Tools.WPF.Interfaces
     {
         object DataContext { get; set; }
 
-        IWindowManager CreateWindow();
-
         IWindowManager Show();
 
-        IWindowManager BringToFront();
+        IWindowManager BringIntoView();
 
         IWindowManager Hide();
 

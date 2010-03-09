@@ -141,7 +141,6 @@ namespace PokerTell.LiveTracker
         void SetupLiveStatsWindow()
         {
             _liveStatsWindow
-                .CreateWindow()
                 .DataContext = _pokerTableStatistics;
             _liveStatsWindow.Show();
         }
@@ -155,7 +154,6 @@ namespace PokerTell.LiveTracker
             _tableOverlay.InitializeWith(_seatMapper, overlaySettings, _gameHistory, _pokerTableStatistics, LiveTrackerSettings.ShowHoleCardsDuration);
 
             _tableOverlayWindow
-                .CreateWindow()
                 .DataContext = _tableOverlay;
             _tableOverlayWindow.Show();
 

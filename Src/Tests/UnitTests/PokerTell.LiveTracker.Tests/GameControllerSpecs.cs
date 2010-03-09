@@ -72,10 +72,8 @@ namespace PokerTell.LiveTracker.Tests
             _liveTrackerSettings_Stub = new Mock<ILiveTrackerSettings>();
 
             _liveStatsWindow_Mock = new Mock<IWindowManager>();
-            _liveStatsWindow_Mock.Setup(lsw => lsw.CreateWindow()).Returns(_liveStatsWindow_Mock.Object);
 
             _tableOverlayWindow_Mock = new Mock<IWindowManager>();
-            _tableOverlayWindow_Mock.Setup(ow => ow.CreateWindow()).Returns(_tableOverlayWindow_Mock.Object);
 
             _sut = new GameControllerSut(
                 _layoutManager_Mock.Object, 
@@ -262,8 +260,6 @@ namespace PokerTell.LiveTracker.Tests
                                                                      pokerSite,
                                                                      tableName));
 
-            It should_create_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.CreateWindow());
-
             It should_set_the_DataContext_of_the_overlay_window_to_the_overlay_viewmodel
                 = () => _tableOverlayWindow_Mock.VerifySet(ow => ow.DataContext = _tableOverlay_Mock.Object);
 
@@ -282,8 +278,6 @@ namespace PokerTell.LiveTracker.Tests
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
-            It should_create_the_LiveStats_window = () => _liveStatsWindow_Mock.Verify(lsw => lsw.CreateWindow());
-
             It should_set_the_DataContext_of_the_LiveStats_window_to_the_pokertable_viewmodel
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _pokerTableStatistics_Mock.Object);
 
@@ -300,8 +294,6 @@ namespace PokerTell.LiveTracker.Tests
                 () => _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowLiveStatsWindowOnStartup).Returns(showLiveStatsWindowOnStartup);
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
-
-            It should_not_create_the_LiveStats_window = () => _liveStatsWindow_Mock.Verify(lsw => lsw.CreateWindow(), Times.Never());
 
             It should_not_set_the_DataContext_of_the_LiveStats_window_to_the_pokertable_viewmodel
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _pokerTableStatistics_Mock.Object, Times.Never());
@@ -342,8 +334,6 @@ namespace PokerTell.LiveTracker.Tests
                                            Times.Never());
 
             It should_not_show_the_overlay_window_again = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
-
-            It should_not_create_the_LiveStats_window_again = () => _liveStatsWindow_Mock.Verify(lsw => lsw.CreateWindow(), Times.Never());
 
             It should_not_set_the_DataContext_of_the_LiveStats_window_to_the_pokertable_viewmodel_again
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _pokerTableStatistics_Mock.Object, Times.Never());
