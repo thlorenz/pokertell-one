@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
+    using System.Text.RegularExpressions;
+
     public abstract class TableNameParser
     {
         public bool IsValid { get; protected set; }
@@ -9,8 +9,6 @@ namespace PokerTell.PokerHandParsers.Base
         public string TableName { get; protected set; }
 
         protected abstract string TableNamePattern { get; }
-
-        #region Public Methods
 
         public TableNameParser Parse(string handHistory)
         {
@@ -24,10 +22,6 @@ namespace PokerTell.PokerHandParsers.Base
             return this;
         }
 
-        #endregion
-
-        #region Methods
-
         Match MatchTableName(string handHistory)
         {
             return Regex.Match(handHistory, TableNamePattern, RegexOptions.IgnoreCase);
@@ -37,7 +31,5 @@ namespace PokerTell.PokerHandParsers.Base
         {
             TableName = table.Groups["TableName"].Value;
         }
-
-        #endregion
     }
 }

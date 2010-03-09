@@ -6,15 +6,9 @@ namespace PokerTell.PokerHandParsers.Tests
 
     public abstract class TableNameParserTests
     {
-        #region Constants and Fields
-
         const string TableName = "SomeTable";
 
         TableNameParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -61,14 +55,8 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.TableName, Is.EqualTo(tableNameWithSpaces));
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract string ValidTableName(string tableName);
 
         protected abstract TableNameParser GetTableNameParser();
-
-        #endregion
     }
 }

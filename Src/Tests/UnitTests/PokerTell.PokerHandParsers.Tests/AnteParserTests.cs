@@ -6,15 +6,9 @@ namespace PokerTell.PokerHandParsers.Tests
 
     public abstract class AnteParserTests
     {
-        #region Constants and Fields
-
         const double Ante = 1.0;
 
         AnteParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -52,14 +46,8 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.Ante, Is.EqualTo(Ante));
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract AnteParser GetAnteParser();
 
         protected abstract string ValidTournamentAnte(double ante);
-
-        #endregion
     }
 }

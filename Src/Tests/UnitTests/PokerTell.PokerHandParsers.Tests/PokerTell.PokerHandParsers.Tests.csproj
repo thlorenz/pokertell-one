@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>...\..\..\..\Build.Tests\</OutputPath>
+    <OutputPath>..\..\..\..\Build.Tests\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Machine.Specifications, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\MSpec\Machine.Specifications.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
@@ -66,11 +70,13 @@
     <Compile Include="FullTiltPoker\TimeStampParserTests.cs" />
     <Compile Include="FullTiltPoker\TotalPotParserTests.cs" />
     <Compile Include="FullTiltPoker\TotalSeatsParserTests.cs" />
+    <Compile Include="HeroNameParserTests.cs" />
     <Compile Include="PartyPoker\AnteParserTests.cs" />
     <Compile Include="PartyPoker\BlindsParserTests.cs" />
     <Compile Include="PartyPoker\HandHeaderParserTests.cs" />
     <Compile Include="Patterns\RatioPatternTests.cs" />
     <Compile Include="PokerStars\BoardParserTests.cs" />
+    <Compile Include="PokerStars\HeroNameParserTests.cs" />
     <Compile Include="PokerStars\HoleCardsParserTests.cs" />
     <Compile Include="PokerStars\PlayerActionsParserTests.cs" />
     <Compile Include="PokerStars\PlayerSeatsParserTests.cs" />

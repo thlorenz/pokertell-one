@@ -72,8 +72,6 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.Holecards, Is.EqualTo(HoleCards));
         }
 
-
-
         [Test]
         public void Parse_OtherPlayerShowedHoleCards_HoleCardsAreEmpty()
         {
@@ -81,12 +79,13 @@ namespace PokerTell.PokerHandParsers.Tests
             _parser.Parse(handHistory, PlayerName);
             Assert.That(_parser.Holecards, Is.EqualTo(string.Empty));
         }
-
         
         protected abstract HoleCardsParser GetHoleCardsParser();
 
         protected abstract string HeroHoleCardsFor(string playerName, string holeCards);
+
         protected abstract string MuckedCardsFor(string playerName, string holeCards);
+        
         protected abstract string ShowedCardsFor(string playerName, string holeCards);
     }
 }

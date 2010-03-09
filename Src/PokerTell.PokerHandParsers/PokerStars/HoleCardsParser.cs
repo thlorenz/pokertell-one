@@ -1,8 +1,5 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
-    using System.Text.RegularExpressions;
-
     public class HoleCardsParser : Base.HoleCardsParser
     {
         const string DealtToPattern = @"Dealt to ";
@@ -16,10 +13,9 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         protected override string ShownOrMuckedHoleCardsPattern
         {
-            get
-            {
-                return string.Format("{0}{1}{2}", _playerName, ShowsOrMuckedPattern, HoleCardsPattern);
-            }
+            get { return string.Format("{0}{1}{2}", _playerName, ShowsOrMuckedPattern, HoleCardsPattern); }
         }
     }
+
+    
 }

@@ -1,11 +1,9 @@
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
+    using System.Text.RegularExpressions;
+
     public abstract class HoleCardsParser
     {
-        #region Constants and Fields
-
         protected const string HoleCardsPattern =
             @".+\[" +
             @"(?<HoleCard1>" + SharedPatterns.CardPattern + @") " +
@@ -16,19 +14,11 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected string _playerName;
 
-        #endregion
-
-        #region Properties
-
         public string Holecards { get; protected set; }
 
         protected abstract string HeroHoleCardsPattern { get; }
 
         protected abstract string ShownOrMuckedHoleCardsPattern { get; }
-
-        #endregion
-
-        #region Public Methods
 
         public virtual HoleCardsParser Parse(string handHistory, string playerName)
         {
@@ -53,10 +43,6 @@ namespace PokerTell.PokerHandParsers.Base
             return this;
         }
 
-        #endregion
-
-        #region Methods
-
         void ExtractHoleCards(Match holeCards)
         {
             Holecards = string.Format("{0} {1}", holeCards.Groups["HoleCard1"], holeCards.Groups["HoleCard2"]);
@@ -71,7 +57,5 @@ namespace PokerTell.PokerHandParsers.Base
         {
             return Regex.Match(_handHistory, ShownOrMuckedHoleCardsPattern, RegexOptions.IgnoreCase);
         }
-
-        #endregion
     }
 }
