@@ -61,6 +61,7 @@
     <Compile Include="FullTiltPoker\BlindsParserTests.cs" />
     <Compile Include="FullTiltPoker\BoardParserTests.cs" />
     <Compile Include="FullTiltPoker\HandHeaderParserTests.cs" />
+    <Compile Include="FullTiltPoker\HeroNameParserTests.cs" />
     <Compile Include="FullTiltPoker\HoleCardsParserTests.cs" />
     <Compile Include="FullTiltPoker\PlayerActionsParserTests.cs" />
     <Compile Include="FullTiltPoker\PlayerSeatsParserTests.cs" />

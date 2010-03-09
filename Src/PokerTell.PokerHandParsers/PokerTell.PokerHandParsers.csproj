@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\HeroNameParser.cs" />
+    <Compile Include="FullTiltPoker\HeroNameParser.cs" />
     <Compile Include="PokerHandParsers.cs" />
     <Compile Include="Base\BlindsParser.cs" />
     <Compile Include="Base\AnteParser.cs" />
