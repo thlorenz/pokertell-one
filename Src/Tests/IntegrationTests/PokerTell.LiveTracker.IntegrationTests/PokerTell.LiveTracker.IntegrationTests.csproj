@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\MSpec\Machine.Specifications.dll</HintPath>
     </Reference>
+    <Reference Include="Moq, Version=4.0.812.4, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\Moq\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -68,8 +72,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WindowFinderSpecs.cs" />
+    <Compile Include="WindowManipulatorSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
+      <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PokerTell.LiveTracker\PokerTell.LiveTracker.csproj">
       <Project>{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}</Project>
       <Name>PokerTell.LiveTracker</Name>

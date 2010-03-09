@@ -23,8 +23,6 @@ namespace PokerTell.LiveTracker.Interfaces
 
        void PlaceThisWindowDirectlyOnTopOfYours(IWindowManager topWindow, Action onBottomWindowWasNotFound);
 
-        bool SetTextTo(string windowText);
-
         /// <summary>
         /// Tries to find the subText in the Window text.
         /// If it is found and is not equal to the subText, the fullText will be set to the

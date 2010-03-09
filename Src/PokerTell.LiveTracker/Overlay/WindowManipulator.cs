@@ -71,8 +71,8 @@ namespace PokerTell.LiveTracker.Overlay
 
             var sbInfo = new StringBuilder();
             sbInfo.AppendLine("\nHandle: " + _windowHandle);
-            sbInfo.AppendLine("Class : " + sbClass);
-            sbInfo.AppendLine("Text  : " + GetText());
+            sbInfo.AppendLine("Class: " + sbClass);
+            sbInfo.AppendLine("Text: " + GetText());
 
             return sbInfo.ToString();
         }
@@ -143,7 +143,7 @@ namespace PokerTell.LiveTracker.Overlay
             }
         }
 
-        public bool SetTextTo(string windowText)
+        bool SetTextTo(string windowText)
         {
             return User32.SetWindowText(_windowHandle, windowText);
         }
