@@ -9,9 +9,7 @@ namespace PokerTell.LiveTracker.Interfaces
 
     public interface IOverlayToTableAttacher : IFluentInterface, IDisposable
     {
-        event EventHandler<GenericEventArgs<Point, Size>> PositionOrSizeOfTableChanged;
-
-        event EventHandler<GenericEventArgs<string>> TableChanged;
+        event Action<string> TableChanged;
 
         event Action TableClosed;
 

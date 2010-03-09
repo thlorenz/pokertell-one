@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="GameControllerSpecs.cs" />
     <Compile Include="Overlay\LayoutManagerSpecs.cs" />
+    <Compile Include="Overlay\OverlayToTableAttacherSpecs.cs" />
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
     <Compile Include="PlayerStatisticsUpdaterSpecs.cs" />
     <Compile Include="Tracking\GamesTrackerSpecs.cs" />
