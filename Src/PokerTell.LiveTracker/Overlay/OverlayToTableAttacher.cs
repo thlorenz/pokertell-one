@@ -143,8 +143,8 @@ namespace PokerTell.LiveTracker.Overlay
 
             if (! _waitingForNewTableName)
             {
-                _windowManipulator.SetTextTo(TableName,
-                                             () => { TableChanged(FullText); _waitingForNewTableName = true; });
+               FullText = _windowManipulator
+                   .SetTextTo(TableName, newFullText => { TableChanged(newFullText); _waitingForNewTableName = true; });
             }
         }
 

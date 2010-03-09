@@ -157,7 +157,7 @@ namespace PokerTell.LiveTracker.Overlay
         /// <param name="subText">Text to be found in window text</param>
         /// <param name="onSubTextNotContainedInWindowText">Command invoked e.g. if Table changed</param>
         /// <returns>The current fulltext of the window, regardless if it changed or not.</returns>
-        public string SetTextTo(string subText, Action onSubTextNotContainedInWindowText)
+        public string SetTextTo(string subText, Action<string> onSubTextNotContainedInWindowText)
         {
             string currentWindowText = GetText();
 
@@ -169,7 +169,7 @@ namespace PokerTell.LiveTracker.Overlay
                 }
                 else if (onSubTextNotContainedInWindowText != null)
                 {
-                    onSubTextNotContainedInWindowText.Invoke();
+                    onSubTextNotContainedInWindowText.Invoke(currentWindowText);
                 }
             }
 

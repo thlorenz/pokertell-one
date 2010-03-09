@@ -87,6 +87,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             It should_start_to_watch_the_table = () => _watchTableTimer_Stub.Verify(wt => wt.Start());
 
             It should_not_tell_me_that_the_table_is_closed = () => tableClosedWasRaised.ShouldBeFalse();
+
         }
 
         [Subject(typeof(OverlayToTableAttacher), "Activate")]
@@ -126,7 +127,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 () => _windowManipulator_Mock.Verify(wm => wm.PlaceThisWindowDirectlyOnTopOfYours(_overlayWindow_Mock.Object, Moq.It.IsAny<Action>()));
 
             It should_set_the_window_text_to_the_TableName
-                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_tableName, Moq.It.IsAny<Action>()));
+                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_tableName, Moq.It.IsAny<Action<string>>()));
         }
 
         [Subject(typeof(OverlayToTableAttacher), "Watching Table")]
@@ -149,7 +150,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 () => _windowManipulator_Mock.Verify(wm => wm.PlaceThisWindowDirectlyOnTopOfYours(_overlayWindow_Mock.Object, Moq.It.IsAny<Action>()));
 
             It should_not_set_the_window_text_to_the_TableName
-                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_tableName, Moq.It.IsAny<Action>()), Times.Never());
+                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_tableName, Moq.It.IsAny<Action<string>>()), Times.Never());
         }
 
         [Subject(typeof(OverlayToTableAttacher), "Watching Table")]
@@ -185,20 +186,37 @@ namespace PokerTell.LiveTracker.Tests.Overlay
         public class when_the_watcher_timer_fires_and_the_window_manipulator_detects_that_the_table_name_is_not_contained_in_the_poker_table_title
              : OverlayToTableAttacherSpecs
         {
-            Establish context = () => _windowManipulator_Mock
-                                          .Setup(wm => wm.SetTextTo(Moq.It.IsAny<string>(), Moq.It.IsAny<Action>()))
-                                          .Callback((string s1, Action cb) => cb());
+            protected static bool tableChangedWasRaised;
+
+            protected static string newFullText;
+
+            protected static string raisedWithFullText;
+            Establish context = () => {
+                newFullText = "new Text";
             
+                _windowManipulator_Mock
+                    .Setup(wm => wm.SetTextTo(Moq.It.IsAny<string>(), Moq.It.IsAny<Action<string>>()))
+                    .Callback((string s1, Action<string> cb) => cb(newFullText));
+
+                _sut.TableChanged += ft => {
+                    raisedWithFullText = ft;
+                    tableChangedWasRaised = true;
+                };
+            };
 
             Because of = () => _watchTableTimer_Stub.Raise(wt => wt.Tick += null, null, null);
 
             It should_start_waiting_for_a_new_table_name = () => _sut.WaitingForNewTableName.ShouldBeTrue();
 
+            It should_tell_me_that_the_table_changed = () => tableChangedWasRaised.ShouldBeTrue();
+
+            It should_tell_me_the_new_title_of_the_table = () => raisedWithFullText.ShouldEqual(newFullText);
         }
 
         [Subject(typeof(OverlayToTableAttacher), "SetTableName")]
         public class when_table_name_is_set_while_waiting_for_new_table_name
         {
+
             Establish context = () => _sut.SetWaitingForNewTableName(true);
 
             Because of = () => _sut.TableName = "new table name";

@@ -32,8 +32,8 @@ namespace PokerTell.LiveTracker.Interfaces
         /// In case the subText is not found, the onSubTextNotContainedInWindowText command is invoked.
         /// </summary>
         /// <param name="subText">Text to be found in window text</param>
-        /// <param name="fullText">Full Text e.g. obtained on last read of the window text</param>
         /// <param name="onSubTextNotContainedInWindowText">Command invoked e.g. if Table changed</param>
-        string SetTextTo(string subText, Action onSubTextNotContainedInWindowText);
+        /// <returns>The current fulltext of the window, regardless if it changed or not.</returns>
+        string SetTextTo(string subText, Action<string> onSubTextNotContainedInWindowText);
     }
 }
