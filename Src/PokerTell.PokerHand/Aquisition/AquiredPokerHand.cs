@@ -8,26 +8,18 @@ namespace PokerTell.PokerHand.Aquisition
     using System.Collections.ObjectModel;
     using System.Reflection;
 
-    using Analyzation;
-
-    using Infrastructure.Interfaces.PokerHand;
-
     using log4net;
+
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Description of PokerHand.
     /// </summary>
     public class AquiredPokerHand : PokerHand, IAquiredPokerHand
     {
-        #region Constants and Fields
-
         protected List<IAquiredPokerPlayer> _players;
 
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        #endregion
-
-        #region Constructors and Destructors
+        static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public AquiredPokerHand()
         {
@@ -39,18 +31,11 @@ namespace PokerTell.PokerHand.Aquisition
         /// Enables Hand creation, before number of players is known
         /// This is necessary during Parsing and when importing from other databases
         /// </summary>
-        /// <param name="site">
-        /// </param>
-        /// <param name="gameId">
-        /// </param>
-        /// <param name="timeStamp">
-        /// </param>
-        /// <param name="BB">
-        /// <see cref="BB"></see>
-        /// </param>
-        /// <param name="SB">
-        /// <see cref="SB"></see> 
-        /// </param>
+        /// <param name="site"></param>
+        /// <param name="gameId"></param>
+        /// <param name="timeStamp"></param>
+        /// <param name="BB"><see cref="BB"></see></param>
+        /// <param name="SB"><see cref="SB"></see></param>
         public AquiredPokerHand(string site, ulong gameId, DateTime timeStamp, double BB, double SB)
             : this(site, gameId, timeStamp, BB, SB, -1)
         {
@@ -75,10 +60,6 @@ namespace PokerTell.PokerHand.Aquisition
             Seats = new List<IAquiredPlayerSeat>();
         }
 
-        #endregion
-
-        #region Properties
-
         public ReadOnlyCollection<IAquiredPokerPlayer> Players
         {
             get { return _players.AsReadOnly(); }
@@ -94,18 +75,10 @@ namespace PokerTell.PokerHand.Aquisition
         /// </summary>
         public IList<IAquiredPlayerSeat> Seats { get; protected set; }
 
-        #endregion
-
-        #region Indexers
-
         public IAquiredPokerPlayer this[int index]
         {
             get { return Players[index]; }
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Method to add a player to the hand
@@ -158,7 +131,7 @@ namespace PokerTell.PokerHand.Aquisition
                 handinfo = string.Format(
                     "\nTour#: {0} Hand: #{1} {2} - {3} ", TournamentId, GameId, DateAsString, TimeAsString);
 
-                handinfo += string.Format("[{3}] BB:{0} SB:{1} TP:{2}\n", BB, SB, TotalPlayers, Board);
+                handinfo += string.Format("[{3}] BB:{0} SB:{1} TP:{2} Hero: {4}\n", BB, SB, TotalPlayers, Board, HeroName);
             }
             catch (ArgumentNullException excep)
             {
@@ -180,12 +153,6 @@ namespace PokerTell.PokerHand.Aquisition
             return handinfo;
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IEnumerable
-
         /// <summary>
         /// Inumerator
         /// </summary>
@@ -194,10 +161,6 @@ namespace PokerTell.PokerHand.Aquisition
         {
             return _players.GetEnumerator();
         }
-
-        #endregion
-
-        #endregion
 
         /// <summary>
         /// Remove a Poker Player

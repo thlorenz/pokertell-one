@@ -13,8 +13,6 @@ namespace PokerTell.PokerHandParsers.Base
 
     public abstract class PokerHandParser : IPokerHandParser
     {
-        #region Constants and Fields
-
         protected readonly IConstructor<IAquiredPokerAction> _aquiredActionMake;
 
         protected AnteParser AnteParser;
@@ -24,6 +22,8 @@ namespace PokerTell.PokerHandParsers.Base
         protected BoardParser BoardParser;
 
         protected HandHeaderParser HandHeaderParser;
+
+        protected HeroNameParser HeroNameParser;
 
         protected HoleCardsParser HoleCardsParser;
 
@@ -56,10 +56,6 @@ namespace PokerTell.PokerHandParsers.Base
 
         string _handHistory;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public PokerHandParser(
             IConstructor<IAquiredPokerHand> aquiredHandMake, 
             IConstructor<IAquiredPokerPlayer> aquiredPlayerMake, 
@@ -72,31 +68,17 @@ namespace PokerTell.PokerHandParsers.Base
             _aquiredHandMake = aquiredHandMake;
         }
 
-        #endregion
-
-        #region Properties
-
         public IAquiredPokerHand AquiredPokerHand { get; private set; }
 
         public bool IsValid { get; private set; }
 
         public bool LogVerbose { get; set; }
 
-        #endregion
-
-        #region Public Methods
-
         public override string ToString()
         {
             string historyInfo = LogVerbose ? _handHistory : _handHistory.Substring(0, 50);
             return string.Format("{0} Parser\n Currently parsing:\n\n<{1}>\n", Site, historyInfo);
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPokerHandParser
 
         public IDictionary<ulong, string> ExtractSeparateHandHistories(string handHistories)
         {
@@ -127,6 +109,8 @@ namespace PokerTell.PokerHandParsers.Base
 
                 ParseHandInfo();
 
+                ParseHeroName();
+
                 string smallBlindSeatNumber = ParseSmallBlindSeatNumber();
 
                 ParsePlayers(smallBlindSeatNumber);
@@ -135,16 +119,23 @@ namespace PokerTell.PokerHandParsers.Base
             return this;
         }
 
+        void ParseHeroName()
+        {
+            if (HeroNameParser.Parse(_handHistory).IsValid)
+            {
+                AquiredPokerHand.HeroName = HeroNameParser.HeroName;
+            }
+            else
+            {
+                Log.Debug("Failed to parse hero name correctly, setting it to string.empty");
+                AquiredPokerHand.HeroName = string.Empty;
+            }
+        }
+
         public bool RecognizesHandHistoriesIn(string histories)
         {
             return HandHeaderParser.Parse(histories).IsValid;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         static void ExtractAllHandHistoriesExceptLast(
             string handHistories, 
@@ -443,7 +434,5 @@ namespace PokerTell.PokerHandParsers.Base
                 aquiredPlayer.SetPosition(smallBlindPosition, AquiredPokerHand.TotalPlayers);
             }
         }
-
-        #endregion
     }
 }

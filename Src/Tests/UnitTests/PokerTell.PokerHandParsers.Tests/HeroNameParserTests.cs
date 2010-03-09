@@ -6,7 +6,6 @@ namespace PokerTell.PokerHandParsers.Tests
 
     using UnitTests.Tools;
 
-    [TestFixture]
     public abstract class HeroNameParserTests
     {
         const string HeroName = "some Hero";

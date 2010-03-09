@@ -14,8 +14,6 @@ namespace PokerTell.PokerHand
     [Serializable]
     public abstract class PokerHand : IPokerHand
     {
-        #region Constants and Fields
-
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         [NonSerialized]
@@ -43,10 +41,6 @@ namespace PokerTell.PokerHand
         int _totalSeats;
 
         ulong _tournamentId;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         protected PokerHand()
         {
@@ -80,10 +74,6 @@ namespace PokerTell.PokerHand
         {
             InitializeBase(totalplrs, site, gameid, timeStamp, bb, sb);
         }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Array containing the names of all players present at the table
@@ -178,10 +168,7 @@ namespace PokerTell.PokerHand
         public string HeroName
         {
             get { return _heroName; }
-            set
-            {
-                _heroName = value;
-            }
+            set { _heroName = value; }
         }
 
         /// <summary>
@@ -228,10 +215,6 @@ namespace PokerTell.PokerHand
             set { _tournamentId = value; }
         }
 
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         /// Compares given PokerHand with this one using the Game#
         /// </summary>
@@ -243,14 +226,17 @@ namespace PokerTell.PokerHand
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != GetType())
             {
                 return false;
             }
+
             return Equals((PokerHand)obj);
         }
 
@@ -291,12 +277,6 @@ namespace PokerTell.PokerHand
             }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComparable
-
         int IComparable.CompareTo(object obj)
         {
             if (TimeStamp < ((IPokerHand)obj).TimeStamp)
@@ -312,10 +292,6 @@ namespace PokerTell.PokerHand
                 return 0;
             }
         }
-
-        #endregion
-
-        #region IPokerHand
 
         public void InitializeBase(int totalplrs, string site, ulong gameid, DateTime timeStamp, double bb, double sb)
         {
@@ -350,13 +326,23 @@ namespace PokerTell.PokerHand
             }
         }
 
-        #endregion
-
         public override string ToString()
         {
-            return string.Format("Ante: {0}, BB: {1}, Board: {2}, GameId: {3}, SB: {4}, Site: {5}, TableName: {6}, TimeStamp: {7}, TotalPlayers: {8}, TotalSeats: {9}, TournamentId: {10}", _ante, _bb, _board, _gameId, _sb, _site, _tableName, _timeStamp, _totalPlayers, _totalSeats, _tournamentId);
+            return
+                string.Format(
+                    "Ante: {0}, BB: {1}, Board: {2}, GameId: {3}, SB: {4}, Site: {5}, TableName: {6}, TimeStamp: {7}, TotalPlayers: {8}, TotalSeats: {9}, TournamentId: {10}, HeroName: {11}", 
+                    _ante, 
+                    _bb, 
+                    _board, 
+                    _gameId, 
+                    _sb, 
+                    _site, 
+                    _tableName, 
+                    _timeStamp, 
+                    _totalPlayers, 
+                    _totalSeats, 
+                    _tournamentId,
+                    _heroName);
         }
-
-        #endregion
     }
 }

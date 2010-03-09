@@ -21,6 +21,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             BlindsParser = new BlindsParser();
             BoardParser = new BoardParser();
             HandHeaderParser = new HandHeaderParser();
+            HeroNameParser = new HeroNameParser();
             HoleCardsParser = new HoleCardsParser();
             PlayerActionsParser = new PlayerActionsParser(_aquiredActionMake);
             PlayerSeatsParser = new PlayerSeatsParser();

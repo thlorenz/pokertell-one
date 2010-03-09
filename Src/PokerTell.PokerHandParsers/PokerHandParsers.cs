@@ -10,15 +10,9 @@ namespace PokerTell.PokerHandParsers
 
     public class PokerHandParsers : IPokerHandParsers
     {
-        #region Constants and Fields
-
         readonly bool _logVerbose;
 
         readonly IList<Func<IPokerHandParser>> _parserMakers;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public PokerHandParsers(bool logVerbose)
         {
@@ -26,20 +20,10 @@ namespace PokerTell.PokerHandParsers
             _parserMakers = new List<Func<IPokerHandParser>>();
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IEnumerable
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
-
-        #endregion
-
-        #region IEnumerable<IPokerHandParser>
 
         public IEnumerator<IPokerHandParser> GetEnumerator()
         {
@@ -51,12 +35,6 @@ namespace PokerTell.PokerHandParsers
             }
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         internal IPokerHandParsers Add(Func<IPokerHandParser> parserMaker)
         {
             if (!_parserMakers.Contains(parserMaker))
@@ -66,8 +44,6 @@ namespace PokerTell.PokerHandParsers
 
             return this;
         }
-
-        #endregion
     }
 
     public class AvailablePokerHandParsers : PokerHandParsers

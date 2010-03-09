@@ -1,22 +1,16 @@
 namespace PokerTell.PokerHandParsers.Tests
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class BlindsParserTests
     {
-        #region Constants and Fields
-
         const double BigBlind = 1.0;
 
         const double SmallBlind = 0.5;
 
         BlindsParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -78,16 +72,10 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.IsValid, Is.False);
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract string CashGameWithValidBlinds(double smallBlind, double bigBlind);
 
         protected abstract string TournamentGameWithValidBlinds(double smallBlind, double bigBlind);
 
         protected abstract BlindsParser GetBlindsParser();
-
-        #endregion
     }
 }
