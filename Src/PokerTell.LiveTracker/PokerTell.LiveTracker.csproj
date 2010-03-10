@@ -104,9 +104,10 @@
     <Compile Include="Interfaces\IGameController.cs" />
     <Compile Include="Interfaces\IGamesTracker.cs" />
     <Compile Include="Interfaces\ILiveTrackerSettings.cs" />
-    <Compile Include="Tracking\HandHistoryFileSystemWatcher.cs">
+    <Compile Include="Tracking\HandHistoryFilesWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interfaces\IHandHistoryFilesWatcher.cs" />
     <Compile Include="Tracking\NewHandsTracker.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModel.cs" />

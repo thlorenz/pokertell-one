@@ -7,6 +7,7 @@
 
     using PokerTell.LiveTracker.Design.LiveTracker;
     using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.Tracking;
     using PokerTell.LiveTracker.Views.Overlay;
 
     using Tools.Interfaces;
@@ -28,7 +29,9 @@
 
             // RunTableOverlaySettings();
             // RunColorPickerExpanderView();
-            RunOverlayToTableAttacher();
+            // RunOverlayToTableAttacher();
+            
+            RunHandHistoryFilesWatcher();
         }
 
         static void RunTableOverlaySettings()
@@ -77,6 +80,16 @@
         {
             var win = new Window { Topmost = true, Content = new ColorPickerExpander(), DataContext = new ColorViewModel("#FF00FF00") };
             win.Show();
+        }
+
+        static void RunHandHistoryFilesWatcher()
+        {
+            const string path = @"C:\Program Files\PokerStars\HandHistory";
+            var watcher = new HandHistoryFilesWatcher()
+                .InitializeWith(path);
+            watcher.IncludeSubdirectories = true;
+            watcher.Changed += (s, e) => Console.WriteLine("Changed:\nType: {0}\nName: {1}\nFullPath: {2}", e.ChangeType, e.Name, e.FullPath);
+
         }
     }
 }
