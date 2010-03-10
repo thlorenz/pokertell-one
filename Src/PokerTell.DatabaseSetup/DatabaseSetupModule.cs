@@ -15,8 +15,6 @@ namespace PokerTell.DatabaseSetup
 
     public class DatabaseSetupModule : IModule
     {
-        #region Constants and Fields
-
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -24,21 +22,11 @@ namespace PokerTell.DatabaseSetup
 
         readonly IRegionManager _regionManager;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public DatabaseSetupModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IModule
 
         public void Initialize()
         {
@@ -60,9 +48,5 @@ namespace PokerTell.DatabaseSetup
 
             Log.Info("got initialized.");
         }
-
-        #endregion
-
-        #endregion
     }
 }

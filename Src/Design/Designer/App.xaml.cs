@@ -46,7 +46,7 @@
 
         static void RunOverlayToTableAttacher()
         {
-           // var pokerTable = new Window { Title = "Agrius" };
+            var pokerTable = new Window { Title = "The PokerTable" };
             var overlayWindowManager = new WindowManager(() => new Window {
                     AllowsTransparency = true,
                     Background = new SolidColorBrush { Color = Colors.Transparent },
@@ -65,11 +65,11 @@
 
             attacher.TableClosed += attacher.Dispose;
 
-          //  pokerTable.Show();
+            pokerTable.Show();
             overlayWindowManager.Show();
 
             attacher
-                .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, "pokerStars", "Agrius")
+                .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, string.Empty, pokerTable.Title)
                 .Activate();
         }
 

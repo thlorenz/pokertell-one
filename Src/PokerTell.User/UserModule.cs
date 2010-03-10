@@ -2,24 +2,19 @@ namespace PokerTell.User
 {
     using System.Reflection;
 
-    using Infrastructure;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces;
-
-    using ViewModels;
-
-    using Views;
+    using PokerTell.User.ViewModels;
+    using PokerTell.User.Views;
 
     public class UserModule : IModule
     {
-        #region Constants and Fields
-
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -27,21 +22,11 @@ namespace PokerTell.User
 
         readonly IRegionManager _regionManager;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public UserModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IModule
 
         public void Initialize()
         {
@@ -51,18 +36,15 @@ namespace PokerTell.User
                 .RegisterType<IProgressViewModel, ProgressViewModel>()
                 .RegisterType<StatusBarViewModel>();
 
+            // TODO: Is this necessary?
             _container
                 .Resolve<UserService>();
 
             _regionManager
-                .RegisterViewWithRegion(ApplicationProperties.ShellStatusRegion,
+                .RegisterViewWithRegion(ApplicationProperties.ShellStatusRegion, 
                                         () => _container.Resolve<StatusBarView>());
 
             Log.Info("got initialized.");
         }
-
-        #endregion
-
-        #endregion
     }
 }

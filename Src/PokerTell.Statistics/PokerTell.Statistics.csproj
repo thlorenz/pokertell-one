@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -88,6 +92,7 @@
     <Compile Include="Analyzation\PostFlopRaiseReactionDescribers.cs" />
     <Compile Include="Analyzation\PreFlopHandStrengthStatistics.cs" />
     <Compile Include="Analyzation\PreFlopRaiseReactionDescriber.cs" />
+    <Compile Include="StatisticsModule.cs" />
     <Compile Include="Utilities\StatisticsDescriberUtils.cs" />
     <Compile Include="Detailed\DetailedStatisticsDescribers.cs" />
     <Compile Include="Interfaces\IDetailedStatisticsDescribers.cs" />

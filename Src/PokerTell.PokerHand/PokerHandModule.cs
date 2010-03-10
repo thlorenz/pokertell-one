@@ -2,8 +2,6 @@ namespace PokerTell.PokerHand
 {
     using System.Reflection;
 
-    using Dao;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
@@ -14,6 +12,7 @@ namespace PokerTell.PokerHand
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Aquisition;
     using PokerTell.PokerHand.Conditions;
+    using PokerTell.PokerHand.Dao;
     using PokerTell.PokerHand.Services;
     using PokerTell.PokerHand.ViewModels;
     using PokerTell.PokerHand.Views;
@@ -27,8 +26,6 @@ namespace PokerTell.PokerHand
 
     public class PokerHandModule : IModule
     {
-        #region Constants and Fields
-
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -36,21 +33,11 @@ namespace PokerTell.PokerHand
 
         readonly IRegionManager _regionManager;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public PokerHandModule(IUnityContainer container, IRegionManager regionManager)
         {
             _container = container;
             _regionManager = regionManager;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IModule
 
         public void Initialize()
         {
@@ -58,12 +45,6 @@ namespace PokerTell.PokerHand
 
             Log.Info("got initialized.");
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         void RegisterViewsAndServices()
         {
@@ -84,6 +65,7 @@ namespace PokerTell.PokerHand
 
                 // Daos 
                 .RegisterType<IPlayerIdentityDao, PlayerIdentityDao>()
+                .RegisterType<IConvertedPokerPlayerDao, ConvertedPokerPlayerDao>()
                 .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
 
                 // Conditions
@@ -94,8 +76,8 @@ namespace PokerTell.PokerHand
                 // Converters
                 .RegisterType<IPokerActionConverter, PokerActionConverter>()
                 .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
-                .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() => 
-                    _container.Resolve<IPokerHandConverter>())
+                .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() =>
+                                                                                     _container.Resolve<IPokerHandConverter>())
                 .RegisterType<IPokerHandStringConverter, PokerHandStringConverter>()
 
                 // ViewModels
@@ -112,7 +94,5 @@ namespace PokerTell.PokerHand
                 .RegisterType<IItemsPagesManager<IHandHistoryViewModel>, ItemsPagesManager<IHandHistoryViewModel>>()
                 .RegisterType<IHandHistoriesFilter, HandHistoriesFilter>();
         }
-
-        #endregion
     }
 }

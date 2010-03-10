@@ -119,10 +119,11 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                 .RegisterType<IPlayerIdentityDao, PlayerIdentityDao>()
                 .RegisterType<IConvertedPokerPlayerDao, ConvertedPokerPlayerDao>()
                 .RegisterType<IConvertedPokerHandDao, ConvertedPokerHandDao>()
+               
+                // Repository
                 .RegisterInstance(_stub.Out<IRepositoryParser>())
                 .RegisterType<ITransactionManager, TransactionManager>()
                 .RegisterType<IRepository, Repository>()
-                .RegisterType<IPlayerStatistics, PlayerStatistics>()
 
                 // Database
                 .RegisterInstance(_sessionFactoryManagerStub.Object)
@@ -130,6 +131,8 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                 /*
                  * Statistics
                 */
+
+                .RegisterType<IPlayerStatistics, PlayerStatistics>()
 
                 // RaiseReactionAnalyzation
                 .RegisterType<IReactionAnalyzationPreparer, ReactionAnalyzationPreparer>()
