@@ -27,7 +27,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     public static class PlayerOverlayDesign
     {
         public static IPlayerOverlayViewModel Model =
-            AutoWiring
+            AutoWiring_TableOverlay
                 .ConfigureTableOverlayDependencies()
                 .Resolve<ITableOverlayViewModel>()
                 .PlayerOverlays

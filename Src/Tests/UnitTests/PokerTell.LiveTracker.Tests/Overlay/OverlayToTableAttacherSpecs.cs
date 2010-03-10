@@ -256,6 +256,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             It should_stop_the_watcher_timer = () => _watchTableTimer_Stub.Verify(wt => wt.Stop());
 
             It should_stop_the_find_table_again_timer = () => _findTableAgainTimer_Mock.Verify(ft => ft.Stop());
+
+            It should_dispose_the_overlay_window = () => _overlayWindow_Mock.Verify(ow => ow.Dispose());
         }
 
     }

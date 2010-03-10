@@ -95,6 +95,7 @@ namespace PokerTell.LiveTracker.Overlay
         {
             _watchTableTimer.Stop();
             _waitThenTryToFindTableAgainTimer.Stop();
+            _tableOverlayWindow.Dispose();
         }
 
         public void TableLostHandler()

@@ -31,6 +31,7 @@ namespace PokerTell.Infrastructure.PokerRooms
             return pokerSite.ToLower().Match()
                 .With(s => s == PokerStarsInfo.Site.ToLower(), _ => PokerStarsInfo.ProcessName)
                 .With(s => s == FullTiltPokerInfo.Site.ToLower(), _ => FullTiltPokerInfo.ProcessName)
+                .Else(s => "") // needed for testing purposes
                 .Do();
         }
     }

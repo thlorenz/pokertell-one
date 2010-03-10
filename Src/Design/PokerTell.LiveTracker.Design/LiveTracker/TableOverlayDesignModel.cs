@@ -5,7 +5,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     public static class TableOverlayDesign
     {
         public static readonly ITableOverlayViewModel Model =
-            AutoWiring
+            AutoWiring_TableOverlay
                 .ConfigureTableOverlayDependencies()
                 .Resolve<ITableOverlayViewModel>();
 

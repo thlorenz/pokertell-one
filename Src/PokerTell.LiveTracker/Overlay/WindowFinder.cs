@@ -7,7 +7,7 @@ namespace PokerTell.LiveTracker.Overlay
 
     using DllWrappers;
 
-    using Interfaces;
+    using PokerTell.LiveTracker.Interfaces;
 
     /// <summary>
     /// Description of WindowHandler.
@@ -21,8 +21,6 @@ namespace PokerTell.LiveTracker.Overlay
         /// PChildCallBack delegate function.
         /// </summary>
         event Func<IntPtr, bool> FoundWindow;
-
-        #region Fields
 
         /// <summary>
         /// Name of the class of the window, Can be null.
@@ -38,8 +36,6 @@ namespace PokerTell.LiveTracker.Overlay
         /// Regex object that will be matched to the window text
         /// </summary>
         Regex _windowText;
-
-        #endregion
 
         /// <summary>
         /// Tries to find a window for the given criteria

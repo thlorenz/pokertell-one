@@ -77,7 +77,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LiveTracker\AutoWiring.cs" />
+    <Compile Include="LiveTracker\AutoWirerForTableAttacher.cs" />
+    <Compile Include="LiveTracker\AutoWiring_TableOverlay.cs" />
     <Compile Include="LiveTracker\GameHistoryDesignModel.cs" />
     <Compile Include="LiveTracker\HarringtonMDesignModel.cs" />
     <Compile Include="LiveTracker\PlayerOverlayDesignModel.cs" />

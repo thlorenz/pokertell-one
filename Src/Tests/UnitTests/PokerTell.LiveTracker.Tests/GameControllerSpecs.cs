@@ -80,7 +80,7 @@ namespace PokerTell.LiveTracker.Tests
                 _gameHistory_Mock.Object, 
                 _pokerTableStatistics_Mock.Object, 
                 _playerStatisticsMake, 
-                _playerStatisticsUpdater_Mock.Object,
+                _playerStatisticsUpdater_Mock.Object, 
                 _seatMapper_Mock.Object, 
                 _tableAttacher_Mock.Object, 
                 _tableOverlay_Mock.Object);
@@ -168,9 +168,21 @@ namespace PokerTell.LiveTracker.Tests
                 statsMade = 0;
                 _playerStatisticsMake = new Constructor<IPlayerStatistics>(
                     () => statsMade.Match()
-                              .With(s => s == 0, s => { statsMade++; return bobsStats_Mock.Object; })
-                              .With(s => s == 1, s => { statsMade++; return tedsStats_Mock.Object; })
-                              .With(s => s == 2, s => { statsMade++; return jimsStats_Mock.Object; })
+                              .With(s => s == 0, 
+                                    s => {
+                                        statsMade++;
+                                        return bobsStats_Mock.Object;
+                                    })
+                              .With(s => s == 1, 
+                                    s => {
+                                        statsMade++;
+                                        return tedsStats_Mock.Object;
+                                    })
+                              .With(s => s == 2, 
+                                    s => {
+                                        statsMade++;
+                                        return jimsStats_Mock.Object;
+                                    })
                               .Do());
 
                 _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object, jim_Stub.Object });
@@ -180,7 +192,7 @@ namespace PokerTell.LiveTracker.Tests
                     _gameHistory_Mock.Object, 
                     _pokerTableStatistics_Mock.Object, 
                     _playerStatisticsMake, 
-                    _playerStatisticsUpdater_Mock.Object,
+                    _playerStatisticsUpdater_Mock.Object, 
                     _seatMapper_Mock.Object, 
                     _tableAttacher_Mock.Object, 
                     _tableOverlay_Mock.Object);
@@ -218,11 +230,11 @@ namespace PokerTell.LiveTracker.Tests
                                                   Times.Never());
 
             It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object,
-                                                                     Moq.It.IsAny<IDispatcherTimer>(),
-                                                                     Moq.It.IsAny<IDispatcherTimer>(),
-                                                                     pokerSite,
-                                                                     tableName),
+                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
+                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
+                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
+                                                                           pokerSite, 
+                                                                           tableName), 
                                                    Times.Never());
 
             It should_not_show_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
@@ -254,11 +266,11 @@ namespace PokerTell.LiveTracker.Tests
                                                                           showHoleCardsDuration));
 
             It should_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object,
-                                                                     Moq.It.IsAny<IDispatcherTimer>(),
-                                                                     Moq.It.IsAny<IDispatcherTimer>(),
-                                                                     pokerSite,
-                                                                     tableName));
+                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
+                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
+                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
+                                                                           pokerSite, 
+                                                                           tableName));
 
             It should_set_the_DataContext_of_the_overlay_window_to_the_overlay_viewmodel
                 = () => _tableOverlayWindow_Mock.VerifySet(ow => ow.DataContext = _tableOverlay_Mock.Object);
@@ -326,12 +338,12 @@ namespace PokerTell.LiveTracker.Tests
                                                   Times.Never());
 
             It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window_again
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object,
-                                                                     Moq.It.IsAny<IDispatcherTimer>(),
-                                                                     Moq.It.IsAny<IDispatcherTimer>(),
-                                                                     pokerSite,
-                                                                     tableName),
-                                           Times.Never());
+                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
+                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
+                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
+                                                                           pokerSite, 
+                                                                           tableName), 
+                                                   Times.Never());
 
             It should_not_show_the_overlay_window_again = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
 
@@ -354,7 +366,6 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_update_the_table_overlay_view_model_with_the_players_and_the_board_contained_in_the_hand
                 = () => _tableOverlay_Mock.Verify(to => to.UpdateWith(_newHand_Stub.Object.Players, board));
-
         }
 
         [Subject(typeof(GameController), "NewHand")]
@@ -375,102 +386,102 @@ namespace PokerTell.LiveTracker.Tests
             It should_update_the_seat_mapper_with_seat_2 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seat));
         }
 
+        [Subject(typeof(GameController), "NewHand")]
+        public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_are_empty
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
+        {
+            Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
-            [Subject(typeof(GameController), "NewHand")]
-            public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_are_empty
-                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
-            {
-                Because of = () => _sut.NewHand(_newHand_Stub.Object);
+            It should_add_bob_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(bob);
 
-                It should_add_bob_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(bob);
+            It should_add_ted_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(ted);
 
-                It should_add_ted_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(ted);
+            It should_add_jim_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(jim);
 
-                It should_add_jim_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(jim);
+            It should_initialize_bobs_statistics_with_the_site_and_his_name = () => bobsStats_Mock.Verify(s => s.InitializePlayer(bob, pokerSite));
 
-                It should_initialize_bobs_statistics_with_the_site_and_his_name = () => bobsStats_Mock.Verify(s => s.InitializePlayer(bob, pokerSite));
+            It should_initialize_teds_statistics_with_the_site_and_his_name = () => tedsStats_Mock.Verify(s => s.InitializePlayer(ted, pokerSite));
 
-                It should_initialize_teds_statistics_with_the_site_and_his_name = () => tedsStats_Mock.Verify(s => s.InitializePlayer(ted, pokerSite));
+            It should_initialize_jims_statistics_with_the_site_and_his_name = () => jimsStats_Mock.Verify(s => s.InitializePlayer(jim, pokerSite));
 
-                It should_initialize_jims_statistics_with_the_site_and_his_name = () => jimsStats_Mock.Verify(s => s.InitializePlayer(jim, pokerSite));
+            It should_update_bobs_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
 
-                It should_update_bobs_statistics 
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
+            It should_update_teds_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
 
-                It should_update_teds_statistics
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
+            It should_update_jims_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))));
+        }
 
-                It should_update_jims_statistics
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))));
-            }
+        [Subject(typeof(GameController), "NewHand")]
+        public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_contain_bob_and_ted
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
+        {
+            Establish context = () => {
+                _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
+                _sut.PlayerStatistics.Add(ted, tedsStats_Mock.Object);
+                statsMade = 2;
+            };
 
-            [Subject(typeof(GameController), "NewHand")]
-            public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_contain_bob_and_ted
-                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
-            {
-                Establish context = () => {
-                    _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
-                    _sut.PlayerStatistics.Add(ted, tedsStats_Mock.Object);
-                    statsMade = 2;
-                };
+            Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
-                Because of = () => _sut.NewHand(_newHand_Stub.Object);
+            It should_add_jim_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(jim);
 
-                It should_add_jim_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(jim);
+            It should_not_initialize_bobs_statistics_with_the_site_and_his_name_again =
+                () => bobsStats_Mock.Verify(s => s.InitializePlayer(bob, pokerSite), Times.Never());
 
-                It should_not_initialize_bobs_statistics_with_the_site_and_his_name_again =
-                    () => bobsStats_Mock.Verify(s => s.InitializePlayer(bob, pokerSite), Times.Never());
+            It should_not_initialize_teds_statistics_with_the_site_and_his_name_again =
+                () => tedsStats_Mock.Verify(s => s.InitializePlayer(ted, pokerSite), Times.Never());
 
-                It should_not_initialize_teds_statistics_with_the_site_and_his_name_again =
-                    () => tedsStats_Mock.Verify(s => s.InitializePlayer(ted, pokerSite), Times.Never());
+            It should_initialize_jims_statistics_with_the_site_and_his_name = () => jimsStats_Mock.Verify(s => s.InitializePlayer(jim, pokerSite));
 
-                It should_initialize_jims_statistics_with_the_site_and_his_name = () => jimsStats_Mock.Verify(s => s.InitializePlayer(jim, pokerSite));
+            It should_update_bobs_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
 
-                It should_update_bobs_statistics 
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
+            It should_update_teds_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
 
-                It should_update_teds_statistics
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
+            It should_update_jims_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))));
+        }
 
-                It should_update_jims_statistics
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))));
-            }
+        [Subject(typeof(GameController), "NewHand")]
+        public class when_told_about_new_hand_with_only_bob_and_ted_and_PlayerStatistics_contain_bob_ted_and_jim
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
+        {
+            Establish context = () => {
+                _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
+                _sut.PlayerStatistics.Add(ted, tedsStats_Mock.Object);
+                _sut.PlayerStatistics.Add(jim, jimsStats_Mock.Object);
 
-            [Subject(typeof(GameController), "NewHand")]
-            public class when_told_about_new_hand_with_only_bob_and_ted_and_PlayerStatistics_contain_bob_ted_and_jim
-                : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
-            {
-                Establish context = () => {
-                    _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
-                    _sut.PlayerStatistics.Add(ted, tedsStats_Mock.Object);
-                    _sut.PlayerStatistics.Add(jim, jimsStats_Mock.Object);
+                // jim left the table
+                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object });
+            };
 
-                    // jim left the table
-                    _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object }); 
-                };
+            Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
-                Because of = () => _sut.NewHand(_newHand_Stub.Object);
+            It should_not_remove_jim_from_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(jim);
 
-                It should_not_remove_jim_from_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(jim);
+            It should_update_bobs_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
 
-                It should_update_bobs_statistics 
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
+            It should_update_teds_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
 
-                It should_update_teds_statistics
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
-
-                It should_not_update_jims_statistics
-                    = () => _playerStatisticsUpdater_Mock
-                                .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))), Times.Never());
-            }
+            It should_not_update_jims_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))), 
+                                    Times.Never());
+        }
 
         [Subject(typeof(GameController), "PlayerStatisticsUpdater finished")]
         public class when_the_player_statistics_updater_says_that_he_finished_updating_the_statistics : GameControllerSpecs
@@ -481,7 +492,7 @@ namespace PokerTell.LiveTracker.Tests
 
             Because of = () => _playerStatisticsUpdater_Mock.Raise(u => u.FinishedUpdatingPlayerStatistics += null, playerStatistics_Stub);
 
-            It should_update_the_pokertable_statistics_with_the_passed_player_statistics 
+            It should_update_the_pokertable_statistics_with_the_passed_player_statistics
                 = () => _pokerTableStatistics_Mock.Verify(ts => ts.UpdateWith(playerStatistics_Stub));
         }
 
@@ -490,7 +501,7 @@ namespace PokerTell.LiveTracker.Tests
         {
             static bool shuttingDownRaised;
 
-            Establish context = () => _sut.ShuttingDown += () => shuttingDownRaised = true; 
+            Establish context = () => _sut.ShuttingDown += () => shuttingDownRaised = true;
 
             Because of = () => _tableAttacher_Mock.Raise(ta => ta.TableClosed += null);
 
@@ -521,6 +532,7 @@ namespace PokerTell.LiveTracker.Tests
         public class when_the_overlay_settings_request_to_undo_the_changes_after_a_new_hand_was_found_and_overlay_is_shown : Ctx_NewHand
         {
             static ITableOverlaySettingsViewModel revertedToSettings;
+
             static Mock<ITableOverlaySettingsViewModel> loadedSettings;
 
             Establish context = () => {
@@ -531,7 +543,10 @@ namespace PokerTell.LiveTracker.Tests
                 _layoutManager_Mock.Setup(lm => lm.Load(pokerSite, totalSeats)).Returns(loadedSettings.Object);
             };
 
-            Because of = () => _overlaySettings_Stub.Raise(os => os.UndoChanges += null, new Action<ITableOverlaySettingsViewModel>(settings => revertedToSettings = settings));
+            Because of =
+                () =>
+                _overlaySettings_Stub.Raise(os => os.UndoChanges += null, 
+                                            new Action<ITableOverlaySettingsViewModel>(settings => revertedToSettings = settings));
 
             It should_load_the_settings_for_the_PokerSite_and_the_total_seats_from_the_layout_manager_again
                 = () => _layoutManager_Mock.Verify(lm => lm.Load(pokerSite, totalSeats), Times.Exactly(2));
@@ -543,22 +558,22 @@ namespace PokerTell.LiveTracker.Tests
         protected class GameControllerSut : GameController
         {
             public GameControllerSut(
-                ILayoutManager layoutManager,
-                IGameHistoryViewModel gameHistory,
-                IPokerTableStatisticsViewModel pokerTableStatistics,
-                IConstructor<IPlayerStatistics> playerStatisticsMake,
-                IPlayerStatisticsUpdater playerStatisticsUpdater,
-                ISeatMapper seatMapper,
-                IOverlayToTableAttacher overlayToTableAttacher,
+                ILayoutManager layoutManager, 
+                IGameHistoryViewModel gameHistory, 
+                IPokerTableStatisticsViewModel pokerTableStatistics, 
+                IConstructor<IPlayerStatistics> playerStatisticsMake, 
+                IPlayerStatisticsUpdater playerStatisticsUpdater, 
+                ISeatMapper seatMapper, 
+                IOverlayToTableAttacher overlayToTableAttacher, 
                 ITableOverlayViewModel tableOverlay)
                 : base(
-                    layoutManager,
-                    gameHistory,
-                    pokerTableStatistics,
-                    playerStatisticsMake,
-                    playerStatisticsUpdater,
-                    seatMapper,
-                    overlayToTableAttacher,
+                    layoutManager, 
+                    gameHistory, 
+                    pokerTableStatistics, 
+                    playerStatisticsMake, 
+                    playerStatisticsUpdater, 
+                    seatMapper, 
+                    overlayToTableAttacher, 
                     tableOverlay)
             {
             }
@@ -575,5 +590,5 @@ namespace PokerTell.LiveTracker.Tests
                 return this;
             }
         }
-}
+    }
 }

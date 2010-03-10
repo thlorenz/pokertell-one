@@ -23,13 +23,10 @@ namespace PokerTell.LiveTracker.Overlay
         /// </summary>
         Rectangle _windowOnLastCheck;
 
-        public WindowManipulator()
-        {
-        }
-
-        public WindowManipulator(IntPtr windowHandle)
+        public IWindowManipulator InitializeWith(IntPtr windowHandle)
         {
             WindowHandle = windowHandle;
+            return this;
         }
 
         public IntPtr WindowHandle

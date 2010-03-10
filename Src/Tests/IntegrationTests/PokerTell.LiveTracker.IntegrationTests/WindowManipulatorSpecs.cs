@@ -34,7 +34,8 @@ namespace PokerTell.LiveTracker.IntegrationTests
             };
             _pokerTableWindow.Show();
 
-            _sut = new WindowManipulator(new WindowInteropHelper(_pokerTableWindow).Handle);
+            _sut = new WindowManipulator()
+                .InitializeWith(new WindowInteropHelper(_pokerTableWindow).Handle);
         };
 
         Cleanup tearDown = () => _pokerTableWindow.Close();
