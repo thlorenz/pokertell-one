@@ -4,6 +4,7 @@
 *.exp
 *.pdb
 *.dll
+*.DLL
 *.user
 *.aps
 *.pch
@@ -36,7 +37,13 @@ _ReSharper.*/
 bin/
 obj/
 [Bb]uild/
-[Bb]uild.*/
+[Bb]uild.Design/
+[Bb]uild.Tests/*.Tests/
+[Bb]uild.Tests/*.xml
+[Bb]uild.Tests/*.config
+[Bb]uild.Tests/*.soap
+[Bb]uild.Tests/*.DLL
+
 TestData/
 *.fsproj
 *.resharper.user

@@ -45,6 +45,7 @@
                               HorizontalAlignment="Left"
                               Content="Select"
                               IsChecked="{Binding IsSelected}"
+                              Margin="2,2,5,2"
                               Visibility="{Binding ShowSelectOption, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
                     <!-- Board -->
                     <ContentControl MinWidth="80" Content="{Binding Board}" ToolTip="Board"/>

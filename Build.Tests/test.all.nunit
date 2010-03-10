@@ -1,0 +1,14 @@
+﻿<NUnitProject>
+  <Settings activeconfig="Debug" />
+  <Config name="Debug" binpathtype="Auto">
+    <assembly path="PokerTell.DatabaseSetup.Tests.dll" />
+    <assembly path="PokerTell.LiveTracker.Tests.dll" />
+    <assembly path="PokerTell.PokerHand.Tests.dll" />
+    <assembly path="PokerTell.PokerHandParsers.Tests.dll" />
+    <assembly path="PokerTell.Repository.Tests.dll" />
+    <assembly path="PokerTell.Statistics.Tests.dll" />
+    <assembly path="PokerTell.User.Tests.dll" />
+    <assembly path="Tools.Tests.dll" />
+  </Config>
+  <Config name="Release" binpathtype="Auto" />
+</NUnitProject>
