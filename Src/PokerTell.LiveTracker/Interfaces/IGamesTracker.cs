@@ -14,6 +14,6 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ThreadOption ThreadOption { get; set; }
 
-        IGamesTracker InitializeWith(ILiveTrackerSettings liveTrackerSettings);
+        IGamesTracker InitializeWith(ILiveTrackerSettingsViewModel liveTrackerSettings);
     }
 }

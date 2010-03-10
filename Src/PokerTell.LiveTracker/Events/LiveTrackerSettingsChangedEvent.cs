@@ -4,7 +4,7 @@ namespace PokerTell.LiveTracker.Events
 
     using Microsoft.Practices.Composite.Presentation.Events;
 
-    public class LiveTrackerSettingsChangedEvent : CompositePresentationEvent<ILiveTrackerSettings>
+    public class LiveTrackerSettingsChangedEvent : CompositePresentationEvent<ILiveTrackerSettingsViewModel>
     {
     }
 

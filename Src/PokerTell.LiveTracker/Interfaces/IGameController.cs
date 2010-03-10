@@ -11,7 +11,7 @@ namespace PokerTell.LiveTracker.Interfaces
 
     public interface IGameController : IFluentInterface
     {
-        ILiveTrackerSettings LiveTrackerSettings { get; set; }
+        ILiveTrackerSettingsViewModel LiveTrackerSettings { get; set; }
 
         string HeroName { get; }
 

@@ -88,6 +88,7 @@
     <Compile Include="Overlay\SeatMapper.cs" />
     <Compile Include="Overlay\OverlayToTableAttacher.cs" />
     <Compile Include="Overlay\WindowManipulator.cs" />
+    <Compile Include="Persistence\LiveTrackerSettingsXDocumentHandler.cs" />
     <Compile Include="PlayerStatisticsUpdater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\ITableOverlaySettingsViewModel.cs" />
@@ -103,12 +104,14 @@
     <Compile Include="Tracking\GamesTracker.cs" />
     <Compile Include="Interfaces\IGameController.cs" />
     <Compile Include="Interfaces\IGamesTracker.cs" />
-    <Compile Include="Interfaces\ILiveTrackerSettings.cs" />
+    <Compile Include="Interfaces\ILiveTrackerSettingsViewModel.cs" />
     <Compile Include="Tracking\HandHistoryFilesWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interfaces\IHandHistoryFilesWatcher.cs" />
     <Compile Include="Tracking\NewHandsTracker.cs" />
+    <Compile Include="Interfaces\ILiveTrackerSettingsXDocumentHandler.cs" />
+    <Compile Include="ViewModels\LiveTrackerSettingsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModel.cs" />
     <Compile Include="ViewModels\Overlay\HarringtonMViewModel.cs" />
@@ -212,9 +215,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

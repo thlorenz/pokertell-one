@@ -71,7 +71,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
         {
             get
             {
-                return AutoWiring_TableOverlay.ConfigureTableOverlayDependencies().Resolve<ITableOverlaySettingsViewModel>();
+                return AutoWirerForTableOverlay.ConfigureTableOverlayDependencies().Resolve<ITableOverlaySettingsViewModel>();
             }
         }
     }

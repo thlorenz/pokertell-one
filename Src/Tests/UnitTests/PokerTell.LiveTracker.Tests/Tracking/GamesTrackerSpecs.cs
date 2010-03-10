@@ -24,14 +24,14 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
         protected static Mock<IGameController> _gameController_Mock;
 
-        protected static Mock<ILiveTrackerSettings> _settings_Stub;
+        protected static Mock<ILiveTrackerSettingsViewModel> _settings_Stub;
 
         protected static IGamesTracker _sut;
 
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
             _gameController_Mock = new Mock<IGameController>();
-            _settings_Stub = new Mock<ILiveTrackerSettings>();
+            _settings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
             _sut = new GamesTracker(_eventAggregator, new Constructor<IGameController>(() => _gameController_Mock.Object))
                 { ThreadOption = ThreadOption.PublisherThread };
             _sut.InitializeWith(_settings_Stub.Object);

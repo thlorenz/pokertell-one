@@ -45,7 +45,7 @@ namespace PokerTell.LiveTracker.Tests
 
         protected static Mock<ITableOverlaySettingsViewModel> _overlaySettings_Stub;
 
-        protected static Mock<ILiveTrackerSettings> _liveTrackerSettings_Stub;
+        protected static Mock<ILiveTrackerSettingsViewModel> _liveTrackerSettings_Stub;
 
         protected static Mock<IWindowManager> _liveStatsWindow_Mock;
 
@@ -69,7 +69,7 @@ namespace PokerTell.LiveTracker.Tests
             _layoutManager_Mock.Setup(lm => lm.Load(Moq.It.IsAny<string>(), Moq.It.IsAny<int>())).Returns(_overlaySettings_Stub.Object);
 
             _newHand_Stub = new Mock<IConvertedPokerHand>();
-            _liveTrackerSettings_Stub = new Mock<ILiveTrackerSettings>();
+            _liveTrackerSettings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
 
             _liveStatsWindow_Mock = new Mock<IWindowManager>();
 

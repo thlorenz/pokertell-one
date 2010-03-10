@@ -28,6 +28,18 @@ namespace Tools.Xml
             return positionElems.Select(elem => GetPositionFrom(elem, 10, 10)).ToList();
         }
 
+        public static IEnumerable<string> GetStringsFrom(XElement element, IEnumerable<string> alternative)
+        {
+            if (element == null)
+                return alternative;
+
+            var stringElems = element.Elements("Item");
+            if (stringElems == null)
+                return alternative;
+
+            return stringElems.Select(elem => elem.Value);
+        }
+
         public static bool GetBoolFrom(XElement element, bool alternative)
         {
             bool result;
@@ -79,6 +91,17 @@ namespace Tools.Xml
         {
             var elem = new XElement(name);
             positions.ForEach(p => elem.Add(new XElement("Position", new XElement("Left", p.Left), new XElement("Top", p.Top))));
+            return elem;
+        }
+
+        public static XElement XElementForCollection<T>(string name, IEnumerable<T> items)
+        {
+            var elem = new XElement(name);
+            if (items != null)
+            {
+                items.ForEach(i => elem.Add(new XElement("Item", i)));
+            }
+
             return elem;
         }
     }

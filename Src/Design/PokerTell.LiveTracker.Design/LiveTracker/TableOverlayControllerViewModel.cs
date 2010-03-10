@@ -34,7 +34,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
         static IEnumerable<IConvertedPokerPlayer> GetUpdatedPlayers()
         {
-            var playerStubs = AutoWiring_TableOverlay.GetPokerPlayerStubs();
+            var playerStubs = AutoWirerForTableOverlay.GetPokerPlayerStubs();
             playerStubs.ForEach(ps => ps.SetupGet(p => p.Holecards).Returns("As Ah"));
             return playerStubs.Map(ps => ps.Object);
         }

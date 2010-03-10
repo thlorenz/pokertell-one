@@ -21,7 +21,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
-    public static class AutoWiring_TableOverlay
+    public static class AutoWirerForTableOverlay
     {
         public static IUnityContainer ConfigureTableOverlayDependencies()
         {

@@ -75,10 +75,12 @@
     <Compile Include="Overlay\LayoutManagerSpecs.cs" />
     <Compile Include="Overlay\OverlayToTableAttacherSpecs.cs" />
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
+    <Compile Include="Fakes\XDocumentHandlerMock.cs" />
     <Compile Include="PlayerStatisticsUpdaterSpecs.cs" />
     <Compile Include="Tracking\GamesTrackerSpecs.cs" />
     <Compile Include="Tracking\NewHandsTrackerSpecs.cs" />
     <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="ViewModels\LiveTrackerSettingsViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModelSpecs.cs" />

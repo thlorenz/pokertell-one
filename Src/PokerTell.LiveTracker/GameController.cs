@@ -65,7 +65,7 @@ namespace PokerTell.LiveTracker
 
         public bool IsLaunched { get; protected set; }
 
-        public ILiveTrackerSettings LiveTrackerSettings { get; set; }
+        public ILiveTrackerSettingsViewModel LiveTrackerSettings { get; set; }
 
         public event Action ShuttingDown = delegate { };
 

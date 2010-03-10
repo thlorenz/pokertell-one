@@ -21,7 +21,7 @@ namespace PokerTell.LiveTracker.Tracking
 
         readonly IEventAggregator _eventAggregator;
 
-        ILiveTrackerSettings _liveTrackerSettings;
+        ILiveTrackerSettingsViewModel _liveTrackerSettings;
 
         public IDictionary<string, IGameController> GameControllers { get; protected set; }
 
@@ -47,7 +47,7 @@ namespace PokerTell.LiveTracker.Tracking
                 .Subscribe(UpdateAllGameControllersWithNewSettings, ThreadOption);
         }
 
-        void UpdateAllGameControllersWithNewSettings(ILiveTrackerSettings updatedLiveTrackerSettings)
+        void UpdateAllGameControllersWithNewSettings(ILiveTrackerSettingsViewModel updatedLiveTrackerSettings)
         {
             GameControllers.Values.ForEach(gc => gc.LiveTrackerSettings = updatedLiveTrackerSettings);
         }
@@ -65,7 +65,7 @@ namespace PokerTell.LiveTracker.Tracking
             GameControllers[fullPath].NewHand(convertedPokerHand);
         }
 
-        public IGamesTracker InitializeWith(ILiveTrackerSettings liveTrackerSettings)
+        public IGamesTracker InitializeWith(ILiveTrackerSettingsViewModel liveTrackerSettings)
         {
             RegisterEvents();
 

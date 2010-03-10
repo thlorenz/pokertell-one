@@ -4,6 +4,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
     using System.Collections.Generic;
     using System.Xml.Linq;
 
+    using Fakes;
+
     using Machine.Specifications;
 
     using Moq;
@@ -113,28 +115,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
         }
     }
 
-    public class LayoutXDocumentHandlerMock : ILayoutXDocumentHandler
+    public class LayoutXDocumentHandlerMock : XDocumentHandlerMock, ILayoutXDocumentHandler
     {
-        public void Save(XDocument xmlDoc)
-        {
-            DocumentWasSaved = true;
-            SavedDocument = xmlDoc;
-        }
-
-        public XDocument SavedDocument { get; set; }
-
-        public XDocument DocumentToLoad { get; set; }
-
-        public XDocument Load()
-        {
-            DocumentWasLoaded = true;
-            return DocumentToLoad;
-        }
-
-        public bool DocumentWasLoaded { get; set; }
-
-        public bool DocumentWasSaved { get; set; }
-
         public string PokerSite { get; set; }
     }
 }
