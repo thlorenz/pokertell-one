@@ -37,6 +37,7 @@ namespace PokerTell.SessionReview.ViewModels
             _handHistoriesViewModel = handHistoriesViewModel;
 
             _handHistoriesViewModel.ShowSelectOption = true;
+            _handHistoriesViewModel.ShowHandNotes = true;
 
             Commands.SaveSessionReviewCommand.RegisterCommand(SaveCommand);
 

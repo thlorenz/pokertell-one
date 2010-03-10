@@ -13,6 +13,7 @@ namespace PokerTell.PokerHand.ViewModels
     using Tools.Interfaces;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
+    using Tools.FunctionalCSharp;
 
     [Serializable]
     public class HandHistoriesViewModel : NotifyPropertyChanged, IHandHistoriesViewModel
@@ -190,6 +191,11 @@ namespace PokerTell.PokerHand.ViewModels
                                CanExecuteDelegate = arg => true
                            });
             }
+        }
+
+        public bool ShowHandNotes
+        {
+            set { _itemsPagesManager.AllItems.ForEach(handHistory => handHistory.ShowHandNote = value); }
         }
 
         public void SelectHeroInAllHandHistoriesIfHeroSelectedIsTrue()

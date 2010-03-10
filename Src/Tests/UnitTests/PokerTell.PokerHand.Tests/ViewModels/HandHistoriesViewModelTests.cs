@@ -94,7 +94,7 @@ namespace PokerTell.PokerHand.Tests.ViewModels
                 .Resolve<IHandHistoriesViewModel>()
                 .InitializeWith(hands);
 
-            handHistoriesFilter_Mock.VerifySet(f => f.HeroName = It.IsAny<string>(),Times.Never());
+            handHistoriesFilter_Mock.VerifySet(f => f.HeroName = It.IsAny<string>(), Times.Never());
         }
 
         [Test]

@@ -33,5 +33,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         ICommand SelectAllShownHandHistoriesCommand { get; }
 
         ICommand UnselectAllShownHandHistoriesCommand { get; }
+
+        bool ShowHandNotes { set; }
     }
 }

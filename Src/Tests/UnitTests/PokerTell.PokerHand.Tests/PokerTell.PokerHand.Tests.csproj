@@ -165,6 +165,7 @@
     <Compile Include="Mapping\PlayerIdentityMapTests.cs" />
     <Compile Include="PokerPlayerTests.cs" />
     <Compile Include="Conditions\SawFlopConditionTests.cs" />
+    <Compile Include="ViewModels\HandHistoriesViewModelSpecs.cs" />
     <Compile Include="ViewModels\HandHistoriesViewModelTests.cs" />
     <Compile Include="Conditions\InvestedMoneyConditionTests.cs" />
     <Compile Include="Analyzation\PokerHandStringConverterTests.cs" />
