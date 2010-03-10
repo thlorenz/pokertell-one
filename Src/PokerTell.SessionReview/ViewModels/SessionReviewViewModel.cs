@@ -65,7 +65,7 @@ namespace PokerTell.SessionReview.ViewModels
             get { return _saveCommand ?? (_saveCommand = new DelegateCommand<object>(Save, arg => IsActive)); }
         }
 
-        public void CreateReport(object arg)
+    public void CreateReport(object arg)
         {
             Log.InfoFormat("SessionReview->CreatingReport: {0}", GetHashCode());
 

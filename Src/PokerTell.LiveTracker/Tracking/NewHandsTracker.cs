@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker.Tracking
 {
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
@@ -10,23 +11,25 @@ namespace PokerTell.LiveTracker.Tracking
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.Repository;
 
+    using Tools.FunctionalCSharp;
     using Tools.Interfaces;
 
     public class NewHandsTracker : INewHandsTracker
     {
-        readonly IFileSystemWatcher _fileSystemWatcher;
-
         readonly IEventAggregator _eventAggregator;
 
         readonly IRepository _repository;
 
-        public NewHandsTracker(IEventAggregator eventAggregator, IFileSystemWatcher fileSystemWatcher, IRepository repository)
+        public NewHandsTracker(IEventAggregator eventAggregator, IRepository repository)
         {
             _eventAggregator = eventAggregator;
-            _fileSystemWatcher = fileSystemWatcher;
             _repository = repository;
+        }
 
-            _fileSystemWatcher.Changed += FileSystemWatcherChanged;
+        public INewHandsTracker InitializeWith(IEnumerable<IFileSystemWatcher> fileSystemWatchers)
+        {
+            fileSystemWatchers.ForEach(fsw => fsw .Changed += FileSystemWatcherChanged);
+            return this;
         }
 
         void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)

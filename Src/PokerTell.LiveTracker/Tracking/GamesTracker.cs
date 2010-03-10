@@ -68,6 +68,8 @@ namespace PokerTell.LiveTracker.Tracking
         public IGamesTracker InitializeWith(ILiveTrackerSettings liveTrackerSettings)
         {
             RegisterEvents();
+
+            // TODO: create a new HandHistoryFileWatcher for each path in settings and initialize NewHandsTracker
             _liveTrackerSettings = liveTrackerSettings;
             return this;
         }

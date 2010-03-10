@@ -4,19 +4,17 @@ namespace PokerTell.LiveTracker.Tests.Tracking
     using System.IO;
     using System.Linq;
 
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-
-    using Interfaces;
-
-    using LiveTracker.Tracking;
-
     using Machine.Specifications;
 
     using Microsoft.Practices.Composite.Events;
 
     using Moq;
+
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.Tracking;
 
     using Tools.Interfaces;
 
@@ -33,18 +31,16 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
         protected static INewHandsTracker _sut;
 
-        Establish specContext = () =>
-        {
+        Establish specContext = () => {
             _eventAggregator = new EventAggregator();
             _fileSystemWatcher_Stub = new Mock<IFileSystemWatcher>();
             _repository_Mock = new Mock<IRepository>();
 
-            _sut = new NewHandsTracker(_eventAggregator, _fileSystemWatcher_Stub.Object, _repository_Mock.Object);
+            _sut = new NewHandsTracker(_eventAggregator, _repository_Mock.Object).InitializeWith(new[] { _fileSystemWatcher_Stub.Object });
         };
 
         public abstract class Ctx_FileChanged : NewHandsTrackerSpecs
         {
-
             protected const string directory = @"c:\someDirectory\";
 
             protected const string fileName = "someFileName.txt";
@@ -61,8 +57,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
             static IConvertedPokerHand newHandEvent_PokerHand;
 
-            Establish context = () =>
-            {
+            Establish context = () => {
                 returnedPokerHands = new[] { new Mock<IConvertedPokerHand>().Object, new Mock<IConvertedPokerHand>().Object };
 
                 _repository_Mock.Setup(r => r.RetrieveHandsFromFile(directory + fileName)).Returns(returnedPokerHands);
@@ -78,7 +73,9 @@ namespace PokerTell.LiveTracker.Tests.Tracking
                     });
             };
 
-            Because of = () => _fileSystemWatcher_Stub.Raise(fw => fw.Changed += null, null, new FileSystemEventArgs(WatcherChangeTypes.Changed, directory, fileName));
+            Because of =
+                () =>
+                _fileSystemWatcher_Stub.Raise(fw => fw.Changed += null, null, new FileSystemEventArgs(WatcherChangeTypes.Changed, directory, fileName));
 
             It should_tell_the_repository_to_retrieve_the_hands_from_the_full_path
                 = () => _repository_Mock.Verify(r => r.RetrieveHandsFromFile(directory + fileName));
@@ -106,7 +103,9 @@ namespace PokerTell.LiveTracker.Tests.Tracking
                     .Subscribe(args => newHandEventWasRaised = true);
             };
 
-            Because of = () => _fileSystemWatcher_Stub.Raise(fw => fw.Changed += null, null, new FileSystemEventArgs(WatcherChangeTypes.Changed, directory, fileName));
+            Because of =
+                () =>
+                _fileSystemWatcher_Stub.Raise(fw => fw.Changed += null, null, new FileSystemEventArgs(WatcherChangeTypes.Changed, directory, fileName));
 
             It should_tell_the_repository_to_retrieve_the_hands_from_the_full_path
                 = () => _repository_Mock.Verify(r => r.RetrieveHandsFromFile(directory + fileName));
