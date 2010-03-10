@@ -96,7 +96,7 @@
     <Compile Include="Commands.cs" />
     <Compile Include="ViewModels\SessionReviewReportViewModel.cs" />
     <Compile Include="ViewModels\SessionReviewSettingsViewModel.cs" />
-    <Compile Include="ViewModels\ISessionReviewViewModel.cs" />
+    <Compile Include="Interfaces\ISessionReviewViewModel.cs" />
     <Compile Include="ViewModels\SessionReviewViewModel.cs" />
     <Compile Include="Views\SessionReviewMenuItemFactory.cs" />
     <Compile Include="ViewModels\SessionReviewMenuItemViewModel.cs" />

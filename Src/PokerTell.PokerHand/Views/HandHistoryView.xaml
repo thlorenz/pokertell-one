@@ -38,18 +38,14 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <!-- Select Checkbox -->
-                <CheckBox
-               Width="Auto"
-               Grid.Column="0"
-               Grid.Row="0"
-               HorizontalAlignment="Left"
-               Content="Select"
-               Foreground="Black"
-               IsChecked="{Binding IsSelected}"
-               Visibility="{Binding ShowSelectOption, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
                 <!-- HandHeader-->
                 <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                    <!-- Select Checkbox -->
+                    <CheckBox Width="Auto"
+                              HorizontalAlignment="Left"
+                              Content="Select"
+                              IsChecked="{Binding IsSelected}"
+                              Visibility="{Binding ShowSelectOption, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
                     <!-- Board -->
                     <ContentControl MinWidth="80" Content="{Binding Board}" ToolTip="Board"/>
                     <!-- Blinds Ante and TotalPlayers -->
@@ -147,15 +143,14 @@
                     </ListView.View>
                 </ListView>
                 <!-- HandNote -->
-                <TextBox
-               MinHeight="20"
-               Grid.Row="2"
-               Margin="0, 5"
-               AcceptsReturn="True"
-               Background="WhiteSmoke"
-               Foreground="Black"
-               Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-               Visibility="{Binding ShowHandNote, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+                <TextBox MinHeight="20"
+                        Grid.Row="2"
+                        Margin="0, 5"
+                        AcceptsReturn="True"
+                        Background="WhiteSmoke"
+                        Foreground="Black"
+                        Text="{Binding Note, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Visibility="{Binding ShowHandNote, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
             </Grid>
         </Border>
     </DataTemplate>

@@ -3,6 +3,8 @@ namespace PokerTell.SessionReview
     using System.Reflection;
     using System.Windows.Controls;
 
+    using Interfaces;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;

@@ -1,7 +1,9 @@
-﻿namespace PokerTell.SessionReview.ViewModels
+namespace PokerTell.SessionReview.ViewModels
 {
     using System.Reflection;
     using System.Text;
+
+    using Interfaces;
 
     using log4net;
 

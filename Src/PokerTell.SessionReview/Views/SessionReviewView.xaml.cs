@@ -3,11 +3,11 @@ namespace PokerTell.SessionReview.Views
     using System;
     using System.Reflection;
 
+    using Interfaces;
+
     using log4net;
 
     using Microsoft.Practices.Composite;
-
-    using PokerTell.SessionReview.ViewModels;
 
     using Tools.WPF.Interfaces;
 
