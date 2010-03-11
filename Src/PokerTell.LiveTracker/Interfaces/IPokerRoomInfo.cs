@@ -1,6 +1,8 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
-    public interface IPokerRoomInfo
+    using Tools.Interfaces;
+
+    public interface IPokerRoomInfo : IFluentInterface
     {
         string Site { get; }
 

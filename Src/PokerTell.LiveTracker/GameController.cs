@@ -8,6 +8,7 @@ namespace PokerTell.LiveTracker
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.PokerRooms;
 
     using Tools.FunctionalCSharp;
     using Tools.Interfaces;
@@ -16,6 +17,7 @@ namespace PokerTell.LiveTracker
     public class GameController : IGameController
     {
         public GameController(
+            IPokerRoomInfoLocator pokerRoomInfoLocator, 
             ILayoutManager layoutManager, 
             IGameHistoryViewModel gameHistory, 
             IPokerTableStatisticsViewModel pokerTableStatistics, 
@@ -25,6 +27,7 @@ namespace PokerTell.LiveTracker
             IOverlayToTableAttacher overlayToTableAttacher, 
             ITableOverlayViewModel tableOverlay)
         {
+            _pokerRoomInfoLocator = pokerRoomInfoLocator;
             _layoutManager = layoutManager;
             _gameHistory = gameHistory;
             _pokerTableStatistics = pokerTableStatistics;
@@ -58,6 +61,8 @@ namespace PokerTell.LiveTracker
         IWindowManager _liveStatsWindow;
 
         readonly IPlayerStatisticsUpdater _playerStatisticsUpdater;
+
+        readonly IPokerRoomInfoLocator _pokerRoomInfoLocator;
 
         public string HeroName { get; protected set; }
 
@@ -162,7 +167,7 @@ namespace PokerTell.LiveTracker
             _overlayToTableAttacher.InitializeWith(_tableOverlayWindow, 
                                                    watchTableTimer, 
                                                    waitThenTryToFindTableAgainTimer, 
-                                                   convertedPokerHand.Site, 
+                                                   _pokerRoomInfoLocator.GetPokerRoomInfoFor(convertedPokerHand.Site), 
                                                    convertedPokerHand.TableName);
         }
 

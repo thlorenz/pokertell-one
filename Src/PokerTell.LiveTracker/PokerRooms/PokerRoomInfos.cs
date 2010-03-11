@@ -5,8 +5,9 @@ namespace PokerTell.LiveTracker.PokerRooms
     using Interfaces;
 
     using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
 
-    public interface IPokerRoomInfoLocator
+    public interface IPokerRoomInfoLocator : IFluentInterface
     {
         IPokerRoomInfo GetPokerRoomInfoFor(string pokerSite);
     }

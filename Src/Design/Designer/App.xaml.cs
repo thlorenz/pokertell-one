@@ -5,6 +5,8 @@
     using System.Windows.Controls;
     using System.Windows.Media;
 
+    using Moq;
+
     using PokerTell.LiveTracker.Design.LiveTracker;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Persistence;
@@ -19,6 +21,7 @@
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    // Resharper disable InconsistentNaming
     public partial class App : Application
     {
         const string DesignerPath = @"C:\SD\PokerTell\Src\Design\Designer\";
@@ -74,8 +77,12 @@
             pokerTable.Show();
             overlayWindowManager.Show();
 
-            attacher
-                .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, TODO, pokerTable.Title)
+            var pokerRoomInfo_Stub = new Mock<IPokerRoomInfo>();
+            pokerRoomInfo_Stub
+                .SetupGet(i => i.ProcessName).Returns(string.Empty);
+
+                attacher
+                    .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, pokerRoomInfo_Stub.Object, pokerTable.Title)
                 .Activate();
         }
 

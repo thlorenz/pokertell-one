@@ -8,6 +8,8 @@ namespace PokerTell.LiveTracker.Tests
 
     using Moq;
 
+    using PokerRooms;
+
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
@@ -23,6 +25,10 @@ namespace PokerTell.LiveTracker.Tests
     // Resharper disable InconsistentNaming
     public abstract class GameControllerSpecs
     {
+        protected static Mock<IPokerRoomInfoLocator> _pokerRoomInfoLocator_Stub;
+
+        protected static Mock<IPokerRoomInfo> _pokerRoomInfo_Stub;
+
         protected static Mock<ITableOverlayViewModel> _tableOverlay_Mock;
 
         protected static Mock<IOverlayToTableAttacher> _tableAttacher_Mock;
@@ -54,6 +60,12 @@ namespace PokerTell.LiveTracker.Tests
         protected static GameControllerSut _sut;
 
         Establish specContext = () => {
+            _pokerRoomInfo_Stub = new Mock<IPokerRoomInfo>();
+            _pokerRoomInfoLocator_Stub = new Mock<IPokerRoomInfoLocator>();
+            _pokerRoomInfoLocator_Stub
+                .Setup(l => l.GetPokerRoomInfoFor(Moq.It.IsAny<string>()))
+                .Returns(_pokerRoomInfo_Stub.Object);
+
             _tableOverlay_Mock = new Mock<ITableOverlayViewModel>();
             _tableAttacher_Mock = new Mock<IOverlayToTableAttacher>();
             _playerStatistics_Mock = new Mock<IPlayerStatistics>();
@@ -76,6 +88,7 @@ namespace PokerTell.LiveTracker.Tests
             _tableOverlayWindow_Mock = new Mock<IWindowManager>();
 
             _sut = new GameControllerSut(
+                _pokerRoomInfoLocator_Stub.Object,
                 _layoutManager_Mock.Object, 
                 _gameHistory_Mock.Object, 
                 _pokerTableStatistics_Mock.Object, 
@@ -188,6 +201,7 @@ namespace PokerTell.LiveTracker.Tests
                 _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object, jim_Stub.Object });
 
                 _sut = new GameControllerSut(
+                    _pokerRoomInfoLocator_Stub.Object,
                     _layoutManager_Mock.Object, 
                     _gameHistory_Mock.Object, 
                     _pokerTableStatistics_Mock.Object, 
@@ -265,11 +279,11 @@ namespace PokerTell.LiveTracker.Tests
                                                                           _pokerTableStatistics_Mock.Object, 
                                                                           showHoleCardsDuration));
 
-            It should_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window
+            It should_initialize_the_overlay_to_table_attacher_with_the_table_name__pokerroom_info_returned_by_the_locator_and_overlay_window
                 = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
                                                                            Moq.It.IsAny<IDispatcherTimer>(), 
                                                                            Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           pokerSite, 
+                                                                           _pokerRoomInfo_Stub.Object, 
                                                                            tableName));
 
             It should_set_the_DataContext_of_the_overlay_window_to_the_overlay_viewmodel
@@ -337,11 +351,11 @@ namespace PokerTell.LiveTracker.Tests
                                                                           Moq.It.IsAny<int>()), 
                                                   Times.Never());
 
-            It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window_again
+            It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__pokerroom_info_and_overlay_window_again
                 = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
                                                                            Moq.It.IsAny<IDispatcherTimer>(), 
                                                                            Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           pokerSite, 
+                                                                           _pokerRoomInfo_Stub.Object, 
                                                                            tableName), 
                                                    Times.Never());
 
@@ -351,6 +365,9 @@ namespace PokerTell.LiveTracker.Tests
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _pokerTableStatistics_Mock.Object, Times.Never());
 
             It should_not_show_the_LiveStats_window_again = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Show(), Times.Never());
+
+            It should_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
+                = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand")]
@@ -558,6 +575,7 @@ namespace PokerTell.LiveTracker.Tests
         protected class GameControllerSut : GameController
         {
             public GameControllerSut(
+                IPokerRoomInfoLocator pokerRoomInfoLocator, 
                 ILayoutManager layoutManager, 
                 IGameHistoryViewModel gameHistory, 
                 IPokerTableStatisticsViewModel pokerTableStatistics, 
@@ -566,8 +584,7 @@ namespace PokerTell.LiveTracker.Tests
                 ISeatMapper seatMapper, 
                 IOverlayToTableAttacher overlayToTableAttacher, 
                 ITableOverlayViewModel tableOverlay)
-                : base(
-                    layoutManager, 
+                : base(pokerRoomInfoLocator, layoutManager, 
                     gameHistory, 
                     pokerTableStatistics, 
                     playerStatisticsMake, 

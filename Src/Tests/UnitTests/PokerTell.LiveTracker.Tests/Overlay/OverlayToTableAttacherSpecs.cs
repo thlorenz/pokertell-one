@@ -31,6 +31,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
         protected static Mock<IDispatcherTimer> _findTableAgainTimer_Mock;
 
+        protected static Mock<IPokerRoomInfo> _pokerRoomInfo_Stub;
+
         protected static string _processName;
 
         protected static string _tableName;
@@ -44,13 +46,18 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             _watchTableTimer_Stub = new Mock<IDispatcherTimer>();
             _findTableAgainTimer_Mock = new Mock<IDispatcherTimer>();
 
-            _processName = new PokerStarsInfo().ProcessName;
+            _processName = "SomeProcessName";
+
+            _pokerRoomInfo_Stub = new Mock<IPokerRoomInfo>();
+            _pokerRoomInfo_Stub
+                .SetupGet(i => i.ProcessName).Returns(_processName);
+
             _tableName = "someTable";
             _sut = new OverlayToTableAttacherSut(_windowManipulator_Mock.Object, _windowFinder_Mock.Object);
             _sut.InitializeWith(_overlayWindow_Mock.Object, 
                                 _watchTableTimer_Stub.Object, 
                                 _findTableAgainTimer_Mock.Object, 
-                                new PokerStarsInfo().Site, 
+                                _pokerRoomInfo_Stub.Object,
                                 _tableName);
         };
 
