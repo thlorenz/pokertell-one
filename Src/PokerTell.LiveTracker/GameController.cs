@@ -92,9 +92,16 @@ namespace PokerTell.LiveTracker
 
             UpdateTableOverlay(convertedPokerHand);
 
+            UpdateOverlayToTableAttacher(convertedPokerHand);
+
             UpdatePlayerStatistics(convertedPokerHand);
 
             return this;
+        }
+
+        void UpdateOverlayToTableAttacher(IConvertedPokerHand convertedPokerHand)
+        {
+            _overlayToTableAttacher.TableName = convertedPokerHand.TableName;
         }
 
         void UpdateTableOverlay(IConvertedPokerHand convertedPokerHand)

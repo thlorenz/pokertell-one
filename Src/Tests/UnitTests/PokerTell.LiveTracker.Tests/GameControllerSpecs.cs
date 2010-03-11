@@ -325,6 +325,7 @@ namespace PokerTell.LiveTracker.Tests
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _pokerTableStatistics_Mock.Object, Times.Never());
 
             It should_not_show_the_LiveStats_window = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Show(), Times.Never());
+
         }
 
         [Subject(typeof(GameController), "New Hand, not first time")]
@@ -369,6 +370,8 @@ namespace PokerTell.LiveTracker.Tests
             It should_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
                 = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
         }
+
+        
 
         [Subject(typeof(GameController), "New Hand")]
         public class when_told_about_a_new_hand : Ctx_NewHand
