@@ -4,7 +4,9 @@
     xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetSummary"                      
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"                      
     >
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
     <DataTemplate x:Key="StatisticsSetSummaryViewTemplate" DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" >
         <!-- DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" -->
         <DataTemplate.Resources>
@@ -14,11 +16,11 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
-     <!-- Background="{DynamicResource LightToDarkToLightBorderBrush}" -->
+        <!-- Background="{DynamicResource LightToDarkToLightBorderBrush}" -->
         <Border MaxHeight="80" MaxWidth="75"
              WPF:CommandBehavior.Event="MouseDown"
              WPF:CommandBehavior.Command="{Binding SelectStatisticsSetCommand}"   
-             Background="#FF424141"
+             Background="{StaticResource DarkBorderBrush}"
              CornerRadius="3"
              Margin="0,0"
              BorderThickness="2"
@@ -27,13 +29,13 @@
                 <Style TargetType="{x:Type Border}">
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="DarkGray"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource LightBorderBrush}"/>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-           
-        
+
+
             <ItemsControl ItemsSource="{Binding Rows}"
                 ItemTemplate="{StaticResource StatisticsSetSummaryRowViewTemplate}">
                 <ItemsControl.ItemsPanel>

@@ -8,46 +8,56 @@
 
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
                     <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetSummary/StatisticsSetSummaryViewTemplate.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
 
-            <StackPanel Orientation="Horizontal">
-                <StackPanel.Resources>
-                    <Style x:Key="HeaderLabelStyle" BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
-                        <Setter Property="FontSize" Value="8"/>
-                        <Setter Property="Margin" Value="0,1,0,0" />
-                        <Setter Property="Padding" Value="0" />
-                        <Setter Property="Foreground" Value="LightGreen"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    </Style>
-                </StackPanel.Resources>
-                <GroupBox Header="Preflop" FontSize="9">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style x:Key="HeaderLabelStyle" BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
+                    <Setter Property="FontSize" Value="8"/>
+                    <Setter Property="Margin" Value="0,1,0,0" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="Foreground" Value="LightGreen"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+                <Style x:Key="StatisticsSetSurroundingBorder" TargetType="{x:Type Border}">
+                    <Setter Property="BorderBrush" Value="{StaticResource MediumBorderBrush}" />
+                    <Setter Property="BorderThickness" Value="0.5" />
+                    <Setter Property="CornerRadius" Value="2" />
+                </Style>
+            </StackPanel.Resources>
+            <GroupBox Header="Preflop" FontSize="9">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                        <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource StatisticsSetSurroundingBorder}">
+                        <StackPanel>
                             <Label Content="Unraised Pot" Style="{StaticResource HeaderLabelStyle}"/>
                             <ContentControl Content="{Binding PreFlopUnraisedPotStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
                             <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
                             <Label Content="{Binding TotalCountPreFlopUnraisedPot}" HorizontalContentAlignment="Center" FontSize="12"/>
                         </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="0">
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource StatisticsSetSurroundingBorder}">
+                        <StackPanel>
                             <Label Content="Raised Pot" Style="{StaticResource HeaderLabelStyle}"/>
                             <ContentControl Content="{Binding PreFlopRaisedPotStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
                             <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
                             <Label Content="{Binding TotalCountPreFlopRaisedPot}" HorizontalContentAlignment="Center" FontSize="12"/>
                         </StackPanel>
-                    </Grid>
-                </GroupBox>
-            </StackPanel>
+                    </Border>
+                </Grid>
+            </GroupBox>
+        </StackPanel>
 
     </DataTemplate>
 </ResourceDictionary>

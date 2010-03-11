@@ -31,7 +31,7 @@
             // RunColorPickerExpanderView();
             // RunOverlayToTableAttacher();
             
-            RunHandHistoryFilesWatcher();
+           // RunHandHistoryFilesWatcher();
         }
 
         static void RunTableOverlaySettings()

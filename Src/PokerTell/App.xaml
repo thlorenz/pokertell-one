@@ -8,15 +8,7 @@
                 <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
                 <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-           
-            
-            
         </ResourceDictionary>
        
     </Application.Resources>
 </Application>
-
-    <!--
-    <ResourceDictionary Source="Resources/MainColors.xaml"/>
-    
-      <ResourceDictionary Source="Resources/ExpressionDark.xaml"/> -->

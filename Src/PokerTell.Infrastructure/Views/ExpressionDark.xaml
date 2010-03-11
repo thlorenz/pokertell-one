@@ -13,11 +13,16 @@
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
 
 
-    <!-- PokerTell MainColors -->
+    <!--Original PokerTell MainColors 
     <Color x:Key="LightBorderColor">#FF716F6F</Color>
 	<Color x:Key="MediumBorderColor">#FF404040</Color>
-    <Color x:Key="DarkBorderColor">#FF3C3C3C</Color>
+    <Color x:Key="DarkBorderColor">#FF3C3C3C</Color> -->
 
+    <!-- PokerTell MainColors -->
+    <Color x:Key="LightBorderColor">#FF2E2E2E</Color>
+	<Color x:Key="MediumBorderColor">#FF1E1E1E</Color>
+    <Color x:Key="DarkBorderColor">#FF0E0E0E</Color>
+    
     <SolidColorBrush x:Key="LightBorderBrush" Color="{StaticResource LightBorderColor}" />
 	<SolidColorBrush x:Key="MediumBorderBrush" Color="{StaticResource MediumBorderColor}" />
     <SolidColorBrush x:Key="DarkBorderBrush" Color="{StaticResource DarkBorderColor}" />
@@ -38,13 +43,26 @@
         <GradientStop Color="{StaticResource LightBorderColor}" Offset="1" />
     </LinearGradientBrush>
 
-    <!-- Main Colors -->
-
+    <!-- Original Main Colors 
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FF333333" />
+    
     <Color x:Key="MainColor">#FF595959</Color>
     <Color x:Key="HoverColor">#FF393939</Color>
     <Color x:Key="DefaultColor">#FF9BB1C5</Color>
+    
     <SolidColorBrush x:Key="LightBrush" Color="#FF333333" />
     <SolidColorBrush x:Key="ShadeBrush" Color="#FF434343" />
+    
+    <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF333333" />
+    -->
+    
+    <!-- Main Colors -->
+    
+    <Color x:Key="MainColor">#FF2E2E2E</Color>
+    <Color x:Key="HoverColor">#FF393939</Color>
+    <Color x:Key="DefaultColor">#FF4E5052</Color>
+    <SolidColorBrush x:Key="LightBrush" Color="#FF0E0E0E" />
+    <SolidColorBrush x:Key="ShadeBrush" Color="#FF1E1E1E" />
 
     <Color x:Key="TopGradientSelectColor">#FFFFFFFF</Color>
     <Color x:Key="BottomGradientSelectColor">#FF737373</Color>
@@ -54,7 +72,7 @@
 
     <SolidColorBrush x:Key="TextBrush" Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="NormalBrush" Color="{StaticResource MainColor}" />
-    <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="NormalBorderBrush" Color="{StaticResource DarkBorderColor}" />
     <SolidColorBrush x:Key="HoverBrush" Color="{StaticResource HoverColor}" />
     <SolidColorBrush x:Key="GlyphBrush" Color="#FFD1D1D1" />
 
@@ -65,7 +83,7 @@
         <GradientStop Color="#26FFFFFF" Offset="0.479" />
     </LinearGradientBrush>
 
-    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="{StaticResource DarkBorderColor}" />
     <SolidColorBrush x:Key="MouseOverBrush" Color="#FF736969" />
     
     <LinearGradientBrush x:Key="SelectedBackgroundBrush" EndPoint="0.5,1" StartPoint="0.5,0">
