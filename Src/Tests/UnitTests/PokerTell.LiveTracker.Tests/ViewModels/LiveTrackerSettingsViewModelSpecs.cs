@@ -243,6 +243,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             Because of = () => _sut.AddHandHistoryPathCommand.Execute(null);
 
             It should_add_the_path = () => _sut.HandHistoryFilesPaths.ShouldContain(pathToBeAdded);
+
+            It should_set_the_path_to_be_added_to_null = () => _sut.HandHistoryPathToBeAdded.ShouldBeNull();
         }
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Add Hand History path")]
@@ -265,6 +267,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_not_add_the_path_again = () => _sut.HandHistoryFilesPaths.Count.ShouldEqual(1);
 
             It should_inform_the_user_that_it_existed_already = () => userWasWarned.ShouldBeTrue();
+
+            It should_set_the_path_to_be_added_to_null = () => _sut.HandHistoryPathToBeAdded.ShouldBeNull();
         }
     }
 }

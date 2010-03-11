@@ -121,6 +121,9 @@
     <Compile Include="Interfaces\IGameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModel.cs" />
+    <Compile Include="Views\LiveTrackerSettingsView.xaml.cs">
+      <DependentUpon>LiveTrackerSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Overlay\HarringtonMPanel.xaml.cs">
       <DependentUpon>HarringtonMPanel.xaml</DependentUpon>
     </Compile>
@@ -163,6 +166,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\InvestigatorViewTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\LiveTrackerSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,6 @@
-namespace PokerTell.DatabaseSetup.Views
+﻿namespace PokerTell.LiveTracker.Views
 {
-    using System.Windows.Media;
+    using System.Windows;
 
     using Infrastructure;
 
@@ -9,11 +9,11 @@ namespace PokerTell.DatabaseSetup.Views
     using Tools;
 
     /// <summary>
-    /// Interaction logic for ComboBoxDialogView.xaml
+    /// Interaction logic for LiveTrackerSettingsView.xaml
     /// </summary>
-    public partial class ComboBoxDialogView
+    public partial class LiveTrackerSettingsView 
     {
-        public ComboBoxDialogView()
+        public LiveTrackerSettingsView()
         {
             InitializeComponent();
 
@@ -24,11 +24,10 @@ namespace PokerTell.DatabaseSetup.Views
             }
         }
 
-        public ComboBoxDialogView(IComboBoxDialogViewModel viewModel)
+        public LiveTrackerSettingsView(ILiveTrackerSettingsViewModel viewModel)
             : this()
         {
             DataContext = viewModel;
         }
-
     }
 }

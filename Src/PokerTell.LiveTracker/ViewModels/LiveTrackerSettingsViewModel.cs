@@ -184,6 +184,8 @@ namespace PokerTell.LiveTracker.ViewModels
                             }
                             else
                                 HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded);
+
+                            HandHistoryPathToBeAdded = null;
                         },
                         CanExecuteDelegate =
                             arg => (! string.IsNullOrEmpty(HandHistoryPathToBeAdded) && new DirectoryInfo(HandHistoryPathToBeAdded).Exists)

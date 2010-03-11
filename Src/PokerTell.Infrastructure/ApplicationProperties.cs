@@ -50,7 +50,7 @@ namespace PokerTell.Infrastructure
         public static Brush BorderedWindowBackgoundBrush
         {
             // #FF 3C 3C 3C => Color.FromScRgb(255, 60, 60, 60)
-            get { return new SolidColorBrush(Colors.DimGray); }
+            get { return new SolidColorBrush(Colors.Black); }
         }
 
         public const string MappingAssemblyName = "PokerTell.PokerHand";

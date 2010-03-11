@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     using Microsoft.Practices.Composite.Events;
 
+    using Persistence;
+
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels;
 
@@ -32,7 +34,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     {
         public static LiveTrackerSettingsViewModel Model
         {
-            get { return new LiveTrackerSettingsDesignModel(null); }
+            get { return new LiveTrackerSettingsDesignModel(new LiveTrackerSettingsXDocumentHandler()); }
         }  
     }
 }

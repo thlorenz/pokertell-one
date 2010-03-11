@@ -7,8 +7,6 @@ namespace PokerTell.User.Views
     /// </summary>
     public partial class ConfirmActionView
     {
-        #region Constructors and Destructors
-
         public ConfirmActionView()
         {
             InitializeComponent();
@@ -20,6 +18,5 @@ namespace PokerTell.User.Views
             DataContext = viewModel;
         }
 
-        #endregion
     }
 }

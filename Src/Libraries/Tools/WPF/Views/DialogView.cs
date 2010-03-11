@@ -1,13 +1,27 @@
 namespace Tools.WPF.Views
 {
+    using System;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Input;
 
+    using log4net;
+
     public class DialogView : Window
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public DialogView()
         {
-            Owner = Application.Current.MainWindow;
+            // Cannot set owner to itself so catch this exception during testing when there may not be a maain window
+            try
+            {
+                Owner = Application.Current.MainWindow;
+            }
+            catch (Exception excep)
+            {
+                Log.Error(excep);
+            }
+
             ResizeMode = ResizeMode.NoResize;
         }
 
@@ -19,7 +33,7 @@ namespace Tools.WPF.Views
             }
         }
 
-        protected void Close_Click(object sender, System.Windows.RoutedEventArgs e)
+        protected void Close_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }

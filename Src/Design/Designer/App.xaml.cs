@@ -7,7 +7,9 @@
 
     using PokerTell.LiveTracker.Design.LiveTracker;
     using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.Persistence;
     using PokerTell.LiveTracker.Tracking;
+    using PokerTell.LiveTracker.Views;
     using PokerTell.LiveTracker.Views.Overlay;
 
     using Tools.Interfaces;
@@ -32,6 +34,7 @@
             // RunOverlayToTableAttacher();
             
            // RunHandHistoryFilesWatcher();
+            RunLiveTrackerSettingsWindow();
         }
 
         static void RunTableOverlaySettings()
@@ -89,7 +92,13 @@
                 .InitializeWith(path);
             watcher.IncludeSubdirectories = true;
             watcher.Changed += (s, e) => Console.WriteLine("Changed:\nType: {0}\nName: {1}\nFullPath: {2}", e.ChangeType, e.Name, e.FullPath);
+        }
 
+        public void RunLiveTrackerSettingsWindow()
+        {
+            var settings = new LiveTrackerSettingsDesignModel(new LiveTrackerSettingsXDocumentHandler());
+            var win = new LiveTrackerSettingsView(settings) { Topmost = true };
+            win.Show();
         }
     }
 }
