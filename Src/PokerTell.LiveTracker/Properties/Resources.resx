@@ -120,4 +120,7 @@
   <data name="Warning_HandHistoriesAreTrackedAlready" xml:space="preserve">
     <value>The hand histories in file "{0}" are being tracked already.</value>
   </data>
+  <data name="Warning_HandHistoryFolderIsTrackedAlready" xml:space="preserve">
+    <value>The folder you are trying to add is already in the list of tracked folders.</value>
+  </data>
 </root>

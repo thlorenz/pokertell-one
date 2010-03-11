@@ -5,20 +5,17 @@ namespace PokerTell.Repository.ViewModels
     using System.Windows.Forms;
     using System.Windows.Input;
 
-    using Infrastructure.Events;
-    using Infrastructure.Properties;
-
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.Infrastructure.Events;
     using PokerTell.Repository.Interfaces;
+    using PokerTell.Repository.Properties;
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class ImportHandHistoriesViewModel : NotifyPropertyChanged
     {
-        #region Constants and Fields
-
         readonly IHandHistoriesDirectoryImporter _handHistoriesDirectoryImporter;
 
         ICommand _browseCommand;
@@ -31,12 +28,8 @@ namespace PokerTell.Repository.ViewModels
 
         readonly IEventAggregator _eventAggregator;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public ImportHandHistoriesViewModel(
-            IEventAggregator eventAggregator,
+            IEventAggregator eventAggregator, 
             IHandHistoriesDirectoryImporter handHistoriesDirectoryImporter)
         {
             _eventAggregator = eventAggregator;
@@ -44,12 +37,8 @@ namespace PokerTell.Repository.ViewModels
             const Environment.SpecialFolder programsFolder = Environment.SpecialFolder.ProgramFiles;
             HandHistoriesDirectory = Environment.GetFolderPath(programsFolder);
 
-           // HandHistoriesDirectory = @"C:\Program Files\PokerStars\HandHistory\renniweg";
+            // HandHistoriesDirectory = @"C:\Program Files\PokerStars\HandHistory\renniweg";
         }
-
-        #endregion
-
-        #region Properties
 
         public ICommand BrowseCommand
         {
@@ -81,14 +70,14 @@ namespace PokerTell.Repository.ViewModels
                     {
                         ExecuteDelegate = arg => {
                             Importing = true;
-                            
+
                             _handHistoriesDirectoryImporter
-                                .InitializeWith(ReportProgress,
+                                .InitializeWith(ReportProgress, 
                                                 ReportCompleted)
                                 .ImportDirectory(_handHistoriesDirectory);
 
                             ReportProgress(0);
-                        },
+                        }, 
                         CanExecuteDelegate = arg => ! Importing && new DirectoryInfo(_handHistoriesDirectory).Exists
                     });
             }
@@ -104,16 +93,12 @@ namespace PokerTell.Repository.ViewModels
             }
         }
 
-        #endregion
-
-        #region Methods
-
         void BrowseForDirectory(object arg)
         {
-            Console.WriteLine(Importing);
             using (var browserDialog = new FolderBrowserDialog
                 {
-                    SelectedPath = HandHistoriesDirectory, ShowNewFolderButton = false 
+                    SelectedPath = HandHistoriesDirectory, 
+                    ShowNewFolderButton = false
                 })
             {
                 browserDialog.ShowDialog();
@@ -125,7 +110,7 @@ namespace PokerTell.Repository.ViewModels
         {
             Importing = false;
 
-            string message = string.Format(Properties.Resources.Info_HandHistoriesDirectoryImportCompleted,
+            string message = string.Format(Resources.Info_HandHistoriesDirectoryImportCompleted, 
                                            numberOfHandsImported);
 
             var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, message);
@@ -143,7 +128,5 @@ namespace PokerTell.Repository.ViewModels
                 .GetEvent<ProgressUpdateEvent>()
                 .Publish(progressUpdate);
         }
-
-        #endregion
     }
 }

@@ -2,12 +2,20 @@ namespace PokerTell.LiveTracker.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
+    using System.Windows.Forms;
     using System.Windows.Input;
     using System.Xml.Linq;
 
+    using Infrastructure.Events;
+
+    using Microsoft.Practices.Composite.Events;
+
     using PokerTell.LiveTracker.Interfaces;
+
+    using Properties;
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
@@ -27,12 +35,18 @@ namespace PokerTell.LiveTracker.ViewModels
 
         const string HandHistoryFilesPathsElement = "HandHistoryFilesPaths";
 
+        const string ShowMyStatisticsElement = "ShowMyStatistics";
+
         readonly ILiveTrackerSettingsXDocumentHandler _xDocumentHandler;
 
-        public LiveTrackerSettingsViewModel(ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
+        public LiveTrackerSettingsViewModel(IEventAggregator eventAggregator, ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
         {
+            _eventAggregator = eventAggregator;
             _xDocumentHandler = xDocumentHandler;
+            ShowHoleCardsDurations = new List<int> { 0, 3, 5, 10, 15, 20 };
         }
+
+        public IEnumerable<int> ShowHoleCardsDurations { get; protected set; }
 
         bool _autoTrack;
 
@@ -82,6 +96,18 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
+        bool _showMyStatistics;
+
+        public bool ShowMyStatistics
+        {
+            get { return _showMyStatistics; }
+            set
+            {
+                _showMyStatistics = value;
+                RaisePropertyChanged(() => ShowMyStatistics);
+            }
+        }
+
         IList<string> _handHistoryFilesPaths;
 
         public IList<string> HandHistoryFilesPaths
@@ -91,6 +117,20 @@ namespace PokerTell.LiveTracker.ViewModels
             {
                 _handHistoryFilesPaths = value;
                 RaisePropertyChanged(() => HandHistoryFilesPaths);
+            }
+        }
+
+        public string SelectedHandHistoryFilesPath { get; set; }
+
+        string _handHistoryPathToBeAdded;
+
+        public string HandHistoryPathToBeAdded
+        {
+            get { return _handHistoryPathToBeAdded; }
+            set
+            {
+                _handHistoryPathToBeAdded = value;
+                RaisePropertyChanged(() => HandHistoryPathToBeAdded);
             }
         }
 
@@ -110,6 +150,62 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
+        ICommand _removeSelectedHandHistoryPathCommand;
+
+        public ICommand RemoveSelectedHandHistoryPathCommand
+        {
+            get
+            {
+                return _removeSelectedHandHistoryPathCommand ?? (_removeSelectedHandHistoryPathCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            HandHistoryFilesPaths.Remove(SelectedHandHistoryFilesPath);
+                            SelectedHandHistoryFilesPath = null;
+                        },
+                        CanExecuteDelegate = arg => SelectedHandHistoryFilesPath != null
+                    });
+            }
+        }
+
+        ICommand _addHandHistoryPathCommand;
+
+        public ICommand AddHandHistoryPathCommand
+        {
+            get
+            {
+                return _addHandHistoryPathCommand ?? (_addHandHistoryPathCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            if (HandHistoryFilesPaths.Contains(HandHistoryPathToBeAdded))
+                            {
+                                _eventAggregator
+                                    .GetEvent<UserMessageEvent>()
+                                    .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, Resources.Warning_HandHistoryFolderIsTrackedAlready));
+                            }
+                            else
+                                HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded);
+                        },
+                        CanExecuteDelegate =
+                            arg => (! string.IsNullOrEmpty(HandHistoryPathToBeAdded) && new DirectoryInfo(HandHistoryPathToBeAdded).Exists)
+                    });
+            }
+        }
+
+        ICommand _browseCommand;
+
+        readonly IEventAggregator _eventAggregator;
+
+        public ICommand BrowseCommand
+        {
+            get
+            {
+                return _browseCommand ?? (_browseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = BrowseForDirectory
+                    });
+            }
+        }
+
         public static XDocument CreateXDocumentFor(ILiveTrackerSettingsViewModel lts)
         {
             return
@@ -119,6 +215,7 @@ namespace PokerTell.LiveTracker.ViewModels
                                  new XElement(ShowHoleCardsDurationElement, lts.ShowHoleCardsDuration), 
                                  new XElement(ShowLiveStatsWindowOnStartupElement, lts.ShowLiveStatsWindowOnStartup), 
                                  new XElement(ShowTableOverlayElement, lts.ShowTableOverlay),
+                                 new XElement(ShowMyStatisticsElement, lts.ShowMyStatistics),
                                  Utils.XElementForCollection(HandHistoryFilesPathsElement, lts.HandHistoryFilesPaths)));
         }
 
@@ -143,12 +240,12 @@ namespace PokerTell.LiveTracker.ViewModels
             AutoTrack = Utils.GetBoolFrom(xml.Element(AutoTrackElement), true);
             ShowLiveStatsWindowOnStartup = Utils.GetBoolFrom(xml.Element(ShowLiveStatsWindowOnStartupElement), true);
             ShowTableOverlay = Utils.GetBoolFrom(xml.Element(ShowTableOverlayElement), true);
+            ShowMyStatistics = Utils.GetBoolFrom(xml.Element(ShowMyStatisticsElement), false);
             ShowHoleCardsDuration = Utils.GetIntFrom(xml.Element(ShowHoleCardsDurationElement), 5);
 
-            HandHistoryFilesPaths = 
+            HandHistoryFilesPaths = new ObservableCollection<string>( 
                 Utils.GetStringsFrom(xml.Element(HandHistoryFilesPathsElement), new List<string>())
-                .Where(path => new DirectoryInfo(path).Exists)
-                .ToList();
+                .Where(path => new DirectoryInfo(path).Exists));
         }
 
         void SetPropertiesToDefault()
@@ -156,9 +253,23 @@ namespace PokerTell.LiveTracker.ViewModels
             AutoTrack = true;
             ShowLiveStatsWindowOnStartup = true;
             ShowTableOverlay = true;
+            ShowMyStatistics = false;
             ShowHoleCardsDuration = 5;
 
-            HandHistoryFilesPaths = new List<string>();
+            HandHistoryFilesPaths = new ObservableCollection<string>();
+        }
+
+        void BrowseForDirectory(object arg)
+        {
+            using (var browserDialog = new FolderBrowserDialog
+                {
+                    SelectedPath = HandHistoryPathToBeAdded, 
+                    ShowNewFolderButton = false
+                })
+            {
+                browserDialog.ShowDialog();
+                HandHistoryPathToBeAdded = browserDialog.SelectedPath;
+            }
         }
     }
 }

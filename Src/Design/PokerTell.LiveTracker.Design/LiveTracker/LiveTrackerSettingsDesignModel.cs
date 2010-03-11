@@ -1,18 +1,25 @@
 namespace PokerTell.LiveTracker.Design.LiveTracker
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+
+    using Microsoft.Practices.Composite.Events;
+
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels;
 
     public class LiveTrackerSettingsDesignModel : LiveTrackerSettingsViewModel
     {
         public LiveTrackerSettingsDesignModel(ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
-            : base(xDocumentHandler)
+            : base(new EventAggregator(), xDocumentHandler)
         {
             AutoTrack = true;
             ShowLiveStatsWindowOnStartup = false;
             ShowTableOverlay = true;
+            ShowMyStatistics = true;
+            ShowHoleCardsDuration = 5;
 
-            HandHistoryFilesPaths = new[]
+            HandHistoryFilesPaths = new ObservableCollection<string>
                 {
                     @"C:\Program Files\PokerStars\HandHistory", 
                     @"C:\Program Files\Full Tilt Poker\HandHistory", 

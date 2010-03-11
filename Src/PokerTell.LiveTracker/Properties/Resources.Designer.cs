@@ -61,6 +61,15 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The folder you are trying to add is already in the list of tracked folders..
+        /// </summary>
+        internal static string Warning_HandHistoryFolderIsTrackedAlready {
+            get {
+                return ResourceManager.GetString("Warning_HandHistoryFolderIsTrackedAlready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The hand histories in file &quot;{0}&quot; are being tracked already..
         /// </summary>
         internal static string Warning_HandHistoriesAreTrackedAlready {

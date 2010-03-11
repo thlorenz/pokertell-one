@@ -20,6 +20,18 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ICommand SaveSettingsCommand { get; }
 
+        bool ShowMyStatistics { get; set; }
+
+        ICommand RemoveSelectedHandHistoryPathCommand { get; }
+
+        string SelectedHandHistoryFilesPath { get; set; }
+
+        string HandHistoryPathToBeAdded { get; set; }
+
+        ICommand AddHandHistoryPathCommand { get; }
+
+        ICommand BrowseCommand { get; }
+
         void LoadSettings();
     }
 }
