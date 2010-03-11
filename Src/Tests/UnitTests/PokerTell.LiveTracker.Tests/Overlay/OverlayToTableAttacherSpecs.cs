@@ -43,13 +43,13 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             _watchTableTimer_Stub = new Mock<IDispatcherTimer>();
             _findTableAgainTimer_Mock = new Mock<IDispatcherTimer>();
 
-            _processName = PokerStarsInfo.ProcessName;
+            _processName = new PokerStarsInfo().ProcessName;
             _tableName = "someTable";
             _sut = new OverlayToTableAttacherSut(_windowManipulator_Mock.Object, _windowFinder_Mock.Object);
             _sut.InitializeWith(_overlayWindow_Mock.Object, 
                                 _watchTableTimer_Stub.Object, 
                                 _findTableAgainTimer_Mock.Object, 
-                                PokerStarsInfo.Site, 
+                                new PokerStarsInfo().Site, 
                                 _tableName);
         };
 

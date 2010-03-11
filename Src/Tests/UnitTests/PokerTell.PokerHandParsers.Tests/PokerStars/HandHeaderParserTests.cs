@@ -10,7 +10,7 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 
         protected override string SiteName
         {
-            get { return PokerStarsInfo.Site; }
+            get { return new PokerStarsInfo().Site; }
         }
 
         #endregion

@@ -45,8 +45,8 @@ namespace PokerTell.LiveTracker.Overlay
                 throw new ArgumentException("Initialize PokerSite first!");
 
             return PokerSite.ToLower().Match()
-                .With(site => site == PokerStarsInfo.Site.ToLower(), _ => "PokerStars.xml")
-                .With(site => site == FullTiltPokerInfo.Site.ToLower(), _ => "FullTilt.xml")
+                .With(site => site == new PokerStarsInfo().Site.ToLower(), _ => "PokerStars.xml")
+                .With(site => site == new FullTiltPokerInfo().Site.ToLower(), _ => "FullTilt.xml")
                 .Do();
         }
 

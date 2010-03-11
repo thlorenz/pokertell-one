@@ -1,37 +1,97 @@
 namespace PokerTell.Infrastructure.PokerRooms
 {
+    using System;
+
     using Tools.FunctionalCSharp;
 
-    public static class PokerStarsInfo
+    public interface IPokerRoomInfo
     {
-        public const string Site = "PokerStars";
+        string Site { get; }
 
-        public const string TableClass = "PokerTableClass";
+        string TableClass { get; }
 
-        public const string ProcessName = "PokerStars";
+        string ProcessName { get; }
 
-        public const string FileExtension = "txt";
+        string FileExtension { get; }
     }
 
-    public static class FullTiltPokerInfo
+    public class PokerStarsInfo : IPokerRoomInfo
     {
-        public const string Site = "Full Tilt Poker";
+        public string Site
+        {
+            get { return "PokerStars"; }
+        }
 
-        public const string TableClass = "NotImplemented";
+        public string TableClass
+        {
+            get { return "PokerTableClass"; }
+        }
 
-        public const string ProcessName = "FullTilt";
+        public string ProcessName
+        {
+            get { return "PokerStars"; }
+        }
 
-        public const string FileExtension = "txt";
+        public string FileExtension
+        {
+            get { return "txt"; }
+        }
+    }
+
+    public class FullTiltPokerInfo : IPokerRoomInfo
+    {
+        public string Site
+        {
+            get { return "Full Tilt Poker"; }
+        }
+
+        public string TableClass
+        {
+            get { return "NotImplemented"; }
+        }
+
+        public string ProcessName
+        {
+            get { return "FullTilt"; }
+        }
+
+        public string FileExtension
+        {
+            get { return "txt"; }
+        }
+    }
+
+    public class PokerRoomInfoStub : IPokerRoomInfo
+    {
+        public string Site
+        {
+            get { return string.Empty; }
+        }
+
+        public string TableClass
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string ProcessName
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public string FileExtension
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 
     public static class PokerRoomInfoUtility
     {
-        public static string GetProcessNameFor(string pokerSite)
+        public static IPokerRoomInfo GetPokerRoomInfoFor(string pokerSite)
         {
             return pokerSite.ToLower().Match()
-                .With(s => s == PokerStarsInfo.Site.ToLower(), _ => PokerStarsInfo.ProcessName)
-                .With(s => s == FullTiltPokerInfo.Site.ToLower(), _ => FullTiltPokerInfo.ProcessName)
-                .Else(s => "") // needed for testing purposes
+                .With<IPokerRoomInfo>(s => s == new PokerStarsInfo().Site.ToLower(), _ => new PokerStarsInfo())
+                .With(s => s == new FullTiltPokerInfo().Site.ToLower(), _ => new FullTiltPokerInfo())
+                .Else(s => new PokerRoomInfoStub()) // needed for testing purposes
                 .Do();
         }
     }

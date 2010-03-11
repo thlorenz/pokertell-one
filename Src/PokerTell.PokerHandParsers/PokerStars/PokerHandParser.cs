@@ -15,7 +15,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             IConstructor<IAquiredPokerAction> aquiredActionMake)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
-            Site = PokerStarsInfo.Site;
+            Site = new PokerStarsInfo().Site;
             
             AnteParser = new AnteParser();
             BlindsParser = new BlindsParser();

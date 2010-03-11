@@ -159,7 +159,6 @@ namespace PokerTell.LiveTracker
 
             var watchTableTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(1000) };
             var waitThenTryToFindTableAgainTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(3000) };
-          
             _overlayToTableAttacher.InitializeWith(_tableOverlayWindow, 
                                                    watchTableTimer, 
                                                    waitThenTryToFindTableAgainTimer, 

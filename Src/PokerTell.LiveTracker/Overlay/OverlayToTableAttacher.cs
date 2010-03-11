@@ -80,7 +80,7 @@ namespace PokerTell.LiveTracker.Overlay
             _tableOverlayWindow = tableOverlayWindow;
 
             _tableName = tableName;
-            _processName = PokerRoomInfoUtility.GetProcessNameFor(pokerSite);
+            _processName = PokerRoomInfoUtility.GetPokerRoomInfoFor(pokerSite).ProcessName;
 
             _watchTableTimer = watchTableTimer;
             _watchTableTimer.Tick += WatchTableTimer_Tick;

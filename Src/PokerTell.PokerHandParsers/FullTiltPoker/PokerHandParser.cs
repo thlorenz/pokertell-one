@@ -15,7 +15,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             IConstructor<IAquiredPokerAction> aquiredActionMake)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
-            Site = FullTiltPokerInfo.Site;
+            Site = new FullTiltPokerInfo().Site;
 
             AnteParser = new AnteParser();
             BlindsParser = new BlindsParser();

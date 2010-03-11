@@ -12,7 +12,7 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
         protected override string SiteName
         {
-            get { return FullTiltPokerInfo.Site; }
+            get { return new FullTiltPokerInfo().Site; }
         }
 
         #endregion
