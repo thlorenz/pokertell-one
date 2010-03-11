@@ -229,11 +229,11 @@ namespace PokerTell.LiveTracker.Tests
                                                                           showHoleCardsDuration), 
                                                   Times.Never());
 
-            It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__poker_site_and_overlay_window
+            It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name_PokerRoomInfo_and_overlay_window
                 = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
                                                                            Moq.It.IsAny<IDispatcherTimer>(), 
                                                                            Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           pokerSite, 
+                                                                           Moq.It.IsAny<IPokerRoomInfo>(), 
                                                                            tableName), 
                                                    Times.Never());
 

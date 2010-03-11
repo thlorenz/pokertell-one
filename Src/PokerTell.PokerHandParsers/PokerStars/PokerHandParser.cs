@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
+    using Infrastructure;
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.PokerRooms;
 
     public class PokerHandParser : Base.PokerHandParser
     {
@@ -15,7 +15,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
             IConstructor<IAquiredPokerAction> aquiredActionMake)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
-            Site = new PokerStarsInfo().Site;
+            Site = PokerSites.PokerStars;
             
             AnteParser = new AnteParser();
             BlindsParser = new BlindsParser();

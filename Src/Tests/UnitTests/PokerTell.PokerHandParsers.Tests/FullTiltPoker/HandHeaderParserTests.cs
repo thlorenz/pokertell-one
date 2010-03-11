@@ -4,7 +4,7 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
     using Base;
 
-    using Infrastructure.PokerRooms;
+    using Infrastructure;
 
     public class HandHeaderParserTests : Tests.HandHeaderParserTests
     {
@@ -12,7 +12,7 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
         protected override string SiteName
         {
-            get { return new FullTiltPokerInfo().Site; }
+            get { return PokerSites.FullTiltPoker; }
         }
 
         #endregion

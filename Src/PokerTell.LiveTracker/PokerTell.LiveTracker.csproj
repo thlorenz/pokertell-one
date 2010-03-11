@@ -91,6 +91,10 @@
     <Compile Include="Overlay\WindowManipulator.cs" />
     <Compile Include="Persistence\LiveTrackerSettingsXDocumentHandler.cs" />
     <Compile Include="PlayerStatisticsUpdater.cs" />
+    <Compile Include="PokerRooms\FullTiltPokerInfo.cs" />
+    <Compile Include="Interfaces\IPokerRoomInfo.cs" />
+    <Compile Include="PokerRooms\PokerRoomInfos.cs" />
+    <Compile Include="PokerRooms\PokerStarsInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\ITableOverlaySettingsViewModel.cs" />
     <Compile Include="Interfaces\IPlayerOverlayViewModel.cs" />

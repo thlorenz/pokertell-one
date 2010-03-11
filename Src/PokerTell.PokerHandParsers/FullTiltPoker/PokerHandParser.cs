@@ -2,9 +2,9 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
     using System;
 
+    using Infrastructure;
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.PokerRooms;
 
     public class PokerHandParser : Base.PokerHandParser
     {
@@ -15,7 +15,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             IConstructor<IAquiredPokerAction> aquiredActionMake)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
-            Site = new FullTiltPokerInfo().Site;
+            Site = PokerSites.PokerStars;
 
             AnteParser = new AnteParser();
             BlindsParser = new BlindsParser();

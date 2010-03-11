@@ -6,7 +6,6 @@ namespace PokerTell.LiveTracker.Overlay
 
     using log4net;
 
-    using PokerTell.Infrastructure.PokerRooms;
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.Interfaces;
@@ -43,6 +42,8 @@ namespace PokerTell.LiveTracker.Overlay
 
         IWindowManager _tableOverlayWindow;
 
+        IPokerRoomInfo _pokerRoomInfo;
+
         public string TableName
         {
             get { return _tableName; }
@@ -74,13 +75,14 @@ namespace PokerTell.LiveTracker.Overlay
             IWindowManager tableOverlayWindow, 
             IDispatcherTimer watchTableTimer, 
             IDispatcherTimer waitThenTryToFindTableAgainTimer, 
-            string pokerSite, 
+            IPokerRoomInfo pokerRoomInfo, 
             string tableName)
         {
+            _pokerRoomInfo = pokerRoomInfo;
             _tableOverlayWindow = tableOverlayWindow;
 
             _tableName = tableName;
-            _processName = PokerRoomInfoUtility.GetPokerRoomInfoFor(pokerSite).ProcessName;
+            _processName = pokerRoomInfo.ProcessName;
 
             _watchTableTimer = watchTableTimer;
             _watchTableTimer.Tick += WatchTableTimer_Tick;
@@ -139,8 +141,12 @@ namespace PokerTell.LiveTracker.Overlay
 
             if (! _waitingForNewTableName)
             {
-               FullText = _windowManipulator
-                   .SetTextTo(TableName, newFullText => { TableChanged(newFullText); _waitingForNewTableName = true; });
+                FullText = _windowManipulator
+                    .SetTextTo(TableName, 
+                               newFullText => {
+                                   TableChanged(newFullText);
+                                   _waitingForNewTableName = true;
+                               });
             }
         }
     }

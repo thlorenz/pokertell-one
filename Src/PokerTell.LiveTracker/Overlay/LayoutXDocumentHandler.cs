@@ -6,9 +6,10 @@ namespace PokerTell.LiveTracker.Overlay
     using System.Xml.Linq;
 
     using Infrastructure;
-    using Infrastructure.PokerRooms;
 
     using Interfaces;
+
+    using PokerRooms;
 
     using Tools.FunctionalCSharp;
     using Tools.Interfaces;

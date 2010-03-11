@@ -8,7 +8,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
     using Moq;
 
-    using PokerTell.Infrastructure.PokerRooms;
+    using PokerRooms;
+
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Overlay;
 

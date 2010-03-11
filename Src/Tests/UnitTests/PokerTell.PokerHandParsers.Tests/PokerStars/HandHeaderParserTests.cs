@@ -1,21 +1,15 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
-    using Base;
+    using Infrastructure;
 
-    using Infrastructure.PokerRooms;
+    using PokerTell.PokerHandParsers.Base;
 
     public class HandHeaderParserTests : Tests.HandHeaderParserTests
     {
-        #region Properties
-
         protected override string SiteName
         {
-            get { return new PokerStarsInfo().Site; }
+            get { return PokerSites.PokerStars; }
         }
-
-        #endregion
-
-        #region Methods
 
         protected override HandHeaderParser GetHandHeaderParser()
         {
@@ -60,8 +54,5 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
             return string.Format(
                 "PokerStars Game #{0}: Tournament #{1}, $5.00+$0.50 USD Hold'em Pot Limit", gameId, tournamentId);
         }
-
-        
-        #endregion
     }
 }

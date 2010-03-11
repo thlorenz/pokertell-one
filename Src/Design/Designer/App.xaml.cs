@@ -75,7 +75,7 @@
             overlayWindowManager.Show();
 
             attacher
-                .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, string.Empty, pokerTable.Title)
+                .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, TODO, pokerTable.Title)
                 .Activate();
         }
 
