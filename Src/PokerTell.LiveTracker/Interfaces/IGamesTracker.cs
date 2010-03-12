@@ -14,6 +14,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ThreadOption ThreadOption { get; set; }
 
+        IDictionary<string, IHandHistoryFilesWatcher> HandHistoryFilesWatchers { get; }
+
         IGamesTracker InitializeWith(ILiveTrackerSettingsViewModel liveTrackerSettings);
     }
 }

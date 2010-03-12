@@ -65,6 +65,10 @@
     <Compile Include="ThatUnity.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
+      <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>

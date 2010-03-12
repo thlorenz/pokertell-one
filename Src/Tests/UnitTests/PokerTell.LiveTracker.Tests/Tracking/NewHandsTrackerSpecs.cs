@@ -25,7 +25,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
     {
         protected static IEventAggregator _eventAggregator;
 
-        protected static Mock<IFileSystemWatcher> _fileSystemWatcher_Stub;
+        protected static Mock<IHandHistoryFilesWatcher> _fileSystemWatcher_Stub;
 
         protected static Mock<IRepository> _repository_Mock;
 
@@ -33,7 +33,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
-            _fileSystemWatcher_Stub = new Mock<IFileSystemWatcher>();
+            _fileSystemWatcher_Stub = new Mock<IHandHistoryFilesWatcher>();
             _repository_Mock = new Mock<IRepository>();
 
             _sut = new NewHandsTracker(_eventAggregator, _repository_Mock.Object).InitializeWith(new[] { _fileSystemWatcher_Stub.Object });
