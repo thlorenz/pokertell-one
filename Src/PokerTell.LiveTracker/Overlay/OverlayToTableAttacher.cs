@@ -50,7 +50,7 @@ namespace PokerTell.LiveTracker.Overlay
 
             set
             {
-                _tableName = value;
+                _tableName = _pokerRoomInfo.TableNameFoundInPokerTableTitleFrom(value);
                 _waitingForNewTableName = false;
             }
         }
@@ -81,7 +81,7 @@ namespace PokerTell.LiveTracker.Overlay
             _pokerRoomInfo = pokerRoomInfo;
             _tableOverlayWindow = tableOverlayWindow;
 
-            _tableName = tableName;
+            TableName = tableName;
             _processName = pokerRoomInfo.ProcessName;
 
             _watchTableTimer = watchTableTimer;

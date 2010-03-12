@@ -1,5 +1,7 @@
 namespace PokerTell.LiveTracker.PokerRooms
 {
+    using System;
+
     using Infrastructure;
 
     using Interfaces;
@@ -24,6 +26,11 @@ namespace PokerTell.LiveTracker.PokerRooms
         public string FileExtension
         {
             get { return "txt"; }
+        }
+
+        public string TableNameFoundInPokerTableTitleFrom(string parsedName)
+        {
+            return parsedName;
         }
     }
 }

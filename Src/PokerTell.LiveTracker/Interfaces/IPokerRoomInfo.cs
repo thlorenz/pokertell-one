@@ -11,5 +11,7 @@ namespace PokerTell.LiveTracker.Interfaces
         string ProcessName { get; }
 
         string FileExtension { get; }
+
+        string TableNameFoundInPokerTableTitleFrom(string parsedName);
     }
 }

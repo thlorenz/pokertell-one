@@ -4,6 +4,8 @@ namespace PokerTell.LiveTracker.Tests
     using System.Collections.Generic;
     using System.Linq;
 
+    using LiveTracker.PokerRooms;
+
     using Machine.Specifications;
 
     using Moq;
@@ -125,6 +127,18 @@ namespace PokerTell.LiveTracker.Tests
                 _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { hero_Stub.Object });
 
                 _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowHoleCardsDuration).Returns(showHoleCardsDuration);
+            };
+        }
+
+        public abstract class Ctx_NewHand_HeroInSeat2 : Ctx_NewHand
+        {
+            protected const int seat = 2;
+            Establish context = () => {
+                var hero_Stub = new Mock<IConvertedPokerPlayer>();
+                hero_Stub.SetupGet(p => p.Name).Returns(heroName);
+                hero_Stub.SetupGet(p => p.SeatNumber).Returns(seat);
+                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { hero_Stub.Object });
+                _sut.SetHeroName(heroName);
             };
         }
 
@@ -367,18 +381,43 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_not_show_the_LiveStats_window_again = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Show(), Times.Never());
 
-            It should_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
-                = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
         }
 
-        
+        [Subject(typeof(GameController), "New Hand")]
+        public class when_told_that_a_new_hand_was_found_and_the_user_does_not_want_to_see_the_overlay : Ctx_NewHand
+        {
+            const bool showTableOverlay = false;
+
+            Establish context = () => {
+                _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowTableOverlay).Returns(showTableOverlay);
+                _sut.SetHeroName(heroName)
+                    .SetIsLaunched(true);
+            };
+
+            Because of = () => _sut.NewHand(_newHand_Stub.Object);
+
+            It should_add_the_new_hand_to_the_GameHistory_viewmodel = () => _gameHistory_Mock.Verify(gh => gh.AddNewHand(_newHand_Stub.Object));
+
+            It should_not_update_the_table_overlay_view_model_with_the_players_and_the_board_contained_in_the_hand
+                = () => _tableOverlay_Mock.Verify(to => to.UpdateWith(_newHand_Stub.Object.Players, Moq.It.IsAny<string>()), Times.Never());
+
+            It should_not_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
+                = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName, Times.Never());
+        }
 
         [Subject(typeof(GameController), "New Hand")]
-        public class when_told_about_a_new_hand : Ctx_NewHand
+        public class when_told_about_a_new_hand_and_the_user_wants_to_see_the_table_overlay : Ctx_NewHand
         {
             const string board = "As Kh Qs";
 
-            Establish context = () => _newHand_Stub.SetupGet(h => h.Board).Returns(board);
+            const bool showTableOverlay = true;
+
+            Establish context = () => {
+                _newHand_Stub.SetupGet(h => h.Board).Returns(board);
+                _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowTableOverlay).Returns(showTableOverlay);
+                _sut.SetHeroName(heroName)
+                    .SetIsLaunched(true);
+            };
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
@@ -386,24 +425,34 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_update_the_table_overlay_view_model_with_the_players_and_the_board_contained_in_the_hand
                 = () => _tableOverlay_Mock.Verify(to => to.UpdateWith(_newHand_Stub.Object.Players, board));
+
+            It should_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
+                = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
         }
 
-        [Subject(typeof(GameController), "NewHand")]
-        public class when_told_about_new_hand_with_hero_in_seat_2 : Ctx_NewHand
-        {
-            const int seat = 2;
 
-            Establish context = () => {
-                var hero_Stub = new Mock<IConvertedPokerPlayer>();
-                hero_Stub.SetupGet(p => p.Name).Returns(heroName);
-                hero_Stub.SetupGet(p => p.SeatNumber).Returns(seat);
-                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { hero_Stub.Object });
-                _sut.SetHeroName(heroName);
-            };
+        [Subject(typeof(GameController), "NewHand")]
+        public class when_told_about_new_hand_with_hero_in_seat_2_and_the_user_wants_to_see_the_overlay : Ctx_NewHand_HeroInSeat2
+        {
+            const bool showTableOverlay = true;
+
+            Establish context = () => _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowTableOverlay).Returns(showTableOverlay);
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
             It should_update_the_seat_mapper_with_seat_2 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seat));
+        }
+
+        [Subject(typeof(GameController), "NewHand")]
+        public class when_told_about_new_hand_with_hero_in_seat_2_and_the_user_does_not_want_to_see_the_overlay : Ctx_NewHand_HeroInSeat2
+        {
+            const bool showTableOverlay = false;
+
+            Establish context = () => _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowTableOverlay).Returns(showTableOverlay);
+
+            Because of = () => _sut.NewHand(_newHand_Stub.Object);
+
+            It should_not_update_the_seat_mapper_with_seat_2 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seat), Times.Never());
         }
 
         [Subject(typeof(GameController), "NewHand")]
@@ -585,11 +634,12 @@ namespace PokerTell.LiveTracker.Tests
                 IConstructor<IPlayerStatistics> playerStatisticsMake, 
                 IPlayerStatisticsUpdater playerStatisticsUpdater, 
                 ISeatMapper seatMapper, 
-                IOverlayToTableAttacher overlayToTableAttacher, 
+                IOverlayToTableAttacher overlayToTableAttacher,
                 ITableOverlayViewModel tableOverlay)
-                : base(pokerRoomInfoLocator, layoutManager, 
-                    gameHistory, 
-                    pokerTableStatistics, 
+                : base(pokerRoomInfoLocator,
+                       layoutManager,
+                       gameHistory,
+                       pokerTableStatistics, 
                     playerStatisticsMake, 
                     playerStatisticsUpdater, 
                     seatMapper, 

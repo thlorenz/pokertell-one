@@ -35,7 +35,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
         protected static string _processName;
 
-        protected static string _tableName;
+        protected const string _tableName = "Parsed Table Name";
+        protected const string _adjustedTableName = "Adjusted Table Name";
 
         protected static OverlayToTableAttacherSut _sut;
 
@@ -50,9 +51,12 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             _pokerRoomInfo_Stub = new Mock<IPokerRoomInfo>();
             _pokerRoomInfo_Stub
-                .SetupGet(i => i.ProcessName).Returns(_processName);
+                .SetupGet(i => i.ProcessName)
+                .Returns(_processName);
+            _pokerRoomInfo_Stub
+                .Setup(i => i.TableNameFoundInPokerTableTitleFrom(_tableName))
+                .Returns(_adjustedTableName);
 
-            _tableName = "someTable";
             _sut = new OverlayToTableAttacherSut(_windowManipulator_Mock.Object, _windowFinder_Mock.Object);
             _sut.InitializeWith(_overlayWindow_Mock.Object, 
                                 _watchTableTimer_Stub.Object, 
@@ -134,8 +138,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 =
                 () => _windowManipulator_Mock.Verify(wm => wm.PlaceThisWindowDirectlyOnTopOfYours(_overlayWindow_Mock.Object, Moq.It.IsAny<Action>()));
 
-            It should_set_the_window_text_to_the_TableName
-                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_tableName, Moq.It.IsAny<Action<string>>()));
+            It should_set_the_window_text_to_the_adjusted_TableName
+                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_adjustedTableName, Moq.It.IsAny<Action<string>>()));
         }
 
         [Subject(typeof(OverlayToTableAttacher), "Watching Table")]
@@ -157,8 +161,8 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 =
                 () => _windowManipulator_Mock.Verify(wm => wm.PlaceThisWindowDirectlyOnTopOfYours(_overlayWindow_Mock.Object, Moq.It.IsAny<Action>()));
 
-            It should_not_set_the_window_text_to_the_TableName
-                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_tableName, Moq.It.IsAny<Action<string>>()), Times.Never());
+            It should_not_set_the_window_text_to_the_adjusted_TableName
+                = () => _windowManipulator_Mock.Verify(wm => wm.SetTextTo(_adjustedTableName, Moq.It.IsAny<Action<string>>()), Times.Never());
         }
 
         [Subject(typeof(OverlayToTableAttacher), "Watching Table")]
@@ -227,9 +231,12 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             Establish context = () => _sut.SetWaitingForNewTableName(true);
 
-            Because of = () => _sut.TableName = "new table name";
+            Because of = () => _sut.TableName = _tableName;
 
             It should_stop_waiting_for_a_new_table_name = () => _sut.WaitingForNewTableName.ShouldBeFalse();
+
+            It should_set_the_tablename_to_the_adapted_name_returned_by_the_pokerroom_info
+                = () => _sut.TableName.ShouldEqual(_adjustedTableName);
         }
 
         [Subject(typeof(OverlayToTableAttacher), "Table is lost")]
@@ -262,7 +269,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             Because of = () => _sut.Dispose();
 
             It should_stop_the_watcher_timer = () => _watchTableTimer_Stub.Verify(wt => wt.Stop());
-
+            
             It should_stop_the_find_table_again_timer = () => _findTableAgainTimer_Mock.Verify(ft => ft.Stop());
 
             It should_dispose_the_overlay_window = () => _overlayWindow_Mock.Verify(ow => ow.Dispose());

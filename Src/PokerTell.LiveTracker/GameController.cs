@@ -88,11 +88,14 @@ namespace PokerTell.LiveTracker
 
             UpdateGameHistory(convertedPokerHand);
 
-            UpdateSeatMapper(convertedPokerHand);
+            if (LiveTrackerSettings.ShowTableOverlay)
+            {
+                UpdateSeatMapper(convertedPokerHand);
 
-            UpdateTableOverlay(convertedPokerHand);
+                UpdateTableOverlay(convertedPokerHand);
 
-            UpdateOverlayToTableAttacher(convertedPokerHand);
+                UpdateOverlayToTableAttacher(convertedPokerHand);
+            }
 
             UpdatePlayerStatistics(convertedPokerHand);
 
