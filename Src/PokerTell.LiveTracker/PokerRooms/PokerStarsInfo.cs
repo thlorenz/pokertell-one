@@ -32,6 +32,12 @@ namespace PokerTell.LiveTracker.PokerRooms
         {
             const string patTournamentTableName = @"(?<TournamentId>\d+) (?<TableNumber>\d+)";
 
+            var match = new Regex(patTournamentTableName).Match(parsedName);
+            if (match.Success)
+            {
+                return string.Format("{0} Table {1} ", match.Groups["TournamentId"].Value, match.Groups["TableNumber"]);
+            }
+
             return parsedName;
         }
     }
