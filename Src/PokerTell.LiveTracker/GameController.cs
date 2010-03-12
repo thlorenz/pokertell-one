@@ -125,6 +125,11 @@ namespace PokerTell.LiveTracker
         void RegisterEvents()
         {
             _playerStatisticsUpdater.FinishedUpdatingPlayerStatistics += _pokerTableStatistics.UpdateWith;
+            _tableOverlayManager.TableClosed += () => {
+                ShuttingDown();
+                _liveStatsWindow.Dispose();
+                _tableOverlayManager.Dispose();
+            };
         }
     }
 }
