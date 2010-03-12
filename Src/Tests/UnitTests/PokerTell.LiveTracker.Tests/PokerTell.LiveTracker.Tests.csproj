@@ -76,6 +76,7 @@
     <Compile Include="Overlay\OverlayToTableAttacherSpecs.cs" />
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
     <Compile Include="Fakes\XDocumentHandlerMock.cs" />
+    <Compile Include="Overlay\TableOverlayManagerSpecs.cs" />
     <Compile Include="PlayerStatisticsUpdaterSpecs.cs" />
     <Compile Include="PokerRooms\PokerStarsInfoSpecs.cs" />
     <Compile Include="Tracking\GamesTrackerSpecs.cs" />

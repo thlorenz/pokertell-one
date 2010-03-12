@@ -241,31 +241,7 @@ namespace PokerTell.LiveTracker.Tests
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
-            It should_determine_the_hero_name_from_the_hand = () => _sut.HeroName.ShouldEqual(heroName);
-
-            It should_not_initialize_the_seat_mapper_with_the_total_seats =
-                () => _seatMapper_Mock.Verify(sm => sm.InitializeWith(totalSeats), Times.Never());
-
-            It should_not_request_the_overlay_settings_for_the_given_poker_site_and_total_seats_from_the_layout_manager
-                = () => _layoutManager_Mock.Verify(lm => lm.Load(pokerSite, totalSeats), Times.Never());
-
-            It should_not_initialize_the_table_overlay_with_the_given_settings
-                = () => _tableOverlay_Mock.Verify(to => to.InitializeWith(_seatMapper_Mock.Object, 
-                                                                          _overlaySettings_Stub.Object, 
-                                                                          _gameHistory_Mock.Object, 
-                                                                          _pokerTableStatistics_Mock.Object, 
-                                                                          showHoleCardsDuration), 
-                                                  Times.Never());
-
-            It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name_PokerRoomInfo_and_overlay_window
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
-                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           Moq.It.IsAny<IPokerRoomInfo>(), 
-                                                                           tableName), 
-                                                   Times.Never());
-
-            It should_not_show_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
+            It should_not_initialize_the_TableOverlayManager;
 
             It should_set_IsLaunched_to_true = () => _sut.IsLaunched.ShouldBeTrue();
         }
@@ -279,31 +255,7 @@ namespace PokerTell.LiveTracker.Tests
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
-            It should_determine_the_hero_name_from_the_hand = () => _sut.HeroName.ShouldEqual(heroName);
-
-            It should_initialize_the_seat_mapper_with_the_total_seats = () => _seatMapper_Mock.Verify(sm => sm.InitializeWith(totalSeats));
-
-            It should_request_the_overlay_settings_for_the_given_poker_site_and_total_seats_from_the_layout_manager
-                = () => _layoutManager_Mock.Verify(lm => lm.Load(pokerSite, totalSeats));
-
-            It should_initialize_the_table_overlay_with_the_given_settings
-                = () => _tableOverlay_Mock.Verify(to => to.InitializeWith(_seatMapper_Mock.Object, 
-                                                                          _overlaySettings_Stub.Object, 
-                                                                          _gameHistory_Mock.Object, 
-                                                                          _pokerTableStatistics_Mock.Object, 
-                                                                          showHoleCardsDuration));
-
-            It should_initialize_the_overlay_to_table_attacher_with_the_table_name__pokerroom_info_returned_by_the_locator_and_overlay_window
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
-                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           _pokerRoomInfo_Stub.Object, 
-                                                                           tableName));
-
-            It should_set_the_DataContext_of_the_overlay_window_to_the_overlay_viewmodel
-                = () => _tableOverlayWindow_Mock.VerifySet(ow => ow.DataContext = _tableOverlay_Mock.Object);
-
-            It should_show_the_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show());
+            It should_initialize_the_TableOverlayManager;
 
             It should_set_IsLaunched_to_true = () => _sut.IsLaunched.ShouldBeTrue();
         }
@@ -357,7 +309,8 @@ namespace PokerTell.LiveTracker.Tests
             };
 
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
-
+            
+            // TODO: Change to not initialize TableOverlayManager again
             It should_not_initialize_the_table_overlay_again
                 = () => _tableOverlay_Mock.Verify(to => to.InitializeWith(Moq.It.IsAny<ISeatMapper>(), 
                                                                           Moq.It.IsAny<ITableOverlaySettingsViewModel>(), 
@@ -365,16 +318,6 @@ namespace PokerTell.LiveTracker.Tests
                                                                           Moq.It.IsAny<IPokerTableStatisticsViewModel>(), 
                                                                           Moq.It.IsAny<int>()), 
                                                   Times.Never());
-
-            It should_not_initialize_the_overlay_to_table_attacher_with_the_table_name__pokerroom_info_and_overlay_window_again
-                = () => _tableAttacher_Mock.Verify(ta => ta.InitializeWith(_tableOverlayWindow_Mock.Object, 
-                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           Moq.It.IsAny<IDispatcherTimer>(), 
-                                                                           _pokerRoomInfo_Stub.Object, 
-                                                                           tableName), 
-                                                   Times.Never());
-
-            It should_not_show_the_overlay_window_again = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show(), Times.Never());
 
             It should_not_set_the_DataContext_of_the_LiveStats_window_to_the_pokertable_viewmodel_again
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _pokerTableStatistics_Mock.Object, Times.Never());
@@ -398,6 +341,7 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_add_the_new_hand_to_the_GameHistory_viewmodel = () => _gameHistory_Mock.Verify(gh => gh.AddNewHand(_newHand_Stub.Object));
 
+            // TODO: change to it should not update the TableOverlayManager
             It should_not_update_the_table_overlay_view_model_with_the_players_and_the_board_contained_in_the_hand
                 = () => _tableOverlay_Mock.Verify(to => to.UpdateWith(_newHand_Stub.Object.Players, Moq.It.IsAny<string>()), Times.Never());
 
@@ -423,24 +367,12 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_add_the_new_hand_to_the_GameHistory_viewmodel = () => _gameHistory_Mock.Verify(gh => gh.AddNewHand(_newHand_Stub.Object));
 
+            // TODO: change to it should update the TableOverlayManager
             It should_update_the_table_overlay_view_model_with_the_players_and_the_board_contained_in_the_hand
                 = () => _tableOverlay_Mock.Verify(to => to.UpdateWith(_newHand_Stub.Object.Players, board));
 
             It should_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
                 = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
-        }
-
-
-        [Subject(typeof(GameController), "NewHand")]
-        public class when_told_about_new_hand_with_hero_in_seat_2_and_the_user_wants_to_see_the_overlay : Ctx_NewHand_HeroInSeat2
-        {
-            const bool showTableOverlay = true;
-
-            Establish context = () => _liveTrackerSettings_Stub.SetupGet(lts => lts.ShowTableOverlay).Returns(showTableOverlay);
-
-            Because of = () => _sut.NewHand(_newHand_Stub.Object);
-
-            It should_update_the_seat_mapper_with_seat_2 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seat));
         }
 
         [Subject(typeof(GameController), "NewHand")]
@@ -566,62 +498,20 @@ namespace PokerTell.LiveTracker.Tests
         }
 
         [Subject(typeof(GameController), "Table closed")]
-        public class when_the_overlay_table_attacher_says_that_the_table_is_closed : GameControllerSpecs
+        public class when_the_overlay_table_manager_says_that_the_table_is_closed : GameControllerSpecs
         {
             static bool shuttingDownRaised;
 
             Establish context = () => _sut.ShuttingDown += () => shuttingDownRaised = true;
 
+            // TODO tableOverlay manager raises
             Because of = () => _tableAttacher_Mock.Raise(ta => ta.TableClosed += null);
 
-            It should_dispose_the_table_overlay_window_manager = () => _tableOverlayWindow_Mock.Verify(to => to.Dispose());
+            It should_dispose_the_table_overlay_manager;
 
             It should_dispose_the_live_stats_window_manager = () => _liveStatsWindow_Mock.Verify(to => to.Dispose());
 
-            It should_dispose_the_table_attacher = () => _tableAttacher_Mock.Verify(to => to.Dispose());
-
             It should_raise_ShuttingDown = () => shuttingDownRaised.ShouldBeTrue();
-        }
-
-        [Subject(typeof(GameController), "Save Overlay Settings")]
-        public class when_the_overlay_settings_request_to_be_saved_after_a_new_hand_was_found_and_overlay_is_shown : Ctx_NewHand
-        {
-            Establish context = () => {
-                _liveTrackerSettings_Stub.SetupGet(ls => ls.ShowTableOverlay).Returns(true);
-                _sut.NewHand(_newHand_Stub.Object);
-            };
-
-            Because of = () => _overlaySettings_Stub.Raise(os => os.SaveChanges += null);
-
-            It should_tell_the_layout_manager_to_save_the_settings_for_the_PokerSite
-                = () => _layoutManager_Mock.Verify(lm => lm.Save(_overlaySettings_Stub.Object, pokerSite));
-        }
-
-        [Subject(typeof(GameController), "Revert Overlay Settings")]
-        public class when_the_overlay_settings_request_to_undo_the_changes_after_a_new_hand_was_found_and_overlay_is_shown : Ctx_NewHand
-        {
-            static ITableOverlaySettingsViewModel revertedToSettings;
-
-            static Mock<ITableOverlaySettingsViewModel> loadedSettings;
-
-            Establish context = () => {
-                _liveTrackerSettings_Stub.SetupGet(ls => ls.ShowTableOverlay).Returns(true);
-                _sut.NewHand(_newHand_Stub.Object);
-
-                loadedSettings = new Mock<ITableOverlaySettingsViewModel>();
-                _layoutManager_Mock.Setup(lm => lm.Load(pokerSite, totalSeats)).Returns(loadedSettings.Object);
-            };
-
-            Because of =
-                () =>
-                _overlaySettings_Stub.Raise(os => os.UndoChanges += null, 
-                                            new Action<ITableOverlaySettingsViewModel>(settings => revertedToSettings = settings));
-
-            It should_load_the_settings_for_the_PokerSite_and_the_total_seats_from_the_layout_manager_again
-                = () => _layoutManager_Mock.Verify(lm => lm.Load(pokerSite, totalSeats), Times.Exactly(2));
-
-            It should_call_back_with_the_settings_returned_by_the_layout_manager
-                = () => revertedToSettings.ShouldEqual(loadedSettings.Object);
         }
 
         protected class GameControllerSut : GameController

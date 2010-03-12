@@ -84,8 +84,10 @@
     <Compile Include="Interfaces\IOverlayToTableAttacher.cs" />
     <Compile Include="Interfaces\IWindowFinder.cs" />
     <Compile Include="Interfaces\IWindowManipulator.cs" />
+    <Compile Include="Interfaces\ITableOverlayManager.cs" />
     <Compile Include="Overlay\LayoutManager.cs" />
     <Compile Include="Overlay\LayoutXDocumentHandler.cs" />
+    <Compile Include="Overlay\TableOverlayManager.cs" />
     <Compile Include="Overlay\SeatMapper.cs" />
     <Compile Include="Overlay\OverlayToTableAttacher.cs" />
     <Compile Include="Overlay\WindowManipulator.cs" />
