@@ -34,10 +34,10 @@
 
             // RunTableOverlaySettings();
             // RunColorPickerExpanderView();
-            // RunOverlayToTableAttacher();
+             RunOverlayToTableAttacher();
             
            // RunHandHistoryFilesWatcher();
-            RunLiveTrackerSettingsWindow();
+           // RunLiveTrackerSettingsWindow();
         }
 
         static void RunTableOverlaySettings()
@@ -80,6 +80,8 @@
             var pokerRoomInfo_Stub = new Mock<IPokerRoomInfo>();
             pokerRoomInfo_Stub
                 .SetupGet(i => i.ProcessName).Returns(string.Empty);
+            pokerRoomInfo_Stub
+                .Setup(i => i.TableNameFoundInPokerTableTitleFrom(pokerTable.Title)).Returns(pokerTable.Title);
 
                 attacher
                     .InitializeWith(overlayWindowManager, watchTableTimer, waitThenTryToFindTableAgainTimer, pokerRoomInfo_Stub.Object, pokerTable.Title)

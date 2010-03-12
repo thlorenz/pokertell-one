@@ -13,8 +13,6 @@ namespace PokerTell.LiveTracker.Interfaces
     {
         ILiveTrackerSettingsViewModel LiveTrackerSettings { get; set; }
 
-        string HeroName { get; }
-
         IDictionary<string, IPlayerStatistics> PlayerStatistics { get; }
 
         bool IsLaunched { get; }

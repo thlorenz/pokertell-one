@@ -158,10 +158,29 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             It should_update_the_seat_mapper_with_seat_of_the_hero = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seatOfHero));
         }
 
-        [Subject(typeof(TableOverlayManager), "UpdateWith")]
-        public class when_told_about_new_hand : Ctx_NewHand_HeroInSeat2
+        [Subject(typeof(GameController), "New Hand")]
+        public class when_updated_with_a_new_hand : Ctx_InitializedWithFirstHand
         {
+            const string board = "As Kh Qs";
+
+            protected const int seatOfHero = 2;
+            
+            Establish context = () => {
+                var hero_Stub = new Mock<IConvertedPokerPlayer>();
+                hero_Stub.SetupGet(p => p.Name).Returns(heroName);
+                hero_Stub.SetupGet(p => p.SeatNumber).Returns(seatOfHero);
+                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { hero_Stub.Object });
+                _sut.SetHeroName(heroName);
+                _newHand_Stub.SetupGet(h => h.Board).Returns(board);
+            };
+
             Because of = () => _sut.UpdateWith(_newHand_Stub.Object);
+
+            It should_update_the_table_overlay_view_model_with_the_players_and_the_board_contained_in_the_hand
+                = () => _tableOverlay_Mock.Verify(to => to.UpdateWith(_newHand_Stub.Object.Players, board));
+
+            It should_set_the_table_name_of_the_table_attacher_to_the_one_returned_by_the_hand
+                = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
 
             It should_update_the_seat_mapper_with_seat_of_Hero = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seatOfHero));
         }
@@ -218,7 +237,6 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             It should_call_back_with_the_settings_returned_by_the_layout_manager
                 = () => revertedToSettings.ShouldEqual(loadedSettings.Object);
         }
-
     }
 
     public class TableOverlayManagerSut : TableOverlayManager
