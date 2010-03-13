@@ -7,7 +7,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <!-- TotalHands Style -->
             <Style x:Key="InactiveLabelStyle" TargetType="Label">

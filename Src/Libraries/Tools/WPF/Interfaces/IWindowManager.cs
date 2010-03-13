@@ -23,5 +23,7 @@ namespace Tools.WPF.Interfaces
         double Width { get; set; }
 
         double Height { get; set; }
+
+        IWindowManager ShowDialog();
     }
 }

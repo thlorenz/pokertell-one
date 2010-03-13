@@ -5,6 +5,8 @@ namespace PokerTell
 
     using DatabaseSetup;
 
+    using LiveTracker;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
@@ -32,6 +34,7 @@ namespace PokerTell
                 .AddModule(typeof(DatabaseSetupModule), typeof(UserModule).Name)
                 .AddModule(typeof(PokerHandParsersModule), typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(RepositoryModule), typeof(PokerHandParsersModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
+                .AddModule(typeof(LiveTrackerModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(SessionReviewModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
          
             return catalog;

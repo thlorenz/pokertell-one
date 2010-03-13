@@ -4,7 +4,7 @@
     xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
     </UserControl.Resources>
     <ctrl:DragCanvas >
         <Border   Margin="3"

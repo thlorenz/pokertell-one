@@ -5,8 +5,8 @@
     xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" >
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
         <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 

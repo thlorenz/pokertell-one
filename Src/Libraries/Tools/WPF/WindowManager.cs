@@ -15,17 +15,28 @@ namespace Tools.WPF
             _createWindow = createWindow;
         }
 
-        Window _window;
+        protected Window _window;
 
         public Window Window
         {
-            get { return _window ?? (_window = _createWindow()); }
+            get
+            {
+                if (_window == null)
+                    _window = _createWindow();
+               
+                _window.Closed += (s, e) => Dispose();
+                return _window;
+            }
         }
 
         public void Dispose()
         {
-           if (_window != null)
-               _window.Close();
+            if (_window != null)
+            {
+                _window.Close();
+
+                _window = null;
+            }
         }
 
         public object DataContext
@@ -37,6 +48,12 @@ namespace Tools.WPF
         public IWindowManager Show()
         {
             Window.Show();
+            return this;
+        }
+
+        public IWindowManager ShowDialog()
+        {
+            Window.ShowDialog();
             return this;
         }
 

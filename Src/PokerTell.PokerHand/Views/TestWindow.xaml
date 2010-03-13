@@ -13,8 +13,8 @@
                 <ResourceDictionary.MergedDictionaries>
                     <ResourceDictionary Source="BoardView.xaml" />
                     <ResourceDictionary Source="HoleCardsView.xaml" />
-                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
-                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
                 <ResourceDictionary Source="HandHistoryView.xaml" />
             </ResourceDictionary.MergedDictionaries>
          </ResourceDictionary>

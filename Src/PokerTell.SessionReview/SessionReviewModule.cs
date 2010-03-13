@@ -1,9 +1,9 @@
 namespace PokerTell.SessionReview
 {
+    using System;
     using System.Reflection;
+    using System.Windows;
     using System.Windows.Controls;
-
-    using Interfaces;
 
     using log4net;
 
@@ -11,23 +11,17 @@ namespace PokerTell.SessionReview
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using PokerTell.SessionReview.Interfaces;
     using PokerTell.SessionReview.ViewModels;
     using PokerTell.SessionReview.Views;
 
     public class SessionReviewModule : IModule
     {
-        #region Constants and Fields
-
-        static readonly ILog Log = LogManager.GetLogger(
-            MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IUnityContainer _container;
 
         readonly IRegionManager _regionManager;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public SessionReviewModule(IUnityContainer container, IRegionManager regionManager)
         {
@@ -35,24 +29,17 @@ namespace PokerTell.SessionReview
             _regionManager = regionManager;
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IModule
-
         public void Initialize()
         {
-            _container.RegisterType<ISessionReviewViewModel, SessionReviewViewModel>();
+          _container.RegisterType<ISessionReviewViewModel, SessionReviewViewModel>();
 
-            MenuItem sessionReviewMenuItem = _container.Resolve<SessionReviewMenuItemFactory>().Create();
+           MenuItem sessionReviewMenuItem = _container.Resolve<SessionReviewMenuItemFactory>().Create();
+          
             _regionManager.Regions["Shell.MainMenuRegion"].Add(sessionReviewMenuItem);
 
             Log.Info("got initialized.");
         }
 
-        #endregion
 
-        #endregion
     }
 }

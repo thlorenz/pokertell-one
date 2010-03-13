@@ -7,12 +7,12 @@
 
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsWithInformationPanelViewTemplate.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsWithInformationPanelViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
                     <ResourceDictionary Source="InvestigatorViewTemplates.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>

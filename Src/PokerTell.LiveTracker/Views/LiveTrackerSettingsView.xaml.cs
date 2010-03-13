@@ -27,6 +27,7 @@
         public LiveTrackerSettingsView(ILiveTrackerSettingsViewModel viewModel)
             : this()
         {
+            viewModel.LoadSettings();
             DataContext = viewModel;
         }
     }

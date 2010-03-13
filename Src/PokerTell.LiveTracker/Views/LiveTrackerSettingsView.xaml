@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
         xmlns:ToolsViews="clr-namespace:Tools.WPF.Views;assembly=Tools"
+        xmlns:Properties="clr-namespace:PokerTell.LiveTracker.Properties"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStyle="None"
@@ -11,12 +12,12 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         MouseDown="WindowBorder_MouseDown"
-        Title="LiveTracker Settings"               >
+        Title="{x:Static Properties:Resources.LiveTrackerSettingsView_Title}"               >
     <ToolsViews:DialogView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
-                <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type ViewModels:LiveTrackerSettingsViewModel}" >
                 <StackPanel HorizontalAlignment="Center">
@@ -31,7 +32,7 @@
                     </StackPanel.Resources>
                     <!-- Title -->
                     <Border Margin="2" Background="{DynamicResource DarkToLightBorderBrush}" CornerRadius="10, 10, 0, 0" Padding="5">
-                        <Label Content="LiveTracker Settings"/>
+                        <Label Content="{x:Static Properties:Resources.LiveTrackerSettingsView_Title}"/>
                     </Border>
                     <!-- Settings -->
                     <Border MinWidth="450" Margin="2" Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Padding="5">
@@ -40,15 +41,15 @@
                                 <!-- Show Options -->
                                 <Border Margin="5" BorderBrush="{StaticResource LightBorderBrush}" BorderThickness="2" CornerRadius="5">
                                     <StackPanel>
-                                        <CheckBox Content="Show LiveStats ToolsViews:DialogView" IsChecked="{Binding ShowLiveStatsWindowOnStartup}"/>
-                                        <CheckBox Content="Show Table Overlay" IsChecked="{Binding ShowTableOverlay}"/>
-                                        <CheckBox Content="Show my Statistics" IsChecked="{Binding ShowMyStatistics}"/>
+                                        <CheckBox Content="{x:Static Properties:Resources.LiveTrackerSettingsView_Show_LiveStatsWindowOnStartup}" IsChecked="{Binding ShowLiveStatsWindowOnStartup}"/>
+                                        <CheckBox Content="{x:Static Properties:Resources.LiveTrackerSettingsView_Show_TableOverlay}" IsChecked="{Binding ShowTableOverlay}"/>
+                                        <CheckBox Content="{x:Static Properties:Resources.LiveTrackerSettingsView_Show_MyStatistics}" IsChecked="{Binding ShowMyStatistics}"/>
                                     </StackPanel>
                                 </Border>
                                 <!-- Show HoleCards Duration -->
                                 <Border Margin="5" BorderBrush="{StaticResource LightBorderBrush}" BorderThickness="2" CornerRadius="5">
                                     <StackPanel>
-                                        <Label Margin="5" Content="Show Mucked Cards"/>
+                                        <Label Margin="5" Content="{x:Static Properties:Resources.LiveTrackerSettingsView_Show_MuckedCards}"/>
                                         <ComboBox Margin="5" ItemsSource="{Binding ShowHoleCardsDurations}" SelectedItem="{Binding ShowHoleCardsDuration, Mode=TwoWay}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
@@ -62,16 +63,16 @@
                             <!-- AutoTracking -->
                             <GroupBox Header="Auto Tracking">
                                 <StackPanel>
-                                    <CheckBox Content="AutoTrack" IsChecked="{Binding AutoTrack}"/>
+                                    <CheckBox Content="{x:Static Properties:Resources.LiveTrackerSettingsView_AutoTrack}" IsChecked="{Binding AutoTrack}"/>
                                     <StackPanel Visibility="{Binding AutoTrack, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
                                         <ListBox MaxWidth="400" MaxHeight="200" MinHeight="100" ItemsSource="{Binding HandHistoryFilesPaths}" SelectedItem="{Binding SelectedHandHistoryFilesPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        <Button HorizontalAlignment="Right" Margin="0,0,15,0" Content="Remove Selected Hand History Folder" Command="{Binding RemoveSelectedHandHistoryPathCommand}"/>
+                                        <Button HorizontalAlignment="Right" Margin="0,0,15,0" Content="{x:Static Properties:Resources.LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder}" Command="{Binding RemoveSelectedHandHistoryPathCommand}"/>
                                         <!-- Adding HandHistory Folder -->
                                         <Border MaxWidth="400" Margin="0,5" Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Padding="5,1">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                                                 <TextBox Width="200" MaxHeight="20" Text="{Binding HandHistoryPathToBeAdded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                                 <Button Command="{Binding BrowseCommand}" Content="{x:Static GlobalProperties:Resources.Commands_Browse}"/>
-                                                <Button HorizontalAlignment="Right" Command="{Binding AddHandHistoryPathCommand}" Content="Add Hand History Folder"/>
+                                                <Button HorizontalAlignment="Right" Command="{Binding AddHandHistoryPathCommand}" Content="{x:Static Properties:Resources.LiveTrackerSettingsView_AddHandHistoryFolder}"/>
                                             </StackPanel>
                                         </Border>
                                     </StackPanel>

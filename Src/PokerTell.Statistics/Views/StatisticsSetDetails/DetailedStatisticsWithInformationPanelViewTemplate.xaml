@@ -6,8 +6,8 @@
     xmlns:Base="clr-namespace:PokerTell.Statistics.ViewModels.Base" >
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
         <ResourceDictionary Source="StartingHandsVisualizerViewTemplate.xaml"/>
         <ResourceDictionary Source="RepositoryHandBrowserViewTemplate.xaml"/>
         <ResourceDictionary Source="DetailedStatisticsDataGridTemplates.xaml"/>

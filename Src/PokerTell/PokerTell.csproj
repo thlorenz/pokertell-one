@@ -332,6 +332,10 @@
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.LiveTracker\PokerTell.LiveTracker.csproj">
+      <Project>{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}</Project>
+      <Name>PokerTell.LiveTracker</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerTell.PokerHandParsers\PokerTell.PokerHandParsers.csproj">
       <Project>{C43F98A6-E5E2-4DC1-A7B4-003BEDC62E85}</Project>
       <Name>PokerTell.PokerHandParsers</Name>

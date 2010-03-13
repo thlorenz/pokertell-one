@@ -18,13 +18,10 @@ namespace PokerTell
     /// </summary>
     public partial class App : Application
     {
-        #region Constants and Fields
 
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        #endregion
 
-        #region Methods
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -77,6 +74,5 @@ namespace PokerTell
             new TestWindow().Show();
         }
 
-        #endregion
     }
 }

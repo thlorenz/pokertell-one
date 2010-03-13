@@ -5,7 +5,7 @@
     xmlns:WPF="clr-namespace:Tools.WPF;assembly=Tools"                      
     >
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <DataTemplate x:Key="StatisticsSetSummaryViewTemplate" DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" >
         <!-- DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" -->

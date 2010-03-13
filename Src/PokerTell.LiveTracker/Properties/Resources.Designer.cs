@@ -22,7 +22,7 @@ namespace PokerTell.LiveTracker.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PokerTell.LiveTracker.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.LiveTracker.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace PokerTell.LiveTracker.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,20 +61,119 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The folder you are trying to add is already in the list of tracked folders..
+        ///   Looks up a localized string similar to Settings.
         /// </summary>
-        internal static string Warning_HandHistoryFolderIsTrackedAlready {
+        public static string LiveTracker_MenuItem_Settings {
             get {
-                return ResourceManager.GetString("Warning_HandHistoryFolderIsTrackedAlready", resourceCulture);
+                return ResourceManager.GetString("LiveTracker_MenuItem_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Live Tracker.
+        /// </summary>
+        public static string LiveTracker_MenuItem_Title {
+            get {
+                return ResourceManager.GetString("LiveTracker_MenuItem_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Track Hand History.
+        /// </summary>
+        public static string LiveTracker_MenuItem_TrackHandHistory {
+            get {
+                return ResourceManager.GetString("LiveTracker_MenuItem_TrackHandHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add HandHistory Folder.
+        /// </summary>
+        public static string LiveTrackerSettingsView_AddHandHistoryFolder {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_AddHandHistoryFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enable Autotracking.
+        /// </summary>
+        public static string LiveTrackerSettingsView_AutoTrack {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_AutoTrack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove selected HandHistory Folder.
+        /// </summary>
+        public static string LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show LiveStats Window on Startup.
+        /// </summary>
+        public static string LiveTrackerSettingsView_Show_LiveStatsWindowOnStartup {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_Show_LiveStatsWindowOnStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show mucked Cards.
+        /// </summary>
+        public static string LiveTrackerSettingsView_Show_MuckedCards {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_Show_MuckedCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show my Statistics.
+        /// </summary>
+        public static string LiveTrackerSettingsView_Show_MyStatistics {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_Show_MyStatistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Table Overlay.
+        /// </summary>
+        public static string LiveTrackerSettingsView_Show_TableOverlay {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_Show_TableOverlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LiveTracker Settings.
+        /// </summary>
+        public static string LiveTrackerSettingsView_Title {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The hand histories in file &quot;{0}&quot; are being tracked already..
         /// </summary>
-        internal static string Warning_HandHistoriesAreTrackedAlready {
+        public static string Warning_HandHistoriesAreTrackedAlready {
             get {
                 return ResourceManager.GetString("Warning_HandHistoriesAreTrackedAlready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The folder you are trying to add is already in the list of tracked folders..
+        /// </summary>
+        public static string Warning_HandHistoryFolderIsTrackedAlready {
+            get {
+                return ResourceManager.GetString("Warning_HandHistoryFolderIsTrackedAlready", resourceCulture);
             }
         }
     }

@@ -22,7 +22,7 @@ namespace PokerTell.SessionReview.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace PokerTell.SessionReview.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.SessionReview.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace PokerTell.SessionReview.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Create _Report.
         /// </summary>
-        internal static string SessionReviewMenuItem_Create_Report {
+        public static string SessionReviewMenuItem_Create_Report {
             get {
                 return ResourceManager.GetString("SessionReviewMenuItem_Create_Report", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to _Import Hand Histories.
         /// </summary>
-        internal static string SessionReviewMenuItem_Import_Hand_Histories {
+        public static string SessionReviewMenuItem_Import_Hand_Histories {
             get {
                 return ResourceManager.GetString("SessionReviewMenuItem_Import_Hand_Histories", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to _Open Review.
         /// </summary>
-        internal static string SessionReviewMenuItem_Open_Review {
+        public static string SessionReviewMenuItem_Open_Review {
             get {
                 return ResourceManager.GetString("SessionReviewMenuItem_Open_Review", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Save Report.
         /// </summary>
-        internal static string SessionReviewMenuItem_Save_Report {
+        public static string SessionReviewMenuItem_Save_Report {
             get {
                 return ResourceManager.GetString("SessionReviewMenuItem_Save_Report", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to _Save Review.
         /// </summary>
-        internal static string SessionReviewMenuItem_Save_Review {
+        public static string SessionReviewMenuItem_Save_Review {
             get {
                 return ResourceManager.GetString("SessionReviewMenuItem_Save_Review", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Session Review.
         /// </summary>
-        internal static string SessionReviewMenuItem_Title {
+        public static string SessionReviewMenuItem_Title {
             get {
                 return ResourceManager.GetString("SessionReviewMenuItem_Title", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to club.gif.
         /// </summary>
-        internal static string Url_Suits_Club {
+        public static string Url_Suits_Club {
             get {
                 return ResourceManager.GetString("Url_Suits_Club", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to diamond.gif.
         /// </summary>
-        internal static string Url_Suits_Diamond {
+        public static string Url_Suits_Diamond {
             get {
                 return ResourceManager.GetString("Url_Suits_Diamond", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to heart.gif.
         /// </summary>
-        internal static string Url_Suits_Heart {
+        public static string Url_Suits_Heart {
             get {
                 return ResourceManager.GetString("Url_Suits_Heart", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to http://www.flopturnriver.com/phpBB2/images/smiles/.
         /// </summary>
-        internal static string Url_Suits_Path {
+        public static string Url_Suits_Path {
             get {
                 return ResourceManager.GetString("Url_Suits_Path", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace PokerTell.SessionReview.Properties {
         /// <summary>
         ///   Looks up a localized string similar to spade.gif.
         /// </summary>
-        internal static string Url_Suits_Spade {
+        public static string Url_Suits_Spade {
             get {
                 return ResourceManager.GetString("Url_Suits_Spade", resourceCulture);
             }

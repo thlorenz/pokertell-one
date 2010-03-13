@@ -3,7 +3,7 @@
     xmlns:Overlay="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay">
     
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
     <DataTemplate DataType="{x:Type Overlay:GameHistoryViewModel}">

@@ -76,8 +76,7 @@ namespace PokerTell.PokerHand
                 // Converters
                 .RegisterType<IPokerActionConverter, PokerActionConverter>()
                 .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
-                .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() =>
-                                                                                     _container.Resolve<IPokerHandConverter>())
+                .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() => _container.Resolve<IPokerHandConverter>())
                 .RegisterType<IPokerHandStringConverter, PokerHandStringConverter>()
 
                 // ViewModels

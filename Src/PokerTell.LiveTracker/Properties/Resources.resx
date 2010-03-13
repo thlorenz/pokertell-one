@@ -117,6 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="LiveTrackerSettingsView_AddHandHistoryFolder" xml:space="preserve">
+    <value>Add HandHistory Folder</value>
+  </data>
+  <data name="LiveTrackerSettingsView_AutoTrack" xml:space="preserve">
+    <value>Enable Autotracking</value>
+  </data>
+  <data name="LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder" xml:space="preserve">
+    <value>Remove selected HandHistory Folder</value>
+  </data>
+  <data name="LiveTrackerSettingsView_Show_LiveStatsWindowOnStartup" xml:space="preserve">
+    <value>Show LiveStats Window on Startup</value>
+  </data>
+  <data name="LiveTrackerSettingsView_Show_MuckedCards" xml:space="preserve">
+    <value>Show mucked Cards</value>
+  </data>
+  <data name="LiveTrackerSettingsView_Show_MyStatistics" xml:space="preserve">
+    <value>Show my Statistics</value>
+  </data>
+  <data name="LiveTrackerSettingsView_Show_TableOverlay" xml:space="preserve">
+    <value>Show Table Overlay</value>
+  </data>
+  <data name="LiveTrackerSettingsView_Title" xml:space="preserve">
+    <value>LiveTracker Settings</value>
+  </data>
+  <data name="LiveTracker_MenuItem_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="LiveTracker_MenuItem_Title" xml:space="preserve">
+    <value>Live Tracker</value>
+  </data>
+  <data name="LiveTracker_MenuItem_TrackHandHistory" xml:space="preserve">
+    <value>Track Hand History</value>
+  </data>
   <data name="Warning_HandHistoriesAreTrackedAlready" xml:space="preserve">
     <value>The hand histories in file "{0}" are being tracked already.</value>
   </data>

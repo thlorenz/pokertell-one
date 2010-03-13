@@ -43,6 +43,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -85,6 +89,7 @@
     <Compile Include="Interfaces\IWindowFinder.cs" />
     <Compile Include="Interfaces\IWindowManipulator.cs" />
     <Compile Include="Interfaces\ITableOverlayManager.cs" />
+    <Compile Include="LiveTrackerModule.cs" />
     <Compile Include="Overlay\LayoutManager.cs" />
     <Compile Include="Overlay\LayoutXDocumentHandler.cs" />
     <Compile Include="Overlay\TableOverlayManager.cs" />
@@ -127,6 +132,7 @@
     <Compile Include="Interfaces\IGameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModel.cs" />
+    <Compile Include="Views\LiveTrackerMenuItemFactory.cs" />
     <Compile Include="Views\LiveTrackerSettingsView.xaml.cs">
       <DependentUpon>LiveTrackerSettingsView.xaml</DependentUpon>
     </Compile>
@@ -226,7 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

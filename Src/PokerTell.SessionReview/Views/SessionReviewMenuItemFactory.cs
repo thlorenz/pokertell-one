@@ -15,7 +15,6 @@
             _viewModel = viewModel;
         }
 
-        #region Public Methods
 
         public MenuItem Create()
         {
@@ -24,12 +23,11 @@
             menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Save_Review, Command = Commands.SaveSessionReviewCommand });
             menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Import_Hand_Histories, Command = _viewModel.ImportHandHistoriesCommand });
             menuItem.Items.Add(new Separator());
-            menuItem.Items.Add(new MenuItem { Header =Resources.SessionReviewMenuItem_Create_Report, Command = Commands.CreateSessionReviewReportCommand });
+            menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Create_Report, Command = Commands.CreateSessionReviewReportCommand });
             menuItem.Items.Add(new MenuItem { Header = Resources.SessionReviewMenuItem_Save_Report, Command = Commands.SaveSessionReviewReportCommand });
 
             return menuItem;
         }
 
-        #endregion
     }
 }

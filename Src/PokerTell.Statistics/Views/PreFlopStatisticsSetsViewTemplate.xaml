@@ -8,8 +8,8 @@
 
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
-                    <ResourceDictionary Source="pack://application:,,/PokerTell.Statistics;component/Views/StatisticsSetSummary/StatisticsSetSummaryViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/StatisticsSetSummary/StatisticsSetSummaryViewTemplate.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
