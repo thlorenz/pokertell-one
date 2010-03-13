@@ -96,6 +96,7 @@ namespace PokerTell.LiveTracker.Tracking
             var gameController = _gameControllerMake.New;
             gameController.LiveTrackerSettings = _liveTrackerSettings;
             gameController.ShuttingDown += () => GameControllers.Remove(fullPath);
+            
             return gameController;
         }
 
