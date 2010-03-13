@@ -6,21 +6,18 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Linq;
     using System.Windows.Input;
 
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.LiveTracker.Interfaces;
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class PokerTableStatisticsViewModel : NotifyPropertyChanged, IPokerTableStatisticsViewModel
     {
-        #region Constants and Fields
-
         readonly IEventAggregator _eventAggregator;
 
         readonly IConstructor<IPlayerStatisticsViewModel> _playerStatisticsViewModelMake;
@@ -31,13 +28,9 @@ namespace PokerTell.LiveTracker.ViewModels
 
         readonly IDetailedStatisticsAnalyzerViewModel _detailedStatisticsAnalyzer;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public PokerTableStatisticsViewModel(
             IEventAggregator eventAggregator, 
-            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
+            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, 
             IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
         {
             _eventAggregator = eventAggregator;
@@ -46,10 +39,6 @@ namespace PokerTell.LiveTracker.ViewModels
 
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
         }
-
-        #endregion
-
-        #region Properties
 
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
@@ -87,11 +76,6 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-
-        #endregion
-
-        #region Public Methods
-
         public void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
         {
             var playersStatisticsList = ValidateAndConvertToList(playersStatistics);
@@ -108,10 +92,6 @@ namespace PokerTell.LiveTracker.ViewModels
         {
             return Players.FirstOrDefault(p => p.PlayerName == playerName);
         }
-
-        #endregion
-
-        #region Methods
 
         protected void ApplyFilterTo(string playerName, IAnalyzablePokerPlayersFilter adjustedFilter)
         {
@@ -151,8 +131,11 @@ namespace PokerTell.LiveTracker.ViewModels
                 matchingPlayer = _playerStatisticsViewModelMake.New;
 
                 matchingPlayer.SelectedStatisticsSetEvent +=
-                    sequenceStatisticsSet => { Console.WriteLine("Selected: "); DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet); };
-                
+                    sequenceStatisticsSet => {
+                        Console.WriteLine("Selected: ");
+                        DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
+                    };
+
                 Players.Add(matchingPlayer);
             }
 
@@ -203,7 +186,5 @@ namespace PokerTell.LiveTracker.ViewModels
                 matchingPlayer.UpdateWith(playerStatistics);
             });
         }
-
-        #endregion
     }
 }

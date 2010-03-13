@@ -20,6 +20,8 @@ namespace PokerTell
 
     using SessionReview;
 
+    using Statistics;
+
     using User;
 
     public class Bootstrapper : UnityBootstrapper
@@ -28,16 +30,15 @@ namespace PokerTell
         {
             var catalog = new ModuleCatalog();
 
-            catalog
+            return catalog
                 .AddModule(typeof(UserModule))
                 .AddModule(typeof(PokerHandModule), typeof(UserModule).Name)
                 .AddModule(typeof(DatabaseSetupModule), typeof(UserModule).Name)
                 .AddModule(typeof(PokerHandParsersModule), typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(RepositoryModule), typeof(PokerHandParsersModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
-                .AddModule(typeof(LiveTrackerModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
+                .AddModule(typeof(StatisticsModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
+                .AddModule(typeof(LiveTrackerModule), typeof(StatisticsModule).Name, typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(SessionReviewModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
-         
-            return catalog;
         }
         
         protected override DependencyObject CreateShell()

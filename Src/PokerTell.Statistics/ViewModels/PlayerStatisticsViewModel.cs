@@ -9,8 +9,6 @@ namespace PokerTell.Statistics.ViewModels
 
     public class PlayerStatisticsViewModel : NotifyPropertyChanged, IPlayerStatisticsViewModel
     {
-        #region Constructors and Destructors
-
         public PlayerStatisticsViewModel()
         {
             InitializeStatisticsSetsViewModels();
@@ -18,16 +16,8 @@ namespace PokerTell.Statistics.ViewModels
             RegisterEvents();
         }
 
-        #endregion
-
-        #region Events
-
         public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent =
             delegate { };
-
-        #endregion
-
-        #region Properties
 
         public IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; protected set; }
 
@@ -54,20 +44,10 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public override string ToString()
         {
             return PlayerName;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPlayerStatisticsViewModel
 
         /// <summary>
         /// Invoked from TableStatisticsViewModel when it is updating its Players Collection
@@ -91,15 +71,9 @@ namespace PokerTell.Statistics.ViewModels
             RiverStatisticsSets.UpdateWith(PlayerStatistics);
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         protected void RegisterEvents()
         {
-            PreFlopStatisticsSets.SelectedStatisticsSetEvent += 
+            PreFlopStatisticsSets.SelectedStatisticsSetEvent +=
                 statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
 
             FlopStatisticsSets.SelectedStatisticsSetEvent +=
@@ -119,7 +93,5 @@ namespace PokerTell.Statistics.ViewModels
             TurnStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Turn);
             RiverStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.River);
         }
-
-        #endregion
     }
 }

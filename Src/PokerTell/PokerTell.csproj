@@ -352,6 +352,10 @@
       <Project>{B6317324-CBC1-4FB9-BC5A-9EDF807BFD16}</Project>
       <Name>PokerTell.SessionReview</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.Statistics\PokerTell.Statistics.csproj">
+      <Project>{40A1B01E-8BBC-4F9E-B5E8-AA0BE4C70988}</Project>
+      <Name>PokerTell.Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerTell.User\PokerTell.User.csproj">
       <Project>{E2DC4243-DE16-42FF-A9CE-BEB54E763A9F}</Project>
       <Name>PokerTell.User</Name>

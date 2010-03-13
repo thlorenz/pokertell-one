@@ -1,10 +1,6 @@
 ﻿namespace PokerTell.DatabaseSetup.Views
 {
-    using Infrastructure;
-
-    using Tools;
-
-    using ViewModels;
+    using PokerTell.DatabaseSetup.ViewModels;
 
     /// <summary>
     /// Interaction logic for ConfigureMySqlDataProviderView.xaml
@@ -14,12 +10,6 @@
         public ConfigureMySqlDataProviderView()
         {
             InitializeComponent();
-
-            if (Static.OperatingSystemIsWindowsXPOrOlder())
-            {
-                Background = ApplicationProperties.BorderedWindowBackgoundBrush;
-                AllowsTransparency = false;
-            }
         }
 
         public ConfigureMySqlDataProviderView(ConfigureMySqlDataProviderViewModel viewModel)

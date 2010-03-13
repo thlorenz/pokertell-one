@@ -18,23 +18,23 @@ namespace PokerTell.Statistics.Tests.ViewModels
     {
         Establish specContext = () => {
             _stub = new StubBuilder();
-            _preFlopStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
-            _postFlopActionStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
-            _postFlopReactionStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
+            _preFlopStatisticsViewModelStub = _stub.Out<IDetailedPreFlopStatisticsViewModel>();
+            _postFlopActionStatisticsViewModelStub = _stub.Out<IDetailedPostFlopHeroActsStatisticsViewModel>();
+            _postFlopReactionStatisticsViewModelStub = _stub.Out<IDetailedPostFlopHeroReactsStatisticsViewModel>();
             _sut =
                 new DetailedStatisticsAnalyzerViewModel(
-                    new Constructor<IDetailedStatisticsViewModel>(() => _preFlopStatisticsViewModelStub),
-                    new Constructor<IDetailedStatisticsViewModel>(() => _postFlopActionStatisticsViewModelStub),
-                    new Constructor<IDetailedStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub));
+                    new Constructor<IDetailedPreFlopStatisticsViewModel>(() => _preFlopStatisticsViewModelStub),
+                    new Constructor<IDetailedPostFlopHeroActsStatisticsViewModel>(() => _postFlopActionStatisticsViewModelStub),
+                    new Constructor<IDetailedPostFlopHeroReactsStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub));
         };
 
         static StubBuilder _stub;
 
-        static IDetailedStatisticsViewModel _preFlopStatisticsViewModelStub;
+        static IDetailedPreFlopStatisticsViewModel _preFlopStatisticsViewModelStub;
 
-        static IDetailedStatisticsViewModel _postFlopActionStatisticsViewModelStub;
+        static IDetailedPostFlopHeroActsStatisticsViewModel _postFlopActionStatisticsViewModelStub;
 
-        static IDetailedStatisticsViewModel _postFlopReactionStatisticsViewModelStub;
+        static IDetailedPostFlopHeroReactsStatisticsViewModel _postFlopReactionStatisticsViewModelStub;
 
         protected static DetailedStatisticsAnalyzerViewModel _sut;
 

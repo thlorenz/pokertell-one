@@ -1,7 +1,10 @@
 namespace PokerTell.LiveTracker.Views
 {
+    using System;
     using System.Windows.Controls;
     using System.Windows.Input;
+
+    using Interfaces;
 
     using Properties;
 
@@ -12,15 +15,18 @@ namespace PokerTell.LiveTracker.Views
     {
         readonly IWindowManager _liveTrackerSettingsWindow;
 
-        public LiveTrackerMenuItemFactory(IWindowManager liveTrackerSettingsWindow)
+        readonly IGamesTracker _gamesTracker;
+
+        public LiveTrackerMenuItemFactory(IWindowManager liveTrackerSettingsWindow, IGamesTracker gamesTracker)
         {
             _liveTrackerSettingsWindow = liveTrackerSettingsWindow;
+            _gamesTracker = gamesTracker;
         }
 
         public MenuItem Create()
         {
             var menuItem = new MenuItem { Header = Resources.LiveTracker_MenuItem_Title };
-            menuItem.Items.Add(new MenuItem { Header = Resources.LiveTracker_MenuItem_TrackHandHistory /*TODO Command*/ });
+            menuItem.Items.Add(new MenuItem { Header = Resources.LiveTracker_MenuItem_TrackHandHistory, Command = TrackHandHistoryCommand });
             menuItem.Items.Add(new Separator());
             menuItem.Items.Add(new MenuItem { Header = Resources.LiveTracker_MenuItem_Settings, Command = ShowLiveTrackerSettingsCommand });
             return menuItem;
@@ -35,6 +41,20 @@ namespace PokerTell.LiveTracker.Views
                 return _showLiveTrackerSettingsCommand ?? (_showLiveTrackerSettingsCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => _liveTrackerSettingsWindow.ShowDialog()
+                    });
+            }
+        }
+
+        ICommand _trackHandHistoryCommand;
+
+
+        public ICommand TrackHandHistoryCommand
+        {
+            get
+            {
+                return _trackHandHistoryCommand ?? (_trackHandHistoryCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => _gamesTracker.StartTracking(@"C:\history.txt")
                     });
             }
         }

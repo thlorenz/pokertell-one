@@ -16,26 +16,23 @@ namespace PokerTell.Statistics.ViewModels
 
     public class DetailedStatisticsAnalyzerViewModel : NotifyPropertyChanged, IDetailedStatisticsAnalyzerViewModel
     {
-        #region Constants and Fields
 
-        readonly IConstructor<IDetailedStatisticsViewModel> _detailedPostFlopActionStatisticsViewModelMake;
+        readonly IConstructor<IDetailedPostFlopHeroActsStatisticsViewModel> _detailedPostFlopActionStatisticsViewModelMake;
 
-        readonly IConstructor<IDetailedStatisticsViewModel> _detailedPostFlopReactionStatisticsViewModelMake;
+        readonly IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel> _detailedPostFlopReactionStatisticsViewModelMake;
 
-        readonly IConstructor<IDetailedStatisticsViewModel> _detailedPreFlopStatisticsViewModelMake;
+        readonly IConstructor<IDetailedPreFlopStatisticsViewModel> _detailedPreFlopStatisticsViewModelMake;
 
         ICommand _navigateBackwardCommand;
 
         ICommand _navigateForwardCommand;
 
-        #endregion
 
-        #region Constructors and Destructors
 
         public DetailedStatisticsAnalyzerViewModel(
-            IConstructor<IDetailedStatisticsViewModel> detailedPreFlopStatisticsViewModelMake, 
-            IConstructor<IDetailedStatisticsViewModel> detailedPostFlopActionStatisticsViewModelMake, 
-            IConstructor<IDetailedStatisticsViewModel> detailedPostFlopReactionStatisticsViewModelMake)
+            IConstructor<IDetailedPreFlopStatisticsViewModel> detailedPreFlopStatisticsViewModelMake, 
+            IConstructor<IDetailedPostFlopHeroActsStatisticsViewModel> detailedPostFlopActionStatisticsViewModelMake, 
+            IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel> detailedPostFlopReactionStatisticsViewModelMake)
         {
             _detailedPostFlopReactionStatisticsViewModelMake = detailedPostFlopReactionStatisticsViewModelMake;
             _detailedPostFlopActionStatisticsViewModelMake = detailedPostFlopActionStatisticsViewModelMake;
@@ -45,9 +42,7 @@ namespace PokerTell.Statistics.ViewModels
             CurrentViewModel = StatisticsTableViewModel.Emty;
         }
 
-        #endregion
 
-        #region Properties
 
         public IDetailedStatisticsAnalyzerContentViewModel CurrentViewModel { get; set; }
 
@@ -109,11 +104,8 @@ namespace PokerTell.Statistics.ViewModels
             get { return ViewModelHistory != null && ViewModelHistory.Count > 0; }
         }
 
-        #endregion
 
-        #region Implemented Interfaces
 
-        #region IDetailedStatisticsAnalyzerViewModel
 
         public IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsAnalyzerContentViewModel viewModel)
         {
@@ -173,11 +165,8 @@ namespace PokerTell.Statistics.ViewModels
             return this;
         }
 
-        #endregion
 
-        #endregion
 
-        #region Methods
 
         void RemoveAllViewModelsInHistoryThatAreBehindCurrentViewModel()
         {
@@ -193,6 +182,5 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
-        #endregion
     }
 }

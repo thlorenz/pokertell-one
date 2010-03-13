@@ -1,6 +1,7 @@
 namespace PokerTell.Statistics
 {
     using System;
+    using System.Reflection;
 
     using Analyzation;
 
@@ -11,14 +12,21 @@ namespace PokerTell.Statistics
 
     using Interfaces;
 
+    using log4net;
+
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using ViewModels;
     using ViewModels.Analyzation;
+    using ViewModels.StatisticsSetDetails;
 
     public class StatisticsModule : IModule
     {
+
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly IUnityContainer _container;
 
         readonly IRegionManager _regionManager;
@@ -31,8 +39,16 @@ namespace PokerTell.Statistics
 
         public void Initialize()
         {
-           _container
-                .RegisterType<IPlayerStatistics, PlayerStatistics>()
+            RegisterViewsAndServices();
+
+            Log.Info("got initialized.");
+        }
+
+        void RegisterViewsAndServices()
+        {
+            _container
+                .RegisterTypeAndConstructor<IPlayerStatistics, PlayerStatistics>(() => _container.Resolve<IPlayerStatistics>())
+                .RegisterConstructor<IPlayerStatisticsViewModel, PlayerStatisticsViewModel>()
 
                 // RaiseReactionAnalyzation
                 .RegisterType<IReactionAnalyzationPreparer, ReactionAnalyzationPreparer>()
@@ -79,7 +95,13 @@ namespace PokerTell.Statistics
 
                 // Preflop HandStrengths Visualizing
                 .RegisterType<IPreFlopStartingHandsVisualizer, PreFlopStartingHandsVisualizer>()
-                .RegisterType<IPreFlopStartingHandsVisualizerViewModel, PreFlopStartingHandsVisualizerViewModel>();
+                .RegisterType<IPreFlopStartingHandsVisualizerViewModel, PreFlopStartingHandsVisualizerViewModel>()
+
+                // Detailed Statistics Analyzer 
+                .RegisterConstructor(() => _container.Resolve<IDetailedPreFlopStatisticsViewModel>())
+                .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroActsStatisticsViewModel>())
+                .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroReactsStatisticsViewModel>())
+                .RegisterType<IDetailedStatisticsAnalyzerViewModel, DetailedStatisticsAnalyzerViewModel>();
         }
     }
 }

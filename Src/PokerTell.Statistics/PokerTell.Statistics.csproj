@@ -158,6 +158,9 @@
     <Compile Include="ViewModels\Base\StatisticsTableRowViewModel.cs" />
     <Compile Include="Interfaces\IStatisticsTableViewModel.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedPostFlopHeroActsStatisticsViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedPostFlopHeroReactsStatisticsViewModel.cs" />
+    <Compile Include="Interfaces\IDetailedPreFlopStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarGraphViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />

@@ -16,7 +16,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using Tools.FunctionalCSharp;
     using Tools.WPF;
 
-    public class DetailedPostFlopHeroActsStatisticsViewModel : DetailedStatisticsViewModel
+    public class DetailedPostFlopHeroActsStatisticsViewModel : DetailedStatisticsViewModel, IDetailedPostFlopHeroActsStatisticsViewModel
     {
         static readonly double[] BetSizeKeys = ApplicationProperties.BetSizeKeys;
 

@@ -7,7 +7,6 @@ namespace PokerTell.DatabaseSetup.Views
     /// </summary>
     public partial class TextBoxDialogView
     {
-        #region Constructors and Destructors
 
         public TextBoxDialogView()
         {
@@ -20,6 +19,5 @@ namespace PokerTell.DatabaseSetup.Views
             DataContext = viewModel;
         }
 
-        #endregion
     }
 }

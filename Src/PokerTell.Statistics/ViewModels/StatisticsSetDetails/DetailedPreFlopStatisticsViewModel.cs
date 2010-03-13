@@ -14,7 +14,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using Tools.FunctionalCSharp;
     using Tools.WPF;
 
-    public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel
+    public class DetailedPreFlopStatisticsViewModel : DetailedStatisticsViewModel, IDetailedPreFlopStatisticsViewModel
     {
         readonly IPreFlopRaiseReactionStatisticsViewModel _raiseReactionStatisticsViewModel;
 

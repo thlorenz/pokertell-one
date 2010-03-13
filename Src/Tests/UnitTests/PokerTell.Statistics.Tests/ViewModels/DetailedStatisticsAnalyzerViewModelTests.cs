@@ -29,11 +29,11 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
         IDetailedStatisticsAnalyzerViewModel _sut;
 
-        IDetailedStatisticsViewModel _preFlopStatisticsViewModelStub;
+        IDetailedPreFlopStatisticsViewModel _preFlopStatisticsViewModelStub;
 
-        IDetailedStatisticsViewModel _postFlopActionStatisticsViewModelStub;
+        IDetailedPostFlopHeroActsStatisticsViewModel _postFlopActionStatisticsViewModelStub;
 
-        IDetailedStatisticsViewModel _postFlopReactionStatisticsViewModelStub;
+        IDetailedPostFlopHeroReactsStatisticsViewModel _postFlopReactionStatisticsViewModelStub;
 
         #endregion
 
@@ -268,11 +268,11 @@ namespace PokerTell.Statistics.Tests.ViewModels
                 .Get(s => s.Street).Returns(Streets.PreFlop)
                 .Out;
 
-            var preFlopStatisticsViewModelMock = new Mock<IDetailedStatisticsViewModel>();
+            var preFlopStatisticsViewModelMock = new Mock<IDetailedPreFlopStatisticsViewModel>();
             _sut = new DetailedStatisticsAnalyzerViewModel(
-                new Constructor<IDetailedStatisticsViewModel>(() => preFlopStatisticsViewModelMock.Object),
-                _stub.Out<IConstructor<IDetailedStatisticsViewModel>>(),
-                _stub.Out<IConstructor<IDetailedStatisticsViewModel>>());
+                new Constructor<IDetailedPreFlopStatisticsViewModel>(() => preFlopStatisticsViewModelMock.Object),
+                _stub.Out<IConstructor<IDetailedPostFlopHeroActsStatisticsViewModel>>(),
+                _stub.Out<IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel>>());
             
             _sut.InitializeWith(statisticsSetStub);
             
@@ -283,14 +283,14 @@ namespace PokerTell.Statistics.Tests.ViewModels
         public void _Init()
         {
             _stub = new StubBuilder();
-            _preFlopStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
-            _postFlopActionStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
-            _postFlopReactionStatisticsViewModelStub = _stub.Out<IDetailedStatisticsViewModel>();
+            _preFlopStatisticsViewModelStub = _stub.Out<IDetailedPreFlopStatisticsViewModel>();
+            _postFlopActionStatisticsViewModelStub = _stub.Out<IDetailedPostFlopHeroActsStatisticsViewModel>();
+            _postFlopReactionStatisticsViewModelStub = _stub.Out<IDetailedPostFlopHeroReactsStatisticsViewModel>();
             _sut =
                 new DetailedStatisticsAnalyzerViewModel(
-                    new Constructor<IDetailedStatisticsViewModel>(() => _preFlopStatisticsViewModelStub),
-                    new Constructor<IDetailedStatisticsViewModel>(() => _postFlopActionStatisticsViewModelStub),
-                    new Constructor<IDetailedStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub));
+                    new Constructor<IDetailedPreFlopStatisticsViewModel>(() => _preFlopStatisticsViewModelStub),
+                    new Constructor<IDetailedPostFlopHeroActsStatisticsViewModel>(() => _postFlopActionStatisticsViewModelStub),
+                    new Constructor<IDetailedPostFlopHeroReactsStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub));
         }
 
         #endregion

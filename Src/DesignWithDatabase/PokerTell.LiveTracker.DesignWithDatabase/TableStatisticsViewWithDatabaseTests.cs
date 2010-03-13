@@ -65,13 +65,13 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
             new PlayerStatisticsService(eventAggregator);
 
             var detailedPreFlopStatisticsViewModelMake =
-                new Constructor<IDetailedStatisticsViewModel>(() => _container.Resolve<DetailedPreFlopStatisticsViewModel>());
+                new Constructor<IDetailedPreFlopStatisticsViewModel>(() => _container.Resolve<DetailedPreFlopStatisticsViewModel>());
             var detailedPostFlopHeroActsStatisticsViewModelMake =
-                new Constructor<IDetailedStatisticsViewModel>(
+                new Constructor<IDetailedPostFlopHeroActsStatisticsViewModel>(
                     () => _container.Resolve<DetailedPostFlopHeroActsStatisticsViewModel>());
 
             var detailedPostFlopHeroReactsStatisticsViewModelMake =
-                new Constructor<IDetailedStatisticsViewModel>(
+                new Constructor<IDetailedPostFlopHeroReactsStatisticsViewModel>(
                     () => _container.Resolve<DetailedPostFlopHeroReactsStatisticsViewModel>());
 
             var detailedStatisticsAnalyzerViewModel =

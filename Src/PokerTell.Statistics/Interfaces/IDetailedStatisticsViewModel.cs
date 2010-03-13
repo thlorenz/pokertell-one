@@ -9,13 +9,11 @@ namespace PokerTell.Statistics.Interfaces
 
     public interface IDetailedStatisticsViewModel : IStatisticsTableViewModel  
     {
-        #region Properties
 
         /// <summary>
         /// ViewModel that will present the selected details or hand histories
         /// </summary>
         IDetailedStatisticsAnalyzerContentViewModel ChildViewModel { get; set; }
-
 
         /// <summary>
         /// Returns all AnalyzablePokerPlayers whose percentages were selected on the table
@@ -30,7 +28,6 @@ namespace PokerTell.Statistics.Interfaces
 
         ICommand BrowseHandsCommand { get; }
 
-        #endregion
 
         /// <summary>
         /// Needs to be called to fill viewmodel with data

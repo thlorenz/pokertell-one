@@ -15,7 +15,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
     using Tools.FunctionalCSharp;
     using Tools.WPF;
 
-    public class DetailedPostFlopHeroReactsStatisticsViewModel : DetailedStatisticsViewModel
+    public class DetailedPostFlopHeroReactsStatisticsViewModel : DetailedStatisticsViewModel, IDetailedPostFlopHeroReactsStatisticsViewModel
     {
         ICommand _investigateRaiseReactionCommand;
 
@@ -27,7 +27,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
         public DetailedPostFlopHeroReactsStatisticsViewModel(
             IRepositoryHandBrowserViewModel handBrowserViewModel, 
             IPostFlopHeroReactsRaiseReactionStatisticsViewModel raiseReactionStatisticsViewModel,
-IDetailedPostFlopHeroReactsStatisticsDescriber detailedStatisticsDescriber)
+            IDetailedPostFlopHeroReactsStatisticsDescriber detailedStatisticsDescriber)
             : base(handBrowserViewModel, detailedStatisticsDescriber, "Bet Size")
         {
             _raiseReactionStatisticsViewModel = raiseReactionStatisticsViewModel;
