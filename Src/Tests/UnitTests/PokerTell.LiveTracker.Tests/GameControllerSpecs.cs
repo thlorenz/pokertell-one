@@ -14,7 +14,6 @@ namespace PokerTell.LiveTracker.Tests
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
-    using Tools.WPF.Interfaces;
 
     using It = Machine.Specifications.It;
 
@@ -35,9 +34,8 @@ namespace PokerTell.LiveTracker.Tests
 
         protected static Mock<ILiveTrackerSettingsViewModel> _liveTrackerSettings_Stub;
 
-        protected static Mock<IWindowManager> _liveStatsWindow_Mock;
+        protected static Mock<IPokerTableStatisticsWindowManager> _liveStatsWindow_Mock;
 
-        protected static Mock<IWindowManager> _tableOverlayWindow_Mock;
 
         protected static Mock<ITableOverlayManager> _tableOverlayManager_Mock;
 
@@ -53,9 +51,8 @@ namespace PokerTell.LiveTracker.Tests
             _newHand_Stub = new Mock<IConvertedPokerHand>();
             _liveTrackerSettings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
 
-            _liveStatsWindow_Mock = new Mock<IWindowManager>();
+            _liveStatsWindow_Mock = new Mock<IPokerTableStatisticsWindowManager>();
 
-            _tableOverlayWindow_Mock = new Mock<IWindowManager>();
             _tableOverlayManager_Mock = new Mock<ITableOverlayManager>();
 
             _sut = new GameControllerSut(
@@ -63,10 +60,8 @@ namespace PokerTell.LiveTracker.Tests
                 _pokerTableStatistics_Mock.Object, 
                 _playerStatisticsMake, 
                 _playerStatisticsUpdater_Mock.Object, 
-                _tableOverlayManager_Mock.Object);
-            _sut.InitializeWith(_liveStatsWindow_Mock.Object, _tableOverlayWindow_Mock.Object);
-
-            _sut.LiveTrackerSettings = _liveTrackerSettings_Stub.Object;
+                _tableOverlayManager_Mock.Object,
+                _liveStatsWindow_Mock.Object) { LiveTrackerSettings = _liveTrackerSettings_Stub.Object };
         };
 
         public abstract class Ctx_NewHand : GameControllerSpecs
@@ -167,15 +162,13 @@ namespace PokerTell.LiveTracker.Tests
 
                 _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { bob_Stub.Object, ted_Stub.Object, jim_Stub.Object });
 
-                _sut = new GameControllerSut(
-                    _gameHistory_Mock.Object, 
-                    _pokerTableStatistics_Mock.Object, 
-                    _playerStatisticsMake, 
-                    _playerStatisticsUpdater_Mock.Object, 
-                    _tableOverlayManager_Mock.Object);
-                _sut.InitializeWith(_liveStatsWindow_Mock.Object, _tableOverlayWindow_Mock.Object);
-
-                _sut.LiveTrackerSettings = _liveTrackerSettings_Stub.Object;
+            _sut = new GameControllerSut(
+                _gameHistory_Mock.Object, 
+                _pokerTableStatistics_Mock.Object, 
+                _playerStatisticsMake, 
+                _playerStatisticsUpdater_Mock.Object, 
+                _tableOverlayManager_Mock.Object,
+                _liveStatsWindow_Mock.Object) { LiveTrackerSettings = _liveTrackerSettings_Stub.Object };
                 _sut.SetIsLaunched(true);
             };
         }
@@ -190,9 +183,7 @@ namespace PokerTell.LiveTracker.Tests
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
             It should_not_initialize_the_TableOverlayManager
-                = () => _tableOverlayManager_Mock.Verify(tom => tom.InitializeWith(
-                                                                    Moq.It.IsAny<IWindowManager>(), 
-                                                                    Moq.It.IsAny<IGameHistoryViewModel>(), 
+                = () => _tableOverlayManager_Mock.Verify(tom => tom.InitializeWith(Moq.It.IsAny<IGameHistoryViewModel>(), 
                                                                     Moq.It.IsAny<IPokerTableStatisticsViewModel>(), 
                                                                     Moq.It.IsAny<int>(), 
                                                                     Moq.It.IsAny<IConvertedPokerHand>()), 
@@ -211,9 +202,7 @@ namespace PokerTell.LiveTracker.Tests
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
             It should_initialize_the_TableOverlayManager
-                = () => _tableOverlayManager_Mock.Verify(tom => tom.InitializeWith(
-                                                                    _tableOverlayWindow_Mock.Object, 
-                                                                    _gameHistory_Mock.Object, 
+                = () => _tableOverlayManager_Mock.Verify(tom => tom.InitializeWith(_gameHistory_Mock.Object, 
                                                                     _pokerTableStatistics_Mock.Object, 
                                                                     showHoleCardsDuration, 
                                                                     _newHand_Stub.Object));
@@ -271,9 +260,7 @@ namespace PokerTell.LiveTracker.Tests
 
             // TODO: Change to not initialize TableOverlayManager again
             It should_not_initialize_the_TableOverlayManager_again
-                = () => _tableOverlayManager_Mock.Verify(tom => tom.InitializeWith(
-                                                                    Moq.It.IsAny<IWindowManager>(), 
-                                                                    Moq.It.IsAny<IGameHistoryViewModel>(), 
+                = () => _tableOverlayManager_Mock.Verify(tom => tom.InitializeWith(Moq.It.IsAny<IGameHistoryViewModel>(), 
                                                                     Moq.It.IsAny<IPokerTableStatisticsViewModel>(), 
                                                                     Moq.It.IsAny<int>(), 
                                                                     Moq.It.IsAny<IConvertedPokerHand>()), 
@@ -457,8 +444,9 @@ namespace PokerTell.LiveTracker.Tests
                 IPokerTableStatisticsViewModel pokerTableStatistics, 
                 IConstructor<IPlayerStatistics> playerStatisticsMake, 
                 IPlayerStatisticsUpdater playerStatisticsUpdater, 
-                ITableOverlayManager tableOverlayManager)
-                : base(gameHistory, pokerTableStatistics, playerStatisticsMake, playerStatisticsUpdater, tableOverlayManager)
+                ITableOverlayManager tableOverlayManager,
+                IPokerTableStatisticsWindowManager pokerTableStatisticsWindowManager)
+                : base(gameHistory, pokerTableStatistics, playerStatisticsMake, playerStatisticsUpdater, tableOverlayManager, pokerTableStatisticsWindowManager)
             {
             }
 

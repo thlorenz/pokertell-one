@@ -20,7 +20,5 @@ namespace PokerTell.LiveTracker.Interfaces
         IGameController NewHand(IConvertedPokerHand convertedPokerHand);
 
         event Action ShuttingDown;
-
-        IGameController InitializeWith(IWindowManager liveStatsWindow, IWindowManager tableOverlayWindow);
     }
 }

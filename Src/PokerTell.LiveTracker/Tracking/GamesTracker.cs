@@ -13,12 +13,11 @@ namespace PokerTell.LiveTracker.Tracking
     using PokerTell.LiveTracker.Events;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Properties;
+    using PokerTell.LiveTracker.Views;
+    using PokerTell.LiveTracker.Views.Overlay;
 
     using Tools.FunctionalCSharp;
     using Tools.WPF;
-
-    using Views;
-    using Views.Overlay;
 
     /// <summary>
     /// Responsible for tracking all ongoing PokerGames, managing interaction of NewHandsTracker and FileSystemWatcher.
@@ -44,13 +43,21 @@ namespace PokerTell.LiveTracker.Tracking
         public ThreadOption ThreadOption { get; set; }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="GamesTracker"/> class. 
         /// Initializes the GamesTracker.
         /// There should only be one in the entire application.
         /// </summary>
-        /// <param name="eventAggregator"></param>
-        /// <param name="newHandsTracker"><see cref="INewHandsTracker"/></param>
-        /// <param name="gameControllerMake">Constructor for <see cref="IGameController"/></param>
-        /// <param name="handHistoryFilesWatcherMake">Constructor for <see cref="IHandHistoryFilesWatcher"/></param>
+        /// <param name="eventAggregator">
+        /// </param>
+        /// <param name="newHandsTracker">
+        /// <see cref="INewHandsTracker"/>
+        /// </param>
+        /// <param name="gameControllerMake">
+        /// Constructor for <see cref="IGameController"/>
+        /// </param>
+        /// <param name="handHistoryFilesWatcherMake">
+        /// Constructor for <see cref="IHandHistoryFilesWatcher"/>
+        /// </param>
         public GamesTracker(
             IEventAggregator eventAggregator, 
             INewHandsTracker newHandsTracker, 
@@ -75,7 +82,7 @@ namespace PokerTell.LiveTracker.Tracking
                 .ForEach(path => HandHistoryFilesWatchers.Add(path, _handHistoryFilesWatcherMake.New.InitializeWith(path)));
 
             _newHandsTracker.InitializeWith(HandHistoryFilesWatchers.Values);
-          
+
             RegisterEvents();
             return this;
         }
@@ -100,9 +107,6 @@ namespace PokerTell.LiveTracker.Tracking
             var gameController = _gameControllerMake.New;
             gameController.LiveTrackerSettings = _liveTrackerSettings;
             gameController.ShuttingDown += () => GameControllers.Remove(fullPath);
-            
-            gameController
-                .InitializeWith(new WindowManager(() => new PokerTableStatisticsView()), new WindowManager(() => new TableOverlayView()));
 
             return gameController;
         }

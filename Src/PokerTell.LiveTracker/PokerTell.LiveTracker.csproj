@@ -86,6 +86,7 @@
     <Compile Include="Interfaces\IOverlayHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\IOverlaySettingsAidViewModel.cs" />
     <Compile Include="Interfaces\IPlayerStatisticsUpdater.cs" />
+    <Compile Include="Interfaces\IWindowManagers.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
     <Compile Include="Interfaces\ILayoutXDocumentHandler.cs" />
     <Compile Include="Interfaces\ILayoutManager.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Views\PokerTableStatisticsView.xaml.cs">
       <DependentUpon>PokerTableStatisticsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowManagers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Tools\Tools.csproj">

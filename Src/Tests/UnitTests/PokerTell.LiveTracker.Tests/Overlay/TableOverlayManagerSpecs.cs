@@ -35,7 +35,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
         protected static Mock<ITableOverlaySettingsViewModel> _overlaySettings_Stub;
 
-        protected static Mock<IWindowManager> _tableOverlayWindow_Mock;
+        protected static Mock<ITableOverlayWindowManager> _tableOverlayWindow_Mock;
 
         protected static Mock<IGameHistoryViewModel> _gameHistory_Mock;
 
@@ -50,7 +50,6 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 .Setup(l => l.GetPokerRoomInfoFor(Moq.It.IsAny<string>()))
                 .Returns(_pokerRoomInfo_Stub.Object);
 
-            _tableOverlay_Mock = new Mock<ITableOverlayViewModel>();
             _tableAttacher_Mock = new Mock<IOverlayToTableAttacher>();
 
             _pokerTableStatistics_Mock = new Mock<IPokerTableStatisticsViewModel>();
@@ -65,13 +64,14 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             _newHand_Stub = new Mock<IConvertedPokerHand>();
 
-            _tableOverlayWindow_Mock = new Mock<IWindowManager>();
+            _tableOverlayWindow_Mock = new Mock<ITableOverlayWindowManager>();
             _sut = new TableOverlayManagerSut(
                 _pokerRoomInfoLocator_Stub.Object, 
                 _layoutManager_Mock.Object, 
                 _seatMapper_Mock.Object, 
                 _tableAttacher_Mock.Object, 
-                _tableOverlay_Mock.Object);
+                _tableOverlay_Mock.Object,
+                _tableOverlayWindow_Mock.Object);
         };
 
         public abstract class Ctx_NewHand : TableOverlayManagerSpecs
@@ -101,6 +101,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
         public abstract class Ctx_NewHand_HeroInSeat2 : Ctx_NewHand
         {
             protected const int seatOfHero = 2;
+
             Establish context = () => {
                 var hero_Stub = new Mock<IConvertedPokerPlayer>();
                 hero_Stub.SetupGet(p => p.Name).Returns(heroName);
@@ -112,8 +113,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
         public abstract class Ctx_InitializedWithFirstHand : Ctx_NewHand
         {
-            Establish context = () => _sut.InitializeWith(_tableOverlayWindow_Mock.Object, 
-                                                          _gameHistory_Mock.Object, 
+            Establish context = () => _sut.InitializeWith(_gameHistory_Mock.Object, 
                                                           _pokerTableStatistics_Mock.Object, 
                                                           showHoleCardsDuration, 
                                                           _newHand_Stub.Object);
@@ -122,8 +122,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
         [Subject(typeof(TableOverlayManager), "InitializeWith")]
         public class when_initialized_because_the_first_new_hand_was_found : Ctx_NewHand_HeroInSeat2
         {
-            Establish context = () => _sut.InitializeWith(_tableOverlayWindow_Mock.Object, 
-                                                          _gameHistory_Mock.Object, 
+            Establish context = () => _sut.InitializeWith(_gameHistory_Mock.Object, 
                                                           _pokerTableStatistics_Mock.Object, 
                                                           showHoleCardsDuration, 
                                                           _newHand_Stub.Object);
@@ -145,7 +144,6 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             It should_the_DataContext_of_the_Overlay_Window_to_the_overlay_viewmodel
                 = () => _tableOverlayWindow_Mock.VerifySet(ow => ow.DataContext = _tableOverlay_Mock.Object);
 
-
             It should_show_the_table_overlay_window = () => _tableOverlayWindow_Mock.Verify(ow => ow.Show());
 
             It should_initialize_the_overlay_to_table_attacher_with_the_table_name__pokerroom_info_returned_by_the_locator_and_overlay_window
@@ -164,7 +162,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             const string board = "As Kh Qs";
 
             protected const int seatOfHero = 2;
-            
+
             Establish context = () => {
                 var hero_Stub = new Mock<IConvertedPokerPlayer>();
                 hero_Stub.SetupGet(p => p.Name).Returns(heroName);
@@ -229,7 +227,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             };
 
             Because of = () => _overlaySettings_Stub.Raise(os => os.UndoChanges += null, 
-                                            new Action<ITableOverlaySettingsViewModel>(settings => revertedToSettings = settings));
+                                                           new Action<ITableOverlaySettingsViewModel>(settings => revertedToSettings = settings));
 
             It should_load_the_settings_for_the_PokerSite_and_the_total_seats_from_the_layout_manager_again
                 = () => _layoutManager_Mock.Verify(lm => lm.Load(pokerSite, totalSeats), Times.Exactly(2));
@@ -241,15 +239,21 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
     public class TableOverlayManagerSut : TableOverlayManager
     {
-        public TableOverlayManagerSut(IPokerRoomInfoLocator pokerRoomInfoLocator, ILayoutManager layoutManager, ISeatMapper seatMapper, IOverlayToTableAttacher overlayToTableAttacher, ITableOverlayViewModel tableOverlay)
-            : base(pokerRoomInfoLocator, layoutManager, seatMapper, overlayToTableAttacher, tableOverlay)
+        public TableOverlayManagerSut(
+            IPokerRoomInfoLocator pokerRoomInfoLocator, 
+            ILayoutManager layoutManager, 
+            ISeatMapper seatMapper, 
+            IOverlayToTableAttacher overlayToTableAttacher, 
+            ITableOverlayViewModel tableOverlay,
+            ITableOverlayWindowManager tableOverlayWindow)
+            : base(pokerRoomInfoLocator, layoutManager, seatMapper, overlayToTableAttacher, tableOverlay, tableOverlayWindow)
         {
         }
 
         public TableOverlayManagerSut SetHeroName(string heroName)
         {
             HeroName = heroName;
-                return this;
-            }
+            return this;
+        }
     }
 }

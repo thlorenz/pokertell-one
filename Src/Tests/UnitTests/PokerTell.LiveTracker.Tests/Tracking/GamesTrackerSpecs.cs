@@ -34,6 +34,10 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
         protected static Mock<INewHandsTracker> _newHandsTracker_Mock;
 
+        protected static Mock<IPokerTableStatisticsWindowManager> _tableStatisticsManager_Mock;
+
+        protected static Mock<ITableOverlayManager> _tableOverlayManager_Mock;
+
         protected static IGamesTracker _sut;
 
         Establish specContext = () => {
@@ -46,9 +50,9 @@ namespace PokerTell.LiveTracker.Tests.Tracking
             _settings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
             _settings_Stub
                 .SetupGet(ls => ls.HandHistoryFilesPaths).Returns(new string[] { });
-            _sut = new GamesTracker(_eventAggregator, 
-                                    _newHandsTracker_Mock.Object, 
-                                    new Constructor<IGameController>(() => _gameController_Mock.Object), 
+            _sut = new GamesTracker(_eventAggregator,
+                                    _newHandsTracker_Mock.Object,
+            new Constructor<IGameController>(() => _gameController_Mock.Object), 
                                     _filesWatcherMake_Mock.Object)
                 { ThreadOption = ThreadOption.PublisherThread };
         };

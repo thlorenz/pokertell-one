@@ -2,16 +2,13 @@ namespace PokerTell.LiveTracker
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
-    using PokerTell.LiveTracker.PokerRooms;
 
     using Tools.FunctionalCSharp;
-    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
     public class GameController : IGameController
@@ -21,13 +18,15 @@ namespace PokerTell.LiveTracker
             IPokerTableStatisticsViewModel pokerTableStatistics, 
             IConstructor<IPlayerStatistics> playerStatisticsMake, 
             IPlayerStatisticsUpdater playerStatisticsUpdater, 
-            ITableOverlayManager tableOverlayManager)
+            ITableOverlayManager tableOverlayManager, 
+            IPokerTableStatisticsWindowManager pokerTableStatisticsWindowManager)
         {
             _gameHistory = gameHistory;
             _pokerTableStatistics = pokerTableStatistics;
             _playerStatisticsMake = playerStatisticsMake;
             _playerStatisticsUpdater = playerStatisticsUpdater;
             _tableOverlayManager = tableOverlayManager;
+            _liveStatsWindow = pokerTableStatisticsWindowManager;
 
             RegisterEvents();
 
@@ -40,13 +39,11 @@ namespace PokerTell.LiveTracker
 
         readonly IGameHistoryViewModel _gameHistory;
 
-        IWindowManager _liveStatsWindow;
+        readonly IWindowManager _liveStatsWindow;
 
         readonly IPlayerStatisticsUpdater _playerStatisticsUpdater;
 
         readonly ITableOverlayManager _tableOverlayManager;
-
-        IWindowManager _tableOverlayWindow;
 
         public IDictionary<string, IPlayerStatistics> PlayerStatistics { get; protected set; }
 
@@ -55,13 +52,6 @@ namespace PokerTell.LiveTracker
         public ILiveTrackerSettingsViewModel LiveTrackerSettings { get; set; }
 
         public event Action ShuttingDown = delegate { };
-
-        public IGameController InitializeWith(IWindowManager liveStatsWindow, IWindowManager tableOverlayWindow)
-        {
-            _liveStatsWindow = liveStatsWindow;
-            _tableOverlayWindow = tableOverlayWindow;
-            return this;
-        }
 
         public IGameController NewHand(IConvertedPokerHand convertedPokerHand)
         {
@@ -119,7 +109,10 @@ namespace PokerTell.LiveTracker
 
         void SetupTableOverlayManager(IConvertedPokerHand convertedPokerHand)
         {
-            _tableOverlayManager.InitializeWith(_tableOverlayWindow, _gameHistory, _pokerTableStatistics, LiveTrackerSettings.ShowHoleCardsDuration, convertedPokerHand);
+            _tableOverlayManager.InitializeWith(_gameHistory, 
+                                                _pokerTableStatistics, 
+                                                LiveTrackerSettings.ShowHoleCardsDuration, 
+                                                convertedPokerHand);
         }
 
         void RegisterEvents()

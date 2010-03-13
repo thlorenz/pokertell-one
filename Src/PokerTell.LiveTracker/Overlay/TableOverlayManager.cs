@@ -22,20 +22,22 @@ namespace PokerTell.LiveTracker.Overlay
 
         readonly IPokerRoomInfoLocator _pokerRoomInfoLocator;
 
-        IWindowManager _tableOverlayWindow;
+        readonly IWindowManager _tableOverlayWindow;
 
         public TableOverlayManager(
             IPokerRoomInfoLocator pokerRoomInfoLocator, 
             ILayoutManager layoutManager, 
             ISeatMapper seatMapper, 
             IOverlayToTableAttacher overlayToTableAttacher, 
-            ITableOverlayViewModel tableOverlay)
+            ITableOverlayViewModel tableOverlay, 
+            ITableOverlayWindowManager tableOverlayWindow)
         {
             _pokerRoomInfoLocator = pokerRoomInfoLocator;
             _layoutManager = layoutManager;
             _seatMapper = seatMapper;
             _overlayToTableAttacher = overlayToTableAttacher;
             _tableOverlay = tableOverlay;
+            _tableOverlayWindow = tableOverlayWindow;
         }
 
         public string HeroName { get; protected set; }
@@ -43,14 +45,11 @@ namespace PokerTell.LiveTracker.Overlay
         public event Action TableClosed = delegate { };
 
         public ITableOverlayManager InitializeWith(
-            IWindowManager tableOverlayWindow, 
             IGameHistoryViewModel gameHistory, 
             IPokerTableStatisticsViewModel pokerTableStatistics, 
             int showHoleCardsDuration, 
             IConvertedPokerHand firstHand)
         {
-            _tableOverlayWindow = tableOverlayWindow;
-
             HeroName = firstHand.HeroName;
 
             _seatMapper.InitializeWith(firstHand.TotalSeats);
@@ -69,7 +68,7 @@ namespace PokerTell.LiveTracker.Overlay
                                                    waitThenTryToFindTableAgainTimer, 
                                                    _pokerRoomInfoLocator.GetPokerRoomInfoFor(firstHand.Site), 
                                                    firstHand.TableName);
-            
+
             UpdateTableOverlay(firstHand);
             UpdateSeatMapper(firstHand);
             UpdateOverlayToTableAttacher(firstHand);

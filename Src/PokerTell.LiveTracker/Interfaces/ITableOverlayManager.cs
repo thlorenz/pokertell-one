@@ -9,12 +9,7 @@ namespace PokerTell.LiveTracker.Interfaces
 
     public interface ITableOverlayManager : IFluentInterface, IDisposable
     {
-        ITableOverlayManager InitializeWith(
-            IWindowManager tableOverlayWindow,
-            IGameHistoryViewModel gameHistory,
-            IPokerTableStatisticsViewModel pokerTableStatistics,
-            int showHoleCardsDuration,
-            IConvertedPokerHand firstHand);
+        ITableOverlayManager InitializeWith(IGameHistoryViewModel gameHistory, IPokerTableStatisticsViewModel pokerTableStatistics, int showHoleCardsDuration, IConvertedPokerHand firstHand);
 
         ITableOverlayManager UpdateWith(IConvertedPokerHand newHand);
 
