@@ -15,6 +15,10 @@ namespace PokerTell.LiveTracker.Tracking
     using PokerTell.LiveTracker.Properties;
 
     using Tools.FunctionalCSharp;
+    using Tools.WPF;
+
+    using Views;
+    using Views.Overlay;
 
     /// <summary>
     /// Responsible for tracking all ongoing PokerGames, managing interaction of NewHandsTracker and FileSystemWatcher.
@@ -97,6 +101,9 @@ namespace PokerTell.LiveTracker.Tracking
             gameController.LiveTrackerSettings = _liveTrackerSettings;
             gameController.ShuttingDown += () => GameControllers.Remove(fullPath);
             
+            gameController
+                .InitializeWith(new WindowManager(() => new PokerTableStatisticsView()), new WindowManager(() => new TableOverlayView()));
+
             return gameController;
         }
 

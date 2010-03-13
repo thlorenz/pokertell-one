@@ -32,6 +32,6 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ICommand BrowseCommand { get; }
 
-        void LoadSettings();
+        ILiveTrackerSettingsViewModel LoadSettings();
     }
 }

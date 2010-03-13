@@ -221,14 +221,14 @@ namespace PokerTell.LiveTracker.ViewModels
                                  Utils.XElementForCollection(HandHistoryFilesPathsElement, lts.HandHistoryFilesPaths)));
         }
 
-        public void LoadSettings()
+        public ILiveTrackerSettingsViewModel LoadSettings()
         {
             var xDoc = _xDocumentHandler.Load();
 
             if (xDoc == null)
             {
                 SetPropertiesToDefault();
-                return;
+                return this;
             }
 
             var xml = xDoc.Element(LiveTrackerSettings);
@@ -236,7 +236,7 @@ namespace PokerTell.LiveTracker.ViewModels
             if (xml == null)
             {
                 SetPropertiesToDefault();
-                return;
+                return this;
             }
 
             AutoTrack = Utils.GetBoolFrom(xml.Element(AutoTrackElement), true);
@@ -248,6 +248,8 @@ namespace PokerTell.LiveTracker.ViewModels
             HandHistoryFilesPaths = new ObservableCollection<string>( 
                 Utils.GetStringsFrom(xml.Element(HandHistoryFilesPathsElement), new List<string>())
                 .Where(path => new DirectoryInfo(path).Exists));
+
+            return this;
         }
 
         void SetPropertiesToDefault()
