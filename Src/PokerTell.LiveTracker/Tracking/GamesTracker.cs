@@ -29,7 +29,7 @@ namespace PokerTell.LiveTracker.Tracking
 
         readonly IEventAggregator _eventAggregator;
 
-        ILiveTrackerSettingsViewModel _liveTrackerSettings;
+        protected ILiveTrackerSettingsViewModel _liveTrackerSettings;
 
         readonly IConstructor<IHandHistoryFilesWatcher> _handHistoryFilesWatcherMake;
 
@@ -99,6 +99,8 @@ namespace PokerTell.LiveTracker.Tracking
 
             GameControllers.Add(fullPath, gameController);
 
+            _newHandsTracker.ProcessHandHistoriesInFile(fullPath);
+
             return this;
         }
 
@@ -132,19 +134,21 @@ namespace PokerTell.LiveTracker.Tracking
 
         void AdjustToNewLiveTrackerSettings(ILiveTrackerSettingsViewModel updatedLiveTrackerSettings)
         {
-            GameControllers.Values.ForEach(gc => gc.LiveTrackerSettings = updatedLiveTrackerSettings);
+            _liveTrackerSettings = updatedLiveTrackerSettings;
 
-            var pathsWereRemoved = RemoveFileWatchersForPathsThatShouldNotBeTrackedAnymore(updatedLiveTrackerSettings);
-            var pathsWereAdded = AddFileWatchersToBeTrackedThatWererNotTrackedBefore(updatedLiveTrackerSettings);
+            GameControllers.Values.ForEach(gc => gc.LiveTrackerSettings = _liveTrackerSettings);
+
+            var pathsWereRemoved = RemoveFileWatchersForPathsThatShouldNotBeTrackedAnymore();
+            var pathsWereAdded = AddFileWatchersToBeTrackedThatWererNotTrackedBefore();
 
             if (pathsWereRemoved || pathsWereAdded)
                 _newHandsTracker.InitializeWith(HandHistoryFilesWatchers.Values);
         }
 
-        bool AddFileWatchersToBeTrackedThatWererNotTrackedBefore(ILiveTrackerSettingsViewModel updatedLiveTrackerSettings)
+        bool AddFileWatchersToBeTrackedThatWererNotTrackedBefore()
         {
             bool pathAdded = false;
-            updatedLiveTrackerSettings.HandHistoryFilesPaths.ForEach(path => {
+           _liveTrackerSettings.HandHistoryFilesPaths.ForEach(path => {
                 if (!HandHistoryFilesWatchers.Keys.Contains(path))
                 {
                     HandHistoryFilesWatchers.Add(path, _handHistoryFilesWatcherMake.New.InitializeWith(path));
@@ -154,10 +158,10 @@ namespace PokerTell.LiveTracker.Tracking
             return pathAdded;
         }
 
-        bool RemoveFileWatchersForPathsThatShouldNotBeTrackedAnymore(ILiveTrackerSettingsViewModel updatedLiveTrackerSettings)
+        bool RemoveFileWatchersForPathsThatShouldNotBeTrackedAnymore()
         {
             var keysToBeRemoved = HandHistoryFilesWatchers.Keys
-                .Filter(key => !updatedLiveTrackerSettings.HandHistoryFilesPaths.Contains(key))
+                .Filter(key => !_liveTrackerSettings.HandHistoryFilesPaths.Contains(key))
                 .ToList();
             keysToBeRemoved.ForEach(key => {
                 HandHistoryFilesWatchers[key].Dispose();

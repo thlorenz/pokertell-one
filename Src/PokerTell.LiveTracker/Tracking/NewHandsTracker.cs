@@ -12,7 +12,6 @@ namespace PokerTell.LiveTracker.Tracking
     using PokerTell.Infrastructure.Interfaces.Repository;
 
     using Tools.FunctionalCSharp;
-    using Tools.Interfaces;
 
     public class NewHandsTracker : INewHandsTracker
     {
@@ -42,13 +41,18 @@ namespace PokerTell.LiveTracker.Tracking
 
         void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
         {
-            var handsFromFile = _repository.RetrieveHandsFromFile(e.FullPath);
+            ProcessHandHistoriesInFile(e.FullPath);
+        }
+
+        public void ProcessHandHistoriesInFile(string fullPath)
+        {
+            var handsFromFile = _repository.RetrieveHandsFromFile(fullPath);
 
             if (handsFromFile.Count() > 0)
             {
                 _eventAggregator
                     .GetEvent<NewHandEvent>()
-                    .Publish(new NewHandEventArgs(e.FullPath, handsFromFile.Last()));
+                    .Publish(new NewHandEventArgs(fullPath, handsFromFile.Last()));
 
                 _repository.InsertHands(handsFromFile);
             }

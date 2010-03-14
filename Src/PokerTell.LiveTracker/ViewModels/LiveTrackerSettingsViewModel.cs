@@ -183,12 +183,22 @@ namespace PokerTell.LiveTracker.ViewModels
                                     .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, Resources.Warning_HandHistoryFolderIsTrackedAlready));
                             }
                             else
-                                HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded);
+                                HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded.TrimStart(' ').TrimEnd(' '));
 
                             HandHistoryPathToBeAdded = null;
                         },
-                        CanExecuteDelegate =
-                            arg => (! string.IsNullOrEmpty(HandHistoryPathToBeAdded) && new DirectoryInfo(HandHistoryPathToBeAdded).Exists)
+                        CanExecuteDelegate = arg => {
+                            if (string.IsNullOrEmpty(HandHistoryPathToBeAdded))
+                                    return false;
+                                try
+                                {
+                                    return Directory.Exists(HandHistoryPathToBeAdded);
+                                }
+                                catch 
+                                {
+                                    return false;
+                                } 
+                            } 
                     });
             }
         }

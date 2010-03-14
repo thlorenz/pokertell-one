@@ -128,6 +128,7 @@
     <Compile Include="Interfaces\IHandHistoryFilesWatcher.cs" />
     <Compile Include="Tracking\NewHandsTracker.cs" />
     <Compile Include="Interfaces\ILiveTrackerSettingsXDocumentHandler.cs" />
+    <Compile Include="Tracking\WatchedDirectoriesOptimizer.cs" />
     <Compile Include="ViewModels\LiveTrackerSettingsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModel.cs" />

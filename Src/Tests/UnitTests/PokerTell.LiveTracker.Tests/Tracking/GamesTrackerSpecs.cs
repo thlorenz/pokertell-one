@@ -1,8 +1,6 @@
 namespace PokerTell.LiveTracker.Tests.Tracking
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     using Machine.Specifications;
 
@@ -34,11 +32,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
         protected static Mock<INewHandsTracker> _newHandsTracker_Mock;
 
-        protected static Mock<IPokerTableStatisticsWindowManager> _tableStatisticsManager_Mock;
-
-        protected static Mock<ITableOverlayManager> _tableOverlayManager_Mock;
-
-        protected static IGamesTracker _sut;
+        protected static GamesTrackerSut _sut;
 
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
@@ -50,9 +44,9 @@ namespace PokerTell.LiveTracker.Tests.Tracking
             _settings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
             _settings_Stub
                 .SetupGet(ls => ls.HandHistoryFilesPaths).Returns(new string[] { });
-            _sut = new GamesTracker(_eventAggregator,
-                                    _newHandsTracker_Mock.Object,
-            new Constructor<IGameController>(() => _gameController_Mock.Object), 
+            _sut = new GamesTrackerSut(_eventAggregator, 
+                                    _newHandsTracker_Mock.Object, 
+                                    new Constructor<IGameController>(() => _gameController_Mock.Object), 
                                     _filesWatcherMake_Mock.Object)
                 { ThreadOption = ThreadOption.PublisherThread };
         };
@@ -142,7 +136,16 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
             It should_set_the_GameController_LiveTracker_Settings_to_the_ones_passed_in
                 = () => _gameController_Mock.VerifySet(gc => gc.LiveTrackerSettings = _settings_Stub.Object);
+
+            It should_tell_the_NewHandsTracker_to_process_the_file = () => _newHandsTracker_Mock.Verify(ht => ht.ProcessHandHistoriesInFile(fullPath));
         }
+
+        [Subject(typeof(GamesTracker), "StartTracking")]
+        public class when_told_to_start_tracking_an_untracked_file_that_is_in_an_unwatched_directory_ : Ctx_InitializedWithLiveTrackerSettings
+        {
+         //   const string watchedPath 
+        }
+
 
         [Subject(typeof(GamesTracker), "New Hand found")]
         public class when_told_that_a_new_hand_for_a_file_that_it_is_tracking_was_found : Ctx_InitializedWithLiveTrackerSettings
@@ -211,18 +214,29 @@ namespace PokerTell.LiveTracker.Tests.Tracking
         [Subject(typeof(GamesTracker), "LiveTrackerSettings changed")]
         public class when_the_live_tracker_settings_changed_and_it_contains_one_GameController : Ctx_InitializedWithLiveTrackerSettings
         {
-            Establish context = () => _sut.GameControllers.Add("somePath", _gameController_Mock.Object);
+            static Mock<ILiveTrackerSettingsViewModel> newSettings_Stub;
+
+            Establish context = () => {
+                _sut.GameControllers.Add("somePath", _gameController_Mock.Object);
+                newSettings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
+                newSettings_Stub
+                    .SetupGet(ls => ls.HandHistoryFilesPaths).Returns(new string[] { });
+            };
 
             Because of = () => _eventAggregator
                                    .GetEvent<LiveTrackerSettingsChangedEvent>()
-                                   .Publish(_settings_Stub.Object);
+                                   .Publish(newSettings_Stub.Object);
 
             It should_set_the_GameController_LiveTracker_Settings_to_the_new_ones
-                = () => _gameController_Mock.VerifySet(gc => gc.LiveTrackerSettings = _settings_Stub.Object);
+                = () => _gameController_Mock.VerifySet(gc => gc.LiveTrackerSettings = newSettings_Stub.Object);
+
+            It should_set_the_LiveTrackersettings_to_the_new_ones = () => _sut._LiveTrackerSettings.ShouldEqual(newSettings_Stub.Object);
         }
 
         [Subject(typeof(GamesTracker), "LiveTrackerSettings changed")]
-        public class when_live_tracker_settings_changed_and_hand_history_files_paths_contain_on_path_that_is_not_tracked_and_one_previously_tracked_path_was_removed : Ctx_InitializedWithLiveTrackerSettings
+        public class
+            when_live_tracker_settings_changed_and_hand_history_files_paths_contain_on_path_that_is_not_tracked_and_one_previously_tracked_path_was_removed :
+                Ctx_InitializedWithLiveTrackerSettings
         {
             const string firstPath = "firstPath";
 
@@ -233,6 +247,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
             static Mock<IHandHistoryFilesWatcher> firstFilesWatcher;
 
             static Mock<IHandHistoryFilesWatcher> secondFilesWatcher;
+
             static Mock<IHandHistoryFilesWatcher> thirdFilesWatcher;
 
             Establish context = () => {
@@ -272,11 +287,11 @@ namespace PokerTell.LiveTracker.Tests.Tracking
                 = () => _newHandsTracker_Mock.Verify(ht => ht.InitializeWith(_sut.HandHistoryFilesWatchers.Values), Times.Exactly(2));
         }
 
-
         [Subject(typeof(GamesTracker), "LiveTrackerSettings changed")]
         public class when_LiveTrackerSettings_changed_but_the_tracked_paths_did_not_change : Ctx_InitializedWithLiveTrackerSettings
         {
             const string firstPath = "firstPath";
+
             static Mock<IHandHistoryFilesWatcher> firstFilesWatcher;
 
             Establish context = () => {
@@ -292,7 +307,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
                     .GetEvent<LiveTrackerSettingsChangedEvent>()
                     .Publish(newLiveTrackerSettings.Object);
             };
-            
+
             It should_not_reinitialize_the_NewHandsTracker_with_the_current_HandHistoryFilesWatchers
                 = () => _newHandsTracker_Mock.Verify(ht => ht.InitializeWith(_sut.HandHistoryFilesWatchers.Values), Times.Exactly(1));
         }
@@ -309,4 +324,21 @@ namespace PokerTell.LiveTracker.Tests.Tracking
             It should_remove_it_from_the_GameControllers = () => _sut.GameControllers.Values.ShouldNotContain(_gameController_Mock.Object);
         }
     }
+
+    public class GamesTrackerSut : GamesTracker
+    {
+        public GamesTrackerSut(
+            IEventAggregator eventAggregator, 
+            INewHandsTracker newHandsTracker, 
+            IConstructor<IGameController> gameControllerMake, 
+            IConstructor<IHandHistoryFilesWatcher> handHistoryFilesWatcherMake)
+            : base(eventAggregator, newHandsTracker, gameControllerMake, handHistoryFilesWatcherMake)
+        {
+        }
+
+        internal ILiveTrackerSettingsViewModel _LiveTrackerSettings
+        {
+            get { return _liveTrackerSettings; }
+        }
+  }
 }
