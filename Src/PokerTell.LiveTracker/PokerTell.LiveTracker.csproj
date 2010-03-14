@@ -126,6 +126,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interfaces\IHandHistoryFilesWatcher.cs" />
+    <Compile Include="Interfaces\IWatchedDirectoriesOptimizer.cs" />
     <Compile Include="Tracking\NewHandsTracker.cs" />
     <Compile Include="Interfaces\ILiveTrackerSettingsXDocumentHandler.cs" />
     <Compile Include="Tracking\WatchedDirectoriesOptimizer.cs" />

@@ -9,6 +9,8 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Windows.Input;
     using System.Xml.Linq;
 
+    using Events;
+
     using Infrastructure.Events;
 
     using Microsoft.Practices.Composite.Events;
@@ -20,6 +22,7 @@ namespace PokerTell.LiveTracker.ViewModels
     using Tools.WPF;
     using Tools.WPF.ViewModels;
     using Tools.Xml;
+    using Tools.IO;
 
     public class LiveTrackerSettingsViewModel : NotifyPropertyChanged, ILiveTrackerSettingsViewModel
     {
@@ -145,6 +148,9 @@ namespace PokerTell.LiveTracker.ViewModels
                         ExecuteDelegate = arg => {
                             var xDoc = CreateXDocumentFor(this);
                             _xDocumentHandler.Save(xDoc);
+                            _eventAggregator
+                                .GetEvent<LiveTrackerSettingsChangedEvent>()
+                                .Publish(this);
                         }
                     });
             }
@@ -187,18 +193,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
                             HandHistoryPathToBeAdded = null;
                         },
-                        CanExecuteDelegate = arg => {
-                            if (string.IsNullOrEmpty(HandHistoryPathToBeAdded))
-                                    return false;
-                                try
-                                {
-                                    return Directory.Exists(HandHistoryPathToBeAdded);
-                                }
-                                catch 
-                                {
-                                    return false;
-                                } 
-                            } 
+                        CanExecuteDelegate = arg => HandHistoryPathToBeAdded.IsExistingDirectory()
                     });
             }
         }

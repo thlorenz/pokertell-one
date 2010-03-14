@@ -83,6 +83,7 @@
     <Compile Include="GenericUtilities\ThatCompositeAction.cs" />
     <Compile Include="GenericUtilities\ThatGuiProperty.cs" />
     <Compile Include="GenericUtilities\ThatRelativeLocation.cs" />
+    <Compile Include="IO\DirectoryValidatorSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serialization\InfoToSaveClass.cs">
       <SubType>Code</SubType>

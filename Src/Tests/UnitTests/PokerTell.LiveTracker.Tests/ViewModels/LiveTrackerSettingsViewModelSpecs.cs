@@ -4,6 +4,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     using System.Collections.ObjectModel;
     using System.Xml.Linq;
 
+    using Events;
+
     using Infrastructure.Events;
 
     using Machine.Specifications;
@@ -41,7 +43,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const string notExisitingPath = "doesn't exist";
 
             Establish context = () => {
-                
                 var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object)
                     { HandHistoryFilesPaths = new[] { existingPath, notExisitingPath } };
 
@@ -156,9 +157,19 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         {
             static XDocument expectedDocument;
 
+            static bool settingsChangedWasRaised;
+
+            static ILiveTrackerSettingsViewModel passedPayload;
+
             Establish context = () => {
                 _sut.HandHistoryFilesPaths = new[] { "somePath" };
                 expectedDocument = LiveTrackerSettingsViewModel.CreateXDocumentFor(_sut);
+                _eventAggregator
+                    .GetEvent<LiveTrackerSettingsChangedEvent>()
+                    .Subscribe(payload => {
+                        settingsChangedWasRaised = true;
+                        passedPayload = payload;
+                    });
             };
 
             Because of = () => _sut.SaveSettingsCommand.Execute(null);
@@ -167,6 +178,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             It the_saved_xDocument_should_contain_the_correct_settings
                 = () => _xDocumentHandler_Mock.SavedDocument.ToString().ShouldEqual(expectedDocument.ToString());
+
+            It should_raise_LiveTrackerSettings_changed_event = () => settingsChangedWasRaised.ShouldBeTrue();
+
+            It should_pass_itself_as_the_payload_of_the_LiveTrackerSettings_changed_event = () => passedPayload.ShouldBeTheSameAs(_sut);
         }
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Remove Hand History folder")]
@@ -237,12 +252,30 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             Establish context = () => {
                 _sut.HandHistoryPathToBeAdded = pathToBeAdded;
                 _sut.HandHistoryFilesPaths = new List<string>();
-
             };
 
             Because of = () => _sut.AddHandHistoryPathCommand.Execute(null);
 
             It should_add_the_path = () => _sut.HandHistoryFilesPaths.ShouldContain(pathToBeAdded);
+
+            It should_set_the_path_to_be_added_to_null = () => _sut.HandHistoryPathToBeAdded.ShouldBeNull();
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "Add Hand History path")]
+        public class when_the_user_executes_the_add_folder_command_and_the_folder_was_not_added_yet_but_the_path_has_leading_and_trailing_spaces : LiveTrackerSettingsViewModelSpecs
+        {
+            
+            const string pathToBeAdded = "  to be added Path  ";
+            const string pathToBeAddedWithoutSpaces = "to be added Path";
+
+            Establish context = () => {
+                _sut.HandHistoryPathToBeAdded = pathToBeAdded;
+                _sut.HandHistoryFilesPaths = new List<string>();
+            };
+
+            Because of = () => _sut.AddHandHistoryPathCommand.Execute(null);
+
+            It should_add_the_path_without_the_spaces = () => _sut.HandHistoryFilesPaths.ShouldContain(pathToBeAddedWithoutSpaces);
 
             It should_set_the_path_to_be_added_to_null = () => _sut.HandHistoryPathToBeAdded.ShouldBeNull();
         }

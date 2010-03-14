@@ -13,6 +13,7 @@ namespace PokerTell.Repository.ViewModels
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
+    using Tools.IO;
 
     public class ImportHandHistoriesViewModel : NotifyPropertyChanged
     {
@@ -78,7 +79,7 @@ namespace PokerTell.Repository.ViewModels
 
                             ReportProgress(0);
                         }, 
-                        CanExecuteDelegate = arg => ! Importing && new DirectoryInfo(_handHistoriesDirectory).Exists
+                        CanExecuteDelegate = arg => ! Importing && _handHistoriesDirectory.IsExistingDirectory()
                     });
             }
         }

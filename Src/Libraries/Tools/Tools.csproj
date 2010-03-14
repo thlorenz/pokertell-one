@@ -138,6 +138,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interfaces\IXDocumentHandler.cs" />
+    <Compile Include="IO\DirectoryValidator.cs" />
     <Compile Include="Localization\LocalizationSettings.cs" />
     <Compile Include="Localization\WpfUtils.cs" />
     <Compile Include="Log4NetAppenders.cs" />
