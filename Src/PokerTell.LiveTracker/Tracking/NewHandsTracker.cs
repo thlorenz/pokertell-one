@@ -19,6 +19,8 @@ namespace PokerTell.LiveTracker.Tracking
 
         readonly IRepository _repository;
 
+        IEnumerable<IHandHistoryFilesWatcher> _handHistoryFilesWatchers;
+
         /// <summary>
         /// Initializes a new instance of the new hands tracker.
         /// Is responsible for picking up file changes from the file system watchers it is initialized with.
@@ -35,7 +37,8 @@ namespace PokerTell.LiveTracker.Tracking
 
         public INewHandsTracker InitializeWith(IEnumerable<IHandHistoryFilesWatcher> handHistoryFilesWatchers)
         {
-            handHistoryFilesWatchers.ForEach(fsw => fsw.Changed += FileSystemWatcherChanged);
+            _handHistoryFilesWatchers = handHistoryFilesWatchers;
+            _handHistoryFilesWatchers.ForEach(fsw => fsw.Changed += FileSystemWatcherChanged);
             return this;
         }
 

@@ -94,6 +94,7 @@ namespace PokerTell.LiveTracker
                 .RegisterTypeAndConstructor<IGameController, GameController>(() => _container.Resolve<IGameController>())
 
                 // GamesTracker
+                .RegisterType<IWatchedDirectoriesOptimizer, WatchedDirectoriesOptimizer>()
                 .RegisterType<INewHandsTracker, NewHandsTracker>(new ContainerControlledLifetimeManager())
                 .RegisterConstructor<IHandHistoryFilesWatcher, HandHistoryFilesWatcher>()
                 .RegisterType<IGamesTracker, GamesTracker>(new ContainerControlledLifetimeManager());
