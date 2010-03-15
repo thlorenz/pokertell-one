@@ -4,7 +4,10 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reflection;
     using System.Windows.Input;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -18,6 +21,8 @@ namespace PokerTell.LiveTracker.ViewModels
 
     public class PokerTableStatisticsViewModel : NotifyPropertyChanged, IPokerTableStatisticsViewModel
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         readonly IEventAggregator _eventAggregator;
 
         readonly IConstructor<IPlayerStatisticsViewModel> _playerStatisticsViewModelMake;
@@ -86,6 +91,8 @@ namespace PokerTell.LiveTracker.ViewModels
             UpdatePlayersWithStatisticsAddingNewOnesIfNeeded(playersList, playersStatisticsList);
 
             SelectFirstPlayerIfSelectedPlayerIsNotAtTheTableAnymore();
+
+            // TODO: Do I need to set Players at some point? probably not - it is added/removed from/to
         }
 
         public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)
@@ -131,10 +138,7 @@ namespace PokerTell.LiveTracker.ViewModels
                 matchingPlayer = _playerStatisticsViewModelMake.New;
 
                 matchingPlayer.SelectedStatisticsSetEvent +=
-                    sequenceStatisticsSet => {
-                        Console.WriteLine("Selected: ");
-                        DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
-                    };
+                    sequenceStatisticsSet => DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
 
                 Players.Add(matchingPlayer);
             }
@@ -145,12 +149,22 @@ namespace PokerTell.LiveTracker.ViewModels
         IPlayerStatisticsViewModel FindOrAddMatchingPlayer(
             IPlayerStatistics playerStatistics, List<IPlayerStatisticsViewModel> playersList)
         {
-            var nameToFind = playerStatistics.PlayerIdentity.Name;
-            var matchingPlayer = playersList
-                .Find(player => player.PlayerName == nameToFind);
+            // TODO: ALso am getting null references here - why ???
+            // PlayerIdentity is null and it looks like it has not been updated yet
+            try
+            {
+                var nameToFind = playerStatistics.PlayerIdentity.Name;
+                var matchingPlayer = playersList
+                    .Find(player => player.PlayerName == nameToFind);
 
-            matchingPlayer = AddNewPlayerToPlayersIfNotFound(matchingPlayer);
-            return matchingPlayer;
+                matchingPlayer = AddNewPlayerToPlayersIfNotFound(matchingPlayer);
+                return matchingPlayer;
+            }
+            catch (Exception excep)
+            {
+                Log.Error(excep);
+                return null;
+            }
         }
 
         void RemovePlayersThatAreNotAtTheTableAnymore(
@@ -158,14 +172,22 @@ namespace PokerTell.LiveTracker.ViewModels
         {
             playersList.ForEach(player => {
                 var nameToFind = player.PlayerName;
-
-                var matchingPlayerStatistics = playersStatisticsList
-                    .Find(ps => ps.PlayerIdentity.Name == nameToFind);
-
-                if (matchingPlayerStatistics == null)
+                try
                 {
-                    Players.Remove(player);
+                    // TODO sometimes the  playersStatisticsList[0] seems to be null - why ??? -> find out and possibly remove these null checks
+                    var matchingPlayerStatistics = playersStatisticsList
+                        .Find(ps => ps != null && ps.PlayerIdentity != null && ps.PlayerIdentity.Name == nameToFind);
+                    if (matchingPlayerStatistics == null)
+                    {
+                        Players.Remove(player);
+                    }
                 }
+                catch (Exception excep)
+                {
+                    Log.Error(excep);
+                    return;
+                }
+
             });
         }
 

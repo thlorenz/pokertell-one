@@ -1,7 +1,5 @@
 namespace PokerTell.Statistics.Filters
 {
-    using System;
-
     using Infrastructure.Events;
 
     using Microsoft.Practices.Composite.Events;

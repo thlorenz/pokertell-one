@@ -54,7 +54,7 @@ namespace PokerTell.LiveTracker.Views
             {
                 return _trackHandHistoryCommand ?? (_trackHandHistoryCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => _gamesTracker.StartTracking(@"C:\history.txt")
+                        ExecuteDelegate = arg => _gamesTracker.StartTracking(@"C:\Documents and Settings\Owner.LapThor\Desktop\hh\history.txt")
                     });
             }
         }

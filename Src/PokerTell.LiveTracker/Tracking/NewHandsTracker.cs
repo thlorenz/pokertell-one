@@ -3,6 +3,9 @@ namespace PokerTell.LiveTracker.Tracking
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -39,6 +42,8 @@ namespace PokerTell.LiveTracker.Tracking
             HandHistoryFilesWatchers = new Dictionary<string, IHandHistoryFilesWatcher>();
         }
 
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly IEventAggregator _eventAggregator;
 
         readonly IRepository _repository;
@@ -55,7 +60,7 @@ namespace PokerTell.LiveTracker.Tracking
             {
                 var allPaths = new List<string>(HandHistoryFilesWatchers.Keys) { fullPath };
                 var optimizedPaths = _watchedDirectoriesOptimizer.Optimize(allPaths);
-              
+
                 if (optimizedPaths.Contains(fullPath))
                 {
                     AddNewWatcherFor(fullPath);
@@ -74,7 +79,7 @@ namespace PokerTell.LiveTracker.Tracking
         {
             var redundantPaths =
                 HandHistoryFilesWatchers.Keys.Where(key => ! optimizedPaths.Contains(key))
-                .ToList();
+                    .ToList();
             redundantPaths
                 .ForEach(path => {
                     HandHistoryFilesWatchers[path].Dispose();
@@ -100,6 +105,7 @@ namespace PokerTell.LiveTracker.Tracking
 
             if (handsFromFile.Count() > 0)
             {
+                Log.Debug("About to publish new hand");
                 _eventAggregator
                     .GetEvent<NewHandEvent>()
                     .Publish(new NewHandEventArgs(fullPath, handsFromFile.Last()));

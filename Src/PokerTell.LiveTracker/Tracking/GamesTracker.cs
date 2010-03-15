@@ -3,6 +3,9 @@ namespace PokerTell.LiveTracker.Tracking
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Composite.Presentation.Events;
@@ -22,6 +25,8 @@ namespace PokerTell.LiveTracker.Tracking
     /// </summary>
     public class GamesTracker : IGamesTracker
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly IConstructor<IGameController> _gameControllerMake;
 
         readonly IEventAggregator _eventAggregator;
@@ -79,8 +84,8 @@ namespace PokerTell.LiveTracker.Tracking
 
             GameControllers.Add(fullPath, gameController);
 
-            _newHandsTracker.ProcessHandHistoriesInFile(fullPath);
             _newHandsTracker.TrackFolder(new FileInfo(fullPath).DirectoryName);
+            _newHandsTracker.ProcessHandHistoriesInFile(fullPath);
 
             return this;
         }
@@ -124,6 +129,8 @@ namespace PokerTell.LiveTracker.Tracking
 
         void NewHandFound(string fullPath, IConvertedPokerHand convertedPokerHand)
         {
+            Log.Debug("Received new hand");
+
             if (!GameControllers.ContainsKey(fullPath))
             {
                 if (!_liveTrackerSettings.AutoTrack)

@@ -43,6 +43,18 @@ namespace PokerTell.LiveTracker
                 return;
             }
 
+            // UpdateOnMainThread(playerStatistics);
+            UpdateInBackground(playerStatistics);
+        }
+
+        void UpdateOnMainThread(IEnumerable<IPlayerStatistics> playerStatistics)
+        {
+            playerStatistics.ForEach(ps => ps.UpdateStatistics());
+            FinishedUpdatingPlayerStatistics(playerStatistics);
+        }
+
+        void UpdateInBackground(IEnumerable<IPlayerStatistics> playerStatistics)
+        {
             if (_backgroundWorker.IsBusy) return; 
 
             _backgroundWorker.RunWorkerAsync(playerStatistics);

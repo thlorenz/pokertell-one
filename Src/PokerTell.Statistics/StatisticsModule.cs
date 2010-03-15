@@ -7,6 +7,8 @@ namespace PokerTell.Statistics
 
     using Detailed;
 
+    using Filters;
+
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
@@ -65,6 +67,11 @@ namespace PokerTell.Statistics
                 .RegisterType<IDetailedPreFlopStatisticsDescriber, DetailedPreFlopStatisticsDescriber>()
                 .RegisterType<IDetailedPostFlopHeroActsStatisticsDescriber, DetailedPostFlopHeroActsStatisticsDescriber>()
                 .RegisterType<IDetailedPostFlopHeroReactsStatisticsDescriber, DetailedPostFlopHeroReactsStatisticsDescriber>()
+                
+                // Detailed Statistics ViewModels
+                .RegisterType<IDetailedPreFlopStatisticsViewModel, DetailedPreFlopStatisticsViewModel>()
+                .RegisterType<IDetailedPostFlopHeroActsStatisticsViewModel, DetailedPostFlopHeroActsStatisticsViewModel>()
+                .RegisterType<IDetailedPostFlopHeroReactsStatisticsViewModel, DetailedPostFlopHeroReactsStatisticsViewModel>()
 
                 // Raise Reaction Statistics Describers
                 .RegisterType<IPreFlopRaiseReactionDescriber, PreFlopRaiseReactionDescriber>()
@@ -102,6 +109,10 @@ namespace PokerTell.Statistics
                 .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroActsStatisticsViewModel>())
                 .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroReactsStatisticsViewModel>())
                 .RegisterType<IDetailedStatisticsAnalyzerViewModel, DetailedStatisticsAnalyzerViewModel>();
+
+             // Activate PlayerStatistics Service (right now provides filtering)
+            _container
+                .Resolve<PlayerStatisticsService>();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace PokerTell.LiveTracker.Overlay
     {
         const string Layout = "Layout";
         const string Layouts = "Layouts";
-
+        
         const string ShowPreFlop = "ShowPreFlop";
 
         const string ShowFlop = "ShowFlop";

@@ -3,26 +3,19 @@ namespace PokerTell.Repository
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using System.Text;
 
     using log4net;
 
-    using Microsoft.Practices.Composite.Events;
-
     using global::NHibernate;
 
-    using PokerTell.Infrastructure.Events;
-    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.Repository.Interfaces;
 
     public class Repository : IRepository
     {
-        #region Constants and Fields
-
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -36,11 +29,12 @@ namespace PokerTell.Repository
 
         readonly IPlayerIdentityDao _playerIdentityDao;
 
-        #endregion
-
-        #region Constructors and Destructors
-
-        public Repository(IConvertedPokerHandDao pokerHandDao, IConvertedPokerPlayerDao pokerPlayerDao, IPlayerIdentityDao playerIdentityDao, ITransactionManager transactionManager, IRepositoryParser parser)
+        public Repository(
+            IConvertedPokerHandDao pokerHandDao, 
+            IConvertedPokerPlayerDao pokerPlayerDao, 
+            IPlayerIdentityDao playerIdentityDao, 
+            ITransactionManager transactionManager, 
+            IRepositoryParser parser)
         {
             _pokerHandDao = pokerHandDao;
             _pokerPlayerDao = pokerPlayerDao;
@@ -48,12 +42,6 @@ namespace PokerTell.Repository
             _transactionManager = transactionManager;
             _parser = parser;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IRepository
 
         public IRepository InsertHand(IConvertedPokerHand convertedPokerHand)
         {
@@ -78,7 +66,7 @@ namespace PokerTell.Repository
                 }
             };
             _transactionManager.BatchExecute(insertHands);
-          
+
             return this;
         }
 
@@ -118,21 +106,24 @@ namespace PokerTell.Repository
             return _parser.RetrieveAndConvert(handHistories, fileName);
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         static string ReadHandHistoriesFrom(string fileName)
         {
-            using (FileStream fileStream = File.OpenRead(fileName))
+            try
             {
-                // Use UTF7 encoding to ensure correct representation of Umlauts
-                return new StreamReader(fileStream, Encoding.UTF7).ReadToEnd();
+                using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                {
+                    // Use UTF7 encoding to ensure correct representation of Umlauts
+                    return new StreamReader(fileStream, Encoding.UTF7).ReadToEnd();
+                }
+            }
+            catch (Exception excep)
+            {
+                // Should only throw during manual saving of file from notepad
+                Log.Error(excep);
+                
+               // Try again
+               return ReadHandHistoriesFrom(fileName);
             }
         }
-
-        #endregion
     }
 }

@@ -145,8 +145,7 @@ namespace PokerTell.LiveTracker.Tests.Tracking
 
             const string fullPath = folder + @"\someFileName";
 
-            Because of = () => _sut.StartTracking(fullPath);
-
+            Because of = () => _sut.StartTracking(fullPath); 
             It should_add_a_GameController_for_the_full_path_of_the_file = () => _sut.GameControllers.Keys.ShouldContain(fullPath);
 
             It should_set_the_GameController_LiveTracker_Settings_to_the_ones_passed_in

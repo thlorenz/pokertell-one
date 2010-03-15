@@ -61,13 +61,16 @@ namespace PokerTell.LiveTracker.Overlay
             _tableOverlayWindow.DataContext = _tableOverlay;
             _tableOverlayWindow.Show();
 
-            var watchTableTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(1000) };
+            var watchTableTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(3000) };
             var waitThenTryToFindTableAgainTimer = new DispatcherTimerAdapter { Interval = TimeSpan.FromMilliseconds(3000) };
             _overlayToTableAttacher.InitializeWith(_tableOverlayWindow, 
                                                    watchTableTimer, 
                                                    waitThenTryToFindTableAgainTimer, 
                                                    _pokerRoomInfoLocator.GetPokerRoomInfoFor(firstHand.Site), 
-                                                   firstHand.TableName);
+                                                   firstHand.TableName)
+                                                   // TODO spec activate
+                                                   .Activate();
+
 
             UpdateTableOverlay(firstHand);
             UpdateSeatMapper(firstHand);
@@ -95,8 +98,16 @@ namespace PokerTell.LiveTracker.Overlay
 
         void UpdateSeatMapper(IConvertedPokerHand convertedPokerHand)
         {
+            // TODO - spec
+            if (string.IsNullOrEmpty(HeroName))
+            {
+            _seatMapper.UpdateWith(0);
+            }
+            else
+            {
             var actualSeatOfHero = convertedPokerHand.Players.First(p => p.Name == HeroName).SeatNumber;
             _seatMapper.UpdateWith(actualSeatOfHero);
+            }
         }
 
         void UpdateOverlayToTableAttacher(IConvertedPokerHand convertedPokerHand)

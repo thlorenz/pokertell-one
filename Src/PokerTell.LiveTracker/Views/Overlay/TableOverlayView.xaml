@@ -3,7 +3,11 @@
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
    xmlns:Overlay="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
    xmlns:Views="clr-namespace:PokerTell.LiveTracker.Views.Overlay"
-        Width="800" Height="520" >
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"    
+    ShowInTaskbar="False"   
+    Width="800" Height="520" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
