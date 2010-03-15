@@ -1,7 +1,5 @@
 namespace PokerTell.Statistics.Tests.Factories
 {
-    using System;
-
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 

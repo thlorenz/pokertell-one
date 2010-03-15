@@ -28,11 +28,7 @@ namespace PokerTell.LiveTracker.Tracking
 
         protected ILiveTrackerSettingsViewModel _liveTrackerSettings;
 
-        readonly IConstructor<IHandHistoryFilesWatcher> _handHistoryFilesWatcherMake;
-
         readonly INewHandsTracker _newHandsTracker;
-
-        readonly IWatchedDirectoriesOptimizer _watchedDirectoriesOptimizer;
 
         public IDictionary<string, IGameController> GameControllers { get; protected set; }
 
@@ -48,26 +44,17 @@ namespace PokerTell.LiveTracker.Tracking
         /// </summary>
         /// <param name="eventAggregator">
         /// </param>
-        /// <param name="watchedDirectoriesOptimizer"><see cref="IWatchedDirectoriesOptimizer"/></param>
         /// <param name="newHandsTracker"><see cref="INewHandsTracker"/> </param>
         /// <param name="gameControllerMake"> Constructor for <see cref="IGameController"/></param>
-        /// <param name="handHistoryFilesWatcherMake">
         /// Constructor for <see cref="IHandHistoryFilesWatcher"/>
         /// </param>
-        public GamesTracker(
-            IEventAggregator eventAggregator, 
-            IWatchedDirectoriesOptimizer watchedDirectoriesOptimizer, 
-            INewHandsTracker newHandsTracker, 
-            IConstructor<IGameController> gameControllerMake, 
-            IConstructor<IHandHistoryFilesWatcher> handHistoryFilesWatcherMake)
+        public GamesTracker(IEventAggregator eventAggregator, INewHandsTracker newHandsTracker, IConstructor<IGameController> gameControllerMake)
         {
-            _watchedDirectoriesOptimizer = watchedDirectoriesOptimizer;
             ThreadOption = ThreadOption.UIThread;
 
             _eventAggregator = eventAggregator;
             _newHandsTracker = newHandsTracker;
             _gameControllerMake = gameControllerMake;
-            _handHistoryFilesWatcherMake = handHistoryFilesWatcherMake;
 
             GameControllers = new Dictionary<string, IGameController>();
             HandHistoryFilesWatchers = new Dictionary<string, IHandHistoryFilesWatcher>();
@@ -93,6 +80,7 @@ namespace PokerTell.LiveTracker.Tracking
             GameControllers.Add(fullPath, gameController);
 
             _newHandsTracker.ProcessHandHistoriesInFile(fullPath);
+            _newHandsTracker.TrackFolder(new FileInfo(fullPath).DirectoryName);
 
             return this;
         }
@@ -125,48 +113,13 @@ namespace PokerTell.LiveTracker.Tracking
                 .Subscribe(AdjustToNewLiveTrackerSettings, ThreadOption);
         }
 
-        protected virtual void AdjustToNewLiveTrackerSettings(ILiveTrackerSettingsViewModel updatedLiveTrackerSettings)
+        void AdjustToNewLiveTrackerSettings(ILiveTrackerSettingsViewModel updatedLiveTrackerSettings)
         {
             _liveTrackerSettings = updatedLiveTrackerSettings;
 
             GameControllers.Values.ForEach(gc => gc.LiveTrackerSettings = _liveTrackerSettings);
-            
-            var pathsWereRemoved = RemoveFileWatchersForPathsThatShouldNotBeTrackedAnymore();
-            var pathsWereAdded = AddFileWatchersToBeTrackedThatWereNotTrackedBefore();
 
-            if (pathsWereRemoved || pathsWereAdded)
-                _newHandsTracker.InitializeWith(HandHistoryFilesWatchers.Values);
-        }
-
-        bool AddFileWatchersToBeTrackedThatWereNotTrackedBefore()
-        {
-            bool pathAdded = false;
-
-            var allPaths = new List<string>(HandHistoryFilesWatchers.Keys);
-            allPaths.AddRange(_liveTrackerSettings.HandHistoryFilesPaths);
-
-            var optimizedPaths = _watchedDirectoriesOptimizer.Optimize(allPaths);
-
-            optimizedPaths.ForEach(path => {
-                if (!HandHistoryFilesWatchers.Keys.Contains(path))
-                {
-                    HandHistoryFilesWatchers.Add(path, _handHistoryFilesWatcherMake.New.InitializeWith(path));
-                    pathAdded = true;
-                }
-            });
-            return pathAdded;
-        }
-
-        bool RemoveFileWatchersForPathsThatShouldNotBeTrackedAnymore()
-        {
-            var keysToBeRemoved = HandHistoryFilesWatchers.Keys
-                .Filter(key => !_liveTrackerSettings.HandHistoryFilesPaths.Contains(key))
-                .ToList();
-            keysToBeRemoved.ForEach(key => {
-                HandHistoryFilesWatchers[key].Dispose();
-                HandHistoryFilesWatchers.Remove(key);
-            });
-            return keysToBeRemoved.Count > 0;
+            _newHandsTracker.TrackFolders(_liveTrackerSettings.HandHistoryFilesPaths);
         }
 
         void NewHandFound(string fullPath, IConvertedPokerHand convertedPokerHand)

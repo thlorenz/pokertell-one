@@ -13,8 +13,12 @@ namespace PokerTell.LiveTracker.Interfaces
     /// </summary>
     public interface INewHandsTracker : IFluentInterface
     {
-        INewHandsTracker InitializeWith(IEnumerable<IHandHistoryFilesWatcher> handHistoryFilesWatchers);
-
         void ProcessHandHistoriesInFile(string fullPath);
+
+        IDictionary<string, IHandHistoryFilesWatcher> HandHistoryFilesWatchers { get; }
+
+        void TrackFolder(string fullPath);
+
+        void TrackFolders(IEnumerable<string> fullPaths);
     }
 }

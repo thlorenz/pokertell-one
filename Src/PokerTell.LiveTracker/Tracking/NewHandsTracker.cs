@@ -4,42 +4,89 @@ namespace PokerTell.LiveTracker.Tracking
     using System.IO;
     using System.Linq;
 
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
 
     public class NewHandsTracker : INewHandsTracker
     {
-        readonly IEventAggregator _eventAggregator;
-
-        readonly IRepository _repository;
-
-        IEnumerable<IHandHistoryFilesWatcher> _handHistoryFilesWatchers;
-
         /// <summary>
+        /// Initializes a new instance of the <see cref="NewHandsTracker"/> class. 
         /// Initializes a new instance of the new hands tracker.
         /// Is responsible for picking up file changes from the file system watchers it is initialized with.
         /// It then attempts to parse for hands in the file and raises a global new hand found event if it is successful.
         /// It also takes care of updating the repository with the new hand(s).
+        /// When told to track folders it uses the watcher optimizer to remove redundant folders (e.g. sub directories of folders already tracked)
         /// There should only be one in the entire application.
         /// It is initialized from the GamesTracker.
         /// </summary>
-        public NewHandsTracker(IEventAggregator eventAggregator, IRepository repository)
+        public NewHandsTracker(
+            IEventAggregator eventAggregator, 
+            IRepository repository, 
+            IWatchedDirectoriesOptimizer watchedDirectoriesOptimizer, 
+            IConstructor<IHandHistoryFilesWatcher> handHistoryFilesWatcherMake)
         {
             _eventAggregator = eventAggregator;
             _repository = repository;
+            _watchedDirectoriesOptimizer = watchedDirectoriesOptimizer;
+            _handHistoryFilesWatcherMake = handHistoryFilesWatcherMake;
+
+            HandHistoryFilesWatchers = new Dictionary<string, IHandHistoryFilesWatcher>();
         }
 
-        public INewHandsTracker InitializeWith(IEnumerable<IHandHistoryFilesWatcher> handHistoryFilesWatchers)
+        readonly IEventAggregator _eventAggregator;
+
+        readonly IRepository _repository;
+
+        readonly IWatchedDirectoriesOptimizer _watchedDirectoriesOptimizer;
+
+        public IDictionary<string, IHandHistoryFilesWatcher> HandHistoryFilesWatchers { get; protected set; }
+
+        readonly IConstructor<IHandHistoryFilesWatcher> _handHistoryFilesWatcherMake;
+
+        public void TrackFolder(string fullPath)
         {
-            _handHistoryFilesWatchers = handHistoryFilesWatchers;
-            _handHistoryFilesWatchers.ForEach(fsw => fsw.Changed += FileSystemWatcherChanged);
-            return this;
+            if (! HandHistoryFilesWatchers.Keys.Contains(fullPath))
+            {
+                var allPaths = new List<string>(HandHistoryFilesWatchers.Keys) { fullPath };
+                var optimizedPaths = _watchedDirectoriesOptimizer.Optimize(allPaths);
+              
+                if (optimizedPaths.Contains(fullPath))
+                {
+                    AddNewWatcherFor(fullPath);
+
+                    RemoveWatchersNotContainedIn(optimizedPaths);
+                }
+            }
+        }
+
+        public void TrackFolders(IEnumerable<string> fullPaths)
+        {
+            fullPaths.ForEach(TrackFolder);
+        }
+
+        void RemoveWatchersNotContainedIn(IEnumerable<string> optimizedPaths)
+        {
+            var redundantPaths =
+                HandHistoryFilesWatchers.Keys.Where(key => ! optimizedPaths.Contains(key))
+                .ToList();
+            redundantPaths
+                .ForEach(path => {
+                    HandHistoryFilesWatchers[path].Dispose();
+                    HandHistoryFilesWatchers.Remove(path);
+                });
+        }
+
+        void AddNewWatcherFor(string fullPath)
+        {
+            var watcher = _handHistoryFilesWatcherMake.New.InitializeWith(fullPath);
+            watcher.Changed += FileSystemWatcherChanged;
+            HandHistoryFilesWatchers.Add(fullPath, watcher);
         }
 
         void FileSystemWatcherChanged(object sender, FileSystemEventArgs e)
