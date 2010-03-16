@@ -9,24 +9,14 @@ namespace PokerTell.PokerHand.ViewModels
 
     public class HandHistoryRow : IHandHistoryRow
     {
-        #region Constants and Fields
-
         const string Indent = "___     ";
 
         readonly IConvertedPokerPlayer _pokerPlayer;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public HandHistoryRow(IConvertedPokerPlayer pokerPlayer)
         {
             _pokerPlayer = pokerPlayer;
         }
-
-        #endregion
-
-        #region Properties
 
         public string Flop
         {
@@ -79,10 +69,6 @@ namespace PokerTell.PokerHand.ViewModels
             get { return GetActionsFor(Streets.Turn); }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -95,10 +81,6 @@ namespace PokerTell.PokerHand.ViewModels
             return sb.ToString();
         }
 
-        #endregion
-
-        #region Methods
-
         string GetActionsFor(Streets street)
         {
             return _pokerPlayer.Rounds.Count > (int)street && _pokerPlayer[street] != null
@@ -110,7 +92,6 @@ namespace PokerTell.PokerHand.ViewModels
         {
             return Equals((HandHistoryRow)obj);
         }
-        #endregion
 
         public bool Equals(HandHistoryRow other)
         {
@@ -118,10 +99,12 @@ namespace PokerTell.PokerHand.ViewModels
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
+
             return Equals(other._pokerPlayer, _pokerPlayer);
         }
 

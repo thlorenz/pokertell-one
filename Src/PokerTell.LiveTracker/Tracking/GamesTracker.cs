@@ -80,9 +80,11 @@ namespace PokerTell.LiveTracker.Tracking
                 return this;
             }
 
+            Log.DebugFormat("Setting up GameController for:\n{0}", fullPath);
             IGameController gameController = SetupGameController(fullPath);
 
             GameControllers.Add(fullPath, gameController);
+            Log.Debug("Added GameController");
 
             _newHandsTracker.TrackFolder(new FileInfo(fullPath).DirectoryName);
             _newHandsTracker.ProcessHandHistoriesInFile(fullPath);

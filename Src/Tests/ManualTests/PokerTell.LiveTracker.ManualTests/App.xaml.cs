@@ -1,17 +1,12 @@
-namespace PokerTell
+﻿namespace PokerTell.LiveTracker.ManualTests
 {
     using System;
     using System.Reflection;
     using System.Windows;
 
-    using DatabaseSetup.Views;
-
     using log4net;
-    using log4net.Core;
 
-    using PokerTell.PokerHand.Views;
-
-    using Tools;
+    using NewHandCreator;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -20,18 +15,26 @@ namespace PokerTell
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        Bootstrapper _bootStrapper;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             RunInDebugMode();
 
-//            Current.DispatcherUnhandledException += (sender, args) => {
-//                Log.Error(args.Exception);
-//                args.Handled = true;
-//            };
-
             ShutdownMode = ShutdownMode.OnMainWindowClose;
+
+            RunNewHandLauncher();
+        }
+
+        void RunNewHandLauncher()
+        {
+           _bootStrapper.Container
+               .Resolve<NewHandCreatorLauncher>()
+               .Launch()
+               .StartTracking();
+            Current.MainWindow.Hide();
         }
 
         static void HandleException(Exception excep)
@@ -41,19 +44,20 @@ namespace PokerTell
                 return;
             }
 
-            Log.Error("An unhandled error occurred", excep);
+            Log.Error("An unhandled error occurred in Aplication: ", excep);
 
             Environment.Exit(1);
         }
 
-        static void RunInDebugMode()
+        void RunInDebugMode()
         {
             AppDomain.CurrentDomain.UnhandledException +=
                 (sender, e) => HandleException(e.ExceptionObject as Exception);
 
             try
             {
-                new Bootstrapper().Run();
+                _bootStrapper = new Bootstrapper();
+                _bootStrapper.Run();
             }
             catch (Exception excep)
             {
