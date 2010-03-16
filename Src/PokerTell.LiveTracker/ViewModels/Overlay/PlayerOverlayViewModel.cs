@@ -1,6 +1,6 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
-    using System.Windows;
+    using System;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
@@ -14,43 +14,6 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         public PlayerOverlayViewModel(IPlayerStatusViewModel playerStatus)
         {
             PlayerStatus = playerStatus;
-        }
-
-        public IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber)
-        {
-            Settings = settings;
-
-            Position = Settings.PlayerStatisticsPanelPositions[seatNumber];
-
-            PlayerStatus.InitializeWith(Settings.HoleCardsPositions[seatNumber], Settings.HarringtonMPositions[seatNumber]);
-            return this;
-        }
-
-        public IPlayerOverlayViewModel UpdateWith(IPlayerStatisticsViewModel playerStatistics, IConvertedPokerPlayer pokerPlayer)
-        {
-            PlayerStatistics = playerStatistics;
-
-            _mostRecentPokerPlayer = pokerPlayer;
-
-            if (playerStatistics == null || pokerPlayer == null)
-            {
-                PlayerStatus.IsPresent = false;
-                return this;
-            }
-
-            PlayerStatus.HarringtonM.Value = pokerPlayer.MAfter;
-            PlayerStatus.IsPresent = true;
-            return this;
-        }
-
-        public IPlayerOverlayViewModel ShowHoleCardsFor(int showHoleCardsDuration)
-        {
-            if (PlayerStatus.IsPresent && !string.IsNullOrEmpty(_mostRecentPokerPlayer.Holecards))
-            {
-                PlayerStatus.ShowHoleCardsFor(showHoleCardsDuration, _mostRecentPokerPlayer.Holecards);
-            }
-
-            return this;
         }
 
         public ITableOverlaySettingsViewModel Settings { get; set; }
@@ -69,8 +32,72 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IPlayerStatusViewModel PlayerStatus { get; set; }
 
-        public IPositionViewModel Position { get; protected set;  }
+        public IPositionViewModel Position { get; protected set; }
+
+        public string PlayerName { get; protected set; }
+
+        bool _isPresentAndHasStatistics;
+
+        public bool IsPresentAndHasStatistics
+        {
+            get { return _isPresentAndHasStatistics; }
+            protected set
+            {
+                _isPresentAndHasStatistics = value;
+                RaisePropertyChanged(() => IsPresentAndHasStatistics);
+            }
+        }
 
         IConvertedPokerPlayer _mostRecentPokerPlayer;
+
+        public IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber)
+        {
+            Settings = settings;
+
+            Position = Settings.PlayerStatisticsPanelPositions[seatNumber];
+
+            PlayerStatus.InitializeWith(Settings.HoleCardsPositions[seatNumber], Settings.HarringtonMPositions[seatNumber]);
+            return this;
+        }
+
+        public IPlayerOverlayViewModel UpdateStatusWith(IConvertedPokerPlayer pokerPlayer)
+        {
+            _mostRecentPokerPlayer = pokerPlayer;
+
+            if (pokerPlayer == null)
+            {
+                PlayerStatus.IsPresent = false;
+                return this;
+            }
+
+            PlayerName = pokerPlayer.Name;
+            PlayerStatus.HarringtonM.Value = pokerPlayer.MAfter;
+            PlayerStatus.IsPresent = true;
+
+            return this;
+        }
+
+        public void UpdateStatisticsWith(IPlayerStatisticsViewModel playerStatistics)
+        {
+            if (playerStatistics == null)
+            {
+                IsPresentAndHasStatistics = false;
+            }
+            else
+            {
+                PlayerStatistics = playerStatistics;
+                IsPresentAndHasStatistics = PlayerStatus.IsPresent;
+            }
+        }
+
+        public IPlayerOverlayViewModel ShowHoleCardsFor(int showHoleCardsDuration)
+        {
+            if (PlayerStatus.IsPresent && !string.IsNullOrEmpty(_mostRecentPokerPlayer.Holecards))
+            {
+                PlayerStatus.ShowHoleCardsFor(showHoleCardsDuration, _mostRecentPokerPlayer.Holecards);
+            }
+
+            return this;
+        }
     }
 }

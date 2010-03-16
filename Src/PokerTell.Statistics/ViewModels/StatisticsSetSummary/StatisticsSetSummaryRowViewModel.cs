@@ -1,32 +1,21 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 {
-    using Infrastructure.Interfaces.Statistics;
-
     using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
 
     using Tools.WPF.ViewModels;
 
     public class StatisticsSetSummaryRowViewModel : NotifyPropertyChanged, IStatisticsSetSummaryRowViewModel
     {
-        #region Constants and Fields
-
         readonly IBarGraphViewModel _barGraph;
 
         string _percentage;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public StatisticsSetSummaryRowViewModel(ActionSequences actionSequence, IBarGraphViewModel barGraph)
         {
             _barGraph = barGraph;
             ActionLetter = ActionSequencesUtility.GetLastActionIn(actionSequence).ToString();
         }
-
-        #endregion
-
-        #region Properties
 
         public string ActionLetter { get; private set; }
 
@@ -45,19 +34,13 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
             }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public IStatisticsSetSummaryRowViewModel UpdateWith(int percentage, int[] percentagesByColumn)
         {
             Percentage = string.Format("{0:0#}", percentage);
-            
+
             BarGraph.UpdateWith(percentagesByColumn);
-            
+
             return this;
         }
-
-        #endregion
     }
 }

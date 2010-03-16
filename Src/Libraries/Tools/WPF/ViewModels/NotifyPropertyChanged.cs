@@ -6,12 +6,10 @@
 namespace Tools.WPF.ViewModels
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq.Expressions;
 
     using Tools.GenericUtilities;
-    using Tools.Interfaces;
 
     /// <summary>
     /// Abstract ViewModel that implements property name check when RaisePropertyChanged is raised
@@ -19,13 +17,8 @@ namespace Tools.WPF.ViewModels
     [Serializable]
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
-        #region Events
-        [field: NonSerialized]       
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region Methods
 
         void OnPropertyChanged(string propertyName)
         {
@@ -44,7 +37,5 @@ namespace Tools.WPF.ViewModels
         {
             OnPropertyChanged(Reflect.GetProperty(expression).Name);
         }
-
-        #endregion
     }
 }

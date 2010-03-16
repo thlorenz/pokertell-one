@@ -51,6 +51,14 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 .Returns(_pokerRoomInfo_Stub.Object);
 
             _tableAttacher_Mock = new Mock<IOverlayToTableAttacher>();
+            _tableAttacher_Mock
+                .Setup(ta => ta.InitializeWith(
+                    Moq.It.IsAny<IWindowManager>(),
+                    Moq.It.IsAny<IDispatcherTimer>(),
+                    Moq.It.IsAny<IDispatcherTimer>(),
+                    Moq.It.IsAny<IPokerRoomInfo>(),
+                    Moq.It.IsAny<string>()))
+                    .Returns(_tableAttacher_Mock.Object);
 
             _pokerTableStatistics_Mock = new Mock<IPokerTableStatisticsViewModel>();
 
@@ -153,11 +161,13 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                                                                            _pokerRoomInfo_Stub.Object, 
                                                                            tableName));
 
+            It should_activate_the_overlay_to_table_attacher = () => _tableAttacher_Mock.Verify(ta => ta.Activate());
+
             It should_update_the_seat_mapper_with_seat_of_the_hero = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seatOfHero));
         }
 
         [Subject(typeof(GameController), "New Hand")]
-        public class when_updated_with_a_new_hand : Ctx_InitializedWithFirstHand
+        public class when_updated_with_a_new_hand_hero_name_is_non_empty_and_found_in_hand : Ctx_InitializedWithFirstHand
         {
             const string board = "As Kh Qs";
 
@@ -181,6 +191,31 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 = () => _tableAttacher_Mock.VerifySet(ta => ta.TableName = tableName);
 
             It should_update_the_seat_mapper_with_seat_of_Hero = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(seatOfHero));
+        }
+
+        [Subject(typeof(TableOverlayManager), "New Hand")]
+        public class when_updated_with_new_hand_but_HeroName_is_empty : Ctx_InitializedWithFirstHand
+        {
+            Establish context = () => _sut.SetHeroName(string.Empty);
+
+            Because of = () => _sut.UpdateWith(_newHand_Stub.Object);
+
+            It should_update_the_seat_mapper_with_0 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(0));
+        }
+
+        [Subject(typeof(TableOverlayManager), "New Hand")]
+        public class when_updated_with_new_hand_but_HeroName_is_not_found_in_players_of_the_hand : Ctx_InitializedWithFirstHand
+        {
+            Establish context = () => {
+                var otherPlayer_Stub = new Mock<IConvertedPokerPlayer>();
+                otherPlayer_Stub.SetupGet(p => p.Name).Returns("other name");
+                _newHand_Stub.SetupGet(h => h.Players).Returns(new[] { otherPlayer_Stub.Object });
+                _sut.SetHeroName(heroName);
+            };
+
+            Because of = () => _sut.UpdateWith(_newHand_Stub.Object);
+
+            It should_update_the_seat_mapper_with_0 = () => _seatMapper_Mock.Verify(sm => sm.UpdateWith(0));
         }
 
         [Subject(typeof(TableOverlayManager), "Table closed")]

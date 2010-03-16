@@ -12,7 +12,7 @@
 
     <!-- PlayerOverlayViewModel -->
     <DataTemplate DataType="{x:Type ViewModels:PlayerOverlayViewModel}">
-        <Grid>
+        <Grid Visibility="{Binding PlayerStatus.IsPresent, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
 
             <!-- HoleCards-->
             <ContentControl Content="{Binding PlayerStatus.HoleCards}" />

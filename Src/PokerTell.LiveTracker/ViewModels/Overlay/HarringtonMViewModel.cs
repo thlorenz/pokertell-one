@@ -1,10 +1,6 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Windows;
-
-    using Interfaces;
+    using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
     using Tools.WPF.Interfaces;

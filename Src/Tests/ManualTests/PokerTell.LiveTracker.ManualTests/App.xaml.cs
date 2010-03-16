@@ -30,11 +30,13 @@
 
         void RunNewHandLauncher()
         {
+            Current.MainWindow.Width = 400;
+            Current.MainWindow.Height = 100;
+            Current.MainWindow.Left = 0;
+            Current.MainWindow.Top = 0;
            _bootStrapper.Container
                .Resolve<NewHandCreatorLauncher>()
-               .Launch()
-               .StartTracking();
-            Current.MainWindow.Hide();
+               .Launch();
         }
 
         static void HandleException(Exception excep)

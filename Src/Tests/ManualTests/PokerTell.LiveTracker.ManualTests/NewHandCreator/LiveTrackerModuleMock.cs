@@ -32,6 +32,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using ViewModels.Overlay;
 
     using Views;
+    using Views.Overlay;
 
     // Resharper disable InconsistentNaming
     public class LiveTrackerModuleMock : IModule
@@ -146,7 +147,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     public class TableOverlayWindowManagerMock : WindowManager, ITableOverlayWindowManager
     {
         public TableOverlayWindowManagerMock()
-            : base(() => new Window { Background = Brushes.DarkGreen })
+            : base(() => new TableOverlayView { Background = Brushes.Black, AllowsTransparency = false, WindowStyle = WindowStyle.ToolWindow })
         {
         }
     }

@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows.Input;
 
@@ -18,5 +19,7 @@ namespace PokerTell.LiveTracker.Interfaces
         void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics);
 
         IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName);
+
+        event Action PlayersStatisticsWereUpdated;
     }
 }

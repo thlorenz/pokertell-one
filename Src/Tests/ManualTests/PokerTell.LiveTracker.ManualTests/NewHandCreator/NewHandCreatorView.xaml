@@ -14,8 +14,8 @@
         <DataTemplate DataType="{x:Type ViewModels:PlayerViewModel}">
             <StackPanel Orientation="Horizontal">
                 <Label Content="{Binding SeatNumber}" MinWidth="20"/>
-                <TextBox MinWidth="100" Text="{Binding Name, Mode=TwoWay}"/>
-                <TextBox MinWidth="100" Text="{Binding HoleCards, Mode=TwoWay}"/>
+                <TextBox MinWidth="100" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBox MinWidth="100" Text="{Binding HoleCards, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <CheckBox IsChecked="{Binding IsPresent}"/>
             </StackPanel>
         </DataTemplate>
@@ -24,7 +24,7 @@
                 <GroupBox Header="Hand Header">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Table Name"/>
-                        <TextBox MinWidth="150" Text="{Binding TableName, Mode=TwoWay}"/>
+                        <TextBox MinWidth="150" Text="{Binding TableName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Players">

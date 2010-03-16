@@ -11,8 +11,6 @@ namespace PokerTell.Statistics.ViewModels
 
     public class PreFlopStatisticsSetsViewModel : NotifyPropertyChanged, IPreFlopStatisticsSetsViewModel
     {
-        #region Constructors and Destructors
-
         public PreFlopStatisticsSetsViewModel()
         {
             InitializeStatisticsSetSummaryViewModels();
@@ -20,15 +18,7 @@ namespace PokerTell.Statistics.ViewModels
             RegisterEvents();
         }
 
-        #endregion
-
-        #region Events
-
         public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
-
-        #endregion
-
-        #region Properties
 
         public IStatisticsSetSummaryViewModel PreFlopRaisedPotStatisticsSet { get; protected set; }
 
@@ -76,11 +66,6 @@ namespace PokerTell.Statistics.ViewModels
         }
 
         string _steals;
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPreFlopStatisticsSetsViewModel
 
         public IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
@@ -90,17 +75,11 @@ namespace PokerTell.Statistics.ViewModels
             TotalCountPreFlopUnraisedPot = playerStatistics.TotalCountPreFlopUnraisedPot;
             TotalCountPreFlopRaisedPot = playerStatistics.TotalCountPreFlopRaisedPot;
 
-            Steals = string.Format("{0:0#}",
-                playerStatistics.PreFlopUnraisedPot.ActionSequenceStatistics.Last().Percentages[(int)StrategicPositions.BU]);
+            Steals = string.Format("{0:0#}", 
+                                   playerStatistics.PreFlopUnraisedPot.ActionSequenceStatistics.Last().Percentages[(int)StrategicPositions.BU]);
 
             return this;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         void InitializeStatisticsSetSummaryViewModels()
         {
@@ -110,12 +89,8 @@ namespace PokerTell.Statistics.ViewModels
 
         protected void RegisterEvents()
         {
-            PreFlopUnraisedPotStatisticsSet.StatisticsSetSelectedEvent +=
-                statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
-            PreFlopRaisedPotStatisticsSet.StatisticsSetSelectedEvent +=
-                statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
+            PreFlopUnraisedPotStatisticsSet.StatisticsSetSelectedEvent += statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
+            PreFlopRaisedPotStatisticsSet.StatisticsSetSelectedEvent += statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
         }
-
-        #endregion
     }
 }

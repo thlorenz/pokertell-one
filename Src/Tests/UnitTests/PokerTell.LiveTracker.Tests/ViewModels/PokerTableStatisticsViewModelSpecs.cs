@@ -1,5 +1,8 @@
 namespace PokerTell.LiveTracker.Tests.ViewModels
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.Statistics;
 
@@ -31,6 +34,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         Establish specContext = () => {
             _eventAggregator_Stub = new Mock<IEventAggregator>();
             _playerStatisticsMake_Stub = new Mock<IConstructor<IPlayerStatisticsViewModel>>();
+            _playerStatisticsMake_Stub
+                .SetupGet(svm => svm.New).Returns(new Mock<IPlayerStatisticsViewModel>().Object);
+
             _statisticsAnalyzer_Stub = new Mock<IDetailedStatisticsAnalyzerViewModel>();
 
             _sut = new PokerTableStatisticsViewModel(_eventAggregator_Stub.Object, _playerStatisticsMake_Stub.Object, _statisticsAnalyzer_Stub.Object);
@@ -62,5 +68,23 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             It should_return_null_when_passing_some_other_name = () => _sut.GetPlayerStatisticsViewModelFor("neverAdded").ShouldBeNull();
         }
+
+        [Subject(typeof(PokerTableStatisticsViewModel), "UpdateWith")]
+        public class when_its_statistics_were_updated : PokerTableStatisticsViewModelSpecs
+        {
+            static bool statisticsWereUpdatedWasRaised;
+
+            static IEnumerable<IPlayerStatistics> playersStatistics_Stub;
+
+            Establish context = () => {
+                playersStatistics_Stub = new[] { Utils.PlayerStatisticsStubFor("p1"), Utils.PlayerStatisticsStubFor("p2") };
+                _sut.PlayersStatisticsWereUpdated += () => statisticsWereUpdatedWasRaised = true;
+            };
+
+            Because of = () => _sut.UpdateWith(playersStatistics_Stub);
+
+            It should_raise_PlayersStatisticsWereUpdated_event = () => statisticsWereUpdatedWasRaised.ShouldBeTrue();
+        }
+
     }
 }

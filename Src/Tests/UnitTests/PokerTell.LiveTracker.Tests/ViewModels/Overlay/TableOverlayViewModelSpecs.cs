@@ -3,15 +3,17 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
     using System;
     using System.Linq;
 
+    using Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.Statistics;
+    using Infrastructure.Services;
+
+    using Interfaces;
+
+    using LiveTracker.ViewModels.Overlay;
+
     using Machine.Specifications;
 
     using Moq;
-
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.Infrastructure.Interfaces.Statistics;
-    using PokerTell.Infrastructure.Services;
-    using PokerTell.LiveTracker.Interfaces;
-    using PokerTell.LiveTracker.ViewModels.Overlay;
 
     using It = Machine.Specifications.It;
 
@@ -55,17 +57,14 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             ShowHoleCardsDuration = 1;
 
             int playerOverlaysCreated = 0;
-            playerOverlaysConstructor = new Constructor<IPlayerOverlayViewModel>(() => 
-            {
+            playerOverlaysConstructor = new Constructor<IPlayerOverlayViewModel>(() => {
                 if (playerOverlaysCreated == 0)
                 {
                     playerOverlaysCreated++;
                     return _playerOverlay_0_VM_Mock.Object;
                 }
-                else
-                {
-                    return _playerOverlay_1_VM_Mock.Object;
-                }
+
+                return _playerOverlay_1_VM_Mock.Object;
             });
             _sut = new TableOverlayViewModel(_boardVM_Mock.Object, _overlaySettingsAidVM_Mock.Object, playerOverlaysConstructor);
         };
@@ -80,17 +79,18 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             protected static IConvertedPokerPlayer[] _convertedPlayers;
 
-            Establish context = () => {
+            Establish tedInSeat1Context = () => {
                 _ted = new Mock<IConvertedPokerPlayer>();
                 _ted.SetupGet(t => t.SeatNumber).Returns(1);
                 _ted.SetupGet(t => t.Name).Returns(tedsName);
                 _convertedPlayers = new[] { _ted.Object };
+                _playerOverlay_0_VM_Mock.SetupGet(po => po.PlayerName).Returns(tedsName);
                 _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(2);
                 _sut.InitializeWith(_seatMapper_Stub.Object, 
-                                _tableOverlaySettingsVM_Stub.Object, 
-                                _gameHistoryVM_Stub.Object, 
-                                _pokerTableStatisticsVM_Stub.Object, 
-                                ShowHoleCardsDuration);
+                                    _tableOverlaySettingsVM_Stub.Object, 
+                                    _gameHistoryVM_Stub.Object, 
+                                    _pokerTableStatisticsVM_Stub.Object, 
+                                    ShowHoleCardsDuration);
             };
         }
 
@@ -107,10 +107,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _convertedPlayers = new[] { _ted.Object, _bob.Object };
                 _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(2);
                 _sut.InitializeWith(_seatMapper_Stub.Object, 
-                                _tableOverlaySettingsVM_Stub.Object, 
-                                _gameHistoryVM_Stub.Object, 
-                                _pokerTableStatisticsVM_Stub.Object, 
-                                ShowHoleCardsDuration);
+                                    _tableOverlaySettingsVM_Stub.Object, 
+                                    _gameHistoryVM_Stub.Object, 
+                                    _pokerTableStatisticsVM_Stub.Object, 
+                                    ShowHoleCardsDuration);
             };
         }
 
@@ -120,10 +120,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             Establish context = () => {
                 _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(6);
                 _sut.InitializeWith(_seatMapper_Stub.Object, 
-                                _tableOverlaySettingsVM_Stub.Object, 
-                                _gameHistoryVM_Stub.Object, 
-                                _pokerTableStatisticsVM_Stub.Object, 
-                                ShowHoleCardsDuration);
+                                    _tableOverlaySettingsVM_Stub.Object, 
+                                    _gameHistoryVM_Stub.Object, 
+                                    _pokerTableStatisticsVM_Stub.Object, 
+                                    ShowHoleCardsDuration);
             };
 
             It should_create_6_Player_Overlays = () => _sut.PlayerOverlays.Count.ShouldEqual(6);
@@ -153,27 +153,17 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         }
 
         [Subject(typeof(TableOverlayViewModel), "UpdateWith, no preferred Seat")]
-        public class when_ted_in_seat_1_is_passed_and_his_statistics_are_available : Ctx_Ted_In_Seat1
+        public class when_ted_in_seat_1_is_passed : Ctx_Ted_In_Seat1
         {
-            protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
-
-            Establish context = () => {
-                tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
-                _pokerTableStatisticsVM_Stub
-                    .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
-                    .Returns(tedsStatisticsVM_Stub.Object);
-            };
 
             Because of = () => _sut.UpdateWith(_convertedPlayers, null);
 
             It should_update_playeroverlay_0_with_teds_converted_Player
-                = () => _playerOverlay_0_VM_Mock.Verify(po => po.UpdateWith(Moq.It.IsAny<IPlayerStatisticsViewModel>(), _ted.Object));
+                = () => _playerOverlay_0_VM_Mock.Verify(po => po.UpdateStatusWith(_ted.Object));
 
-            It should_update_playeroverlay_0_with_teds_statisticsVM_as_returned_from_the_tablestatisticsVM_for_his_Name
-                = () => _playerOverlay_0_VM_Mock.Verify(po => po.UpdateWith(tedsStatisticsVM_Stub.Object, Moq.It.IsAny<IConvertedPokerPlayer>()));
 
-            It should_update_playeroverlay_1_with_null_for_statistics_and_null_for_converted_Player
-                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateWith(null, null));
+            It should_update_playeroverlay_1_status_with_null
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateStatusWith(null));
         }
 
         [Subject(typeof(TableOverlayViewModel), "UpdateWith, preferred Seat")]
@@ -181,31 +171,50 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         {
             protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
 
+            Establish context = () => _seatMapper_Stub.Setup(sm => sm.Map(1, Moq.It.IsAny<int>())).Returns(2);
+
+            Because of = () => _sut.UpdateWith(_convertedPlayers, null);
+
+            It should_update_playeroverlay_1_status_with_teds_converted_Player
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateStatusWith(_ted.Object));
+        }
+
+        [Subject(typeof(TableOverlayViewModel), "PlayerStatisticsWereUpdated")]
+        public class when_updated_with_ted_in_seat_1_and_the_player_statistics_were_updated_and_his_statistics_are_available : Ctx_Ted_In_Seat1
+        {
+            protected static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
+
             Establish context = () => {
                 tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
                 _pokerTableStatisticsVM_Stub
                     .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
                     .Returns(tedsStatisticsVM_Stub.Object);
-                _seatMapper_Stub.Setup(sm => sm.Map(1, Moq.It.IsAny<int>())).Returns(2);
+                _sut.UpdateWith(_convertedPlayers, null);
             };
 
-            Because of = () => _sut.UpdateWith(_convertedPlayers, null);
+            Because of = () => _pokerTableStatisticsVM_Stub.Raise(pts => pts.PlayersStatisticsWereUpdated += null);
 
-            It should_update_playeroverlay_1_with_teds_converted_Player
-                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateWith(Moq.It.IsAny<IPlayerStatisticsViewModel>(), _ted.Object));
+            It should_update_playeroverlay_0_with_teds_statisticsVM_as_returned_from_the_tablestatisticsVM_for_his_Name
+                = () => _playerOverlay_0_VM_Mock.Verify(po => po.UpdateStatisticsWith(tedsStatisticsVM_Stub.Object));
+
+            It should_update_playeroverlay_1_statistics_with_null
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateStatisticsWith(null));
         }
 
-        [Subject(typeof(TableOverlayViewModel), "UpdateWith, no preferred Seat")]
-        public class when_ted_in_seat_1_is_passed_and_his_statistics_are_not_available : Ctx_Ted_In_Seat1
+        [Subject(typeof(TableOverlayViewModel), "PlayerStatisticsWereUpdated")]
+        public class when_updated_with_ted_in_seat_1_is_passed_and_his_statistics_are_not_available : Ctx_Ted_In_Seat1
         {
-            Establish context = () => _pokerTableStatisticsVM_Stub
-                                          .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
-                                          .Returns<IPlayerStatisticsViewModel>(null);
+            Establish context = () => {
+                _sut.UpdateWith(_convertedPlayers, null);
+                _pokerTableStatisticsVM_Stub
+                    .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
+                    .Returns<IPlayerStatisticsViewModel>(null);
+            };
 
-            Because of = () => _sut.UpdateWith(_convertedPlayers, null);
+            Because of = () => _pokerTableStatisticsVM_Stub.Raise(pts => pts.PlayersStatisticsWereUpdated += null);
 
-            It should_update_playeroverlay_0_with_null_for_statistics_and_null_for_converted_Player
-                = () => _playerOverlay_0_VM_Mock.Verify(po => po.UpdateWith(null, null));
+            It should_update_playeroverlay_0_statistics_with_null
+                = () => _playerOverlay_0_VM_Mock.Verify(po => po.UpdateStatisticsWith(null));
         }
 
         [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
@@ -226,7 +235,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_tell_teds_PlayerOverlayVM_to_show_his_holecards
                 = () => _playerOverlay_0_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration));
         }
-
+        
         [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
         public class when_ted_in_seat_1_showed_his_cards_but_the_board_is_empty : Ctx_Ted_In_Seat1
         {
@@ -275,6 +284,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             Establish context = () => {
                 tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
+                tedsStatisticsVM_Stub
+                    .SetupGet(svm => svm.PlayerName).Returns(tedsName);
+
                 _pokerTableStatisticsVM_Stub
                     .Setup(ts => ts.GetPlayerStatisticsViewModelFor(tedsName))
                     .Returns(tedsStatisticsVM_Stub.Object);
@@ -284,8 +296,12 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             Because of = () => _tableOverlaySettingsVM_Stub.Raise(set => set.PreferredSeatChanged += null);
 
-            It should_update_playeroverlay_1_with_teds_converted_Player
-                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateWith(Moq.It.IsAny<IPlayerStatisticsViewModel>(), _ted.Object));
+            It should_update_playeroverlay_1_status_with_teds_converted_Player
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateStatusWith(_ted.Object));
+
+            It should_update_statistics
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateStatisticsWith(Moq.It.IsAny<IPlayerStatisticsViewModel>()));
         }
+         
     }
 }

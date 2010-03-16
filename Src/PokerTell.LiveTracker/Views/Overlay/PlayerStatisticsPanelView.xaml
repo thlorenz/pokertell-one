@@ -137,7 +137,7 @@
         <Border HorizontalAlignment="Center" VerticalAlignment="Center"
                 CornerRadius="10"
                 Padding="5, 2, 5, 2"
-                Visibility="{Binding PlayerStatus.IsPresent, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
+                Visibility="{Binding IsPresentAndHasStatistics, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
                 Background="{Binding Settings.Background.Brush}" >
             <Viewbox Width="{Binding Settings.StatisticsPanelWidth, Mode=TwoWay}" 
                      Height="{Binding Settings.StatisticsPanelHeight, Mode=TwoWay}" 

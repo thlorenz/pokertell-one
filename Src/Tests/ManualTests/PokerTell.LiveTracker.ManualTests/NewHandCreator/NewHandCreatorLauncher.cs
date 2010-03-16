@@ -31,13 +31,10 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
         {
             _newHandCreatorViewModel = new NewHandCreatorViewModel(_container, _eventAggregator);
             _newHandCreatorView = new NewHandCreatorView { Topmost = true, DataContext = _newHandCreatorViewModel };
-            _newHandCreatorView.ShowDialog();
+            _newHandCreatorViewModel.StartTracking();
+            _newHandCreatorView.Show();
             return this;
         }
 
-        public void StartTracking()
-        {
-            _newHandCreatorViewModel.StartTracking();
-        }
     }
 }

@@ -68,9 +68,8 @@ namespace PokerTell.LiveTracker.Overlay
                                                    waitThenTryToFindTableAgainTimer, 
                                                    _pokerRoomInfoLocator.GetPokerRoomInfoFor(firstHand.Site), 
                                                    firstHand.TableName)
-                                                   // TODO spec activate
-                                                   .Activate();
-
+                
+                .Activate();
 
             UpdateTableOverlay(firstHand);
             UpdateSeatMapper(firstHand);
@@ -98,15 +97,22 @@ namespace PokerTell.LiveTracker.Overlay
 
         void UpdateSeatMapper(IConvertedPokerHand convertedPokerHand)
         {
-            // TODO - spec
             if (string.IsNullOrEmpty(HeroName))
             {
-            _seatMapper.UpdateWith(0);
+                _seatMapper.UpdateWith(0);
             }
             else
             {
-            var actualSeatOfHero = convertedPokerHand.Players.First(p => p.Name == HeroName).SeatNumber;
-            _seatMapper.UpdateWith(actualSeatOfHero);
+                var hero = convertedPokerHand.Players.FirstOrDefault(p => p.Name == HeroName);
+                if (hero == null)
+                {
+                    _seatMapper.UpdateWith(0);
+                }
+                else
+                {
+                    var actualSeatOfHero = hero.SeatNumber;
+                    _seatMapper.UpdateWith(actualSeatOfHero);
+                }
             }
         }
 

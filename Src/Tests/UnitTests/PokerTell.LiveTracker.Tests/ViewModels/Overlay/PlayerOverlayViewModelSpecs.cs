@@ -51,38 +51,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             };
         }
 
-        [Subject(typeof(PlayerOverlayViewModel), "InitializeWith")]
-        public class when_initialized_with_settings_and_seat_1 : PlayerOverlayViewModelSpecs
-        {
-            static IList<IPositionViewModel> harringtonMPositions;
-
-            static IList<IPositionViewModel> holeCardsPositions;
-
-            const int seat = 1;
-
-            Establish context = () => {
-                harringtonMPositions = new[] { null, new PositionViewModel(1, 1) };
-                holeCardsPositions = new[] { null, new PositionViewModel(2, 2) };
-                _overlaySettings_Stub.SetupGet(os => os.PlayerStatisticsPanelPositions).Returns(new IPositionViewModel[] {null, null});
-                _overlaySettings_Stub.SetupGet(os => os.HarringtonMPositions).Returns(harringtonMPositions);
-                _overlaySettings_Stub.SetupGet(os => os.HoleCardsPositions).Returns(holeCardsPositions);
-            };
-
-            Because of = () => _sut.InitializeWith(_overlaySettings_Stub.Object, seat);
-
-            It should_initialize_the_PlayerStatus_viewmodel_with_the_harringtonM_and_holecards_positions_of_seat_1
-                = () => _playerStatusVM_Mock.Verify(ps => ps.InitializeWith(holeCardsPositions[seat], harringtonMPositions[seat]));
-
-        }
-
-        [Subject(typeof(PlayerOverlayViewModel), "UpdateWith")]
-        public class when_updating_with_null_values : PlayerOverlayViewModelSpecs
-        {
-            Because of = () => _sut.UpdateWith(null, null);
-
-            It should_set_PlayerStatus_IsPresent_to_false = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = false);
-        }
-
         public abstract class Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM : PlayerOverlayViewModelSpecs
         {
             protected static Mock<IConvertedPokerPlayer> _convertedPlayer_Stub;
@@ -100,20 +68,94 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             };
         }
 
-        [Subject(typeof(PlayerOverlayViewModel), "UpdateWith")]
+        [Subject(typeof(PlayerOverlayViewModel), "InitializeWith")]
+        public class when_initialized_with_settings_and_seat_1 : PlayerOverlayViewModelSpecs
+        {
+            static IList<IPositionViewModel> harringtonMPositions;
+
+            static IList<IPositionViewModel> holeCardsPositions;
+
+            const int seat = 1;
+
+            Establish context = () => {
+                harringtonMPositions = new[] { null, new PositionViewModel(1, 1) };
+                holeCardsPositions = new[] { null, new PositionViewModel(2, 2) };
+                _overlaySettings_Stub.SetupGet(os => os.PlayerStatisticsPanelPositions).Returns(new IPositionViewModel[] { null, null });
+                _overlaySettings_Stub.SetupGet(os => os.HarringtonMPositions).Returns(harringtonMPositions);
+                _overlaySettings_Stub.SetupGet(os => os.HoleCardsPositions).Returns(holeCardsPositions);
+            };
+
+            Because of = () => _sut.InitializeWith(_overlaySettings_Stub.Object, seat);
+
+            It should_initialize_the_PlayerStatus_viewmodel_with_the_harringtonM_and_holecards_positions_of_seat_1
+                = () => _playerStatusVM_Mock.Verify(ps => ps.InitializeWith(holeCardsPositions[seat], harringtonMPositions[seat]));
+
+        }
+
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatusWith")]
+        public class when_updating_status_with_null_value : PlayerOverlayViewModelSpecs
+        {
+            Because of = () => _sut.UpdateStatusWith(null);
+
+            It should_set_PlayerStatus_IsPresent_to_false = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = false);
+        }
+
+
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatusWith")]
         public class when_updating_with_non_null_statistics_and_converted_player : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
         {
+            const string playerName = "some name";
+
             const int M = 1;
 
-            Establish context = () => _convertedPlayer_Stub.SetupGet(cp => cp.MAfter).Returns(M);
+            Establish context = () => {
+                _convertedPlayer_Stub.SetupGet(cp => cp.Name).Returns(playerName);
+                _convertedPlayer_Stub.SetupGet(cp => cp.MAfter).Returns(M);
 
-            Because of = () => _sut.UpdateWith(_playerStatistics_Stub.Object, _convertedPlayer_Stub.Object);
+            };
+
+            Because of = () => _sut.UpdateStatusWith(_convertedPlayer_Stub.Object);
 
             It should_set_PlayerStatus_IsPresent_to_true = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = true);
 
             It should_set_PlayerStatus_HarringtonM_Value_to_MAfter_of_converted_player = () => _harrintonM_VM_Stub.VerifySet(hm => hm.Value = M);
 
+            It should_set_the_PlayerName_to_the_name_of_the_converted_player = () => _sut.PlayerName.ShouldEqual(playerName);
+
+        }
+
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatisticsWith")]
+        public class when_player_is_present_updating_statistics_with_null_value : PlayerOverlayViewModelSpecs
+        {
+            Establish context = () => _playerStatusVM_Mock.SetupGet(ps => ps.IsPresent).Returns(true);
+
+            Because of = () => _sut.UpdateStatisticsWith(null);
+
+            It should_set_IsPresentAndHasStatistics_to_false = () => _sut.IsPresentAndHasStatistics.ShouldBeFalse();
+        }
+
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatisticsWith")]
+        public class when_updating_with_non_null_statistics : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
+        {
+            Establish context = () => _playerStatusVM_Mock.SetupGet(ps => ps.IsPresent).Returns(true);
+
+            Because of = () => _sut.UpdateStatisticsWith(_playerStatistics_Stub.Object);
+
             It should_assign_the_passed_PlayerStatistics_ViewModel = () => _sut.PlayerStatistics.ToString().ShouldEqual(_playerStatisticsVM_Stub.Object.ToString());
+
+            It should_set_IsPresentAndHasStatistics_to_true = () => _sut.IsPresentAndHasStatistics.ShouldBeTrue();
+        }
+
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatisticsWith")]
+        public class when_updating_with_non_null_statistics_but_player_is_not_present : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
+        {
+            Establish context = () => _playerStatusVM_Mock.SetupGet(ps => ps.IsPresent).Returns(false);
+
+            Because of = () => _sut.UpdateStatisticsWith(_playerStatistics_Stub.Object);
+
+            It should_assign_the_passed_PlayerStatistics_ViewModel = () => _sut.PlayerStatistics.ToString().ShouldEqual(_playerStatisticsVM_Stub.Object.ToString());
+
+            It should_set_IsPresentAndHasStatistics_to_false = () => _sut.IsPresentAndHasStatistics.ShouldBeFalse();
         }
 
         [Subject(typeof(PlayerOverlayViewModel), "ShowHoleCardsFor")]
@@ -126,7 +168,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             Establish context = () => {
                 _convertedPlayer_Stub.SetupGet(cp => cp.Holecards).Returns(holecards);
-                _sut.UpdateWith(_playerStatistics_Stub.Object, _convertedPlayer_Stub.Object);
+                _sut.UpdateStatusWith(_convertedPlayer_Stub.Object);
             };
 
             Because of = () => _sut.ShowHoleCardsFor(duration);
@@ -145,7 +187,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             Establish context = () => {
                 _convertedPlayer_Stub.SetupGet(cp => cp.Holecards).Returns(holecards);
-                _sut.UpdateWith(_playerStatistics_Stub.Object, _convertedPlayer_Stub.Object);
+                _sut.UpdateStatusWith(_convertedPlayer_Stub.Object);
             };
 
             Because of = () => _sut.ShowHoleCardsFor(duration);
@@ -159,7 +201,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         {
             const int duration = 2;
 
-            Establish context = () => _sut.UpdateWith(null, null);
+            Establish context = () => _sut.UpdateStatusWith(null);
 
             Because of = () => _sut.ShowHoleCardsFor(duration);
 

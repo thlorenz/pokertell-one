@@ -5,14 +5,14 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
     using System.Linq;
     using System.Windows.Input;
 
-    using Infrastructure.Interfaces.Statistics;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class StatisticsSetSummaryViewModel : NotifyPropertyChanged, IStatisticsSetSummaryViewModel
     {
-        public IList<IStatisticsSetSummaryRowViewModel> Rows { get;  private set; }
+        public IList<IStatisticsSetSummaryRowViewModel> Rows { get; private set; }
 
         ICommand _selectStatisticsSetCommand;
 
@@ -37,7 +37,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
         public IStatisticsSetSummaryViewModel UpdateWith(IActionSequenceStatisticsSet statisticsSet)
         {
             _statisticsSet = statisticsSet;
-           
+
             if (statisticsSet.ActionSequenceStatistics.Count() < 1)
             {
                 throw new ArgumentException("ActionSequenceStatistics cannot have count zero", "statisticsSet");
@@ -51,10 +51,10 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
                 {
                     Rows.Add(new StatisticsSetSummaryRowViewModel(statistic.ActionSequence, new BarGraphViewModel()));
                 }
-                
+
                 Rows[row].UpdateWith(statisticsSet.CumulativePercentagesByRow[row], statistic.Percentages);
             }
-            
+
             return this;
         }
 

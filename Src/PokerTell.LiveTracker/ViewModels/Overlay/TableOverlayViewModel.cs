@@ -64,7 +64,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
             InitializeOverlaySettings(overlaySettings);
 
+            RegisterEvents();
+
             return this;
+        }
+
+        void RegisterEvents()
+        {
+            PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics; 
         }
 
         void CreatePlayerOverlays(int totalSeats)
@@ -83,7 +90,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             if (pokerPlayers.Count() <= 0)
                 throw new ArgumentException("Need at least one player");
 
-            UpdatePlayerOverlays();
+            UpdatePlayerOverlayStatuses();
 
             ShowBoardAndHoleCards(board);
 
@@ -101,12 +108,15 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 PlayerOverlays[seat].InitializeWith(OverlaySettings, seat);
             }
 
-            OverlaySettings.PreferredSeatChanged += UpdatePlayerOverlays;
+            OverlaySettings.PreferredSeatChanged += () => {
+                UpdatePlayerOverlayStatuses();
+                UpdatePlayerStatistics();
+            };
         }
 
         void ShowBoardAndHoleCards(string board)
         {
-            if (!string.IsNullOrEmpty(board) && _convertedPokerPlayers.Any(p => !string.IsNullOrEmpty(p.Holecards)))
+            if (!string.IsNullOrEmpty(board) && _convertedPokerPlayers.Any(p => !string.IsNullOrEmpty(p.Holecards) && !p.Holecards.Contains("?")))
             {
                 Board.UpdateWith(board);
                 Board.HideBoardAfter(_showHoleCardsDuration);
@@ -114,7 +124,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        void UpdatePlayerOverlays()
+        void UpdatePlayerOverlayStatuses()
         {
             for (int index = 0; index < PlayerOverlays.Count; index++)
             {
@@ -124,7 +134,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
                 int mappedSeatIndex = GetMappedSeatIndexFor(playerSeat);
 
-                UpdatePlayerOverlayFor(pokerPlayer, mappedSeatIndex);
+                UpdatePlayerOverlayStatusFor(pokerPlayer, mappedSeatIndex);
             }
         }
 
@@ -134,22 +144,23 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             return mappedSeat - 1;
         }
 
-        void UpdatePlayerOverlayFor(IConvertedPokerPlayer pokerPlayer, int index)
+        void UpdatePlayerOverlayStatusFor(IConvertedPokerPlayer pokerPlayer, int index)
         {
             if (pokerPlayer == null)
             {
-                PlayerOverlays[index].UpdateWith(null, null);
+                PlayerOverlays[index].UpdateStatusWith(null);
                 return;
             }
 
-            var playerStatisticsViewModel = PokerTableStatisticsViewModel.GetPlayerStatisticsViewModelFor(pokerPlayer.Name);
-            if (playerStatisticsViewModel == null)
-            {
-                PlayerOverlays[index].UpdateWith(null, null);
-                return;
-            }
+            PlayerOverlays[index].UpdateStatusWith(pokerPlayer);
+        }
 
-            PlayerOverlays[index].UpdateWith(playerStatisticsViewModel, pokerPlayer);
+        void UpdatePlayerStatistics()
+        {
+            PlayerOverlays.ForEach(po => {
+                var playerStatisticsViewModel = PokerTableStatisticsViewModel.GetPlayerStatisticsViewModelFor(po.PlayerName);
+                po.UpdateStatisticsWith(playerStatisticsViewModel);
+            });
         }
     }
 }

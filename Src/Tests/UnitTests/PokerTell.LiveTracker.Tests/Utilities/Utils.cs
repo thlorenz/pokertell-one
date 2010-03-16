@@ -1,5 +1,7 @@
 namespace PokerTell.LiveTracker.Tests.Utilities
 {
+    using Infrastructure.Interfaces.PokerHand;
+
     using Moq;
 
     using PokerTell.Infrastructure.Interfaces.Statistics;
@@ -162,6 +164,17 @@ namespace PokerTell.LiveTracker.Tests.Utilities
                 new PositionViewModel(300, 210),
                 400,
                 200);
+        }
+
+        internal static IPlayerStatistics PlayerStatisticsStubFor(string name)
+        {
+            var stub = new StubBuilder();
+
+            var playerIdentityStub = stub.Setup<IPlayerIdentity>()
+                .Get(pi => pi.Name).Returns(name).Out;
+
+            return stub.Setup<IPlayerStatistics>()
+                .Get(ps => ps.PlayerIdentity).Returns(playerIdentityStub).Out;
         }
     }
 }

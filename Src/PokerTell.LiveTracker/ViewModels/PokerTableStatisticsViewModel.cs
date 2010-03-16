@@ -45,6 +45,8 @@ namespace PokerTell.LiveTracker.ViewModels
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
         }
 
+        public event Action PlayersStatisticsWereUpdated = delegate { };
+
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
         public IPlayerStatisticsViewModel SelectedPlayer
@@ -92,7 +94,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
             SelectFirstPlayerIfSelectedPlayerIsNotAtTheTableAnymore();
 
-            // TODO: Do I need to set Players at some point? probably not - it is added/removed from/to
+            PlayersStatisticsWereUpdated();
         }
 
         public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)

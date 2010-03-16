@@ -22,7 +22,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
     public class PokerTableStatisticsViewModelTests
     {
-        #region Constants and Fields
 
         Mock<IConstructor<IPlayerStatisticsViewModel>> _playerStatisticsViewModelMakeStub;
 
@@ -32,9 +31,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         IEventAggregator _eventAggregator;
 
-        #endregion
 
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -66,7 +63,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             _sut.SelectedPlayer = player2Mock.Object;
 
-            _sut.UpdateWith(new[] { PlayerStatisticsStubFor(player1) });
+            _sut.UpdateWith(new[] { Utils.PlayerStatisticsStubFor(player1) });
 
             _sut.SelectedPlayer.ShouldBeEqualTo(player1Mock.Object);
         }
@@ -79,7 +76,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             AddPlayerMock(player1);
 
-            var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
+            var differentPlayerStatistics = Utils.PlayerStatisticsStubFor(differentPlayer);
             var differentPlayerMock = Utils.PlayerStatisticsVM_MockFor(differentPlayer);
             
             _playerStatisticsViewModelMakeStub
@@ -99,7 +96,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             AddPlayerMock(player1);
 
-            var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
+            var differentPlayerStatistics = Utils.PlayerStatisticsStubFor(differentPlayer);
             var differentPlayerMock = Utils.PlayerStatisticsVM_MockFor(differentPlayer);
 
             _playerStatisticsViewModelMakeStub
@@ -119,7 +116,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             var player1Mock = AddPlayerMock(player1);
 
-            var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
+            var differentPlayerStatistics = Utils.PlayerStatisticsStubFor(differentPlayer);
             _sut.UpdateWith(new[] { differentPlayerStatistics });
 
             player1Mock.Verify(p => p.UpdateWith(differentPlayerStatistics), Times.Never());
@@ -133,7 +130,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             var player1Mock = AddPlayerMock(player1);
 
-            var differentPlayerStatistics = PlayerStatisticsStubFor(differentPlayer);
+            var differentPlayerStatistics = Utils.PlayerStatisticsStubFor(differentPlayer);
             _sut.UpdateWith(new[] { differentPlayerStatistics });
 
             _sut.Players.ShouldNotContain(player1Mock.Object);
@@ -151,7 +148,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const string player1 = "player1";
             var player1Mock = AddPlayerMock(player1);
 
-            var player1Statistics = PlayerStatisticsStubFor(player1);
+            var player1Statistics = Utils.PlayerStatisticsStubFor(player1);
             _sut.UpdateWith(new[] { player1Statistics });
 
             player1Mock.Verify(p => p.UpdateWith(player1Statistics));
@@ -242,9 +239,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             player2Mock.VerifySet(p => p.Filter = filterStub);
         }
 
-        #endregion
-
-        #region Methods
 
         Mock<IPlayerStatisticsViewModel> AddPlayerMock(string name)
         {
@@ -252,17 +246,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             _sut.Players.Add(playerViewModelMock.Object);
             return playerViewModelMock;
         }
-
-        IPlayerStatistics PlayerStatisticsStubFor(string name)
-        {
-            var playerIdentityStub = _stub.Setup<IPlayerIdentity>()
-                .Get(pi => pi.Name).Returns(name).Out;
-
-            return _stub.Setup<IPlayerStatistics>()
-                .Get(ps => ps.PlayerIdentity).Returns(playerIdentityStub).Out;
-        }
-
-        #endregion
 
         class PokerTableStatisticsViewModelTester : PokerTableStatisticsViewModel
         {

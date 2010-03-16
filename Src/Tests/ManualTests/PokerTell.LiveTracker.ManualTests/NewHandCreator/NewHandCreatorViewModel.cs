@@ -26,7 +26,6 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         const string PathToHandHistoryFile = "some File";
-            //@"C:\Documents and Settings\Owner.LapThor\Desktop\hh\history.txt";
 
         public NewHandCreatorViewModel(IUnityContainer container, IEventAggregator eventAggregator)
         {
