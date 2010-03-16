@@ -10,9 +10,7 @@ namespace PokerTell.PokerHand
     [Serializable]
     public class PokerPlayer : IPokerPlayer
     {
-        const string UnknownHolecards = "?? ??";
-
-        #region Constants and Fields
+        const string UnknownHolecards = "";
 
         protected string _holecards = UnknownHolecards;
 
@@ -21,10 +19,6 @@ namespace PokerTell.PokerHand
 
         [NonSerialized]
         int _position;
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Absolute seat number of player as stated in the Hand History
@@ -65,24 +59,23 @@ namespace PokerTell.PokerHand
             set { _position = value; }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
             }
+
             if (obj.GetType() != GetType())
             {
                 return false;
             }
+
             return Equals((PokerPlayer)obj);
         }
 
@@ -96,27 +89,15 @@ namespace PokerTell.PokerHand
             }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPokerPlayer
-
         public override string ToString()
         {
             return string.Format(
-                "Holecards: {0}, SeatNumber: {1}, Name: {2}, Position: {3}",
-                _holecards,
-                SeatNumber,
-                Name,
+                "Holecards: {0}, SeatNumber: {1}, Name: {2}, Position: {3}", 
+                _holecards, 
+                SeatNumber, 
+                Name, 
                 Position);
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         bool Equals(PokerPlayer other)
         {
@@ -124,13 +105,13 @@ namespace PokerTell.PokerHand
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
+
             return Equals(other._holecards, _holecards) && Equals(other._name, _name);
         }
-         
-        #endregion
     }
 }

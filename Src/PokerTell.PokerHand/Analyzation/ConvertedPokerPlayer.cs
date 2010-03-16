@@ -19,8 +19,6 @@ namespace PokerTell.PokerHand.Analyzation
     [Serializable]
     public class ConvertedPokerPlayer : PokerPlayer, IConvertedPokerPlayer
     {
-        #region Constants and Fields
-
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -62,10 +60,6 @@ namespace PokerTell.PokerHand.Analyzation
 
         StrategicPositions _strategicPosition;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ConvertedPokerPlayer"/> class.
         /// </summary>
@@ -85,10 +79,6 @@ namespace PokerTell.PokerHand.Analyzation
         {
             InitializeWith(name, mBefore, mAfter, positionNum, totalPlayers, holecards);
         }
-
-        #endregion
-
-        #region Properties
 
         public ActionSequences[] ActionSequences
         {
@@ -294,10 +284,6 @@ namespace PokerTell.PokerHand.Analyzation
             get { return _sequenceStringConverter ?? (_sequenceStringConverter = new SequenceStringConverter()); }
         }
 
-        #endregion
-
-        #region Indexers
-
         /// <summary>
         /// The this.
         /// </summary>
@@ -320,13 +306,9 @@ namespace PokerTell.PokerHand.Analyzation
             get { return this[(int)theStreet]; }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public bool Equals(ConvertedPokerPlayer other)
         {
-            return base.Equals(other)
+            return this.Equals(other)
                    && Rounds.ToArray().EqualsArray(other.Rounds.ToArray());
         }
 
@@ -350,12 +332,6 @@ namespace PokerTell.PokerHand.Analyzation
             return base.GetHashCode();
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComparable<IConvertedPokerPlayer>
-
         public int CompareTo(IConvertedPokerPlayer other)
         {
             if (Position < other.Position)
@@ -370,10 +346,6 @@ namespace PokerTell.PokerHand.Analyzation
 
             return 0;
         }
-
-        #endregion
-
-        #region IConvertedPokerPlayer
 
         /// <summary>
         /// Add a new Poker Round to the player
@@ -605,18 +577,10 @@ namespace PokerTell.PokerHand.Analyzation
             }
         }
 
-        #endregion
-
-        #region IEnumerable
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return Rounds.GetEnumerator();
         }
-
-        #endregion
-
-        #region IEnumerable<IConvertedPokerRound>
 
         /// <summary>
         /// The get enumerator.
@@ -627,10 +591,6 @@ namespace PokerTell.PokerHand.Analyzation
         {
             return Rounds.GetEnumerator();
         }
-
-        #endregion
-
-        #region IPokerPlayer
 
         /// <summary>
         /// Gives string representation of Players info and actions
@@ -657,12 +617,6 @@ namespace PokerTell.PokerHand.Analyzation
                 return string.Empty;
             }
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         string BettingRoundsToString()
         {
@@ -767,7 +721,5 @@ namespace PokerTell.PokerHand.Analyzation
 
             Rounds[(int)street] = PokerHandStringConverter.ConvertedRoundFrom(actions);
         }
-
-        #endregion
     }
 }
