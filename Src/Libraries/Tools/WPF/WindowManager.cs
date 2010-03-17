@@ -63,6 +63,12 @@ namespace Tools.WPF
             return this;
         }
 
+        public IWindowManager Activate()
+        {
+            Window.Activate();
+            return this;
+        }
+
         public IWindowManager Hide()
         {
             Window.Hide();

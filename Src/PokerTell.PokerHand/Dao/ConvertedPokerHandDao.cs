@@ -1,16 +1,13 @@
 namespace PokerTell.PokerHand.Dao
 {
-    using Infrastructure.Interfaces.Repository;
-
     using NHibernate;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.PokerHand.Analyzation;
 
     public class ConvertedPokerHandDao : IConvertedPokerHandDao
     {
-        #region Constants and Fields
-
         const string FindConvertedPokerHandByGameIdAndSite = "FindConvertedPokerHandByGameIdAndSite";
 
         ISession _session;
@@ -24,21 +21,11 @@ namespace PokerTell.PokerHand.Dao
             get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
         }
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public ConvertedPokerHandDao(ISessionFactoryManager sessionFactoryManager, IPlayerIdentityDao playerIdentityDao)
         {
             _playerIdentityDao = playerIdentityDao;
             _sessionFactoryManager = sessionFactoryManager;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IConvertedPokerHandDaoWithSession
 
         public IConvertedPokerHand Get(int id)
         {
@@ -62,44 +49,41 @@ namespace PokerTell.PokerHand.Dao
 
         public IConvertedPokerHand Insert(IConvertedPokerHand convertedPokerHand)
         {
-            if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, Session))
+            // Avoid multiple insertions of the same hand from different threads
+            lock (this)
             {
-                foreach (IConvertedPokerPlayer player in convertedPokerHand)
+                if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, Session))
                 {
-                    player.PlayerIdentity = _playerIdentityDao.FindOrInsert(player.Name, convertedPokerHand.Site);
-                }
+                    foreach (IConvertedPokerPlayer player in convertedPokerHand)
+                    {
+                        player.PlayerIdentity = _playerIdentityDao.FindOrInsert(player.Name, convertedPokerHand.Site);
+                    }
 
-                Session.SaveOrUpdate(convertedPokerHand);
+                    Session.SaveOrUpdate(convertedPokerHand);
+                }
             }
 
             return convertedPokerHand;
         }
 
-        #endregion
-
-        #region IConvertedPokerHandDaoWithStatelessSession
-
         public IConvertedPokerHandDao Insert(IConvertedPokerHand convertedPokerHand, IStatelessSession statelessSession)
         {
-            if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, statelessSession))
+            // Avoid multiple insertions of the same hand from different threads
+            lock (this)
             {
-                statelessSession.Insert(convertedPokerHand);
-
-                foreach (IConvertedPokerPlayer player in convertedPokerHand)
+                if (IsComplete(convertedPokerHand) && HandIsNotYetInDatabase(convertedPokerHand, statelessSession))
                 {
-                    player.PlayerIdentity = _playerIdentityDao.FindOrInsert(player.Name, convertedPokerHand.Site, statelessSession);
-                    statelessSession.Insert(player);
+                    statelessSession.Insert(convertedPokerHand);
+
+                    foreach (IConvertedPokerPlayer player in convertedPokerHand)
+                    {
+                        player.PlayerIdentity = _playerIdentityDao.FindOrInsert(player.Name, convertedPokerHand.Site, statelessSession);
+                        statelessSession.Insert(player);
+                    }
                 }
             }
-
             return this;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         static bool HandIsNotYetInDatabase(IPokerHand convertedHand, IStatelessSession statelessSession)
         {
@@ -127,8 +111,5 @@ namespace PokerTell.PokerHand.Dao
                 .SetParameter("gameId", gameId)
                 .SetString("site", site);
         }
-
-        #endregion
     }
-    
 }

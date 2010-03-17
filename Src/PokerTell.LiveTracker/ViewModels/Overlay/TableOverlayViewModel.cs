@@ -3,12 +3,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Windows.Input;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.FunctionalCSharp;
+    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class TableOverlayViewModel : NotifyPropertyChanged, ITableOverlayViewModel
@@ -47,6 +49,21 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         public IGameHistoryViewModel GameHistory { get; protected set; }
 
         public IOverlaySettingsAidViewModel OverlaySettingsAid { get; protected set; }
+
+        public event Action ShowLiveStatsWindowRequested = delegate { };
+
+        ICommand _showLiveStatsWindowCommand;
+
+        public ICommand ShowLiveStatsWindowCommand
+        {
+            get
+            {
+                return _showLiveStatsWindowCommand ?? (_showLiveStatsWindowCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => ShowLiveStatsWindowRequested()
+                    });
+            }
+        }
 
         public ITableOverlayViewModel InitializeWith(
             ISeatMapper seatMapper, 

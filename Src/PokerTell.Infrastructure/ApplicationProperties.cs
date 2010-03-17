@@ -12,6 +12,8 @@ namespace PokerTell.Infrastructure
     {
         public const string ApplicationName = "PokerTellWPF";
 
+        public const string LogFileName = "logfile.txt";
+
         /// <summary>
         /// Number of tables to be displayed in Tables Form
         /// </summary>

@@ -11,8 +11,6 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
 
     public partial class DetailedStatisticsDataGridTemplates
     {
-        #region Methods
-
         protected virtual void DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow(object sender, SelectedCellsChangedEventArgs e)
         {
             var grid = (DataGrid)sender;
@@ -81,8 +79,6 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
             }
         }
 
-        #endregion
-
         /// <summary>
         /// Datagrid Loaded makes sure that the selected cells are restored again when the user returns to it
         /// The ViewModel itself is responsible for saving them e.g. when a command is executes that causes
@@ -96,9 +92,15 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
             var viewModel = (IStatisticsTableViewModel)grid.DataContext;
             grid.SelectedCellsChanged -= DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow;
 
-            viewModel.SavedSelectedCells.ForEach(selectedCell => grid.SelectedCells.Add(
-                                                                     new DataGridCellInfo(viewModel.Rows.ElementAt(selectedCell.First), 
-                                                                                          grid.Columns[selectedCell.Second])));
+            viewModel.SavedSelectedCells.ForEach(selectedCell => {
+                var cellToAdd = new DataGridCellInfo(viewModel.Rows.ElementAt(selectedCell.First), grid.Columns[selectedCell.Second]);
+
+                // Insure against: ArgumentException: The collection already contains the item.
+                if (! grid.SelectedCells.Contains(cellToAdd))
+                {
+                    grid.SelectedCells.Add(cellToAdd);
+                }
+            });
 
             grid.SelectedCellsChanged += DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow;
 
@@ -112,7 +114,7 @@ namespace PokerTell.Statistics.Views.StatisticsSetDetails
             UpdateViewModelWithCurrentSelection(grid);
 
             var viewModel = (IStatisticsTableViewModel)grid.DataContext;
-            
+
             // This null check was not necessary before extracting DatGridTemplates into this Resource
             if (viewModel == null) return;
 

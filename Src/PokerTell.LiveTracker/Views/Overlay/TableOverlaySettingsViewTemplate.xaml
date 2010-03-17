@@ -10,14 +10,11 @@
     <!-- TableOverlaySettingsViewTemplate -->
     <!-- DataContext="{x:Static Design:LiveTracker.TableOverlaySettingsDesign.Model}" -->
     <DataTemplate DataType="{x:Type ViewModels:TableOverlaySettingsViewModel}">
-        <Expander MinWidth="150"
-                     Height="Auto"
-                     Margin="5,5,150,5"
-                     HorizontalAlignment="Right"
-                     HorizontalContentAlignment="Right"
-                     VerticalContentAlignment="Center"
-                     VerticalAlignment="Top"
-                     Header="Settings">
+        <Expander Height="Auto"
+                  HorizontalContentAlignment="Right"
+                  VerticalContentAlignment="Center"
+                  VerticalAlignment="Top"
+                  Header="Settings">
 
             <StackPanel Orientation="Vertical">
                 <!-- Colors -->
@@ -48,8 +45,8 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="PreferredSeat"/>
                             <TextBlock Foreground="Wheat"
-                                               Margin="10, 0, 5, 0" 
-                                               Text="{Binding PreferredSeat, Converter={StaticResource PreferredSeatToStringConverter}}"/>
+                                       Margin="10, 0, 5, 0" 
+                                       Text="{Binding PreferredSeat, Converter={StaticResource PreferredSeatToStringConverter}}"/>
                         </StackPanel>
                     </Expander.Header>
                     <Slider Width="Auto"

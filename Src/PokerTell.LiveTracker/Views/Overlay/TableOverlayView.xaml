@@ -44,7 +44,13 @@
                                           Visibility="{Binding OverlaySettings.PositioningMuckedCards, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
                         </Canvas>
                     </Viewbox>
-                    <ContentControl Grid.Row="0" Grid.RowSpan="2" Content="{Binding OverlaySettings}" Opacity="0.98"/>
+                  <StackPanel  Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" 
+                               Margin="5,5,150,5"
+                               HorizontalAlignment="Right"
+                              >
+                    <ContentControl Content="{Binding OverlaySettings}" Opacity="0.98"/>
+                    <Button Content="L" Width="20" Height="20" VerticalAlignment="Top" Command="{Binding ShowLiveStatsWindowCommand}" />
+                    </StackPanel>                  
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>

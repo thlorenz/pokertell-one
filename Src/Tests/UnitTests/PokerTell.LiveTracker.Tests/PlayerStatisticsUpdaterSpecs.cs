@@ -44,8 +44,8 @@ namespace PokerTell.LiveTracker.Tests
             Because of = () => {
                 _sut.Update(_playerStats_Stub);
 
-                // 5ms is plenty enough to allow Background worker to finish
-                Thread.Sleep(5);
+                // 50ms is plenty enough to allow Background worker to finish
+                Thread.Sleep(50);
             };
 
             It should_update_bobs_statistics = () => _bobsStats_Mock.Verify(s => s.UpdateStatistics());

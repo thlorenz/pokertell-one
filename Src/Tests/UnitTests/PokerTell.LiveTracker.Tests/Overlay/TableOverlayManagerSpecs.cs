@@ -270,6 +270,18 @@ namespace PokerTell.LiveTracker.Tests.Overlay
             It should_call_back_with_the_settings_returned_by_the_layout_manager
                 = () => revertedToSettings.ShouldEqual(loadedSettings.Object);
         }
+
+        [Subject(typeof(TableOverlayManager), "Show LiveStats Window")]
+        public class when_the_user_requests_the_livestats_window_to_be_shown : Ctx_InitializedWithFirstHand
+        {
+            static bool showLiveStatsWasReraised;
+
+            Establish context = () => _sut.ShowLiveStatsWindowRequested += () => showLiveStatsWasReraised = true;
+
+            Because of = () => _tableOverlay_Mock.Raise(to => to.ShowLiveStatsWindowRequested += null);
+
+            It should_let_me_know = () => showLiveStatsWasReraised.ShouldBeTrue();
+        }
     }
 
     public class TableOverlayManagerSut : TableOverlayManager

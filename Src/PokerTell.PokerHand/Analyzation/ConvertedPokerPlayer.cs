@@ -308,7 +308,7 @@ namespace PokerTell.PokerHand.Analyzation
 
         public bool Equals(ConvertedPokerPlayer other)
         {
-            return this.Equals(other)
+            return base.Equals(other)
                    && Rounds.ToArray().EqualsArray(other.Rounds.ToArray());
         }
 

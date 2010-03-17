@@ -2,9 +2,13 @@ namespace PokerTell.Repository
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Text;
+
+    using Infrastructure;
 
     using log4net;
 
@@ -101,13 +105,25 @@ namespace PokerTell.Repository
 
         public IEnumerable<IConvertedPokerHand> RetrieveHandsFromFile(string fileName)
         {
-            string handHistories = ReadHandHistoriesFrom(fileName);
+            const int maxTriesToReadFile = 5;
+            string handHistories = ReadHandHistoriesFrom(fileName, maxTriesToReadFile);
+            
+            if (string.IsNullOrEmpty(handHistories))
+            {
+                return Enumerable.Empty<IConvertedPokerHand>();
+            }
 
             return _parser.RetrieveAndConvert(handHistories, fileName);
         }
 
-        static string ReadHandHistoriesFrom(string fileName)
+        static string ReadHandHistoriesFrom(string fileName, int remainingTries)
         {
+            // Need to insure against reading our own logfile b/c it is locked and written to continously which leads to a crash
+            if (fileName.EndsWith(@"\" + ApplicationProperties.LogFileName))
+            {
+                return string.Empty;
+            }
+
             try
             {
                 using (var fileStream = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -118,11 +134,17 @@ namespace PokerTell.Repository
             }
             catch (Exception excep)
             {
-                // Should only throw during manual saving of file from notepad
-                Log.Error(excep);
-                
+                // Should only throw during manual saving of file from notepad or if trying to read some locked file
+                // In the latter case the user must have set the tracked handhistory directory too broad e.g C:\
+               Log.Error(excep); 
+
+                if (remainingTries <= 0)
+                {
+                    return string.Empty;
+                }
+
                // Try again
-               return ReadHandHistoriesFrom(fileName);
+               return ReadHandHistoriesFrom(fileName, --remainingTries);
             }
         }
     }

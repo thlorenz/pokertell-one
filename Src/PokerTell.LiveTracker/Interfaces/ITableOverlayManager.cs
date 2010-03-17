@@ -16,5 +16,7 @@ namespace PokerTell.LiveTracker.Interfaces
         string HeroName { get; }
 
         event Action TableClosed;
+
+        event Action ShowLiveStatsWindowRequested;
     }
 }

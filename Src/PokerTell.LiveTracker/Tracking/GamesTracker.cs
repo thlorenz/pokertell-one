@@ -43,8 +43,7 @@ namespace PokerTell.LiveTracker.Tracking
         public ThreadOption ThreadOption { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GamesTracker"/> class. 
-        /// Initializes the GamesTracker.
+        /// Creates a new instance of the <see cref="GamesTracker"/> class. 
         /// There should only be one in the entire application.
         /// </summary>
         /// <param name="eventAggregator">

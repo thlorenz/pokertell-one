@@ -302,6 +302,19 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_update_statistics
                 = () => _playerOverlay_1_VM_Mock.Verify(po => po.UpdateStatisticsWith(Moq.It.IsAny<IPlayerStatisticsViewModel>()));
         }
-         
+
+        [Subject(typeof(TableOverlayViewModel), "ShowLiveStatsWindow Command")]
+        public class when_user_executes_show_live_stats_window_command : TableOverlayViewModelSpecs
+        {
+            static bool showLiveStatsWindowWasRaised;
+
+            Establish context = () => _sut.ShowLiveStatsWindowRequested += () => showLiveStatsWindowWasRaised = true;
+
+            Because of = () => _sut.ShowLiveStatsWindowCommand.Execute(null);
+
+            It should_let_me_know = () => showLiveStatsWindowWasRaised.ShouldBeTrue();
+
+        }
+
     }
 }
