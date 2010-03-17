@@ -47,6 +47,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
                 _convertedHands.Add(convertedPokerHand);
 
+                RaisePropertyChanged(() => HandCount);
+
                 // only update the display if the user is not currently browsing the hands
                 if (lastHandIsDisplayed)
                     CurrentHandIndex = HandCount - 1;

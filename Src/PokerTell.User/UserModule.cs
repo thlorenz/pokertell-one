@@ -36,7 +36,6 @@ namespace PokerTell.User
                 .RegisterType<IProgressViewModel, ProgressViewModel>()
                 .RegisterType<StatusBarViewModel>();
 
-            // TODO: Is this necessary?
             _container
                 .Resolve<UserService>();
 

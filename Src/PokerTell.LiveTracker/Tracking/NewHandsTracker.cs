@@ -102,15 +102,14 @@ namespace PokerTell.LiveTracker.Tracking
         public void ProcessHandHistoriesInFile(string fullPath)
         {
             var handsFromFile = _repository.RetrieveHandsFromFile(fullPath);
-
             if (handsFromFile.Count() > 0)
             {
+                _repository.InsertHands(handsFromFile);
+                
                 Log.Debug("About to publish new hand");
                 _eventAggregator
                     .GetEvent<NewHandEvent>()
                     .Publish(new NewHandEventArgs(fullPath, handsFromFile.Last()));
-
-                _repository.InsertHands(handsFromFile);
             }
         }
     }

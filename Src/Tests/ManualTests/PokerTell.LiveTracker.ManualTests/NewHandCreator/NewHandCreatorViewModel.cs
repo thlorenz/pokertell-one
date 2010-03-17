@@ -7,6 +7,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using System.Windows.Input;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.Repository;
 
     using log4net;
 
@@ -27,8 +28,11 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         const string PathToHandHistoryFile = "some File";
 
-        public NewHandCreatorViewModel(IUnityContainer container, IEventAggregator eventAggregator)
+        ulong _gameId = 0;
+
+        public NewHandCreatorViewModel(IUnityContainer container, IEventAggregator eventAggregator, IRepository repository)
         {
+            _repository = repository;
             _container = container;
             _eventAggregator = eventAggregator;
 
@@ -69,6 +73,8 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         IGamesTracker _gamesTracker;
 
+        readonly IRepository _repository;
+
         public ICommand SendCommand
         {
             get
@@ -82,7 +88,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         void CreateHandAndTriggerEvent()
         {
-            var hand = new ConvertedPokerHand(PokerSites.PokerStars, 1, DateTime.Now, 30, 15, 6)
+            var hand = new ConvertedPokerHand(PokerSites.PokerStars, _gameId++, DateTime.Now, 30, 15, 6)
                 {
                     TotalSeats = 6,
                     TableName = TableName, 
@@ -102,6 +108,10 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
             });
 
             Log.Debug(hand.ToString());
+
+            _repository.InsertHand(hand);
+
+            Log.Debug("Inserted into database");
 
             _eventAggregator
                 .GetEvent<NewHandEvent>()

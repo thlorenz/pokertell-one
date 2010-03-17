@@ -5,27 +5,21 @@ namespace PokerTell.Statistics
     using System.Linq;
     using System.Text;
 
-    using Detailed;
-
-    using Filters;
-
-    using Infrastructure;
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-    using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Events;
 
-    using Utilities;
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Detailed;
+    using PokerTell.Statistics.Filters;
+    using PokerTell.Statistics.Interfaces;
+    using PokerTell.Statistics.Utilities;
 
     public class PlayerStatistics : IPlayerStatistics, IEnumerable<IActionSequenceStatisticsSet>
     {
-        #region Constants and Fields
-
         protected IList<IAnalyzablePokerPlayer> _allAnalyzablePlayers;
 
         protected long _lastQueriedId;
@@ -38,10 +32,6 @@ namespace PokerTell.Statistics
 
         string _pokerSite;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public PlayerStatistics(IEventAggregator eventAggregator, IRepository repository)
         {
             eventAggregator
@@ -52,14 +42,8 @@ namespace PokerTell.Statistics
 
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
 
-            
-
             _filter = AnalyzablePokerPlayersFilter.InactiveFilter;
         }
-
-        #endregion
-
-        #region Properties
 
         public IAnalyzablePokerPlayersFilter Filter
         {
@@ -97,17 +81,13 @@ namespace PokerTell.Statistics
             get { return PreFlopUnraisedPot.TotalCounts.Sum(); }
         }
 
-        #endregion
-
-        #region Public Methods
-
         public override string ToString()
         {
             var sb = new StringBuilder(
                 string.Format(
-                    "PlayerName: {0}, PokerSite: {1}, LastQueriedId: {2}\n",
-                    _playerName,
-                    _pokerSite,
+                    "PlayerName: {0}, PokerSite: {1}, LastQueriedId: {2}\n", 
+                    _playerName, 
+                    _pokerSite, 
                     _lastQueriedId));
             this.ToList().ForEach(statisticsSet => sb.AppendLine(statisticsSet.ToString()));
 
@@ -133,12 +113,6 @@ namespace PokerTell.Statistics
             return sb.ToString();
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IEnumerable
-
         /// <summary>
         ///   Returns an enumerator that iterates through a collection.
         /// </summary>
@@ -152,10 +126,6 @@ namespace PokerTell.Statistics
         {
             return GetEnumerator();
         }
-
-        #endregion
-
-        #region IEnumerable<IActionSequenceStatisticsSet>
 
         /// <summary>
         ///   Returns an enumerator that iterates through the collection.
@@ -182,10 +152,6 @@ namespace PokerTell.Statistics
                 yield return HeroXOutOfPositionOppB[(int)street];
             }
         }
-
-        #endregion
-
-        #region IPlayerStatistics
 
         public IPlayerStatistics InitializePlayer(string playerName, string pokerSite)
         {
@@ -223,12 +189,6 @@ namespace PokerTell.Statistics
             return this;
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         protected virtual IEnumerable<IAnalyzablePokerPlayer> GetFilteredAnalyzablePlayers()
         {
             return Filter == null
@@ -237,11 +197,11 @@ namespace PokerTell.Statistics
         }
 
         protected virtual IActionSequenceStatisticsSet NewActionSequenceSetStatistics(
-            IPercentagesCalculator percentagesCalculator,
-            IEnumerable<IActionSequenceStatistic> statistics,
-            string playerName,
-            Streets street,
-            ActionSequences actionSequence,
+            IPercentagesCalculator percentagesCalculator, 
+            IEnumerable<IActionSequenceStatistic> statistics, 
+            string playerName, 
+            Streets street, 
+            ActionSequences actionSequence, 
             bool inPosition)
         {
             return new ActionSequenceStatisticsSet(
@@ -249,26 +209,26 @@ namespace PokerTell.Statistics
         }
 
         protected virtual IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(
-            IPercentagesCalculator percentagesCalculator,
-            IEnumerable<IActionSequenceStatistic> statistics,
-            string playerName,
-            Streets street,
+            IPercentagesCalculator percentagesCalculator, 
+            IEnumerable<IActionSequenceStatistic> statistics, 
+            string playerName, 
+            Streets street, 
             bool inPosition)
         {
             return new HeroCheckOrBetSetStatistics(percentagesCalculator, statistics, playerName, street, inPosition);
         }
 
         protected virtual IActionSequenceStatisticsSet NewPreflopActionSequenceSetStatistics(
-            IPercentagesCalculator percentagesCalculator,
-            IEnumerable<IActionSequenceStatistic> actionSequenceStatistics,
-            string playerName,
+            IPercentagesCalculator percentagesCalculator, 
+            IEnumerable<IActionSequenceStatistic> actionSequenceStatistics, 
+            string playerName, 
             bool raisedPot)
         {
             return new ActionSequenceStatisticsSet(
-                percentagesCalculator,
-                actionSequenceStatistics,
-                playerName,
-                raisedPot ? ActionSequences.PreFlopFrontRaise : ActionSequences.PreFlopNoFrontRaise,
+                percentagesCalculator, 
+                actionSequenceStatistics, 
+                playerName, 
+                raisedPot ? ActionSequences.PreFlopFrontRaise : ActionSequences.PreFlopNoFrontRaise, 
                 raisedPot);
         }
 
@@ -322,21 +282,21 @@ namespace PokerTell.Statistics
         {
             var heroXOrHeroBOutOfPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopHeroXStatistic(street, false),
+                    new PostFlopHeroXStatistic(street, false), 
                     new PostFlopActionSequenceStatistic(ActionSequences.HeroB, street, false, betSizeIndexCount)
                 };
             var heroXOrHeroBInPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopHeroXStatistic(street, true),
+                    new PostFlopHeroXStatistic(street, true), 
                     new PostFlopActionSequenceStatistic(ActionSequences.HeroB, street, true, betSizeIndexCount)
                 };
 
             HeroXOrHeroBOutOfPosition[(int)street] =
                 NewHeroCheckOrBetSetStatistics(
-                    new SeparateRowsPercentagesCalculator(),
-                    heroXOrHeroBOutOfPositionStatistics,
-                    _playerName,
-                    street,
+                    new SeparateRowsPercentagesCalculator(), 
+                    heroXOrHeroBOutOfPositionStatistics, 
+                    _playerName, 
+                    street, 
                     false);
             HeroXOrHeroBInPosition[(int)street] =
                 NewHeroCheckOrBetSetStatistics(
@@ -348,19 +308,19 @@ namespace PokerTell.Statistics
             var heroXOutOfPositionOppBStatistics = new List<IActionSequenceStatistic>
                 {
                     new PostFlopActionSequenceStatistic(
-                        ActionSequences.HeroXOppBHeroF, street, false, betSizeIndexCount),
+                        ActionSequences.HeroXOppBHeroF, street, false, betSizeIndexCount), 
                     new PostFlopActionSequenceStatistic(
-                        ActionSequences.HeroXOppBHeroC, street, false, betSizeIndexCount),
+                        ActionSequences.HeroXOppBHeroC, street, false, betSizeIndexCount), 
                     new PostFlopActionSequenceStatistic(
                         ActionSequences.HeroXOppBHeroR, street, false, betSizeIndexCount)
                 };
             HeroXOutOfPositionOppB[(int)street] =
                 NewActionSequenceSetStatistics(
-                    new AcrossRowsPercentagesCalculator(),
-                    heroXOutOfPositionOppBStatistics,
-                    _playerName,
-                    street,
-                    ActionSequences.HeroXOppB,
+                    new AcrossRowsPercentagesCalculator(), 
+                    heroXOutOfPositionOppBStatistics, 
+                    _playerName, 
+                    street, 
+                    ActionSequences.HeroXOppB, 
                     false);
         }
 
@@ -368,31 +328,31 @@ namespace PokerTell.Statistics
         {
             var oppBIntoHeroOutOfPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, false, betSizeIndexCount),
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, false, betSizeIndexCount),
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, false, betSizeIndexCount), 
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, false, betSizeIndexCount), 
                     new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroR, street, false, betSizeIndexCount)
                 };
             var oppBIntoHeroInPositionStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, true, betSizeIndexCount),
-                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, true, betSizeIndexCount),
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroF, street, true, betSizeIndexCount), 
+                    new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroC, street, true, betSizeIndexCount), 
                     new PostFlopActionSequenceStatistic(ActionSequences.OppBHeroR, street, true, betSizeIndexCount)
                 };
             OppBIntoHeroOutOfPosition[(int)street] =
                 NewActionSequenceSetStatistics(
-                    new AcrossRowsPercentagesCalculator(),
-                    oppBIntoHeroOutOfPositionStatistics,
-                    _playerName,
-                    street,
-                    ActionSequences.OppB,
+                    new AcrossRowsPercentagesCalculator(), 
+                    oppBIntoHeroOutOfPositionStatistics, 
+                    _playerName, 
+                    street, 
+                    ActionSequences.OppB, 
                     false);
             OppBIntoHeroInPosition[(int)street] =
                 NewActionSequenceSetStatistics(
-                    new AcrossRowsPercentagesCalculator(),
-                    oppBIntoHeroInPositionStatistics,
-                    _playerName,
-                    street,
-                    ActionSequences.OppB,
+                    new AcrossRowsPercentagesCalculator(), 
+                    oppBIntoHeroInPositionStatistics, 
+                    _playerName, 
+                    street, 
+                    ActionSequences.OppB, 
                     true);
         }
 
@@ -400,15 +360,15 @@ namespace PokerTell.Statistics
         {
             var preFlopUnraisedPotStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PreFlopActionSequenceStatistic(ActionSequences.HeroF),
-                    new PreFlopActionSequenceStatistic(ActionSequences.HeroC),
+                    new PreFlopActionSequenceStatistic(ActionSequences.HeroF), 
+                    new PreFlopActionSequenceStatistic(ActionSequences.HeroC), 
                     new PreFlopActionSequenceStatistic(ActionSequences.HeroR)
                 };
 
             var preFlopRaisedPotStatistics = new List<IActionSequenceStatistic>
                 {
-                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroF),
-                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroC),
+                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroF), 
+                    new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroC), 
                     new PreFlopActionSequenceStatistic(ActionSequences.OppRHeroR)
                 };
 
@@ -444,7 +404,5 @@ namespace PokerTell.Statistics
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
             PlayerIdentity = null;
         }
-
-        #endregion
     }
 }

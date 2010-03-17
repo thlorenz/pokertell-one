@@ -22,7 +22,7 @@ namespace PokerTell.LiveTracker.ViewModels
     public class PokerTableStatisticsViewModel : NotifyPropertyChanged, IPokerTableStatisticsViewModel
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        
+
         readonly IEventAggregator _eventAggregator;
 
         readonly IConstructor<IPlayerStatisticsViewModel> _playerStatisticsViewModelMake;
@@ -151,22 +151,12 @@ namespace PokerTell.LiveTracker.ViewModels
         IPlayerStatisticsViewModel FindOrAddMatchingPlayer(
             IPlayerStatistics playerStatistics, List<IPlayerStatisticsViewModel> playersList)
         {
-            // TODO: ALso am getting null references here - why ???
-            // PlayerIdentity is null and it looks like it has not been updated yet
-            try
-            {
-                var nameToFind = playerStatistics.PlayerIdentity.Name;
-                var matchingPlayer = playersList
-                    .Find(player => player.PlayerName == nameToFind);
+            var nameToFind = playerStatistics.PlayerIdentity.Name;
+            var matchingPlayer = playersList
+                .Find(player => player.PlayerName == nameToFind);
 
-                matchingPlayer = AddNewPlayerToPlayersIfNotFound(matchingPlayer);
-                return matchingPlayer;
-            }
-            catch (Exception excep)
-            {
-                Log.Error(excep);
-                return null;
-            }
+            matchingPlayer = AddNewPlayerToPlayersIfNotFound(matchingPlayer);
+            return matchingPlayer;
         }
 
         void RemovePlayersThatAreNotAtTheTableAnymore(
@@ -174,22 +164,12 @@ namespace PokerTell.LiveTracker.ViewModels
         {
             playersList.ForEach(player => {
                 var nameToFind = player.PlayerName;
-                try
+                var matchingPlayerStatistics = playersStatisticsList
+                    .Find(ps => ps != null && ps.PlayerIdentity != null && ps.PlayerIdentity.Name == nameToFind);
+                if (matchingPlayerStatistics == null)
                 {
-                    // TODO sometimes the  playersStatisticsList[0] seems to be null - why ??? -> find out and possibly remove these null checks
-                    var matchingPlayerStatistics = playersStatisticsList
-                        .Find(ps => ps != null && ps.PlayerIdentity != null && ps.PlayerIdentity.Name == nameToFind);
-                    if (matchingPlayerStatistics == null)
-                    {
-                        Players.Remove(player);
-                    }
+                    Players.Remove(player);
                 }
-                catch (Exception excep)
-                {
-                    Log.Error(excep);
-                    return;
-                }
-
             });
         }
 
@@ -205,9 +185,16 @@ namespace PokerTell.LiveTracker.ViewModels
             List<IPlayerStatisticsViewModel> playersList, List<IPlayerStatistics> playersStatisticsList)
         {
             playersStatisticsList.ForEach(playerStatistics => {
-                var matchingPlayer = FindOrAddMatchingPlayer(playerStatistics, playersList);
+                if (playerStatistics.PlayerIdentity != null)
+                {
+                    var matchingPlayer = FindOrAddMatchingPlayer(playerStatistics, playersList);
 
-                matchingPlayer.UpdateWith(playerStatistics);
+                    matchingPlayer.UpdateWith(playerStatistics);
+                }
+                else
+                {
+                    Log.DebugFormat("Found a null playeridentity.");
+                }
             });
         }
     }
