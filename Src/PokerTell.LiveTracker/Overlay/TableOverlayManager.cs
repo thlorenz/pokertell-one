@@ -58,7 +58,7 @@ namespace PokerTell.LiveTracker.Overlay
 
             ITableOverlaySettingsViewModel overlaySettings = SetupOverlaySettings(firstHand);
 
-            _tableOverlay.InitializeWith(_seatMapper, overlaySettings, gameHistory, pokerTableStatistics, showHoleCardsDuration);
+            _tableOverlay.InitializeWith(_seatMapper, overlaySettings, gameHistory, pokerTableStatistics, firstHand.HeroName, showHoleCardsDuration);
 
             _tableOverlayWindow.DataContext = _tableOverlay;
             _tableOverlayWindow.Show();

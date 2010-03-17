@@ -58,7 +58,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
                 container.Resolve<ISeatMapper>(), 
                 container.Resolve<ITableOverlaySettingsViewModel>(), 
                 container.Resolve<IGameHistoryViewModel>(), 
-                container.Resolve<IPokerTableStatisticsViewModel>(), 
+                container.Resolve<IPokerTableStatisticsViewModel>(), string.Empty, 
                 4)
                 .UpdateWith(GetPokerPlayers(), "As Kh Qh");
 

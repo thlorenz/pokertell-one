@@ -146,7 +146,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 = () => _tableOverlay_Mock.Verify(to => to.InitializeWith(_seatMapper_Mock.Object, 
                                                                           _overlaySettings_Stub.Object, 
                                                                           _gameHistory_Mock.Object, 
-                                                                          _pokerTableStatistics_Mock.Object, 
+                                                                          _pokerTableStatistics_Mock.Object, string.Empty, 
                                                                           showHoleCardsDuration));
 
             It should_the_DataContext_of_the_Overlay_Window_to_the_overlay_viewmodel

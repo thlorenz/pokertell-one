@@ -87,14 +87,15 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _playerOverlay_0_VM_Mock.SetupGet(po => po.PlayerName).Returns(tedsName);
                 _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(2);
                 _sut.InitializeWith(_seatMapper_Stub.Object, 
-                                    _tableOverlaySettingsVM_Stub.Object, 
-                                    _gameHistoryVM_Stub.Object, 
-                                    _pokerTableStatisticsVM_Stub.Object, 
+                                    _tableOverlaySettingsVM_Stub.Object,
+                                    _gameHistoryVM_Stub.Object,
+                                    _pokerTableStatisticsVM_Stub.Object,
+                                    string.Empty,
                                     ShowHoleCardsDuration);
             };
         }
 
-        public abstract class Ctx_Ted_in_Seat1_and_Bob_in_Seat2 : Ctx_Ted_In_Seat1
+        public abstract class Ctx_Ted_in_Seat1_and_Bob_in_Seat2_Ted_is_Hero : Ctx_Ted_In_Seat1
         {
             protected const string bobsName = "bob";
 
@@ -107,9 +108,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _convertedPlayers = new[] { _ted.Object, _bob.Object };
                 _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(2);
                 _sut.InitializeWith(_seatMapper_Stub.Object, 
-                                    _tableOverlaySettingsVM_Stub.Object, 
-                                    _gameHistoryVM_Stub.Object, 
-                                    _pokerTableStatisticsVM_Stub.Object, 
+                                    _tableOverlaySettingsVM_Stub.Object,
+                                    _gameHistoryVM_Stub.Object,
+                                    _pokerTableStatisticsVM_Stub.Object,
+                                    tedsName,
                                     ShowHoleCardsDuration);
             };
         }
@@ -120,9 +122,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             Establish context = () => {
                 _tableOverlaySettingsVM_Stub.SetupGet(os => os.TotalSeats).Returns(6);
                 _sut.InitializeWith(_seatMapper_Stub.Object, 
-                                    _tableOverlaySettingsVM_Stub.Object, 
-                                    _gameHistoryVM_Stub.Object, 
-                                    _pokerTableStatisticsVM_Stub.Object, 
+                                    _tableOverlaySettingsVM_Stub.Object,
+                                    _gameHistoryVM_Stub.Object,
+                                    _pokerTableStatisticsVM_Stub.Object,
+                                    string.Empty,
                                     ShowHoleCardsDuration);
             };
 
@@ -130,7 +133,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         }
 
         [Subject(typeof(TableOverlayViewModel), "InitializeWith")]
-        public class when_initialized_with_2_players : Ctx_Ted_in_Seat1_and_Bob_in_Seat2
+        public class when_initialized_with_2_players : Ctx_Ted_in_Seat1_and_Bob_in_Seat2_Ted_is_Hero
         {
             It should_initialize_player0_Overlay_with_the_overlay_settings_and_Seat_0
                 = () => _playerOverlay_0_VM_Mock.Verify(p => p.InitializeWith(_tableOverlaySettingsVM_Stub.Object, 0));
@@ -222,7 +225,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         {
             const string board = "Ad Ks Qh";
 
-            Establish context = () => _ted.SetupGet(t => t.Holecards).Returns("AsAh");
+            Establish context = () => _ted.SetupGet(t => t.Holecards).Returns("As Ah");
 
             Because of = () => _sut.UpdateWith(_convertedPlayers, board);
 
@@ -236,6 +239,55 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 = () => _playerOverlay_0_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration));
         }
         
+        [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
+        public class when_ted_in_seat_1_and_bob_in_seat_2_showed_his_cards_and_the_board_is_non_empty_and_ted_is_the_hero : Ctx_Ted_in_Seat1_and_Bob_in_Seat2_Ted_is_Hero
+        {
+            const string board = "Ad Ks Qh";
+
+            Establish context = () => {
+                _ted.SetupGet(t => t.Holecards).Returns("As Ah");
+                _bob.SetupGet(b => b.Holecards).Returns("Ks Kh");
+            };
+
+            Because of = () => _sut.UpdateWith(_convertedPlayers, board);
+
+            It should_tell_the_BoardViewModel_to_show_the_board_for_some_time
+                = () => {
+                    _boardVM_Mock.Verify(b => b.UpdateWith(board));
+                    _boardVM_Mock.Verify(b => b.HideBoardAfter(ShowHoleCardsDuration));
+                };
+
+            It should_not_tell_teds_PlayerOverlayVM_to_show_his_holecards
+                = () => _playerOverlay_0_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration), Times.Never());
+
+            It should_tell_bobs_PlayerOverlayVM_to_show_his_holecards 
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration));
+        }
+
+        [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
+        public class when_ted_in_seat_1_cards_and_the_board_is_non_empty_but_ted_is_the_hero : Ctx_Ted_in_Seat1_and_Bob_in_Seat2_Ted_is_Hero
+        {
+            const string board = "Ad Ks Qh";
+
+            Establish context = () => {
+                _ted.SetupGet(t => t.Holecards).Returns("As Ah");
+                _bob.SetupGet(b => b.Holecards).Returns(string.Empty);
+            };
+
+            Because of = () => _sut.UpdateWith(_convertedPlayers, board);
+
+            It should_not_tell_the_BoardViewModel_to_show_the_board_for_some_time
+                = () => {
+                    _boardVM_Mock.Verify(b => b.UpdateWith(board), Times.Never());
+                    _boardVM_Mock.Verify(b => b.HideBoardAfter(ShowHoleCardsDuration), Times.Never());
+                };
+
+            It should_not_tell_teds_PlayerOverlayVM_to_show_his_holecards
+                = () => _playerOverlay_0_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration), Times.Never());
+
+            It should_not_tell_bobs_PlayerOverlayVM_to_show_his_holecards 
+                = () => _playerOverlay_1_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration), Times.Never());
+        }
         [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
         public class when_ted_in_seat_1_showed_his_cards_but_the_board_is_empty : Ctx_Ted_In_Seat1
         {
@@ -256,7 +308,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         }
 
         [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
-        public class when_the_board_is_non_empty_but_no_player_showed_his_cards : Ctx_Ted_in_Seat1_and_Bob_in_Seat2
+        public class when_the_board_is_non_empty_but_no_player_showed_his_cards : Ctx_Ted_in_Seat1_and_Bob_in_Seat2_Ted_is_Hero
         {
             const string board = "As Kh Qd";
 

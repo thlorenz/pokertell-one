@@ -54,6 +54,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         ICommand _showLiveStatsWindowCommand;
 
+        string _heroName;
+
         public ICommand ShowLiveStatsWindowCommand
         {
             get
@@ -70,12 +72,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             ITableOverlaySettingsViewModel overlaySettings, 
             IGameHistoryViewModel gameHistory, 
             IPokerTableStatisticsViewModel pokerTableStatisticsViewModel, 
+            string heroName, 
             int showHoleCardsDuration)
         {
             _seatMapper = seatMapper;
-            _showHoleCardsDuration = showHoleCardsDuration;
-            PokerTableStatisticsViewModel = pokerTableStatisticsViewModel;
             GameHistory = gameHistory;
+            PokerTableStatisticsViewModel = pokerTableStatisticsViewModel;
+            _heroName = heroName;
+            _showHoleCardsDuration = showHoleCardsDuration;
 
             CreatePlayerOverlays(overlaySettings.TotalSeats);
 
@@ -88,7 +92,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         void RegisterEvents()
         {
-            PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics; 
+            PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
         }
 
         void CreatePlayerOverlays(int totalSeats)
@@ -133,11 +137,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         void ShowBoardAndHoleCards(string board)
         {
-            if (!string.IsNullOrEmpty(board) && _convertedPokerPlayers.Any(p => !string.IsNullOrEmpty(p.Holecards) && !p.Holecards.Contains("?")))
+            if (!string.IsNullOrEmpty(board) && _convertedPokerPlayers.Any(p => !string.IsNullOrEmpty(p.Holecards) && p.Name != _heroName))
             {
                 Board.UpdateWith(board);
                 Board.HideBoardAfter(_showHoleCardsDuration);
-                PlayerOverlays.ForEach(po => po.ShowHoleCardsFor(_showHoleCardsDuration));
+                PlayerOverlays.ForEach(po => {
+                    if (po.PlayerName != _heroName)
+                        po.ShowHoleCardsFor(_showHoleCardsDuration);
+                });
             }
         }
 
