@@ -11,8 +11,6 @@ namespace Tools
     [Serializable]
     public class ItemsPagesManager<T> : IItemsPagesManager<T>
     {
-        #region Constants and Fields
-
         IList<T> _allItems;
 
         IList<T> _allShownItems;
@@ -27,24 +25,13 @@ namespace Tools
         [NonSerialized]
         uint _numberOfPages;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public ItemsPagesManager()
         {
             ItemsOnCurrentPage = new ObservableCollection<T>();
         }
 
-        #endregion
-
-        #region Events
         [field: NonSerialized]
         public event Action Deserialized;
-
-        #endregion
-
-        #region Properties
 
         public IList<T> AllItems
         {
@@ -89,12 +76,6 @@ namespace Tools
             get { return _numberOfPages; }
             private set { _numberOfPages = value; }
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IItemsPagesManager<T>
 
         public IItemsPagesManager<T> FilterItems(Predicate<T> isMatch)
         {
@@ -151,12 +132,6 @@ namespace Tools
             return this;
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         void DetermineNumberOfPages()
         {
             NumberOfPages = (uint)(AllShownItems.Count / ItemsPerPage);
@@ -184,10 +159,8 @@ namespace Tools
             ItemsOnCurrentPage = new ObservableCollection<T>();
             DetermineNumberOfPages();
             NavigateToPage(_currentPage);
-            
+
             InvokeDeserialized();
         }
-
-        #endregion
     }
 }

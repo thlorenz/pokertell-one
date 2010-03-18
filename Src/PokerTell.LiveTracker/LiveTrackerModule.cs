@@ -87,8 +87,11 @@ namespace PokerTell.LiveTracker
                 .RegisterType<ITableOverlayWindowManager, TableOverlayWindowManager>()
                 .RegisterType<ITableOverlayManager, TableOverlayManager>()
 
-                // GameController
+                // GameHistory
                 .RegisterType<IGameHistoryViewModel, GameHistoryViewModel>()
+                .RegisterType<IGameHistoryWindowManager, GameHistoryWindowManager>()
+
+                // GameController
                 .RegisterType<IPlayerStatisticsUpdater, PlayerStatisticsUpdater>()
                 .RegisterType<IPokerTableStatisticsWindowManager, PokerTableStatisticsWindowManager>()
                 .RegisterTypeAndConstructor<IGameController, GameController>(() => _container.Resolve<IGameController>())

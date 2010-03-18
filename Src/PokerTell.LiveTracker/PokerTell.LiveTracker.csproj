@@ -139,6 +139,9 @@
     <Compile Include="Interfaces\IGameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayHoleCardsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModel.cs" />
+    <Compile Include="Views\GameHistoryView.xaml.cs">
+      <DependentUpon>GameHistoryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LiveTrackerMenuItemFactory.cs" />
     <Compile Include="Views\LiveTrackerSettingsView.xaml.cs">
       <DependentUpon>LiveTrackerSettingsView.xaml</DependentUpon>
@@ -188,6 +191,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\GameHistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InvestigatorViewTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,7 +203,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Overlay\GameHistoryViewTemplate.xaml">
+    <Page Include="Views\GameHistoryViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -9,4 +9,9 @@ namespace PokerTell.LiveTracker.Interfaces
     public interface ITableOverlayWindowManager : IWindowManager
     {
     }
+
+    public interface IGameHistoryWindowManager : IWindowManager
+    {
+    }
+    
 }

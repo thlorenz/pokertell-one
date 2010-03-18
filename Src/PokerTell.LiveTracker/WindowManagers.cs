@@ -22,4 +22,12 @@ namespace PokerTell.LiveTracker
         {
         }
     }
+
+    public class GameHistoryWindowManager : WindowManager, IGameHistoryWindowManager
+    {
+        public GameHistoryWindowManager()
+            : base(() => new GameHistoryView())
+        {
+        }
+    }
 }

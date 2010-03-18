@@ -1,11 +1,16 @@
 namespace PokerTell.LiveTracker.Overlay
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Xml.Linq;
 
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
+    using Tools.FunctionalCSharp;
+    using Tools.WPF.Interfaces;
+    using Tools.WPF.ViewModels;
     using Tools.Xml;
 
     public class LayoutManager : ILayoutManager
@@ -69,8 +74,12 @@ namespace PokerTell.LiveTracker.Overlay
             var xmlDoc = _xDocumentHandler.Load();
 
             var xml = xmlDoc.Descendants(Layout)
-                .First(l => l.Attributes()
+                .FirstOrDefault(l => l.Attributes()
                                 .Any(att => att.Name == TotalSeats && att.Value == seats.ToString()));
+
+            if (xml == null)
+                return DefaultSettingsFor(seats);
+            
             var layout = new
                 {
                     ShowPreFlop = Utils.GetBoolFrom(xml.Element(ShowPreFlop), true), 
@@ -117,6 +126,9 @@ namespace PokerTell.LiveTracker.Overlay
 
             return os;
         }
+
+        const int xMargin = 150;
+        const int yMArgin = 50;
 
         public static XElement CreateXElementFor(ITableOverlaySettingsViewModel os)
         {
@@ -167,5 +179,90 @@ namespace PokerTell.LiveTracker.Overlay
             _xDocumentHandler.Save(xmlDoc);
             return this;
         }
+
+        static ITableOverlaySettingsViewModel DefaultSettingsFor(int seats)
+        {
+            return new TableOverlaySettingsViewModel()
+                .InitializeWith(
+                seats,
+                true,
+                true,
+                false,
+                false,
+                true,
+                125,
+                40,
+                "#690000FF",
+                "#FFFFFFFF",
+                "#FFFFFF00",
+                0,
+                DefaultPlayerStatisticsPositionsFor(seats),
+                DefaultHarringtonMPositionsFor(seats),
+                DefaultHoleCardsPositionsFor(seats),
+                new PositionViewModel(350, 35),
+                new PositionViewModel(220, 75),
+                400,
+                150);
+        }
+
+        static IList<IPositionViewModel> DefaultPlayerStatisticsPositionsFor(int seats)
+        {
+            return DefaultPositionsFor(seats);
+        }
+
+        static IList<IPositionViewModel> DefaultHoleCardsPositionsFor(int seats)
+        {
+            return DefaultPositionsFor(seats).Select(pos => (IPositionViewModel) new PositionViewModel(pos.Left + xMargin - 80, pos.Top)).ToList();
+        }
+
+        static IList<IPositionViewModel> DefaultHarringtonMPositionsFor(int seats)
+        {
+            return DefaultPositionsFor(seats).Select(pos => (IPositionViewModel) new PositionViewModel(pos.Left + xMargin - 80, pos.Top + 20)).ToList();
+        }
+
+        static IList<IPositionViewModel> DefaultPositionsFor(int seats)
+        {
+            const int y = yMArgin;
+
+            var maxElemInFirstRow = seats < 4 ? seats : 4;
+
+            int maxElemInSecondRow;
+            if (seats <= 4)
+                maxElemInSecondRow = 0;
+            else
+                maxElemInSecondRow = seats < 8 ? seats : 8;
+
+            int maxElemInThirdRow;
+            if (seats <= 4)
+                maxElemInThirdRow = 0;
+            else
+                maxElemInThirdRow = seats < 10 ? seats : 10;
+
+            var positions = new List<IPositionViewModel>();
+
+            int col = 0;
+            for (int seat = 0; seat < maxElemInFirstRow; seat++)
+            {
+                positions.Add(new PositionViewModel(col * xMargin, y));
+                col++;
+            }
+
+            col = 0;
+            for (int seat = maxElemInFirstRow; seat < maxElemInSecondRow; seat++)
+            {
+                positions.Add(new PositionViewModel(col * xMargin, y + yMArgin));
+                col++;
+            }
+
+            col = 0;
+            for (int seat = maxElemInSecondRow; seat < maxElemInThirdRow; seat++)
+            {
+                positions.Add(new PositionViewModel(col * xMargin, y + yMArgin + yMArgin));
+                col++;
+            }
+
+            return positions;
+        }
+
     }
 }
