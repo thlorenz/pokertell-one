@@ -10,7 +10,7 @@
     /// <summary>
     /// Interaction logic for OverlayDetailsView.xaml
     /// </summary>
-    public partial class OverlayDetailsView : UserControl
+    public partial class OverlayDetailsView 
     {
         public OverlayDetailsView()
         {

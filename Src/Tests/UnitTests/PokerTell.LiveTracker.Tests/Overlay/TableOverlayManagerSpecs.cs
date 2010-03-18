@@ -121,10 +121,13 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
         public abstract class Ctx_InitializedWithFirstHand : Ctx_NewHand
         {
-            Establish context = () => _sut.InitializeWith(_gameHistory_Mock.Object, 
-                                                          _pokerTableStatistics_Mock.Object, 
-                                                          showHoleCardsDuration, 
-                                                          _newHand_Stub.Object);
+            Establish context = () => {
+                _newHand_Stub.SetupGet(h => h.HeroName).Returns(heroName);
+                _sut.InitializeWith(_gameHistory_Mock.Object,
+                                    _pokerTableStatistics_Mock.Object,
+                                    showHoleCardsDuration,
+                                    _newHand_Stub.Object);
+            };
         }
 
         [Subject(typeof(TableOverlayManager), "InitializeWith")]
@@ -143,10 +146,11 @@ namespace PokerTell.LiveTracker.Tests.Overlay
                 = () => _layoutManager_Mock.Verify(lm => lm.Load(pokerSite, totalSeats));
 
             It should_initialize_the_table_overlay_with_the_given_settings
-                = () => _tableOverlay_Mock.Verify(to => to.InitializeWith(_seatMapper_Mock.Object, 
-                                                                          _overlaySettings_Stub.Object, 
-                                                                          _gameHistory_Mock.Object, 
-                                                                          _pokerTableStatistics_Mock.Object, string.Empty, 
+                = () => _tableOverlay_Mock.Verify(to => to.InitializeWith(_seatMapper_Mock.Object,
+                                                                          _overlaySettings_Stub.Object,
+                                                                          _gameHistory_Mock.Object,
+                                                                          _pokerTableStatistics_Mock.Object,
+                                                                          heroName,
                                                                           showHoleCardsDuration));
 
             It should_the_DataContext_of_the_Overlay_Window_to_the_overlay_viewmodel

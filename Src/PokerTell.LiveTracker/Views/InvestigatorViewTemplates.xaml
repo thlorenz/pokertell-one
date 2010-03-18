@@ -59,8 +59,8 @@
         <!-- Navigation -->
         <Border BorderThickness="1" BorderBrush="{StaticResource LightBorderBrush}" CornerRadius="2">
             <StackPanel  MaxHeight="25" Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Top"  >
-                <Button Content="&lt;" Padding="10,3" Command="{Binding NavigateBackwardCommand}"/>
-                <Button Content="&gt;"  Padding="10,3" Command="{Binding NavigateForwardCommand}"/>
+                <Button Content="&lt;" Margin="4,2" Padding="10,3" Command="{Binding NavigateBackwardCommand}"/>
+                <Button Content="&gt;" Margin="4,2" Padding="10,3" Command="{Binding NavigateForwardCommand}"/>
             </StackPanel>
         </Border>
     </DataTemplate>

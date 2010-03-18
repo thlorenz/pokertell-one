@@ -288,6 +288,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_not_tell_bobs_PlayerOverlayVM_to_show_his_holecards 
                 = () => _playerOverlay_1_VM_Mock.Verify(po => po.ShowHoleCardsFor(ShowHoleCardsDuration), Times.Never());
         }
+
         [Subject(typeof(TableOverlayViewModel), "UpdateWith")]
         public class when_ted_in_seat_1_showed_his_cards_but_the_board_is_empty : Ctx_Ted_In_Seat1
         {
