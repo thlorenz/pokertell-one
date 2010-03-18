@@ -47,6 +47,8 @@ namespace PokerTell.LiveTracker.ViewModels
 
         public event Action PlayersStatisticsWereUpdated = delegate { };
 
+        public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
+
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
         public IPlayerStatisticsViewModel SelectedPlayer
@@ -133,14 +135,17 @@ namespace PokerTell.LiveTracker.ViewModels
             return playersStatisticsList;
         }
 
-        IPlayerStatisticsViewModel AddNewPlayerToPlayersIfNotFound(IPlayerStatisticsViewModel matchingPlayer)
+        protected IPlayerStatisticsViewModel AddNewPlayerToPlayersIfNotFound(IPlayerStatisticsViewModel matchingPlayer)
         {
             if (matchingPlayer == null)
             {
                 matchingPlayer = _playerStatisticsViewModelMake.New;
 
                 matchingPlayer.SelectedStatisticsSetEvent +=
-                    sequenceStatisticsSet => DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
+                    sequenceStatisticsSet => {
+                        DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
+                        UserSelectedStatisticsSet(sequenceStatisticsSet);
+                };
 
                 Players.Add(matchingPlayer);
             }

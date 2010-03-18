@@ -30,7 +30,7 @@
                             <!-- Board -->
                             <ContentControl Content="{Binding Board}" />
                             
-                            <Views:OverlayDetailsView  Content="{Binding}" />
+                            <Views:OverlayDetailsView  Content="{Binding}" Visibility="{Binding ShowOverlayDetails, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}" />
 
                             <!-- PlayerOverlays -->
                             <ItemsControl ItemsSource="{Binding PlayerOverlays}" />

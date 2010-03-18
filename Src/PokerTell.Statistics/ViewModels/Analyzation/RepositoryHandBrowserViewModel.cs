@@ -1,58 +1,53 @@
 namespace PokerTell.Statistics.ViewModels.Analyzation
 {
-   using System;
-   using System.Collections.Generic;
-   using System.Linq;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
-   using PokerTell.Infrastructure.Interfaces.PokerHand;
-   using PokerTell.Infrastructure.Interfaces.Statistics;
-   using PokerTell.Statistics.Interfaces;
+    using Base;
 
-   using Tools.WPF.ViewModels;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Interfaces;
 
-   public class RepositoryHandBrowserViewModel : NotifyPropertyChanged, IRepositoryHandBrowserViewModel
-   {
-      readonly IRepositoryHandBrowser _repositoryHandBrowser;
+    using Tools.WPF.ViewModels;
 
-      int _currentHandIndex;
+    public class RepositoryHandBrowserViewModel : DetailedStatisticsAnalyzerContentViewModel, IRepositoryHandBrowserViewModel
+    {
+        readonly IRepositoryHandBrowser _repositoryHandBrowser;
 
-      public RepositoryHandBrowserViewModel(IRepositoryHandBrowser repositoryHandBrowser, IHandHistoryViewModel handHistoryViewModel)
-      {
-         CurrentHandHistory = handHistoryViewModel;
-         _repositoryHandBrowser = repositoryHandBrowser;
-      }
+        int _currentHandIndex;
 
-      // This event does not occur here because this ViewModel the last in the chain
-      public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
+        public RepositoryHandBrowserViewModel(IRepositoryHandBrowser repositoryHandBrowser, IHandHistoryViewModel handHistoryViewModel)
+        {
+            CurrentHandHistory = handHistoryViewModel;
+            _repositoryHandBrowser = repositoryHandBrowser;
+        }
 
-       public bool ShowAsPopup
-       {
-        get { return false; }
-       }
+        public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
 
-      public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
+        public int HandCount { get; protected set; }
 
-      public int HandCount { get; protected set; }
+        public int CurrentHandIndex
+        {
+            get { return _currentHandIndex; }
+            set
+            {
+                _currentHandIndex = value;
+                CurrentHandHistory.UpdateWith(_repositoryHandBrowser.Hand(_currentHandIndex));
+                RaisePropertyChanged(() => CurrentHandIndex);
+            }
+        }
 
-      public int CurrentHandIndex
-      {
-         get { return _currentHandIndex; }
-         set {
-            _currentHandIndex = value;
-            CurrentHandHistory.UpdateWith(_repositoryHandBrowser.Hand(_currentHandIndex)); 
-            RaisePropertyChanged(() => CurrentHandIndex);
-         }
-      }
+        public IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        {
+            var reversedHandIds = analyzablePokerPlayers.Select(p => p.HandId).Reverse();
 
-      public IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
-      {
-         var reversedHandIds = analyzablePokerPlayers.Select(p => p.HandId).Reverse();
+            _repositoryHandBrowser.InitializeWith(reversedHandIds);
 
-         _repositoryHandBrowser.InitializeWith(reversedHandIds);
-
-          CurrentHandIndex = 0;
-          HandCount = _repositoryHandBrowser.PotentialHandsCount;
-          return this;
-      }
-   }
+            CurrentHandIndex = 0;
+            HandCount = _repositoryHandBrowser.PotentialHandsCount;
+            return this;
+        }
+    }
 }

@@ -50,6 +50,18 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public IOverlaySettingsAidViewModel OverlaySettingsAid { get; protected set; }
 
+        bool _showOverlayDetails;
+
+        public bool ShowOverlayDetails
+        {
+            get { return _showOverlayDetails; }
+            set
+            {
+                _showOverlayDetails = value;
+                RaisePropertyChanged(() => ShowOverlayDetails);
+            }
+        }
+
         public event Action ShowLiveStatsWindowRequested = delegate { };
 
         ICommand _showLiveStatsWindowCommand;
@@ -63,6 +75,20 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 return _showLiveStatsWindowCommand ?? (_showLiveStatsWindowCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => ShowLiveStatsWindowRequested()
+                    });
+            }
+        }
+
+        ICommand _hideOverlayDetailsCommand;
+
+        public ICommand HideOverlayDetailsCommand
+        {
+            get
+            {
+                return _hideOverlayDetailsCommand ?? (_hideOverlayDetailsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg =>  ShowOverlayDetails = false
+                        
                     });
             }
         }
@@ -93,6 +119,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         void RegisterEvents()
         {
             PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
+            PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => ShowOverlayDetails = true;
         }
 
         void CreatePlayerOverlays(int totalSeats)

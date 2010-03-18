@@ -134,6 +134,7 @@
     <Compile Include="Interfaces\IDetailedRaiseReactionStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopStartingHandsVisualizerViewModel .cs" />
+    <Compile Include="ViewModels\Base\DetailedStatisticsAnalyzerContentViewModel.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />
     <Compile Include="ViewModels\Filters\ValueViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />

@@ -21,5 +21,7 @@ namespace PokerTell.LiveTracker.Interfaces
         IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName);
 
         event Action PlayersStatisticsWereUpdated;
+
+        event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet;
     }
 }

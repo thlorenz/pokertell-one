@@ -27,9 +27,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static Mock<IConstructor<IPlayerStatisticsViewModel>> _playerStatisticsMake_Stub;
 
-        protected static Mock<IDetailedStatisticsAnalyzerViewModel> _statisticsAnalyzer_Stub;
+        protected static Mock<IDetailedStatisticsAnalyzerViewModel> _statisticsAnalyzer_Mock;
 
-        protected static IPokerTableStatisticsViewModel _sut;
+        protected static PokerTableStatisticsViewModelSut _sut;
 
         Establish specContext = () => {
             _eventAggregator_Stub = new Mock<IEventAggregator>();
@@ -37,9 +37,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             _playerStatisticsMake_Stub
                 .SetupGet(svm => svm.New).Returns(new Mock<IPlayerStatisticsViewModel>().Object);
 
-            _statisticsAnalyzer_Stub = new Mock<IDetailedStatisticsAnalyzerViewModel>();
+            _statisticsAnalyzer_Mock = new Mock<IDetailedStatisticsAnalyzerViewModel>();
 
-            _sut = new PokerTableStatisticsViewModel(_eventAggregator_Stub.Object, _playerStatisticsMake_Stub.Object, _statisticsAnalyzer_Stub.Object);
+            _sut = new PokerTableStatisticsViewModelSut(_eventAggregator_Stub.Object, _playerStatisticsMake_Stub.Object, _statisticsAnalyzer_Mock.Object);
         };
 
         [Subject(typeof(PokerTableStatisticsViewModel), "GetPlayerStatisticsViewModelFor")]
@@ -86,5 +86,46 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_raise_PlayersStatisticsWereUpdated_event = () => statisticsWereUpdatedWasRaised.ShouldBeTrue();
         }
 
+        [Subject(typeof(PokerTableStatisticsViewModel), "SelectedStatisticsSet")]
+        public class when_the_user_selects_a_statistics_set_of_a_player : PokerTableStatisticsViewModelSpecs
+        {
+            static bool selectedStatisticsWasReraised;
+
+            static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
+
+            static Mock<IActionSequenceStatisticsSet> statisticsSet;
+
+            Establish context = () => {
+                playerStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
+                _playerStatisticsMake_Stub.SetupGet(make => make.New).Returns(playerStatisticsVM_Stub.Object);
+                
+                statisticsSet = new Mock<IActionSequenceStatisticsSet>();
+
+                _sut.AddNewPlayerToPlayersIfNotFound_Invoke(null);
+                _sut.UserSelectedStatisticsSet += _ => selectedStatisticsWasReraised = true;
+            };
+
+            Because of = () => playerStatisticsVM_Stub.Raise(ps => ps.SelectedStatisticsSetEvent += null, statisticsSet.Object);
+
+            It should_initialize_the_detailed_statistics_analyzer_with_the_statistics_Set
+                = () => _statisticsAnalyzer_Mock.Verify(sa => sa.InitializeWith(statisticsSet.Object));
+
+            It should_let_me_know = () => selectedStatisticsWasReraised.ShouldBeTrue();
+        }
+
+
+    }
+
+    public class PokerTableStatisticsViewModelSut : PokerTableStatisticsViewModel
+    {
+        public PokerTableStatisticsViewModelSut(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
+            : base(eventAggregator, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel)
+        {
+        }
+
+        public void AddNewPlayerToPlayersIfNotFound_Invoke(IPlayerStatisticsViewModel matchingPlayer)
+        {
+            AddNewPlayerToPlayersIfNotFound(matchingPlayer);
+        }
     }
 }

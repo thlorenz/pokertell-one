@@ -11,7 +11,7 @@ namespace PokerTell.Statistics.ViewModels.Base
     using Tools.Interfaces;
     using Tools.WPF.ViewModels;
 
-    public abstract class StatisticsTableViewModel : NotifyPropertyChanged, IStatisticsTableViewModel
+    public abstract class StatisticsTableViewModel : DetailedStatisticsAnalyzerContentViewModel, IStatisticsTableViewModel
     {
         IEnumerable<IStatisticsTableRowViewModel> _rows;
 
@@ -21,16 +21,6 @@ namespace PokerTell.Statistics.ViewModels.Base
             SavedSelectedCells = new List<ITuple<int, int>>();
             ColumnHeaderTitle = columnHeaderTitle;
         }
-
-        public bool MayInvestigateHoleCards { get; protected set; }
-
-        public bool MayInvestigateRaise { get; protected set; }
-
-        public bool MayBrowseHands { get; protected set; }
-
-        public bool MayVisualizeHands { get; protected set; }
-
-        public bool ShowAsPopup { get; protected set; }
 
         /// <summary>
         ///   Indicates the values in the the columnheaders
@@ -92,7 +82,7 @@ namespace PokerTell.Statistics.ViewModels.Base
             set
             {
                 _childViewModel = value;
-                ChildViewModelChanged(_childViewModel);
+                RaiseChildViewModelChanged(_childViewModel);
             }
         }
 
@@ -121,8 +111,6 @@ namespace PokerTell.Statistics.ViewModels.Base
         }
 
         public List<ITuple<int, int>> SavedSelectedCells { get; protected set; }
-
-        public event Action<IDetailedStatisticsAnalyzerContentViewModel> ChildViewModelChanged = delegate { };
     }
 
     internal class EmptyStatisticsTableViewModel : StatisticsTableViewModel

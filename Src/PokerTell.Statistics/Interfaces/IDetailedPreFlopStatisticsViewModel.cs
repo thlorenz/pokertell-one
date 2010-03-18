@@ -7,13 +7,5 @@ namespace PokerTell.Statistics.Interfaces
         ICommand InvestigateRaiseReactionCommand { get; }
 
         ICommand InvestigateHoleCardsCommand { get; }
-
-        bool MayInvestigateHoleCards { get; }
-
-        bool MayInvestigateRaise { get; }
-
-        bool MayBrowseHands { get; }
-
-        bool MayVisualizeHands { get; }
     }
 }

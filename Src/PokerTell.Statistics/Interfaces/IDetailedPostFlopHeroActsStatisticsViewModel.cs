@@ -5,13 +5,5 @@ namespace PokerTell.Statistics.Interfaces
     public interface IDetailedPostFlopHeroActsStatisticsViewModel : IDetailedStatisticsViewModel
     {
         ICommand InvestigateRaiseReactionCommand { get; }
-
-        bool MayInvestigateHoleCards { get; }
-
-        bool MayInvestigateRaise { get; }
-
-        bool MayBrowseHands { get; }
-
-        bool MayVisualizeHands { get;  }
     }
 }

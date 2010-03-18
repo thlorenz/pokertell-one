@@ -26,5 +26,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_raise_preferred_seat_changed = () => wasRaised.ShouldBeTrue();
         }
+
     }
 }
