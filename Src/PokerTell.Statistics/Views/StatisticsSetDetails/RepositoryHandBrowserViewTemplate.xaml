@@ -6,7 +6,8 @@
     </ResourceDictionary.MergedDictionaries>
     
     <DataTemplate DataType="{x:Type ViewModels:RepositoryHandBrowserViewModel}">
-        <Grid>
+        <!-- Setting IsHitTestVisible to false makes sure that the MouseWheel event bubbles to the containing control -->
+        <Grid IsHitTestVisible="False">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>

@@ -5,6 +5,8 @@
     using System.Windows.Documents;
     using System.Windows.Input;
 
+    using Interfaces;
+
     using Tools.WPF.Controls;
 
     /// <summary>
@@ -36,6 +38,19 @@
                 _adornerLayer = AdornerLayer.GetAdornerLayer(_selectedElement);
                 _adornerLayer.Add(new ResizeAdorner(_selectedElement));
             }
+        }
+
+        void MouseWheel_Rolled(object sender, MouseWheelEventArgs e)
+        {
+           const int rollSize = 120;
+
+           int change = 0 - (e.Delta / rollSize);
+
+           var tableOverlayViewModel = (ITableOverlayViewModel) DataContext;
+
+           tableOverlayViewModel.GameHistory.CurrentHandIndex += change;
+
+
         }
     }
 }

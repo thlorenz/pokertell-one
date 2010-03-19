@@ -35,8 +35,9 @@
                         Click="CloseButton_Clicked" 
                         Width="15" Height="15" />
             <Viewbox Grid.Row="1" Stretch="Fill">
-                <ContentControl Grid.Row="1" Content="{Binding}" />
+                <!-- Setting IsHitTestVisible to false makes sure that the MouseWheel event bubbles to the control -->
+                <ContentControl Grid.Row="1" Content="{Binding}" IsHitTestVisible="False"/>
             </Viewbox>
         </Grid>
-     </Border>   
+    </Border>
 </Window>

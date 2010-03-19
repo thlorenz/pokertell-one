@@ -13,27 +13,21 @@ namespace PokerTell.Repository.NHibernate
 
     public class TransactionManager : ITransactionManager
     {
-        #region Constants and Fields
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly ISessionFactoryManager _sessionFactoryManager;
 
-        #endregion
 
-        #region Constructors and Destructors
 
         public TransactionManager(ISessionFactoryManager sessionFactoryManager)
         {
             _sessionFactoryManager = sessionFactoryManager;
         }
 
-        #endregion
 
-        #region Implemented Interfaces
 
-        #region ITransactionManager
 
         public ITransactionManager Execute(Action executeTransaction)
         {
@@ -49,7 +43,20 @@ namespace PokerTell.Repository.NHibernate
             }
             catch (Exception excep)
             {
-                _sessionFactoryManager.CurrentSession.Transaction.Rollback();
+                try
+                {
+                  _sessionFactoryManager.CurrentSession.Transaction.Rollback();   
+                }
+                catch (TransactionException rollbackExcep)
+                {
+                    // Under ultra heavy loads we might get: NHibernate.TransactionException: Transaction not successfully started
+                    // when trying to roll back due to another error (also due to heavy load)
+                    // Although catching this here keeps the application running and the database can be read, we may want to handle this
+                    // differently or at least inform the user b/c from now on nothing can be saved to the database.
+                    // On the other hand it is very unlikely that it ever really occurs.
+                    Log.Error(rollbackExcep);
+                }
+
                 Log.Error(excep);
             }
             finally
@@ -99,11 +106,8 @@ namespace PokerTell.Repository.NHibernate
             return this;
         }
 
-        #endregion
 
-        #endregion
 
-        #region Methods
 
         protected virtual void OpenAndBindSession()
         {
@@ -113,9 +117,17 @@ namespace PokerTell.Repository.NHibernate
 
         protected virtual void UnbindSession()
         {
-            CurrentSessionContext.Unbind(_sessionFactoryManager.SessionFactory);
+            try
+            {
+                CurrentSessionContext.Unbind(_sessionFactoryManager.SessionFactory);
+            }
+            catch (TransactionException excep)
+            {
+                // Occurs under ultra heavy loads, so far only encountered during manual testing (sending 10+ hands in 1s)
+                // If it happens there is nothing we can do, so log it and hope we can go on
+                Log.Error(excep);
+            }
         }
 
-        #endregion
     }
 }

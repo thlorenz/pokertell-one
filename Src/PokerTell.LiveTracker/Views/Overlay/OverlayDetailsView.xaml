@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools"
-    >
+    MouseWheel="MouseWheel_Rolled">
+    
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -68,7 +69,7 @@
                                     <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
                                              Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
                                              Stretch="Fill">
-                                        <ContentControl Content="{Binding GameHistory}"/>
+                                        <ContentControl Content="{Binding GameHistory}" />
                                     </Viewbox>
                                 </TabItem>
                             </TabControl.Items>
