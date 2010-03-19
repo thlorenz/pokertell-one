@@ -71,13 +71,6 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
             _container
 
-                // Tools
-                .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
-                .RegisterType<ICollectionValidator, CollectionValidator>()
-               
-                // Tools.WPF
-                .RegisterType<IPositionViewModel, PositionViewModel>() 
-
                 // LiveTrackerSettings
                 .RegisterType<ILiveTrackerSettingsXDocumentHandler, LiveTrackerSettingsXDocumentHandler>()
                 .RegisterType<ILiveTrackerSettingsViewModel, LiveTrackerSettingsViewModel>()

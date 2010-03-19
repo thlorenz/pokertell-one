@@ -17,11 +17,7 @@ namespace PokerTell.LiveTracker
     using PokerTell.LiveTracker.ViewModels;
     using PokerTell.LiveTracker.Views;
 
-    using Tools.Interfaces;
-    using Tools.Validation;
     using Tools.WPF;
-    using Tools.WPF.Interfaces;
-    using Tools.WPF.ViewModels;
 
     using Tracking;
 
@@ -53,13 +49,6 @@ namespace PokerTell.LiveTracker
         {
             _container
                 
-                // Tools
-                .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
-                .RegisterType<ICollectionValidator, CollectionValidator>()
-               
-                // Tools.WPF
-                .RegisterType<IPositionViewModel, PositionViewModel>() 
-
                 // LiveTrackerSettings
                 .RegisterType<ILiveTrackerSettingsXDocumentHandler, LiveTrackerSettingsXDocumentHandler>()
                 .RegisterType<ILiveTrackerSettingsViewModel, LiveTrackerSettingsViewModel>()

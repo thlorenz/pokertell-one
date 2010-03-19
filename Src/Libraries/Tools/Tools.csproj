@@ -149,6 +149,7 @@
     <Compile Include="Serialization\SoapSerializer.cs" />
     <Compile Include="Serialization\XmlStandardSerializer.cs" />
     <Compile Include="StaticMethods.cs" />
+    <Compile Include="ToolsModule.cs" />
     <Compile Include="Validation\CollectionValidator.cs" />
     <Compile Include="Interfaces\ICollectionValidator.cs" />
     <Compile Include="WPF\Command\CommandAction.cs" />

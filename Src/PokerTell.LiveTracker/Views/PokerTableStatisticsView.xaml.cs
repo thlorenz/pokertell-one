@@ -26,5 +26,17 @@
         {
             Hide();
         }
+
+        void MouseWheel_Rolled(object sender, MouseWheelEventArgs e)
+        {
+           const int rollSize = 120;
+
+           int change = 0 - (e.Delta / rollSize);
+
+       //    var gameHistoryViewModel = (IGameHistoryViewModel) DataContext;
+
+
+       //    gameHistoryViewModel.CurrentHandIndex += change;
+        }
     }
 }

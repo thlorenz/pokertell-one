@@ -17,6 +17,8 @@ namespace PokerTell.LiveTracker.ManualTests
 
     using Statistics;
 
+    using Tools;
+
     using User;
 
     public class Bootstrapper : UnityBootstrapper
@@ -26,6 +28,7 @@ namespace PokerTell.LiveTracker.ManualTests
             var catalog = new ModuleCatalog();
 
             return catalog
+                .AddModule(typeof(ToolsModule))
                 .AddModule(typeof(UserModule))
                 .AddModule(typeof(PokerHandModule), typeof(UserModule).Name)
                 .AddModule(typeof(DatabaseSetupModule), typeof(UserModule).Name)
