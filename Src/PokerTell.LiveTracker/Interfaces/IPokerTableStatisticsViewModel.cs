@@ -16,6 +16,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IList<IPlayerStatisticsViewModel> Players { get; }
 
+        string TableName { get; set; }
+
         void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics);
 
         IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName);

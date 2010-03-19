@@ -71,6 +71,8 @@ namespace PokerTell.LiveTracker
             if (LiveTrackerSettings.ShowTableOverlay)
                 _tableOverlayManager.UpdateWith(convertedPokerHand);
 
+            _liveStatsPokerTableStatistics.TableName = convertedPokerHand.TableName;
+
             UpdatePlayerStatistics(convertedPokerHand);
 
             return this;

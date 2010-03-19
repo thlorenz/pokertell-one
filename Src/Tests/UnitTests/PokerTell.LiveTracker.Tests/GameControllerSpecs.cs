@@ -200,6 +200,9 @@ namespace PokerTell.LiveTracker.Tests
                                                          Times.Never());
 
             It should_set_IsLaunched_to_true = () => _sut.IsLaunched.ShouldBeTrue();
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand, first time")]
@@ -218,6 +221,9 @@ namespace PokerTell.LiveTracker.Tests
                                                                                    _newHand_Stub.Object));
 
             It should_set_IsLaunched_to_true = () => _sut.IsLaunched.ShouldBeTrue();
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand, first time")]
@@ -234,6 +240,9 @@ namespace PokerTell.LiveTracker.Tests
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _liveStatsPokerTableStatistics_Mock.Object);
 
             It should_show_the_LiveStats_window = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Show());
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand, first time")]
@@ -251,6 +260,9 @@ namespace PokerTell.LiveTracker.Tests
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _liveStatsPokerTableStatistics_Mock.Object);
 
             It should_not_show_the_LiveStats_window = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Show(), Times.Never());
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand, not first time")]
@@ -279,6 +291,9 @@ namespace PokerTell.LiveTracker.Tests
                 = () => _liveStatsWindow_Mock.VerifySet(lsw => lsw.DataContext = _liveStatsPokerTableStatistics_Mock.Object, Times.Never());
 
             It should_not_show_the_LiveStats_window_again = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Show(), Times.Never());
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand")]
@@ -297,6 +312,9 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_not_update_the_table_overlay_manager_with_the_players_and_the_board_contained_in_the_hand
                 = () => _tableOverlayManager_Mock.Verify(tom => tom.UpdateWith(_newHand_Stub.Object), Times.Never());
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "New Hand")]
@@ -318,6 +336,9 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_update_the_table_overlay_manager_with_the_players_and_the_board_contained_in_the_hand
                 = () => _tableOverlayManager_Mock.Verify(tom => tom.UpdateWith(_newHand_Stub.Object));
+
+            It should_set_the_LiveStats_PokerTableStatistics_table_name_to_the_one_returned_by_the_hand
+                = () => _liveStatsPokerTableStatistics_Mock.VerifySet(lsvm => lsvm.TableName = tableName);
         }
 
         [Subject(typeof(GameController), "NewHand")]

@@ -45,6 +45,18 @@ namespace PokerTell.LiveTracker.ViewModels
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
         }
 
+        string _tableName;
+
+        public string TableName
+        {
+            get { return _tableName; }
+            set
+            {
+                _tableName = value;
+                RaisePropertyChanged(() => TableName);
+            }
+        }
+
         public event Action PlayersStatisticsWereUpdated = delegate { };
 
         public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
