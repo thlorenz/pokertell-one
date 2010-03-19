@@ -14,6 +14,7 @@
                   HorizontalContentAlignment="Right"
                   VerticalContentAlignment="Center"
                   VerticalAlignment="Top"
+                  Padding="5,0"
                   Header="Settings">
 
             <StackPanel Orientation="Vertical">

@@ -18,5 +18,7 @@ namespace PokerTell.LiveTracker.Interfaces
         event Action TableClosed;
 
         event Action ShowLiveStatsWindowRequested;
+
+        event Action ShowGameHistoryWindowRequested;
     }
 }

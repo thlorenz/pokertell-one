@@ -1,7 +1,10 @@
 ﻿namespace PokerTell.LiveTracker.Views
 {
+    using System;
     using System.Windows;
     using System.Windows.Input;
+
+    using Interfaces;
 
     /// <summary>
     /// Interaction logic for GameHistoryView.xaml
@@ -19,6 +22,22 @@
             {
                 DragMove();
             }
+        }
+
+        void CloseButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
+
+        void MouseWheel_Rolled(object sender, MouseWheelEventArgs e)
+        {
+           const int rollSize = 120;
+
+           var gameHistoryViewModel = (IGameHistoryViewModel) DataContext;
+
+           int change = 0 - (e.Delta / rollSize);
+
+           gameHistoryViewModel.CurrentHandIndex += change;
         }
     }
 }

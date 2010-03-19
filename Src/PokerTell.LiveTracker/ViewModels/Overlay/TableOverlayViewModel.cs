@@ -64,6 +64,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public event Action ShowLiveStatsWindowRequested = delegate { };
 
+        public event Action ShowGameHistoryWindowRequested = delegate { };
+
         ICommand _showLiveStatsWindowCommand;
 
         string _heroName;
@@ -75,6 +77,19 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 return _showLiveStatsWindowCommand ?? (_showLiveStatsWindowCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => ShowLiveStatsWindowRequested()
+                    });
+            }
+        }
+
+        ICommand _showGameHistoryWindowCommand;
+
+        public ICommand ShowGameHistoryWindowCommand
+        {
+            get
+            {
+                return _showGameHistoryWindowCommand ?? (_showGameHistoryWindowCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => ShowGameHistoryWindowRequested()
                     });
             }
         }

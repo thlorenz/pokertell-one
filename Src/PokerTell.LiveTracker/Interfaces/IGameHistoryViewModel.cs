@@ -12,6 +12,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         int CurrentHandIndex { get; set; }
 
+        string TableName { get; }
+
         IGameHistoryViewModel AddNewHand(IConvertedPokerHand convertedPokerHand);
     }
 }

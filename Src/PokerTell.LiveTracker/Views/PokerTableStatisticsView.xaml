@@ -24,8 +24,20 @@
             CornerRadius="5" 
             Background="{StaticResource LightToDarkToLightBorderBrush}"
             Padding="3, 0, 3, 0">
-    <Viewbox Stretch="Fill">
-        <ContentControl Content="{Binding}" ContentTemplate="{StaticResource TableStatisticsViewTemplate}" />
-     </Viewbox>
-     </Border>   
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding TableName}" VerticalAlignment="Top" Foreground="White" FontSize="12" Margin="7, 2"/>
+            <Button Grid.Row="0" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right" 
+                        Click="CloseButton_Clicked" 
+                        Width="15" Height="15" />
+            <Viewbox Grid.Row="1" Stretch="Fill">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource TableStatisticsViewTemplate}" />
+            </Viewbox>
+        </Grid>
+    </Border>
 </Window>

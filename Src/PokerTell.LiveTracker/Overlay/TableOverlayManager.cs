@@ -46,6 +46,8 @@ namespace PokerTell.LiveTracker.Overlay
 
         public event Action ShowLiveStatsWindowRequested = delegate { };
 
+        public event Action ShowGameHistoryWindowRequested = delegate { };
+
         public ITableOverlayManager InitializeWith(
             IGameHistoryViewModel gameHistory, 
             IPokerTableStatisticsViewModel pokerTableStatistics, 
@@ -133,6 +135,7 @@ namespace PokerTell.LiveTracker.Overlay
         {
             _overlayToTableAttacher.TableClosed += () => TableClosed();
             _tableOverlay.ShowLiveStatsWindowRequested += () => ShowLiveStatsWindowRequested();
+            _tableOverlay.ShowGameHistoryWindowRequested += () => ShowGameHistoryWindowRequested();
         }
 
         public void Dispose()

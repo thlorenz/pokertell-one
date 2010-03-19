@@ -26,7 +26,8 @@
                         <RowDefinition />
                     </Grid.RowDefinitions>
                     <Viewbox Grid.Row="1" >
-                        <Canvas Width="800" Height="400">
+                        <!-- Canvas Ratio 0.7 (exactly like PokerStars Table)-->
+                        <Canvas Width="800" Height="560">
                             <!-- Board -->
                             <ContentControl Content="{Binding Board}" />
                             
@@ -45,11 +46,12 @@
                         </Canvas>
                     </Viewbox>
                   <StackPanel  Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" 
-                               Margin="5,5,150,5"
+                               Margin="5,5,100,5"
                                HorizontalAlignment="Right"
                               >
                     <ContentControl Content="{Binding OverlaySettings}" Opacity="0.98"/>
-                    <Button Content="L" Width="20" Height="20" VerticalAlignment="Top" Command="{Binding ShowLiveStatsWindowCommand}" />
+                    <Button Content="S" Width="20" Height="20" VerticalAlignment="Top" Command="{Binding ShowLiveStatsWindowCommand}" />
+                    <Button Content="H" Width="20" Height="20" VerticalAlignment="Top" Command="{Binding ShowGameHistoryWindowCommand}" />
                     </StackPanel>                  
                 </Grid>
             </DataTemplate>

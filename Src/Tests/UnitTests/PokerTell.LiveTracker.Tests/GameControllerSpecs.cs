@@ -38,6 +38,8 @@ namespace PokerTell.LiveTracker.Tests
 
         protected static Mock<IPokerTableStatisticsWindowManager> _liveStatsWindow_Mock;
 
+        protected static Mock<IGameHistoryWindowManager> _gameHistoryWindow_Mock;
+
         protected static Mock<ITableOverlayManager> _tableOverlayManager_Mock;
 
         protected static GameControllerSut _sut;
@@ -53,7 +55,9 @@ namespace PokerTell.LiveTracker.Tests
             _newHand_Stub = new Mock<IConvertedPokerHand>();
             _liveTrackerSettings_Stub = new Mock<ILiveTrackerSettingsViewModel>();
 
+            _gameHistory_Mock = new Mock<IGameHistoryViewModel>();
             _liveStatsWindow_Mock = new Mock<IPokerTableStatisticsWindowManager>();
+            _gameHistoryWindow_Mock = new Mock<IGameHistoryWindowManager>();
 
             _tableOverlayManager_Mock = new Mock<ITableOverlayManager>();
 
@@ -64,7 +68,8 @@ namespace PokerTell.LiveTracker.Tests
                 _playerStatisticsMake, 
                 _playerStatisticsUpdater_Mock.Object, 
                 _tableOverlayManager_Mock.Object, 
-                _liveStatsWindow_Mock.Object) { LiveTrackerSettings = _liveTrackerSettings_Stub.Object };
+                _liveStatsWindow_Mock.Object,
+                _gameHistoryWindow_Mock.Object) { LiveTrackerSettings = _liveTrackerSettings_Stub.Object };
         };
 
         public abstract class Ctx_NewHand : GameControllerSpecs
@@ -172,7 +177,8 @@ namespace PokerTell.LiveTracker.Tests
                     _playerStatisticsMake, 
                     _playerStatisticsUpdater_Mock.Object, 
                     _tableOverlayManager_Mock.Object, 
-                    _liveStatsWindow_Mock.Object) { LiveTrackerSettings = _liveTrackerSettings_Stub.Object };
+                _liveStatsWindow_Mock.Object,
+                _gameHistoryWindow_Mock.Object) { LiveTrackerSettings = _liveTrackerSettings_Stub.Object };
                 _sut.SetIsLaunched(true);
             };
         }
@@ -453,6 +459,18 @@ namespace PokerTell.LiveTracker.Tests
             It should_activate_it = () => _liveStatsWindow_Mock.Verify(lsw => lsw.Activate());
         }
 
+        [Subject(typeof(GameController), "Show GameHistoryWindow requested")]
+        public class when_the_user_requests_to_see_the_game_history_window : GameControllerSpecs
+        {
+            Because of = () => _tableOverlayManager_Mock.Raise(tom => tom.ShowGameHistoryWindowRequested += null);
+
+            It should_set_its_DataContext_to_the_GameHistory_ViewModel = () => _gameHistoryWindow_Mock.VerifySet(ghw => ghw.DataContext = _gameHistory_Mock.Object);
+
+            It should_show_it = () => _gameHistoryWindow_Mock.Verify(ghw => ghw.Show());
+
+            It should_activate_it = () => _gameHistoryWindow_Mock.Verify(ghw => ghw.Activate());
+        }
+
         protected class GameControllerSut : GameController
         {
             public GameControllerSut(
@@ -462,15 +480,17 @@ namespace PokerTell.LiveTracker.Tests
                 IConstructor<IPlayerStatistics> playerStatisticsMake, 
                 IPlayerStatisticsUpdater playerStatisticsUpdater, 
                 ITableOverlayManager tableOverlayManager, 
-                IPokerTableStatisticsWindowManager pokerTableStatisticsWindowManager)
+                IPokerTableStatisticsWindowManager pokerTableStatisticsWindowManager,
+                IGameHistoryWindowManager gameHistoryWindowManager)
                 : base(
                     gameHistory, 
                     overlayPokerTableStatistics, 
                     liveStatsPokerTableStatistics, 
                     playerStatisticsMake, 
-                    playerStatisticsUpdater, 
-                    tableOverlayManager, 
-                    pokerTableStatisticsWindowManager)
+                    playerStatisticsUpdater,
+                    tableOverlayManager,
+                    pokerTableStatisticsWindowManager,
+                    gameHistoryWindowManager)
             {
             }
 

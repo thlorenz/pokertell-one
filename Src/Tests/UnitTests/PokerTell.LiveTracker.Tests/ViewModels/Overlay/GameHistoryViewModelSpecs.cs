@@ -8,6 +8,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
+    using Tools.Interfaces;
+    using Tools.Validation;
+
     using It = Machine.Specifications.It;
 
     // Resharper disable InconsistentNaming
@@ -22,7 +25,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         Establish specContext = () => {
             _handHistoryVM_Mock = new Mock<IHandHistoryViewModel>();
             _hand_Stub = new Mock<IConvertedPokerHand>();
-            _sut = new GameHistoryViewModel(_handHistoryVM_Mock.Object);
+            _sut = new GameHistoryViewModel(_handHistoryVM_Mock.Object, new CollectionValidator());
         };
 
         [Subject(typeof(GameHistoryViewModel), "AddNewHand")]
@@ -41,7 +44,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         [Subject(typeof(GameHistoryViewModel), "AddNewHand")]
         public class when_the_history_already_contained_another_hand : GameHistoryViewModelSpecs
         {
-            Establish context = () => _sut.AddNewHand(new Mock<IConvertedPokerHand>().Object);
+            const string tableName = "some table";
+
+            Establish context = () => {
+                _hand_Stub.SetupGet(h => h.TableName).Returns(tableName);
+
+                _sut.AddNewHand(new Mock<IConvertedPokerHand>().Object);
+            };
 
             Because of = () => _sut.AddNewHand(_hand_Stub.Object);
 
@@ -51,6 +60,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_add_the_hand_to_the_History = () => _sut.HandCount.ShouldEqual(2);
 
             It should_set_the_currenthand_index_to_1 = () => _sut.CurrentHandIndex.ShouldEqual(1);
+
+            It should_set_the_table_name_to_the_one_returned_by_the_new_hand = () => _sut.TableName.ShouldEqual(tableName);
         }
 
         [Subject(typeof(GameHistoryViewModel), "AddNewHand")]
@@ -97,6 +108,15 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_update_the_CurrentHandHistory_with_the_hand_at_index_1
                 = () => _handHistoryVM_Mock.Verify(hvm => hvm.UpdateWith(Moq.It.Is<IConvertedPokerHand>(hh => hh.Equals(_hand_Stub.Object))), Times.Exactly(2));
+        }
+
+        [Subject(typeof(GameHistoryViewModel), "CurrentHandIndex")]
+        public class when_no_hands_were_added_and_I_try_to_set_the_CurrentHandIndex_to_0 : GameHistoryViewModelSpecs
+        {
+            Because of = () => _sut.CurrentHandIndex = 0;
+
+            It should_not_update_the_CurrentHandHistory
+                = () => _handHistoryVM_Mock.Verify(hvm => hvm.UpdateWith(Moq.It.IsAny<IConvertedPokerHand>()), Times.Never());
         }
     }
 }

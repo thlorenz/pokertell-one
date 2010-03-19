@@ -22,6 +22,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using PokerRooms;
 
     using Tools.Interfaces;
+    using Tools.Validation;
     using Tools.WPF;
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
@@ -70,7 +71,12 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
             _container
 
+                // Tools
                 .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
+                .RegisterType<ICollectionValidator, CollectionValidator>()
+               
+                // Tools.WPF
+                .RegisterType<IPositionViewModel, PositionViewModel>() 
 
                 // LiveTrackerSettings
                 .RegisterType<ILiveTrackerSettingsXDocumentHandler, LiveTrackerSettingsXDocumentHandler>()
@@ -89,7 +95,6 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
                 .RegisterInstance(overlayToTableAttacher_Mock.Object)
 
                 // Table Overlay
-                .RegisterType<IPositionViewModel, PositionViewModel>() // May not be needed
                 .RegisterType<ITableOverlaySettingsViewModel, TableOverlaySettingsViewModel>()
 
                 .RegisterType<IHarringtonMViewModel, HarringtonMViewModel>()
@@ -111,8 +116,11 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
                 .RegisterType<ITableOverlayWindowManager, TableOverlayWindowManagerMock>()
                 .RegisterType<ITableOverlayManager, TableOverlayManager>()
 
-                // GameController
+                // GameHistory
                 .RegisterType<IGameHistoryViewModel, GameHistoryViewModel>()
+                .RegisterType<IGameHistoryWindowManager, GameHistoryWindowManager>()
+
+                // GameController
                 .RegisterType<IPlayerStatisticsUpdater, PlayerStatisticsUpdater>()
                 .RegisterType<IPokerTableStatisticsWindowManager, PokerTableStatisticsWindowManager>()
                 .RegisterTypeAndConstructor<IGameController, GameController>(() => _container.Resolve<IGameController>())

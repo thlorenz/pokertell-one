@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Serialization\ThatSoapSerializer.cs" />
     <Compile Include="ThatItemsPagesManager.cs" />
+    <Compile Include="Validation\CollectionValidatorSpecs.cs" />
     <Compile Include="WPF\WindowManagerSpecs.cs" />
   </ItemGroup>
   <ItemGroup>

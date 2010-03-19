@@ -97,8 +97,7 @@
                         Visibility="{Binding ShowMaximize, Converter={StaticResource BoolToVisibleOrCollapsedConverter}, Mode=OneWay}"
                         MaxWidth="20"
                         MaxHeight="20">
-                        <Image
-                            Source="Resources/MaximizeIcon.png" />
+                        <Image Source="Resources/MaximizeIcon.png" />
                     </Button>
                     <Button
                         Click="CloseButton_Click"

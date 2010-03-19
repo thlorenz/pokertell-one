@@ -375,6 +375,18 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_let_me_know = () => showLiveStatsWindowWasRaised.ShouldBeTrue();
         }
 
+        [Subject(typeof(TableOverlayViewModel), "ShowGameHistoryWindow Command")]
+        public class when_user_executes_show_game_history_window_command : TableOverlayViewModelSpecs
+        {
+            static bool showGameHistoryWindowWasRaised;
+
+            Establish context = () => _sut.ShowGameHistoryWindowRequested += () => showGameHistoryWindowWasRaised = true;
+
+            Because of = () => _sut.ShowGameHistoryWindowCommand.Execute(null);
+
+            It should_let_me_know = () => showGameHistoryWindowWasRaised.ShouldBeTrue();
+        }
+
         [Subject(typeof(TableOverlayViewModel), "HideOVerlayDetailsCommand")]
         public class when_the_user_hides_the_overlay_details_while_they_are_shown : TableOverlayViewModelSpecs
         {

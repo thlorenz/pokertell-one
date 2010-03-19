@@ -20,7 +20,8 @@ namespace PokerTell.LiveTracker
             IConstructor<IPlayerStatistics> playerStatisticsMake, 
             IPlayerStatisticsUpdater playerStatisticsUpdater, 
             ITableOverlayManager tableOverlayManager, 
-            IPokerTableStatisticsWindowManager liveStatsWindowManager)
+            IPokerTableStatisticsWindowManager liveStatsWindowManager, 
+            IGameHistoryWindowManager gameHistoryWindowManager)
         {
             _gameHistory = gameHistory;
             _overlayPokerTableStatistics = overlayPokerTableStatistics;
@@ -29,6 +30,7 @@ namespace PokerTell.LiveTracker
             _playerStatisticsUpdater = playerStatisticsUpdater;
             _tableOverlayManager = tableOverlayManager;
             _liveStatsWindow = liveStatsWindowManager;
+            _gameHistoryWindow = gameHistoryWindowManager;
 
             RegisterEvents();
 
@@ -48,6 +50,8 @@ namespace PokerTell.LiveTracker
         readonly ITableOverlayManager _tableOverlayManager;
 
         readonly IPokerTableStatisticsViewModel _liveStatsPokerTableStatistics;
+
+        readonly IGameHistoryWindowManager _gameHistoryWindow;
 
         public IDictionary<string, IPlayerStatistics> PlayerStatistics { get; protected set; }
 
@@ -130,6 +134,12 @@ namespace PokerTell.LiveTracker
             _tableOverlayManager.ShowLiveStatsWindowRequested += () => {
                 _liveStatsWindow.Show();
                 _liveStatsWindow.Activate();
+            };
+
+            _tableOverlayManager.ShowGameHistoryWindowRequested += () => {
+                _gameHistoryWindow.DataContext = _gameHistory;
+                _gameHistoryWindow.Show();
+                _gameHistoryWindow.Activate();
             };
 
             _tableOverlayManager.TableClosed += () => {

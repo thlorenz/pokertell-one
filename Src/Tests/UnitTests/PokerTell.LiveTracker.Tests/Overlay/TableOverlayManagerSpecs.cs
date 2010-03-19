@@ -286,6 +286,18 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             It should_let_me_know = () => showLiveStatsWasReraised.ShouldBeTrue();
         }
+
+        [Subject(typeof(TableOverlayManager), "Show GameHistory Window")]
+        public class when_the_user_requests_the_gamehistory_window_to_be_shown : Ctx_InitializedWithFirstHand
+        {
+            static bool showGameHistoryWasReraised;
+
+            Establish context = () => _sut.ShowGameHistoryWindowRequested += () => showGameHistoryWasReraised = true;
+
+            Because of = () => _tableOverlay_Mock.Raise(to => to.ShowGameHistoryWindowRequested += null);
+
+            It should_let_me_know = () => showGameHistoryWasReraised.ShouldBeTrue();
+        }
     }
 
     public class TableOverlayManagerSut : TableOverlayManager

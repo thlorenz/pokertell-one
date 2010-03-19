@@ -1,5 +1,6 @@
 ﻿namespace PokerTell.LiveTracker.Views
 {
+    using System;
     using System.Windows;
     using System.Windows.Input;
 
@@ -19,6 +20,11 @@
             {
                 DragMove();
             }
+        }
+
+        void CloseButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            Hide();
         }
     }
 }

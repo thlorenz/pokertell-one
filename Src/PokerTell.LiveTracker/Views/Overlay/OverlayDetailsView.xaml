@@ -82,11 +82,9 @@
                                             Content="{Binding}"
                                             ContentTemplate="{StaticResource InvestigatorNavigationTemplate}" />
                             <Button Command="{Binding HideOverlayDetailsCommand}"
-                                    Content="x"
                                     Margin="1" 
-                                    Padding="2" 
-                                    Width="20" 
-                                    Height="20"  />
+                                    Width="15" 
+                                    Height="15" />
                         </StackPanel>
                         
                         <!-- Visualize Hands Popup -->

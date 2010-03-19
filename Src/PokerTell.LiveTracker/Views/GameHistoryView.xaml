@@ -7,8 +7,8 @@
     WindowStyle="None"    
     ResizeMode="CanResizeWithGrip"    
     ShowInTaskbar="False"   
-        
     MouseDown="WindowBorder_MouseDown"
+    MouseWheel="MouseWheel_Rolled"    
     Width="300" Height="200" >
     <Window.Resources>
         <ResourceDictionary>
@@ -22,9 +22,21 @@
             BorderThickness="2"
             CornerRadius="5" 
             Background="{StaticResource LightToDarkToLightBorderBrush}"
-            Padding="3, 0, 3, 0">
-        <Viewbox Stretch="Fill">
-            <ContentControl Content="{Binding}" />
-        </Viewbox>
+            Padding="3, 0, 3, 15">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding TableName}" VerticalAlignment="Top" Foreground="White" FontSize="12" Margin="7, 2"/>
+            <Button Grid.Row="0" 
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Right" 
+                        Click="CloseButton_Clicked" 
+                        Width="15" Height="15" />
+            <Viewbox Grid.Row="1" Stretch="Fill">
+                <ContentControl Grid.Row="1" Content="{Binding}" />
+            </Viewbox>
+        </Grid>
      </Border>   
 </Window>

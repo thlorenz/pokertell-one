@@ -18,6 +18,7 @@ namespace PokerTell.LiveTracker
     using PokerTell.LiveTracker.Views;
 
     using Tools.Interfaces;
+    using Tools.Validation;
     using Tools.WPF;
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
@@ -51,8 +52,13 @@ namespace PokerTell.LiveTracker
         void RegisterViewsAndServices()
         {
             _container
-
+                
+                // Tools
                 .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
+                .RegisterType<ICollectionValidator, CollectionValidator>()
+               
+                // Tools.WPF
+                .RegisterType<IPositionViewModel, PositionViewModel>() 
 
                 // LiveTrackerSettings
                 .RegisterType<ILiveTrackerSettingsXDocumentHandler, LiveTrackerSettingsXDocumentHandler>()
@@ -68,7 +74,6 @@ namespace PokerTell.LiveTracker
                 .RegisterType<IOverlayToTableAttacher, OverlayToTableAttacher>()
 
                 // Table Overlay
-                .RegisterType<IPositionViewModel, PositionViewModel>() // May not be needed
                 .RegisterType<ITableOverlaySettingsViewModel, TableOverlaySettingsViewModel>()
 
                 .RegisterType<IHarringtonMViewModel, HarringtonMViewModel>()
