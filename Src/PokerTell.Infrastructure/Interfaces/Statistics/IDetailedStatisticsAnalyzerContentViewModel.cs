@@ -18,6 +18,13 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         bool MayInvestigate { get; }
 
+        /// <summary>
+        /// Allows reacting to scrolling events e.g. MouseWheel.
+        /// Not all implementers will implement this method.
+        /// </summary>
+        /// <param name="change">Sign indicates scrolling direction, value indicates size of the scroll</param>
+        void Scroll(int change);
+
         void RaiseChildViewModelChanged(IDetailedStatisticsAnalyzerContentViewModel childViewModel);
     }
 }

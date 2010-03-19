@@ -26,6 +26,16 @@ namespace PokerTell.Statistics.ViewModels.Base
             get { return MayInvestigateHoleCards || MayInvestigateRaise || MayBrowseHands || MayVisualizeHands; }
         }
 
+        /// <summary>
+        /// Allows reacting to scrolling events e.g. MouseWheel.
+        /// Not all implementers will implement this method.
+        /// </summary>
+        /// <param name="change">Sign indicates scrolling direction, value indicates size of the scroll</param>
+        public virtual void Scroll(int change)
+        {
+            // Do nothing by default
+        }
+
         public void RaiseChildViewModelChanged(IDetailedStatisticsAnalyzerContentViewModel childViewModel)
         {
             ChildViewModelChanged(childViewModel); 

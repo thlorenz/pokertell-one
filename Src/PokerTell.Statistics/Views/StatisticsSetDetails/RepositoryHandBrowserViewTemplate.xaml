@@ -15,7 +15,7 @@
             <ScrollBar Grid.Column="1"
                        Minimum="0"
                        Maximum="{Binding HandCount, Converter={StaticResource CountToMaximumConverter}}"
-                       Value="{Binding CurrentHandIndex, Mode=OneWayToSource}"
+                       Value="{Binding CurrentHandIndex, Mode=TwoWay}"
                        Height="150"
                        SmallChange="1"
                        LargeChange="10"/>

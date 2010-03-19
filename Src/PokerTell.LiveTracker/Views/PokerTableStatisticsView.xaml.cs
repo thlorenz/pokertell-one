@@ -4,6 +4,8 @@
     using System.Windows;
     using System.Windows.Input;
 
+    using Interfaces;
+
     /// <summary>
     /// Interaction logic for PokerTableStatisticsView.xaml
     /// </summary>
@@ -33,10 +35,9 @@
 
            int change = 0 - (e.Delta / rollSize);
 
-       //    var gameHistoryViewModel = (IGameHistoryViewModel) DataContext;
+           var pokerTableStatisticsViewModel = (IPokerTableStatisticsViewModel) DataContext;
 
-
-       //    gameHistoryViewModel.CurrentHandIndex += change;
+           pokerTableStatisticsViewModel.DetailedStatisticsAnalyzer.CurrentViewModel.Scroll(change);
         }
     }
 }
