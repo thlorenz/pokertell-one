@@ -13,102 +13,102 @@ namespace PokerTell.Infrastructure.Enumerations.PokerHand
         /// <summary>
         ///   Identifies Sequence as a non standard sequence that can not be included in detailed analysis
         /// </summary>
-        NonStandard,
+        NonStandard = 0,
 
         /// <summary>
         ///   Identifies Sequence as Hero acts ActionSequence collection to DetailStatistic, applies to in and out of position
         /// </summary>
-        HeroActs,
+        HeroActs = 1,
 
         /// <summary>
         ///   Hero checks, applies to in and out of position
         /// </summary>
-        HeroX,
+        HeroX = 2,
 
         /// <summary>
         ///   Hero bets, applies to in and out of position
         /// </summary>
-        HeroB,
+        HeroB = 3,
 
         /// <summary>
         ///   Identifies it as Opponent bets ActionSequence collection to DetailStatistics, applies to in and out of position
         /// </summary>
-        OppB,
+        OppB = 4,
 
         /// <summary>
         ///   Opponent bets and Hero folds, applies to in and out of position
         /// </summary>
-        OppBHeroF,
+        OppBHeroF = 5,
 
         /// <summary>
         ///   Opponent bets and Hero calls, applies to in and out of position
         /// </summary>
-        OppBHeroC,
+        OppBHeroC = 6,
 
         /// <summary>
         ///   Opponent bets and Hero raises, applies to in and out of position
         /// </summary>
-        OppBHeroR,
+        OppBHeroR = 7,
 
         /// <summary>
         ///   Identifies it as Hero checks ActionSequence collection to DetailStatistics
         /// </summary>
-        HeroXOppB,
+        HeroXOppB = 8,
 
         /// <summary>
         ///   Hero checks, opponent bets and Hero folds, applies only to out of position
         /// </summary>
-        HeroXOppBHeroF,
+        HeroXOppBHeroF = 9,
 
         /// <summary>
         ///   Hero checks, opponent bets and Hero calls, applies only to out of position
         /// </summary>
-        HeroXOppBHeroC,
+        HeroXOppBHeroC = 10,
 
         /// <summary>
         ///   Hero checks, opponent bets and Hero raises, applies only to out of position
         /// </summary>
-        HeroXOppBHeroR,
+        HeroXOppBHeroR = 11,
 
         /// <summary>
         ///   Identifies the Preflop ActionSequence to have occured in unraised pot
         /// </summary>
-        PreFlopNoFrontRaise,
+        PreFlopNoFrontRaise = 12,
 
         /// <summary>
         ///   Hero folds Preflop
         /// </summary>
-        HeroF,
+        HeroF = 13,
 
         /// <summary>
         ///   Hero calls Preflop
         /// </summary>
-        HeroC,
+        HeroC = 14,
 
         /// <summary>
         ///   Hero raises Preflop
         /// </summary>
-        HeroR,
+        HeroR = 15,
 
         /// <summary>
         ///   Identifies the Preflop ActionSequence (Reaction) to have occured in raised pot
         /// </summary>
-        PreFlopFrontRaise,
+        PreFlopFrontRaise = 16,
 
         /// <summary>
         ///   Opponent raises, Hero folds Preflop
         /// </summary>
-        OppRHeroF,
+        OppRHeroF = 17,
 
         /// <summary>
         ///   Opponent raises, Hero calls Preflop
         /// </summary>
-        OppRHeroC,
+        OppRHeroC = 18,
 
         /// <summary>
         ///   Opponent raises, Hero raises Preflop
         /// </summary>
-        OppRHeroR
+        OppRHeroR = 19
     }
 
     /// <summary>

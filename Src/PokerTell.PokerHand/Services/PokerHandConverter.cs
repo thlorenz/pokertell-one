@@ -2,16 +2,16 @@ namespace PokerTell.PokerHand.Services
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
 
-    using Analyzation;
+    using Interfaces;
 
     using log4net;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHand.Base;
 
     /// <summary>
     /// Static class which provides methos to convert a Hand with absolute Action Ratios
@@ -19,8 +19,6 @@ namespace PokerTell.PokerHand.Services
     /// </summary>
     public class PokerHandConverter : IPokerHandConverter
     {
-        #region Constants and Fields
-
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IConstructor<IConvertedPokerHand> _convertedHandMake;
@@ -28,10 +26,6 @@ namespace PokerTell.PokerHand.Services
         readonly IConstructor<IConvertedPokerPlayer> _convertedPlayerMake;
 
         readonly IPokerRoundsConverter _pokerRoundsConverter;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public PokerHandConverter(
             IConstructor<IConvertedPokerPlayer> convertedPlayerMake, 
@@ -42,12 +36,6 @@ namespace PokerTell.PokerHand.Services
             _convertedHandMake = convertedHandMake;
             _pokerRoundsConverter = pokerRoundsConverter;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPokerHandConverter
 
         /// <summary>
         /// Converts the given Hand with absolute ratios into a Hand with relative ratios
@@ -147,12 +135,6 @@ namespace PokerTell.PokerHand.Services
             return convertedHands;
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// Remove Posting and set BettingRound to null if no actions were left
         /// Antes and Blinds will be added to pot during removal
@@ -235,7 +217,5 @@ namespace PokerTell.PokerHand.Services
 
             return false;
         }
-
-        #endregion
     }
 }

@@ -6,6 +6,8 @@ namespace PokerTell.PokerHand.Services
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
+    using Interfaces;
+
     public class PokerActionConverter : IPokerActionConverter
     {
         readonly IConstructor<IConvertedPokerAction> _convertedAction;

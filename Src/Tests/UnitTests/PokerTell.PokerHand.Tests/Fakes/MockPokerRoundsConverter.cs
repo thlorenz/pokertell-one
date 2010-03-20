@@ -4,6 +4,8 @@ namespace PokerTell.PokerHand.Tests.Fakes
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
+    using Interfaces;
+
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Services;
 

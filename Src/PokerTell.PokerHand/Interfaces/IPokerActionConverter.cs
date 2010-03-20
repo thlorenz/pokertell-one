@@ -1,4 +1,4 @@
-namespace PokerTell.PokerHand.Services
+namespace PokerTell.PokerHand.Interfaces
 {
     using Infrastructure.Interfaces.PokerHand;
 

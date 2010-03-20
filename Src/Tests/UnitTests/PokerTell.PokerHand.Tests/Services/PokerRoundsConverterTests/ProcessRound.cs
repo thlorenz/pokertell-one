@@ -5,6 +5,8 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 
+    using Interfaces;
+
     using Microsoft.Practices.Unity;
 
     using Moq;

@@ -2,26 +2,17 @@ namespace PokerTell.Statistics.ViewModels
 {
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Filters;
     using PokerTell.Statistics.ViewModels.Filters;
 
-    using Statistics.Filters;
-
-    using Tools.Extensions;
     using Tools.FunctionalCSharp;
-    using Tools.GenericRanges;
 
     public class AnalyzablePokerPlayersFilterViewModel : IAnalyzablePokerPlayersFilterViewModel
     {
-        #region Constructors and Destructors
-
         public AnalyzablePokerPlayersFilterViewModel(IAnalyzablePokerPlayersFilter filter)
         {
             InitializePropertiesFrom(filter);
         }
-
-        #endregion
-
-        #region Properties
 
         public IRangeFilterForInputsViewModel<double> AnteFilter { get; protected set; }
 
@@ -38,10 +29,6 @@ namespace PokerTell.Statistics.ViewModels
         public IRangeFilterForSelectorsViewModel<string> TimeRangeFilterDisplay { get; protected set; }
 
         public IRangeFilterForSelectorsViewModel<int> TotalPlayersFilter { get; protected set; }
-
-        #endregion
-
-        #region Methods
 
         protected void InitializePropertiesFrom(IAnalyzablePokerPlayersFilter filter)
         {
@@ -72,7 +59,6 @@ namespace PokerTell.Statistics.ViewModels
             BigBlindFilter = new RangeFilterForInputsViewModel<double>(filter.BigBlindFilter, "Big Blind");
             MFilter = new RangeFilterForInputsViewModel<int>(filter.MFilter, "M");
         }
-        #endregion
 
         public IAnalyzablePokerPlayersFilter CurrentFilter
         {
@@ -80,13 +66,13 @@ namespace PokerTell.Statistics.ViewModels
             {
                 return new AnalyzablePokerPlayersFilter
                     {
-                        AnteFilter = AnteFilter.CurrentFilter,
-                        BigBlindFilter = BigBlindFilter.CurrentFilter,
-                        MFilter = MFilter.CurrentFilter,
-                        PlayersInFlopFilter = PlayersInFlopFilter.CurrentFilter,
-                        StrategicPositionFilter = StrategicPositionFilter.CurrentFilter,
-                        TimeRangeFilter = TimeRangeFilter.CurrentFilter,
-                        TotalPlayersFilter = TotalPlayersFilter.CurrentFilter,
+                        AnteFilter = AnteFilter.CurrentFilter, 
+                        BigBlindFilter = BigBlindFilter.CurrentFilter, 
+                        MFilter = MFilter.CurrentFilter, 
+                        PlayersInFlopFilter = PlayersInFlopFilter.CurrentFilter, 
+                        StrategicPositionFilter = StrategicPositionFilter.CurrentFilter, 
+                        TimeRangeFilter = TimeRangeFilter.CurrentFilter, 
+                        TotalPlayersFilter = TotalPlayersFilter.CurrentFilter, 
                     };
             }
         }

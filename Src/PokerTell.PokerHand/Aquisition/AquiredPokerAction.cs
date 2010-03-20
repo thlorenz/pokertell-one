@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHand.Aquisition
 {
+    using Base;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 

@@ -2,6 +2,8 @@ namespace PokerTell.PokerHand.Tests
 {
     using NUnit.Framework;
 
+    using PokerTell.PokerHand.Base;
+
     using UnitTests;
 
     [TestFixture]

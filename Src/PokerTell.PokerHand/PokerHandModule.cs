@@ -2,6 +2,8 @@ namespace PokerTell.PokerHand
 {
     using System.Reflection;
 
+    using Interfaces;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;

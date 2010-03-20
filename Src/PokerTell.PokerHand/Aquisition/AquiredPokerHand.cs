@@ -19,7 +19,7 @@ namespace PokerTell.PokerHand.Aquisition
     {
         protected List<IAquiredPokerPlayer> _players;
 
-        static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public AquiredPokerHand()
         {
@@ -117,6 +117,10 @@ namespace PokerTell.PokerHand.Aquisition
         public void SortPlayersByPosition()
         {
             _players.Sort();
+
+            // For Headsup, the small blind is the button and thus needs to be shown after the big blind
+            if (_players.Count == 2)
+                _players.Reverse();
         }
 
         /// <summary>
@@ -135,7 +139,7 @@ namespace PokerTell.PokerHand.Aquisition
             }
             catch (ArgumentNullException excep)
             {
-                log.Error("Returning what I have so far", excep);
+                Log.Error("Returning what I have so far", excep);
             }
 
             try
@@ -147,7 +151,7 @@ namespace PokerTell.PokerHand.Aquisition
             }
             catch (ArgumentNullException excep)
             {
-                log.Error("Returning what I have so far", excep);
+                Log.Error("Returning what I have so far", excep);
             }
 
             return handinfo;

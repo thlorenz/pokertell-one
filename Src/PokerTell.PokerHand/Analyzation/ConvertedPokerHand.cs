@@ -1,3 +1,12 @@
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConvertedPokerHand.cs" company="">
+//   
+// </copyright>
+// <summary>
+//   The converted poker hand.
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
+
 namespace PokerTell.PokerHand.Analyzation
 {
     using System;
@@ -14,36 +23,75 @@ namespace PokerTell.PokerHand.Analyzation
 
     using Tools.Extensions;
 
+    /// <summary>
+    /// The converted poker hand.
+    /// </summary>
     [Serializable]
     public class ConvertedPokerHand : PokerHand, IConvertedPokerHand
     {
-        #region Constants and Fields
-
+        /// <summary>
+        /// The log.
+        /// </summary>
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        /// <summary>
+        /// The _sequences.
+        /// </summary>
         [NonSerialized]
         readonly IConvertedPokerRound[] _sequences = new IConvertedPokerRound[(int)Streets.River + 1];
 
+        /// <summary>
+        /// The _id.
+        /// </summary>
         [NonSerialized]
         int _id;
 
+        /// <summary>
+        /// The _players.
+        /// </summary>
         IList<IConvertedPokerPlayer> _players = new List<IConvertedPokerPlayer>();
 
+        /// <summary>
+        /// The _players in round.
+        /// </summary>
         int[] _playersInRound = new int[(int)Streets.River + 1];
 
+        /// <summary>
+        /// The _poker hand string converter.
+        /// </summary>
         [NonSerialized]
         PokerHandStringConverter _pokerHandStringConverter;
 
-        #endregion
-
-        #region Constructors and Destructors
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConvertedPokerHand"/> class.
+        /// </summary>
+        /// <param name="site">
+        /// The site.
+        /// </param>
+        /// <param name="gameId">
+        /// The game id.
+        /// </param>
+        /// <param name="timeStamp">
+        /// The time stamp.
+        /// </param>
+        /// <param name="bb">
+        /// The bb.
+        /// </param>
+        /// <param name="sb">
+        /// The sb.
+        /// </param>
+        /// <param name="totalPlayers">
+        /// The total players.
+        /// </param>
         public ConvertedPokerHand(string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers)
         {
             InitializeWith(site, gameId, timeStamp, bb, sb, totalPlayers);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConvertedPokerHand"/> class.
+        /// </summary>
         public ConvertedPokerHand()
         {
         }
@@ -58,10 +106,6 @@ namespace PokerTell.PokerHand.Analyzation
         {
             InitializeWith(aquiredHand);
         }
-
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// Identity of hand as determined from the database
@@ -81,12 +125,18 @@ namespace PokerTell.PokerHand.Analyzation
             private set { _players = value; }
         }
 
+        /// <summary>
+        /// Gets or sets PlayersInFlop.
+        /// </summary>
         public int PlayersInFlop
         {
             get { return PlayersInRound[(int)Streets.Flop]; }
             set { PlayersInRound[(int)Streets.Flop] = value; }
         }
 
+        /// <summary>
+        /// Gets or sets PlayersInRiver.
+        /// </summary>
         public int PlayersInRiver
         {
             get { return PlayersInRound[(int)Streets.River]; }
@@ -102,12 +152,18 @@ namespace PokerTell.PokerHand.Analyzation
             private set { _playersInRound = value; }
         }
 
+        /// <summary>
+        /// Gets or sets PlayersInTurn.
+        /// </summary>
         public int PlayersInTurn
         {
             get { return PlayersInRound[(int)Streets.Turn]; }
             set { PlayersInRound[(int)Streets.Turn] = value; }
         }
 
+        /// <summary>
+        /// Gets or sets SequenceFlop.
+        /// </summary>
         public string SequenceFlop
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.Flop]); }
@@ -115,6 +171,9 @@ namespace PokerTell.PokerHand.Analyzation
             set { _sequences[(int)Streets.Flop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
+        /// <summary>
+        /// Gets or sets SequencePreFlop.
+        /// </summary>
         public string SequencePreFlop
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.PreFlop]); }
@@ -122,6 +181,9 @@ namespace PokerTell.PokerHand.Analyzation
             set { _sequences[(int)Streets.PreFlop] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
+        /// <summary>
+        /// Gets or sets SequenceRiver.
+        /// </summary>
         public string SequenceRiver
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.River]); }
@@ -137,6 +199,9 @@ namespace PokerTell.PokerHand.Analyzation
             get { return _sequences; }
         }
 
+        /// <summary>
+        /// Gets or sets SequenceTurn.
+        /// </summary>
         public string SequenceTurn
         {
             get { return PokerHandStringConverter.BuildSqlStringFrom(_sequences[(int)Streets.Turn]); }
@@ -144,14 +209,13 @@ namespace PokerTell.PokerHand.Analyzation
             set { _sequences[(int)Streets.Turn] = PokerHandStringConverter.ConvertedRoundFrom(value); }
         }
 
+        /// <summary>
+        /// Gets PokerHandStringConverter.
+        /// </summary>
         PokerHandStringConverter PokerHandStringConverter
         {
             get { return _pokerHandStringConverter ?? (_pokerHandStringConverter = new PokerHandStringConverter()); }
         }
-
-        #endregion
-
-        #region Indexers
 
         /// <summary>
         /// List of all Poker Players in the hand
@@ -161,20 +225,37 @@ namespace PokerTell.PokerHand.Analyzation
             get { return Players.ElementAt(index); }
         }
 
-        #endregion
-
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="other">
+        /// The other.
+        /// </param>
+        /// <returns>
+        /// The equals.
+        /// </returns>
         public bool Equals(ConvertedPokerHand other)
         {
-            return base.Equals(other) 
-                && Players.ToArray().EqualsArray(other.Players.ToArray());
+            return base.Equals(other)
+                   && Players.ToArray().EqualsArray(other.Players.ToArray());
         }
 
+        /// <summary>
+        /// The equals.
+        /// </summary>
+        /// <param name="obj">
+        /// The obj.
+        /// </param>
+        /// <returns>
+        /// The equals.
+        /// </returns>
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
                 return false;
             }
+
             if (ReferenceEquals(this, obj))
             {
                 return true;
@@ -183,14 +264,16 @@ namespace PokerTell.PokerHand.Analyzation
             return Equals(obj as ConvertedPokerHand);
         }
 
+        /// <summary>
+        /// The get hash code.
+        /// </summary>
+        /// <returns>
+        /// The get hash code.
+        /// </returns>
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
-
-        #region Implemented Interfaces
-
-        #region IConvertedPokerHand
 
         /// <summary>
         /// Add Player when creating a hand from 
@@ -207,6 +290,20 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
+        /// <summary>
+        /// The add players from.
+        /// </summary>
+        /// <param name="aquiredHand">
+        /// The aquired hand.
+        /// </param>
+        /// <param name="startingPot">
+        /// The starting pot.
+        /// </param>
+        /// <param name="convertedPlayerMake">
+        /// The converted player make.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public IConvertedPokerHand AddPlayersFrom(
             IAquiredPokerHand aquiredHand, double startingPot, IConstructor<IConvertedPokerPlayer> convertedPlayerMake)
         {
@@ -232,6 +329,29 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
+        /// <summary>
+        /// The initialize with.
+        /// </summary>
+        /// <param name="site">
+        /// The site.
+        /// </param>
+        /// <param name="gameId">
+        /// The game id.
+        /// </param>
+        /// <param name="timeStamp">
+        /// The time stamp.
+        /// </param>
+        /// <param name="bb">
+        /// The bb.
+        /// </param>
+        /// <param name="sb">
+        /// The sb.
+        /// </param>
+        /// <param name="totalPlayers">
+        /// The total players.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public IConvertedPokerHand InitializeWith(
             string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers)
         {
@@ -239,6 +359,14 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
+        /// <summary>
+        /// The initialize with.
+        /// </summary>
+        /// <param name="aquiredHand">
+        /// The aquired hand.
+        /// </param>
+        /// <returns>
+        /// </returns>
         public IConvertedPokerHand InitializeWith(IAquiredPokerHand aquiredHand)
         {
             InitializeWith(
@@ -254,6 +382,11 @@ namespace PokerTell.PokerHand.Analyzation
             return this;
         }
 
+        /// <summary>
+        /// The remove inactive players.
+        /// </summary>
+        /// <returns>
+        /// </returns>
         public IConvertedPokerHand RemoveInactivePlayers()
         {
             for (int i = 0; i < Players.Count; i++)
@@ -283,8 +416,12 @@ namespace PokerTell.PokerHand.Analyzation
         /// Remove a Poker Player
         /// Needed when converting hand
         /// </summary>
-        /// <param name="thePlayer">Player to remove</param>
-        /// <returns>true if player could be removed</returns>
+        /// <param name="thePlayer">
+        /// Player to remove
+        /// </param>
+        /// <returns>
+        /// true if player could be removed
+        /// </returns>
         public bool RemovePlayer(IConvertedPokerPlayer thePlayer)
         {
             return _players.Remove(thePlayer);
@@ -391,10 +528,6 @@ namespace PokerTell.PokerHand.Analyzation
             return handinfo;
         }
 
-        #endregion
-
-        #region IEnumerable
-
         /// <summary>
         /// Inumerator
         /// </summary>
@@ -405,10 +538,6 @@ namespace PokerTell.PokerHand.Analyzation
         {
             return _players.GetEnumerator();
         }
-
-        #endregion
-
-        #region IEnumerable<IConvertedPokerPlayer>
 
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
@@ -422,12 +551,12 @@ namespace PokerTell.PokerHand.Analyzation
             return _players.GetEnumerator();
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
+        /// <summary>
+        /// The copy additional properties from.
+        /// </summary>
+        /// <param name="aquiredHand">
+        /// The aquired hand.
+        /// </param>
         void CopyAdditionalPropertiesFrom(IAquiredPokerHand aquiredHand)
         {
             AllNames = aquiredHand.AllNames;
@@ -438,7 +567,5 @@ namespace PokerTell.PokerHand.Analyzation
             Ante = aquiredHand.Ante;
             HeroName = aquiredHand.HeroName;
         }
-
-        #endregion
     }
 }

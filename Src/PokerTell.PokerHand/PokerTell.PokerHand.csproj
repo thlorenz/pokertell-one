@@ -123,8 +123,8 @@
     <Compile Include="Dao\ConvertedPokerHandDao.cs" />
     <Compile Include="Dao\PlayerIdentityDao.cs" />
     <Compile Include="Dao\ConvertedPokerPlayerDao.cs" />
-    <Compile Include="PokerAction.cs" />
-    <Compile Include="PokerHand.cs" />
+    <Compile Include="Base\PokerAction.cs" />
+    <Compile Include="Base\PokerHand.cs" />
     <Compile Include="PokerHandModule.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -132,12 +132,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\HandHistoriesFilter.cs" />
-    <Compile Include="Services\IPokerRoundsConverter.cs" />
+    <Compile Include="Interfaces\IPokerRoundsConverter.cs" />
     <Compile Include="Services\PokerActionConverter.cs" />
-    <Compile Include="Services\IPokerActionConverter.cs" />
+    <Compile Include="Interfaces\IPokerActionConverter.cs" />
     <Compile Include="Services\PokerHandConverter.cs" />
-    <Compile Include="PokerHands.cs" />
-    <Compile Include="PokerPlayer.cs" />
+    <Compile Include="Base\PokerHands.cs" />
+    <Compile Include="Base\PokerPlayer.cs" />
     <Compile Include="Services\PokerRoundsConverter.cs" />
     <Compile Include="Conditions\SawFlopCondition.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />

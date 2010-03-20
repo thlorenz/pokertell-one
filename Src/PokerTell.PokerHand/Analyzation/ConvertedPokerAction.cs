@@ -10,6 +10,8 @@ namespace PokerTell.PokerHand.Analyzation
 {
     using System;
 
+    using Base;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 

@@ -1,4 +1,4 @@
-namespace PokerTell.PokerHand
+namespace PokerTell.PokerHand.Base
 {
     using System;
     using System.Collections;
@@ -6,24 +6,18 @@ namespace PokerTell.PokerHand
     using System.Collections.ObjectModel;
     using System.Reflection;
 
-    using Infrastructure.Interfaces.PokerHand;
-
     using log4net;
+
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Contains a collection of Poker Hands and provides methods to maintain it
     /// </summary>
     public class PokerHands : IPokerHands
     {
-        #region Constants and Fields
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private List<IPokerHand> _hands;
-
-        #endregion
-
-        #region Constructors and Destructors
+        List<IPokerHand> _hands;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PokerHands"/> class. 
@@ -52,10 +46,6 @@ namespace PokerTell.PokerHand
 
             return this;
         }
-
-        #endregion
-
-        #region Properties
 
         public int Count
         {
@@ -88,18 +78,10 @@ namespace PokerTell.PokerHand
             }
         }
 
-        #endregion
-
-        #region Indexers
-
         public IPokerHand this[int index]
         {
             get { return _hands[index]; }
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Adds a hand, but only if it is not in the Hand collection yet
@@ -296,12 +278,6 @@ namespace PokerTell.PokerHand
             return handsInfo;
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IEnumerable
-
         /// <summary>
         /// Enumerator for Hand collection
         /// </summary>
@@ -310,9 +286,5 @@ namespace PokerTell.PokerHand
         {
             return _hands.GetEnumerator();
         }
-
-        #endregion
-
-        #endregion
     }
 }

@@ -173,6 +173,9 @@
     <Compile Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml.cs">
       <DependentUpon>AnalyzablePokerPlayersFilterAdjustmentView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AnalyzablePokerPlayersFilterViewTemplate.xaml.cs">
+      <DependentUpon>AnalyzablePokerPlayersFilterViewTemplate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\StatisticsSetDetails\DetailedStatisticsDataGridTemplates.xaml.cs">
       <DependentUpon>DetailedStatisticsDataGridTemplates.xaml</DependentUpon>
     </Compile>

@@ -1,4 +1,4 @@
-﻿namespace PokerTell.Repository.DataProcessingTests
+namespace PokerTell.Repository.DataProcessingTests
 {
     using System;
     using System.Collections;
@@ -14,6 +14,7 @@
 
     using PokerHand.Analyzation;
     using PokerHand.Aquisition;
+    using PokerHand.Interfaces;
     using PokerHand.Services;
 
     using PokerHandParsers.PokerStars;

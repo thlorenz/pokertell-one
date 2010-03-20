@@ -1,8 +1,8 @@
-namespace PokerTell.PokerHand
+namespace PokerTell.PokerHand.Base
 {
     using System;
 
-    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// Contains Information about a player

@@ -1,12 +1,12 @@
-namespace PokerTell.PokerHand
+namespace PokerTell.PokerHand.Base
 {
     using System;
     using System.Reflection;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-
     using log4net;
+
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     /// <summary>
     /// General PokerAction
@@ -14,13 +14,7 @@ namespace PokerTell.PokerHand
     [Serializable]
     public abstract class PokerAction : IPokerAction
     {
-        #region Constants and Fields
-
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        #endregion
-
-        #region Constructors and Destructors
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PokerAction"/> class. 
@@ -33,10 +27,6 @@ namespace PokerTell.PokerHand
             What = ActionTypes.N;
             Ratio = 0;
         }
-
-        #endregion
-
-        #region Properties
 
         double _ratio;
 
@@ -58,10 +48,6 @@ namespace PokerTell.PokerHand
             get { return _what; }
             set { _what = value; }
         }
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Converts a database entry about an action into an ActionTypes type
@@ -173,7 +159,5 @@ namespace PokerTell.PokerHand
 
             return actionString;
         }
-
-        #endregion
     }
 }

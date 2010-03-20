@@ -4,6 +4,8 @@ namespace PokerTell.PokerHand.Analyzation
     using System.Reflection;
     using System.Text.RegularExpressions;
 
+    using Base;
+
     using log4net;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;

@@ -5,6 +5,8 @@ namespace PokerTell.PokerHand.Aquisition
     using System.Collections.Generic;
     using System.Reflection;
 
+    using Base;
+
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
 

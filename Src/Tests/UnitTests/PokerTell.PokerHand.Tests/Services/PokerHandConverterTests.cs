@@ -6,6 +6,8 @@ namespace PokerTell.PokerHand.Tests.Services
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
+    using Interfaces;
+
     using Microsoft.Practices.Unity;
 
     using NUnit.Framework;

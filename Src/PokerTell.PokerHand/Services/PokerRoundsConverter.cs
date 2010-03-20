@@ -3,6 +3,8 @@ namespace PokerTell.PokerHand.Services
     using System;
     using System.Reflection;
 
+    using Interfaces;
+
     using log4net;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
