@@ -19,22 +19,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
     // Resharper disable InconsistentNaming
     public abstract class DetailedStatisticsViewModelSpecs
     {
-        /*
-         * 
-            Browse hands command
-                given no cell has been selected
-                    ¯ should not be executable
-
-                given one cell has been selected but it contains no analyzable players
-                    ¯ should not be executable
-
-                given one cell is selected and it contains analyzable players
-                    ¯ should be executable
-
-                given one cell is selected and the user executes the command
-                    ¯ should initialize RepositoryHandBrowserViewModel with the analyzable players who correspond to the cell
-                    ¯ should set its ChildViewModel to the RepositoryHandBrowserViewModel
-         */
         protected static DetailedStatisticsViewModelImpl _sut;
 
         protected static IAnalyzablePokerPlayer[] _validAnalyzablePokerPlayersStub;
@@ -110,15 +94,22 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         [Subject(typeof(DetailedStatisticsViewModel), "Browse hands command")]
         public class given_one_cell_is_selected_and_the_user_executes_the_command : DetailedStatisticsViewModelSpecs
         {
+        const string playerName = "some PlayerName";
+
+            static Mock<IActionSequenceStatisticsSet> statisticsSet_Stub;
             Establish context = () => {
+                statisticsSet_Stub = new Mock<IActionSequenceStatisticsSet>();
+                statisticsSet_Stub.SetupGet(ss => ss.PlayerName).Returns(playerName);
+                _sut.InitializeWith(statisticsSet_Stub.Object);
+
                 _sut.AddToSelection(0, 0);
                 _sut.SelectedAnalyzablePlayersSet = _validAnalyzablePokerPlayersStub.ToList();
             };
 
             Because of = () => _sut.BrowseHandsCommand.Execute(null);
 
-            It should_initialize_HandBrowserViewModel_with_the_analyzable_players_who_correspond_to_the_cell
-                = () => _handBrowserViewModelMock.Verify(hb => hb.InitializeWith(_validAnalyzablePokerPlayersStub));
+            It should_initialize_HandBrowserViewModel_with_the_analyzable_players_who_correspond_to_the_cell_and_the_player_name
+                = () => _handBrowserViewModelMock.Verify(hb => hb.InitializeWith(_validAnalyzablePokerPlayersStub, playerName));
 
             It should_set_its_ChildViewModel_to_the_HandBrowserViewModel
                 = () => _sut.ChildViewModel.ShouldEqual(_handBrowserViewModelMock.Object);

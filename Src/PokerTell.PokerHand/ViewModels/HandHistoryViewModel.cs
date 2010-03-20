@@ -45,7 +45,6 @@ namespace PokerTell.PokerHand.ViewModels
         {
             InitializeWith(false);
         }
-        #region Properties
 
         public Action<IPokerHandCondition> AdjustToConditionAction
         {
@@ -191,9 +190,7 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        #endregion
 
-        #region Public Methods
 
         public override string ToString()
         {
@@ -207,11 +204,8 @@ namespace PokerTell.PokerHand.ViewModels
             return sb.ToString();
         }
 
-        #endregion
 
-        #region Implemented Interfaces
 
-        #region IHandHistoryViewModel
 
         public IHandHistoryViewModel InitializeWith(bool showPreflopFolds)
         {
@@ -276,11 +270,8 @@ namespace PokerTell.PokerHand.ViewModels
             return this;
         }
 
-        #endregion
 
-        #endregion
 
-        #region Methods
 
         void AdjustToCondition(IPokerHandCondition condition)
         {
@@ -300,7 +291,6 @@ namespace PokerTell.PokerHand.ViewModels
             }
         }
 
-        #endregion
 
         public override bool Equals(object obj)
         {

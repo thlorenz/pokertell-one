@@ -24,47 +24,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     // ReSharper disable InconsistentNaming
     public abstract class DetailedRaiseReactionStatisticsViewModelSpecs
     {
-        /* 
-          *  Specification
-          *  Subject is DetailedRaiseReactionStatisticsViewModel
-          *  
-             Initialization
-                 given 0 analyzable players
-                    » should throw an ArgumentException
-
-                 given valid data
-                    » should build raise reaction statistics for it
-                    » should get statistics description from raise reaction describer
-
-                 given valid data and valid RaiseReactionStatistics
-                    » should create 4 rows
-                    » should create one column for each item in the statistics PercentagesDictionary
-                    » should create the first second and third row with percentage unit
-                    » should create the fourth row without a unit since it shows the counts
-
-                 given the PercentagesDictionary has value 0 at 0 0 and value 50 at 1 1
-                    » should have value 0 at row 0 col 0
-                    » should have value 50 at row 1 col 1
-
-                 given the TotalCountsDictionary has value 0 in col 0 and value 1 in col 1
-                    » should have value 0 in the counts row at col 0
-                    » should have value 1 in the counts row at col 1
-
-            Browse hands command
-                given no cell has been selected
-                    ¯ should not be executable
-
-                given one cell has been selected but it contains no analyzable players
-                    ¯ should not be executable
-
-                given one cell is selected and it contains analyzable players
-                    ¯ should be executable
-
-                given one cell is selected and the user executes the command
-                    ¯ should initialize RepositoryHandBrowserViewModel with the analyzable players who correspond to the cell
-                    ¯ should set its ChildViewModel to the RepositoryHandBrowserViewModel
-          *      
-          */
 
         protected static Mock<IAnalyzablePokerPlayer> _analyzablePokerPlayerStub;
 
@@ -85,7 +44,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
         protected static Mock<IRaiseReactionStatisticsBuilder> _raiseReactionStatisticsBuilderMock;
 
         protected static Mock<IRaiseReactionStatistics> _raiseReactionStatisticsStub;
-
 
         protected static DetailedRaiseReactionStatisticsViewModelImpl _sut;
 
@@ -338,8 +296,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         Because of = () => _sut.BrowseHandsCommand.Execute(null);
 
-        It should_initialize_HandBrowserViewModel_with_the_analyzable_players_who_correspond_to_the_cell
-            = () => _handBrowserViewModelMock.Verify(hb => hb.InitializeWith(_validAnalyzablePokerPlayersStub));
+        It should_initialize_HandBrowserViewModel_with_the_analyzable_players_who_correspond_to_the_cell_and_the_playerName
+            = () => _handBrowserViewModelMock.Verify(hb => hb.InitializeWith(_validAnalyzablePokerPlayersStub, _playerName));
 
         It should_set_its_ChildViewModel_to_the_HandBrowserViewModel
             = () => _sut.ChildViewModel.ShouldEqual(_handBrowserViewModelMock.Object);

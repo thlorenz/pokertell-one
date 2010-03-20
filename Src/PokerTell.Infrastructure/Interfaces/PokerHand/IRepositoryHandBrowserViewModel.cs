@@ -6,7 +6,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
 
     public interface IRepositoryHandBrowserViewModel : IDetailedStatisticsAnalyzerContentViewModel
     {
-        IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers);
+        IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, string playerName);
 
         IHandHistoryViewModel CurrentHandHistory { get; }
 

@@ -19,6 +19,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
         readonly ICollectionValidator _collectionValidator;
 
+        string _playerName;
+
         public RepositoryHandBrowserViewModel(IRepositoryHandBrowser repositoryHandBrowser, IHandHistoryViewModel handHistoryViewModel, ICollectionValidator collectionValidator)
         {
             CurrentHandHistory = handHistoryViewModel;
@@ -40,6 +42,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                 if (_currentHandIndex < HandCount)
                 {
                     CurrentHandHistory.UpdateWith(_repositoryHandBrowser.Hand(_currentHandIndex));
+                    CurrentHandHistory.SelectRowOfPlayer(_playerName);
+
                     RaisePropertyChanged(() => CurrentHandIndex);
                 }
             }
@@ -50,12 +54,12 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
            CurrentHandIndex += change;
         }
 
-        public IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        public IRepositoryHandBrowserViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, string playerName)
         {
+            _playerName = playerName;
             var reversedHandIds = analyzablePokerPlayers.Select(p => p.HandId).Reverse();
-
             _repositoryHandBrowser.InitializeWith(reversedHandIds);
-
+            
             HandCount = _repositoryHandBrowser.PotentialHandsCount;
             CurrentHandIndex = 0;
             return this;

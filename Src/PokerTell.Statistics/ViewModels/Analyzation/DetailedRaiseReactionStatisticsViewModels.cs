@@ -105,7 +105,7 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
                     {
                         ExecuteDelegate = arg => {
                             SaveSelectedCells();
-                            _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers);
+                            _handBrowserViewModel.InitializeWith(SelectedAnalyzablePlayers, _playerName);
                             ChildViewModel = _handBrowserViewModel;
                         }, 
                         CanExecuteDelegate = arg => SelectedCells.Count > 0 && SelectedAnalyzablePlayers.Count() > 0

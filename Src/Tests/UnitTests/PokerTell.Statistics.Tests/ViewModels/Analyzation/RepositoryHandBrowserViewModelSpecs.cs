@@ -15,20 +15,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
     // ReSharper disable InconsistentNaming
     public abstract class RepositoryHandBrowserViewModelSpecs
     {
-        /*
-       *    Specifications
-       *    Subject: RepositoryHandBrowserViewModel
-       *    
-       *    Initialization
-       *       given 2 analyzable players
-       *          It should initialize hand browser with their hand ids sorted backwards
-       *          It should update current hand viewmodel with first hand of hand browser
-       *          It should set HandCount to hand browser potential hand count
-       *          
-       *    Browsing, initialized with 2 analyzable players
-       *       when user browses to second hand 
-       *          It should update current hand viewmodel with second hand
-       */
         protected static Mock<IHandHistoryViewModel> _handHistoryViewModelMock;
 
         protected static Mock<IRepositoryHandBrowser> _handBrowserMock;
@@ -57,6 +43,8 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
             protected static int _handId2;
 
+            protected const string PlayerName = "somePlayerName";
+
             Establish context = () => {
                 _handId1 = 1;
                 _handId2 = 2;
@@ -77,14 +65,16 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
 
         public abstract class Ctx_Initialized_with_2_AnalyzablePlayers : Ctx_HandBrowserViewModel_Ready_to_intialize_2_analyzable_players
         {
-            Establish initializedContext = () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object });
+
+            Establish initializedContext 
+                = () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object }, PlayerName);
         }
 
         [Subject(typeof(RepositoryHandBrowserViewModel), "Initialization")]
         public class given_2_analyzable_players
             : Ctx_HandBrowserViewModel_Ready_to_intialize_2_analyzable_players
         {
-            Because of = () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object });
+            Because of = () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object }, PlayerName);
 
             It should_initialize_hand_browser_with_their_hand_ids_sorted_backwards
                 = () => _handBrowserMock.Verify(b => b.InitializeWith(new[] { _handId2, _handId1 }));
@@ -93,6 +83,9 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                 = () => _handHistoryViewModelMock.Verify(
                             hh => hh.UpdateWith(Moq.It.Is<IConvertedPokerHand>(
                                                     h => h.Equals(_pokerHandStub_2.Object))));
+
+            It should_tell_the_handhistory_viewmodel_to_select_the_row_with_the_name_of_the_player
+                = () => _handHistoryViewModelMock.Verify(hh => hh.SelectRowOfPlayer(PlayerName));
 
             It should_set_HandCount_to_hand_browsers_potential_hands_count
                 = () => _sut.HandCount.ShouldEqual(_handBrowserMock.Object.PotentialHandsCount);
@@ -103,7 +96,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
             : Ctx_HandBrowserViewModel_Ready_to_intialize_2_analyzable_players
         {
             Establish context =
-                () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object });
+                () => _sut.InitializeWith(new[] { _analyzablePokerPlayerStub_1.Object, _analyzablePokerPlayerStub_2.Object }, PlayerName);
 
             Because of = () => _sut.CurrentHandIndex = 1;
 
@@ -111,6 +104,9 @@ namespace PokerTell.Statistics.Tests.ViewModels.Analyzation
                 = () => _handHistoryViewModelMock.Verify(
                             hh => hh.UpdateWith(Moq.It.Is<IConvertedPokerHand>(
                                                     h => h.Equals(_pokerHandStub_1.Object))));
+
+            It should_tell_the_handhistory_viewmodel_to_select_the_row_with_the_name_of_the_player
+                = () => _handHistoryViewModelMock.Verify(hh => hh.SelectRowOfPlayer(PlayerName));
         }
 
         [Subject(typeof(RepositoryHandBrowserViewModel), "Scroll")]
