@@ -39,7 +39,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
          {
             int row = SelectedCells.First().First;
 
-            return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row).ActionSequence;
+            return ActionSequenceStatisticsSet.ActionSequenceStatistics.ElementAt(row)._actionSequence;
          }
       }
 
@@ -101,13 +101,13 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
       {
          ActionSequenceStatisticsSet = statisticsSet;
          StatisticsDescription = _detailedStatisticsDescriber.Describe(statisticsSet.PlayerName, statisticsSet.ActionSequence, statisticsSet.Street, statisticsSet.InPosition);
-         StatisticsHint = _detailedStatisticsDescriber.Hint(statisticsSet.PlayerName);
+         StatisticsHint = _detailedStatisticsDescriber.Hint(statisticsSet.PlayerName, statisticsSet.ActionSequence, statisticsSet.InPosition);
          return CreateTableFor(statisticsSet);
       }
 
         ICommand _browseHandsCommand;
 
-        readonly IDetailedStatisticsDescriber _detailedStatisticsDescriber;
+        protected readonly IDetailedStatisticsDescriber _detailedStatisticsDescriber;
 
         public ICommand BrowseHandsCommand
         {

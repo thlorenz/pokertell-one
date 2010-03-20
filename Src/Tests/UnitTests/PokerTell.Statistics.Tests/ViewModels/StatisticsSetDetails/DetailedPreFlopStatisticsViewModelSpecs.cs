@@ -21,54 +21,6 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
     [Subject(typeof(DetailedPreFlopStatisticsViewModel))]
     public abstract class DetailedPreFlopStatisticsViewModelSpecs
     {
-        /*
-        * Specifications
-        * Subject: DetailedPreFlopStatisticsViewModel
-        * 
-        Investigate Raise
-            Execute
-                » should assign the raise reaction statistics model to its child view model
-                » should initialize the raise reaction statistics model with the data of the selected cells
-
-           given statistics for raised pot CanExecute
-                » should be false when no cells have been selected
-                » should be false when only cells in the call row have been selected and it contains analyzable players
-                » should be false when only cells in the fold row have been selected and it contains analyzable players
-                » should be true when one cell in raise row has been selected and it contains analyzable players
-                » should be false when one cell in raise row has been selected but it contains no analyzable players
-
-            given statistics for unraised pot CanExecute
-                » should be false when no cells have been selected
-                » should be false when only cells in the call row have been selected and it contains analyzable players
-                » should be false when only cells in the fold row have been selected and it contains analyzable players
-                » should be true when one cell in raise row has been selected and it contains analyzable players
-                » should be false when one cell in raise row has been selected but it contains no analyzable players
-          
-        InvestigateHoleCards 
-            given statistics for unraised pot CanExecute
-                » should be false when no cells have been selected
-                » should be true when cell in the call row has been selected and it contains analyzable players
-                » should be false when cell in the call row has been selected but it contains no analyzable players
-                » should be false when cell in the fold row has been selected and it contains analyzable players
-                » should be true when cell in raise row has been selected and it contains analyzable players
-                » should be false when cell in raise row has been selected but it contains no analyzable players
-          
-            when given ActionSequence HeroC Executing InvestigateHoleCards
-                » should initialize unraised pot calling statistics viewmodel with selected analyzable players and selected actionsequence
-                » should assign the unraised pot statistics viewmodel to the child viewmodel
-
-            when given ActionSequence HeroR Executing InvestigateHoleCards
-                » should initialize raising statistics viewmodel with selected analyzable players and selected actionsequence
-                » should assign the raising statistics viewmodel to the child viewmodel
-
-            when given ActionSequence OppRHeroR Executing InvestigateHoleCards
-                » should initialize raising statistics viewmodel with selected analyzable players and selected actionsequence
-                » should assign the raising statistics viewmodel to the child viewmodel
-
-            when given ActionSequence OppRHeroC Executing InvestigateHoleCards
-                » should initialize raised pot calling statistics viewmodel with selected analyzable players and selected actionsequence
-                » should assign the raised pot statistics viewmodel to the child viewmodel
-        */
         protected static Mock<IRepositoryHandBrowserViewModel> _handBrowserViewModelStub;
 
         protected static Mock<IPreFlopRaiseReactionStatisticsViewModel> _raiseReactionStatisticsViewModelMock;
@@ -161,9 +113,9 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             : DetailedPreFlopStatisticsViewModelSpecs
         {
             Establish context_UnraisedPot = () => {
-                _foldStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroF);
-                _callStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroC);
-                _raiseStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.HeroR);
+                _foldStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.HeroF);
+                _callStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.HeroC);
+                _raiseStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.HeroR);
 
                 _sut.InitializeWith(_statisticsSetStub.Object);
             };
@@ -211,9 +163,9 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             : DetailedPreFlopStatisticsViewModelSpecs
         {
             Establish context_raisedPot = () => {
-                _foldStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppRHeroF);
-                _callStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppRHeroC);
-                _raiseStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppRHeroR);
+                _foldStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.OppRHeroF);
+                _callStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.OppRHeroC);
+                _raiseStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.OppRHeroR);
 
                 _sut.InitializeWith(_statisticsSetStub.Object);
             };

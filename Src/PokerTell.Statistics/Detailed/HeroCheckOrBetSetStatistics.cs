@@ -30,7 +30,7 @@ namespace PokerTell.Statistics.Detailed
         protected override void CalculateIndividualPercentages()
         {
             IActionSequenceStatistic heroBStatistic = (from statistic in ActionSequenceStatistics
-                                                       where statistic.ActionSequence == ActionSequences.HeroB
+                                                       where statistic._actionSequence == ActionSequences.HeroB
                                                        select statistic)
                 .Single();
 

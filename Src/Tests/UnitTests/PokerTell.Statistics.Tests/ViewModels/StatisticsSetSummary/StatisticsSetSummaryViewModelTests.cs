@@ -41,7 +41,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetSummary
                 .Returns(_cumulativePercentages);
 
             _actionSequenceStatisticStub = _stub.Setup<IActionSequenceStatistic>()
-                .Get(s => s.ActionSequence).Returns(ActionSequences.HeroB).Out;
+                .Get(s => s._actionSequence).Returns(ActionSequences.HeroB).Out;
         }
 
         [Test]

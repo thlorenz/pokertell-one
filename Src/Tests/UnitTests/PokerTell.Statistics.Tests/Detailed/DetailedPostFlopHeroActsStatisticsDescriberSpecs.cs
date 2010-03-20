@@ -36,7 +36,7 @@ namespace PokerTell.Statistics.Tests.Detailed
         [Subject(typeof(DetailedPostFlopHeroActsStatisticsDescriber), "Hint")]
         public class when_obtaining_hint_for_player_fred : DetailedPostFlopHeroActsStatisticsDescriberSpecs
         {
-            Because of = () => hint = _sut.Hint("fred");
+            Because of = () => hint = _sut.Hint("fred", ActionSequences.NonStandard, false);
             It returns___The_table_indicates_how_often_fred_bets_a_certain_fraction_of_the_pot___ 
                 = () => hint.ShouldContain("The table indicates how often fred bet a certain fraction of the pot.");
         }

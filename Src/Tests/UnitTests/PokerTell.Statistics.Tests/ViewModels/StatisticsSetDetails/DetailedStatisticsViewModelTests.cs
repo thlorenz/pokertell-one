@@ -99,7 +99,7 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
         {
             const ActionSequences actionSequence = ActionSequences.OppBHeroR;
             var statisticStub = _stub.Setup<IActionSequenceStatistic>()
-                .Get(s => s.ActionSequence).Returns(actionSequence)
+                .Get(s => s._actionSequence).Returns(actionSequence)
                 .Out;
             var statisticSetStub = _stub.Setup<IActionSequenceStatisticsSet>()
                 .Get(s => s.ActionSequenceStatistics).Returns(new[] { statisticStub })

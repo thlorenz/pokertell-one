@@ -5,50 +5,46 @@ namespace PokerTell.Statistics.Detailed
     using System.Linq;
     using System.Text;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Interfaces;
 
     public class ActionSequenceStatisticsSet : IActionSequenceStatisticsSet
     {
-        #region Constants and Fields
-
         protected readonly IPercentagesCalculator _percentagesCalculator;
 
         protected readonly IEnumerable<IActionSequenceStatistic> _statistics;
 
         IEnumerable<IAnalyzablePokerPlayer> _analyzablePokerPlayers;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         /// <summary>
+        /// Initializes a new instance of the <see cref="ActionSequenceStatisticsSet"/> class. 
         ///   Creates instance of ActionSequenceStatisticsSet.
         ///   Use for PostFlop Statistics only
         /// </summary>
-        /// <param name="percentagesCalculator"></param>
-        /// <param name="statistics"></param>
+        /// <param name="percentagesCalculator">
+        /// </param>
+        /// <param name="statistics">
+        /// </param>
         /// <param name="playerName">
-        ///   <see cref="IActionSequenceStatisticsSet.PlayerName" />
+        /// <see cref="IActionSequenceStatisticsSet.PlayerName"/>
         /// </param>
         /// <param name="street">
-        ///   <see cref="IActionSequenceStatisticsSet.Street" />
+        /// <see cref="IActionSequenceStatisticsSet.Street"/>
         /// </param>
         /// <param name="actionSequence">
-        ///   <see cref="IActionSequenceStatisticsSet.ActionSequence" />
+        /// <see cref="IActionSequenceStatisticsSet.ActionSequence"/>
         /// </param>
         /// <param name="inPosition">
-        ///   <see cref="IActionSequenceStatisticsSet.InPosition" />
+        /// <see cref="IActionSequenceStatisticsSet.InPosition"/>
         /// </param>
         public ActionSequenceStatisticsSet(
-            IPercentagesCalculator percentagesCalculator,
-            IEnumerable<IActionSequenceStatistic> statistics,
-            string playerName,
-            Streets street,
-            ActionSequences actionSequence,
+            IPercentagesCalculator percentagesCalculator, 
+            IEnumerable<IActionSequenceStatistic> statistics, 
+            string playerName, 
+            Streets street, 
+            ActionSequences actionSequence, 
             bool inPosition)
         {
             _percentagesCalculator = percentagesCalculator;
@@ -60,40 +56,35 @@ namespace PokerTell.Statistics.Detailed
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="ActionSequenceStatisticsSet"/> class. 
         ///   Creates instance of ActionSequenceStatisticsSet.
         ///   Use for PreFlop Statistics only
         /// </summary>
-        /// <param name="percentagesCalculator"></param>
-        /// <param name="statistics"></param>
+        /// <param name="percentagesCalculator">
+        /// </param>
+        /// <param name="statistics">
+        /// </param>
         /// <param name="playerName">
-        ///   <see cref="IActionSequenceStatisticsSet.PlayerName" />
+        /// <see cref="IActionSequenceStatisticsSet.PlayerName"/>
         /// </param>
         /// <param name="actionSequence">
-        ///   <see cref="IActionSequenceStatisticsSet.ActionSequence" />
+        /// <see cref="IActionSequenceStatisticsSet.ActionSequence"/>
         /// </param>
         /// <param name="raisedPot">
-        ///   <see cref="IActionSequenceStatisticsSet.RaisedPot" />
+        /// <see cref="IActionSequenceStatisticsSet.RaisedPot"/>
         /// </param>
         public ActionSequenceStatisticsSet(
-            IPercentagesCalculator percentagesCalculator,
-            IEnumerable<IActionSequenceStatistic> statistics,
-            string playerName,
-            ActionSequences actionSequence,
+            IPercentagesCalculator percentagesCalculator, 
+            IEnumerable<IActionSequenceStatistic> statistics, 
+            string playerName, 
+            ActionSequences actionSequence, 
             bool raisedPot)
-            :this(percentagesCalculator, statistics, playerName, Streets.PreFlop, actionSequence, false)
+            : this(percentagesCalculator, statistics, playerName, Streets.PreFlop, actionSequence, false)
         {
             RaisedPot = raisedPot;
         }
 
-        #endregion
-
-        #region Events
-
         public event Action<IActionSequenceStatisticsSet> StatisticsWereUpdated = delegate { };
-
-        #endregion
-
-        #region Properties
 
         public ActionSequences ActionSequence { get; protected set; }
 
@@ -122,12 +113,6 @@ namespace PokerTell.Statistics.Detailed
             get { return (from statistic in _statistics select statistic.TotalCounts).ToArray(); }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IActionSequenceStatisticsSet
-
         public IActionSequenceStatisticsSet UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
             _analyzablePokerPlayers = analyzablePokerPlayers;
@@ -145,10 +130,6 @@ namespace PokerTell.Statistics.Detailed
             return this;
         }
 
-        #endregion
-
-        #region IFluentInterface
-
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -160,12 +141,6 @@ namespace PokerTell.Statistics.Detailed
             sb.AppendLine();
             return sb.ToString();
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         protected virtual void CalculateCumulativePercentages()
         {
@@ -200,12 +175,10 @@ namespace PokerTell.Statistics.Detailed
                 (row, col, percentage) => _statistics.ElementAt(row).Percentages[col] = percentage;
 
             _percentagesCalculator.CalculatePercentages(
-                getNumberOfRows,
-                getNumberOfColumnsAtRow,
-                getCountAtRowColumn,
+                getNumberOfRows, 
+                getNumberOfColumnsAtRow, 
+                getCountAtRowColumn, 
                 setPercentageAtRowColumn);
         }
-
-        #endregion
     }
 }

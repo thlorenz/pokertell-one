@@ -25,7 +25,7 @@ namespace PokerTell.Statistics.Detailed
                 (from player in analyzablePokerPlayers
                  where
                      player.InPosition[(int)_street] == _inPosition &&
-                     (player.ActionSequences[(int)_street] == ActionSequence ||
+                     (player.ActionSequences[(int)_street] == _actionSequence ||
                       player.ActionSequences[(int)_street] == ActionSequences.HeroXOppBHeroF ||
                       player.ActionSequences[(int)_street] == ActionSequences.HeroXOppBHeroC ||
                       player.ActionSequences[(int)_street] == ActionSequences.HeroXOppBHeroR)

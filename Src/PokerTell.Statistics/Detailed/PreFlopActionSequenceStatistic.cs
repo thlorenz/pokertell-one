@@ -1,6 +1,5 @@
 namespace PokerTell.Statistics.Detailed
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -8,6 +7,8 @@ namespace PokerTell.Statistics.Detailed
     using Infrastructure.Interfaces.PokerHand;
 
     using Interfaces;
+
+    using Tools.FunctionalCSharp;
 
     public class PreFlopActionSequenceStatistic : ActionSequenceStatistic
     {
@@ -23,9 +24,26 @@ namespace PokerTell.Statistics.Detailed
                 StrategicPositions strategicPosition = position;
                 MatchingPlayers[(int)strategicPosition] =
                     (from player in analyzablePokerPlayers
-                     where player.ActionSequences[(int)_street] == ActionSequence
+                     where player.ActionSequences[(int)_street] == _actionSequence
                      && player.StrategicPosition == strategicPosition
                      select player).ToList();
+            }
+
+            AddChecksToFoldsForBigBlindInUnraisedPot(analyzablePokerPlayers);
+        }
+
+        void AddChecksToFoldsForBigBlindInUnraisedPot(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
+        {
+            if (_actionSequence == ActionSequences.HeroF)
+            {
+                var checksFromBigBlind =
+                    from player in analyzablePokerPlayers
+                    where
+                        player.StrategicPosition == StrategicPositions.BB &&
+                        player.ActionSequences[(int)_street] == ActionSequences.HeroX
+                    select player;
+
+                checksFromBigBlind.ForEach(check => MatchingPlayers[(int)StrategicPositions.BB].Add(check));
             }
         }
     }

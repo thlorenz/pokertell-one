@@ -10,7 +10,7 @@ namespace PokerTell.Statistics.Detailed
 
     public abstract class ActionSequenceStatistic : IActionSequenceStatistic
     {
-        public ActionSequences ActionSequence { get; private set; }
+        public ActionSequences _actionSequence { get; private set; }
 
         public IActionSequenceStatistic UpdateWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers)
         {
@@ -38,7 +38,7 @@ namespace PokerTell.Statistics.Detailed
 
         protected ActionSequenceStatistic(ActionSequences actionSequence, Streets street, int indexesCount)
         {
-            ActionSequence = actionSequence;
+            _actionSequence = actionSequence;
             _street = street;
 
             Percentages = new int[indexesCount];
@@ -61,7 +61,7 @@ namespace PokerTell.Statistics.Detailed
 
         public override string ToString()
         {
-            var sb = new StringBuilder(string.Format("{0} on {1} with {2} total counts: ", ActionSequence, _street, _totalCounts));
+            var sb = new StringBuilder(string.Format("{0} on {1} with {2} total counts: ", _actionSequence, _street, _totalCounts));
             Percentages.ToList().ForEach(p => sb.Append(p + "% "));
             return sb.ToString();
         }

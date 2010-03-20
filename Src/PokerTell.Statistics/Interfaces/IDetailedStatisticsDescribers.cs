@@ -19,6 +19,6 @@ namespace PokerTell.Statistics.Interfaces
     {
         string Describe(string playerName, ActionSequences actionSequence, Streets street, bool inPosition);
 
-        string Hint(string playerName);
+        string Hint(string playerName, ActionSequences actionSequence, bool inPosition);
     }
 }

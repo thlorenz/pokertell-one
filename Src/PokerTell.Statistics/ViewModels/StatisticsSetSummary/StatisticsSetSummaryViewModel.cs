@@ -49,7 +49,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 
                 if (Rows.Count < row + 1)
                 {
-                    Rows.Add(new StatisticsSetSummaryRowViewModel(statistic.ActionSequence, new BarGraphViewModel()));
+                    Rows.Add(new StatisticsSetSummaryRowViewModel(statistic._actionSequence, new BarGraphViewModel()));
                 }
 
                 Rows[row].UpdateWith(statisticsSet.CumulativePercentagesByRow[row], statistic.Percentages);

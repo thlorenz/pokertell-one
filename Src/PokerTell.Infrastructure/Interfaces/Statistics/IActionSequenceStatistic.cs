@@ -18,7 +18,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         /// </summary>
         int[] Percentages { get; }
 
-        ActionSequences ActionSequence { get; }
+        ActionSequences _actionSequence { get; }
 
         IList<IAnalyzablePokerPlayer>[] MatchingPlayers { get; }
 

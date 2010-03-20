@@ -1,6 +1,7 @@
 namespace PokerTell.Statistics.Detailed
 {
     using System;
+    using System.Text;
 
     using Infrastructure.Enumerations.PokerHand;
 
@@ -15,7 +16,7 @@ namespace PokerTell.Statistics.Detailed
             return string.Format("{0} bet on the {1} when {2}.", playerName, street.ToString().ToLower(), StatisticsDescriberUtils.DescribePosition(inPosition));
         }
 
-        public string Hint(string playerName)
+        public string Hint(string playerName, ActionSequences actionSequence, bool inPosition)
         {
             return string.Format("The table indicates how often {0} bet a certain fraction of the pot.", playerName);
         }
@@ -30,7 +31,7 @@ namespace PokerTell.Statistics.Detailed
                        : string.Format("{0} checked first and then reacted to a bet on the {1} when {2}.", playerName, street.ToString().ToLower(), StatisticsDescriberUtils.DescribePosition(inPosition));
         }
 
-        public string Hint(string playerName)
+        public string Hint(string playerName, ActionSequences actionSequence, bool inPosition)
         {
             return string.Format("The table shows how {0} reacted depending on the bet size of the opponent", playerName);
         }
@@ -43,9 +44,16 @@ namespace PokerTell.Statistics.Detailed
             return string.Format("{0} acted preflop in {1}.", playerName, StatisticsDescriberUtils.DescribePot(actionSequence));
         }
 
-        public string Hint(string playerName)
+        public string Hint(string playerName, ActionSequences actionSequence, bool inPosition)
         {
-            return string.Format("The table shows how {0} acted when sitting in a certain position at the table.", playerName);
+            var sb = new StringBuilder(string.Format("The table shows how {0} acted when sitting in a certain position at the table.", playerName));
+            
+            if (actionSequence == ActionSequences.PreFlopNoFrontRaise)
+                sb.AppendLine("A check from the big blind is counted as a fold.");
+
+            return sb.ToString();
+
+
         }
 
         public string Describe(string playerName, ActionSequences actionSequence)

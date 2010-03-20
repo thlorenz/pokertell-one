@@ -29,7 +29,7 @@
             Hide();
         }
 
-        void MouseWheel_Rolled(object sender, MouseWheelEventArgs e)
+        void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
            const int rollSize = 120;
 

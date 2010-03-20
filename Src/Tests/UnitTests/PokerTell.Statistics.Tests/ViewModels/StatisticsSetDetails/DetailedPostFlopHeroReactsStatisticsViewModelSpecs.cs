@@ -53,13 +53,13 @@ namespace PokerTell.Statistics.Tests.ViewModels.StatisticsSetDetails
             _handBrowserViewModelStub = new Mock<IRepositoryHandBrowserViewModel>();
 
             _foldStatisticStub = new Mock<IActionSequenceStatistic>();
-            _foldStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppBHeroF);
+            _foldStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.OppBHeroF);
 
            _callStatisticStub = new Mock<IActionSequenceStatistic>();
-            _callStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppBHeroC);
+            _callStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.OppBHeroC);
 
             _raiseStatisticStub = new Mock<IActionSequenceStatistic>();
-            _raiseStatisticStub.SetupGet(s => s.ActionSequence).Returns(ActionSequences.OppBHeroR);
+            _raiseStatisticStub.SetupGet(s => s._actionSequence).Returns(ActionSequences.OppBHeroR);
 
             _statisticsSetStub = new Mock<IActionSequenceStatisticsSet>();
             _statisticsSetStub.SetupGet(s => s.ActionSequenceStatistics).Returns(new[]

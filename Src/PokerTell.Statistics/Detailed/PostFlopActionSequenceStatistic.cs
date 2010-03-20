@@ -24,7 +24,7 @@ namespace PokerTell.Statistics.Detailed
 
                 MatchingPlayers[betSizeIndex] =
                     (from player1 in analyzablePokerPlayers
-                     where player1.ActionSequences[(int)_street] == ActionSequence
+                     where player1.ActionSequences[(int)_street] == _actionSequence
                            && player1.InPosition[(int)_street] == _inPosition
                            && player1.BetSizeIndexes[(int)_street] == betSizeIndex
                      select player1).ToList();

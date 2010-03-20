@@ -119,9 +119,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetDetails
                             }
                         }, 
                         CanExecuteDelegate = arg => 
-                            SelectedCells.Count() > 0 && 
-                            ActionSequencesUtility.GetLastActionIn(SelectedActionSequence) != ActionTypes.F && 
-                            SelectedAnalyzablePlayers.Count() > 0
+                            SelectedCells.Count() > 0 && ActionSequencesUtility.GetLastActionIn(SelectedActionSequence) != ActionTypes.F && SelectedAnalyzablePlayers.Count() > 0
                     });
             }
         }

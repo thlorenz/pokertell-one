@@ -101,12 +101,12 @@ namespace PokerTell.Statistics.Tests.Detailed
 
             _heroXStatisticStub = new Mock<IActionSequenceStatistic>();
             _heroXStatisticStub
-                .SetupGet(s => s.ActionSequence)
+                .SetupGet(s => s._actionSequence)
                 .Returns(ActionSequences.HeroX);
 
             _heroBStatisticStub = new Mock<IActionSequenceStatistic>();
             _heroBStatisticStub
-                .SetupGet(s => s.ActionSequence)
+                .SetupGet(s => s._actionSequence)
                 .Returns(ActionSequences.HeroB);
 
             _statisticsStub = new List<IActionSequenceStatistic>
