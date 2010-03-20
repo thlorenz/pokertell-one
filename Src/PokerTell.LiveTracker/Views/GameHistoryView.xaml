@@ -8,7 +8,7 @@
     ResizeMode="CanResizeWithGrip"    
     ShowInTaskbar="False"   
     MouseDown="WindowBorder_MouseDown"
-    MouseWheel="MouseWheel_Rolled"    
+    PreviewMouseWheel="PreviewMouseWheel_Rolled"    
     Width="300" Height="200" >
     <Window.Resources>
         <ResourceDictionary>
@@ -35,8 +35,7 @@
                         Click="CloseButton_Clicked" 
                         Width="15" Height="15" />
             <Viewbox Grid.Row="1" Stretch="Fill">
-                <!-- Setting IsHitTestVisible to false makes sure that the MouseWheel event bubbles to the control -->
-                <ContentControl Grid.Row="1" Content="{Binding}" IsHitTestVisible="False"/>
+                <ContentControl Grid.Row="1" Content="{Binding}" />
             </Viewbox>
         </Grid>
     </Border>

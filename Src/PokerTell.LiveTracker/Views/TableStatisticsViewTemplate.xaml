@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
 
             <!-- Top Row -->
-            <Viewbox Grid.Row="0" Width="410" Height="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
+            <Viewbox Grid.Row="0" Width="410" MinHeight="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
                 <StackPanel DataContext="{Binding DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
                     <!-- Statistics Analyzer -->
                     <ContentControl Content="{Binding CurrentViewModel}" 
@@ -54,12 +54,12 @@
 
                         <!-- Filter Command -->
                         <Button Command="{Binding FilterAdjustmentRequestedCommand}" 
-                    Content="Filter"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Right"
-                    Padding="5, 3"
-                    Margin="0"
-                    MaxHeight="22"/>
+                                Content="Filter"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Right"
+                                Padding="5, 3"
+                                Margin="0"
+                                MaxHeight="22"/>
                     </Grid>
                     <StackPanel Orientation="Vertical">
                         <!-- StatisticsAnalyzer Commanding -->

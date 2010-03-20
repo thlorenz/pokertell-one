@@ -29,7 +29,7 @@
             Hide();
         }
 
-        void MouseWheel_Rolled(object sender, MouseWheelEventArgs e)
+        void PreviewMouseWheel_Rolled(object sender, MouseWheelEventArgs e)
         {
            const int rollSize = 120;
 
@@ -38,6 +38,8 @@
            var pokerTableStatisticsViewModel = (IPokerTableStatisticsViewModel) DataContext;
 
            pokerTableStatisticsViewModel.DetailedStatisticsAnalyzer.CurrentViewModel.Scroll(change);
+
+            e.Handled = true;
         }
     }
 }
