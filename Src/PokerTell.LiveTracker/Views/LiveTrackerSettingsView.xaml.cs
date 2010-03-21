@@ -1,6 +1,6 @@
 ﻿namespace PokerTell.LiveTracker.Views
 {
-    using System.Windows;
+    using System.Windows.Controls;
 
     using Infrastructure;
 
@@ -29,6 +29,11 @@
         {
             viewModel.LoadSettings();
             DataContext = viewModel;
+        }
+
+        void Directory_TextBox_Initialized(object sender, System.EventArgs e)
+        {
+            ((TextBox)sender).Focus();
         }
     }
 }

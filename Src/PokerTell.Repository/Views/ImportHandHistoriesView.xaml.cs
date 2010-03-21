@@ -1,5 +1,8 @@
 ﻿namespace PokerTell.Repository.Views
 {
+    using System;
+    using System.Windows.Controls;
+
     using PokerTell.Repository.ViewModels;
 
     /// <summary>
@@ -16,6 +19,11 @@
             : this()
         {
             DataContext = viewModel;
+        }
+
+        void Directory_TextBox_Initialized(object sender, EventArgs e)
+        {
+            ((TextBox)sender).Focus();
         }
     }
 }

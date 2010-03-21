@@ -37,7 +37,8 @@
          Margin="0,5"
          Padding="5">
             <StackPanel Orientation="Horizontal">
-                <TextBox MinWidth="200" 
+                <TextBox Initialized="Directory_TextBox_Initialized"
+                         MinWidth="200" 
                          Text="{Binding HandHistoriesDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button Content="{x:Static GlobalProperties:Resources.Commands_Browse}"
                         Command="{Binding BrowseCommand}"/>
