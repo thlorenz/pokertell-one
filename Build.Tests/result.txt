@@ -1,0 +1,1118 @@
+
+Specs in Tools.Tests:
+
+DirectoryValidator IsValidDirectory, when asking if a directory is valid
+¯ should return false for null string
+¯ should return false for empty string
+¯ should return true for root directory
+¯ should return true for root directory with leading white spaces
+¯ should return true for "nonExistingButValid" 
+¯ should return false for " "   
+
+DirectoryValidator IsExistingDirectory, when asking if a directory is existing
+¯ should return false for null string
+¯ should return false for empty string
+¯ should return true for root directory
+¯ should return true for root directory with leading white spaces
+¯ should return false for "nonExistingButValid" 
+¯ should return false for " "   
+
+CollectionValidator GetValidIndexForCollection, when obtaining a valid index and passing index and items count
+¯ should return " 0"  for index " 0"  and itemsCount " 0" 
+¯ should return " 0"  for index " 0"  and itemsCount " 1" 
+¯ should return " 0"  for index " 1"  and itemsCount " 1" 
+¯ should return " 0"  for index " negative 1"  and itemsCount " 1" 
+¯ should return " 0"  for index " negative 1"  and itemsCount " 0" 
+¯ should return " 1"  for index " 3"  and itemsCount " 2" 
+
+WindowManager LazyCreation, when window is accessed for the first time
+¯ should be created
+¯ should return the window that is created via the passed function
+
+WindowManager LazyCreation, when window is accessed for the second time
+¯ should not be created again
+¯ should return the window that was created previously
+
+WindowManager Closing Window, when window is closed by the user
+¯ should set the window to null to force recreation
+
+WindowManager Dispose, when Manager is disposed and the window was not created yet
+¯ should not close the window
+¯ should set the window to null to force recreation
+
+
+Specs in PokerTell.Statistics.Tests:
+
+PostFlopHeroReactsRaiseReactionDescriber Description, when fred raised a bet 02 when in position on the flop and was reraised
+¯ should contain "flop" 
+¯ should contain "fred"  
+¯ should contain "in position" 
+¯ should contain "raised a bet" 
+¯ should contain "was reraised" 
+
+PostFlopHeroReactsRaiseReactionDescriber Description, when fred check raised a bet between 0 2 and 0 5 when out of position on the turn and was reraised
+¯ should contain "and was raised" 
+¯ should contain "check raised a bet" 
+¯ should contain "fred" 
+¯ should contain "out of position" 
+¯ should contain "turn" 
+
+PostFlopHeroReactsRaiseReactionDescriber Description, when freds raise sizes are 0 2 and 0 5
+¯ should contain "between 0 2 and 0 5" 
+
+PostFlopHeroReactsRaiseReactionDescriber Description, when betsizes are 0 3 and 0 3 
+¯ should contain 0 3   
+¯ should not contain "between 0 3 and 0 3"  
+
+RaiseReactionAnalyzer Preflop Analyzation, hero called opp raised 6x another opp folded  and hero raised
+¯ should be standard situaion
+¯ should be valid
+¯ should set OpponentRaiseSize to 5x since it is normalized to standard raise keys
+¯ should set hero reaction to raise
+
+RaiseReactionAnalyzer Preflop Analyzation, hero called opp raised 6x another opp reraised and hero folded
+¯ should be non standard situation
+¯ should be valid
+¯ should set hero reaction to fold
+
+RaiseReactionAnalyzer Preflop Analyzation, opp raised hero reraised opp rereraised 2x no one else reraised and hero called
+¯ should be standard situation
+¯ should be valid
+¯ should set OpponentRaiseSize to 2x
+¯ should set hero reaction to call
+
+RaiseReactionAnalyzer Preflop Analyzation, opp raised hero reraised opp rereraised 2x another opp reraised and hero raised
+¯ should be non standard situation
+¯ should be valid
+¯ should set hero reaction to raise
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroActs, hero bet opp raised 2x no one reraised and hero folded
+¯ should be standard situation
+¯ should be valid
+¯ should set hero reaction to fold
+¯ should set considered raise size to " 2" 
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroReacts, opponent bet hero raised 3x and was reraised 5x by the same opponent without intermediate action and finally called
+¯ should be standard situation
+¯ should be valid
+¯ should set hero reaction to call
+¯ should set considered raise size to " 3" 
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroReacts, hero checked then opponent bet and hero raised it 5x the opponent reraised 2x without intermediate action and finally the hero reraised
+¯ should be standard situation
+¯ should be valid
+¯ should set hero reaction to call
+¯ should set considered raise size to " 5" 
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroReacts, opponent bet hero raised 3x and was reraised 5x by the same opponent and before he reacted another opponent reraised
+¯ should not be standard situation
+¯ should be valid
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroReacts, hero checked then opponent bet and hero raised it 5x the opponent reraised 2x and before he reacted another opponent raised
+¯ should not be standard situation
+¯ should be valid
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroReacts, ActionSequence indicates that opponent bet hero raised and was reraised but no hero raise action is contained
+¯ should be invalid
+
+RaiseReactionAnalyzer PostFlop Analyzation, HeroReacts, ActionSequence indicates that opponent bet hero raised and was reraised but no opponent raise action is contained
+¯ should be invalid
+
+RaiseReactionStatistics intitializing with RaiseReactionsAnalyzer, RaiseReactionsAnalyzer returns zero raiseSizes
+¯ should fail with an ArgumentException
+
+RaiseReactionStatistics intitializing with RaiseReactionsAnalyzer, RaiseReactionsAnalyzer returns two raiseSizes and any number of RaiseReactionAnalyzers
+¯ should create AnalyzablePlayersDictionary with 2 columns
+¯ should create AnalyzablePlayersDictionary with 3 rows
+¯ should create PercentagesDictionary with 2 columns
+¯ should create PercentagesDictionary with 3 rows
+¯ should create TotalCountsByColumnDictionary with two columns
+
+RaiseReactionStatistics intitializing with RaiseReactionsAnalyzer, RaiseReactionsAnalyzer returns two raiseSizes and zero RaiseReactionAnalyzers
+¯ should have 0 raiseReactionAnalyzers in first row first column of AnalyzablePlayersDictionary
+¯ should have 0 raiseReactionAnalyzers in third row second column of AnalyzablePlayersDictionary
+¯ value in PercentageDictionary at first row first column should be 0
+¯ value in PercentageDictionary at third row second column should be 0
+¯ value in TotalCountsByColumnDictionary at third row second column should be 0
+¯ value in TotalCountsByColumnDictionary at first row first column should be 0
+
+RaiseReactionStatistics intitializing with RaiseReactionsAnalyzer, RaiseReactionsAnalyzer returns two raiseSizes and one RaiseReactionAnalyzer with HeroReactionType of firstRow and ConsideredRaiseSize of firstColumn
+¯ count of AnlyzablePokerPlayersDictionary at first row and first column should be 1
+¯ count of AnlyzablePokerPlayersDictionary at third row second column should be 0
+¯ value in TotalCountsByColumnDictionary at first column should be 1
+¯ value in TotalCountsByColumnDictionary at second column should be 0
+¯ value in PercentagesDictionary at first row first column should be 100
+¯ value in PercentagesDictionary at at third row second column should be 0
+
+RaiseReactionStatistics intitializing with RaiseReactionsAnalyzer, RaiseReactionsAnalyzer returns two raiseSizes and a RaiseReactionAnalyzer with HeroReactionType of firstRow and ConsideredRaiseSize of firstColumn and another RaiseReactionAnalyzer with HeroReactionType of thirdRow and OpponentRaiseSize of firstColumn
+¯ count of AnlyzablePokerPlayersDictionary at first row and first column should be 1
+¯ count of AnlyzablePokerPlayersDictionary at third row and first column should be 1
+¯ count of AnlyzablePokerPlayersDictionary at third row second column should be 0
+¯ value in TotalCountsByColumnDictionary at first column should be 2
+¯ value in TotalCountsByColumnDictionary at second column should be 1
+¯ value in PercentagesDictionary at first row first column should be 50
+¯ value in PercentagesDictionary at second row first column should be 0
+¯ value in PercentagesDictionary at third row first column should be 50
+¯ value in PercentagesDictionary at at third row second column should be zero
+
+PreFlopRaiseReactionDescriber Description, given fred called preflop in unraised pot
+¯ should contain "and was raised" 
+¯ should contain "called" 
+¯ should contain "fred" 
+¯ should contain "preflop" 
+¯ should contain "unraised pot" 
+
+PreFlopRaiseReactionDescriber Description, given fred raised preflop in raised pot
+¯ should contain " raised pot" 
+¯ should contain "and was raised" 
+¯ should contain "fred" 
+¯ should contain "preflop" 
+¯ should contain "raised" 
+
+PreFlopRaiseReactionDescriber Positions, describing 2 different positions
+¯ returns "in between middle position and late position" for MI and LT
+¯ returns "in between the big blind and the button" for BB and BU
+¯ returns in "between the small blind and early position" for SB and EA
+
+PreFlopRaiseReactionDescriber Positions, describing 2 equal positions
+¯ returns "in cutoff position" for CO and CO
+¯ should not contain " in between" 
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, if valued holecards are always valid, given hero1 has known cards hero2 has unknown cards and hero3 has empty string
+¯ AnalyzablePlayersWithKnownCards should contain hero1
+¯ AnalyzablePlayersWithKnownCards should not contain hero2
+¯ AnalyzablePlayersWithKnownCards should not contain hero3
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, if valued holecards are always valid, given hero1 and hero2 have known cards hero3 has empty string
+¯ KnownCards in col 0 should have count 2
+¯ KnownCards in col 1 should have count 0
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, given HeroC as ActionSequence
+¯ RatiosUsed should equal unraised pot calling ratios
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, given OppRHeroC as ActionSequence
+¯ RatiosUsed should equal raised pot calling ratios
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, given HeroR as ActionSequence
+¯ RatiosUsed should equal raise size keys
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, all have known cards and ActionSequence is HeroC, given 2 ratios for unraised pot, given hero1 has calling ratio1 hero2 has calling ratio2 and hero 3 has calling ratio larger than the last one
+¯ SortedAnalyzablePokerPlayers should have same length as there are items in unraised pot calling ratios
+¯ SortedAnalyzablePokerPlayers at col 0 should contain only hero1
+¯ SortedAnalyzablePokerPlayers at col 1 should contain only hero2 and hero3
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, given hero1 with HeroC has cards AsKs ValuedHoleCards AreValid
+¯ should initialize valuedHoleCards with his holecards
+¯ KnownCards should have same length as unraisedPotCallingRatios
+¯ should add valued hole cards to col 0 of KnownCards
+¯ should initialize the average valued hole cards with a list containing the valued hole cards
+¯ should set the AverageChenValue at col 0 to the one returned by the valued hole cards average
+¯ should set the AverageSklanskyMalmuthGrouping at col 0 to the one returned by the valued hole cards average
+
+PreFlopHandStrengthStatistics BuildStatisticsFor, given hero1 with HeroC has cards AsKs ValuedHoleCards AreInValid
+¯ should not add valued hole cards to col 0 of KnownCards
+¯ should initialize the average valued hole cards with an empty list
+¯ should set the AverageChenValue at col 0 to not available
+¯ should set the AverageSklanskyMalmuthGrouping at col 0 to not available
+
+RepositoryHandBrowser Initialization, given 0 hand Ids
+¯ should throw an ArgumentException
+
+RepositoryHandBrowser Initialization, given 1 hand Id
+¯ should have 1 potential hand
+¯ should not retrieve any hands yet
+
+RepositoryHandBrowser Hand Retrieval, given 1 analyzable player, when the first hand is accessed for the first time
+¯ should request it from the repository
+¯ should return the hand returned by the repository
+
+RepositoryHandBrowser Hand Retrieval, given 1 analyzable player, when the first hand is accessed for the second time
+¯ should not request it again from the repository
+¯ should return the hand that was previously returned by the repository
+
+RepositoryHandBrowser Initialization, given 3 analyzable players
+¯ should have 3 potential hands
+
+RepositoryHandBrowser Hand Retrieval, given 3 analyzable players, when the 3rd hand is accessed for the first time
+¯ should not request the first or second hand from the repository
+¯ should request the 3rd hand from the repository
+¯ should return the hand returned by the repository
+
+RepositoryHandBrowser Hand Retrieval, given 3 analyzable players, when the 3rd hand is accessed for the second time
+¯ should not request anything from the repository again
+¯ should return the hand that was previously returned by the repository
+
+RaiseReactionStatisticsBuilder Initialize, initializing with raise size keys
+¯ intitializes RaiseReactionsAnalyzer with the given raise size key
+
+RaiseReactionStatisticsBuilder Build, given 0 analyzable players
+¯ should throw an ArgumentException
+
+RaiseReactionStatisticsBuilder Build, given 2 analyzable players
+¯ should analyze first player passing the given street and action sequence
+¯ should analyze second player passing the given street and action sequence
+¯ should initialize statistics with the raise reactions analyzer
+¯ should return these statistics
+
+RaiseReactionsAnalyzer Initialization, given 0 raise sizes
+¯ should fail with an ArgumentException
+
+RaiseReactionsAnalyzer Initialization, given 2 raise sizes
+¯ should create an empty RaiseReactionAnlayzers list
+
+RaiseReactionsAnalyzer Analyzation, given AnalyzationPreparer was successfull and results are valid and standard
+¯ should add them to the RaiseReactionAnalyzers list
+
+RaiseReactionsAnalyzer Analyzation, given AnalyzationPreparer was successfull and results are valid but non standard
+¯ should not add them to the RaiseReactionAnalyzers list
+
+RaiseReactionsAnalyzer Analyzation, given AnalyzationPreparer was successfull but results are invalid
+¯ should not add them to the RaiseReactionAnalyzers list
+
+RaiseReactionsAnalyzer Analyzation, given results would be valid but AnalyzationPreparer was unsuccessfull
+¯ should not add anything to the list
+
+PreFlopStartingHandsVisualizer IntializeWith, given sideLength 1 pairMargin 0
+¯ StartingHands should have a key for each possible starting hand 13x13
+¯ StartingHands with key " AA"  should have coordinates top 0 left 0
+¯ StartingHands with key " AK"  should have coordinates top 1 left 0
+¯ StartingHands with key " 22"  should have coordinates top 12 left 12
+¯ StartingHands with key " T7"  should have coordinates top 7 left 4
+¯ StartingHands with key " AKs"  should have coordinates top 0 left 1
+¯ StartingHands with key " T7s"  should have coordinates top 4 left 7
+¯ StartingHands with key " AK"  should have Display " AK" 
+¯ StartingHands with key " AKs"  should also have Display " AK" 
+
+PreFlopStartingHandsVisualizer IntializeWith, given sideLength 2 pairMargin 0
+¯ StartingHands with key " AK"  should have coordinates top 2 left 0
+¯ StartingHands with key " T7"  should have coordinates top 14 left 8
+¯ StartingHands with key " AKs"  should have coordinates top 0 left 2
+¯ StartingHands with key " T7s"  should have coordinates top 8 left 14
+
+PreFlopStartingHandsVisualizer IntializeWith, given sideLength 1 pairMargin 1
+¯ StartingHands with key " AA"  should have coordinates top 0 left 1
+¯ StartingHands with key " AK"  should have coordinates top 1 left 0
+¯ StartingHands with key " T7"  should have coordinates top 7 left 4
+¯ StartingHands with key " AKs"  should have coordinates top 0 left 3
+¯ StartingHands with key " T7s"  should have coordinates top 4 left 9
+
+PreFlopStartingHandsVisualizer Visualize, given sidelength 10 and 4 AA 2 T7 and 1 32s as known cards
+¯ StartingHands with key " AA"  should have count 4
+¯ StartingHands with key " T7"  should have count 2
+¯ StartingHands with key " 32s"  should have count 1
+¯ StartingHands with key " AA"  should have FillHeight 10
+¯ StartingHands with key " T7"  should have FillHeight 5
+¯ StartingHands with key " 32s"  should have FillHeight one fourth
+
+PreFlopStartingHandsVisualizer Visualize, when visualizing twice with 1 AA
+¯ StartingHands with key " AA"  should have count 1 because it resets the StartingHand Counts each time
+
+PostFlopHeroActsRaiseReactionDescriber Description, given fred bet on flop out of position
+¯ should contain "bet" 
+¯ should contain "flop" 
+¯ should contain "fred"  
+¯ should contain "out of position" 
+¯ should contain and was raised 
+
+PostFlopHeroActsRaiseReactionDescriber Description, given fred bet on turn in position
+¯ should contain " in position" 
+¯ should contain " turn" 
+¯ should contain "bet" 
+¯ should contain "fred" 
+¯ should contain "and was raised" 
+
+PostFlopHeroActsRaiseReactionDescriber Description, when betsizes are 0 2 and 0 5
+¯ should contain "0 2 to 0 5 of the pot" 
+
+PostFlopHeroActsRaiseReactionDescriber Description, given betsizes are 0 2 and 0 2
+¯ should contain "0 2 of the pot" 
+¯ should not contain "0 2 to 0 2" 
+
+DetailedPostFlopHeroActsStatisticsDescriber Describe, given fred bet on the flop in position
+¯ should return " fred bet on the flop when in position" 
+
+DetailedPostFlopHeroActsStatisticsDescriber Describe, given fred bet on the river out of position
+¯ should return " fred bet on the river when out of position" 
+
+DetailedPostFlopHeroActsStatisticsDescriber Hint, when obtaining hint for player fred
+¯ returns " The table indicates how often fred bets a certain fraction of the pot"  
+
+DetailedPreFlopStatisticsDescriber Describe, given fred acted in an unraised pot
+¯ returns " fred acted preflop in an unraised pot" 
+
+DetailedPreFlopStatisticsDescriber Describe, given fred acted in a raised pot
+¯ returns " fred acted preflop in a raised pot" 
+
+DetailedPreFlopStatisticsDescriber Hint, when obtaining hint for player fred in an unraised pot
+¯ contains " The table shows how fred acted when sitting in a certain position at the table" 
+¯ contains " A check from the big blind is counted as a fold" 
+
+DetailedPreFlopStatisticsDescriber Hint, when obtaining hint for player fred in a raised pot
+¯ contains " The table shows how fred acted when sitting in a certain position at the table" 
+¯ should not contain " A check from the big blind is counted as a fold" 
+
+DetailedPostFlopHeroActsStatisticsDescriber Describe, given fred  reacted to a bet on the flop in position
+¯ should return "fred reacted to a bet on the flop when in position" 
+
+DetailedPostFlopHeroActsStatisticsDescriber Describe, given fred checked and then reacted to a bet on the river out of position
+¯ should return "fred checked first and then reacted to a bet on the river when out of position" 
+
+DetailedPostFlopHeroActsStatisticsDescriber Hint, when obtaining hint for player fred
+¯ returns " The table indicates how often fred bets a certain fraction of the pot"  
+
+DetailedStatisticsAnalyzerViewModel AddViewModel, when ViewModel wants to be shown as popup
+¯ should assign it to Popup ViewModel
+¯ should set ShowPopup to true
+
+DetailedStatisticsAnalyzerViewModel AddViewModel, when ViewModel does not want to be shown as popup
+¯ should assign it to CurrentViewModel
+¯ should set ShowPopup to false
+
+RepositoryHandBrowserViewModel Initialization, given 2 analyzable players
+¯ should initialize hand browser with their hand ids sorted backwards
+¯ should update hand history viewmodel with first hand of hand browser
+¯ should tell the handhistory viewmodel to select the row with the name of the player
+¯ should set HandCount to hand browsers potential hands count
+
+RepositoryHandBrowserViewModel Browsing, initialized with 2 analyzable players, when user browses to second hand
+¯ should update hand history viewmodel with second hand of hand browser
+¯ should tell the handhistory viewmodel to select the row with the name of the player
+
+RepositoryHandBrowserViewModel Scroll, when containing two hands and current hand index is 0 and I scroll 1 forward
+¯ should set the CurrentHandIndex to 1
+
+RepositoryHandBrowserViewModel Scroll, when containing two hands and current hand index is 1 and I scroll 1 backward
+¯ should set the CurrentHandIndex to 0
+
+DetailedRaiseReactionStatisticsViewModel`1 Initialization, given 0 analyzable players
+¯ should throw an ArgumentException
+
+DetailedRaiseReactionStatisticsViewModel`1 Initialization, given valid data
+¯ should build raise reaction statistics for it
+¯ should get statistics description from raise reaction describer
+
+DetailedRaiseReactionStatisticsViewModel`1 Initialization, given valid data and valid RaiseReactionStatistics
+¯ should create 4 rows
+¯ should create one column for each item in the statistics PercentagesDictionary
+¯ should create the first second and third row with percentage unit
+¯ should create the fourth row without a unit since it shows the counts
+
+DetailedRaiseReactionStatisticsViewModel`1 Initialization, given the PercentagesDictionary has value 0 at 0 0 and value 50 at 1 1
+¯ should have value 0 at row 0 col 0
+¯ should have value 50 at row 1 col 1
+
+DetailedRaiseReactionStatisticsViewModel`1 Initialization, given the TotalCountsDictionary has value 0 in col 0 and value 1 in col 1
+¯ should have value 0 in the counts row at col 0
+¯ should have value 1 in the counts row at col 1
+
+DetailedRaiseReactionStatisticsViewModel`1 Browse hands command, given no cell has been selected
+¯ should not be executable
+
+DetailedRaiseReactionStatisticsViewModel`1 Browse hands command, given one cell has been selected but it contains no analyzable players
+¯ should not be executable
+
+DetailedRaiseReactionStatisticsViewModel`1 Browse hands command, given one cell is selected and it contains analyzable players
+¯ should be executable
+
+DetailedRaiseReactionStatisticsViewModel`1 Browse hands command, given one cell is selected and the user executes the command
+¯ should initialize HandBrowserViewModel with the analyzable players who correspond to the cell and the playerName
+¯ should set its ChildViewModel to the HandBrowserViewModel
+
+PreFlopHandStrengthStatisticsViewModel VisualizeStartingHandsCommand, CanExecute, when no cells have been selected
+¯ should return false
+
+PreFlopHandStrengthStatisticsViewModel VisualizeStartingHandsCommand, CanExecute, when one cell has been selected
+¯ should return true
+
+PreFlopHandStrengthStatisticsViewModel VisualizeStartingHandsCommand, Execute, when the first column is selected
+¯ should visualize the Cards in the first column
+
+PreFlopHandStrengthStatisticsViewModel VisualizeStartingHandsCommand, Execute, when the second column is selected
+¯ should visualize the Cards in the second column
+
+PreFlopHandStrengthStatisticsViewModel VisualizeStartingHandsCommand, Execute, when the first and second columns are selected
+¯ should visualize the Cards in the first and second columns
+¯ should assign the VisualizerViewModel to the ChildViewModel
+
+DetailedPostFlopHeroReactsStatisticsViewModel Investigate Raise Command, CanExecute
+¯ should be false when no cells have been selected
+¯ should be true when one cell in raising column has been selected and it contains analyzable players
+¯ should be false when one cell in raising column has been selected but it contains no analyzable players
+¯ should be false when one cell in folding column has been selected and it contains analyzable players
+¯ should be false when one cell in calling column has been selected and it contains analyzable players
+
+DetailedPostFlopHeroReactsStatisticsViewModel Investigate Raise Command, Execute
+¯ should assign the raise reaction statistics model to its child view model
+¯ should initialize the raise reaction statistics model with the data of the selected cells
+
+DetailedPostFlopHeroActsStatisticsViewModel Investigate Raise, CanExecute
+¯ should be false when no cells have been selected
+¯ should be false when one cell in betting column has been selected but it contains no analyzable players
+¯ should be true when one cell in betting column has been selected and it contains analyzable players
+
+DetailedPostFlopHeroActsStatisticsViewModel Investigate Raise, Execute
+¯ should assign the raise reaction statistics model to its child view model
+¯ should initialize the raise reaction statistics model with the data of the selected cells
+
+DetailedPreFlopStatisticsViewModel Investigate Raise, InvestigateRaise Execute
+¯ should assign the raise reaction statistics model to its child view model
+¯ should initialize the raise reaction statistics model with the data of the selected cells
+
+DetailedPreFlopStatisticsViewModel Investigate Raise, given statistics for raised pot InvestigateRaise CanExecute
+¯ should be false when no cells have been selected
+¯ should be false when only cells in the call row have been selected and it contains analyzable players
+¯ should be false when only cells in the fold row have been selected and it contains analyzable players
+¯ should be true when one cell in raise row has been selected and it contains analyzable players
+¯ should be false when one cell in raise row has been selected but it contains no analyzable players
+
+DetailedPreFlopStatisticsViewModel Investigate Raise, given statistics for unraised pot InvestigateRaise CanExecute
+¯ should be false when no cells have been selected
+¯ should be false when only cells in the call row have been selected and it contains analyzable players
+¯ should be false when only cells in the fold row have been selected and it contains analyzable players
+¯ should be true when one cell in raise row has been selected and it contains analyzable players
+¯ should be false when one cell in raise row has been selected but it contains no analyzable players
+
+DetailedPreFlopStatisticsViewModel InvestigateHoleCards, given statistics for unraised pot InvestigateHoleCards CanExecute
+¯ should be false when no cells have been selected
+¯ should be true when cell in the call row has been selected and it contains analyzable players
+¯ should be false when cell in the call row has been selected but it contains no analyzable players
+¯ should be false when cell in the fold row has been selected and it contains analyzable players
+¯ should be true when cell in raise row has been selected and it contains analyzable players
+¯ should be false when cell in raise row has been selected but it contains no analyzable players
+
+DetailedPreFlopStatisticsViewModel InvestigateHoleCards, when given ActionSequence HeroC Executing InvestigateHoleCards
+¯ should initialize unraised pot calling statistics viewmodel with selected analyzable players and selected actionsequence
+¯ should assign the unraised pot statistics viewmodel to the child viewmodel
+
+DetailedPreFlopStatisticsViewModel InvestigateHoleCards, when given ActionSequence HeroR Executing InvestigateHoleCards
+¯ should initialize raising statistics viewmodel with selected analyzable players and selected actionsequence
+¯ should assign the raising statistics viewmodel to the child viewmodel
+
+DetailedPreFlopStatisticsViewModel InvestigateHoleCards, when given ActionSequence OppRHeroR Executing InvestigateHoleCards
+¯ should initialize raising statistics viewmodel with selected analyzable players and selected actionsequence
+¯ should assign the raising statistics viewmodel to the child viewmodel
+
+DetailedPreFlopStatisticsViewModel InvestigateHoleCards, when given ActionSequence OppRHeroC Executing InvestigateHoleCards
+¯ should initialize raised pot calling statistics viewmodel with selected analyzable players and selected actionsequence
+¯ should assign the raised pot statistics viewmodel to the child viewmodel
+
+DetailedStatisticsViewModel Browse hands command, given no cell has been selected
+¯ should not be executable
+
+DetailedStatisticsViewModel Browse hands command, given one cell has been selected but it contains no analyzable players
+¯ should not be executable
+
+DetailedStatisticsViewModel Browse hands command, given one cell is selected and it contains analyzable players
+¯ should be executable
+
+DetailedStatisticsViewModel Browse hands command, given one cell is selected and the user executes the command
+¯ should initialize HandBrowserViewModel with the analyzable players who correspond to the cell and the player name
+¯ should set its ChildViewModel to the HandBrowserViewModel
+
+
+Specs in PokerTell.LiveTracker.Tests:
+
+GameController New Hand, first time, when told for the first time that a new hand was found and the user does not want to see the overlay
+¯ should not initialize the TableOverlayManager
+¯ should set IsLaunched to true
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController New Hand, first time, when told for the first time that a new hand was found and user wants to see the overlay
+¯ should initialize the TableOverlayManager
+¯ should set IsLaunched to true
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController New Hand, first time, when told for the first time that a new hand was found and user wants to see the livestats window on startup
+¯ should set the DataContext of the LiveStats window to the livestats pokertable viewmodel
+¯ should show the LiveStats window
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController New Hand, first time, when told for the first time that a new hand was found and user does not want to see the livestats window on startup
+¯ should set the DataContext of the LiveStats window to the livestats pokertable viewmodel
+¯ should not show the LiveStats window
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController New Hand, not first time, when told that a new hand was found but not the first time and the user wants to see LiveStats and Overlay windows
+¯ should not initialize the TableOverlayManager again
+¯ should not set the DataContext of the LiveStats window to the livestats pokertable viewmodel again
+¯ should not show the LiveStats window again
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController New Hand, when told that a new hand was found and the user does not want to see the overlay
+¯ should add the new hand to the GameHistory viewmodel
+¯ should not update the table overlay manager with the players and the board contained in the hand
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController New Hand, when told about a new hand and the user wants to see the table overlay
+¯ should add the new hand to the GameHistory viewmodel
+¯ should update the table overlay manager with the players and the board contained in the hand
+¯ should set the LiveStats PokerTableStatistics table name to the one returned by the hand
+
+GameController NewHand, when told about new hand with bob ted and jim and PlayerStatistics are empty
+¯ should add bob to the PlayerStatistics
+¯ should add ted to the PlayerStatistics
+¯ should add jim to the PlayerStatistics
+¯ should initialize bobs statistics with the site and his name
+¯ should initialize teds statistics with the site and his name
+¯ should initialize jims statistics with the site and his name
+¯ should update bobs statistics
+¯ should update teds statistics
+¯ should update jims statistics
+
+GameController NewHand, when told about new hand with bob ted and jim and PlayerStatistics contain bob and ted
+¯ should add jim to the PlayerStatistics
+¯ should not initialize bobs statistics with the site and his name again
+¯ should not initialize teds statistics with the site and his name again
+¯ should initialize jims statistics with the site and his name
+¯ should update bobs statistics
+¯ should update teds statistics
+¯ should update jims statistics
+
+GameController NewHand, when told about new hand with only bob and ted and PlayerStatistics contain bob ted and jim
+¯ should not remove jim from the PlayerStatistics
+¯ should update bobs statistics
+¯ should update teds statistics
+¯ should not update jims statistics
+
+GameController PlayerStatisticsUpdater finished, when the player statistics updater says that he finished updating the statistics
+¯ should update the overlay pokertable statistics with the passed player statistics
+¯ should update the liveStats pokertable statistics with the passed player statistics
+
+GameController Table closed, when the overlay table manager says that the table is closed
+¯ should dispose the table overlay manager
+¯ should dispose the live stats window manager
+¯ should raise ShuttingDown
+
+GameController Show LiveStatsWindow requested, when the user requests to see the live stats window
+¯ should show it
+¯ should activate it
+
+GameController Show GameHistoryWindow requested, when the user requests to see the game history window
+¯ should set its DataContext to the GameHistory ViewModel
+¯ should show it
+¯ should activate it
+
+PlayerStatisticsUpdater Update, when told to update bobs and teds statistics
+¯ should update bobs statistics
+¯ should update teds statistics
+¯ should let me know when it is finished
+¯ should include the updated player statistics when it lets me know that it is finished
+
+LayoutManager Load, when asked to get the settings for the site PokerStars and TotalSeats 6
+¯ should set the PokerSite of the documentHandler to " PokerStars" 
+¯ should load the XDocument from the documentHandler
+¯ should return the Settings for 6 TotalSeats contained in the XDocument
+
+LayoutManager Save, when asked to save the settings for PokerStars and 5 total seats
+¯ should set the PokerSite of the documentHandler to " PokerStars" 
+¯ should load the XDocument from the documentHandler
+¯ should save the XDocument since it was changed
+¯ should have replaced the settings for 5 total seats
+¯ should not have changed the settings for 6 total seats
+
+LayoutManager Save, settings not saved before, when asked to save the settings for PokerStars and 2 total seats
+¯ should have added the settings for 2 total seats
+¯ should not have changed the settings for 6 total seats
+
+TableOverlayManager InitializeWith, when initialized because the first new hand was found
+¯ should determine the hero name from the hand
+¯ should initialize the seat mapper with the total seats
+¯ should request the overlay settings for the given poker site and total seats from the layout manager
+¯ should initialize the table overlay with the given settings
+¯ should the DataContext of the Overlay Window to the overlay viewmodel
+¯ should show the table overlay window
+¯ should initialize the overlay to table attacher with the table name  pokerroom info returned by the locator and overlay window
+¯ should activate the overlay to table attacher
+¯ should update the seat mapper with seat of the hero
+
+GameController New Hand, when updated with a new hand hero name is non empty and found in hand
+¯ should update the table overlay view model with the players and the board contained in the hand
+¯ should set the table name of the table attacher to the one returned by the hand
+¯ should update the seat mapper with seat of Hero
+
+TableOverlayManager New Hand, when updated with new hand but HeroName is empty
+¯ should update the seat mapper with 0
+
+TableOverlayManager New Hand, when updated with new hand but HeroName is not found in players of the hand
+¯ should update the seat mapper with 0
+
+TableOverlayManager Table closed, when the overlay table attacher says that the table is closed
+¯ should reraise TableClosed
+
+TableOverlayManager Dispose, when it is disposed
+¯ should dispose the table overlay window manager
+¯ should dispose the table attacher
+
+TableOverlayManager Save Overlay Settings, when the overlay settings request to be saved
+¯ should tell the layout manager to save the settings for the PokerSite
+
+TableOverlayManager Revert Overlay Settings, when the overlay settings request to undo the changes
+¯ should load the settings for the PokerSite and the total seats from the layout manager again
+¯ should call back with the settings returned by the layout manager
+
+TableOverlayManager Show LiveStats Window, when the user requests the livestats window to be shown
+¯ should let me know
+
+TableOverlayManager Show GameHistory Window, when the user requests the gamehistory window to be shown
+¯ should let me know
+
+OverlayToTableAttacher Activate, when it is activated
+¯ should try to find the poker table
+
+OverlayToTableAttacher Activate, when it is activated and the window finder finds the poker table
+¯ should assign the returned WindowHandle to the window manipulator
+¯ should start to watch the table
+¯ should not tell me that the table is closed
+
+OverlayToTableAttacher Activate, when it is activated and the window finder does not find the poker table
+¯ should not start to watch the table
+¯ should tell me that the table is closed
+
+OverlayToTableAttacher Watching Table, when watch timer fires when not waiting for new table name
+¯ should check for any size or position changes of the poker table
+¯ shoud ensure that the overlay is still directly on top of the poker table
+¯ should set the window text to the adjusted TableName
+
+OverlayToTableAttacher Watching Table, when watch timer fires while waiting for new table name
+¯ should check for any size or position changes of the poker table
+¯ shoud ensure that the overlay is still directly on top of the poker table
+¯ should not set the window text to the adjusted TableName
+
+OverlayToTableAttacher Watching Table, when watch timer fires and the window Manipulator detects a change in location and size of the poker table
+¯ should adjust the location of the overlay window to the new location
+¯ should adjust the size of the overlay window to the new size
+
+OverlayToTableAttacher Watching Table, when the watcher timer fires and the window manipulator detects that the table name is not contained in the poker table title
+¯ should start waiting for a new table name
+¯ should tell me that the table changed
+¯ should tell me the new title of the table
+
+OverlayToTableAttacher SetTableName, when table name is set while waiting for new table name
+¯ should stop waiting for a new table name
+¯ should set the tablename to the adapted name returned by the pokerroom info
+
+OverlayToTableAttacher Table is lost, when the window manipulator says it lost the table while trying to place the overlay on top of it
+¯ should stop to watch the table
+¯ should try to find the table again
+
+OverlayToTableAttacher Finding table again, when the find table again timer fires
+¯ should try to find the poker table
+
+OverlayToTableAttacher Dispose, when it is disposed
+¯ should stop the watcher timer
+¯ should stop the find table again timer
+¯ should dispose the overlay window
+
+SeatMapper Map, when initialized with 6 total Seats and Heros actual Seat is updated with 1
+¯ mapping seat 1 with preferred Seat 1 returns 1
+¯ mapping seat 2 with preferred Seat 1 returns 2
+¯ mapping seat 6 with preferred Seat 1 returns 6
+¯ mapping seat 1 with preferred Seat 2 returns 2
+¯ mapping seat 2 with preferred Seat 2 returns 3
+¯ mapping seat 6 with preferred Seat 2 returns 1
+¯ mapping seat 1 with preferred Seat 4 returns 4
+¯ mapping seat 2 with preferred Seat 4 returns 5
+¯ mapping seat 6 with preferred Seat 4 returns 3
+
+PokerStarsInfo Formatting Tournament Table Name, when formatting " 125696289 4" 
+¯ should return " 123456789 Table 1"  
+
+PokerStarsInfo Formatting Cash Table Name, when formatting " Marceline V"  
+¯ should return " Marceline V"  
+
+when optimizing an empty collection
+¯ should return empty collection
+
+when optimizing a collection containing one path
+¯ should return collection containing only that one file
+
+when the first folder is a subirectory of the second folder
+¯ should return collection containing only the second path
+
+when the first folder is a subirectory of the second folder but drive letters have different case
+¯ should return collection containing only the second path
+
+when the first folder is not a subirectory of the second folder
+¯ returned collection should contain the first path
+¯ returned collection should contain the second path
+
+when first path is equals the second path
+¯ should only return one path
+
+NewHandsTracker TrackFolder, when no folders are tracked so far and a new folder is tracked
+¯ should ask the optimizer to optimize
+¯ should add a filewatcher for that folder
+¯ should initialize the filewatcher with the tracked folder
+
+NewHandsTracker TrackFolder, when a folder is tracked and the same folder should be tracked again
+¯ should not ask the optimizer to optimize again
+¯ should not initialize the filewatcher with the tracked folder again
+
+NewHandsTracker TrackFolder, when a folder should be tracked but the optimizer removes it during optimization
+¯ should ask the optimizer to optimize
+¯ should not add a new watcher for the path
+
+NewHandsTracker TrackFolder, when tracking two folders and told to track a parent folder of both so the optimizer removes them
+¯ should ask the optimizer to optimize all three folders
+¯ should add a filewatcher for that folder
+¯ should initialize the filewatcher with the tracked folder
+¯ should dispose the first watcher
+¯ should dispose the second watcher
+¯ should remove both watchers for the previously tracked folders
+
+NewHandsTracker FileChanged, when a filesystem watcher discovers a file change and the file contains hands
+¯ should tell the repository to retrieve the hands from the full path
+¯ should tell the repository to enter the returned hands into the database
+¯ should raise new hand event
+¯ the new hand event should include the fullpath as argument
+¯ the new hand event should include the last hand as argument
+
+NewHandsTracker FileChanged, when a filesystem watcher discovers a file change but the file contains no hands
+¯ should tell the repository to retrieve the hands from the full path
+¯ should not tell the repository to enter the returned hands into the database
+¯ should not raise new hand event
+
+GamesTracker InitializeWith, when initialized with live tracker settings
+¯ should set the LiveTrackerSettings to the ones that were passed
+¯ should set the GameController LiveTracker Settings to ones that were passed
+¯ should tell the new hands trakcer to track the HandHistory Paths returned by the live tracker settings
+
+GamesTracker LiveTrackerSettings changed, when it contains one game controller and the LiveTrackerSettings changed
+¯ should set the LiveTrackerSettings to the ones that were passed
+¯ should set the GameController LiveTracker Settings to the new ones
+¯ should tell the new hands tracker to track the HandHistory Paths returned by the live tracker settings
+
+GamesTracker StartTracking, when told to start tracking a file that is tracked already
+¯ should not add the file to the GameControllers
+¯ should raise a user message containing the filename
+
+GamesTracker StartTracking, when told to start tracking a file that is not tracked yet
+¯ should add a GameController for the full path of the file
+¯ should set the GameController LiveTracker Settings to the ones passed in
+¯ should tell the NewHandsTracker to process the file
+¯ should tell the NewHandsTracker to start tracking the folder that contains the file
+
+GamesTracker New Hand found, when told that a new hand for a file that it is tracking was found
+¯ should tell the GameController about the new hand
+
+GamesTracker New Hand found, when a new hand was found and it is currently tracking no files and it is supposed to AutoTrack
+¯ should add a new GameController for the full path
+¯ should set the GameController LiveTracker Settings to the ones passed in
+¯ should tell the GameController about the new hand
+
+GamesTracker New Hand found, when a new hand was found and it is currently tracking no files but it is not supposed to AutoTrack
+¯ should not add a new GameController for the full path
+
+GamesTracker GameController shuts down, when a GameController signals shut down
+¯ should remove it from the GameControllers
+
+LiveTrackerSettingsViewModel Load, when x document handler returns existing and not existing path as hand history file paths
+¯ should add the existing path to the HandHistoryFilesPaths
+¯ should not add the not existing path to the HandHistoryFilesPaths
+¯ should store the HandHistoyFilesPaths in an OvservableCollection
+
+LiveTrackerSettingsViewModel LoadSettings, when the returned XDocument is null
+¯ should load the settings from the XDoxument Handler
+¯ should set AutoTrack to true
+¯ should set ShowLiveStatsWindowOnStartup to true
+¯ should set ShowTableOverlay to true
+¯ should set ShowMyStatistics to false
+¯ should set HoleCardsDuration to 5
+¯ should set HistoryPaths to empty
+¯ should store the HandHistoyFilesPaths in an OvservableCollection
+
+LiveTrackerSettingsViewModel LoadSettings, when all boolean properties were saved as true and ShowHoleCardsDuration Is 1
+¯ should load the settings from the XDoxument Handler
+¯ should set AutoTrack to true
+¯ should set ShowLiveStatsWindowOnStartup to true
+¯ should set ShowTableOverlay to true
+¯ should set ShowMyStatistics to true
+¯ should set HoleCardsDuration to 1
+
+LiveTrackerSettingsViewModel LoadSettings, when all boolean properties were saved as false and ShowHoleCardsDuration Is 2
+¯ should load the settings from the XDoxument Handler
+¯ should set AutoTrack to false
+¯ should set ShowLiveStatsWindowOnStartup to false
+¯ should set ShowTableOverlay to false
+¯ should set ShowMyStatistics to false
+¯ should set HoleCardsDuration to 2
+
+LiveTrackerSettingsViewModel Saving Settings, when the user executes SaveComand
+¯ should save the settings
+¯ the saved xDocument should contain the correct settings
+¯ should raise LiveTrackerSettings changed event
+¯ should pass itself as the payload of the LiveTrackerSettings changed event
+
+LiveTrackerSettingsViewModel Remove Hand History folder, when no hand history folder is selected
+¯ should not be possible to remove one
+
+LiveTrackerSettingsViewModel Remove Hand History folder, when a hand history folder is selected
+¯ should  be possible to remove it
+
+LiveTrackerSettingsViewModel Remove Hand History folder, when there are two folders in list and the second one is selected and the use executes remove command
+¯ should not remove the first path
+¯ should remove the second path
+¯ should set the selected hand history path to null
+
+LiveTrackerSettingsViewModel Add Hand History path, when the given path is null
+¯ should not be possible to add it
+
+LiveTrackerSettingsViewModel Add Hand History path, when the given path is not a valid path
+¯ should not be possible to add it
+
+LiveTrackerSettingsViewModel Add Hand History path, when the given path is a valid path
+¯ should be possible to add it
+
+LiveTrackerSettingsViewModel Add Hand History path, when the user executes the add folder command and the folder was not added yet
+¯ should add the path
+¯ should set the path to be added to null
+
+LiveTrackerSettingsViewModel Add Hand History path, when the user executes the add folder command and the folder was not added yet but the path has leading and trailing spaces
+¯ should add the path without the spaces
+¯ should set the path to be added to null
+
+LiveTrackerSettingsViewModel Add Hand History path, when the user executes the add folder command but the folder was before
+¯ should not add the path again
+¯ should inform the user that it existed already
+¯ should set the path to be added to null
+
+PokerTableStatisticsViewModel GetPlayerStatisticsViewModelFor, when only bob and ted where added
+¯ should return bobs viewmodel when passing bobs name
+¯ should return teds viewmodel when passing teds name
+¯ should return null when passing some other name
+
+PokerTableStatisticsViewModel UpdateWith, when its statistics were updated
+¯ should raise PlayersStatisticsWereUpdated event
+
+PokerTableStatisticsViewModel SelectedStatisticsSet, when the user selects a statistics set of a player
+¯ should initialize the detailed statistics analyzer with the statistics Set
+¯ should let me know
+
+PlayerStatusViewModel InitializeWith, when initialized with holeCards and harringtonM position
+¯ should initialize the harringtonM viewmodel with the harringtonM position
+¯ should initialize the holecards viewmodel with the holecards position
+
+PlayerStatusViewModel ShowHoleCardsFor, when told to show holecards for 2 seconds
+¯ should update the holecards viewmodel with the given holecards
+¯ should tell the holecards viewmodel to hide the holecards after 2 seconds
+
+OverlayHoleCardsViewModel HideHoleCardsAfter, when told to hide holecards after 2 seconds
+¯ shoud set timer interval to 2s
+¯ should start the timer
+
+OverlayHoleCardsViewModel HideHoleCardsAfter, when the timer ticks
+¯ should make the holecards invisible
+¯ should stop the timer
+
+OverlayHoleCardsViewModel HideHoleCardsAfter, when it is disposed
+¯ should stop the timer to prevent memory leaks
+
+PlayerOverlayViewModel InitializeWith, when initialized with settings and seat 1
+¯ should initialize the PlayerStatus viewmodel with the harringtonM and holecards positions of seat 1
+
+PlayerOverlayViewModel UpdateStatusWith, when updating status with null value
+¯ should set PlayerStatus IsPresent to false
+
+PlayerOverlayViewModel UpdateStatusWith, when updating with non null statistics and converted player
+¯ should set PlayerStatus IsPresent to true
+¯ should set PlayerStatus HarringtonM Value to MAfter of converted player
+¯ should set the PlayerName to the name of the converted player
+
+PlayerOverlayViewModel UpdateStatisticsWith, when player is present updating statistics with null value
+¯ should set IsPresentAndHasStatistics to false
+
+PlayerOverlayViewModel UpdateStatisticsWith, when updating with non null statistics
+¯ should assign the passed PlayerStatistics ViewModel
+¯ should set IsPresentAndHasStatistics to true
+
+PlayerOverlayViewModel UpdateStatisticsWith, when updating with non null statistics but player is not present
+¯ should assign the passed PlayerStatistics ViewModel
+¯ should set IsPresentAndHasStatistics to false
+
+PlayerOverlayViewModel ShowHoleCardsFor, when told to show his holecards for 2 seconds after updated with non null converted player with unknown cards
+¯ should not tell the PlayerStatus to show the holecards for 2 seconds
+
+PlayerOverlayViewModel ShowHoleCardsFor, when told to show his holecards for 2 seconds after updated with non null converted player with known cards
+¯ should tell the PlayerStatus to show the holecards for 2 seconds
+
+PlayerOverlayViewModel ShowHoleCardsFor, when told to show his holecards for 2 seconds after updated with null converted player
+¯ should not tell the PlayerStatus to show the holecards for 2 seconds
+
+GameHistoryViewModel AddNewHand, when the history was empty
+¯ should update the CurrentHandHistory viewmodel with the passed hand
+¯ should add the hand to the History
+¯ should set the currenthand index to 0
+
+GameHistoryViewModel AddNewHand, when the history already contained another hand
+¯ should update the CurrentHandHistory viewmodel with the passed hand
+¯ should add the hand to the History
+¯ should set the currenthand index to 1
+¯ should set the table name to the one returned by the new hand
+
+GameHistoryViewModel AddNewHand, when the history already contained the same hand
+¯ should not update the CurrentHandHistory viewmodel with the passed hand again
+¯ should not add the hand to the history again
+¯ should leave the currenthand index at 0
+
+GameHistoryViewModel AddNewHand,  when 3 hands were added before and the current hand index is 1 because the user is browsing
+¯ should not update the CurrentHandHistory viewmodel with the passed hand
+¯ should add the hand to the History
+¯ should leave the currenthand index at 1
+
+GameHistoryViewModel CurrentHandIndex, when 3 hands where added and the current handindex is set to 1
+¯ should update the CurrentHandHistory with the hand at index 1
+
+GameHistoryViewModel CurrentHandIndex, when no hands were added and I try to set the CurrentHandIndex to 0
+¯ should not update the CurrentHandHistory
+
+TableOverlayViewModel InitializedWith, when initialized with overlay settings for 6 total seats
+¯ should create 6 Player Overlays
+
+TableOverlayViewModel InitializeWith, when initialized with 2 players
+¯ should initialize player0 Overlay with the overlay settings and Seat 0
+¯ should initialize player1 Overlay with the overlay settings and Seat 1
+¯ should initialize the overlay setiings aid with the overlay settings
+
+TableOverlayViewModel UpdateWith, no preferred Seat, when 0 players are passed
+¯ should throw an ArgumentException
+
+TableOverlayViewModel UpdateWith, no preferred Seat, when ted in seat 1 is passed
+¯ should update playeroverlay 0 with teds converted Player
+¯ should update playeroverlay 1 status with null
+
+TableOverlayViewModel UpdateWith, preferred Seat, when ted in seat 1 is passed and the seatMapper maps his seat to seat 2
+¯ should update playeroverlay 1 status with teds converted Player
+
+TableOverlayViewModel PlayerStatisticsWereUpdated, when updated with ted in seat 1 and the player statistics were updated and his statistics are available
+¯ should update playeroverlay 0 with teds statisticsVM as returned from the tablestatisticsVM for his Name
+¯ should update playeroverlay 1 statistics with null
+
+TableOverlayViewModel PlayerStatisticsWereUpdated, when updated with ted in seat 1 is passed and his statistics are not available
+¯ should update playeroverlay 0 statistics with null
+
+TableOverlayViewModel UpdateWith, when ted in seat 1 showed his cards and the board is non empty
+¯ should tell the BoardViewModel to show the board for some time
+¯ should tell teds PlayerOverlayVM to show his holecards
+
+TableOverlayViewModel UpdateWith, when ted in seat 1 and bob in seat 2 showed his cards and the board is non empty and ted is the hero
+¯ should tell the BoardViewModel to show the board for some time
+¯ should not tell teds PlayerOverlayVM to show his holecards
+¯ should tell bobs PlayerOverlayVM to show his holecards
+
+TableOverlayViewModel UpdateWith, when ted in seat 1 cards and the board is non empty but ted is the hero
+¯ should not tell the BoardViewModel to show the board for some time
+¯ should not tell teds PlayerOverlayVM to show his holecards
+¯ should not tell bobs PlayerOverlayVM to show his holecards
+
+TableOverlayViewModel UpdateWith, when ted in seat 1 showed his cards but the board is empty
+¯ should not tell the BoardViewModel to show the board for some time
+¯ should not tell teds PlayerOverlayVM to show his holecards
+
+TableOverlayViewModel UpdateWith, when the board is non empty but no player showed his cards
+¯ should not tell the BoardViewModel to show the board for some time
+¯ should not tell teds PlayerOverlayVM to show his holecards
+
+TableOverlayViewModel PreferredSeat, when preferred seat changed and ted is in seat 1 and the seatMapper maps his seat to seat 2
+¯ should update playeroverlay 1 status with teds converted Player
+¯ should update statistics
+
+TableOverlayViewModel ShowLiveStatsWindow Command, when user executes show live stats window command
+¯ should let me know
+
+TableOverlayViewModel ShowGameHistoryWindow Command, when user executes show game history window command
+¯ should let me know
+
+TableOverlayViewModel HideOVerlayDetailsCommand, when the user hides the overlay details while they are shown
+¯ should hide the overlay details
+
+TableOverlayViewModel User selected statistics set, when the pokertable statistics viewmodel says that the user selected a statistics set
+¯ should show the overlay details
+
+TableOverlaySettingsViewModel PreferredSeatChanged, when Preferred Seat is set
+¯ should raise preferred seat changed
+
+OverlaySettingsAidViewModel InitializeWith, when initialized with overlay settings with 6 total seats
+¯ should update the board to show a royal flush
+¯ should create 6 holecards viewmodels
+¯ should initialize the holecards viewmodels for each seat with holecards positions in the settings
+¯ should update the holecards viewmodels for each seat with some holecards
+
+OverlayBoardViewModel HideBoardAfter, when told to hide board after 2 seconds
+¯ shoud set timer interval to 2s
+¯ should start the timer
+
+OverlayBoardViewModel HideBoardAfter, when the timer ticks
+¯ should make the boardviewodel invisible
+¯ should stop the timer
+
+OverlayBoardViewModel IDisposable, when it is disposed
+¯ should stop the timer to prevent memory leaks
+
+Contexts: 231, Specifications: 579
+NUnit version 2.5.2.9222
+Copyright (C) 2002-2009 Charlie Poole.
+Copyright (C) 2002-2004 James W. Newkirk, Michael C. Two, Alexei A. Vorontsov.
+Copyright (C) 2000-2002 Philip Craig.
+All Rights Reserved.
+
+Runtime Environment - 
+   OS Version: Microsoft Windows NT 5.1.2600 Service Pack 3
+  CLR Version: 2.0.50727.4005 ( Net 2.0.50727.4005 )
+
+ProcessModel: Default    DomainUsage: Multiple
+Execution Runtime: net-2.0.50727.4005
+..............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................F.F.F.F.F.F.F.........................................................................................................................................................................................................................................................................................................................................................................................................................................................................
+Tests run: 1261, Errors: 7, Failures: 0, Inconclusive: 0, Time: 2.9375 seconds
+  Not run: 0, Invalid: 0, Ignored: 0, Skipped: 0
+
+Errors and Failures:
+1) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_InvalidHeader_IsValidIsFalse
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_InvalidHeader_IsValidIsFalse() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 24
+
+2) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_LimitGameHeader_ExtractsLimit
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_LimitGameHeader_ExtractsLimit() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 42
+
+3) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_LimitGameHeader_IsValidIsTrue
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_LimitGameHeader_IsValidIsTrue() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 33
+
+4) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_NoLimitGameHeader_ExtractsNoLimit
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_NoLimitGameHeader_ExtractsNoLimit() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 78
+
+5) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_NoLimitGameHeader_IsValidIsTrue
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_NoLimitGameHeader_IsValidIsTrue() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 69
+
+6) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_PotLimitGameHeader_ExtractsPotLimit
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_PotLimitGameHeader_ExtractsPotLimit() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 60
+
+7) Test Error : PokerTell.PokerHandParsers.Tests.PokerStars.GameTypeParserTests.Parsing_PotLimitGameHeader_IsValidIsTrue
+   System.NotImplementedException : The method or operation is not implemented.
+   at PokerTell.PokerHandParsers.PokerStars.GameTypeParser.get_GameTypePattern() in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\PokerStars\GameTypeParser.cs:line 9
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.MatchGameType(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 40
+   at PokerTell.PokerHandParsers.Base.GameTypeParser.Parse(String handHistory) in C:\SD\PokerTell\Src\PokerTell.PokerHandParsers\Base\GameTypeParser.cs:line 19
+   at PokerTell.PokerHandParsers.Tests.Base.GameTypeParserTests.Parsing_PotLimitGameHeader_IsValidIsTrue() in C:\SD\PokerTell\Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\Base\GameTypeParserTests.cs:line 51
+
+

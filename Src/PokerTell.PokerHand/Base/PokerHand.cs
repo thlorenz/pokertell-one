@@ -4,6 +4,8 @@ namespace PokerTell.PokerHand
     using System.Collections.Generic;
     using System.Reflection;
 
+    using Infrastructure.Enumerations.PokerHand;
+
     using log4net;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -134,6 +136,14 @@ namespace PokerTell.PokerHand
         {
             get { return _gameId; }
             protected set { _gameId = value; }
+        }
+
+        GameTypes _gameType;
+
+        public GameTypes GameType
+        {
+            get { return _gameType; }
+            set { _gameType = value; }
         }
 
         /// <summary>

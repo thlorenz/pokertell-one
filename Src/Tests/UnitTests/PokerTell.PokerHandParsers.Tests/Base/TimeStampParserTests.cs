@@ -1,12 +1,10 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
     using System;
 
-    using Base;
-
     using NUnit.Framework;
 
-    using UnitTests.Tools;
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class TimeStampParserTests
     {

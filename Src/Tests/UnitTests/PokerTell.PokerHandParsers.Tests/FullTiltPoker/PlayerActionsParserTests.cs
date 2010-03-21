@@ -7,7 +7,7 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
     using PokerTell.PokerHand.Aquisition;
     using PokerTell.PokerHandParsers.Base;
 
-    public class PlayerActionsParserTests : Tests.PlayerActionsParserTests
+    public class PlayerActionsParserTests : Base.PlayerActionsParserTests
     {
         #region Methods
 

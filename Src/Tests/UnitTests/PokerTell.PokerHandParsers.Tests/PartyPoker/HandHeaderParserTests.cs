@@ -1,10 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.PartyPoker
 {
-    using System;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Base;
-
-    public class HandHeaderParserTests : Tests.HandHeaderParserTests
+    public class HandHeaderParserTests : Base.HandHeaderParserTests
     {
         protected override string SiteName
         {
@@ -32,7 +30,7 @@ namespace PokerTell.PokerHandParsers.Tests.PartyPoker
 
         protected override string PotLimitHoldemCashGameHeader(ulong gameId)
         {
-          // ***** Hand History for Game 8386494168 ***** // $200 USD PL Texas Hold'em 
+            // ***** Hand History for Game 8386494168 ***** // $200 USD PL Texas Hold'em 
             return string.Format("***** Hand History for Game {0} ***** \n$200 USD PL Texas Hold'em", gameId);
         }
 
@@ -53,7 +51,7 @@ namespace PokerTell.PokerHandParsers.Tests.PartyPoker
 
         protected override string PotLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId)
         {
-           // ***** Hand History for Game 7730261003 ***** // PL Texas Hold'em  Trny: 43983063 
+            // ***** Hand History for Game 7730261003 ***** // PL Texas Hold'em  Trny: 43983063 
             return string.Format(
                 "***** Hand History for Game {0} ***** \nPL Texas Hold'em  Trny: {1}", gameId, tournamentId);
         }

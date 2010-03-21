@@ -1,17 +1,14 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
     using System.Linq;
 
-    using Base;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-
     using NUnit.Framework;
 
-    using PokerHand.Aquisition;
-
-    using UnitTests.Tools;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHand.Aquisition;
+    using PokerTell.PokerHandParsers.Base;
+    using PokerTell.UnitTests.Tools;
 
     public abstract class PlayerActionsParserTests
     {
@@ -42,15 +39,15 @@ namespace PokerTell.PokerHandParsers.Tests
         [Test]
         [Sequential]
         public void Parse_PlayerHasOneBetOrCallAction_AddsActionWithRatioToPlayerActions(
-            [Values( ActionTypes.B, ActionTypes.C)] ActionTypes actionType)
+            [Values(ActionTypes.B, ActionTypes.C)] ActionTypes actionType)
         {
             const double someRatio = 1.0;
             var aquiredPokerAction = new AquiredPokerAction(actionType, someRatio);
-           
+
             string streetHistory = OneBetOrCallActionFor(PlayerName, aquiredPokerAction);
-            
+
             _parser.Parse(streetHistory, PlayerName);
-           
+
             Affirm.That(_parser.PlayerActions.First()).IsEqualTo(aquiredPokerAction);
         }
 
@@ -62,11 +59,11 @@ namespace PokerTell.PokerHandParsers.Tests
             const double someRatio = 1.0;
             const ActionTypes actionType = ActionTypes.P;
             var aquiredPokerAction = new AquiredPokerAction(actionType, someRatio);
-            
+
             string streetHistory = PostingActionFor(PlayerName, postingType, someRatio);
 
             _parser.Parse(streetHistory, PlayerName);
-           
+
             Affirm.That(_parser.PlayerActions.First()).IsEqualTo(aquiredPokerAction);
         }
 
@@ -76,11 +73,11 @@ namespace PokerTell.PokerHandParsers.Tests
             [Values(ActionTypes.F, ActionTypes.X)] ActionTypes actionType)
         {
             var aquiredPokerAction = new AquiredPokerAction(actionType, 0);
-           
+
             string streetHistory = OneNonRatioActionFor(PlayerName, aquiredPokerAction);
 
             _parser.Parse(streetHistory, PlayerName);
-           
+
             Affirm.That(_parser.PlayerActions.First().What).IsEqualTo(aquiredPokerAction.What);
         }
 
@@ -127,12 +124,12 @@ namespace PokerTell.PokerHandParsers.Tests
         [Test]
         public void Parse_PlayerSomeActionAndUncalledBetAction_AddsUncalledBetActionAsLastToPlayerActions()
         {
-            const double  ratio = 1.0;
+            const double ratio = 1.0;
             var someAction = new AquiredPokerAction(ActionTypes.B, 1.0);
             var uncalledBetAction = new AquiredPokerAction(ActionTypes.U, ratio);
 
-            string streetHistory = OneBetOrCallActionFor(PlayerName, someAction) + " \n" + 
-                UncalledBetActionFor(PlayerName, ratio);
+            string streetHistory = OneBetOrCallActionFor(PlayerName, someAction) + " \n" +
+                                   UncalledBetActionFor(PlayerName, ratio);
 
             _parser.Parse(streetHistory, PlayerName);
 
@@ -147,7 +144,7 @@ namespace PokerTell.PokerHandParsers.Tests
 
             string streetHistory = UncalledBetActionFor(PlayerName, ratio) + " \n" +
                                    AllinBetActionFor(PlayerName, ratio);
-                
+
             _parser.Parse(streetHistory, PlayerName);
 
             Affirm.That(_parser.PlayerActions.Last()).IsEqualTo(allinAction);
@@ -168,19 +165,25 @@ namespace PokerTell.PokerHandParsers.Tests
         }
 
         protected abstract PlayerActionsParser GetPlayerActionsParser();
+
         protected abstract string OneRaiseActionFor(string playerName, IAquiredPokerAction action);
+
         protected abstract string OneBetOrCallActionFor(string playerName, IAquiredPokerAction action);
+
         protected abstract string PostingActionFor(string playerName, PostingTypes postingType, double ratio);
+
         protected abstract string OneNonRatioActionFor(string playerName, IAquiredPokerAction action);
 
         protected abstract string UncalledBetActionFor(string playerName, double ratio);
+
         protected abstract string AllinBetActionFor(string playerName, double ratio);
+
         protected abstract string WinningActionFor(string playerName, double ratio);
 
         public enum PostingTypes
         {
-            Ante,
-            BigBlind,
+            Ante, 
+            BigBlind, 
             SmallBlind
         }
     }

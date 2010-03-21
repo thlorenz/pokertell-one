@@ -3,6 +3,8 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
     using System;
     using System.Collections.Generic;
 
+    using Enumerations.PokerHand;
+
     public interface IPokerHand : IComparable
     {
         /// <summary>
@@ -73,5 +75,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         ulong TournamentId { get; set; }
 
         string HeroName { get; set; }
+
+        GameTypes GameType { get; set; }
     }
 }

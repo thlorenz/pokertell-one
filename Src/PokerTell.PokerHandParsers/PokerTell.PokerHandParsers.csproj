@@ -57,7 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\GameTypeParser.cs" />
     <Compile Include="Base\HeroNameParser.cs" />
+    <Compile Include="FullTiltPoker\GameTypeParser.cs" />
     <Compile Include="FullTiltPoker\HeroNameParser.cs" />
     <Compile Include="PokerHandParsers.cs" />
     <Compile Include="Base\BlindsParser.cs" />
@@ -88,6 +90,7 @@
     <Compile Include="PokerStars\BlindsParser.cs" />
     <Compile Include="PokerStars\AnteParser.cs" />
     <Compile Include="PokerStars\BoardParser.cs" />
+    <Compile Include="PokerStars\GameTypeParser.cs" />
     <Compile Include="PokerStars\HandHeaderParser.cs" />
     <Compile Include="PokerStars\HeroNameParser.cs" />
     <Compile Include="PokerStars\HoleCardsParser.cs" />

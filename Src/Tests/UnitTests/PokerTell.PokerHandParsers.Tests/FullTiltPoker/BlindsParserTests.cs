@@ -1,13 +1,13 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class BlindsParserTests : Tests.BlindsParserTests
+    public class BlindsParserTests : Base.BlindsParserTests
     {
         protected override string TournamentGameWithValidBlinds(double smallBlind, double bigBlind)
         {
             // Table 5 - 250/500 
-            return string.Format("Table 5 - {0}/{1} ", smallBlind, bigBlind);  
+            return string.Format("Table 5 - {0}/{1} ", smallBlind, bigBlind);
         }
 
         protected override BlindsParser GetBlindsParser()

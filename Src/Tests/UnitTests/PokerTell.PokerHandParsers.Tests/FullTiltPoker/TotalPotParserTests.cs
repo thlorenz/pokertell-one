@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class TotalPotParserTests : Tests.TotalPotParserTests
+    public class TotalPotParserTests : Base.TotalPotParserTests
     {
         protected override TotalPotParser GetTotalPotParser()
         {

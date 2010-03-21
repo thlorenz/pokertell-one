@@ -1,20 +1,14 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class SmallBlindPlayerNameParserTests
     {
-        #region Constants and Fields
-
         const string SmallBlindPlayerName = "smallBlindHolder";
 
         SmallBlindPlayerNameParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -52,14 +46,8 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.SmallBlindPlayerName, Is.EqualTo(SmallBlindPlayerName));
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract SmallBlindPlayerNameParser GetSmallBlindPostionParser();
 
         protected abstract string ValidSmallBlindSeatNumber(string name);
-
-        #endregion
     }
 }

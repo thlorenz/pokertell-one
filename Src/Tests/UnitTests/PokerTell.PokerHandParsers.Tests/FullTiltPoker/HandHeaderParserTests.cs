@@ -1,23 +1,14 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using System;
+    using PokerTell.Infrastructure;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Base;
-
-    using Infrastructure;
-
-    public class HandHeaderParserTests : Tests.HandHeaderParserTests
+    public class HandHeaderParserTests : Base.HandHeaderParserTests
     {
-        #region Properties
-
         protected override string SiteName
         {
             get { return PokerSites.FullTiltPoker; }
         }
-
-        #endregion
-
-        #region Methods
 
         protected override HandHeaderParser GetHandHeaderParser()
         {
@@ -58,11 +49,9 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
         protected override string PotLimitHoldemTournamentGameHeader(ulong gameId, ulong tournamentId)
         {
-           // Full Tilt Poker Game #15194118553: $2 + $0.25 Sit & Go (111415980), Table 2 - 100/200 - Pot Limit Hold'em 
+            // Full Tilt Poker Game #15194118553: $2 + $0.25 Sit & Go (111415980), Table 2 - 100/200 - Pot Limit Hold'em 
             return string.Format(
                 "Full Tilt Poker Game #{0}: $2 + $0.25 Sit & Go ({1}), Table 2 - 100/200 - Pot Limit Hold'em ", gameId, tournamentId);
         }
-
-        #endregion
     }
 }

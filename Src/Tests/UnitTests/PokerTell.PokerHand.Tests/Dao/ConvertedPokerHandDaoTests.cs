@@ -3,30 +3,24 @@ namespace PokerTell.PokerHand.Tests.Dao
     using System;
     using System.Linq;
 
-    using Base;
-
-    using Fakes;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-
     using Moq;
 
     using NHibernate.Tool.hbm2ddl;
 
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Dao;
-
-    using UnitTests.Tools;
+    using PokerTell.PokerHand.Tests.Base;
+    using PokerTell.PokerHand.Tests.Fakes;
+    using PokerTell.UnitTests.Tools;
 
     [TestFixture]
     public class ConvertedPokerHandDaoTests : InMemoryDatabaseTest
     {
-        #region Constants and Fields
-
         const double BB = 20.0;
 
         const ulong GameId = 1;
@@ -45,18 +39,10 @@ namespace PokerTell.PokerHand.Tests.Dao
 
         Mock<IPlayerIdentityDao> _playerIdentityDaoStub;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public ConvertedPokerHandDaoTests()
             : base(typeof(ConvertedPokerHand).Assembly)
         {
         }
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -103,9 +89,9 @@ namespace PokerTell.PokerHand.Tests.Dao
             _hand
                 .AddPlayer(player1)
                 .AddPlayer(player2);
-                
+
             _sut.Insert(_hand);
-            
+
             FlushAndClearSession();
 
             _hand.Id.ShouldNotBeEqualTo(UnsavedValue);
@@ -117,8 +103,8 @@ namespace PokerTell.PokerHand.Tests.Dao
             var player1 = new ConvertedPokerPlayer { Name = "player1" };
             var player2 = new ConvertedPokerPlayer { Name = "player2" };
             _playerIdentityDaoStub
-               .Setup(pd => pd.FindOrInsert(player1.Name, Site))
-               .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
+                .Setup(pd => pd.FindOrInsert(player1.Name, Site))
+                .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
             _playerIdentityDaoStub
                 .Setup(pd => pd.FindOrInsert(player2.Name, Site))
                 .Returns(new PlayerIdentityStub(player2.Name, Site, 2));
@@ -143,8 +129,8 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             var playerIdentityDaoMock = _playerIdentityDaoStub;
             playerIdentityDaoMock
-               .Setup(pd => pd.FindOrInsert(player1.Name, Site))
-               .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
+                .Setup(pd => pd.FindOrInsert(player1.Name, Site))
+                .Returns(new PlayerIdentityStub(player1.Name, Site, 1));
             playerIdentityDaoMock
                 .Setup(pd => pd.FindOrInsert(player2.Name, Site))
                 .Returns(new PlayerIdentityStub(player2.Name, Site, 2));
@@ -191,9 +177,9 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             _session.Save(_hand);
             FlushAndClearSession();
-            
+
             var retrievedHand = _sut.GetHandWith(GameId, Site);
-           
+
             retrievedHand.ShouldBeEqualTo(_hand);
         }
 
@@ -224,7 +210,7 @@ namespace PokerTell.PokerHand.Tests.Dao
             _hand.PlayersInRound[(int)Streets.Flop] = 3;
             _hand.PlayersInRound[(int)Streets.Turn] = 2;
             _hand.PlayersInRound[(int)Streets.River] = 1;
-            
+
             _session.Save(_hand);
             FlushAndClearSession();
 
@@ -244,7 +230,7 @@ namespace PokerTell.PokerHand.Tests.Dao
             FlushAndClearSession();
 
             IConvertedPokerHand retrievedHand = _sut.Get(_hand.Id);
-           
+
             retrievedHand.Players.ShouldBeEqualTo(_hand.Players);
         }
 
@@ -290,7 +276,7 @@ namespace PokerTell.PokerHand.Tests.Dao
         {
             IConvertedPokerPlayer player = new ConvertedPokerPlayer
                 {
-                    Name = name,
+                    Name = name, 
                     PlayerIdentity = new PlayerIdentity(name, Site)
                 };
 
@@ -298,7 +284,5 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             return player;
         }
-
-        #endregion
     }
 }

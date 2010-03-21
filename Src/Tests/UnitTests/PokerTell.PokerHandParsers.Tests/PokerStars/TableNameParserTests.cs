@@ -1,10 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
-    using System;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Base;
-
-    public class TableNameParserTests : Tests.TableNameParserTests
+    public class TableNameParserTests : Base.TableNameParserTests
     {
         protected override string ValidTableName(string tableName)
         {

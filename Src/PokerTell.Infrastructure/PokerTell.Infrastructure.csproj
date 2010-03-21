@@ -99,6 +99,7 @@
     <Compile Include="Enumerations\DatabaseSetup\PlayerTable.cs" />
     <Compile Include="Enumerations\DatabaseSetup\Tables.cs" />
     <Compile Include="Enumerations\PokerHand\ActionSequences.cs" />
+    <Compile Include="Enumerations\PokerHand\GameTypes.cs" />
     <Compile Include="Events\AdjustAnalyzablePokerPlayersFilterEvent.cs" />
     <Compile Include="Events\DatabaseInUseChangedEvent.cs" />
     <Compile Include="Events\NewHandEvent.cs" />

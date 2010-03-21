@@ -1,10 +1,8 @@
-using System;
-
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class BoardParserTests : Tests.BoardParserTests
+    public class BoardParserTests : Base.BoardParserTests
     {
         protected override string ValidBoard(string board)
         {

@@ -1,20 +1,14 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class BoardParserTests
     {
-        #region Constants and Fields
-
         const string Board = "As Kh 9d";
 
         BoardParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -52,14 +46,8 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.Board, Is.EqualTo(Board));
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract string ValidBoard(string board);
 
         protected abstract BoardParser GetBoardParser();
-
-        #endregion
     }
 }

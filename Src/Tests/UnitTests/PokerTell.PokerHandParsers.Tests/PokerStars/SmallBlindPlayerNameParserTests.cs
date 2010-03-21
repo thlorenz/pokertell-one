@@ -1,10 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
-    using System;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Base;
-
-    public class SmallBlindPlayerNameParserTests : Tests.SmallBlindPlayerNameParserTests
+    public class SmallBlindPlayerNameParserTests : Base.SmallBlindPlayerNameParserTests
     {
         protected override SmallBlindPlayerNameParser GetSmallBlindPostionParser()
         {

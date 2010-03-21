@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.PartyPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class AnteParserTests : Tests.AnteParserTests
+    public class AnteParserTests : Base.AnteParserTests
     {
         protected override AnteParser GetAnteParser()
         {

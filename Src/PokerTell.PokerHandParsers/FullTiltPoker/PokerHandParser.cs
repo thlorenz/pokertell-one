@@ -31,6 +31,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             TimeStampParser = new TimeStampParser();
             TotalPotParser = new TotalPotParser();
             TotalSeatsParser = new TotalSeatsParser();
+            GameTypeParser = new GameTypeParser();
         }
     }
 }

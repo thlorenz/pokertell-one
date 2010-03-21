@@ -2,9 +2,9 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
     using System;
 
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class TimeStampParserTests : Tests.TimeStampParserTests
+    public class TimeStampParserTests : Base.TimeStampParserTests
     {
         protected override TimeStampParser GetTimeStampParser()
         {

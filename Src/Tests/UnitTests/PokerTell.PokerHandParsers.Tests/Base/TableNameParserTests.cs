@@ -1,8 +1,8 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class TableNameParserTests
     {

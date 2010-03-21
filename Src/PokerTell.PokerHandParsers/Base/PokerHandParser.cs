@@ -45,6 +45,8 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected TotalSeatsParser TotalSeatsParser;
 
+        protected GameTypeParser GameTypeParser;
+
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -317,6 +319,7 @@ namespace PokerTell.PokerHandParsers.Base
             ParseTableName();
             ParseTotalPot();
             ParseTotalSeats();
+            ParseGameType();
         }
 
         void ParsePlayers(string smallBlindPlayerName)
@@ -408,10 +411,23 @@ namespace PokerTell.PokerHandParsers.Base
             }
             else
             {
-                LogParsingError("TotalSeatsParser Parser failed to find total seats -> setting to 9");
+                LogParsingError("TotalSeatsParser failed to find total seats -> setting to 9");
                 AquiredPokerHand.TotalSeats = 9;
             }
         }
+
+        void ParseGameType()
+        {
+            if (GameTypeParser.Parse(_handHistory).IsValid)
+            {
+                AquiredPokerHand.GameType = GameTypeParser.GameType;
+            }
+            else
+            {
+                LogParsingError("GameTypeParser failed to find game type, leaving it as defualt.");
+            }
+        }
+
 
         void ParseTurnAndRiver(IAquiredPokerPlayer aquiredPlayer)
         {

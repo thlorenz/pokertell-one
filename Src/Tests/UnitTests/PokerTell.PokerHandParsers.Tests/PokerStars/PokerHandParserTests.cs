@@ -1,5 +1,6 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
+    using System;
     using System.IO;
 
     using Microsoft.Practices.Unity;
@@ -39,6 +40,7 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
             string handHistory = new StreamReader(File.OpenRead(FileName)).ReadToEnd();
             _parser.LogVerbose = true;
             _parser.ParseHand(handHistory);
+            // Console.WriteLine(_parser.AquiredPokerHand);
         }
     }
 }

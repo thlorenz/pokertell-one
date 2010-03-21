@@ -1,10 +1,10 @@
-using System;
-
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using System;
 
-    public class TimeStampParserTests : Tests.TimeStampParserTests
+    using PokerTell.PokerHandParsers.Base;
+
+    public class TimeStampParserTests : Base.TimeStampParserTests
     {
         protected override TimeStampParser GetTimeStampParser()
         {

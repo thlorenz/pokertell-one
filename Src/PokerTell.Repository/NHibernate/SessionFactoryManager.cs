@@ -11,7 +11,7 @@ namespace PokerTell.Repository.NHibernate
     using Microsoft.Practices.Composite.Events;
 
     /// <summary>
-    /// Singleton class responsible for manageing the NHibernate SessionFActory
+    /// Singleton class responsible for manageing the NHibernate SessionFactory
     /// </summary>
     public class SessionFactoryManager : ISessionFactoryManager
     {

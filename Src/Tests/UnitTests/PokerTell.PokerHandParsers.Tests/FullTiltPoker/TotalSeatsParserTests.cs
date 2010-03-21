@@ -1,19 +1,13 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class TotalSeatsParserTests : Tests.TotalSeatsParserTests
+    public class TotalSeatsParserTests : Base.TotalSeatsParserTests
     {
-        #region Public Methods
-
-       public override void Parse_HandHistoryWithoutValidTotalSeats_IsValidIsFalse()
+        public override void Parse_HandHistoryWithoutValidTotalSeats_IsValidIsFalse()
         {
             // String without a seat indication for FullTilt means 9-players
         }
-
-        #endregion
-
-        #region Methods
 
         protected override TotalSeatsParser GetTotalSeatsParser()
         {
@@ -29,6 +23,7 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
                 case 9:
                     return NinePlayers();
                 default:
+
                     // Table Mascot (6 max) 
                     return string.Format("Table Mascot ({0} max) ", totalSeats);
             }
@@ -44,7 +39,5 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
         {
             return "Table Flash";
         }
-
-        #endregion
     }
 }

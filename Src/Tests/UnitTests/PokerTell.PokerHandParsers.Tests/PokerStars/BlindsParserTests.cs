@@ -1,15 +1,13 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
-    using System;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Base;
-
-    public class BlindsParserTests : PokerTell.PokerHandParsers.Tests.BlindsParserTests
+    public class BlindsParserTests : Base.BlindsParserTests
     {
         protected override string TournamentGameWithValidBlinds(double smallBlind, double bigBlind)
         {
             // Level XV (1000/2000)
-            return string.Format("Level XV ({0}/{1})", smallBlind, bigBlind);  
+            return string.Format("Level XV ({0}/{1})", smallBlind, bigBlind);
         }
 
         protected override BlindsParser GetBlindsParser()

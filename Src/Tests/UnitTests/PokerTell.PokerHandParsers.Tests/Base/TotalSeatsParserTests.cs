@@ -1,18 +1,12 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class TotalSeatsParserTests
     {
-        #region Constants and Fields
-
         TotalSeatsParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -54,14 +48,8 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.TotalSeats, Is.EqualTo(numberOfTotalSeats));
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract TotalSeatsParser GetTotalSeatsParser();
 
         protected abstract string ValidTotalSeats(int position);
-
-        #endregion
     }
 }

@@ -1,10 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
-    using System;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Base;
-
-    public class TotalPotParserTests : Tests.TotalPotParserTests
+    public class TotalPotParserTests : Base.TotalPotParserTests
     {
         protected override TotalPotParser GetTotalPotParser()
         {

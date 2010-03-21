@@ -4,7 +4,7 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 
     using PokerTell.PokerHandParsers.Base;
 
-    public class HandHeaderParserTests : Tests.HandHeaderParserTests
+    public class HandHeaderParserTests : Base.HandHeaderParserTests
     {
         protected override string SiteName
         {

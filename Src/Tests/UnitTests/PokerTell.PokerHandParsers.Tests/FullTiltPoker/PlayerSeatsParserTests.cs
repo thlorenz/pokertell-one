@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class PlayerSeatsParserTests : Tests.PlayerSeatsParserTests
+    public class PlayerSeatsParserTests : Base.PlayerSeatsParserTests
     {
         protected override PlayerSeatsParser GetPlayerSeatsParser()
         {
@@ -21,7 +21,8 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
             return OneSeatWithPlayer(seatNumber, playerData) + ", is sitting out";
         }
 
-        protected override string TwoSeatsWithPlayers(int seatNumber1, PlayerSeatsParser.PlayerData playerData1, int seatNumber2, PlayerSeatsParser.PlayerData playerData2)
+        protected override string TwoSeatsWithPlayers(
+            int seatNumber1, PlayerSeatsParser.PlayerData playerData1, int seatNumber2, PlayerSeatsParser.PlayerData playerData2)
         {
             return OneSeatWithPlayer(seatNumber1, playerData1) + "\n" + OneSeatWithPlayer(seatNumber2, playerData2);
         }

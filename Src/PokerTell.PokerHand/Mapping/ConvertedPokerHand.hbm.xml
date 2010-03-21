@@ -19,6 +19,9 @@
     <property name="Site" length="20" not-null="true" index="ConvertedPokerHand_Site">
       <column name="Site" sql-type="varchar(20)" />
     </property>
+    <property name="GameType" index="ConvertedPokerHand_GameType">
+      <column name="GameType" sql-type="tinyint(2)" />
+    </property>
     <property name="TournamentId" index="ConvertedPokerHand_TournamentId"/>
     <property name="GameId" index="ConvertedPokerHand_GameId" >
       <column name="GameId" sql-type="bigint(20)" not-null="true" /> <!-- Need to be explicit(sql-type) for SQLite -->

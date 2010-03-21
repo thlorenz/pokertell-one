@@ -2,14 +2,12 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 {
     using System;
 
-    using Base;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Services;
+    using PokerTell.PokerHand.Aquisition;
+    using PokerTell.PokerHandParsers.Base;
 
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Services;
-
-    using PokerHand.Aquisition;
-
-    public class PlayerActionsParserTests : Tests.PlayerActionsParserTests
+    public class PlayerActionsParserTests : Base.PlayerActionsParserTests
     {
         protected override PlayerActionsParser GetPlayerActionsParser()
         {
@@ -19,8 +17,8 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
 
         protected override string OneRaiseActionFor(string playerName, IAquiredPokerAction action)
         {
-           // barbadardo: raises $0.50 to $0.75
-           return string.Format("{0}: {1} $0.50 to ${2}", playerName, _parser.ActionStrings[action.What], action.Ratio);
+            // barbadardo: raises $0.50 to $0.75
+            return string.Format("{0}: {1} $0.50 to ${2}", playerName, _parser.ActionStrings[action.What], action.Ratio);
         }
 
         protected override string OneBetOrCallActionFor(string playerName, IAquiredPokerAction action)
@@ -34,12 +32,12 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
             if (postingType == PostingTypes.Ante)
             {
                 // monzaaa: posts the ante 25
-                return string.Format("{0}: posts the ante {1}",playerName ,ratio);
+                return string.Format("{0}: posts the ante {1}", playerName, ratio);
             }
 
             if (postingType == PostingTypes.SmallBlind)
             {
-               // Gryko13: posts small blind $0.10
+                // Gryko13: posts small blind $0.10
                 return string.Format("{0}: posts small blind ${1}", playerName, ratio);
             }
 
@@ -48,7 +46,7 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
                 // evgueni88: posts big blind $0.25
                 return string.Format("{0}: posts big blind ${1}", playerName, ratio);
             }
-            
+
             throw new ArgumentException(postingType.ToString());
         }
 

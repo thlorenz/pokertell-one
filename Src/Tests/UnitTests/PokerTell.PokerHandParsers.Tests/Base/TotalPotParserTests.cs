@@ -1,20 +1,14 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class TotalPotParserTests
     {
-        #region Constants and Fields
-
         const double TotalPot = 1.0;
 
         TotalPotParser _parser;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -60,16 +54,10 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.TotalPot, Is.EqualTo(TotalPot));
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract TotalPotParser GetTotalPotParser();
 
         protected abstract string ValidCashGameTotalPot(double totalPot);
 
         protected abstract string ValidTournamentTotalPot(double totalPot);
-
-        #endregion
     }
 }

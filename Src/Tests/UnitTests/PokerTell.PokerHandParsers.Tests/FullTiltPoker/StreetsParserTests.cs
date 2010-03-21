@@ -1,10 +1,8 @@
-using System;
-
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class StreetsParserTests : Tests.StreetsParserTests
+    public class StreetsParserTests : Base.StreetsParserTests
     {
         #region Methods
 

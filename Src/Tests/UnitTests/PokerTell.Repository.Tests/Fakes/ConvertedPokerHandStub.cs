@@ -3,18 +3,15 @@ namespace PokerTell.Repository.Tests.Fakes
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
 
-    using Iesi.Collections.Generic;
+    using Infrastructure.Enumerations.PokerHand;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     public class ConvertedPokerHandStub : IConvertedPokerHand
     {
-        #region Properties
-
         /// <summary>
         /// Array containing the names of all players present at the table
         /// </summary>
@@ -117,11 +114,8 @@ namespace PokerTell.Repository.Tests.Fakes
         public ulong TournamentId { get; set; }
 
         public string HeroName { get; set; }
-        
 
-        #endregion
-
-        #region Indexers
+        public GameTypes GameType { get; set; }
 
         /// <summary>
         /// List of all Poker Players in the hand
@@ -131,21 +125,11 @@ namespace PokerTell.Repository.Tests.Fakes
             get { return Players.ElementAt(index); }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComparable
-
         public int CompareTo(object obj)
         {
             // throw new NotImplementedException();
             return 0;
         }
-
-        #endregion
-
-        #region IConvertedPokerHand
 
         /// <summary>
         /// Add Player when creating a hand from 
@@ -231,10 +215,6 @@ namespace PokerTell.Repository.Tests.Fakes
             return this;
         }
 
-        #endregion
-
-        #region IEnumerable
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
@@ -258,9 +238,5 @@ namespace PokerTell.Repository.Tests.Fakes
         {
             return Players.GetEnumerator();
         }
-
-        #endregion
-
-        #endregion
     }
 }

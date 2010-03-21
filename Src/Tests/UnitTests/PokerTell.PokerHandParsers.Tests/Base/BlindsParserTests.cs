@@ -1,4 +1,4 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
     using NUnit.Framework;
 

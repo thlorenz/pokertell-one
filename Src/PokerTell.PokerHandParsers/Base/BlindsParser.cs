@@ -1,8 +1,8 @@
-using System;
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     public abstract class BlindsParser
     {
         public bool IsValid { get; protected set; }
@@ -13,8 +13,6 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string BlindsPattern { get; }
 
-        #region Public Methods
-
         public virtual BlindsParser Parse(string handHistory)
         {
             Match blinds = MatchBlinds(handHistory);
@@ -24,12 +22,9 @@ namespace PokerTell.PokerHandParsers.Base
             {
                 ExtractBlinds(blinds);
             }
+
             return this;
         }
-
-        #endregion
-
-        #region Methods
 
         protected virtual Match MatchBlinds(string handHistory)
         {
@@ -41,7 +36,5 @@ namespace PokerTell.PokerHandParsers.Base
             SmallBlind = Convert.ToDouble(blinds.Groups["Ratio"].Value.Replace(",", string.Empty));
             BigBlind = Convert.ToDouble(blinds.Groups["Ratio2"].Value.Replace(",", string.Empty));
         }
-
-        #endregion
     }
 }

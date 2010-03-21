@@ -1,13 +1,11 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class StreetsParserTests
     {
-        #region Constants and Fields
-
         const string Flop = "some Flop Contents";
 
         const string Preflop = "some Preflop Contents";
@@ -17,10 +15,6 @@ namespace PokerTell.PokerHandParsers.Tests
         const string Turn = "some Turn Contents";
 
         StreetsParser _parser;
-
-        #endregion
-
-        #region Properties
 
         bool HasFlopAndTurn
         {
@@ -41,10 +35,6 @@ namespace PokerTell.PokerHandParsers.Tests
         {
             get { return _parser.HasTurn || _parser.HasRiver; }
         }
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -307,10 +297,6 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(HasFlopOrTurnOrRiver, Is.False);
         }
 
-        #endregion
-
-        #region Methods
-
         protected abstract StreetsParser GetStreetsParser();
 
         protected abstract string PreflopAndSummaryOnly(string preflop);
@@ -322,7 +308,5 @@ namespace PokerTell.PokerHandParsers.Tests
         protected abstract string PreflopFlopTurnRiverAndSummary(string preflop, string flop, string turn, string river);
 
         protected abstract string PreflopTurnAndSummaryOnly(string preflop);
-
-        #endregion
     }
 }

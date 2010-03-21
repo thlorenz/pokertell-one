@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
-    using Base;
+    using PokerTell.PokerHandParsers.Base;
 
-    public class HoleCardsParserTests : Tests.HoleCardsParserTests
+    public class HoleCardsParserTests : Base.HoleCardsParserTests
     {
         protected override HoleCardsParser GetHoleCardsParser()
         {

@@ -1,12 +1,8 @@
-namespace PokerTell.PokerHandParsers.Tests
+namespace PokerTell.PokerHandParsers.Tests.Base
 {
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Text.RegularExpressions;
-
-    using Base;
-
     using NUnit.Framework;
+
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class HandHeaderParserTests
     {
@@ -104,7 +100,7 @@ namespace PokerTell.PokerHandParsers.Tests
             Assert.That(_parser.TournamentId, Is.EqualTo(TournamentId));
         }
 
-         [Test]
+        [Test]
         public void Parse_ValidLimitHoldemTournamentGameHeader_ExtractsGameId()
         {
             _parser.Parse(LimitHoldemTournamentGameHeader(GameId, TournamentId));

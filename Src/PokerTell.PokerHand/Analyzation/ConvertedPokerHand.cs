@@ -504,7 +504,7 @@ namespace PokerTell.PokerHand.Analyzation
             try
             {
                 handinfo = string.Format(
-                    "\nTour#: {0} Hand: #{1} {2} - {3} ", TournamentId, GameId, DateAsString, TimeAsString);
+                    "\nTour#: {0} Hand: #{1} {2} - {3} {4} ", TournamentId, GameId, DateAsString, TimeAsString, GameType);
 
                 handinfo += string.Format("[{3}] BB:{0} SB:{1} TP:{2}\n", BB, SB, TotalPlayers, Board);
             }
@@ -566,6 +566,7 @@ namespace PokerTell.PokerHand.Analyzation
             TournamentId = aquiredHand.TournamentId;
             Ante = aquiredHand.Ante;
             HeroName = aquiredHand.HeroName;
+            GameType = aquiredHand.GameType;
         }
     }
 }

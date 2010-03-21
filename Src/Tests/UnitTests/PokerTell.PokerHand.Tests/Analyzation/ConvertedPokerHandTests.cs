@@ -2,28 +2,23 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 {
     using System;
 
-    using Factories;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Services;
-
     using Moq;
 
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Services;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Aquisition;
-
-    using UnitTests;
-    using UnitTests.Tools;
+    using PokerTell.PokerHand.Tests.Factories;
+    using PokerTell.UnitTests;
+    using PokerTell.UnitTests.Tools;
 
     [TestFixture]
     public class ConvertedPokerHandTests : TestWithLog
     {
-        #region Constants and Fields
-
         IConvertedPokerHand _convertedHand;
 
         IConstructor<IConvertedPokerPlayer> _convertedPlayerMake;
@@ -32,21 +27,17 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
         StubBuilder _stub;
 
-        #endregion
-
-        #region Public Methods
-
         [SetUp]
         public void _Init()
         {
             _stub = new StubBuilder();
-           
+
             _aquiredHand = new AquiredPokerHand().InitializeWith(
-                _stub.Valid(For.Site, "site"),
-                _stub.Out<ulong>(For.GameId),
-                _stub.Out<DateTime>(For.TimeStamp),
-                _stub.Valid(For.SB, 1.0),
-                _stub.Valid(For.BB, 2.0),
+                _stub.Valid(For.Site, "site"), 
+                _stub.Out<ulong>(For.GameId), 
+                _stub.Out<DateTime>(For.TimeStamp), 
+                _stub.Valid(For.SB, 1.0), 
+                _stub.Valid(For.BB, 2.0), 
                 _stub.Valid(For.TotalPlayers, 2));
 
             _convertedHand = new ConvertedPokerHand(_aquiredHand);
@@ -74,7 +65,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             var player2Stub = _stub.Setup<IAquiredPokerPlayer>()
                 .Get(p => p.Name).Returns("player2")
                 .Get(p => p.Holecards).Returns(_stub.Out<string>(For.HoleCards));
-          
+
             _aquiredHand
                 .AddPlayer(player1Stub.Out)
                 .AddPlayer(player2Stub.Out);
@@ -98,7 +89,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             var player3Stub = _stub.Setup<IAquiredPokerPlayer>()
                 .Get(p => p.Name).Returns("player3")
                 .Get(p => p.Holecards).Returns(_stub.Out<string>(For.HoleCards)).Out;
-              
+
             _aquiredHand
                 .AddPlayer(player1Stub)
                 .AddPlayer(player2Stub)
@@ -106,12 +97,12 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
             _convertedHand
                 .AddPlayersFrom(_aquiredHand, _stub.Out<double>(For.StartingPot), _convertedPlayerMake);
-            
+
             var addedInSameOrder =
                 _convertedHand[0].Name.Equals(_aquiredHand[0].Name)
                 && _convertedHand[1].Name.Equals(_aquiredHand[1].Name)
                 && _convertedHand[2].Name.Equals(_aquiredHand[2].Name);
-                
+
             Assert.That(addedInSameOrder);
         }
 
@@ -134,7 +125,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             _convertedHand
                 .AddPlayersFrom(_aquiredHand, _stub.Out<double>(For.StartingPot), _convertedPlayerMake);
 
-            var expectedValue = (int) playerStub.StackBefore / _stub.Get<double>(For.StartingPot);
+            var expectedValue = (int)playerStub.StackBefore / _stub.Get<double>(For.StartingPot);
             Assert.That(_convertedHand[0].MBefore, Is.EqualTo(expectedValue));
         }
 
@@ -157,7 +148,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             _convertedHand
                 .AddPlayersFrom(_aquiredHand, _stub.Out<double>(For.StartingPot), _convertedPlayerMake);
 
-            var expectedValue = (int) playerStub.StackAfter / _stub.Get<double>(For.StartingPot);
+            var expectedValue = (int)playerStub.StackAfter / _stub.Get<double>(For.StartingPot);
             Assert.That(_convertedHand[0].MAfter, Is.EqualTo(expectedValue));
         }
 
@@ -168,7 +159,6 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
             _convertedHand
                 .AddPlayer(convertedPlayer)
-
                 .RemoveInactivePlayers();
 
             Assert.That(_convertedHand.Players.Count, Is.EqualTo(0));
@@ -183,7 +173,6 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
             _convertedHand
                 .AddPlayer(convertedPlayer)
-
                 .RemoveInactivePlayers();
 
             Assert.That(_convertedHand.Players.Count, Is.EqualTo(0));
@@ -197,10 +186,9 @@ namespace PokerTell.PokerHand.Tests.Analyzation
                     .Add(
                     new ConvertedPokerRound()
                         .Add(new ConvertedPokerAction(ActionTypes.F, 1.0)));
-                    
+
             _convertedHand
                 .AddPlayer(convertedPlayer)
-
                 .RemoveInactivePlayers();
 
             Assert.That(_convertedHand.Players.Count, Is.EqualTo(1));
@@ -210,9 +198,9 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         public void SetNumberOfPlayersInEachRound_ThreePreflopPlayers_SetsPlayersInPreflopRoundToThree()
         {
             _convertedHand
-                .AddPlayer(new ConvertedPokerPlayer { Name = "player1" } .Add())
-                .AddPlayer(new ConvertedPokerPlayer { Name = "player2" } .Add())
-                .AddPlayer(new ConvertedPokerPlayer { Name = "player3" } .Add())
+                .AddPlayer(new ConvertedPokerPlayer { Name = "player1" }.Add())
+                .AddPlayer(new ConvertedPokerPlayer { Name = "player2" }.Add())
+                .AddPlayer(new ConvertedPokerPlayer { Name = "player3" }.Add())
                 .SetNumOfPlayersInEachRound();
 
             Assert.That(_convertedHand.PlayersInRound[(int)Streets.PreFlop], Is.EqualTo(3));
@@ -222,10 +210,9 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         public void SetNumberOfPlayersInEachRound_ThreePlayersTwoHaveFlopRound_SetsPlayersInFlopRoundToTwo()
         {
             _convertedHand
-                .AddPlayer(new ConvertedPokerPlayer { Name = "player1" } .Add().Add())
-                .AddPlayer(new ConvertedPokerPlayer { Name = "player2" } .Add())
-                .AddPlayer(new ConvertedPokerPlayer { Name = "player3" } .Add().Add())
-
+                .AddPlayer(new ConvertedPokerPlayer { Name = "player1" }.Add().Add())
+                .AddPlayer(new ConvertedPokerPlayer { Name = "player2" }.Add())
+                .AddPlayer(new ConvertedPokerPlayer { Name = "player3" }.Add().Add())
                 .SetNumOfPlayersInEachRound();
 
             Assert.That(_convertedHand.PlayersInRound[(int)Streets.Flop], Is.EqualTo(2));
@@ -234,22 +221,22 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         [Test]
         public void SetWhoHasPositionInEachRound_TwoPlayersPreflop_SetsSecondPlayerInPositionPreflopToOne()
         {
-            var player1 = new ConvertedPokerPlayer { Name = "player1" } .Add();
-            var player2 = new ConvertedPokerPlayer { Name = "player2" } .Add();
+            var player1 = new ConvertedPokerPlayer { Name = "player1" }.Add();
+            var player2 = new ConvertedPokerPlayer { Name = "player2" }.Add();
 
             _convertedHand
                 .AddPlayer(player1)
                 .AddPlayer(player2)
                 .SetWhoHasPositionInEachRound();
-            
+
             player2.InPosition[(int)Streets.PreFlop].ShouldBeTrue();
         }
 
         [Test]
         public void SetWhoHasPositionInEachRound_TwoPlayersPreflop_SetsFirstPlayerInPositionPreflopToFalse()
         {
-            var player1 = new ConvertedPokerPlayer { Name = "player1" } .Add();
-            var player2 = new ConvertedPokerPlayer { Name = "player2" } .Add();
+            var player1 = new ConvertedPokerPlayer { Name = "player1" }.Add();
+            var player2 = new ConvertedPokerPlayer { Name = "player2" }.Add();
 
             _convertedHand
                 .AddPlayer(player1)
@@ -298,7 +285,7 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             player1.Name = "player1";
             var player2 = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
             player2.Name = player1.Name + "difference";
-            
+
             var hand1 = InitializeConvertedHandWithSomeValidValues()
                 .AddPlayer(player1);
             var hand2 = InitializeConvertedHandWithSomeValidValues()
@@ -423,8 +410,6 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
             Affirm.That(convertedHand.BinaryDeserializedInMemory()).IsEqualTo(convertedHand);
         }
-
-        #endregion
 
         static IConvertedPokerHand InitializeConvertedHandWithSomeValidValues()
         {

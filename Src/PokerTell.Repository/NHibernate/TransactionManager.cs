@@ -13,21 +13,14 @@ namespace PokerTell.Repository.NHibernate
 
     public class TransactionManager : ITransactionManager
     {
-
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly ISessionFactoryManager _sessionFactoryManager;
-
-
 
         public TransactionManager(ISessionFactoryManager sessionFactoryManager)
         {
             _sessionFactoryManager = sessionFactoryManager;
         }
-
-
-
 
         public ITransactionManager Execute(Action executeTransaction)
         {
@@ -45,7 +38,7 @@ namespace PokerTell.Repository.NHibernate
             {
                 try
                 {
-                  _sessionFactoryManager.CurrentSession.Transaction.Rollback();   
+                    _sessionFactoryManager.CurrentSession.Transaction.Rollback();
                 }
                 catch (TransactionException rollbackExcep)
                 {
@@ -106,9 +99,6 @@ namespace PokerTell.Repository.NHibernate
             return this;
         }
 
-
-
-
         protected virtual void OpenAndBindSession()
         {
             ISession session = _sessionFactoryManager.OpenSession();
@@ -128,6 +118,5 @@ namespace PokerTell.Repository.NHibernate
                 Log.Error(excep);
             }
         }
-
     }
 }
