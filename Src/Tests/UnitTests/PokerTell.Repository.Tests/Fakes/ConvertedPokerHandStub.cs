@@ -117,6 +117,8 @@ namespace PokerTell.Repository.Tests.Fakes
 
         public GameTypes GameType { get; set; }
 
+        public string HandHistory { get; set; }
+
         /// <summary>
         /// List of all Poker Players in the hand
         /// </summary>

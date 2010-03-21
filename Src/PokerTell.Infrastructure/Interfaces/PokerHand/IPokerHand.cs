@@ -77,5 +77,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         string HeroName { get; set; }
 
         GameTypes GameType { get; set; }
+
+        string HandHistory { get; set; }
     }
 }

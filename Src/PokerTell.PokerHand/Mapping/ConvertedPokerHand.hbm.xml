@@ -65,6 +65,8 @@
     <property name="SequenceTurn" length="500"/>
     <property name="SequenceRiver" length="500"/>
 
+    <property name="HandHistory" lazy="true" type="StringClob" length="5000" />
+
     <bag name="Players" cascade="all" lazy="true" mutable="true">
       <cache usage="nonstrict-read-write" />
       <key column="HandId"  not-null="true" foreign-key="FK_HandId"/>

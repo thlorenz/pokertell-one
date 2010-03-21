@@ -567,6 +567,7 @@ namespace PokerTell.PokerHand.Analyzation
             Ante = aquiredHand.Ante;
             HeroName = aquiredHand.HeroName;
             GameType = aquiredHand.GameType;
+            HandHistory = aquiredHand.HandHistory;
         }
     }
 }

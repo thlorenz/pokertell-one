@@ -225,6 +225,16 @@ namespace PokerTell.PokerHand
             set { _tournamentId = value; }
         }
 
+
+        [NonSerialized]
+        string _handHistory;
+
+        public string HandHistory
+        {
+            get { return _handHistory; }
+            set { _handHistory = value; }
+        }
+
         /// <summary>
         /// Compares given PokerHand with this one using the Game#
         /// </summary>

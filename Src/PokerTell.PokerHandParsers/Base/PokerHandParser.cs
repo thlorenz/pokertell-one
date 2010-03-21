@@ -116,6 +116,8 @@ namespace PokerTell.PokerHandParsers.Base
                 string smallBlindSeatNumber = ParseSmallBlindSeatNumber();
 
                 ParsePlayers(smallBlindSeatNumber);
+
+                AquiredPokerHand.HandHistory = _handHistory;
             }
 
             return this;
