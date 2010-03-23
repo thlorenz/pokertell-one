@@ -258,10 +258,10 @@ CREATE TABLE playerhhd(
 CREATE INDEX nickname_index ON playerhhd (nickname);</value>
   </data>
   <data name="Sql_Queries_CreateDatabase" xml:space="preserve">
-    <value>CREATE DATABASE IF NOT EXISTS {0};</value>
+    <value>CREATE DATABASE IF NOT EXISTS `{0}`;</value>
   </data>
   <data name="Sql_Queries_DropDatabase" xml:space="preserve">
-    <value>DROP DATABASE IF EXISTS {0};</value>
+    <value>DROP DATABASE IF EXISTS `{0}`;</value>
   </data>
   <data name="Sql_Queries_ShowDatabases" xml:space="preserve">
     <value>SHOW DATABASES;</value>
@@ -397,5 +397,13 @@ Please choose/create another database.</value>
   <data name="Warning_NoDatabaseHasBeenChosenForCurrentProvider" xml:space="preserve">
     <value>No database has been chosen for the current data provider ({0}).
 Either create/choose a database to be used with {0 } or choose another data provider.</value>
+  </data>
+  <data name="Error_UnableToCreateDatabase" xml:space="preserve">
+    <value>An error occured when trying to create '{0}'.
+Choosing a simpler name may solve the problem.</value>
+  </data>
+  <data name="Error_UnableToDeleteDatabase" xml:space="preserve">
+    <value>An error occurred when trying to delete '{0}'.
+ Please restart PokerTell and try again.</value>
   </data>
 </root>

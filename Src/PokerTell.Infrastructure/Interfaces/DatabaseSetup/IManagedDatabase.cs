@@ -4,15 +4,9 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
     public interface IManagedDatabase
     {
-        #region Properties
-
         string ConnectionString { get; }
 
         IDataProviderInfo DataProviderInfo { get; }
-
-        #endregion
-
-        #region Public Methods
 
         IManagedDatabase ChooseDatabase(string databaseName);
 
@@ -26,6 +20,6 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         IEnumerable<string> GetAllPokerTellDatabaseNames();
 
-        #endregion
+        string GetNameFor(string databaseInUse);
     }
 }

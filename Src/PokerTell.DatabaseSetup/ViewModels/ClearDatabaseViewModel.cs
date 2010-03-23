@@ -2,10 +2,9 @@ namespace PokerTell.DatabaseSetup.ViewModels
 {
     using System.Collections.ObjectModel;
 
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.DatabaseSetup.Interfaces;
     using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
@@ -16,18 +15,12 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         readonly IDatabaseManager _databaseManager;
 
-        #region Constructors and Destructors
-
         public ClearDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
             _eventAggregator = eventAggregator;
             AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
         }
-
-        #endregion
-
-        #region Properties
 
         public override string Title
         {
@@ -38,19 +31,12 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             get { return Infrastructure.Properties.Resources.Commands_Clear; }
         }
-        #endregion
-
-        #region Public Methods
 
         public override IComboBoxDialogViewModel DetermineSelectedItem()
         {
-            SelectedItem = AvailableItems[0] ?? string.Empty;
+            SelectedItem = (AvailableItems.Count > 0 && AvailableItems[0] != null) ? AvailableItems[0] : string.Empty;
             return this;
         }
-
-        #endregion
-
-        #region Methods
 
         protected override void CommitAction()
         {
@@ -71,7 +57,5 @@ namespace PokerTell.DatabaseSetup.ViewModels
             var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
             _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
-
-        #endregion
     }
 }

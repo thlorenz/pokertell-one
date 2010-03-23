@@ -229,6 +229,26 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occured when trying to create &apos;{0}&apos;.
+        ///Choosing a simpler name may solve the problem..
+        /// </summary>
+        public static string Error_UnableToCreateDatabase {
+            get {
+                return ResourceManager.GetString("Error_UnableToCreateDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred when trying to delete &apos;{0}&apos;.
+        /// Please restart PokerTell and try again..
+        /// </summary>
+        public static string Error_UnableToDeleteDatabase {
+            get {
+                return ResourceManager.GetString("Error_UnableToDeleteDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Since your data provider is {0}, make sure, that its server is running..
         /// </summary>
         public static string Hint_EnsureExternalServerIsRunning {
@@ -339,7 +359,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to CREATE DATABASE IF NOT EXISTS {0};.
+        ///   Looks up a localized string similar to CREATE DATABASE IF NOT EXISTS `{0}`;.
         /// </summary>
         public static string Sql_Queries_CreateDatabase {
             get {
@@ -348,7 +368,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DROP DATABASE IF EXISTS {0};.
+        ///   Looks up a localized string similar to DROP DATABASE IF EXISTS `{0}`;.
         /// </summary>
         public static string Sql_Queries_DropDatabase {
             get {

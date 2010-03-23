@@ -2,27 +2,20 @@ namespace PokerTell.DatabaseSetup.ViewModels
 {
     using System.Collections.ObjectModel;
 
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.DatabaseSetup.Interfaces;
     using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class ChooseDatabaseViewModel : SelectThenActOnItemViewModel
     {
-        #region Constants and Fields
-
         protected readonly IDatabaseManager _databaseManager;
 
         protected readonly IEventAggregator _eventAggregator;
 
         readonly IDatabaseConnector _databaseConnector;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public ChooseDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager, IDatabaseConnector databaseConnector)
         {
@@ -32,27 +25,17 @@ namespace PokerTell.DatabaseSetup.ViewModels
             AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
         }
 
-        #endregion
-
-        #region Properties
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IComboBoxDialogViewModel
-
         public override IComboBoxDialogViewModel DetermineSelectedItem()
         {
-            SelectedItem = _databaseManager.GetDatabaseInUse() ?? string.Empty;
+            var databaseInUse = _databaseManager.GetDatabaseInUse();
+
+            if (databaseInUse != null)
+                SelectedItem = databaseInUse;
+            else
+                SelectedItem = (AvailableItems.Count > 0 && AvailableItems[0] != null) ? AvailableItems[0] : string.Empty;
+
             return this;
         }
-
-        #endregion
-
-        #endregion
-
-        #region Methods
 
         protected override void CommitAction()
         {
@@ -79,7 +62,5 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             get { return Infrastructure.Properties.Resources.Commands_Choose; }
         }
-
-        #endregion
     }
 }

@@ -12,8 +12,6 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     public class DatabaseSetupMenuItemViewModel
     {
-        #region Constants and Fields
-
         readonly IUnityContainer _container;
 
         ICommand _chooseDatabaseCommand;
@@ -28,18 +26,10 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         ICommand _deleteDatabaseCommand;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public DatabaseSetupMenuItemViewModel(IUnityContainer container)
         {
             _container = container;
         }
-
-        #endregion
-
-        #region Properties
 
         public ICommand ChooseDatabaseCommand
         {
@@ -168,18 +158,14 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
                                 new ComboBoxDialogView(
                                     _container.Resolve<DeleteDatabaseViewModel>()
-                                                           .RemoveDatabaseInUseFromAvailableItems()
-                                                           .DetermineSelectedItem())
+                                        .RemoveDatabaseInUseFromAvailableItems()
+                                        .DetermineSelectedItem())
                                     .ShowDialog();
                             }
                         }
                     });
             }
         }
-
-        #endregion
-
-        #region Methods
 
         IDatabaseManager CreateDatabaseManager()
         {
@@ -189,7 +175,5 @@ namespace PokerTell.DatabaseSetup.ViewModels
                 .ConnectToServer()
                 .CreateDatabaseManager();
         }
-
-        #endregion
     }
 }

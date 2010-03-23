@@ -1,44 +1,47 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
+    using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Reflection;
 
-    using Interfaces;
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.DatabaseSetup.Interfaces;
     using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
-    public sealed class DeleteDatabaseViewModel : SelectThenActOnItemViewModel
+    public class DeleteDatabaseViewModel : SelectThenActOnItemViewModel
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly IEventAggregator _eventAggregator;
 
         readonly IDatabaseManager _databaseManager;
-
-        #region Constructors and Destructors
 
         public DeleteDatabaseViewModel(IEventAggregator eventAggregator, IDatabaseManager databaseManager)
         {
             _databaseManager = databaseManager;
             _eventAggregator = eventAggregator;
+
             AvailableItems = new ObservableCollection<string>(_databaseManager.GetAllPokerTellDatabases());
         }
 
         public DeleteDatabaseViewModel RemoveDatabaseInUseFromAvailableItems()
         {
-            string databaseInUse = _databaseManager.GetDatabaseInUse();
-            if (AvailableItems.Contains(databaseInUse))
+            string nameOfDatabaseInUse = _databaseManager.GetDatabaseInUse();
+            
+            if (nameOfDatabaseInUse != null && AvailableItems.Contains(nameOfDatabaseInUse))
             {
-                AvailableItems.Remove(databaseInUse);
+                AvailableItems.Remove(nameOfDatabaseInUse);
             }
 
             return this;
         }
-
-        #endregion
-
-        #region Properties
 
         public override string Title
         {
@@ -49,19 +52,12 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             get { return Infrastructure.Properties.Resources.Commands_Delete; }
         }
-        #endregion
-
-        #region Public Methods
 
         public override IComboBoxDialogViewModel DetermineSelectedItem()
         {
-            SelectedItem = AvailableItems[0] ?? string.Empty;
+            SelectedItem = (AvailableItems.Count > 0 && AvailableItems[0] != null) ? AvailableItems[0] : string.Empty;
             return this;
         }
-
-        #endregion
-
-        #region Methods
 
         protected override void CommitAction()
         {
@@ -70,11 +66,27 @@ namespace PokerTell.DatabaseSetup.ViewModels
             _eventAggregator.GetEvent<UserConfirmActionEvent>().Publish(userCommitAction);
         }
 
-        void DeleteDatabaseAndPublishInfoMessage()
+        protected void DeleteDatabaseAndPublishInfoMessage()
         {
+            try
+            {
+                
             _databaseManager.DeleteDatabase(SelectedItem);
             PublishInfoMessage();
             AvailableItems.Remove(SelectedItem);
+            }
+            catch (Exception excep)
+            {
+                Log.Error(excep);
+                PublishErrorUserMessage(excep);
+            }
+        }
+
+        void PublishErrorUserMessage(Exception excep)
+        {
+           _eventAggregator
+               .GetEvent<UserMessageEvent>()
+               .Publish(new UserMessageEventArgs(UserMessageTypes.Error, string.Format(Resources.Error_UnableToDeleteDatabase, SelectedItem), excep));
         }
 
         void PublishInfoMessage()
@@ -83,7 +95,5 @@ namespace PokerTell.DatabaseSetup.ViewModels
             var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
             _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
         }
-
-        #endregion
     }
 }

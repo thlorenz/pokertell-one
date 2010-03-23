@@ -1,7 +1,12 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
+    using System;
+    using System.Reflection;
+
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -9,6 +14,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     public class CreateDatabaseViewModel : SetThenActOnItemViewModel
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly IEventAggregator _eventAggregator;
 
         readonly IDatabaseManager _databaseManager;
@@ -31,9 +38,23 @@ namespace PokerTell.DatabaseSetup.ViewModels
                 PublishDatabaseExistsWarningMessage();
                 return;
             }
+            try
+            {
+                _databaseManager.CreateDatabase(SelectedItem.Trim());
+                PublishInfoMessage();
+            }
+            catch (Exception excep)
+            {
+                Log.Error(excep);
+                PublishUnableToCreateDatabaseErrorMessage(excep);
+            }
+        }
 
-            _databaseManager.CreateDatabase(SelectedItem);
-            PublishInfoMessage();
+        void PublishUnableToCreateDatabaseErrorMessage(Exception excep)
+        {
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Publish(new UserMessageEventArgs(UserMessageTypes.Error, string.Format(Resources.Error_UnableToCreateDatabase, SelectedItem), excep));
         }
 
         void PublishDatabaseExistsWarningMessage()

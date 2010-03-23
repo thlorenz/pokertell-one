@@ -3,9 +3,6 @@ namespace PokerTell.DatabaseSetup.Tests
     using System.Collections.Generic;
     using System.Linq;
 
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.DatabaseSetup;
-
     using Microsoft.Practices.Composite.Events;
 
     using Moq;
@@ -13,20 +10,16 @@ namespace PokerTell.DatabaseSetup.Tests
     using NUnit.Framework;
 
     using PokerTell.DatabaseSetup.ViewModels;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class ChooseDatabaseViewModelTests
     {
-        #region Constants and Fields
-
         Mock<IDatabaseManager> _databaseManagerMock;
 
         StubBuilder _stub;
 
         IEventAggregator _eventAggregator;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -80,7 +73,7 @@ namespace PokerTell.DatabaseSetup.Tests
         {
             const string dataBaseName = "someDatabase";
             const string databaseInUse = "databaseInUse";
-            
+
             _databaseManagerMock
                 .Setup(dm => dm.GetAllPokerTellDatabases())
                 .Returns(new List<string> { dataBaseName, databaseInUse });
@@ -97,15 +90,17 @@ namespace PokerTell.DatabaseSetup.Tests
         [Test]
         public void CommitActionCommandCanExecute_SelectedDatabaseIsEmpty_ReturnsFalse()
         {
-            var sut = new ChooseDatabaseViewModel(_eventAggregator, _stub.Out<IDatabaseManager>(), _stub.Out<IDatabaseConnector>()) { SelectedItem = null };
-            
+            var sut = new ChooseDatabaseViewModel(_eventAggregator, _stub.Out<IDatabaseManager>(), _stub.Out<IDatabaseConnector>())
+                { SelectedItem = null };
+
             Assert.That(sut.CommitActionCommand.CanExecute(null), Is.False);
         }
 
         [Test]
         public void CommitActionCommandCanExecute_SelectedDatabaseHasValue_ReturnsTrue()
         {
-            var sut = new ChooseDatabaseViewModel(_eventAggregator, _stub.Out<IDatabaseManager>(), _stub.Out<IDatabaseConnector>()) { SelectedItem = "someName" };
+            var sut = new ChooseDatabaseViewModel(_eventAggregator, _stub.Out<IDatabaseManager>(), _stub.Out<IDatabaseConnector>())
+                { SelectedItem = "someName" };
 
             Assert.That(sut.CommitActionCommand.CanExecute(null), Is.True);
         }
@@ -120,8 +115,8 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(dc => dc.InitializeFromSettings())
                 .Returns(databaseConnectorStub.Object);
 
-            var sut = new ChooseDatabaseViewModel(_eventAggregator,
-                                                  _databaseManagerMock.Object,
+            var sut = new ChooseDatabaseViewModel(_eventAggregator, 
+                                                  _databaseManagerMock.Object, 
                                                   databaseConnectorStub.Object) { SelectedItem = dataBaseName };
 
             sut.CommitActionCommand.Execute(null);
@@ -136,7 +131,7 @@ namespace PokerTell.DatabaseSetup.Tests
             databaseConnectorStub
                 .Setup(dc => dc.InitializeFromSettings())
                 .Returns(databaseConnectorStub.Object);
-            
+
             bool infoWasPublished = false;
             _eventAggregator.GetEvent<UserMessageEvent>().Subscribe(
                 arg => infoWasPublished = arg.MessageType == UserMessageTypes.Info);
@@ -157,8 +152,9 @@ namespace PokerTell.DatabaseSetup.Tests
             databaseConnectorMock
                 .Setup(dc => dc.InitializeFromSettings())
                 .Returns(databaseConnectorMock.Object);
-           
-            var sut = new ChooseDatabaseViewModel(_eventAggregator, _databaseManagerMock.Object, databaseConnectorMock.Object) { SelectedItem = "someDatabase" };
+
+            var sut = new ChooseDatabaseViewModel(_eventAggregator, _databaseManagerMock.Object, databaseConnectorMock.Object)
+                { SelectedItem = "someDatabase" };
 
             sut.CommitActionCommand.Execute(null);
 
@@ -172,15 +168,13 @@ namespace PokerTell.DatabaseSetup.Tests
             databaseConnectorMock
                 .Setup(dc => dc.InitializeFromSettings())
                 .Returns(databaseConnectorMock.Object);
-            
-            var sut = new ChooseDatabaseViewModel(_eventAggregator, _databaseManagerMock.Object, databaseConnectorMock.Object) 
-            { SelectedItem = "someDatabase" };
+
+            var sut = new ChooseDatabaseViewModel(_eventAggregator, _databaseManagerMock.Object, databaseConnectorMock.Object)
+                { SelectedItem = "someDatabase" };
 
             sut.CommitActionCommand.Execute(null);
 
             databaseConnectorMock.Verify(dc => dc.ConnectToDatabase());
         }
-
-        #endregion
     }
 }

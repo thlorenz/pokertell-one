@@ -6,17 +6,15 @@ namespace PokerTell.DatabaseSetup
     using System.Linq;
     using System.Reflection;
 
-    using Infrastructure;
-    using Infrastructure.Interfaces.DatabaseSetup;
-
     using log4net;
 
     using NHibernate.Tool.hbm2ddl;
 
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+
     public class EmbeddedManagedDatabase : IManagedDatabase
     {
-        #region Constants and Fields
-
         const string FileExtension = "db3";
 
         static readonly ILog Log =
@@ -28,10 +26,6 @@ namespace PokerTell.DatabaseSetup
 
         readonly IDataProviderInfo _dataProviderInfo;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public EmbeddedManagedDatabase(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
         {
             _dataProviderInfo = dataProviderInfo;
@@ -42,27 +36,17 @@ namespace PokerTell.DatabaseSetup
             ValidateDatabaseDirectoryAndRecreateIfNeccessary();
         }
 
-        #endregion
-
-        #region Properties
-
         public string ConnectionString { get; private set; }
-        
+
         public IDataProviderInfo DataProviderInfo
         {
             get { return _dataProviderInfo; }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IManagedDatabase
-
         public IManagedDatabase ChooseDatabase(string databaseName)
         {
             ConnectionString = "data source = " + FullPathFor(databaseName);
-            
+
             _dataProvider.Connect(ConnectionString, _dataProviderInfo);
 
             return this;
@@ -79,7 +63,7 @@ namespace PokerTell.DatabaseSetup
 
             new SchemaExport(_dataProvider.NHibernateConfiguration)
                 .Execute(false, true, false, _dataProvider.Connection, null);
-            
+
             return this;
         }
 
@@ -102,11 +86,10 @@ namespace PokerTell.DatabaseSetup
             return dirInfo.GetFiles("*." + FileExtension).Select(fi => GetDatabaseNameFromPath(fi.FullName));
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
+        public string GetNameFor(string databaseInUse)
+        {
+             return GetDatabaseNameFromPath(databaseInUse);
+        }
 
         static string DatabaseNameWithAddedFileExtension(string databaseName)
         {
@@ -141,6 +124,7 @@ namespace PokerTell.DatabaseSetup
             {
                 return theFileName.Substring(0, indexOflastDot);
             }
+
             throw new FormatException("FileName: " + theFileName);
         }
 
@@ -157,7 +141,5 @@ namespace PokerTell.DatabaseSetup
                 Directory.CreateDirectory(_databaseDirectory);
             }
         }
-
-        #endregion
     }
 }

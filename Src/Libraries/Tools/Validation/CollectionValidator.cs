@@ -9,7 +9,7 @@ namespace Tools.Validation
         /// </summary>
         /// <param name="index">The desired index</param>
         /// <param name="itemsCount">Number of items in collection</param>
-        /// <returns>A valid index. When itemsCount is items cound is 0 it returns 0.</returns>
+        /// <returns>A valid index. When itemsCount is items count is 0 it returns 0.</returns>
         public int GetValidIndexForCollection(int index, int itemsCount)
         {
             int validIndex = index;

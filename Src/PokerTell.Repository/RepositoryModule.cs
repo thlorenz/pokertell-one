@@ -71,9 +71,10 @@ namespace PokerTell.Repository
                     .ConnectToDatabase()
                     .DataProvider;
 
-            _container
-                .Resolve<ISessionFactoryManager>()
-                .Use(dataProvider);
+            var sessionFactoryManager = _container.Resolve<ISessionFactoryManager>();
+            
+            if (dataProvider.IsConnectedToDatabase)
+                   sessionFactoryManager.Use(dataProvider);
         }
     }
 }

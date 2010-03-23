@@ -46,7 +46,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
             Player1 = new PlayerViewModel("Greystoke-11", 1, true, "As Kh");
             Player2 = new PlayerViewModel("salemorguy", 2, true, "As Kh");
             Player3 = new PlayerViewModel("Kushum Peng", 3, true, "As Kh");
-            Player4 = new PlayerViewModel("roto19", 4, true, "As Kh");
+            Player4 = new PlayerViewModel("renniweg", 4, true, "As Kh");
             Player5 = new PlayerViewModel("MegVSPrime", 5, true, "As Kh");
             Player6 = new PlayerViewModel("bigbiskit", 6, true, "As Kh");
         }

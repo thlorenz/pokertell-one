@@ -7,25 +7,20 @@ namespace PokerTell.DatabaseSetup
     using System.Reflection;
     using System.Text;
 
-    using Infrastructure;
-
     using log4net;
 
     using NHibernate;
-    using NHibernate.ByteCode.Castle;
     using NHibernate.Cfg;
 
     using PokerTell.DatabaseSetup.Properties;
+    using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     using Environment = NHibernate.Cfg.Environment;
 
     public class DataProvider : IDataProvider
     {
-        #region Constants and Fields
-
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         IDbConnection _connection;
 
@@ -34,10 +29,6 @@ namespace PokerTell.DatabaseSetup
         IDataProviderInfo _dataProviderInfo;
 
         Configuration _configuration;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public DataProvider()
         {
@@ -51,10 +42,6 @@ namespace PokerTell.DatabaseSetup
                 _connection.Close();
             }
         }
-
-        #endregion
-
-        #region Properties
 
         public IDbConnection Connection
         {
@@ -84,12 +71,6 @@ namespace PokerTell.DatabaseSetup
             get { return _configuration; }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IDataProvider
-
         public void Connect(string connString, IDataProviderInfo dataProviderInfo)
         {
             _dataProviderInfo = dataProviderInfo;
@@ -100,7 +81,7 @@ namespace PokerTell.DatabaseSetup
 
             _connection.Open();
 
-            DatabaseName = IsConnectedToDatabase ? Connection.Database : Resources.Status_NotConnectedToDatabase; 
+            DatabaseName = IsConnectedToDatabase ? Connection.Database : Resources.Status_NotConnectedToDatabase;
         }
 
         public int ExecuteNonQuery(string nonQuery)
@@ -187,16 +168,10 @@ namespace PokerTell.DatabaseSetup
             return sb.ToString();
         }
 
-        #endregion
-
-        #region IDisposable
-
         public void Dispose()
         {
             Connection.Dispose();
         }
-
-        #endregion
 
         /// <summary>
         /// Builds an NHibernate Session Factory using the Connection String from the current database connection and
@@ -224,7 +199,5 @@ namespace PokerTell.DatabaseSetup
 
             return null;
         }
-
-        #endregion
     }
 }

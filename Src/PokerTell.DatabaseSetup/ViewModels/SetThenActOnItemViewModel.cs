@@ -2,19 +2,14 @@ namespace PokerTell.DatabaseSetup.ViewModels
 {
     using System.Windows.Input;
 
-    using Interfaces;
+    using PokerTell.DatabaseSetup.Interfaces;
 
     using Tools.WPF;
+    using Tools.WPF.ViewModels;
 
-    public abstract class SetThenActOnItemViewModel : ITextBoxDialogViewModel
+    public abstract class SetThenActOnItemViewModel : NotifyPropertyChanged, ITextBoxDialogViewModel
     {
-        #region Constants and Fields
-
         ICommand _commitActionCommand;
-
-        #endregion
-
-        #region Properties
 
         public abstract string ActionName { get; }
 
@@ -34,12 +29,6 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         public abstract string Title { get; }
 
-        #endregion
-
-        #region Methods
-
         protected abstract void CommitAction();
-
-        #endregion
     }
 }

@@ -10,17 +10,11 @@ namespace PokerTell.DatabaseSetup
 
     public class DatabaseConnector : IDatabaseConnector
     {
-        #region Constants and Fields
-
         readonly IDatabaseSettings _databaseSettings;
 
         readonly IEventAggregator _eventAggregator;
 
         IDataProviderInfo _dataProviderInfo;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public DatabaseConnector(
             IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDataProvider dataProvider)
@@ -30,17 +24,7 @@ namespace PokerTell.DatabaseSetup
             DataProvider = dataProvider;
         }
 
-        #endregion
-
-        #region Properties
-
         public IDataProvider DataProvider { get; private set; }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IDatabaseConnector
 
         public IDatabaseConnector ConnectToServer()
         {
@@ -188,12 +172,6 @@ namespace PokerTell.DatabaseSetup
             }
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         bool ProviderIsNotAvailable()
         {
             if (_databaseSettings.ProviderIsAvailable(_dataProviderInfo))
@@ -250,7 +228,5 @@ namespace PokerTell.DatabaseSetup
 
             return true;
         }
-
-        #endregion
     }
 }

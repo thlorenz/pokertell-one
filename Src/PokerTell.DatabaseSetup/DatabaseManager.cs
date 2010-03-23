@@ -89,11 +89,28 @@ namespace PokerTell.DatabaseSetup
             return _managedDatabase.GetAllPokerTellDatabaseNames();
         }
 
+        public string GetNameOfDatabaseInUse()
+        {
+            var databaseInUse = GetDatabaseInUse();
+            if (databaseInUse != null)
+            {
+                return _managedDatabase.GetNameFor(databaseInUse);
+            }
+
+            return null;
+        }
+
         public string GetDatabaseInUse()
         {
             string connectionString = _databaseSettings.GetConnectionStringFor(_managedDatabase.DataProviderInfo);
 
             var connectionInfo = new DatabaseConnectionInfo(connectionString);
+         
+            if (_managedDatabase.DataProviderInfo.IsEmbedded)
+            {
+                return connectionInfo.Database;
+            }
+
             return connectionInfo.IsValidForDatabaseConnection() ? connectionInfo.Database : null;
         }
 
