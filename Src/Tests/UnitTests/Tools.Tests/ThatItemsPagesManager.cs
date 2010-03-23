@@ -14,8 +14,6 @@ namespace Tools.Tests
 
     public class ThatItemsPagesManager
     {
-        #region Constants and Fields
-
         const int FirstItem = 0;
 
         const int SecondItem = 1;
@@ -25,10 +23,6 @@ namespace Tools.Tests
         IItemsPagesManager<int> _manager;
 
         StubBuilder _stub;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -338,7 +332,7 @@ namespace Tools.Tests
         [Test]
         public void BinaryDeserialize_Serialized_RestoresItemsPerPage()
         {
-           const uint itemsPerPage = 1;
+            const uint itemsPerPage = 1;
             _manager
                 .InitializeWith(itemsPerPage, new List<int>());
 
@@ -350,10 +344,10 @@ namespace Tools.Tests
         {
             const uint someItemsPerPage = 1;
             IList<int> allItems = new List<int> { FirstItem, SecondItem };
-           
+
             _manager
                 .InitializeWith(someItemsPerPage, allItems);
-            
+
             Assert.That(_manager.BinaryDeserializedInMemory().AllItems, Is.EqualTo(_manager.AllItems));
         }
 
@@ -393,7 +387,7 @@ namespace Tools.Tests
             Assert.That(_manager.BinaryDeserializedInMemory().CurrentPage, Is.EqualTo(_manager.CurrentPage));
         }
 
-         [Test]
+        [Test]
         public void BinaryDeserialize_Serialized_RestoresItemsOnCurrentPage()
         {
             const uint someItemsPerPage = 1;
@@ -405,7 +399,5 @@ namespace Tools.Tests
 
             Assert.That(_manager.BinaryDeserializedInMemory().ItemsOnCurrentPage, Is.EqualTo(_manager.ItemsOnCurrentPage));
         }
-
-        #endregion
     }
 }

@@ -19,20 +19,13 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     public class ConfigureMySqlDataProviderViewModel : ConfigureDataProviderViewModel
     {
-        #region Constants and Fields
-
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IDataProviderInfo _dataProviderInfo;
 
         readonly DatabaseConnectionInfo _pokerOfficeSettings;
 
         ICommand _getPokerOfficeSettingsCommand;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public ConfigureMySqlDataProviderViewModel(
             IEventAggregator eventAggregator, IDatabaseSettings databaseSettings, IDatabaseConnector databaseConnector)
@@ -46,10 +39,6 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
             Initialize();
         }
-
-        #endregion
-
-        #region Properties
 
         public ICommand GetPokerOfficeSettingsCommand
         {
@@ -78,10 +67,6 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             get { return _dataProviderInfo; }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Find MySQL
@@ -229,7 +214,5 @@ namespace PokerTell.DatabaseSetup.ViewModels
                 MySqlVersionInfo = string.Format(Resources.Info_FoundMySqInstallation, mySqlVersion);
             }
         }
-
-        #endregion
     }
 }

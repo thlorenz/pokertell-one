@@ -12,6 +12,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         string FileExtension { get; }
 
+        IPokerRoomDetective Detective { get; }
+
         string TableNameFoundInPokerTableTitleFrom(string parsedName);
     }
 }

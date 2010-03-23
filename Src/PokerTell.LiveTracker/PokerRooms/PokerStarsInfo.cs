@@ -28,6 +28,11 @@ namespace PokerTell.LiveTracker.PokerRooms
             get { return "txt"; }
         }
 
+        public IPokerRoomDetective Detective
+        {
+            get { return new PokerStarsDetective(); }
+        }
+
         public string TableNameFoundInPokerTableTitleFrom(string parsedName)
         {
             const string patTournamentTableName = @"(?<TournamentId>\d+) (?<TableNumber>\d+)";

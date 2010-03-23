@@ -11,8 +11,6 @@ namespace PokerTell.Infrastructure
     /// </summary>
     public struct Files
     {
-        #region Constants and Fields
-
         public const string configexePokerTell = @"\PokerTell.exe.config";
 
         public const string dirAbsolutForUnitTestingOnly = @"C:\SD\PokerTell\data\Mocking";
@@ -38,8 +36,8 @@ namespace PokerTell.Infrastructure
         public const string xmlUserConfig = @"\User.config";
 
         public static readonly string AppDataDirectory = Application.StartupPath.Contains(@"TestDriven.NET")
-                                                       ? dirAbsolutForUnitTestingOnly
-                                                       : Static.GetUserDataPath(ApplicationProperties.ApplicationName);
+                                                             ? dirAbsolutForUnitTestingOnly
+                                                             : Static.GetUserDataPath(ApplicationProperties.ApplicationName);
 
         public static readonly string dirDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
                                                      @"\PokerTell";
@@ -47,7 +45,5 @@ namespace PokerTell.Infrastructure
         public static readonly string dirStartUp = Application.StartupPath.Contains(@"TestDriven.NET")
                                                        ? dirAbsolutForUnitTestingOnly
                                                        : Application.StartupPath;
-
-        #endregion
     }
 }
