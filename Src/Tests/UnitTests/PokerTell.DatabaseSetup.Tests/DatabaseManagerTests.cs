@@ -8,6 +8,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
     using NUnit.Framework;
 
+    // Resharper disable InconsistentNaming
     public class DatabaseManagerTests
     {
         StubBuilder _stub;
@@ -186,7 +187,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
                 .Returns<string>(null);
 
-            var sut = new DatabaseManager(_stub.Out<IManagedDatabase>(), settingsStub.Object);
+            var managedDatabase_Stub = new Mock<IManagedDatabase>();
+            managedDatabase_Stub.SetupGet(md => md.DataProviderInfo).Returns(new Mock<IDataProviderInfo>().Object);
+            
+            var sut = new DatabaseManager(managedDatabase_Stub.Object, settingsStub.Object);
 
             Assert.That(sut.GetDatabaseInUse(), Is.Null);
         }
@@ -199,7 +203,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
                 .Returns("invalidConnectionString");
 
-            var sut = new DatabaseManager(_stub.Out<IManagedDatabase>(), settingsStub.Object);
+            var managedDatabase_Stub = new Mock<IManagedDatabase>();
+            managedDatabase_Stub.SetupGet(md => md.DataProviderInfo).Returns(new Mock<IDataProviderInfo>().Object);
+
+            var sut = new DatabaseManager(managedDatabase_Stub.Object, settingsStub.Object);
 
             Assert.That(sut.GetDatabaseInUse(), Is.Null);
         }
@@ -217,7 +224,10 @@ namespace PokerTell.DatabaseSetup.Tests
                 .Setup(ds => ds.GetConnectionStringFor(It.IsAny<IDataProviderInfo>()))
                 .Returns(validConnectionString);
 
-            var sut = new DatabaseManager(_stub.Out<IManagedDatabase>(), settingsStub.Object);
+            var managedDatabase_Stub = new Mock<IManagedDatabase>();
+            managedDatabase_Stub.SetupGet(md => md.DataProviderInfo).Returns(new Mock<IDataProviderInfo>().Object);
+
+            var sut = new DatabaseManager(managedDatabase_Stub.Object, settingsStub.Object);
 
             Assert.That(sut.GetDatabaseInUse(), Is.EqualTo(databaseName));
         }

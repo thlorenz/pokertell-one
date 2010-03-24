@@ -55,7 +55,7 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
-        public void DetermineSelectedItem_DatabaseManagerFindsOnePokerTellDatabaseThatIsNotUsed_SelectedDatabaseIsEmpty()
+        public void DetermineSelectedItem_DatabaseManagerFindsOnePokerTellDatabaseThatIsNotUsed_SelectedDatabaseIsSetToThatDatabase()
         {
             const string notInUseDatabase = "someDatabase";
             _databaseManagerMock
@@ -65,7 +65,7 @@ namespace PokerTell.DatabaseSetup.Tests
             var sut = new ChooseDatabaseViewModel(_eventAggregator, _databaseManagerMock.Object, _stub.Out<IDatabaseConnector>())
                 .DetermineSelectedItem();
 
-            Assert.That(sut.SelectedItem, Is.EqualTo(string.Empty));
+            Assert.That(sut.SelectedItem, Is.EqualTo(notInUseDatabase));
         }
 
         [Test]

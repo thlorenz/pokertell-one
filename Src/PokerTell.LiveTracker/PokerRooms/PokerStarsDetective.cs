@@ -16,8 +16,6 @@ namespace PokerTell.LiveTracker.PokerRooms
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        const bool toRead = false;
-
         const string HandHistoryFolderPattern = @"SaveMyHandsPath=(?<HandHistoryPath>.+)";
 
         const string AppFolder = @"\PokerStars";
@@ -77,12 +75,55 @@ namespace PokerTell.LiveTracker.PokerRooms
 
                     if (DetectedHandHistoryDirectory)
                         HandHistoryDirectory = match.Groups["HandHistoryPath"].Value;
+
+                    DetectPreferredSeats(settings);
                 }
                 catch (Exception excep)
                 {
                     Log.Error(excep);
                     DetectedHandHistoryDirectory = false;
                     HandHistoryDirectory = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// PokerStars: saves the preferred seats as follows
+        /// SeatPref=-1 -1 -1 4 -1 -1 -1 
+        /// These values correspond in order to the following total seats at the table:
+        /// 2 6 8 9 10 4 7
+        /// -1 means no preference
+        ///  0 means Seat 1 preference
+        ///  1 means Seat 2 preference etc.
+        /// So after detecting the values we add 1 since we use 0 for no preferred seat and 1 for Seat1 etc.
+        /// </summary>
+        public void DetectPreferredSeats(string settings)
+        {
+            const string preferredSeatsPattern =
+                @"SeatPref=(?<TP2>-*\d) (?<TP6>-*\d) (?<TP8>-*\d) (?<TP9>-*\d) (?<TP10>-*\d) (?<TP4>-*\d) (?<TP7>-*\d)";
+
+            Match match = Regex.Match(settings, preferredSeatsPattern);
+
+            DetectedPreferredSeats = match.Success;
+            if (DetectedPreferredSeats)
+            {
+                try
+                {
+                    PreferredSeats = new Dictionary<int, int>
+                        {
+                            { 2, int.Parse(match.Groups["TP2"].Value) + 1 }, 
+                            { 6, int.Parse(match.Groups["TP6"].Value) + 1 }, 
+                            { 8, int.Parse(match.Groups["TP8"].Value) + 1 }, 
+                            { 9, int.Parse(match.Groups["TP9"].Value) + 1 }, 
+                            { 10, int.Parse(match.Groups["TP10"].Value) + 1 }, 
+                            { 4, int.Parse(match.Groups["TP4"].Value) + 1 }, 
+                            { 7, int.Parse(match.Groups["TP7"].Value) + 1 }
+                        };
+                }
+                catch (Exception excep)
+                {
+                    Log.Error(excep);
+                    DetectedPreferredSeats = false;
                 }
             }
         }
@@ -96,6 +137,8 @@ namespace PokerTell.LiveTracker.PokerRooms
         /// <returns>Null if not found or the InstallationDirectory otherwise</returns>
         static string FindInstallationFolderInRegistry()
         {
+            const bool toRead = false;
+
             try
             {
                 var wow6432NodePokerStars =

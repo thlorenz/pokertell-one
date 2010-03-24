@@ -30,5 +30,6 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
 
             It the_HandHistory_should_contain_Full_Tilt_Poker_slash_HandHistory = () => _sut.HandHistoryDirectory.ShouldContain(@"\Full Tilt Poker\HandHistory");
         }
+
     }
 }
