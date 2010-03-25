@@ -5,7 +5,6 @@ namespace PokerTell.LiveTracker.Overlay
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.LiveTracker.Interfaces;
-    using PokerTell.LiveTracker.PokerRooms;
 
     using Tools.Interfaces;
     using Tools.WPF.Interfaces;

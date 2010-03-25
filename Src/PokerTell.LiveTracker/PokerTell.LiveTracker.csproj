@@ -108,6 +108,7 @@
     <Compile Include="PokerRooms\FullTiltPokerInfo.cs" />
     <Compile Include="Interfaces\IPokerRoomInfo.cs" />
     <Compile Include="Interfaces\IHandHistoryFolderAutoDetector.cs" />
+    <Compile Include="Interfaces\IPokerRoomInfoLocator.cs" />
     <Compile Include="PokerRooms\PokerRoomInfoLocator.cs" />
     <Compile Include="PokerRooms\PokerStarsDetective.cs" />
     <Compile Include="PokerRooms\PokerStarsInfo.cs" />

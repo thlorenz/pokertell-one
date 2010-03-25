@@ -74,11 +74,17 @@
                                                  MinHeight="100"
                                                  ItemsSource="{Binding HandHistoryFilesPaths}" 
                                                  SelectedItem="{Binding SelectedHandHistoryFilesPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        
-                                        <Button HorizontalAlignment="Right"
-                                                Margin="0,0,15,0"
+                                      <StackPanel Orientation="Horizontal"
+                                                  Margin="5">
+                                        <Button HorizontalAlignment="Left"
+                                                Margin="5"
                                                 Content="{x:Static Properties:Resources.LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder}"
                                                 Command="{Binding RemoveSelectedHandHistoryPathCommand}"/>
+                                        <Button HorizontalAlignment="Right"
+                                                Margin="5"
+                                                Content="{x:Static Properties:Resources.LiveTrackerSettingsView_AutoDetectHandHistoryFolders}"
+                                                Command="{Binding AutoDetectHandHistoryFoldersCommand}"/>
+                                        </StackPanel>
                                         <!-- Adding HandHistory Folder -->
                                         <Border MaxWidth="400" Margin="0,5" Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Padding="5,1">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">

@@ -7,12 +7,6 @@ namespace PokerTell.LiveTracker.PokerRooms
     using Interfaces;
 
     using Tools.FunctionalCSharp;
-    using Tools.Interfaces;
-
-    public interface IPokerRoomInfoLocator : IFluentInterface, IEnumerable<IPokerRoomInfo>
-    {
-        IPokerRoomInfo GetPokerRoomInfoFor(string pokerSite);
-    }
 
     public class PokerRoomInfoLocator : IPokerRoomInfoLocator
     {
@@ -24,15 +18,13 @@ namespace PokerTell.LiveTracker.PokerRooms
                 .Do();
         }
 
-        public IEnumerator<IPokerRoomInfo> GetEnumerator()
+        public IEnumerable<IPokerRoomInfo> SupportedPokerRoomInfos
         {
-            yield return new PokerStarsInfo();
-            yield return new FullTiltPokerInfo();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            get
+            {
+                yield return new PokerStarsInfo();
+                yield return new FullTiltPokerInfo();
+            }
         }
     }
 }

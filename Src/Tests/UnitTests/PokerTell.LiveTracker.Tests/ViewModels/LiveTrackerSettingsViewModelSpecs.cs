@@ -18,6 +18,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     using PokerTell.LiveTracker.Tests.Fakes;
     using PokerTell.LiveTracker.ViewModels;
 
+    using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
+
     using It = Machine.Specifications.It;
 
     // Resharper disable InconsistentNaming
@@ -35,15 +38,35 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static Mock<IHandHistoryFolderAutoDetectResultsWindowManager> _autoDetectResultsWindow_Mock;
 
+        protected static Mock<IPokerRoomInfoLocator> _pokerRoomInfoLocator_Stub;
+
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
             _xDocumentHandler_Mock = new LiveTrackerSettingsXDocumentHandlerMock();
             
             _autoDetector_Mock = new Mock<IHandHistoryFolderAutoDetector>();
+            _autoDetector_Mock
+                .Setup(ad => ad.InitializeWith(Moq.It.IsAny<IEnumerable<IPokerRoomInfo>>()))
+                .Returns(_autoDetector_Mock.Object);
+            _autoDetector_Mock
+                .SetupGet(ad => ad.PokerRoomsWithDetectedHandHistoryDirectories)
+                .Returns(new List<ITuple<string, string>>());
+
             _autoDetectResultsVM_Mock = new Mock<IHandHistoryFolderAutoDetectResultsViewModel>();
+            _autoDetectResultsVM_Mock
+                .Setup(dr => dr.InitializeWith(Moq.It.IsAny<IHandHistoryFolderAutoDetector>()))
+                .Returns(_autoDetectResultsVM_Mock.Object);
+
             _autoDetectResultsWindow_Mock = new Mock<IHandHistoryFolderAutoDetectResultsWindowManager>();
 
-            _sut = new LiveTrackerSettingsViewModel(_eventAggregator, _xDocumentHandler_Mock, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object);
+            _pokerRoomInfoLocator_Stub = new Mock<IPokerRoomInfoLocator>();
+
+            _sut = new LiveTrackerSettingsViewModel(_eventAggregator,
+                                                    _xDocumentHandler_Mock,
+                                                    _autoDetector_Mock.Object,
+                                                    _autoDetectResultsVM_Mock.Object,
+                                                    _autoDetectResultsWindow_Mock.Object, 
+                                                    _pokerRoomInfoLocator_Stub.Object);
         };
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Load")]
@@ -54,7 +77,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const string notExisitingPath = "doesn't exist";
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
                     { HandHistoryFilesPaths = new[] { existingPath, notExisitingPath } };
 
                 _xDocumentHandler_Mock.DocumentToLoad = LiveTrackerSettingsViewModel.CreateXDocumentFor(settings);
@@ -101,7 +124,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const int duration = 1;
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
                     {
                         AutoTrack = setTrue, 
                         ShowLiveStatsWindowOnStartup = setTrue, 
@@ -136,7 +159,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const int duration = 2;
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
                     {
                         AutoTrack = setFalse, 
                         ShowLiveStatsWindowOnStartup = setFalse, 
@@ -313,6 +336,73 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_inform_the_user_that_it_existed_already = () => userWasWarned.ShouldBeTrue();
 
             It should_set_the_path_to_be_added_to_null = () => _sut.HandHistoryPathToBeAdded.ShouldBeNull();
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "AutoDetectHandHistoryFoldersCommand")]
+        public class when_the_user_wants_to_autodetect_the_HandHistory_folders_and_no_HandHistoryFolders_are_currently_tracked : LiveTrackerSettingsViewModelSpecs
+        {
+           static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
+
+            Establish context = () => {
+                pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
+                _pokerRoomInfoLocator_Stub
+                    .SetupGet(il => il.SupportedPokerRoomInfos)
+                    .Returns(pokerRoomInfos_Stub);
+            };
+
+            Because of = () => _sut.AutoDetectHandHistoryFoldersCommand.Execute(null);
+
+            It should_initialize_the_autoDetector_with_the_PokerRoomInfos_returned_by_the_PokerRoomInfoLocator
+                = () => _autoDetector_Mock.Verify(ad => ad.InitializeWith(pokerRoomInfos_Stub));
+
+            It should_tell_the_autoDetector_to_detect = () => _autoDetector_Mock.Verify(ad => ad.Detect());
+
+            It should_initialize_the_autodetectresults_viewmodel_with_the_autodetector 
+                = () => _autoDetectResultsVM_Mock.Verify(dr => dr.InitializeWith(_autoDetector_Mock.Object));
+
+            It should_set_the_datacontext_of_the_autodetectresults_window_to_the_autodetectresults_viewmodel
+                = () => _autoDetectResultsWindow_Mock.VerifySet(drw => drw.DataContext = _autoDetectResultsVM_Mock.Object);
+
+            It should_show_the_autodetectresults_window_as_a_dialog = () => _autoDetectResultsWindow_Mock.Verify(drw => drw.ShowDialog());
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "DetectAndAddHandHistoryFolders")]
+        public class when_no_folders_are_currently_tracked_and_the_auto_detector_finds_one_room_with_corresponding_folder : LiveTrackerSettingsViewModelSpecs
+        {
+            const string detectedHandHistoryFolder = "someFolder";
+
+            Establish context = () => {
+                _sut.HandHistoryFilesPaths = new List<string>();
+                _autoDetector_Mock
+                    .SetupGet(ad => ad.PokerRoomsWithDetectedHandHistoryDirectories)
+                    .Returns(new[] { Tuple.New("somePokerSite", detectedHandHistoryFolder) });
+            };
+
+            Because of = () => _sut.DetectAndAddHandHistoryFolders();
+
+            It should_add_the_detected_folder_to_the_tracked_HandHistory_folders = () => _sut.HandHistoryFilesPaths.ShouldContain(detectedHandHistoryFolder);
+        }
+
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "DetectAndAddHandHistoryFolders")]
+        public class when_two_folders_are_found_but_the_second_one_is_tracked_already : LiveTrackerSettingsViewModelSpecs
+        {
+            const string firstDetectedHandHistoryFolder = "someFolder";
+
+            const string secondDetectedHandHistoryFolder = "another Folder";
+
+            Establish context = () => {
+                _sut.HandHistoryFilesPaths = new List<string> { secondDetectedHandHistoryFolder };
+                _autoDetector_Mock
+                    .SetupGet(ad => ad.PokerRoomsWithDetectedHandHistoryDirectories)
+                    .Returns(new[] { Tuple.New("somePokerSite", firstDetectedHandHistoryFolder), Tuple.New("somePokerSite", secondDetectedHandHistoryFolder) });
+            };
+
+            Because of = () => _sut.DetectAndAddHandHistoryFolders();
+
+            It should_add_the_first_detected_folder_to_the_tracked_HandHistory_folders = () => _sut.HandHistoryFilesPaths.ShouldContain(firstDetectedHandHistoryFolder);
+
+            It should_not_add_the_second_detected_folder_to_the_tracked_HandHistory_folders_again = () => _sut.HandHistoryFilesPaths.Count.ShouldEqual(2);
         }
     }
 }

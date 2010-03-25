@@ -15,6 +15,7 @@ namespace PokerTell.LiveTracker.ViewModels
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Properties;
 
+    using Tools.FunctionalCSharp;
     using Tools.IO;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
@@ -22,29 +23,65 @@ namespace PokerTell.LiveTracker.ViewModels
 
     public class LiveTrackerSettingsViewModel : NotifyPropertyChanged, ILiveTrackerSettingsViewModel
     {
-        const string LiveTrackerSettings = "LiveTrackerSettings";
-
         const string AutoTrackElement = "AutoTrack";
+
+        const string HandHistoryFilesPathsElement = "HandHistoryFilesPaths";
+
+        const string LiveTrackerSettings = "LiveTrackerSettings";
 
         const string ShowHoleCardsDurationElement = "ShowHoleCardsDuration";
 
         const string ShowLiveStatsWindowOnStartupElement = "ShowLiveStatsWindowOnStartup";
 
-        const string ShowTableOverlayElement = "ShowTableOverlay";
-
-        const string HandHistoryFilesPathsElement = "HandHistoryFilesPaths";
-
         const string ShowMyStatisticsElement = "ShowMyStatistics";
 
+        const string ShowTableOverlayElement = "ShowTableOverlay";
+
+        readonly IHandHistoryFolderAutoDetector _autoDetector;
+
+        readonly IHandHistoryFolderAutoDetectResultsViewModel _autoDetectResultsViewModel;
+
+        readonly IHandHistoryFolderAutoDetectResultsWindowManager _autoDetectResultsWindow;
+
+        readonly IEventAggregator _eventAggregator;
+
         readonly ILiveTrackerSettingsXDocumentHandler _xDocumentHandler;
+
+        ICommand _addHandHistoryPathCommand;
+
+        ICommand _autoDetectHandHistoryFoldersCommand;
+
+        bool _autoTrack;
+
+        ICommand _browseCommand;
+
+        IList<string> _handHistoryFilesPaths;
+
+        string _handHistoryPathToBeAdded;
+
+        ICommand _removeSelectedHandHistoryPathCommand;
+
+        ICommand _saveSettingsCommand;
+
+        int _showHoleCardsDuration;
+
+        bool _showLiveStatsWindowOnStartup;
+
+        bool _showMyStatistics;
+
+        bool _showTableOverlay;
+
+        readonly IPokerRoomInfoLocator _pokerRoomInfoLocator;
 
         public LiveTrackerSettingsViewModel(
             IEventAggregator eventAggregator, 
             ILiveTrackerSettingsXDocumentHandler xDocumentHandler, 
             IHandHistoryFolderAutoDetector autoDetector, 
             IHandHistoryFolderAutoDetectResultsViewModel autoDetectResultsViewModel, 
-            IHandHistoryFolderAutoDetectResultsWindowManager autoDetectResultsWindow)
+            IHandHistoryFolderAutoDetectResultsWindowManager autoDetectResultsWindow, 
+            IPokerRoomInfoLocator pokerRoomInfoLocator)
         {
+            _pokerRoomInfoLocator = pokerRoomInfoLocator;
             _eventAggregator = eventAggregator;
             _xDocumentHandler = xDocumentHandler;
 
@@ -55,9 +92,44 @@ namespace PokerTell.LiveTracker.ViewModels
             ShowHoleCardsDurations = new List<int> { 0, 3, 5, 10, 15, 20 };
         }
 
-        public IEnumerable<int> ShowHoleCardsDurations { get; protected set; }
+        public ICommand AddHandHistoryPathCommand
+        {
+            get
+            {
+                return _addHandHistoryPathCommand ?? (_addHandHistoryPathCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            if (HandHistoryFilesPaths.Contains(HandHistoryPathToBeAdded))
+                            {
+                                _eventAggregator
+                                    .GetEvent<UserMessageEvent>()
+                                    .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, Resources.Warning_HandHistoryFolderIsTrackedAlready));
+                            }
+                            else
+                                HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded.Trim().TrimEnd('\\'));
 
-        bool _autoTrack;
+                            HandHistoryPathToBeAdded = null;
+                        }, 
+                        CanExecuteDelegate = arg => HandHistoryPathToBeAdded.IsExistingDirectory()
+                    });
+            }
+        }
+
+        public ICommand AutoDetectHandHistoryFoldersCommand
+        {
+            get
+            {
+                return _autoDetectHandHistoryFoldersCommand ?? (_autoDetectHandHistoryFoldersCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            DetectAndAddHandHistoryFolders();
+
+                            _autoDetectResultsWindow.DataContext = _autoDetectResultsViewModel.InitializeWith(_autoDetector);
+                            _autoDetectResultsWindow.ShowDialog();
+                        }
+                    });
+            }
+        }
 
         public bool AutoTrack
         {
@@ -69,55 +141,16 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        bool _showTableOverlay;
-
-        public bool ShowTableOverlay
+        public ICommand BrowseCommand
         {
-            get { return _showTableOverlay; }
-            set
+            get
             {
-                _showTableOverlay = value;
-                RaisePropertyChanged(() => ShowTableOverlay);
+                return _browseCommand ?? (_browseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = BrowseForDirectory
+                    });
             }
         }
-
-        int _showHoleCardsDuration;
-
-        public int ShowHoleCardsDuration
-        {
-            get { return _showHoleCardsDuration; }
-            set
-            {
-                _showHoleCardsDuration = value;
-                RaisePropertyChanged(() => ShowHoleCardsDuration);
-            }
-        }
-
-        bool _showLiveStatsWindowOnStartup;
-
-        public bool ShowLiveStatsWindowOnStartup
-        {
-            get { return _showLiveStatsWindowOnStartup; }
-            set
-            {
-                _showLiveStatsWindowOnStartup = value;
-                RaisePropertyChanged(() => ShowLiveStatsWindowOnStartup);
-            }
-        }
-
-        bool _showMyStatistics;
-
-        public bool ShowMyStatistics
-        {
-            get { return _showMyStatistics; }
-            set
-            {
-                _showMyStatistics = value;
-                RaisePropertyChanged(() => ShowMyStatistics);
-            }
-        }
-
-        IList<string> _handHistoryFilesPaths;
 
         public IList<string> HandHistoryFilesPaths
         {
@@ -129,10 +162,6 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        public string SelectedHandHistoryFilesPath { get; set; }
-
-        string _handHistoryPathToBeAdded;
-
         public string HandHistoryPathToBeAdded
         {
             get { return _handHistoryPathToBeAdded; }
@@ -143,7 +172,20 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        ICommand _saveSettingsCommand;
+        public ICommand RemoveSelectedHandHistoryPathCommand
+        {
+            get
+            {
+                return _removeSelectedHandHistoryPathCommand ?? (_removeSelectedHandHistoryPathCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            HandHistoryFilesPaths.Remove(SelectedHandHistoryFilesPath);
+                            SelectedHandHistoryFilesPath = null;
+                        }, 
+                        CanExecuteDelegate = arg => SelectedHandHistoryFilesPath != null
+                    });
+            }
+        }
 
         public ICommand SaveSettingsCommand
         {
@@ -162,66 +204,47 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        ICommand _removeSelectedHandHistoryPathCommand;
+        public string SelectedHandHistoryFilesPath { get; set; }
 
-        public ICommand RemoveSelectedHandHistoryPathCommand
+        public int ShowHoleCardsDuration
         {
-            get
+            get { return _showHoleCardsDuration; }
+            set
             {
-                return _removeSelectedHandHistoryPathCommand ?? (_removeSelectedHandHistoryPathCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => {
-                            HandHistoryFilesPaths.Remove(SelectedHandHistoryFilesPath);
-                            SelectedHandHistoryFilesPath = null;
-                        }, 
-                        CanExecuteDelegate = arg => SelectedHandHistoryFilesPath != null
-                    });
+                _showHoleCardsDuration = value;
+                RaisePropertyChanged(() => ShowHoleCardsDuration);
             }
         }
 
-        ICommand _addHandHistoryPathCommand;
+        public IEnumerable<int> ShowHoleCardsDurations { get; protected set; }
 
-        public ICommand AddHandHistoryPathCommand
+        public bool ShowLiveStatsWindowOnStartup
         {
-            get
+            get { return _showLiveStatsWindowOnStartup; }
+            set
             {
-                return _addHandHistoryPathCommand ?? (_addHandHistoryPathCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => {
-                            if (HandHistoryFilesPaths.Contains(HandHistoryPathToBeAdded))
-                            {
-                                _eventAggregator
-                                    .GetEvent<UserMessageEvent>()
-                                    .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, Resources.Warning_HandHistoryFolderIsTrackedAlready));
-                            }
-                            else
-                                HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded.TrimStart(' ').TrimEnd(' '));
-
-                            HandHistoryPathToBeAdded = null;
-                        }, 
-                        CanExecuteDelegate = arg => HandHistoryPathToBeAdded.IsExistingDirectory()
-                    });
+                _showLiveStatsWindowOnStartup = value;
+                RaisePropertyChanged(() => ShowLiveStatsWindowOnStartup);
             }
         }
 
-        ICommand _browseCommand;
-
-        readonly IEventAggregator _eventAggregator;
-
-        readonly IHandHistoryFolderAutoDetector _autoDetector;
-
-        readonly IHandHistoryFolderAutoDetectResultsViewModel _autoDetectResultsViewModel;
-
-        readonly IHandHistoryFolderAutoDetectResultsWindowManager _autoDetectResultsWindow;
-
-        public ICommand BrowseCommand
+        public bool ShowMyStatistics
         {
-            get
+            get { return _showMyStatistics; }
+            set
             {
-                return _browseCommand ?? (_browseCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = BrowseForDirectory
-                    });
+                _showMyStatistics = value;
+                RaisePropertyChanged(() => ShowMyStatistics);
+            }
+        }
+
+        public bool ShowTableOverlay
+        {
+            get { return _showTableOverlay; }
+            set
+            {
+                _showTableOverlay = value;
+                RaisePropertyChanged(() => ShowTableOverlay);
             }
         }
 
@@ -236,6 +259,18 @@ namespace PokerTell.LiveTracker.ViewModels
                                  new XElement(ShowTableOverlayElement, lts.ShowTableOverlay), 
                                  new XElement(ShowMyStatisticsElement, lts.ShowMyStatistics), 
                                  Utils.XElementForCollection(HandHistoryFilesPathsElement, lts.HandHistoryFilesPaths)));
+        }
+
+        public void DetectAndAddHandHistoryFolders()
+        {
+            _autoDetector
+                .InitializeWith(_pokerRoomInfoLocator.SupportedPokerRoomInfos)
+                .Detect();
+
+            _autoDetector.PokerRoomsWithDetectedHandHistoryDirectories.ForEach(pair => {
+                if (! HandHistoryFilesPaths.Contains(pair.Second))
+                    HandHistoryFilesPaths.Add(pair.Second);
+            });
         }
 
         public ILiveTrackerSettingsViewModel LoadSettings()
@@ -269,17 +304,6 @@ namespace PokerTell.LiveTracker.ViewModels
             return this;
         }
 
-        void SetPropertiesToDefault()
-        {
-            AutoTrack = true;
-            ShowLiveStatsWindowOnStartup = true;
-            ShowTableOverlay = true;
-            ShowMyStatistics = false;
-            ShowHoleCardsDuration = 5;
-
-            HandHistoryFilesPaths = new ObservableCollection<string>();
-        }
-
         void BrowseForDirectory(object arg)
         {
             using (var browserDialog = new FolderBrowserDialog
@@ -291,6 +315,17 @@ namespace PokerTell.LiveTracker.ViewModels
                 browserDialog.ShowDialog();
                 HandHistoryPathToBeAdded = browserDialog.SelectedPath;
             }
+        }
+
+        void SetPropertiesToDefault()
+        {
+            AutoTrack = true;
+            ShowLiveStatsWindowOnStartup = true;
+            ShowTableOverlay = true;
+            ShowMyStatistics = false;
+            ShowHoleCardsDuration = 5;
+
+            HandHistoryFilesPaths = new ObservableCollection<string>();
         }
     }
 }

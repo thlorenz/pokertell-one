@@ -3,13 +3,20 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Collections.Generic;
     using System.Linq;
 
-    using Interfaces;
+    using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.Properties;
 
     using Tools.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class HandHistoryFolderAutoDetectResultsViewModel : NotifyPropertyChanged, IHandHistoryFolderAutoDetectResultsViewModel
     {
+        IHandHistoryFolderAutoDetector _handHistoryFolderAutoDetector;
+
+        ITuple<string, string> _selectedUndetectedPokerRoom;
+
+        string _selectedUndetectedPokerRoomInformation;
+
         public IEnumerable<string> PokerRoomsWithDetectedHandHistoryDirectories
         {
             get { return _handHistoryFolderAutoDetector.PokerRoomsWithDetectedHandHistoryDirectories.Select(room => room.First); }
@@ -20,8 +27,6 @@ namespace PokerTell.LiveTracker.ViewModels
             get { return _handHistoryFolderAutoDetector.PokerRoomsWithoutDetectedHandHistoryDirectories; }
         }
 
-        ITuple<string, string> _selectedUndetectedPokerRoom;
-
         public ITuple<string, string> SelectedUndetectedPokerRoom
         {
             get { return _selectedUndetectedPokerRoom; }
@@ -29,13 +34,10 @@ namespace PokerTell.LiveTracker.ViewModels
             {
                 _selectedUndetectedPokerRoom = value;
                 SelectedUndetectedPokerRoomInformation =
-                   string.Format(Properties.Resources.AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDetectedInformation, _selectedUndetectedPokerRoom.First);
+                    string.Format(Resources.AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDetectedInformation, 
+                                  _selectedUndetectedPokerRoom.First);
             }
         }
-
-        string _selectedUndetectedPokerRoomInformation;
-
-        readonly IHandHistoryFolderAutoDetector _handHistoryFolderAutoDetector;
 
         public string SelectedUndetectedPokerRoomInformation
         {
@@ -52,12 +54,14 @@ namespace PokerTell.LiveTracker.ViewModels
             get { return PokerRoomsWithoutDetectedHandHistoryDirectories.Count > 0; }
         }
 
-        public HandHistoryFolderAutoDetectResultsViewModel(IHandHistoryFolderAutoDetector handHistoryFolderAutoDetector)
+        public IHandHistoryFolderAutoDetectResultsViewModel InitializeWith(IHandHistoryFolderAutoDetector handHistoryFolderAutoDetector)
         {
             _handHistoryFolderAutoDetector = handHistoryFolderAutoDetector;
 
             if (PokerRoomsWithoutDetectedHandHistoryDirectories.Count > 0)
                 SelectedUndetectedPokerRoom = PokerRoomsWithoutDetectedHandHistoryDirectories.First();
+
+            return this;
         }
     }
 }

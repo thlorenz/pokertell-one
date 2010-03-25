@@ -55,7 +55,7 @@ namespace PokerTell.LiveTracker.Tests.PokerRooms
             _site_Directory_Pair = Tuple.New(_site, _handHistoryDirectory);
             _site_HelpLink_Pair = Tuple.New(_site, _helpWithHandHistoryDirectorySetupLink);
 
-            _sut = new HandHistoryFolderAutoDetector(new[] { _roomInfo_Stub.Object });
+            _sut = new HandHistoryFolderAutoDetector().InitializeWith(new[] { _roomInfo_Stub.Object });
         };
 
         [Subject(typeof(HandHistoryFolderAutoDetector), "Detect")]

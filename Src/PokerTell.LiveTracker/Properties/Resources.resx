@@ -137,6 +137,9 @@ You may then add its Hand History Folder manually.</value>
   <data name="LiveTrackerSettingsView_AddHandHistoryFolder" xml:space="preserve">
     <value>Add HandHistory Folder</value>
   </data>
+  <data name="LiveTrackerSettingsView_AutoDetectHandHistoryFolders" xml:space="preserve">
+    <value>Detect Handhistory Folders (recommended)</value>
+  </data>
   <data name="LiveTrackerSettingsView_AutoTrack" xml:space="preserve">
     <value>Enable Autotracking</value>
   </data>

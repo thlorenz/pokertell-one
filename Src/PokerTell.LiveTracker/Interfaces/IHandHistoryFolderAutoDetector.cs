@@ -11,5 +11,7 @@ namespace PokerTell.LiveTracker.Interfaces
         IList<ITuple<string, string>> PokerRoomsWithDetectedHandHistoryDirectories { get; }
 
         IList<ITuple<string, string>> PokerRoomsWithoutDetectedHandHistoryDirectories { get; }
+
+        IHandHistoryFolderAutoDetector InitializeWith(IEnumerable<IPokerRoomInfo> pokerRoomInfos);
     }
 }

@@ -32,6 +32,10 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ICommand BrowseCommand { get; }
 
+        ICommand AutoDetectHandHistoryFoldersCommand { get; }
+
         ILiveTrackerSettingsViewModel LoadSettings();
+
+        void DetectAndAddHandHistoryFolders();
     }
 }

@@ -146,6 +146,15 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detect Handhistory Folders (recommended).
+        /// </summary>
+        public static string LiveTrackerSettingsView_AutoDetectHandHistoryFolders {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_AutoDetectHandHistoryFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enable Autotracking.
         /// </summary>
         public static string LiveTrackerSettingsView_AutoTrack {

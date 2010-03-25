@@ -17,7 +17,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
         static StubBuilder _stub = new StubBuilder();
     
         public LiveTrackerSettingsDesignModel(ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
-            : base(new EventAggregator(), xDocumentHandler, _stub.Out<IHandHistoryFolderAutoDetector>(), _stub.Out<IHandHistoryFolderAutoDetectResultsViewModel>(), _stub.Out<IHandHistoryFolderAutoDetectResultsWindowManager>()) 
+            : base(new EventAggregator(), xDocumentHandler, _stub.Out<IHandHistoryFolderAutoDetector>(), _stub.Out<IHandHistoryFolderAutoDetectResultsViewModel>(), _stub.Out<IHandHistoryFolderAutoDetectResultsWindowManager>(), _stub.Out<IPokerRoomInfoLocator>()) 
         {
             AutoTrack = true;
             ShowLiveStatsWindowOnStartup = false;

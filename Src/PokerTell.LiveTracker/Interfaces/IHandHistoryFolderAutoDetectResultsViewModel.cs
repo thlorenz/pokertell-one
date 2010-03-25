@@ -15,5 +15,7 @@ namespace PokerTell.LiveTracker.Interfaces
         string SelectedUndetectedPokerRoomInformation { get; set; }
 
         bool SomeDetectionsFailed { get; }
+
+        IHandHistoryFolderAutoDetectResultsViewModel InitializeWith(IHandHistoryFolderAutoDetector handHistoryFolderAutoDetector);
     }
 }

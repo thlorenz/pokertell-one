@@ -12,7 +12,9 @@
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterOwner"
         MouseDown="WindowBorder_MouseDown"
-        Title="{x:Static Properties:Resources.AutoDetectHandHistoryFoldersResultsView_Title}">
+        Title="{x:Static Properties:Resources.AutoDetectHandHistoryFoldersResultsView_Title}"
+        MaxWidth="500"               
+        >
 
     <ToolsViews:DialogView.Resources>
         <ResourceDictionary>
@@ -62,7 +64,7 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Grid.Row="0" 
                                                        Text="{x:Static Properties:Resources.AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInformation}"
-                                                             TextWrapping="Wrap"/>
+                                                             TextWrapping="WrapWithOverflow"/>
                                             <TextBlock Grid.Row="1" VerticalAlignment="Bottom">
                                                    <Hyperlink>
                                                       <TextBlock Text="{x:Static GlobalProperties:Resources.Links_ListOfSupportedPokerRooms}"/>
@@ -119,7 +121,8 @@
                         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                             <Button HorizontalAlignment="Right" 
                                     Click="Close_Click"
-                                    Content="x:Static GlobalProperties:Resources.Commands_Close"/>
+                                    Padding="5"
+                                    Content="{x:Static GlobalProperties:Resources.Commands_Close}"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -127,4 +130,6 @@
             </DataTemplate>
         </ResourceDictionary>
     </ToolsViews:DialogView.Resources>
+    
+    <ContentControl Content="{Binding}" />
 </ToolsViews:DialogView>

@@ -9,15 +9,17 @@ namespace PokerTell.LiveTracker.PokerRooms
 
     public class HandHistoryFolderAutoDetector : IHandHistoryFolderAutoDetector
     {
-        readonly IEnumerable<IPokerRoomInfo> _pokerRoomInfos;
+        IEnumerable<IPokerRoomInfo> _pokerRoomInfos;
 
         public IList<ITuple<string, string>> PokerRoomsWithDetectedHandHistoryDirectories { get; protected set; }
 
         public IList<ITuple<string, string>> PokerRoomsWithoutDetectedHandHistoryDirectories { get; protected set; }
 
-        public HandHistoryFolderAutoDetector(IEnumerable<IPokerRoomInfo> pokerRoomInfos)
+        public IHandHistoryFolderAutoDetector InitializeWith(IEnumerable<IPokerRoomInfo> pokerRoomInfos)
         {
             _pokerRoomInfos = pokerRoomInfos;
+
+            return this;
         }
 
         public IHandHistoryFolderAutoDetector Detect()
@@ -31,7 +33,7 @@ namespace PokerTell.LiveTracker.PokerRooms
                 if (detective.PokerRoomIsInstalled)
                 {
                     if (detective.DetectedHandHistoryDirectory)
-                        PokerRoomsWithDetectedHandHistoryDirectories.Add(Tuple.New(info.Site, detective.HandHistoryDirectory));
+                        PokerRoomsWithDetectedHandHistoryDirectories.Add(Tuple.New(info.Site, detective.HandHistoryDirectory.Trim().TrimEnd('\\')));
                     else
                         PokerRoomsWithoutDetectedHandHistoryDirectories.Add(Tuple.New(info.Site, info.HelpWithHandHistoryDirectorySetupLink));
                 }
