@@ -6,6 +6,7 @@ namespace PokerTell.Statistics.ViewModels
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.Interfaces;
     using PokerTell.Statistics.ViewModels.Base;
@@ -16,7 +17,6 @@ namespace PokerTell.Statistics.ViewModels
 
     public class DetailedStatisticsAnalyzerViewModel : NotifyPropertyChanged, IDetailedStatisticsAnalyzerViewModel
     {
-
         readonly IConstructor<IDetailedPostFlopHeroActsStatisticsViewModel> _detailedPostFlopActionStatisticsViewModelMake;
 
         readonly IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel> _detailedPostFlopReactionStatisticsViewModelMake;
@@ -27,13 +27,19 @@ namespace PokerTell.Statistics.ViewModels
 
         ICommand _navigateForwardCommand;
 
+        IDetailedStatisticsAnalyzerContentViewModel _popupViewModel;
 
+        bool _showPopup;
+
+        readonly IRepositoryHandBrowserViewModel _selectedPlayerHandsBrowser;
 
         public DetailedStatisticsAnalyzerViewModel(
             IConstructor<IDetailedPreFlopStatisticsViewModel> detailedPreFlopStatisticsViewModelMake, 
             IConstructor<IDetailedPostFlopHeroActsStatisticsViewModel> detailedPostFlopActionStatisticsViewModelMake, 
-            IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel> detailedPostFlopReactionStatisticsViewModelMake)
+            IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel> detailedPostFlopReactionStatisticsViewModelMake, 
+            IRepositoryHandBrowserViewModel repositoryHandBrowserViewModel)
         {
+            _selectedPlayerHandsBrowser = repositoryHandBrowserViewModel;
             _detailedPostFlopReactionStatisticsViewModelMake = detailedPostFlopReactionStatisticsViewModelMake;
             _detailedPostFlopActionStatisticsViewModelMake = detailedPostFlopActionStatisticsViewModelMake;
             _detailedPreFlopStatisticsViewModelMake = detailedPreFlopStatisticsViewModelMake;
@@ -42,33 +48,7 @@ namespace PokerTell.Statistics.ViewModels
             CurrentViewModel = StatisticsTableViewModel.Emty;
         }
 
-
-
         public IDetailedStatisticsAnalyzerContentViewModel CurrentViewModel { get; set; }
-
-        IDetailedStatisticsAnalyzerContentViewModel _popupViewModel;
-
-        public IDetailedStatisticsAnalyzerContentViewModel PopupViewModel
-        {
-            get { return _popupViewModel; }
-            set
-            {
-                _popupViewModel = value;
-                RaisePropertyChanged(() => PopupViewModel);
-            }
-        }
-
-        bool _showPopup;
-
-        public bool ShowPopup
-        {
-            get { return _showPopup; }
-            set
-            {
-                _showPopup = value;
-                RaisePropertyChanged(() => ShowPopup);
-            }
-        }
 
         public ICommand NavigateBackwardCommand
         {
@@ -97,15 +77,32 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
+        public IDetailedStatisticsAnalyzerContentViewModel PopupViewModel
+        {
+            get { return _popupViewModel; }
+            set
+            {
+                _popupViewModel = value;
+                RaisePropertyChanged(() => PopupViewModel);
+            }
+        }
+
+        public bool ShowPopup
+        {
+            get { return _showPopup; }
+            set
+            {
+                _showPopup = value;
+                RaisePropertyChanged(() => ShowPopup);
+            }
+        }
+
         public IList<IDetailedStatisticsAnalyzerContentViewModel> ViewModelHistory { get; private set; }
 
         public bool Visible
         {
             get { return ViewModelHistory != null && ViewModelHistory.Count > 0; }
         }
-
-
-
 
         public IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsAnalyzerContentViewModel viewModel)
         {
@@ -126,6 +123,16 @@ namespace PokerTell.Statistics.ViewModels
             RaisePropertyChanged(() => CurrentViewModel);
 
             viewModel.ChildViewModelChanged += vm => AddViewModel(vm);
+
+            return this;
+        }
+
+        public IDetailedStatisticsAnalyzerViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, string playerName)
+        {
+            ViewModelHistory.Clear();
+
+            _selectedPlayerHandsBrowser.InitializeWith(analyzablePokerPlayers, playerName);
+            AddViewModel(_selectedPlayerHandsBrowser);
 
             return this;
         }
@@ -165,9 +172,6 @@ namespace PokerTell.Statistics.ViewModels
             return this;
         }
 
-
-
-
         void RemoveAllViewModelsInHistoryThatAreBehindCurrentViewModel()
         {
             int indexOfCurrentView = ViewModelHistory.IndexOf(CurrentViewModel);
@@ -181,6 +185,5 @@ namespace PokerTell.Statistics.ViewModels
                 }
             }
         }
-
     }
 }

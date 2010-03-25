@@ -73,6 +73,9 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
                 // LiveTrackerSettings
                 .RegisterType<ILiveTrackerSettingsXDocumentHandler, LiveTrackerSettingsXDocumentHandler>()
+                .RegisterType<IHandHistoryFolderAutoDetector, HandHistoryFolderAutoDetector>()
+                .RegisterType<IHandHistoryFolderAutoDetectResultsViewModel, HandHistoryFolderAutoDetectResultsViewModel>()
+                .RegisterType<IHandHistoryFolderAutoDetectResultsWindowManager, HandHistoryFolderAutoDetectResultsWindowManager>()
                 .RegisterType<ILiveTrackerSettingsViewModel, LiveTrackerSettingsViewModel>()
                 .RegisterType<LiveTrackerSettingsView>()
 

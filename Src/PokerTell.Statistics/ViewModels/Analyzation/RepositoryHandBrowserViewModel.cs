@@ -30,7 +30,17 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
 
         public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
 
-        public int HandCount { get; protected set; }
+        int _handCount;
+
+        public int HandCount
+        {
+            get { return _handCount; }
+            protected set
+            {
+                _handCount = value;
+                RaisePropertyChanged(() => HandCount);
+            }
+        }
 
         public int CurrentHandIndex
         {

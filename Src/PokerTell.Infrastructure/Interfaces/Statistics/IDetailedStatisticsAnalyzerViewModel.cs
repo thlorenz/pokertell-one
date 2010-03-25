@@ -5,6 +5,8 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     using Enumerations.PokerHand;
 
+    using PokerHand;
+
     public interface IDetailedStatisticsAnalyzerViewModel
     {
         IDetailedStatisticsAnalyzerContentViewModel CurrentViewModel { get; set; }
@@ -22,5 +24,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         IDetailedStatisticsAnalyzerViewModel NavigateTo(int index);
 
         IDetailedStatisticsAnalyzerViewModel InitializeWith(IActionSequenceStatisticsSet actionSequenceStatisticsSet);
+
+        IDetailedStatisticsAnalyzerViewModel InitializeWith(IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers, string playerName);
     }
 }

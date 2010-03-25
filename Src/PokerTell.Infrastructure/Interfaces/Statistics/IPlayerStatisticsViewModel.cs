@@ -1,6 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System;
+    using System.Windows.Input;
 
     using Enumerations.PokerHand;
 
@@ -31,5 +32,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         #endregion
 
         event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
+
+        event Action<IPlayerStatisticsViewModel> BrowseAllMyHandsRequested;
     }
 }

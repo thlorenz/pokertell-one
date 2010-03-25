@@ -36,7 +36,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IAnalyzablePokerPlayersFilter Filter { get; set; }
 
-        IList<int> AllHandIds { get; }
+        IEnumerable<IAnalyzablePokerPlayer> FilteredAnalyzablePokerPlayers { get; }
 
         IPlayerStatistics UpdateStatistics();
 

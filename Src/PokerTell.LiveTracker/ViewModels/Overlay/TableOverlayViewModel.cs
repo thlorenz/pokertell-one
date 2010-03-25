@@ -135,6 +135,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         {
             PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
             PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => ShowOverlayDetails = true;
+            PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => ShowOverlayDetails = true;
         }
 
         void CreatePlayerOverlays(int totalSeats)

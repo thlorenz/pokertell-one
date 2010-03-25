@@ -406,5 +406,15 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
         }
+
+        [Subject(typeof(TableOverlayViewModel), "User wants to browse players hands")]
+        public class when_the_poker_table_statistics_viewmodel_says_that_the_user_wants_to_browse_the_players_hands : Ctx_Initialized
+        {
+            Establish context = () => _sut.ShowOverlayDetails = false;
+
+            Because of = () => _pokerTableStatisticsVM_Stub.Raise(pts => pts.UserBrowsedAllHands += null, (IPlayerStatisticsViewModel)null);
+
+            It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
+        }
     }
 }

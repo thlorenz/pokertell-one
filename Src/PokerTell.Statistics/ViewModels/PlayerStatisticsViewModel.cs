@@ -1,10 +1,12 @@
 namespace PokerTell.Statistics.ViewModels
 {
     using System;
+    using System.Windows.Input;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
+    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class PlayerStatisticsViewModel : NotifyPropertyChanged, IPlayerStatisticsViewModel
@@ -16,8 +18,9 @@ namespace PokerTell.Statistics.ViewModels
             RegisterEvents();
         }
 
-        public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent =
-            delegate { };
+        public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
+
+        public event Action<IPlayerStatisticsViewModel> BrowseAllMyHandsRequested = delegate { };
 
         public IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; protected set; }
 
@@ -75,6 +78,9 @@ namespace PokerTell.Statistics.ViewModels
         {
             PreFlopStatisticsSets.SelectedStatisticsSetEvent +=
                 statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
+
+            PreFlopStatisticsSets.BrowseAllMyHandsRequested +=
+                () => BrowseAllMyHandsRequested(this);
 
             FlopStatisticsSets.SelectedStatisticsSetEvent +=
                 statisticsSet => SelectedStatisticsSetEvent(statisticsSet);

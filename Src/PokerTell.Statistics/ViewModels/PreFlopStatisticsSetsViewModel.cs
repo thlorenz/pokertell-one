@@ -2,15 +2,25 @@ namespace PokerTell.Statistics.ViewModels
 {
     using System;
     using System.Linq;
+    using System.Windows.Input;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.ViewModels.StatisticsSetSummary;
 
+    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class PreFlopStatisticsSetsViewModel : NotifyPropertyChanged, IPreFlopStatisticsSetsViewModel
     {
+        ICommand _browseAllHandsCommand;
+
+        string _steals;
+
+        int _totalCountPreFlopRaisedPot;
+
+        int _totalCountPreFlopUnraisedPot;
+
         public PreFlopStatisticsSetsViewModel()
         {
             InitializeStatisticsSetSummaryViewModels();
@@ -18,13 +28,34 @@ namespace PokerTell.Statistics.ViewModels
             RegisterEvents();
         }
 
+        public event Action BrowseAllMyHandsRequested = delegate { };
+
         public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
+
+        public ICommand BrowseAllHandsCommand
+        {
+            get
+            {
+                return _browseAllHandsCommand ?? (_browseAllHandsCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => BrowseAllMyHandsRequested()
+                    });
+            }
+        }
 
         public IStatisticsSetSummaryViewModel PreFlopRaisedPotStatisticsSet { get; protected set; }
 
         public IStatisticsSetSummaryViewModel PreFlopUnraisedPotStatisticsSet { get; protected set; }
 
-        int _totalCountPreFlopRaisedPot;
+        public string Steals
+        {
+            get { return _steals; }
+            set
+            {
+                _steals = value;
+                RaisePropertyChanged(() => Steals);
+            }
+        }
 
         public int TotalCountPreFlopRaisedPot
         {
@@ -36,8 +67,6 @@ namespace PokerTell.Statistics.ViewModels
                 RaisePropertyChanged(() => TotalCounts);
             }
         }
-
-        int _totalCountPreFlopUnraisedPot;
 
         public int TotalCountPreFlopUnraisedPot
         {
@@ -55,18 +84,6 @@ namespace PokerTell.Statistics.ViewModels
             get { return TotalCountPreFlopUnraisedPot + TotalCountPreFlopRaisedPot; }
         }
 
-        public string Steals
-        {
-            get { return _steals; }
-            set
-            {
-                _steals = value;
-                RaisePropertyChanged(() => Steals);
-            }
-        }
-
-        string _steals;
-
         public IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
             PreFlopUnraisedPotStatisticsSet.UpdateWith(playerStatistics.PreFlopUnraisedPot);
@@ -75,22 +92,21 @@ namespace PokerTell.Statistics.ViewModels
             TotalCountPreFlopUnraisedPot = playerStatistics.TotalCountPreFlopUnraisedPot;
             TotalCountPreFlopRaisedPot = playerStatistics.TotalCountPreFlopRaisedPot;
 
-            Steals = string.Format("{0:0#}", 
-                                   playerStatistics.PreFlopUnraisedPot.ActionSequenceStatistics.Last().Percentages[(int)StrategicPositions.BU]);
+            Steals = string.Format("{0:0#}", playerStatistics.PreFlopUnraisedPot.ActionSequenceStatistics.Last().Percentages[(int)StrategicPositions.BU]);
 
             return this;
-        }
-
-        void InitializeStatisticsSetSummaryViewModels()
-        {
-            PreFlopUnraisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
-            PreFlopRaisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
         }
 
         protected void RegisterEvents()
         {
             PreFlopUnraisedPotStatisticsSet.StatisticsSetSelectedEvent += statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
             PreFlopRaisedPotStatisticsSet.StatisticsSetSelectedEvent += statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
+        }
+
+        void InitializeStatisticsSetSummaryViewModels()
+        {
+            PreFlopUnraisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
+            PreFlopRaisedPotStatisticsSet = new StatisticsSetSummaryViewModel();
         }
     }
 }

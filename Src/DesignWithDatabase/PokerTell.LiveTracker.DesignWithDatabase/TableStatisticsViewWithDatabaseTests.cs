@@ -77,7 +77,8 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
             var detailedStatisticsAnalyzerViewModel =
                 new DetailedStatisticsAnalyzerViewModel(detailedPreFlopStatisticsViewModelMake, 
                                                         detailedPostFlopHeroActsStatisticsViewModelMake, 
-                                                        detailedPostFlopHeroReactsStatisticsViewModelMake);
+                                                        detailedPostFlopHeroReactsStatisticsViewModelMake, 
+                                                        new Mock<IRepositoryHandBrowserViewModel>().Object);
 
             var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
                 eventAggregator,

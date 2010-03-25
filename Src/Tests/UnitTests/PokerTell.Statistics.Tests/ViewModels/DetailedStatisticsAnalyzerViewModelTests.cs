@@ -4,6 +4,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
     using Infrastructure.Services;
 
@@ -21,6 +22,8 @@ namespace PokerTell.Statistics.Tests.ViewModels
     using UnitTests.Tools;
 
     [TestFixture]
+
+    // Resharper disable InconsistentNaming
     internal class DetailedStatisticsAnalyzerViewModelTests
     {
         #region Constants and Fields
@@ -34,6 +37,8 @@ namespace PokerTell.Statistics.Tests.ViewModels
         IDetailedPostFlopHeroActsStatisticsViewModel _postFlopActionStatisticsViewModelStub;
 
         IDetailedPostFlopHeroReactsStatisticsViewModel _postFlopReactionStatisticsViewModelStub;
+
+        Mock<IRepositoryHandBrowserViewModel> _repositoryBrowserVM_Mock;
 
         #endregion
 
@@ -272,7 +277,8 @@ namespace PokerTell.Statistics.Tests.ViewModels
             _sut = new DetailedStatisticsAnalyzerViewModel(
                 new Constructor<IDetailedPreFlopStatisticsViewModel>(() => preFlopStatisticsViewModelMock.Object),
                 _stub.Out<IConstructor<IDetailedPostFlopHeroActsStatisticsViewModel>>(),
-                _stub.Out<IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel>>());
+                _stub.Out<IConstructor<IDetailedPostFlopHeroReactsStatisticsViewModel>>(), 
+                _repositoryBrowserVM_Mock.Object);
             
             _sut.InitializeWith(statisticsSetStub);
             
@@ -286,11 +292,12 @@ namespace PokerTell.Statistics.Tests.ViewModels
             _preFlopStatisticsViewModelStub = _stub.Out<IDetailedPreFlopStatisticsViewModel>();
             _postFlopActionStatisticsViewModelStub = _stub.Out<IDetailedPostFlopHeroActsStatisticsViewModel>();
             _postFlopReactionStatisticsViewModelStub = _stub.Out<IDetailedPostFlopHeroReactsStatisticsViewModel>();
+            _repositoryBrowserVM_Mock = new Mock<IRepositoryHandBrowserViewModel>();
             _sut =
                 new DetailedStatisticsAnalyzerViewModel(
                     new Constructor<IDetailedPreFlopStatisticsViewModel>(() => _preFlopStatisticsViewModelStub),
                     new Constructor<IDetailedPostFlopHeroActsStatisticsViewModel>(() => _postFlopActionStatisticsViewModelStub),
-                    new Constructor<IDetailedPostFlopHeroReactsStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub));
+                    new Constructor<IDetailedPostFlopHeroReactsStatisticsViewModel>(() => _postFlopReactionStatisticsViewModelStub), _repositoryBrowserVM_Mock.Object);
         }
 
         #endregion

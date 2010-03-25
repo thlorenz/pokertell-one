@@ -11,17 +11,11 @@ namespace PokerTell.PokerHand.Analyzation
 
     public class AnalyzablePokerPlayer : IAnalyzablePokerPlayer
     {
-        #region Constants and Fields
-
         protected IConvertedPokerRound[] _sequences;
 
         readonly string[] _sequenceStrings;
 
         PokerHandStringConverter _pokerHandStringConverter;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public AnalyzablePokerPlayer(
             long id, 
@@ -45,7 +39,7 @@ namespace PokerTell.PokerHand.Analyzation
             double ante, 
             DateTime timeStamp, 
             int totalPlayers, 
-            int playersInFlop,
+            int playersInFlop, 
             string sequencePreFlop, 
             string sequenceFlop, 
             string sequenceTurn, 
@@ -85,8 +79,6 @@ namespace PokerTell.PokerHand.Analyzation
             _sequenceStrings[(int)Streets.River] = sequenceRiver;
         }
 
-        public int PlayersInFlop { get; set; }
-
         public AnalyzablePokerPlayer()
         {
             InPosition = new bool?[(int)(Streets.River + 1)];
@@ -94,10 +86,6 @@ namespace PokerTell.PokerHand.Analyzation
             BetSizeIndexes = new int[(int)(Streets.River + 1)];
             _sequenceStrings = new string[(int)(Streets.River + 1)];
         }
-
-        #endregion
-
-        #region Properties
 
         public ActionSequences[] ActionSequences { get; set; }
 
@@ -125,6 +113,8 @@ namespace PokerTell.PokerHand.Analyzation
         /// M of player at the start of the hand
         /// </summary>
         public int MBefore { get; set; }
+
+        public int PlayersInFlop { get; set; }
 
         /// <summary>
         /// Position: SB=0, BB=1, Button=totalplrs
@@ -168,10 +158,6 @@ namespace PokerTell.PokerHand.Analyzation
         {
             get { return _pokerHandStringConverter ?? (_pokerHandStringConverter = new PokerHandStringConverter()); }
         }
-
-        #endregion
-
-        #region Public Methods
 
         public bool Equals(AnalyzablePokerPlayer other)
         {
@@ -242,10 +228,6 @@ namespace PokerTell.PokerHand.Analyzation
             return sb.ToString();
         }
 
-        #endregion
-
-        #region Methods
-
         void InitializeSequences()
         {
             _sequences = new IConvertedPokerRound[(int)Streets.River + 1];
@@ -258,7 +240,5 @@ namespace PokerTell.PokerHand.Analyzation
             _sequences[(int)Streets.River] =
                 PokerHandStringConverter.ConvertedRoundFrom(_sequenceStrings[(int)Streets.River]);
         }
-
-        #endregion
     }
 }

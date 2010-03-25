@@ -9,29 +9,37 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!-- TotalHands Style -->
-            <Style x:Key="InactiveLabelStyle" TargetType="Label">
+            
+            <!-- Inactive Label Style -->
+            <Style x:Key="InactiveLabelStyle" TargetType="{x:Type Label}">
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="Margin" Value="0,0,2,0" />
                 <Setter Property="Foreground" 
                     Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}, 
                             Path=DataContext.Settings.InPositionForeground.Brush}" />
-                <Setter Property="FontStyle" Value="Italic" />
             </Style>
-            <!-- StatisticsSetLabelStyle -->
-            <Style x:Key ="StatisticsSetLabelStyle" TargetType="{x:Type Label}">
+            
+            <!-- Active Label Style -->
+            <Style x:Key="ActiveLabelStyle" TargetType="{x:Type Label}">
                 <Setter Property="Padding" Value="0" />
                 <Setter Property="Margin" Value="0, 0, 1, 0" />
                 <Setter Property="Background" Value="#04000000"/>
                 <Setter Property="BorderBrush" Value="Transparent" />
                 <Setter Property="BorderThickness" Value="0.5" />
-                <Setter Property="WPF:CommandBehavior.Event" Value="MouseLeftButtonDown"/>
-                <Setter Property="WPF:CommandBehavior.Command" Value="{Binding SelectStatisticsSetCommand}" />
+                <Setter Property="Foreground" 
+                    Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}, 
+                            Path=DataContext.Settings.InPositionForeground.Brush}" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Self}, Path=Foreground}" />
                     </Trigger>
                 </Style.Triggers>
+            </Style>
+            
+            <!-- StatisticsSetLabelStyle -->
+            <Style x:Key ="StatisticsSetLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ActiveLabelStyle}">
+                <Setter Property="WPF:CommandBehavior.Event" Value="MouseLeftButtonDown"/>
+                <Setter Property="WPF:CommandBehavior.Command" Value="{Binding SelectStatisticsSetCommand}" />
             </Style>
             <Style x:Key="OutOfPositionStatisticsSetLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource StatisticsSetLabelStyle}" >
                 <Setter Property="Foreground"
@@ -47,7 +55,11 @@
             <DataTemplate x:Key="PreFlopStatisticsSetsViewTemplate">
                 <StackPanel Orientation="Horizontal">
                     <!-- Total Hands -->
-                    <Label Style="{StaticResource InactiveLabelStyle}" Content="{Binding TotalCounts}"/>
+                    <Label Style="{StaticResource ActiveLabelStyle}"
+                           DataContext="{Binding}"
+                           WPF:CommandBehavior.Event="MouseLeftButtonDown"
+                           WPF:CommandBehavior.Command="{Binding BrowseAllHandsCommand}"
+                           Content="{Binding TotalCounts}"/>
                     <!-- Call/Raise unraised Pot -->
                     <Label Style="{StaticResource OutOfPositionStatisticsSetLabelStyle}"
                            DataContext="{Binding PreFlopUnraisedPotStatisticsSet}">

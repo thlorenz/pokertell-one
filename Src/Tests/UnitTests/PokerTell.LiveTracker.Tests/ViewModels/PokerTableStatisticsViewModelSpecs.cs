@@ -1,12 +1,12 @@
 namespace PokerTell.LiveTracker.Tests.ViewModels
 {
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
 
+    using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
 
     using LiveTracker.ViewModels;
 
@@ -31,11 +31,19 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static PokerTableStatisticsViewModelSut _sut;
 
+        static Mock<IPlayerStatisticsViewModel> _playerStatisticsVM_Stub;
+
         Establish specContext = () => {
             _eventAggregator_Stub = new Mock<IEventAggregator>();
+
+            _playerStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
+            _playerStatisticsVM_Stub
+                .SetupGet(vm => vm.PlayerName)
+                .Returns("someName");
+
             _playerStatisticsMake_Stub = new Mock<IConstructor<IPlayerStatisticsViewModel>>();
             _playerStatisticsMake_Stub
-                .SetupGet(svm => svm.New).Returns(new Mock<IPlayerStatisticsViewModel>().Object);
+                .SetupGet(svm => svm.New).Returns(_playerStatisticsVM_Stub.Object);
 
             _statisticsAnalyzer_Mock = new Mock<IDetailedStatisticsAnalyzerViewModel>();
 
@@ -77,7 +85,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             static IEnumerable<IPlayerStatistics> playersStatistics_Stub;
 
             Establish context = () => {
-                playersStatistics_Stub = new[] { Utils.PlayerStatisticsStubFor("p1"), Utils.PlayerStatisticsStubFor("p2") };
+                playersStatistics_Stub = new[] { Utils.PlayerStatisticsStubFor("p1"), Utils.PlayerStatisticsStubFor("p1") };
                 _sut.PlayersStatisticsWereUpdated += () => statisticsWereUpdatedWasRaised = true;
             };
 
@@ -96,7 +104,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             static Mock<IActionSequenceStatisticsSet> statisticsSet;
 
             Establish context = () => {
-                playerStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
+                playerStatisticsVM_Stub = _playerStatisticsVM_Stub;
                 _playerStatisticsMake_Stub.SetupGet(make => make.New).Returns(playerStatisticsVM_Stub.Object);
                 
                 statisticsSet = new Mock<IActionSequenceStatisticsSet>();
@@ -113,7 +121,65 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_let_me_know = () => selectedStatisticsWasReraised.ShouldBeTrue();
         }
 
+        [Subject(typeof(PokerTableStatisticsViewModel), "Selected Player")]
+        public class when_the_a_player_with_active_analyzable_PokerPlayer_is_selected : PokerTableStatisticsViewModelSpecs
+        {
+            const string playerName = "someName";
 
+            static Mock<IPlayerStatistics> playerStatistics_Stub;
+
+            static IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers_Stub;
+
+            static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
+
+
+
+            Establish context = () => {
+                _activeAnalyzablePokerPlayer_Stub = new Mock<IAnalyzablePokerPlayer>();
+                _activeAnalyzablePokerPlayer_Stub
+                    .SetupGet(ap => ap.ActionSequences)
+                    .Returns(new[] { ActionSequences.HeroC });
+
+                analyzablePokerPlayers_Stub = new[] { _activeAnalyzablePokerPlayer_Stub.Object };
+
+                playerStatistics_Stub = new Mock<IPlayerStatistics>();
+                playerStatistics_Stub
+                    .SetupGet(ps => ps.FilteredAnalyzablePokerPlayers)
+                    .Returns(analyzablePokerPlayers_Stub);
+
+                playerStatisticsVM_Stub = _playerStatisticsVM_Stub;
+                playerStatisticsVM_Stub
+                    .SetupGet(vm => vm.PlayerStatistics)
+                    .Returns(playerStatistics_Stub.Object);
+                playerStatisticsVM_Stub
+                    .SetupGet(vm => vm.PlayerName)
+                    .Returns(playerName);
+            };
+
+            Because of = () => _sut.SelectedPlayer = playerStatisticsVM_Stub.Object;
+
+            It should_initialize_the_detailed_statistics_analyzer_with_the_filtered_analyzable_players_of_the_selected_player_and_the_players_name
+                = () => _statisticsAnalyzer_Mock.Verify(sa => sa.InitializeWith(analyzablePokerPlayers_Stub, playerName));
+
+            static Mock<IAnalyzablePokerPlayer> _activeAnalyzablePokerPlayer_Stub;
+        }
+
+        [Subject(typeof(PokerTableStatisticsViewModel), "BrowseAllHands")]
+        public class when_a_PlayerStatistics_viewmodel_says_that_the_user_wants_to_browse_all_hands_of_the_player : PokerTableStatisticsViewModelSpecs
+        {
+            static bool browseHandsWasReraised;
+
+            Establish context = () => {
+                _sut.AddNewPlayerToPlayersIfNotFound_Invoke(null);
+                _sut.UserBrowsedAllHands += _ => browseHandsWasReraised = true;
+            };
+
+            Because of = () => _playerStatisticsVM_Stub.Raise(psvm => psvm.BrowseAllMyHandsRequested += null, _playerStatisticsVM_Stub.Object);
+
+            It should_let_me_know = () => browseHandsWasReraised.ShouldBeTrue();
+
+            It should_browse_the_hands_of_the_player = () => _sut.BrowsedAllHandsOfPlayer.ShouldBeTrue();
+        }
     }
 
     public class PokerTableStatisticsViewModelSut : PokerTableStatisticsViewModel
@@ -123,9 +189,18 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         {
         }
 
+        // Passing null will cause the sut to make a new player statistics viewmodel
         public void AddNewPlayerToPlayersIfNotFound_Invoke(IPlayerStatisticsViewModel matchingPlayer)
         {
             AddNewPlayerToPlayersIfNotFound(matchingPlayer);
         }
+
+        protected override void BrowseAllHandsOf(IPlayerStatisticsViewModel selectedPlayer)
+        {
+            base.BrowseAllHandsOf(selectedPlayer);
+            BrowsedAllHandsOfPlayer = true;
+        }
+
+        public bool BrowsedAllHandsOfPlayer { get; private set; }
     }
 }

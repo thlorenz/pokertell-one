@@ -45,8 +45,6 @@ namespace PokerTell.Statistics
             _allAnalyzablePlayers = new List<IAnalyzablePokerPlayer>();
 
             _filter = AnalyzablePokerPlayersFilter.InactiveFilter;
-
-            AllHandIds = new List<int>();
         }
 
         public IAnalyzablePokerPlayersFilter Filter
@@ -59,7 +57,7 @@ namespace PokerTell.Statistics
             }
         }
 
-        public IList<int> AllHandIds { get; protected set; }
+        public IEnumerable<IAnalyzablePokerPlayer> FilteredAnalyzablePokerPlayers { get; protected set; }
 
         public IActionSequenceStatisticsSet[] HeroXOrHeroBInPosition { get; protected set; }
 
@@ -239,12 +237,12 @@ namespace PokerTell.Statistics
 
         protected virtual void UpdateStatisticsWith(IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers)
         {
+            FilteredAnalyzablePokerPlayers = filteredAnalyzablePlayers;
+
             foreach (IActionSequenceStatisticsSet statisticsSet in this)
             {
                 statisticsSet.UpdateWith(filteredAnalyzablePlayers);
             }
-            
-            AllHandIds = new List<int>(filteredAnalyzablePlayers.Select(ap => ap.HandId));
         }
 
         void CreatePostFlopStatistics()

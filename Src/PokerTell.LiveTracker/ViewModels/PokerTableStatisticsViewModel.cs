@@ -7,6 +7,8 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Reflection;
     using System.Windows.Input;
 
+    using Infrastructure.Enumerations.PokerHand;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Events;
@@ -60,6 +62,8 @@ namespace PokerTell.LiveTracker.ViewModels
         public event Action PlayersStatisticsWereUpdated = delegate { };
 
         public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
+        
+        public event Action<IPlayerStatisticsViewModel> UserBrowsedAllHands = delegate { };
 
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
@@ -69,7 +73,26 @@ namespace PokerTell.LiveTracker.ViewModels
             set
             {
                 _selectedPlayer = value;
+
+                BrowseAllHandsOf(_selectedPlayer);
+
                  RaisePropertyChanged(() => SelectedPlayer);
+            }
+        }
+
+        protected virtual void BrowseAllHandsOf(IPlayerStatisticsViewModel selectedPlayer)
+        {
+            if (selectedPlayer != null && selectedPlayer.PlayerStatistics != null)
+            {
+                var activeAnalyzablePlayers = 
+                    from player in selectedPlayer.PlayerStatistics.FilteredAnalyzablePokerPlayers
+                    where
+                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.HeroF &&
+                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.OppRHeroF &&
+                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.NonStandard
+                    select player;
+
+                _detailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
             }
         }
 
@@ -157,6 +180,11 @@ namespace PokerTell.LiveTracker.ViewModels
                     sequenceStatisticsSet => {
                         DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
                         UserSelectedStatisticsSet(sequenceStatisticsSet);
+                };
+
+                matchingPlayer.BrowseAllMyHandsRequested += player => {
+                    BrowseAllHandsOf(player);
+                    UserBrowsedAllHands(player);
                 };
 
                 Players.Add(matchingPlayer);

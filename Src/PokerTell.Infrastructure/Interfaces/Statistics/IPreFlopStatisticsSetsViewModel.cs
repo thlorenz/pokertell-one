@@ -1,6 +1,7 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System;
+    using System.Windows.Input;
 
     using Enumerations.PokerHand;
 
@@ -20,8 +21,12 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         string Steals { get; set; }
 
+        ICommand BrowseAllHandsCommand { get; }
+
         IPreFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
 
         event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
+
+        event Action BrowseAllMyHandsRequested;
     }
 }

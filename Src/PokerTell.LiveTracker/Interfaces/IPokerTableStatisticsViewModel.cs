@@ -25,5 +25,7 @@ namespace PokerTell.LiveTracker.Interfaces
         event Action PlayersStatisticsWereUpdated;
 
         event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet;
+
+        event Action<IPlayerStatisticsViewModel> UserBrowsedAllHands;
     }
 }
