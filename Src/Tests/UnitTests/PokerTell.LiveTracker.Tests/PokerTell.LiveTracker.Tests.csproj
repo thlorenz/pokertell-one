@@ -83,6 +83,7 @@
     <Compile Include="Tracking\NewHandsTrackerSpecs.cs" />
     <Compile Include="Tracking\WatchedDirectoriesOptimizerSpecs.cs" />
     <Compile Include="Utilities\Utils.cs" />
+    <Compile Include="PokerRooms\HandHistoryFolderAutoDetectorSpecs.cs" />
     <Compile Include="ViewModels\LiveTrackerSettingsViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModelSpecs.cs" />

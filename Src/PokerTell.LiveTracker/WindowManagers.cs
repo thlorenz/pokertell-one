@@ -30,4 +30,12 @@ namespace PokerTell.LiveTracker
         {
         }
     }
+
+    public class HandHistoryFolderAutoDetectResultsWindowManager : WindowManager, IHandHistoryFolderAutoDetectResultsWindowManager 
+    {
+        public HandHistoryFolderAutoDetectResultsWindowManager()
+            : base(() => new HandHistoryFolderAutoDetectResultsView())
+        {
+        }
+    }
 }

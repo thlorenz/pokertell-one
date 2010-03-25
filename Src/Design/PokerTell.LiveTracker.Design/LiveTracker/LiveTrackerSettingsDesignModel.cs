@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     using Microsoft.Practices.Composite.Events;
 
+    using Moq;
+
     using Persistence;
 
     using PokerTell.LiveTracker.Interfaces;
@@ -12,8 +14,10 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     public class LiveTrackerSettingsDesignModel : LiveTrackerSettingsViewModel
     {
+        static StubBuilder _stub = new StubBuilder();
+    
         public LiveTrackerSettingsDesignModel(ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
-            : base(new EventAggregator(), xDocumentHandler)
+            : base(new EventAggregator(), xDocumentHandler, _stub.Out<IHandHistoryFolderAutoDetector>(), _stub.Out<IHandHistoryFolderAutoDetectResultsViewModel>(), _stub.Out<IHandHistoryFolderAutoDetectResultsWindowManager>()) 
         {
             AutoTrack = true;
             ShowLiveStatsWindowOnStartup = false;

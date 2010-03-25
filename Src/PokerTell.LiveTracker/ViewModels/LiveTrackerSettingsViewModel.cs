@@ -1,6 +1,5 @@
 namespace PokerTell.LiveTracker.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
@@ -9,20 +8,17 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Windows.Input;
     using System.Xml.Linq;
 
-    using Events;
-
-    using Infrastructure.Events;
-
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.LiveTracker.Events;
     using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.Properties;
 
-    using Properties;
-
+    using Tools.IO;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
     using Tools.Xml;
-    using Tools.IO;
 
     public class LiveTrackerSettingsViewModel : NotifyPropertyChanged, ILiveTrackerSettingsViewModel
     {
@@ -42,10 +38,20 @@ namespace PokerTell.LiveTracker.ViewModels
 
         readonly ILiveTrackerSettingsXDocumentHandler _xDocumentHandler;
 
-        public LiveTrackerSettingsViewModel(IEventAggregator eventAggregator, ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
+        public LiveTrackerSettingsViewModel(
+            IEventAggregator eventAggregator, 
+            ILiveTrackerSettingsXDocumentHandler xDocumentHandler, 
+            IHandHistoryFolderAutoDetector autoDetector, 
+            IHandHistoryFolderAutoDetectResultsViewModel autoDetectResultsViewModel, 
+            IHandHistoryFolderAutoDetectResultsWindowManager autoDetectResultsWindow)
         {
             _eventAggregator = eventAggregator;
             _xDocumentHandler = xDocumentHandler;
+
+            _autoDetector = autoDetector;
+            _autoDetectResultsViewModel = autoDetectResultsViewModel;
+            _autoDetectResultsWindow = autoDetectResultsWindow;
+
             ShowHoleCardsDurations = new List<int> { 0, 3, 5, 10, 15, 20 };
         }
 
@@ -167,7 +173,7 @@ namespace PokerTell.LiveTracker.ViewModels
                         ExecuteDelegate = arg => {
                             HandHistoryFilesPaths.Remove(SelectedHandHistoryFilesPath);
                             SelectedHandHistoryFilesPath = null;
-                        },
+                        }, 
                         CanExecuteDelegate = arg => SelectedHandHistoryFilesPath != null
                     });
             }
@@ -192,7 +198,7 @@ namespace PokerTell.LiveTracker.ViewModels
                                 HandHistoryFilesPaths.Add(HandHistoryPathToBeAdded.TrimStart(' ').TrimEnd(' '));
 
                             HandHistoryPathToBeAdded = null;
-                        },
+                        }, 
                         CanExecuteDelegate = arg => HandHistoryPathToBeAdded.IsExistingDirectory()
                     });
             }
@@ -201,6 +207,12 @@ namespace PokerTell.LiveTracker.ViewModels
         ICommand _browseCommand;
 
         readonly IEventAggregator _eventAggregator;
+
+        readonly IHandHistoryFolderAutoDetector _autoDetector;
+
+        readonly IHandHistoryFolderAutoDetectResultsViewModel _autoDetectResultsViewModel;
+
+        readonly IHandHistoryFolderAutoDetectResultsWindowManager _autoDetectResultsWindow;
 
         public ICommand BrowseCommand
         {
@@ -221,8 +233,8 @@ namespace PokerTell.LiveTracker.ViewModels
                                  new XElement(AutoTrackElement, lts.AutoTrack), 
                                  new XElement(ShowHoleCardsDurationElement, lts.ShowHoleCardsDuration), 
                                  new XElement(ShowLiveStatsWindowOnStartupElement, lts.ShowLiveStatsWindowOnStartup), 
-                                 new XElement(ShowTableOverlayElement, lts.ShowTableOverlay),
-                                 new XElement(ShowMyStatisticsElement, lts.ShowMyStatistics),
+                                 new XElement(ShowTableOverlayElement, lts.ShowTableOverlay), 
+                                 new XElement(ShowMyStatisticsElement, lts.ShowMyStatistics), 
                                  Utils.XElementForCollection(HandHistoryFilesPathsElement, lts.HandHistoryFilesPaths)));
         }
 
@@ -250,9 +262,9 @@ namespace PokerTell.LiveTracker.ViewModels
             ShowMyStatistics = Utils.GetBoolFrom(xml.Element(ShowMyStatisticsElement), false);
             ShowHoleCardsDuration = Utils.GetIntFrom(xml.Element(ShowHoleCardsDurationElement), 5);
 
-            HandHistoryFilesPaths = new ObservableCollection<string>( 
+            HandHistoryFilesPaths = new ObservableCollection<string>(
                 Utils.GetStringsFrom(xml.Element(HandHistoryFilesPathsElement), new List<string>())
-                .Where(path => new DirectoryInfo(path).Exists));
+                    .Where(path => new DirectoryInfo(path).Exists));
 
             return this;
         }

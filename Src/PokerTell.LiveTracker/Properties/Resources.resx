@@ -117,6 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDetectedInformation" xml:space="preserve">
+    <value>If you are sure that {0} is configured to save your Hand Histories to a folder on disk, add that folder manually.
+Otherwise follow the link below to get instructions on how to configure {0} correctly.</value>
+  </data>
+  <data name="AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetected" xml:space="preserve">
+    <value>Installed Poker Rooms whose Hand History Directories have been added</value>
+  </data>
+  <data name="AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInformation" xml:space="preserve">
+    <value>If you have a Poker Room installed and it is not shown here, first make sure that PokerTell supports it by following the link below.
+You may then add its Hand History Folder manually.</value>
+  </data>
+  <data name="AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereNotDetected" xml:space="preserve">
+    <value>Installed Poker Rooms whose Hand History Directories could not be detected</value>
+  </data>
+  <data name="AutoDetectHandHistoryFoldersResultsView_Title" xml:space="preserve">
+    <value>Results of automatic Hand History folders detection</value>
+  </data>
   <data name="LiveTrackerSettingsView_AddHandHistoryFolder" xml:space="preserve">
     <value>Add HandHistory Folder</value>
   </data>

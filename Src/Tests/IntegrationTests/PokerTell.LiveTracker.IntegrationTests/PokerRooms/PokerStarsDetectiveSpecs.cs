@@ -21,7 +21,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
         {
             Because of = () => _sut.Investigate();
 
-            It should_detect_that_it_is_installed = () => _sut.IsInstalled.ShouldBeTrue();
+            It should_detect_that_it_is_installed = () => _sut.PokerRoomIsInstalled.ShouldBeTrue();
 
             It should_detect_the_hand_history_directory = () => _sut.DetectedHandHistoryDirectory.ShouldBeTrue();
 

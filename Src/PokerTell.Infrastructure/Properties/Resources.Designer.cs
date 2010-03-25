@@ -149,5 +149,14 @@ namespace PokerTell.Infrastructure.Properties {
                 return ResourceManager.GetString("Commands_Save", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http:\\www.GetPokerTell.vom\SupportedRooms.html.
+        /// </summary>
+        public static string Links_ListOfSupportedPokerRooms {
+            get {
+                return ResourceManager.GetString("Links_ListOfSupportedPokerRooms", resourceCulture);
+            }
+        }
     }
 }

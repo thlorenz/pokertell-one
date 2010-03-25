@@ -6,7 +6,7 @@ namespace PokerTell.LiveTracker.Interfaces
 
     public interface IPokerRoomDetective : IFluentInterface
     {
-        bool IsInstalled { get; }
+        bool PokerRoomIsInstalled { get; }
 
         bool SavesPreferredSeats { get; }
 

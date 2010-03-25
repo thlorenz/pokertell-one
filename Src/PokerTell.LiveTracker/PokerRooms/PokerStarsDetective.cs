@@ -22,7 +22,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         const string SettingsFileName = "user.ini";
 
-        public bool IsInstalled { get; protected set; }
+        public bool PokerRoomIsInstalled { get; protected set; }
 
         public bool SavesPreferredSeats
         {
@@ -43,7 +43,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
             if (Directory.Exists(applicationDataFolder))
             {
-                IsInstalled = true;
+                PokerRoomIsInstalled = true;
                 TryToExtractSettingsFrom(applicationDataFolder);
             }
             else
@@ -51,7 +51,7 @@ namespace PokerTell.LiveTracker.PokerRooms
                 var installationFolder = FindInstallationFolderInRegistry();
                 if (installationFolder != null)
                 {
-                    IsInstalled = true;
+                    PokerRoomIsInstalled = true;
                     TryToExtractSettingsFrom(installationFolder);
                 }
             }

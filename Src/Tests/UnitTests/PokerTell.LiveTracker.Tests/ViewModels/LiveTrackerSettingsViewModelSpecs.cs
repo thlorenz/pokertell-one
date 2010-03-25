@@ -29,10 +29,21 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static IEventAggregator _eventAggregator;
 
+        protected static Mock<IHandHistoryFolderAutoDetector> _autoDetector_Mock;
+
+        protected static Mock<IHandHistoryFolderAutoDetectResultsViewModel> _autoDetectResultsVM_Mock;
+
+        protected static Mock<IHandHistoryFolderAutoDetectResultsWindowManager> _autoDetectResultsWindow_Mock;
+
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
             _xDocumentHandler_Mock = new LiveTrackerSettingsXDocumentHandlerMock();
-            _sut = new LiveTrackerSettingsViewModel(_eventAggregator, _xDocumentHandler_Mock);
+            
+            _autoDetector_Mock = new Mock<IHandHistoryFolderAutoDetector>();
+            _autoDetectResultsVM_Mock = new Mock<IHandHistoryFolderAutoDetectResultsViewModel>();
+            _autoDetectResultsWindow_Mock = new Mock<IHandHistoryFolderAutoDetectResultsWindowManager>();
+
+            _sut = new LiveTrackerSettingsViewModel(_eventAggregator, _xDocumentHandler_Mock, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object);
         };
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Load")]
@@ -43,7 +54,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const string notExisitingPath = "doesn't exist";
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object)
                     { HandHistoryFilesPaths = new[] { existingPath, notExisitingPath } };
 
                 _xDocumentHandler_Mock.DocumentToLoad = LiveTrackerSettingsViewModel.CreateXDocumentFor(settings);
@@ -90,7 +101,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const int duration = 1;
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object)
                     {
                         AutoTrack = setTrue, 
                         ShowLiveStatsWindowOnStartup = setTrue, 
@@ -125,7 +136,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const int duration = 2;
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object)
                     {
                         AutoTrack = setFalse, 
                         ShowLiveStatsWindowOnStartup = setFalse, 

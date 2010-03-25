@@ -14,4 +14,7 @@ namespace PokerTell.LiveTracker.Interfaces
     {
     }
     
+    public interface IHandHistoryFolderAutoDetectResultsWindowManager : IWindowManager
+    {
+    }
 }

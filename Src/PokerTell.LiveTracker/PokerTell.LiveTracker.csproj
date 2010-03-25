@@ -107,7 +107,8 @@
     <Compile Include="PokerRooms\FullTiltPokerDetective.cs" />
     <Compile Include="PokerRooms\FullTiltPokerInfo.cs" />
     <Compile Include="Interfaces\IPokerRoomInfo.cs" />
-    <Compile Include="PokerRooms\PokerRoomInfos.cs" />
+    <Compile Include="Interfaces\IHandHistoryFolderAutoDetector.cs" />
+    <Compile Include="PokerRooms\PokerRoomInfoLocator.cs" />
     <Compile Include="PokerRooms\PokerStarsDetective.cs" />
     <Compile Include="PokerRooms\PokerStarsInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -133,6 +134,9 @@
     <Compile Include="Tracking\NewHandsTracker.cs" />
     <Compile Include="Interfaces\ILiveTrackerSettingsXDocumentHandler.cs" />
     <Compile Include="Tracking\WatchedDirectoriesOptimizer.cs" />
+    <Compile Include="PokerRooms\HandHistoryFolderAutoDetector.cs" />
+    <Compile Include="ViewModels\HandHistoryFolderAutoDetectResultsViewModel.cs" />
+    <Compile Include="Interfaces\IHandHistoryFolderAutoDetectResultsViewModel.cs" />
     <Compile Include="ViewModels\LiveTrackerSettingsViewModel.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModel.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModel.cs" />
@@ -144,6 +148,9 @@
     <Compile Include="ViewModels\Overlay\OverlaySettingsAidViewModel.cs" />
     <Compile Include="Views\GameHistoryView.xaml.cs">
       <DependentUpon>GameHistoryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HandHistoryFolderAutoDetectResultsView.xaml.cs">
+      <DependentUpon>HandHistoryFolderAutoDetectResultsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LiveTrackerMenuItemFactory.cs" />
     <Compile Include="Views\LiveTrackerSettingsView.xaml.cs">
@@ -195,6 +202,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\GameHistoryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HandHistoryFolderAutoDetectResultsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

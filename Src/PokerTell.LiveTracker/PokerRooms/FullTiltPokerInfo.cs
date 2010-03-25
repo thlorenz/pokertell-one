@@ -33,6 +33,11 @@ namespace PokerTell.LiveTracker.PokerRooms
             get { return new FullTiltPokerDetective(); }
         }
 
+        public string HelpWithHandHistoryDirectorySetupLink
+        {
+            get { return @"http:\\www.GetPokerTell.com\Help"; }
+        }
+
         public string TableNameFoundInPokerTableTitleFrom(string parsedName)
         {
             return parsedName;

@@ -61,6 +61,55 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installed Poker Rooms whose Hand History Directories have been added.
+        /// </summary>
+        public static string AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetected {
+            get {
+                return ResourceManager.GetString("AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you have a Poker Room installed and it is not shown here, first make sure that PokerTell supports it by following the link below.
+        ///You may then add its Hand History Folder manually..
+        /// </summary>
+        public static string AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInformation {
+            get {
+                return ResourceManager.GetString("AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInform" +
+                        "ation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installed Poker Rooms whose Hand History Directories could not be detected.
+        /// </summary>
+        public static string AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereNotDetected {
+            get {
+                return ResourceManager.GetString("AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereNotDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Results of automatic Hand History folders detection.
+        /// </summary>
+        public static string AutoDetectHandHistoryFoldersResultsView_Title {
+            get {
+                return ResourceManager.GetString("AutoDetectHandHistoryFoldersResultsView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you are sure that {0} is configured to save your Hand Histories to a folder on disk, add that folder manually.
+        ///Otherwise follow the link below to get instructions on how to configure {0} correctly..
+        /// </summary>
+        public static string AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDetectedInformation {
+            get {
+                return ResourceManager.GetString("AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDete" +
+                        "ctedInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string LiveTracker_MenuItem_Settings {

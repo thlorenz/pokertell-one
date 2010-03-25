@@ -20,7 +20,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         const string SettingsFileName = "machine.prefs";
 
-        public bool IsInstalled { get; protected set; }
+        public bool PokerRoomIsInstalled { get; protected set; }
 
         public bool SavesPreferredSeats
         {
@@ -41,7 +41,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
             if (Directory.Exists(applicationDataFolder))
             {
-                IsInstalled = true;
+                PokerRoomIsInstalled = true;
                 TryToExtractSettingsFrom(applicationDataFolder);
             }
 
