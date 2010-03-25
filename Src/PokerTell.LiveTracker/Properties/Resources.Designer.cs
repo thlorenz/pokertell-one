@@ -71,7 +71,7 @@ namespace PokerTell.LiveTracker.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to If you have a Poker Room installed and it is not shown here, first make sure that PokerTell supports it by following the link below.
-        ///You may then add its Hand History Folder manually..
+        ///You may then add its Hand History Folder manually inside the Advanced section..
         /// </summary>
         public static string AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInformation {
             get {
@@ -99,7 +99,7 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you are sure that {0} is configured to save your Hand Histories to a folder on disk, add that folder manually.
+        ///   Looks up a localized string similar to If you are sure that {0} is configured to save your Hand Histories to a folder on disk, add that folder manually inside the Advanced section.
         ///Otherwise follow the link below to get instructions on how to configure {0} correctly..
         /// </summary>
         public static string AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDetectedInformation {
@@ -146,7 +146,7 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detect Handhistory Folders (recommended).
+        ///   Looks up a localized string similar to Automatically Detect Handhistory Folders.
         /// </summary>
         public static string LiveTrackerSettingsView_AutoDetectHandHistoryFolders {
             get {
@@ -160,15 +160,6 @@ namespace PokerTell.LiveTracker.Properties {
         public static string LiveTrackerSettingsView_AutoTrack {
             get {
                 return ResourceManager.GetString("LiveTrackerSettingsView_AutoTrack", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove selected HandHistory Folder.
-        /// </summary>
-        public static string LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder {
-            get {
-                return ResourceManager.GetString("LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder", resourceCulture);
             }
         }
         

@@ -23,7 +23,6 @@ namespace PokerTell.Statistics.Tests
     [TestFixture]
     public class PlayerStatisticsTests
     {
-        #region Constants and Fields
 
         const int Id = 1;
 
@@ -39,11 +38,9 @@ namespace PokerTell.Statistics.Tests
 
         StubBuilder _stub;
 
-        PlayerStatisticsMock _sut;
+        PlayerStatisticsSut _sut;
 
-        #endregion
 
-        #region Public Methods
 
         [Test]
         public void DatabaseInUseChangedEventWasRaised_AnalyzablePlayersNotEmpty_ReinitializesAnalyzablePlayers()
@@ -273,10 +270,9 @@ namespace PokerTell.Statistics.Tests
                 .Get(pi => pi.Id).Returns(Id)
                 .Out;
 
-            _sut = new PlayerStatisticsMock(_eventAggregator, _repositoryMock.Object);
+            _sut = new PlayerStatisticsSut(_eventAggregator, _repositoryMock.Object);
             _sut.InitializePlayer(Name, Site);
         }
 
-        #endregion
     }
 }

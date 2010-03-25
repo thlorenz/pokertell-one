@@ -13,7 +13,7 @@
         WindowStartupLocation="CenterOwner"
         MouseDown="WindowBorder_MouseDown"
         Title="{x:Static Properties:Resources.LiveTrackerSettingsView_Title}">
-    
+
     <ToolsViews:DialogView.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -74,31 +74,34 @@
                                                  MinHeight="100"
                                                  ItemsSource="{Binding HandHistoryFilesPaths}" 
                                                  SelectedItem="{Binding SelectedHandHistoryFilesPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                      <StackPanel Orientation="Horizontal"
-                                                  Margin="5">
-                                        <Button HorizontalAlignment="Left"
+                                        <Grid Margin="15, 5">
+                                            <Button HorizontalAlignment="Left"
                                                 Margin="5"
-                                                Content="{x:Static Properties:Resources.LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder}"
+                                                Padding="5"
+                                                Content="{x:Static GlobalProperties:Resources.Commands_Remove}"
                                                 Command="{Binding RemoveSelectedHandHistoryPathCommand}"/>
-                                        <Button HorizontalAlignment="Right"
+                                            <Button HorizontalAlignment="Right"
                                                 Margin="5"
+                                                Padding="5"
                                                 Content="{x:Static Properties:Resources.LiveTrackerSettingsView_AutoDetectHandHistoryFolders}"
                                                 Command="{Binding AutoDetectHandHistoryFoldersCommand}"/>
-                                        </StackPanel>
+                                        </Grid>
                                         <!-- Adding HandHistory Folder -->
-                                        <Border MaxWidth="400" Margin="0,5" Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Padding="5,1">
-                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                                                <TextBox Initialized="Directory_TextBox_Initialized"
+                                        <Expander Header="{x:Static GlobalProperties:Resources.Descriptions_Advanced}">
+                                            <Border MaxWidth="400" Margin="0,5" Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Padding="5,1">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                                    <TextBox Initialized="Directory_TextBox_Initialized"
                                                          Width="200" 
                                                          MaxHeight="20" 
                                                          Text="{Binding HandHistoryPathToBeAdded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                                <Button Command="{Binding BrowseCommand}" 
+                                                    <Button Command="{Binding BrowseCommand}" 
                                                         Content="{x:Static GlobalProperties:Resources.Commands_Browse}"/>
-                                                <Button HorizontalAlignment="Right"
+                                                    <Button HorizontalAlignment="Right"
                                                         Command="{Binding AddHandHistoryPathCommand}"
                                                         Content="{x:Static Properties:Resources.LiveTrackerSettingsView_AddHandHistoryFolder}"/>
-                                            </StackPanel>
-                                        </Border>
+                                                </StackPanel>
+                                            </Border>
+                                        </Expander>
                                     </StackPanel>
                                 </StackPanel>
                             </GroupBox>
@@ -120,7 +123,7 @@
             </DataTemplate>
         </ResourceDictionary>
     </ToolsViews:DialogView.Resources>
-    
+
     <ContentControl Content="{Binding}"/>
-    
+
 </ToolsViews:DialogView>

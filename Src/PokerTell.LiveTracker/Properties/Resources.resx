@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AutoDetectHandHistoryFoldersResultsViewModel_RoomWhoseHandHistoryFolderWasNotDetectedInformation" xml:space="preserve">
-    <value>If you are sure that {0} is configured to save your Hand Histories to a folder on disk, add that folder manually.
+    <value>If you are sure that {0} is configured to save your Hand Histories to a folder on disk, add that folder manually inside the Advanced section.
 Otherwise follow the link below to get instructions on how to configure {0} correctly.</value>
   </data>
   <data name="AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetected" xml:space="preserve">
@@ -126,7 +126,7 @@ Otherwise follow the link below to get instructions on how to configure {0} corr
   </data>
   <data name="AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInformation" xml:space="preserve">
     <value>If you have a Poker Room installed and it is not shown here, first make sure that PokerTell supports it by following the link below.
-You may then add its Hand History Folder manually.</value>
+You may then add its Hand History Folder manually inside the Advanced section.</value>
   </data>
   <data name="AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereNotDetected" xml:space="preserve">
     <value>Installed Poker Rooms whose Hand History Directories could not be detected</value>
@@ -138,13 +138,10 @@ You may then add its Hand History Folder manually.</value>
     <value>Add HandHistory Folder</value>
   </data>
   <data name="LiveTrackerSettingsView_AutoDetectHandHistoryFolders" xml:space="preserve">
-    <value>Detect Handhistory Folders (recommended)</value>
+    <value>Automatically Detect Handhistory Folders</value>
   </data>
   <data name="LiveTrackerSettingsView_AutoTrack" xml:space="preserve">
     <value>Enable Autotracking</value>
-  </data>
-  <data name="LiveTrackerSettingsView_RemoveSelectedHandHistoryFolder" xml:space="preserve">
-    <value>Remove selected HandHistory Folder</value>
   </data>
   <data name="LiveTrackerSettingsView_Show_LiveStatsWindowOnStartup" xml:space="preserve">
     <value>Show LiveStats Window on Startup</value>

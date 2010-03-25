@@ -66,7 +66,7 @@
                                                        Text="{x:Static Properties:Resources.AutoDetectHandHistoryFoldersResultsView_RoomsWhoseHandHistoriesWereDetectedInformation}"
                                                              TextWrapping="WrapWithOverflow"/>
                                             <TextBlock Grid.Row="1" VerticalAlignment="Bottom">
-                                                   <Hyperlink>
+                                                   <Hyperlink Command="{Binding BrowseToSupportedPokerRoomsListCommand}">
                                                       <TextBlock Text="{x:Static GlobalProperties:Resources.Links_ListOfSupportedPokerRooms}"/>
                                                    </Hyperlink>
                                             </TextBlock>
@@ -106,7 +106,7 @@
                                                        Text="{Binding SelectedUndetectedPokerRoomInformation}"
                                                        TextWrapping="Wrap"/>
                                             <TextBlock Grid.Row="1" VerticalAlignment="Bottom">
-                                               <Hyperlink>
+                                               <Hyperlink Command="{Binding BrowseToSelectedUndetectedPokerRoomHelpCommand}">
                                                   <TextBlock Text="{Binding SelectedUndetectedPokerRoom.Second}"/>
                                                </Hyperlink>
                                             </TextBlock>

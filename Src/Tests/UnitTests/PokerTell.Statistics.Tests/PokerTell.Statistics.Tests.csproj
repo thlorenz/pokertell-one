@@ -94,6 +94,7 @@
     <Compile Include="Detailed\DetailedPostFlopHeroReactsStatisticsDescriberSpecs.cs" />
     <Compile Include="Detailed\DetailedPreFlopStatisticsDescriberSpecs.cs" />
     <Compile Include="Factories\StringToSequenceExtension.cs" />
+    <Compile Include="PlayerStatisticsSpecs.cs" />
     <Compile Include="Utilities\AcrossRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticsSetTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticTests.cs" />
@@ -105,7 +106,7 @@
     <Compile Include="Factories\Samples.cs" />
     <Compile Include="Fakes\AnalyzablePokerPlayersFilterTester.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilterTests.cs" />
-    <Compile Include="Fakes\PlayerStatisticsMock.cs" />
+    <Compile Include="Fakes\PlayerStatisticsSut.cs" />
     <Compile Include="PlayerStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModelTests.cs" />

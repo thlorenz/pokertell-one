@@ -142,11 +142,29 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Commands_Remove {
+            get {
+                return ResourceManager.GetString("Commands_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Commands_Save {
             get {
                 return ResourceManager.GetString("Commands_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Advanced.
+        /// </summary>
+        public static string Descriptions_Advanced {
+            get {
+                return ResourceManager.GetString("Descriptions_Advanced", resourceCulture);
             }
         }
         
