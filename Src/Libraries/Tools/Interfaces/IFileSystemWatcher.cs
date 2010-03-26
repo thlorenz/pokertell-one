@@ -5,7 +5,7 @@ namespace Tools.Interfaces
     using System.IO;
     using System.Runtime.Remoting;
 
-    public interface IFileSystemWatcher : IFluentInterface, ISupportInitialize
+    public interface IFileSystemWatcher : ISupportInitialize
     {
         WaitForChangedResult WaitForChanged(WatcherChangeTypes changeType);
 

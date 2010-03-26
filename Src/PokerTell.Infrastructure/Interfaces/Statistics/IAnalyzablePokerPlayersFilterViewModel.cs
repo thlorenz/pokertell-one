@@ -2,8 +2,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using PokerTell.Infrastructure.Enumerations.PokerHand;
 
-    using Tools.Interfaces;
-
     public interface IAnalyzablePokerPlayersFilterViewModel : IFluentInterface
     {
         #region Properties

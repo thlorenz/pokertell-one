@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Tests\ManualTests\PokerTell.LiveTracker.ManualTests\bin\Debug\Plugins\</OutputPath>
+    <OutputPath>..\..\..\..\..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,4 +80,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\SD\PokerTell\Build\Debug\Plugins\$(TargetFileName)" /Y
+copy "$(TargetDir)$(TargetFileName)" "C:\SD\PokerTell\Src\Tests\ManualTests\PokerTell.LiveTracker.ManualTests\bin\Debug\Plugins\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

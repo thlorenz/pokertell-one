@@ -3,7 +3,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Collections.Generic;
     using System.Windows;
 
-    using Tools.Interfaces;
+    using Infrastructure.Interfaces;
+
     using Tools.WPF.Interfaces;
 
     public interface IHarringtonMViewModel : IFluentInterface

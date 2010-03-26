@@ -1,7 +1,5 @@
 namespace PokerTell.Infrastructure.Interfaces
 {
-    using Tools.Interfaces;
-
     /// <summary>
     /// Acts as function wrapper which delegates to the default constructor of concrete type for the given interface
     /// </summary>

@@ -2,7 +2,7 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using System.Collections.Generic;
 
-    using Tools.Interfaces;
+    using Infrastructure.Interfaces;
 
     /// <summary>
     /// Is responsible for picking up file changes from the file system watchers it is initialized with.

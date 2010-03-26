@@ -3,9 +3,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using System;
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.Statistics;
-
-    using Tools.Interfaces;
 
     public interface IPlayerStatisticsUpdater : IFluentInterface
     {

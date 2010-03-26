@@ -1,4 +1,4 @@
-namespace Tools.Interfaces
+namespace PokerTell.Infrastructure.Interfaces
 {
     using System;
     using System.ComponentModel;

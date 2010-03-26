@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker.ManualTests
 {
+    using System.IO;
     using System.Windows;
 
     using DatabaseSetup;
@@ -27,9 +28,6 @@ namespace PokerTell.LiveTracker.ManualTests
         {
             var catalog = new ModuleCatalog();
 
-             // *************
-             // Core Modules
-             // *************
             catalog
                 .AddModule(typeof(ToolsModule))
                 .AddModule(typeof(UserModule))
@@ -40,22 +38,29 @@ namespace PokerTell.LiveTracker.ManualTests
                 .AddModule(typeof(StatisticsModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(LiveTrackerModuleMock), typeof(StatisticsModule).Name, typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
 
-            // *******************************
-            // Plugins found in Plugins folder
-            // *******************************
-            var pluginsCatalog = new DirectoryModuleCatalog() { ModulePath = @".\Plugins" };
-            
-            // We need to load them here in order to add them to the main catalog
-            // For this reason the plugin modules also need to explicitly declare all their dependencies, since Prism will otherwise
-            // attempt to inititialize them before the main catalog was initialized.
-            pluginsCatalog.Load();
-           
-            foreach (var moduleInfo in pluginsCatalog.Modules)
-            {
-                catalog.AddModule(moduleInfo);
-            }
+            // AddAvailablePluginsTo(catalog);
 
             return catalog;
+        }
+
+        static void AddAvailablePluginsTo(ModuleCatalog catalog)
+        {
+            const string pluginPath = @".\Plugins";
+
+            if (Directory.Exists(pluginPath))
+            {
+                var pluginsCatalog = new DirectoryModuleCatalog() { ModulePath = pluginPath };
+
+                // We need to load them here in order to add them to the main catalog
+                // For this reason the plugin modules also need to explicitly declare all their dependencies, since Prism will otherwise
+                // attempt to inititialize them before the main catalog was initialized.
+                pluginsCatalog.Load();
+
+                foreach (var moduleInfo in pluginsCatalog.Modules)
+                {
+                    catalog.AddModule(moduleInfo);
+                }
+            }
         }
 
         protected override DependencyObject CreateShell()

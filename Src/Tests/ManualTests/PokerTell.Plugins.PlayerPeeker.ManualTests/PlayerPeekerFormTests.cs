@@ -9,8 +9,6 @@ namespace PokerTell.Plugins.PlayerPeeker.ManualTests
 
     using NUnit.Framework;
 
-    using PokerTell.PlayerPeeker;
-
     // Resharper disable InconsistentNaming
     public class PlayerPeekerFormTests
     {

@@ -4,9 +4,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Collections.Generic;
     using System.Windows.Input;
 
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
-
-    using Tools.Interfaces;
 
     public interface ITableOverlayViewModel : IFluentInterface
     {

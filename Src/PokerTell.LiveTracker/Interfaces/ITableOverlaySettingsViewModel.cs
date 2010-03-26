@@ -5,7 +5,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Windows;
     using System.Windows.Input;
 
-    using Tools.Interfaces;
+    using Infrastructure.Interfaces;
+
     using Tools.WPF.Interfaces;
 
     public interface ITableOverlaySettingsViewModel : IFluentInterface

@@ -3,10 +3,10 @@ namespace PokerTell.LiveTracker.Interfaces
     using System;
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
-    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
     public interface IGameController : IFluentInterface

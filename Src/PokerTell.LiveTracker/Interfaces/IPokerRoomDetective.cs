@@ -2,7 +2,7 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using System.Collections.Generic;
 
-    using Tools.Interfaces;
+    using Infrastructure.Interfaces;
 
     public interface IPokerRoomDetective : IFluentInterface
     {

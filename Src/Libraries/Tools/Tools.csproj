@@ -132,7 +132,6 @@
     <Compile Include="GenericUtilities\Reflect.cs" />
     <Compile Include="GenericUtilities\RelativeLocation.cs" />
     <Compile Include="Interfaces\IDispatcherTimer.cs" />
-    <Compile Include="Interfaces\IFluentInterface.cs" />
     <Compile Include="Interfaces\IItemsPagesManager.cs" />
     <Compile Include="Interfaces\ITimer.cs">
       <SubType>Component</SubType>

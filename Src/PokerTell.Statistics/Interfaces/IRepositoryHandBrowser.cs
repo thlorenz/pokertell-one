@@ -2,11 +2,10 @@ namespace PokerTell.Statistics.Interfaces
 {
    using System.Collections.Generic;
 
+   using Infrastructure.Interfaces;
    using Infrastructure.Interfaces.PokerHand;
 
-   using Tools.Interfaces;
-
-   public interface IRepositoryHandBrowser : IFluentInterface
+    public interface IRepositoryHandBrowser : IFluentInterface
    {
       IRepositoryHandBrowser InitializeWith(IEnumerable<int> handIds);
 

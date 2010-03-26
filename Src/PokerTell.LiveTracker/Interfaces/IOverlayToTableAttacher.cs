@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Interfaces
     using System;
     using System.Windows;
 
+    using Infrastructure.Interfaces;
+
     using Tools.GenericUtilities;
     using Tools.Interfaces;
     using Tools.WPF.Interfaces;

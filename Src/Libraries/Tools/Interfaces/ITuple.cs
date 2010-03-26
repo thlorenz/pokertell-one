@@ -4,7 +4,7 @@ namespace Tools.Interfaces
 
     using FunctionalCSharp;
 
-    public interface ITuple<T1, T2> : IEquatable<Tuple<T1, T2>>, IFluentInterface
+    public interface ITuple<T1, T2> : IEquatable<Tuple<T1, T2>>
     {
         /// <summary>
         /// Gets First.

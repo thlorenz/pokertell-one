@@ -4,7 +4,7 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.ComponentModel;
     using System.Windows.Input;
 
-    using Tools.Interfaces;
+    using Infrastructure.Interfaces;
 
     public interface ILiveTrackerSettingsViewModel : IFluentInterface, INotifyPropertyChanged
     {

@@ -35,6 +35,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\Log4Net\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Composite.Presentation, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=1.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -51,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IPlayerPeekerForm.cs" />
     <Compile Include="PlayerPeekerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +71,8 @@
       <DependentUpon>PlayerPeekerForm.cs</DependentUpon>
     </Compile>
     <Compile Include="PeekerStats.cs" />
+    <Compile Include="PlayerPeekerModule.cs" />
+    <Compile Include="PlayerPeekerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -79,4 +94,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\SD\PokerTell\Build\Debug\Plugins\$(TargetFileName)" /Y
+copy "$(TargetDir)$(TargetFileName)" "C:\SD\PokerTell\Src\Tests\ManualTests\PokerTell.LiveTracker.ManualTests\bin\Debug\Plugins\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

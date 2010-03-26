@@ -4,44 +4,41 @@ Created by SharpDevelop.
  * Date: 1/24/2009
  * Time: 12:46 PM
  */
-namespace PokerTell.PlayerPeeker
+namespace PokerTell.Plugins.PlayerPeeker
 {
-	partial class PlayerPeekerForm
-	{
-		/// <summary>
-		/// Designer variable used to keep track of non-visual components.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    using Interfaces;
+
+    partial class PlayerPeekerForm 
+    {
+        /// <summary>
+        /// Designer variable used to keep track of non-visual components.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 		
-		/// <summary>
-		/// Disposes resources used by the form.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing) {
-				if (components != null) {
-					components.Dispose();
-				}
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Disposes resources used by the form.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) {
+                if (components != null) {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
 		
-		/// <summary>
-		/// This method is required for Windows Forms designer support.
-		/// Do not change the method contents inside the source code editor. The Forms designer might
-		/// not be able to load this method if it was changed manually.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// This method is required for Windows Forms designer support.
+        /// Do not change the method contents inside the source code editor. The Forms designer might
+        /// not be able to load this method if it was changed manually.
+        /// </summary>
+        private void InitializeComponent()
+        {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PlayerPeekerForm));
             this.dgvStats = new System.Windows.Forms.DataGridView();
-            this.StatusSTrip = new System.Windows.Forms.StatusStrip();
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.butLogin = new System.Windows.Forms.ToolStripDropDownButton();
-            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Player = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Games = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Profit = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,6 +50,11 @@ namespace PokerTell.PlayerPeeker
             this.Win = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Finish = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Entrants = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StatusSTrip = new System.Windows.Forms.StatusStrip();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.butLogin = new System.Windows.Forms.ToolStripDropDownButton();
+            this.loginToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dgvStats)).BeginInit();
             this.StatusSTrip.SuspendLayout();
             this.SuspendLayout();
@@ -84,49 +86,6 @@ namespace PokerTell.PlayerPeeker
             this.dgvStats.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.dgvStats.Size = new System.Drawing.Size(642, 215);
             this.dgvStats.TabIndex = 2;
-            // 
-            // StatusSTrip
-            // 
-            this.StatusSTrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.lblStatus,
-            this.butLogin});
-            this.StatusSTrip.Location = new System.Drawing.Point(0, 218);
-            this.StatusSTrip.Name = "StatusSTrip";
-            this.StatusSTrip.Size = new System.Drawing.Size(642, 22);
-            this.StatusSTrip.TabIndex = 3;
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(38, 17);
-            this.lblStatus.Text = "Ready";
-            // 
-            // butLogin
-            // 
-            this.butLogin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
-            this.butLogin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.butLogin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loginToolStripMenuItem,
-            this.resetToolStripMenuItem});
-            this.butLogin.Image = ((System.Drawing.Image)(resources.GetObject("butLogin.Image")));
-            this.butLogin.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.butLogin.Name = "butLogin";
-            this.butLogin.Size = new System.Drawing.Size(29, 20);
-            this.butLogin.Text = "Login";
-            // 
-            // loginToolStripMenuItem
-            // 
-            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
-            this.loginToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
-            this.loginToolStripMenuItem.Text = "Login";
-            this.loginToolStripMenuItem.Click += new System.EventHandler(this.LoginToolStripMenuItemClick);
-            // 
-            // resetToolStripMenuItem
-            // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
-            this.resetToolStripMenuItem.Text = "Reset";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.ResetToolStripMenuItemClick);
             // 
             // Player
             // 
@@ -207,6 +166,49 @@ namespace PokerTell.PlayerPeeker
             this.Entrants.ReadOnly = true;
             this.Entrants.Width = 71;
             // 
+            // StatusSTrip
+            // 
+            this.StatusSTrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblStatus,
+            this.butLogin});
+            this.StatusSTrip.Location = new System.Drawing.Point(0, 218);
+            this.StatusSTrip.Name = "StatusSTrip";
+            this.StatusSTrip.Size = new System.Drawing.Size(642, 22);
+            this.StatusSTrip.TabIndex = 3;
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(38, 17);
+            this.lblStatus.Text = "Ready";
+            // 
+            // butLogin
+            // 
+            this.butLogin.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.butLogin.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.butLogin.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loginToolStripMenuItem,
+            this.resetToolStripMenuItem});
+            this.butLogin.Image = ((System.Drawing.Image)(resources.GetObject("butLogin.Image")));
+            this.butLogin.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.butLogin.Name = "butLogin";
+            this.butLogin.Size = new System.Drawing.Size(29, 20);
+            this.butLogin.Text = "Login";
+            // 
+            // loginToolStripMenuItem
+            // 
+            this.loginToolStripMenuItem.Name = "loginToolStripMenuItem";
+            this.loginToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.loginToolStripMenuItem.Text = "Login";
+            this.loginToolStripMenuItem.Click += new System.EventHandler(this.LoginToolStripMenuItemClick);
+            // 
+            // resetToolStripMenuItem
+            // 
+            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
+            this.resetToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
+            this.resetToolStripMenuItem.Text = "Reset";
+            this.resetToolStripMenuItem.Click += new System.EventHandler(this.ResetToolStripMenuItemClick);
+            // 
             // PlayerPeekerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -214,7 +216,8 @@ namespace PokerTell.PlayerPeeker
             this.ClientSize = new System.Drawing.Size(642, 240);
             this.Controls.Add(this.StatusSTrip);
             this.Controls.Add(this.dgvStats);
-            this.MaximumSize = new System.Drawing.Size(650, 400);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+            this.MaximumSize = new System.Drawing.Size(660, 800);
             this.Name = "PlayerPeekerForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -227,12 +230,12 @@ namespace PokerTell.PlayerPeeker
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
-		private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
-		private System.Windows.Forms.ToolStripDropDownButton butLogin;
-		private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+        }
+        private System.Windows.Forms.ToolStripMenuItem loginToolStripMenuItem;
+        private System.Windows.Forms.ToolStripDropDownButton butLogin;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.StatusStrip StatusSTrip;
-		private System.Windows.Forms.DataGridView dgvStats;
+        private System.Windows.Forms.DataGridView dgvStats;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
         private System.Windows.Forms.DataGridViewTextBoxColumn Player;
         private System.Windows.Forms.DataGridViewTextBoxColumn Games;
@@ -247,5 +250,5 @@ namespace PokerTell.PlayerPeeker
         private System.Windows.Forms.DataGridViewTextBoxColumn Entrants;
 		
 		
-	}
+    }
 }

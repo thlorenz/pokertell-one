@@ -3,7 +3,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
     using System;
 
     using Tools.GenericRanges;
-    using Tools.Interfaces;
 
     public interface IRangeFilterViewModel<T> : IRangeFilterViewModel
         where T : IComparable

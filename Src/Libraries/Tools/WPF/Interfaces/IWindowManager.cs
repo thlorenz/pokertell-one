@@ -4,7 +4,7 @@ namespace Tools.WPF.Interfaces
 
     using Tools.Interfaces;
 
-    public interface IWindowManager : IFluentInterface, IDisposable
+    public interface IWindowManager : IDisposable
     {
         object DataContext { get; set; }
 

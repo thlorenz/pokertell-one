@@ -2,9 +2,9 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using System.Collections.Generic;
 
-    using Microsoft.Practices.Composite.Presentation.Events;
+    using Infrastructure.Interfaces;
 
-    using Tools.Interfaces;
+    using Microsoft.Practices.Composite.Presentation.Events;
 
     public interface IGamesTracker : IFluentInterface
     {

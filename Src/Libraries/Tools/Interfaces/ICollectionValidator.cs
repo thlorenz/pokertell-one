@@ -1,6 +1,6 @@
 namespace Tools.Interfaces
 {
-    public interface ICollectionValidator : IFluentInterface
+    public interface ICollectionValidator
     {
         /// <summary>
         /// Corrects the given index to the closest valid value if the given index is out of bound.

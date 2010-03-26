@@ -6,8 +6,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     using PokerHand;
 
-    using Tools.Interfaces;
-
     public interface IPlayerStatistics : IFluentInterface
     {
         IActionSequenceStatisticsSet[] HeroXOrHeroBOutOfPosition { get; }

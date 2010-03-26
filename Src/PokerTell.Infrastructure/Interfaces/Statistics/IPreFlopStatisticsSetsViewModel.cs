@@ -5,8 +5,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     using Enumerations.PokerHand;
 
-    using Tools.Interfaces;
-
     public interface IPreFlopStatisticsSetsViewModel : IFluentInterface
     {
         IStatisticsSetSummaryViewModel PreFlopUnraisedPotStatisticsSet { get; }

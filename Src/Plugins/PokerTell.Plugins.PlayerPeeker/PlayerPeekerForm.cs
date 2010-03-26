@@ -4,20 +4,21 @@ Created by SharpDevelop.
  * Date: 1/24/2009
  * Time: 12:46 PM
  */
-namespace PokerTell.PlayerPeeker
+namespace PokerTell.Plugins.PlayerPeeker
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Drawing;
+    using System.Linq;
     using System.Reflection;
     using System.Windows.Forms;
 
     using Infrastructure.Interfaces;
 
-    using log4net;
+    using Interfaces;
 
-    using PokerTell.Plugins.PlayerPeeker;
+    using log4net;
 
     /// <summary>
     /// This queries the PlayerPeek Statistics for a list of players.
@@ -31,7 +32,7 @@ namespace PokerTell.PlayerPeeker
     /// this time to add the next player.
     /// This is done until all players have been added.
     /// </summary>
-    public partial class PlayerPeekerForm : Form
+    public partial class PlayerPeekerForm : Form, IPlayerPeekerForm
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -39,13 +40,13 @@ namespace PokerTell.PlayerPeeker
 
         readonly Dictionary<string, PeekerStats> _queriedStats;
 
+        readonly ISettings _settings;
+
         readonly WebBrowser _wbb;
 
         int _currentIndex;
 
-        string[] _newFoundPlayers;
-
-        readonly ISettings _settings;
+        IEnumerable<string> _newFoundPlayers;
 
         public PlayerPeekerForm(ISettings settings)
         {
@@ -60,8 +61,6 @@ namespace PokerTell.PlayerPeeker
             PersistState();
         }
 
-        delegate void NewPlayersFoundDelegate(string[] newPlayers);
-
         public event Action ResetRequested;
 
         enum StateProperties
@@ -71,48 +70,51 @@ namespace PokerTell.PlayerPeeker
             Size
         }
 
-        public void NewPlayersFound(string[] newPlayers)
+        public void NewPlayersFound(IEnumerable<string> newPlayers)
         {
-            if (dgvStats.InvokeRequired)
-            {
-                if (lblStatus.Text != "Ready")
-                    return;
+            _newFoundPlayers = newPlayers;
+            _currentIndex = 0;
 
-                dgvStats.Invoke(new NewPlayersFoundDelegate(NewPlayersFound), new object[] { newPlayers });
-            }
-            else
+            // Initiate Progressbar
+            lblStatus.Text = "Retrieving ...";
+
+            // Start adding new Players
+            QueryNextPlayer(_currentIndex);
+        }
+
+        static bool DataGridViewContains(DataGridView dgv, string strValue, int column)
+        {
+            foreach (DataGridViewRow row in dgv.Rows)
             {
-                // Make sure last retrieve has finished, before trying to retrieve again
-                //  if (lblStatus.Text.Equals("Ready"))
+                if (row.Cells[column].Value != null && row.Cells[column].Value.ToString().Equals(strValue))
                 {
-                    _newFoundPlayers = newPlayers;
-                    _currentIndex = 0;
-
-                    /* Remove Players not at Table anymore
-                     * Changed, we'll keep track of all players, that way we don't have to have a peeker for each table
-                     
-                    var rowsToRemove = new List<DataGridViewRow>();
-                    foreach (DataGridViewRow row in dgvStats.Rows)
-                    {
-                        if (row.Cells[0].Value != null && ! ArrayContains(newPlayers, (string)row.Cells[0].Value))
-                        {
-                            rowsToRemove.Add(row);
-                        }
-                    }
-
-                    foreach (DataGridViewRow row in rowsToRemove)
-                    {
-                        dgvStats.Rows.Remove(row);
-                    }
-                    */
-
-                    // Initiate Progressbar
-                    lblStatus.Text = "Retrieving ...";
-
-                    // Start adding new Players
-                    QueryNextPlayer(_currentIndex);
+                    return true;
                 }
             }
+
+            return false;
+        }
+
+        static string GetSubmitHtml(string playerName)
+        {
+            const string pokerSite = "pokerstars";
+
+            return "<BODY onLoad = \"document.Find.submit()\">" +
+                   "<form name=\"Find\" action=http://www.playerpeek.com/players.html method=post " +
+                   "enctype=\"application/x-www-form-urlencoded\">" + "Name: " +
+                   "<INPUT TYPE=\"text\" NAME=\"player\" VALUE=\"" + playerName + "\">" + "Site:" +
+                   "<INPUT TYPE=\"text\" NAME=\"site\" VALUE=\"" + pokerSite + "\">" +
+                   "<INPUT TYPE=\"submit\" ACTION=\"http://www.playerpeek.com/players.html\" VALUE=\"Search\" METHOD=\"get\"" +
+                   "id=\"submit_single\"><o:p></o:p></span></p>" + "</form>";
+        }
+
+        static void LoginToPlayerPeekCom()
+        {
+            var frmLogin = new Form { Size = new Size(800, 600) };
+            var loginBrowser = new WebBrowser { Dock = DockStyle.Fill };
+            frmLogin.Controls.Add(loginBrowser);
+            frmLogin.Show();
+            loginBrowser.Navigate("http://www.playerpeek.com/");
         }
 
         void AddStatsToGrid(PeekerStats stats)
@@ -129,32 +131,6 @@ namespace PokerTell.PlayerPeeker
                 stats.PercWins.ToString(), 
                 stats.AvgFinish.ToString(), 
                 stats.AvgEntrants.ToString());
-        }
-
-        static bool ArrayContains(string[] strArray, string strValue)
-        {
-            foreach (string iValue in strArray)
-            {
-                if (iValue.Equals(strValue))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        static bool DataGridViewContains(DataGridView dgv, string strValue, int column)
-        {
-            foreach (DataGridViewRow row in dgv.Rows)
-            {
-                if (row.Cells[column].Value != null && row.Cells[column].Value.ToString().Equals(strValue))
-                {
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         void FrmPlayerPeekFormClosing(object sender, FormClosingEventArgs e)
@@ -174,19 +150,6 @@ namespace PokerTell.PlayerPeeker
             dgvStats.Height = Height - 47;
         }
 
-        static string GetSubmitHtml(string playerName)
-        {
-            const string pokerSite = "pokerstars";
-
-            return "<BODY onLoad = \"document.Find.submit()\">" +
-                   "<form name=\"Find\" action=http://www.playerpeek.com/players.html method=post " +
-                   "enctype=\"application/x-www-form-urlencoded\">" + "Name: " +
-                   "<INPUT TYPE=\"text\" NAME=\"player\" VALUE=\"" + playerName + "\">" + "Site:" +
-                   "<INPUT TYPE=\"text\" NAME=\"site\" VALUE=\"" + pokerSite + "\">" +
-                   "<INPUT TYPE=\"submit\" ACTION=\"http://www.playerpeek.com/players.html\" VALUE=\"Search\" METHOD=\"get\"" +
-                   "id=\"submit_single\"><o:p></o:p></span></p>" + "</form>";
-        }
-
         void InvokeResetRequested()
         {
             Action requested = ResetRequested;
@@ -199,15 +162,6 @@ namespace PokerTell.PlayerPeeker
         void LoginToolStripMenuItemClick(object sender, EventArgs e)
         {
             LoginToPlayerPeekCom();
-        }
-
-        static void LoginToPlayerPeekCom()
-        {
-            var frmLogin = new Form { Size = new Size(800, 600) };
-            var loginBrowser = new WebBrowser { Dock = DockStyle.Fill };
-            frmLogin.Controls.Add(loginBrowser);
-            frmLogin.Show();
-            loginBrowser.Navigate("http://www.playerpeek.com/");
         }
 
         void PersistState()
@@ -233,23 +187,23 @@ namespace PokerTell.PlayerPeeker
         {
             try
             {
-                if (index < _newFoundPlayers.Length)
+                if (index < _newFoundPlayers.Count())
                 {
-                    if (! _playersWithoutStats.Contains(_newFoundPlayers[index]) &&
-                        ! DataGridViewContains(dgvStats, _newFoundPlayers[index], 0))
+                    if (! _playersWithoutStats.Contains(_newFoundPlayers.ElementAt(index)) &&
+                        ! DataGridViewContains(dgvStats, _newFoundPlayers.ElementAt(index), 0))
                     {
                         // Have we queried this player before (e.g. he was at our table but we got moved and
                         // now he got also moved and is at our table again
-                        if (_queriedStats.ContainsKey(_newFoundPlayers[index]))
+                        if (_queriedStats.ContainsKey(_newFoundPlayers.ElementAt(index)))
                         {
-                            AddStatsToGrid(_queriedStats[_newFoundPlayers[index]]);
+                            AddStatsToGrid(_queriedStats[_newFoundPlayers.ElementAt(index)]);
 
                             // Query the next Player
                             QueryNextPlayer(++_currentIndex);
                         }
                         else
                         {
-                            _wbb.DocumentText = GetSubmitHtml(_newFoundPlayers[index]);
+                            _wbb.DocumentText = GetSubmitHtml(_newFoundPlayers.ElementAt(index));
 
                             // Don't query next player right away but wait instead until WebBrowser Navigate completes and
                             // automatically will query next player
@@ -282,7 +236,7 @@ namespace PokerTell.PlayerPeeker
         void SaveState()
         {
             string strPrefix = StateProperties.PlayerPeekForm + ".";
-           _settings.Set(strPrefix + StateProperties.Location, Location);
+            _settings.Set(strPrefix + StateProperties.Location, Location);
             _settings.Set(strPrefix + StateProperties.Size, Size);
         }
 
@@ -328,7 +282,7 @@ namespace PokerTell.PlayerPeeker
                     }
                     else
                     {
-                        _playersWithoutStats.Add(_newFoundPlayers[_currentIndex]);
+                        _playersWithoutStats.Add(_newFoundPlayers.ElementAt(_currentIndex));
                     }
 
                     // Initiate next player search

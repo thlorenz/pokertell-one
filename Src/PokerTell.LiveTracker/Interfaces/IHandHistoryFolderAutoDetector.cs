@@ -2,6 +2,8 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces;
+
     using Tools.Interfaces;
 
     public interface IHandHistoryFolderAutoDetector : IFluentInterface

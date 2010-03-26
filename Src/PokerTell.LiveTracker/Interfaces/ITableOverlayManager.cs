@@ -2,9 +2,9 @@ namespace PokerTell.LiveTracker.Interfaces
 {
     using System;
 
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
-    using Tools.Interfaces;
     using Tools.WPF.Interfaces;
 
     public interface ITableOverlayManager : IFluentInterface, IDisposable
