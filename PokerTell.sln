@@ -101,6 +101,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Plugins.InstantHa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Plugins.InstantHandHistoryReader.Tests", "Src\Tests\UnitTests\PokerTell.Plugins.InstantHandHistoryReader.Tests\PokerTell.Plugins.InstantHandHistoryReader.Tests.csproj", "{70B2C714-B4B2-4780-AC12-0128339CF246}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Plugins.PlayerPeeker", "Src\Plugins\PokerTell.Plugins.PlayerPeeker\PokerTell.Plugins.PlayerPeeker.csproj", "{C638E665-5926-441B-A74A-32DCBFC7347D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Plugins.PlayerPeeker.ManualTests", "Src\Tests\ManualTests\PokerTell.Plugins.PlayerPeeker.ManualTests\PokerTell.Plugins.PlayerPeeker.ManualTests.csproj", "{B0ED6758-25FD-4708-BAB4-C689E376FE55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -243,6 +247,14 @@ Global
 		{70B2C714-B4B2-4780-AC12-0128339CF246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70B2C714-B4B2-4780-AC12-0128339CF246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70B2C714-B4B2-4780-AC12-0128339CF246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C638E665-5926-441B-A74A-32DCBFC7347D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C638E665-5926-441B-A74A-32DCBFC7347D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C638E665-5926-441B-A74A-32DCBFC7347D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C638E665-5926-441B-A74A-32DCBFC7347D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0ED6758-25FD-4708-BAB4-C689E376FE55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0ED6758-25FD-4708-BAB4-C689E376FE55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0ED6758-25FD-4708-BAB4-C689E376FE55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0ED6758-25FD-4708-BAB4-C689E376FE55}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -286,7 +298,9 @@ Global
 		{D69E7BA2-6666-4A43-A9F3-C50A240FB0D0} = {0C0C549B-906B-444C-83A8-179673E1849D}
 		{31266E2A-C49A-48E0-8A31-5B6FBD9DC87E} = {C07B75F9-36B9-4C24-ABFC-7292778DFD3E}
 		{1B5B29B9-E417-4376-B8E8-806C4BF78317} = {C07B75F9-36B9-4C24-ABFC-7292778DFD3E}
+		{B0ED6758-25FD-4708-BAB4-C689E376FE55} = {C07B75F9-36B9-4C24-ABFC-7292778DFD3E}
 		{5B654EE9-2E7C-4DA0-9DF3-279FC11B3553} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
+		{C638E665-5926-441B-A74A-32DCBFC7347D} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
