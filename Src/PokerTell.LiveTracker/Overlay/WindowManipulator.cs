@@ -4,11 +4,10 @@ namespace PokerTell.LiveTracker.Overlay
     using System.Drawing;
     using System.Text;
 
-    using DllWrappers;
-
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.WPF.Interfaces;
+    using Tools.Wrappers;
 
     using Point = System.Windows.Point;
     using Size = System.Windows.Size;

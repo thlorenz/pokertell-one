@@ -204,10 +204,7 @@
     <Compile Include="WPF\Views\ItemsRegionView.cs" />
     <Compile Include="WPF\WindowManager.cs" />
     <Compile Include="Wrappers\CallWindowProc.cs" />
-    <Compile Include="Wrappers\HandHistoryReader.cs" />
     <Compile Include="Wrappers\HotKey.cs" />
-    <Compile Include="Wrappers\Kernel32.cs" />
-    <Compile Include="Wrappers\ProcessMemoryReader.cs" />
     <Compile Include="Wrappers\SetWindowPos.cs" />
     <Compile Include="Wrappers\User32.cs" />
     <Compile Include="Xml\Utils.cs" />

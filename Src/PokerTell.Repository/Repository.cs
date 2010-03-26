@@ -116,6 +116,16 @@ namespace PokerTell.Repository
             return _parser.RetrieveAndConvert(handHistories, fileName);
         }
 
+        public IEnumerable<IConvertedPokerHand> RetrieveHandsFromString(string handHistories)
+        {
+            if (string.IsNullOrEmpty(handHistories))
+            {
+                return Enumerable.Empty<IConvertedPokerHand>();
+            }
+
+            return _parser.RetrieveAndConvert(handHistories, "Memory");
+        }
+
         static string ReadHandHistoriesFrom(string fileName, int remainingTries)
         {
             // Need to insure against reading our own logfile b/c it is locked and written to continously which leads to a crash

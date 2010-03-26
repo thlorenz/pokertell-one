@@ -5,9 +5,9 @@ namespace PokerTell.LiveTracker.Overlay
     using System.Text;
     using System.Text.RegularExpressions;
 
-    using DllWrappers;
-
     using PokerTell.LiveTracker.Interfaces;
+
+    using Tools.Wrappers;
 
     /// <summary>
     /// Description of WindowHandler.

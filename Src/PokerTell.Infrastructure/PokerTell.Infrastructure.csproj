@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationModules.cs" />
     <Compile Include="ApplicationProperties.cs" />
     <Compile Include="CustomExceptions.cs" />
     <Compile Include="Enumerations\DatabaseSetup\ActionTable.cs" />

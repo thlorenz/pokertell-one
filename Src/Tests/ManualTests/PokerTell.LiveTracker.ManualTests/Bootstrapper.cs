@@ -27,7 +27,10 @@ namespace PokerTell.LiveTracker.ManualTests
         {
             var catalog = new ModuleCatalog();
 
-            return catalog
+             // *************
+             // Core Modules
+             // *************
+            catalog
                 .AddModule(typeof(ToolsModule))
                 .AddModule(typeof(UserModule))
                 .AddModule(typeof(PokerHandModule), typeof(UserModule).Name)
@@ -36,8 +39,25 @@ namespace PokerTell.LiveTracker.ManualTests
                 .AddModule(typeof(RepositoryModule), typeof(PokerHandParsersModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(StatisticsModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(LiveTrackerModuleMock), typeof(StatisticsModule).Name, typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
+
+            // *******************************
+            // Plugins found in Plugins folder
+            // *******************************
+            var pluginsCatalog = new DirectoryModuleCatalog() { ModulePath = @".\Plugins" };
+            
+            // We need to load them here in order to add them to the main catalog
+            // For this reason the plugin modules also need to explicitly declare all their dependencies, since Prism will otherwise
+            // attempt to inititialize them before the main catalog was initialized.
+            pluginsCatalog.Load();
+           
+            foreach (var moduleInfo in pluginsCatalog.Modules)
+            {
+                catalog.AddModule(moduleInfo);
+            }
+
+            return catalog;
         }
-        
+
         protected override DependencyObject CreateShell()
         {
             Container

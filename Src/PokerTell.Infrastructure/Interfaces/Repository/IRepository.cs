@@ -25,5 +25,7 @@ namespace PokerTell.Infrastructure.Interfaces.Repository
         IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId);
 
         IPlayerIdentity FindPlayerIdentityFor(string name, string site);
+
+        IEnumerable<IConvertedPokerHand> RetrieveHandsFromString(string handHistories);
     }
 }
