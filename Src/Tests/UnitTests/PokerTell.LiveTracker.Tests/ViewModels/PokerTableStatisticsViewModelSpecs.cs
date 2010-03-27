@@ -132,7 +132,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
 
-
+            static Mock<IAnalyzablePokerPlayer> _activeAnalyzablePokerPlayer_Stub;
 
             Establish context = () => {
                 _activeAnalyzablePokerPlayer_Stub = new Mock<IAnalyzablePokerPlayer>();
@@ -160,8 +160,47 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             It should_initialize_the_detailed_statistics_analyzer_with_the_filtered_analyzable_players_of_the_selected_player_and_the_players_name
                 = () => _statisticsAnalyzer_Mock.Verify(sa => sa.InitializeWith(analyzablePokerPlayers_Stub, playerName));
+        }
 
+        [Subject(typeof(PokerTableStatisticsViewModel), "Selected Player")]
+        public class when_the_a_player_without_active_analyzable_PokerPlayer_is_selected : PokerTableStatisticsViewModelSpecs
+        {
+            const string playerName = "someName";
+
+            static Mock<IPlayerStatistics> playerStatistics_Stub;
+
+            static IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers_Stub;
+
+            static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
+            
             static Mock<IAnalyzablePokerPlayer> _activeAnalyzablePokerPlayer_Stub;
+
+            Establish context = () => {
+                _activeAnalyzablePokerPlayer_Stub = new Mock<IAnalyzablePokerPlayer>();
+                _activeAnalyzablePokerPlayer_Stub
+                    .SetupGet(ap => ap.ActionSequences)
+                    .Returns(new[] { ActionSequences.HeroF });
+
+                analyzablePokerPlayers_Stub = new[] { _activeAnalyzablePokerPlayer_Stub.Object };
+
+                playerStatistics_Stub = new Mock<IPlayerStatistics>();
+                playerStatistics_Stub
+                    .SetupGet(ps => ps.FilteredAnalyzablePokerPlayers)
+                    .Returns(analyzablePokerPlayers_Stub);
+
+                playerStatisticsVM_Stub = _playerStatisticsVM_Stub;
+                playerStatisticsVM_Stub
+                    .SetupGet(vm => vm.PlayerStatistics)
+                    .Returns(playerStatistics_Stub.Object);
+                playerStatisticsVM_Stub
+                    .SetupGet(vm => vm.PlayerName)
+                    .Returns(playerName);
+            };
+
+            Because of = () => _sut.SelectedPlayer = playerStatisticsVM_Stub.Object;
+
+            It should_not_initialize_the_detailed_statistics_analyzer_with_the_filtered_analyzable_players_of_the_selected_player_and_the_players_name
+                = () => _statisticsAnalyzer_Mock.Verify(sa => sa.InitializeWith(analyzablePokerPlayers_Stub, playerName), Times.Never());
         }
 
         [Subject(typeof(PokerTableStatisticsViewModel), "BrowseAllHands")]

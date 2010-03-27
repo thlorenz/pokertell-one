@@ -29,7 +29,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             var databaseInUse = _databaseManager.GetDatabaseInUse();
 
-            if (databaseInUse != null)
+            if (! string.IsNullOrEmpty(databaseInUse))
                 SelectedItem = databaseInUse;
             else
                 SelectedItem = (AvailableItems.Count > 0 && AvailableItems[0] != null) ? AvailableItems[0] : string.Empty;

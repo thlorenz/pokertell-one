@@ -92,7 +92,8 @@ namespace PokerTell.LiveTracker.ViewModels
                         player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.NonStandard
                     select player;
 
-                _detailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
+                if (activeAnalyzablePlayers.Count() > 0)
+                    _detailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
             }
         }
 

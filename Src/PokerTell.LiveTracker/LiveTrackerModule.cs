@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker
 {
+    using System;
     using System.Reflection;
     using System.Windows.Controls;
 
@@ -16,6 +17,8 @@ namespace PokerTell.LiveTracker
     using PokerTell.LiveTracker.Persistence;
     using PokerTell.LiveTracker.ViewModels;
     using PokerTell.LiveTracker.Views;
+
+    using Properties;
 
     using Tools.WPF;
 
@@ -41,7 +44,7 @@ namespace PokerTell.LiveTracker
         {
             RegisterViewsAndServices();
             RegisterMenu();
-
+            Console.WriteLine(Resources.ResourceManager.GetString("PokerStarsLayout"));
             Log.Info("got initialized.");
         }
 

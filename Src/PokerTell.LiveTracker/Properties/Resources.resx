@@ -167,6 +167,10 @@ You may then add its Hand History Folder manually inside the Advanced section.</
   <data name="LiveTracker_MenuItem_TrackHandHistory" xml:space="preserve">
     <value>Track Hand History</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="PokerStarsLayout" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\PokerStars.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Warning_HandHistoriesAreTrackedAlready" xml:space="preserve">
     <value>The hand histories in file "{0}" are being tracked already.</value>
   </data>
