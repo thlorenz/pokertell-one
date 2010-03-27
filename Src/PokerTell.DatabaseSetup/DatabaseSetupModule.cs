@@ -2,6 +2,10 @@ namespace PokerTell.DatabaseSetup
 {
     using System.Reflection;
 
+    using DatabaseVersioning;
+
+    using Interfaces;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
@@ -40,7 +44,11 @@ namespace PokerTell.DatabaseSetup
                 .RegisterInstance(dataProviderInfos)
                 .RegisterType<IDatabaseSettings, DatabaseSettings>()
                 .RegisterType<ConfigureMySqlDataProviderViewModel>()
-                .RegisterType<ConfigureMySqlDataProviderView>();
+                .RegisterType<ConfigureMySqlDataProviderView>()
+
+                // Database Version
+                .RegisterType<IDatabaseVersion, DatabaseVersion>()
+                ;
 
             _regionManager
                 .RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, 

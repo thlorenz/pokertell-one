@@ -4,6 +4,8 @@ namespace PokerTell.DatabaseSetup
     using System.Collections.Generic;
     using System.Data;
 
+    using Infrastructure;
+
     using NHibernate.Tool.hbm2ddl;
 
     using PokerTell.DatabaseSetup.Properties;
@@ -70,6 +72,12 @@ namespace PokerTell.DatabaseSetup
             new SchemaExport(_dataProvider.NHibernateConfiguration)
                 .Execute(false, true, false, _dataProvider.Connection, null);
 
+            return this;
+        }
+
+        public IManagedDatabase VersionDatabase(string databaseName)
+        {
+            _dataProvider.ExecuteNonQuery(string.Format(Resources.Sql_Queries_External_InsertVersionNumber, databaseName, ApplicationProperties.VersionNumber));
             return this;
         }
 

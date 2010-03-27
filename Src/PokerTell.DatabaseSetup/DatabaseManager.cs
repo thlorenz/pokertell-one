@@ -44,6 +44,9 @@ namespace PokerTell.DatabaseSetup
             _managedDatabase.ChooseDatabase(databaseName);
 
             _managedDatabase.CreateTables();
+
+            _managedDatabase.VersionDatabase(databaseName);
+
             return this;
         }
 
@@ -57,6 +60,9 @@ namespace PokerTell.DatabaseSetup
             _managedDatabase.CreateDatabase(databaseName);
 
             _managedDatabase.CreateTables();
+
+            _managedDatabase.VersionDatabase(databaseName);
+
             return this;
         }
 

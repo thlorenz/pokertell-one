@@ -21,5 +21,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         IEnumerable<string> GetAllPokerTellDatabaseNames();
 
         string GetNameFor(string databaseInUse);
+
+        IManagedDatabase VersionDatabase(string databaseName);
     }
 }

@@ -44,7 +44,7 @@ namespace PokerTell
                 .AddModule(typeof(LiveTrackerModule), typeof(StatisticsModule).Name, typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(SessionReviewModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
 
-            // AddAvailablePluginsTo(catalog);
+             AddAvailablePluginsTo(catalog);
 
             return catalog;
         }

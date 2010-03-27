@@ -2,18 +2,17 @@ namespace PokerTell.Repository
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Text;
 
-    using Infrastructure;
-
     using log4net;
 
     using global::NHibernate;
 
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.Repository.Interfaces;
@@ -25,26 +24,32 @@ namespace PokerTell.Repository
 
         readonly IRepositoryParser _parser;
 
-        readonly IConvertedPokerHandDao _pokerHandDao;
+        readonly IPlayerIdentityDao _playerIdentityDao;
 
-        readonly ITransactionManager _transactionManager;
+        readonly IConvertedPokerHandDao _pokerHandDao;
 
         readonly IConvertedPokerPlayerDao _pokerPlayerDao;
 
-        readonly IPlayerIdentityDao _playerIdentityDao;
+        readonly ITransactionManager _transactionManager;
 
-        public Repository(
-            IConvertedPokerHandDao pokerHandDao, 
-            IConvertedPokerPlayerDao pokerPlayerDao, 
-            IPlayerIdentityDao playerIdentityDao, 
-            ITransactionManager transactionManager, 
-            IRepositoryParser parser)
+        public Repository(IConvertedPokerHandDao pokerHandDao, IConvertedPokerPlayerDao pokerPlayerDao, IPlayerIdentityDao playerIdentityDao, ITransactionManager transactionManager, IRepositoryParser parser)
         {
             _pokerHandDao = pokerHandDao;
             _pokerPlayerDao = pokerPlayerDao;
             _playerIdentityDao = playerIdentityDao;
             _transactionManager = transactionManager;
             _parser = parser;
+        }
+
+        public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId)
+        {
+            return _transactionManager.Execute(
+                () => _pokerPlayerDao.FindAnalyzablePlayersWith(playerIdentity, lastQueriedId));
+        }
+
+        public IPlayerIdentity FindPlayerIdentityFor(string name, string site)
+        {
+            return _transactionManager.Execute(() => _playerIdentityDao.FindPlayerIdentityFor(name, site));
         }
 
         public IRepository InsertHand(IConvertedPokerHand convertedPokerHand)
@@ -74,19 +79,9 @@ namespace PokerTell.Repository
             return this;
         }
 
-        public IConvertedPokerHand RetrieveConvertedHandWith(ulong gameId, string site)
-        {
-            return _transactionManager.Execute(() => _pokerHandDao.GetHandWith(gameId, site));
-        }
-
         public IConvertedPokerHand RetrieveConvertedHand(int handId)
         {
             return _transactionManager.Execute(() => _pokerHandDao.Get(handId));
-        }
-
-        public IPlayerIdentity FindPlayerIdentityFor(string name, string site)
-        {
-            return _transactionManager.Execute(() => _playerIdentityDao.FindPlayerIdentityFor(name, site));
         }
 
         public IEnumerable<IConvertedPokerHand> RetrieveConvertedHands(IEnumerable<int> handIds)
@@ -97,17 +92,16 @@ namespace PokerTell.Repository
             }
         }
 
-        public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId)
+        public IConvertedPokerHand RetrieveConvertedHandWith(ulong gameId, string site)
         {
-            return _transactionManager.Execute(
-                () => _pokerPlayerDao.FindAnalyzablePlayersWith(playerIdentity, lastQueriedId));
+            return _transactionManager.Execute(() => _pokerHandDao.GetHandWith(gameId, site));
         }
 
         public IEnumerable<IConvertedPokerHand> RetrieveHandsFromFile(string fileName)
         {
             const int maxTriesToReadFile = 5;
             string handHistories = ReadHandHistoriesFrom(fileName, maxTriesToReadFile);
-            
+
             if (string.IsNullOrEmpty(handHistories))
             {
                 return Enumerable.Empty<IConvertedPokerHand>();
@@ -146,15 +140,15 @@ namespace PokerTell.Repository
             {
                 // Should only throw during manual saving of file from notepad or if trying to read some locked file
                 // In the latter case the user must have set the tracked handhistory directory too broad e.g C:\
-               Log.Error(excep); 
+                Log.Error(excep);
 
                 if (remainingTries <= 0)
                 {
                     return string.Empty;
                 }
 
-               // Try again
-               return ReadHandHistoriesFrom(fileName, --remainingTries);
+                // Try again
+                return ReadHandHistoriesFrom(fileName, --remainingTries);
             }
         }
     }

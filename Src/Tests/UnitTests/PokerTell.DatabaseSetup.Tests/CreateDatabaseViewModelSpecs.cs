@@ -4,6 +4,7 @@ namespace PokerTell.DatabaseSetup.Tests
 
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
+    using Infrastructure.Interfaces.Repository;
 
     using Machine.Specifications;
 
@@ -23,11 +24,14 @@ namespace PokerTell.DatabaseSetup.Tests
 
         protected static Mock<IDatabaseManager> _databaseManager_Mock;
 
+        protected static Mock<IRepository> _repository_Mock;
+
         protected static CreateDatabaseViewModel _sut;
 
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
             _databaseManager_Mock = new Mock<IDatabaseManager>();
+            _repository_Mock = new Mock<IRepository>();
      
             _sut = new CreateDatabaseViewModel(_eventAggregator, _databaseManager_Mock.Object);
         };

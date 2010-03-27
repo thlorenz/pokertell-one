@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
+                   namespace="PokerTell.DatabaseSetup.DatabaseVersioning"
+                   assembly="PokerTell.DatabaseSetup"
+                   default-access="property">
+
+  <class name="DatabaseVersion"
+         proxy="PokerTell.DatabaseSetup.Interfaces.IDatabaseVersion, PokerTell.DatabaseSetup"
+         table="Version"
+         mutable="true">
+
+    <id name="Id" type="int" unsaved-value="0" access="property" />
+
+    <property name="Number" not-null="false" type="double" />
+  </class>
+</hibernate-mapping>
+

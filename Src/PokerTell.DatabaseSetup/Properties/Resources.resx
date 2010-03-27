@@ -406,4 +406,13 @@ Choosing a simpler name may solve the problem.</value>
     <value>An error occurred when trying to delete '{0}'.
  Please restart PokerTell and try again.</value>
   </data>
+  <data name="Sql_Queries_Embedded_InsertVersionNumber" xml:space="preserve">
+    <value>DELETE FROM version WHERE Id = 0;
+INSERT INTO version (Id, Number) values (0, {0});</value>
+  </data>
+  <data name="Sql_Queries_External_InsertVersionNumber" xml:space="preserve">
+    <value>USE {0};
+DELETE FROM version WHERE Id = 0;
+INSERT INTO version (Id, Number) values (0, {1});</value>
+  </data>
 </root>

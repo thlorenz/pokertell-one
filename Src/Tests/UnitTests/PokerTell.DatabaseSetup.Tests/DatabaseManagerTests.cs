@@ -111,6 +111,21 @@ namespace PokerTell.DatabaseSetup.Tests
         }
 
         [Test]
+        public void ClearDatabase_DatabaseExists_InvokesVersionDatabaseOnManagedDatabaseWithDatabaseName()
+        {
+            const bool databaseExists = true;
+            var databaseMock = new Mock<IManagedDatabase>();
+            databaseMock
+                .Setup(db => db.DatabaseExists(DatabaseName)).Returns(databaseExists);
+
+            var manager = new DatabaseManager(databaseMock.Object, _stub.Out<IDatabaseSettings>());
+
+            manager.ClearDatabase(DatabaseName);
+
+            databaseMock.Verify(db => db.VersionDatabase(DatabaseName));
+        }
+
+        [Test]
         public void CreateDatabase_DatabaseDoesExist_ThrowsDatabaseExistsException()
         {
             const bool databaseExists = true;
@@ -150,6 +165,21 @@ namespace PokerTell.DatabaseSetup.Tests
             manager.CreateDatabase(DatabaseName);
 
             databaseMock.Verify(db => db.CreateTables());
+        }
+
+        [Test]
+        public void CreateDatabase_DatabaseDoesNotExist_InvokesVersionDatabaseOnManagedDatabaseWithDatabaseName()
+        {
+            const bool databaseExists = false;
+            var databaseMock = new Mock<IManagedDatabase>();
+            databaseMock
+                .Setup(db => db.DatabaseExists(DatabaseName)).Returns(databaseExists);
+
+            var manager = new DatabaseManager(databaseMock.Object, _stub.Out<IDatabaseSettings>());
+
+            manager.CreateDatabase(DatabaseName);
+
+            databaseMock.Verify(db => db.VersionDatabase(DatabaseName));
         }
 
         [Test]

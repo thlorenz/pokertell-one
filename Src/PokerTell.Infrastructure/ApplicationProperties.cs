@@ -14,6 +14,10 @@ namespace PokerTell.Infrastructure
 
         public const string LogFileName = "logfile.txt";
 
+        public const double VersionNumber = 0.9;
+
+        public const string Version = "0.9.0.0";
+
         /// <summary>
         /// Number of tables to be displayed in Tables Form
         /// </summary>
@@ -55,7 +59,9 @@ namespace PokerTell.Infrastructure
             get { return new SolidColorBrush(Colors.Black); }
         }
 
-        public const string MappingAssemblyName = "PokerTell.PokerHand";
+        public const string PokerHandMappingAssemblyName = "PokerTell.PokerHand";
+
+        public const string DatabaseSetupMappingAssemblyName = "PokerTell.DatabaseSetup";
 
         /// <summary>
         /// Sets the culture to "en-US"

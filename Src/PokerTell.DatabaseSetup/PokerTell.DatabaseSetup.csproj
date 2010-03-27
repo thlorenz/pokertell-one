@@ -95,10 +95,12 @@
     <Compile Include="DatabaseExceptions.cs" />
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="DatabaseSettings.cs" />
+    <Compile Include="DatabaseVersioning\DatabaseVersion.cs" />
     <Compile Include="DataProvider.cs" />
     <Compile Include="EmbeddedManagedDatabase.cs" />
     <Compile Include="Enumerations\ServerSettings.cs" />
     <Compile Include="ExternalManagedDatabase.cs" />
+    <Compile Include="Interfaces\IDatabaseVersion.cs" />
     <Compile Include="MySqlInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -161,6 +163,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DatabaseVersioning\DatabaseVersion.hbm.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

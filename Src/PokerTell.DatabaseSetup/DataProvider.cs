@@ -192,7 +192,8 @@ namespace PokerTell.DatabaseSetup
                     .SetProperty(Environment.Dialect, _dataProviderInfo.NHibernateDialect)
                     .SetProperty(Environment.ConnectionDriver, _dataProviderInfo.NHibernateConnectionDriver)
                     .SetProperty(Environment.ConnectionString, Connection.ConnectionString)
-                    .AddAssembly(ApplicationProperties.MappingAssemblyName);
+                    .AddAssembly(ApplicationProperties.PokerHandMappingAssemblyName)
+                    .AddAssembly(ApplicationProperties.DatabaseSetupMappingAssemblyName);
 
                 return NHibernateConfiguration.BuildSessionFactory();
             }

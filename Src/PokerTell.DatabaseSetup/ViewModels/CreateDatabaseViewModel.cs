@@ -5,6 +5,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
+    using Infrastructure.Interfaces.Repository;
 
     using log4net;
 
@@ -41,6 +42,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
             try
             {
                 _databaseManager.CreateDatabase(SelectedItem.Trim());
+               
                 PublishInfoMessage();
             }
             catch (Exception excep)

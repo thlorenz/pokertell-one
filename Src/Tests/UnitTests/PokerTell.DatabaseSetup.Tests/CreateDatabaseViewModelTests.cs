@@ -2,6 +2,7 @@ namespace PokerTell.DatabaseSetup.Tests
 {
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;
+    using Infrastructure.Interfaces.Repository;
 
     using Microsoft.Practices.Composite.Events;
 

@@ -377,6 +377,27 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DELETE FROM version WHERE Id = 0;
+        ///INSERT INTO version (Id, Number) values (0, {0});.
+        /// </summary>
+        public static string Sql_Queries_Embedded_InsertVersionNumber {
+            get {
+                return ResourceManager.GetString("Sql_Queries_Embedded_InsertVersionNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USE {0};
+        ///DELETE FROM version WHERE Id = 0;
+        ///INSERT INTO version (Id, Number) values (0, {1});.
+        /// </summary>
+        public static string Sql_Queries_External_InsertVersionNumber {
+            get {
+                return ResourceManager.GetString("Sql_Queries_External_InsertVersionNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SHOW DATABASES;.
         /// </summary>
         public static string Sql_Queries_ShowDatabases {

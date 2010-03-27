@@ -1,35 +1,25 @@
 namespace PokerTell.Repository
 {
-    using System;
     using System.Collections.Generic;
     using System.Data;
 
     using global::NHibernate;
 
-    using Interfaces;
-
-    using NHibernate;
-
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Repository.Interfaces;
 
     public class RepositoryDatabase : IRepositoryDatabase
     {
-        #region Constants and Fields
-
-        IDataProvider _dataProvider;
-
         readonly IConvertedPokerHandInserter _convertedPokerHandInserter;
 
         readonly IConvertedPokerHandRetriever _convertedPokerHandRetriever;
 
         readonly IDatabaseUtility _databaseUtility;
 
+        IDataProvider _dataProvider;
+
         ISessionFactory _sessionFactory;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RepositoryDatabase"/> class. 
@@ -40,8 +30,8 @@ namespace PokerTell.Repository
         /// </param>
         /// </param>
         public RepositoryDatabase(
-            IDatabaseUtility databaseUtility,
-            IConvertedPokerHandInserter convertedPokerHandInserter,
+            IDatabaseUtility databaseUtility, 
+            IConvertedPokerHandInserter convertedPokerHandInserter, 
             IConvertedPokerHandRetriever convertedPokerHandRetriever)
         {
             _databaseUtility = databaseUtility;
@@ -49,52 +39,14 @@ namespace PokerTell.Repository
             _convertedPokerHandInserter = convertedPokerHandInserter;
         }
 
-        #endregion
-
-        #region Properties
-
         public bool IsConnected
         {
             get { return _dataProvider != null && _dataProvider.IsConnectedToDatabase; }
         }
 
-        #endregion
-
-        #region Public Methods
-
-        public IRepositoryDatabase Use(IDataProvider dataProvider)
-        {
-            _dataProvider = dataProvider;
-            return this;
-        }
-
         public IRepositoryDatabase Use(ISessionFactory sessionFactory)
         {
             _sessionFactory = sessionFactory;
-            return this;
-        }
-
-        public IRepositoryDatabase InsertHandsAndSetTheirHandIds(IEnumerable<IConvertedPokerHand> handsToInsert)
-        {
-            var insertedHands = new Dictionary<int, IConvertedPokerHand>();
-          
-            using (var transaction = _dataProvider.Connection.BeginTransaction())
-            {
-                foreach (var hand in handsToInsert)
-                {
-                    if (hand != null)
-                    {
-                        var handId = InsertHandAndReturnHandId(hand);
-                        if (handId != null)
-                        {
-                            hand.Id = handId.Value; 
-                        }
-                    }
-                }
-
-                transaction.Commit();
-            }
-
             return this;
         }
 
@@ -143,13 +95,37 @@ namespace PokerTell.Repository
         /// <returns>Id used in the identity column of the gamehhd table of the database</returns>
         public int? InsertHandAndReturnHandId(IConvertedPokerHand convertedHand)
         {
-           _convertedPokerHandInserter
-               .Use(_dataProvider)
-               .Insert(convertedHand);
+            _convertedPokerHandInserter
+                .Use(_dataProvider)
+                .Insert(convertedHand);
 
             return _databaseUtility
                 .Use(_dataProvider)
                 .GetHandIdForHandWith(convertedHand.GameId, convertedHand.Site);
+        }
+
+        public IRepositoryDatabase InsertHandsAndSetTheirHandIds(IEnumerable<IConvertedPokerHand> handsToInsert)
+        {
+            var insertedHands = new Dictionary<int, IConvertedPokerHand>();
+
+            using (var transaction = _dataProvider.Connection.BeginTransaction())
+            {
+                foreach (var hand in handsToInsert)
+                {
+                    if (hand != null)
+                    {
+                        var handId = InsertHandAndReturnHandId(hand);
+                        if (handId != null)
+                        {
+                            hand.Id = handId.Value;
+                        }
+                    }
+                }
+
+                transaction.Commit();
+            }
+
+            return this;
         }
 
         public IConvertedPokerHand RetrieveConvertedHand(int handId)
@@ -159,6 +135,10 @@ namespace PokerTell.Repository
                 .RetrieveHand(handId);
         }
 
-        #endregion
+        public IRepositoryDatabase Use(IDataProvider dataProvider)
+        {
+            _dataProvider = dataProvider;
+            return this;
+        }
     }
 }

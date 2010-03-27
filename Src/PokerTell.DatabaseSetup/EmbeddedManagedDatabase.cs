@@ -13,6 +13,8 @@ namespace PokerTell.DatabaseSetup
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
+    using Properties;
+
     public class EmbeddedManagedDatabase : IManagedDatabase
     {
         const string FileExtension = "db3";
@@ -64,6 +66,12 @@ namespace PokerTell.DatabaseSetup
             new SchemaExport(_dataProvider.NHibernateConfiguration)
                 .Execute(false, true, false, _dataProvider.Connection, null);
 
+            return this;
+        }
+
+        public IManagedDatabase VersionDatabase(string databaseName)
+        {
+            _dataProvider.ExecuteNonQuery(string.Format(Resources.Sql_Queries_Embedded_InsertVersionNumber, ApplicationProperties.VersionNumber));
             return this;
         }
 

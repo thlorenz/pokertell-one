@@ -55,7 +55,7 @@ namespace PokerTell.IntegrationTests
                 .SetProperty(Environment.ConnectionDriver, dataProviderInfo.NHibernateConnectionDriver)
                 .SetProperty(Environment.ConnectionString, connectionString)
                 .SetProperty(Environment.ShowSql, "true")
-                .AddAssembly(ApplicationProperties.MappingAssemblyName);
+                .AddAssembly(ApplicationProperties.PokerHandMappingAssemblyName);
             _sessionFactory = configuration.BuildSessionFactory();
             
             InitSessionFactoryManager();
