@@ -131,7 +131,10 @@ namespace PokerTell.PokerHandParsers.Base
             }
             else
             {
-                Log.Debug("Failed to parse hero name correctly, setting it to string.empty");
+                /* Don't need to log as it crowds log file unnecessarily when we use mining and thus never find a hero name.
+                 * Log.Debug("Failed to parse hero name correctly, setting it to string.empty");
+                 */
+              
                 AquiredPokerHand.HeroName = string.Empty;
             }
         }

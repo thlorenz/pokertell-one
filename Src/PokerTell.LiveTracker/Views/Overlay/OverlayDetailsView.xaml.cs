@@ -75,6 +75,7 @@
            var tableOverlayViewModel = (ITableOverlayViewModel) DataContext;
 
            tableOverlayViewModel.PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => DetailedStatistics_TabItem.IsSelected = true;
+           tableOverlayViewModel.PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => DetailedStatistics_TabItem.IsSelected = true;
         }
     }
 }

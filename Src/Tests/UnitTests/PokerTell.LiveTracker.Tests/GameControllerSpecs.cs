@@ -98,7 +98,7 @@ namespace PokerTell.LiveTracker.Tests
             };
         }
 
-        public abstract class Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched : Ctx_NewHand
+        public abstract class Ctx_NewHandWith_Bob_Ted_and_Jim_Sut_IsLaunched : Ctx_NewHand
         {
             protected const string bob = "bob";
 
@@ -342,9 +342,18 @@ namespace PokerTell.LiveTracker.Tests
         }
 
         [Subject(typeof(GameController), "NewHand")]
-        public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_are_empty
-            : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
+        public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_are_empty_and_jim_the_hero_wants_to_see_his_statistics
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Sut_IsLaunched
         {
+            Establish context = () => {
+                _newHand_Stub
+                    .SetupGet(h => h.HeroName)
+                    .Returns(jim);
+                _liveTrackerSettings_Stub
+                    .SetupGet(ls => ls.ShowMyStatistics)
+                    .Returns(true);
+            };
+
             Because of = () => _sut.NewHand(_newHand_Stub.Object);
 
             It should_add_bob_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(bob);
@@ -373,8 +382,49 @@ namespace PokerTell.LiveTracker.Tests
         }
 
         [Subject(typeof(GameController), "NewHand")]
+        public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_are_empty_and_jim_the_hero_does_not_want_to_see_his_statistics
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Sut_IsLaunched
+        {
+            Establish context = () => {
+                _newHand_Stub
+                    .SetupGet(h => h.HeroName)
+                    .Returns(jim);
+                _liveTrackerSettings_Stub
+                    .SetupGet(ls => ls.ShowMyStatistics)
+                    .Returns(false);
+            };
+
+            Because of = () => _sut.NewHand(_newHand_Stub.Object);
+
+            It should_add_bob_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(bob);
+
+            It should_add_ted_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldContain(ted);
+
+            It should_not_add_jim_to_the_PlayerStatistics = () => _sut.PlayerStatistics.Keys.ShouldNotContain(jim);
+
+            It should_initialize_bobs_statistics_with_the_site_and_his_name = () => bobsStats_Mock.Verify(s => s.InitializePlayer(bob, pokerSite));
+
+            It should_initialize_teds_statistics_with_the_site_and_his_name = () => tedsStats_Mock.Verify(s => s.InitializePlayer(ted, pokerSite));
+
+            It should_not_initialize_jims_statistics_with_the_site_and_his_name = () => jimsStats_Mock.Verify(s => s.InitializePlayer(jim, pokerSite), Times.Never());
+
+            It should_update_bobs_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == bob))));
+
+            It should_update_teds_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == ted))));
+
+            It should_not_update_jims_statistics
+                = () => _playerStatisticsUpdater_Mock
+                            .Verify(su => su.Update(Moq.It.Is<IEnumerable<IPlayerStatistics>>(ps => ps.Any(s => s.PlayerIdentity.Name == jim))), Times.Never());
+        }
+
+
+        [Subject(typeof(GameController), "NewHand")]
         public class when_told_about_new_hand_with_bob_ted_and_jim_and_PlayerStatistics_contain_bob_and_ted
-            : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Sut_IsLaunched
         {
             Establish context = () => {
                 _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);
@@ -409,7 +459,7 @@ namespace PokerTell.LiveTracker.Tests
 
         [Subject(typeof(GameController), "NewHand")]
         public class when_told_about_new_hand_with_only_bob_and_ted_and_PlayerStatistics_contain_bob_ted_and_jim
-            : Ctx_NewHandWith_Bob_Ted_and_Jim_Bob_Is_Hero_and_Sut_IsLaunched
+            : Ctx_NewHandWith_Bob_Ted_and_Jim_Sut_IsLaunched
         {
             Establish context = () => {
                 _sut.PlayerStatistics.Add(bob, bobsStats_Mock.Object);

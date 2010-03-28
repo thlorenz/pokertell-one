@@ -86,18 +86,27 @@ namespace PokerTell.LiveTracker
         void UpdatePlayerStatistics(IConvertedPokerHand convertedPokerHand)
         {
             var playerStatisticsToUpdate = new List<IPlayerStatistics>();
-            convertedPokerHand.Players.ForEach(p => {
-                if (!PlayerStatistics.ContainsKey(p.Name))
-                {
-                    var playerStatistics = _playerStatisticsMake.New;
-                    playerStatistics.InitializePlayer(p.Name, convertedPokerHand.Site);
-                    PlayerStatistics.Add(p.Name, playerStatistics);
-                }
 
-                playerStatisticsToUpdate.Add(PlayerStatistics[p.Name]);
+            convertedPokerHand.Players.ForEach(p => {
+                if (LiveTrackerSettings.ShowMyStatistics || p.Name != convertedPokerHand.HeroName)
+                {
+                    AddPlayerStatisticsIfNotAddedBeforeFor(p.Name, convertedPokerHand.Site);
+
+                    playerStatisticsToUpdate.Add(PlayerStatistics[p.Name]);
+                }
             });
 
             _playerStatisticsUpdater.Update(playerStatisticsToUpdate);
+        }
+
+        void AddPlayerStatisticsIfNotAddedBeforeFor(string playerName, string pokerSite)
+        {
+            if (!PlayerStatistics.ContainsKey(playerName))
+            {
+                var playerStatistics = _playerStatisticsMake.New;
+                playerStatistics.InitializePlayer(playerName, pokerSite);
+                PlayerStatistics.Add(playerName, playerStatistics);
+            }
         }
 
         void Launch(IConvertedPokerHand convertedPokerHand)
