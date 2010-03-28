@@ -6,7 +6,7 @@
   xmlns:UsrCtrl="clr-namespace:PokerTell.LiveTracker.Views.Overlay">
 
     <Converters:PreferredSeatToStringConverter x:Key="PreferredSeatToStringConverter" />
-    
+
     <!-- TableOverlaySettingsViewTemplate -->
     <!-- DataContext="{x:Static Design:LiveTracker.TableOverlaySettingsDesign.Model}" -->
     <DataTemplate DataType="{x:Type ViewModels:TableOverlaySettingsViewModel}">
@@ -14,8 +14,29 @@
                   HorizontalContentAlignment="Right"
                   VerticalContentAlignment="Center"
                   VerticalAlignment="Top"
-                  Padding="5,0"
-                  Header="Settings">
+                  >
+            <Expander.Style>
+                <Style TargetType="{x:Type Expander}" BasedOn="{StaticResource {x:Type Expander}}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <Image Source="../../Resources/SettingsIcon.png"  MaxHeight="15"/>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter Property="HeaderTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="Settings" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Expander.Style>
 
             <StackPanel Orientation="Vertical">
                 <!-- Colors -->
