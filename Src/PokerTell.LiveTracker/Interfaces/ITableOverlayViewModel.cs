@@ -36,5 +36,7 @@ namespace PokerTell.LiveTracker.Interfaces
         event Action ShowLiveStatsWindowRequested;
 
         event Action ShowGameHistoryWindowRequested;
+
+        ITableOverlayViewModel HideAllPlayers();
     }
 }

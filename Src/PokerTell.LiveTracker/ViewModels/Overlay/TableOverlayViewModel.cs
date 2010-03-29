@@ -66,6 +66,12 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public event Action ShowGameHistoryWindowRequested = delegate { };
 
+        public ITableOverlayViewModel HideAllPlayers()
+        {
+            PlayerOverlays.ForEach(po => po.UpdateStatusWith(null));
+            return this;
+        }
+
         ICommand _showLiveStatsWindowCommand;
 
         string _heroName;

@@ -49,9 +49,8 @@ namespace PokerTell.LiveTracker.Overlay
             if ((_preferredSeat > 0) && (actualSeat > 0)) {
                 return actualSeat - _preferredSeat;
             }
-            else {
-                return 0;
-            }
+
+            return 0;
         }
 
         /// <summary>

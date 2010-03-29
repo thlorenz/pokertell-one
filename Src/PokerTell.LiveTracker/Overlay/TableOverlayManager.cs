@@ -71,7 +71,6 @@ namespace PokerTell.LiveTracker.Overlay
                                                    waitThenTryToFindTableAgainTimer, 
                                                    _pokerRoomInfoLocator.GetPokerRoomInfoFor(firstHand.Site), 
                                                    firstHand.TableName)
-                
                 .Activate();
 
             UpdateTableOverlay(firstHand);
@@ -88,6 +87,7 @@ namespace PokerTell.LiveTracker.Overlay
             UpdateTableOverlay(newHand);
             UpdateSeatMapper(newHand);
             UpdateOverlayToTableAttacher(newHand);
+            
             return this;
         }
 
@@ -133,6 +133,7 @@ namespace PokerTell.LiveTracker.Overlay
         void RegisterEvents()
         {
             _overlayToTableAttacher.TableClosed += () => TableClosed();
+            _overlayToTableAttacher.TableChanged += _ => _tableOverlay.HideAllPlayers();
             _tableOverlay.ShowLiveStatsWindowRequested += () => ShowLiveStatsWindowRequested();
             _tableOverlay.ShowGameHistoryWindowRequested += () => ShowGameHistoryWindowRequested();
         }

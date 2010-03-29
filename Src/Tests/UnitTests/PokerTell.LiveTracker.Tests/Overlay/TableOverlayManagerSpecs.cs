@@ -297,6 +297,14 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             It should_let_me_know = () => showGameHistoryWasReraised.ShouldBeTrue();
         }
+
+        [Subject(typeof(TableOverlayManager), "Table changed")]
+        public class when_the_overlay_to_table_attacher_says_that_the_table_changed : Ctx_InitializedWithFirstHand
+        {
+            Because of = () => _tableAttacher_Mock.Raise(ta => ta.TableChanged += null, (string) null);
+
+            It should_tell_the_TableOverlay_to_hide_all_players = () => _tableOverlay_Mock.Verify(to => to.HideAllPlayers());
+        }
     }
 
     public class TableOverlayManagerSut : TableOverlayManager
