@@ -96,6 +96,8 @@
     <Compile Include="Interfaces\IWindowManipulator.cs" />
     <Compile Include="Interfaces\ITableOverlayManager.cs" />
     <Compile Include="LiveTrackerModule.cs" />
+    <Compile Include="Interfaces\ILayoutAutoConfigurator.cs" />
+    <Compile Include="Overlay\LayoutAutoConfigurator.cs" />
     <Compile Include="Overlay\LayoutManager.cs" />
     <Compile Include="Overlay\LayoutXDocumentHandler.cs" />
     <Compile Include="Overlay\TableOverlayManager.cs" />
@@ -107,7 +109,7 @@
     <Compile Include="PokerRooms\FullTiltPokerDetective.cs" />
     <Compile Include="PokerRooms\FullTiltPokerInfo.cs" />
     <Compile Include="Interfaces\IPokerRoomInfo.cs" />
-    <Compile Include="Interfaces\IHandHistoryFolderAutoDetector.cs" />
+    <Compile Include="Interfaces\IPokerRoomSettingsDetector.cs" />
     <Compile Include="Interfaces\IPokerRoomInfoLocator.cs" />
     <Compile Include="PokerRooms\PokerRoomInfoLocator.cs" />
     <Compile Include="PokerRooms\PokerStarsDetective.cs" />
@@ -135,7 +137,7 @@
     <Compile Include="Tracking\NewHandsTracker.cs" />
     <Compile Include="Interfaces\ILiveTrackerSettingsXDocumentHandler.cs" />
     <Compile Include="Tracking\WatchedDirectoriesOptimizer.cs" />
-    <Compile Include="PokerRooms\HandHistoryFolderAutoDetector.cs" />
+    <Compile Include="PokerRooms\PokerRoomSettingsDetector.cs" />
     <Compile Include="ViewModels\HandHistoryFolderAutoDetectResultsViewModel.cs" />
     <Compile Include="Interfaces\IHandHistoryFolderAutoDetectResultsViewModel.cs" />
     <Compile Include="ViewModels\LiveTrackerSettingsViewModel.cs" />

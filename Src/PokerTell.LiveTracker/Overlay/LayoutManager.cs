@@ -233,7 +233,7 @@ namespace PokerTell.LiveTracker.Overlay
                 maxElemInSecondRow = seats < 8 ? seats : 8;
 
             int maxElemInThirdRow;
-            if (seats <= 4)
+            if (seats <= 8)
                 maxElemInThirdRow = 0;
             else
                 maxElemInThirdRow = seats < 10 ? seats : 10;

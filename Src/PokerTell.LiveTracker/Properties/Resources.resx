@@ -134,11 +134,17 @@ You may then add its Hand History Folder manually inside the Advanced section.</
   <data name="AutoDetectHandHistoryFoldersResultsView_Title" xml:space="preserve">
     <value>Results of automatic Hand History folders detection</value>
   </data>
+  <data name="Info_PreferredSeatsHaveBeenConfigured" xml:space="preserve">
+    <value>The preferred seats of the following Poker sites have been configured:</value>
+  </data>
   <data name="LiveTrackerSettingsView_AddHandHistoryFolder" xml:space="preserve">
     <value>Add HandHistory Folder</value>
   </data>
   <data name="LiveTrackerSettingsView_AutoDetectHandHistoryFolders" xml:space="preserve">
     <value>Automatically Detect Handhistory Folders</value>
+  </data>
+  <data name="LiveTrackerSettingsView_AutoDetectPreferredSeats" xml:space="preserve">
+    <value>Detect preferred seats</value>
   </data>
   <data name="LiveTrackerSettingsView_AutoTrack" xml:space="preserve">
     <value>Enable Autotracking</value>
@@ -176,5 +182,8 @@ You may then add its Hand History Folder manually inside the Advanced section.</
   </data>
   <data name="Warning_HandHistoryFolderIsTrackedAlready" xml:space="preserve">
     <value>The folder you are trying to add is already in the list of tracked folders.</value>
+  </data>
+  <data name="Warning_NoPreferredSeatsCouldBeConfigured" xml:space="preserve">
+    <value>Unfortunately PokerTel couldn't find a Poker Room installed on your computer that uses preferred seat settings and allows them to be saved.</value>
   </data>
 </root>

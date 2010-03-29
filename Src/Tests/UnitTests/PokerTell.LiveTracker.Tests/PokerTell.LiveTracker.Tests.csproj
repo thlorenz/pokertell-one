@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameControllerSpecs.cs" />
+    <Compile Include="Overlay\LayoutAutoConfiguratorSpecs.cs" />
     <Compile Include="Overlay\LayoutManagerSpecs.cs" />
     <Compile Include="Overlay\OverlayToTableAttacherSpecs.cs" />
     <Compile Include="Overlay\SeatMapperSpecs.cs" />
@@ -83,7 +84,7 @@
     <Compile Include="Tracking\NewHandsTrackerSpecs.cs" />
     <Compile Include="Tracking\WatchedDirectoriesOptimizerSpecs.cs" />
     <Compile Include="Utilities\Utils.cs" />
-    <Compile Include="PokerRooms\HandHistoryFolderAutoDetectorSpecs.cs" />
+    <Compile Include="PokerRooms\PokerRoomSettingsDetectorSpecs.cs" />
     <Compile Include="ViewModels\LiveTrackerSettingsViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\GameHistoryViewModelSpecs.cs" />
     <Compile Include="ViewModels\Overlay\OverlayBoardViewModelSpecs.cs" />

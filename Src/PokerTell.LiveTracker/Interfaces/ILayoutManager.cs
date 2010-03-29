@@ -1,5 +1,7 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
+    using System.Collections.Generic;
+
     using Infrastructure.Interfaces;
 
     public interface ILayoutManager : IFluentInterface

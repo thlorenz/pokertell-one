@@ -48,6 +48,8 @@
                                                   IsChecked="{Binding ShowTableOverlay}"/>
                                         <CheckBox Content="{x:Static Properties:Resources.LiveTrackerSettingsView_Show_MyStatistics}" 
                                                   IsChecked="{Binding ShowMyStatistics}"/>
+                                        <Button Content="{x:Static Properties:Resources.LiveTrackerSettingsView_AutoDetectPreferredSeats}"
+                                                Command="{Binding DetectPreferredSeatsCommand}"/> 
                                     </StackPanel>
                                 </Border>
                                 <!-- Show HoleCards Duration -->

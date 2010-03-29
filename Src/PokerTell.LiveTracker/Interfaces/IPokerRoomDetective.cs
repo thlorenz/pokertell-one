@@ -8,7 +8,7 @@ namespace PokerTell.LiveTracker.Interfaces
     {
         bool PokerRoomIsInstalled { get; }
 
-        bool SavesPreferredSeats { get; }
+        bool PokerRoomSavesPreferredSeats { get; }
 
         bool DetectedPreferredSeats { get; }
 
