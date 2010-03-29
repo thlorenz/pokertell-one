@@ -24,7 +24,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         public bool PokerRoomIsInstalled { get; protected set; }
 
-        public bool SavesPreferredSeats
+        public bool PokerRoomSavesPreferredSeats
         {
             get { return true; }
         }

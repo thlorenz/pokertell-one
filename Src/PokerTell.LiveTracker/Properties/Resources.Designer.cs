@@ -110,6 +110,15 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The preferred seats of the following Poker sites have been configured:.
+        /// </summary>
+        public static string Info_PreferredSeatsHaveBeenConfigured {
+            get {
+                return ResourceManager.GetString("Info_PreferredSeatsHaveBeenConfigured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string LiveTracker_MenuItem_Settings {
@@ -151,6 +160,15 @@ namespace PokerTell.LiveTracker.Properties {
         public static string LiveTrackerSettingsView_AutoDetectHandHistoryFolders {
             get {
                 return ResourceManager.GetString("LiveTrackerSettingsView_AutoDetectHandHistoryFolders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detect preferred seats.
+        /// </summary>
+        public static string LiveTrackerSettingsView_AutoDetectPreferredSeats {
+            get {
+                return ResourceManager.GetString("LiveTrackerSettingsView_AutoDetectPreferredSeats", resourceCulture);
             }
         }
         
@@ -244,6 +262,15 @@ namespace PokerTell.LiveTracker.Properties {
         public static string Warning_HandHistoryFolderIsTrackedAlready {
             get {
                 return ResourceManager.GetString("Warning_HandHistoryFolderIsTrackedAlready", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately PokerTel couldn&apos;t find a Poker Room installed on your computer that uses preferred seat settings and allows them to be saved..
+        /// </summary>
+        public static string Warning_NoPreferredSeatsCouldBeConfigured {
+            get {
+                return ResourceManager.GetString("Warning_NoPreferredSeatsCouldBeConfigured", resourceCulture);
             }
         }
     }

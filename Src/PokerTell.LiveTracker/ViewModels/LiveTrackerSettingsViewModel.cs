@@ -1,9 +1,11 @@
 namespace PokerTell.LiveTracker.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Windows.Forms;
     using System.Windows.Input;
     using System.Xml.Linq;
@@ -16,6 +18,7 @@ namespace PokerTell.LiveTracker.ViewModels
     using PokerTell.LiveTracker.Properties;
 
     using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
     using Tools.IO;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
@@ -37,13 +40,15 @@ namespace PokerTell.LiveTracker.ViewModels
 
         const string ShowTableOverlayElement = "ShowTableOverlay";
 
-        readonly IHandHistoryFolderAutoDetector _autoDetector;
+        readonly IPokerRoomSettingsDetector _autoDetector;
 
         readonly IHandHistoryFolderAutoDetectResultsViewModel _autoDetectResultsViewModel;
 
         readonly IHandHistoryFolderAutoDetectResultsWindowManager _autoDetectResultsWindow;
 
         readonly IEventAggregator _eventAggregator;
+
+        readonly IPokerRoomInfoLocator _pokerRoomInfoLocator;
 
         readonly ILiveTrackerSettingsXDocumentHandler _xDocumentHandler;
 
@@ -71,23 +76,27 @@ namespace PokerTell.LiveTracker.ViewModels
 
         bool _showTableOverlay;
 
-        readonly IPokerRoomInfoLocator _pokerRoomInfoLocator;
+        readonly ILayoutAutoConfigurator _layoutAutoConfigurator;
 
         public LiveTrackerSettingsViewModel(
             IEventAggregator eventAggregator, 
             ILiveTrackerSettingsXDocumentHandler xDocumentHandler, 
-            IHandHistoryFolderAutoDetector autoDetector, 
+            IPokerRoomSettingsDetector autoDetector, 
             IHandHistoryFolderAutoDetectResultsViewModel autoDetectResultsViewModel, 
             IHandHistoryFolderAutoDetectResultsWindowManager autoDetectResultsWindow, 
+            ILayoutAutoConfigurator layoutAutoConfigurator, 
             IPokerRoomInfoLocator pokerRoomInfoLocator)
         {
-            _pokerRoomInfoLocator = pokerRoomInfoLocator;
             _eventAggregator = eventAggregator;
             _xDocumentHandler = xDocumentHandler;
 
             _autoDetector = autoDetector;
             _autoDetectResultsViewModel = autoDetectResultsViewModel;
             _autoDetectResultsWindow = autoDetectResultsWindow;
+            
+            _layoutAutoConfigurator = layoutAutoConfigurator;
+
+            _pokerRoomInfoLocator = pokerRoomInfoLocator;
 
             ShowHoleCardsDurations = new List<int> { 0, 3, 5, 10, 15, 20 };
         }
@@ -216,6 +225,44 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
+        ICommand _detectPreferredSeatsCommand;
+
+        public ICommand DetectPreferredSeatsCommand
+        {
+            get
+            {
+                return _detectPreferredSeatsCommand ?? (_detectPreferredSeatsCommand = new SimpleCommand {
+                        ExecuteDelegate = arg => {
+                            var pokerRoomsWhosePreferredSeatsWereConfigured = DetectAndSavePreferredSeats();
+
+                            if (pokerRoomsWhosePreferredSeatsWereConfigured.Count() > 0)
+                                PublishUserInfoAbout(pokerRoomsWhosePreferredSeatsWereConfigured);
+                            else 
+                                PublishUserWarningBecauseNoneCouldBeConfigured();
+                        }
+                    });
+            }
+        }
+
+        void PublishUserWarningBecauseNoneCouldBeConfigured()
+        {
+            var msg = Resources.Warning_NoPreferredSeatsCouldBeConfigured;
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, msg));
+        }
+
+        void PublishUserInfoAbout(IEnumerable<string> roomsWhosePreferredSeatsWereSet)
+        {
+            var sb = new StringBuilder(Resources.Info_PreferredSeatsHaveBeenConfigured);
+            sb.AppendLine();
+            roomsWhosePreferredSeatsWereSet.ForEach(room => sb.AppendLine(room));
+
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Publish(new UserMessageEventArgs(UserMessageTypes.Info, sb.ToString()));
+        }
+
         public IEnumerable<int> ShowHoleCardsDurations { get; protected set; }
 
         public bool ShowLiveStatsWindowOnStartup
@@ -261,16 +308,32 @@ namespace PokerTell.LiveTracker.ViewModels
                                  Utils.XElementForCollection(HandHistoryFilesPathsElement, lts.HandHistoryFilesPaths)));
         }
 
-        public void DetectAndAddHandHistoryFolders()
+        public ILiveTrackerSettingsViewModel DetectAndAddHandHistoryFolders()
         {
             _autoDetector
                 .InitializeWith(_pokerRoomInfoLocator.SupportedPokerRoomInfos)
-                .Detect();
+                .DetectHandHistoryFolders();
 
             _autoDetector.PokerRoomsWithDetectedHandHistoryDirectories.ForEach(pair => {
                 if (! HandHistoryFilesPaths.Contains(pair.Second))
                     HandHistoryFilesPaths.Add(pair.Second);
             });
+            
+            return this;
+        }
+
+        public IEnumerable<string> DetectAndSavePreferredSeats()
+        {
+            _autoDetector
+                .InitializeWith(_pokerRoomInfoLocator.SupportedPokerRoomInfos)
+                .DetectPreferredSeats();
+           
+            var pokerRoomsWithDetectedPreferredSeats = _autoDetector
+                .PokerRoomsWithDetectedPreferredSeats;
+                
+            pokerRoomsWithDetectedPreferredSeats.ForEach(room => _layoutAutoConfigurator.ConfigurePreferredSeats(room.First, room.Second));
+
+            return pokerRoomsWithDetectedPreferredSeats.Select(room => room.First);
         }
 
         public ILiveTrackerSettingsViewModel LoadSettings()

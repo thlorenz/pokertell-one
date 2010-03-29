@@ -14,7 +14,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
     public class HandHistoryFolderAutoDetectResultsViewModel : NotifyPropertyChanged, IHandHistoryFolderAutoDetectResultsViewModel
     {
-        IHandHistoryFolderAutoDetector _handHistoryFolderAutoDetector;
+        IPokerRoomSettingsDetector _pokerRoomSettingsDetector;
 
         ITuple<string, string> _selectedUndetectedPokerRoom;
 
@@ -22,12 +22,12 @@ namespace PokerTell.LiveTracker.ViewModels
 
         public IEnumerable<string> PokerRoomsWithDetectedHandHistoryDirectories
         {
-            get { return _handHistoryFolderAutoDetector.PokerRoomsWithDetectedHandHistoryDirectories.Select(room => room.First); }
+            get { return _pokerRoomSettingsDetector.PokerRoomsWithDetectedHandHistoryDirectories.Select(room => room.First); }
         }
 
         public IList<ITuple<string, string>> PokerRoomsWithoutDetectedHandHistoryDirectories
         {
-            get { return _handHistoryFolderAutoDetector.PokerRoomsWithoutDetectedHandHistoryDirectories; }
+            get { return _pokerRoomSettingsDetector.PokerRoomsWithoutDetectedHandHistoryDirectories; }
         }
 
         public ITuple<string, string> SelectedUndetectedPokerRoom
@@ -57,9 +57,9 @@ namespace PokerTell.LiveTracker.ViewModels
             get { return PokerRoomsWithoutDetectedHandHistoryDirectories.Count > 0; }
         }
 
-        public IHandHistoryFolderAutoDetectResultsViewModel InitializeWith(IHandHistoryFolderAutoDetector handHistoryFolderAutoDetector)
+        public IHandHistoryFolderAutoDetectResultsViewModel InitializeWith(IPokerRoomSettingsDetector pokerRoomSettingsDetector)
         {
-            _handHistoryFolderAutoDetector = handHistoryFolderAutoDetector;
+            _pokerRoomSettingsDetector = pokerRoomSettingsDetector;
 
             if (PokerRoomsWithoutDetectedHandHistoryDirectories.Count > 0)
                 SelectedUndetectedPokerRoom = PokerRoomsWithoutDetectedHandHistoryDirectories.First();

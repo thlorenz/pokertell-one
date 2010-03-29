@@ -14,10 +14,17 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 
     public class LiveTrackerSettingsDesignModel : LiveTrackerSettingsViewModel
     {
-        static StubBuilder _stub = new StubBuilder();
+        static readonly StubBuilder Stub = new StubBuilder();
     
         public LiveTrackerSettingsDesignModel(ILiveTrackerSettingsXDocumentHandler xDocumentHandler)
-            : base(new EventAggregator(), xDocumentHandler, _stub.Out<IHandHistoryFolderAutoDetector>(), _stub.Out<IHandHistoryFolderAutoDetectResultsViewModel>(), _stub.Out<IHandHistoryFolderAutoDetectResultsWindowManager>(), _stub.Out<IPokerRoomInfoLocator>()) 
+            : base(
+                new EventAggregator(),
+                xDocumentHandler,
+                Stub.Out<IPokerRoomSettingsDetector>(),
+                Stub.Out<IHandHistoryFolderAutoDetectResultsViewModel>(),
+                Stub.Out<IHandHistoryFolderAutoDetectResultsWindowManager>(),
+                Stub.Out<ILayoutAutoConfigurator>(),
+                Stub.Out<IPokerRoomInfoLocator>())
         {
             AutoTrack = true;
             ShowLiveStatsWindowOnStartup = false;

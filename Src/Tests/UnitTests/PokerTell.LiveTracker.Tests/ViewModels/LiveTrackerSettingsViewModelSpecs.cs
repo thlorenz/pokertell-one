@@ -1,7 +1,10 @@
 namespace PokerTell.LiveTracker.Tests.ViewModels
 {
+    using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Xml.Linq;
 
     using Events;
@@ -11,6 +14,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     using Machine.Specifications;
 
     using Microsoft.Practices.Composite.Events;
+    using Microsoft.Practices.Composite.Presentation.Events;
 
     using Moq;
 
@@ -32,7 +36,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static IEventAggregator _eventAggregator;
 
-        protected static Mock<IHandHistoryFolderAutoDetector> _autoDetector_Mock;
+        protected static Mock<IPokerRoomSettingsDetector> _autoDetector_Mock;
 
         protected static Mock<IHandHistoryFolderAutoDetectResultsViewModel> _autoDetectResultsVM_Mock;
 
@@ -40,11 +44,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static Mock<IPokerRoomInfoLocator> _pokerRoomInfoLocator_Stub;
 
+        protected static Mock<ILayoutAutoConfigurator> _layoutAutoConfigurator_Mock;
+
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
             _xDocumentHandler_Mock = new LiveTrackerSettingsXDocumentHandlerMock();
             
-            _autoDetector_Mock = new Mock<IHandHistoryFolderAutoDetector>();
+            _autoDetector_Mock = new Mock<IPokerRoomSettingsDetector>();
             _autoDetector_Mock
                 .Setup(ad => ad.InitializeWith(Moq.It.IsAny<IEnumerable<IPokerRoomInfo>>()))
                 .Returns(_autoDetector_Mock.Object);
@@ -54,19 +60,23 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             _autoDetectResultsVM_Mock = new Mock<IHandHistoryFolderAutoDetectResultsViewModel>();
             _autoDetectResultsVM_Mock
-                .Setup(dr => dr.InitializeWith(Moq.It.IsAny<IHandHistoryFolderAutoDetector>()))
+                .Setup(dr => dr.InitializeWith(Moq.It.IsAny<IPokerRoomSettingsDetector>()))
                 .Returns(_autoDetectResultsVM_Mock.Object);
 
             _autoDetectResultsWindow_Mock = new Mock<IHandHistoryFolderAutoDetectResultsWindowManager>();
 
             _pokerRoomInfoLocator_Stub = new Mock<IPokerRoomInfoLocator>();
 
-            _sut = new LiveTrackerSettingsViewModel(_eventAggregator,
-                                                    _xDocumentHandler_Mock,
-                                                    _autoDetector_Mock.Object,
-                                                    _autoDetectResultsVM_Mock.Object,
-                                                    _autoDetectResultsWindow_Mock.Object, 
-                                                    _pokerRoomInfoLocator_Stub.Object);
+            _layoutAutoConfigurator_Mock = new Mock<ILayoutAutoConfigurator>();
+
+            if (_layoutAutoConfigurator_Mock != null)
+                _sut = new LiveTrackerSettingsViewModel(_eventAggregator,
+                                                        _xDocumentHandler_Mock,
+                                                        _autoDetector_Mock.Object,
+                                                        _autoDetectResultsVM_Mock.Object,
+                                                        _autoDetectResultsWindow_Mock.Object, 
+                                                        _layoutAutoConfigurator_Mock.Object, 
+                                                        _pokerRoomInfoLocator_Stub.Object);
         };
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Load")]
@@ -77,7 +87,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const string notExisitingPath = "doesn't exist";
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _layoutAutoConfigurator_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
                     { HandHistoryFilesPaths = new[] { existingPath, notExisitingPath } };
 
                 _xDocumentHandler_Mock.DocumentToLoad = LiveTrackerSettingsViewModel.CreateXDocumentFor(settings);
@@ -124,7 +134,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const int duration = 1;
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator,
+                                                                new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,
+                                                                _autoDetector_Mock.Object,
+                                                                _autoDetectResultsVM_Mock.Object,
+                                                                _autoDetectResultsWindow_Mock.Object,
+                                                                _layoutAutoConfigurator_Mock.Object,
+                                                                _pokerRoomInfoLocator_Stub.Object)
                     {
                         AutoTrack = setTrue, 
                         ShowLiveStatsWindowOnStartup = setTrue, 
@@ -159,7 +175,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const int duration = 2;
 
             Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,  _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator,
+                                                                new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,
+                                                                _autoDetector_Mock.Object,
+                                                                _autoDetectResultsVM_Mock.Object,
+                                                                _autoDetectResultsWindow_Mock.Object,
+                                                                _layoutAutoConfigurator_Mock.Object,
+                                                                _pokerRoomInfoLocator_Stub.Object)
                     {
                         AutoTrack = setFalse, 
                         ShowLiveStatsWindowOnStartup = setFalse, 
@@ -252,7 +274,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_set_the_selected_hand_history_path_to_null = () => _sut.SelectedHandHistoryFilesPath.ShouldBeNull();
 
         }
-
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Add Hand History path")]
         public class when_the_given_path_is_null : LiveTrackerSettingsViewModelSpecs
@@ -355,7 +376,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_initialize_the_autoDetector_with_the_PokerRoomInfos_returned_by_the_PokerRoomInfoLocator
                 = () => _autoDetector_Mock.Verify(ad => ad.InitializeWith(pokerRoomInfos_Stub));
 
-            It should_tell_the_autoDetector_to_detect = () => _autoDetector_Mock.Verify(ad => ad.Detect());
+            It should_tell_the_autoDetector_to_detect_handHistoryFolders = () => _autoDetector_Mock.Verify(ad => ad.DetectHandHistoryFolders());
 
             It should_initialize_the_autodetectresults_viewmodel_with_the_autodetector 
                 = () => _autoDetectResultsVM_Mock.Verify(dr => dr.InitializeWith(_autoDetector_Mock.Object));
@@ -383,7 +404,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_add_the_detected_folder_to_the_tracked_HandHistory_folders = () => _sut.HandHistoryFilesPaths.ShouldContain(detectedHandHistoryFolder);
         }
 
-
         [Subject(typeof(LiveTrackerSettingsViewModel), "DetectAndAddHandHistoryFolders")]
         public class when_two_folders_are_found_but_the_second_one_is_tracked_already : LiveTrackerSettingsViewModelSpecs
         {
@@ -403,6 +423,170 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_add_the_first_detected_folder_to_the_tracked_HandHistory_folders = () => _sut.HandHistoryFilesPaths.ShouldContain(firstDetectedHandHistoryFolder);
 
             It should_not_add_the_second_detected_folder_to_the_tracked_HandHistory_folders_again = () => _sut.HandHistoryFilesPaths.Count.ShouldEqual(2);
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "Detect and save preferred seats")]
+        public class when_told_to_auto_detect_and_save_the_preferred_seats_and_the_autodetector_finds_preferred_seats_for_a_pokerroom : LiveTrackerSettingsViewModelSpecs
+        {
+            static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
+
+            const string site = "SomeSite";
+
+            static IDictionary<int, int> preferredSeats_Stub;
+
+            static ITuple<string, IDictionary<int, int>> returnedPreferredSeatsForRoom;
+
+            Establish context = () => {
+                preferredSeats_Stub = new Dictionary<int, int> { { 2, 1 } };
+                returnedPreferredSeatsForRoom = Tuple.New(site, preferredSeats_Stub);
+
+                pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
+                _pokerRoomInfoLocator_Stub
+                    .SetupGet(il => il.SupportedPokerRoomInfos)
+                    .Returns(pokerRoomInfos_Stub);
+                _autoDetector_Mock
+                    .SetupGet(ad => ad.PokerRoomsWithDetectedPreferredSeats)
+                    .Returns(new[] { returnedPreferredSeatsForRoom });
+            };
+
+            Because of = () => _sut.DetectAndSavePreferredSeats();
+
+            It should_initialize_the_autoDetector_with_the_PokerRoomInfos_returned_by_the_PokerRoomInfoLocator
+                = () => _autoDetector_Mock.Verify(ad => ad.InitializeWith(pokerRoomInfos_Stub));
+
+            It should_tell_the_autoDetector_to_detect_preferredSeats = () => _autoDetector_Mock.Verify(ad => ad.DetectPreferredSeats());
+
+            It should_tell_the_layoutAutoConfigurator_to_configure_the_preferred_seats_for_the_pokerroom
+                = () => _layoutAutoConfigurator_Mock.Verify(lac => lac.ConfigurePreferredSeats(site, preferredSeats_Stub));
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "DetectPreferredSeatsCommand")]
+        public class when_the_user_says_he_wants_to_auto_detect_the_preferred_seats_and_the_autodetector_finds_preferred_seats_for_a_pokerroom : LiveTrackerSettingsViewModelSpecs
+        {
+            static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
+
+            const string site = "SomeSite";
+
+            static IDictionary<int, int> preferredSeats_Stub;
+
+            static ITuple<string, IDictionary<int, int>> returnedPreferredSeatsForRoom;
+
+            static bool publishUserMessageWasRaised;
+
+            static UserMessageEventArgs passedPayload;
+
+            Establish context = () => {
+                preferredSeats_Stub = new Dictionary<int, int> { { 2, 1 } };
+                returnedPreferredSeatsForRoom = Tuple.New(site, preferredSeats_Stub);
+
+                pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
+                _pokerRoomInfoLocator_Stub
+                    .SetupGet(il => il.SupportedPokerRoomInfos)
+                    .Returns(pokerRoomInfos_Stub);
+                _autoDetector_Mock
+                    .SetupGet(ad => ad.PokerRoomsWithDetectedPreferredSeats)
+                    .Returns(new[] { returnedPreferredSeatsForRoom });
+
+                _eventAggregator
+                    .GetEvent<UserMessageEvent>()
+                    .Subscribe(payload => {
+                        publishUserMessageWasRaised = true;
+                        passedPayload = payload;
+                    }, 
+                    ThreadOption.PublisherThread, 
+                    false, 
+                    args => args.MessageType == UserMessageTypes.Info);
+            };
+
+            Because of = () => _sut.DetectPreferredSeatsCommand.Execute(null);
+
+            It should_initialize_the_autoDetector_with_the_PokerRoomInfos_returned_by_the_PokerRoomInfoLocator
+                = () => _autoDetector_Mock.Verify(ad => ad.InitializeWith(pokerRoomInfos_Stub));
+
+            It should_tell_the_autoDetector_to_detect_preferredSeats = () => _autoDetector_Mock.Verify(ad => ad.DetectPreferredSeats());
+
+            It should_tell_the_layoutAutoConfigurator_to_configure_the_preferred_seats_for_the_pokerroom
+                = () => _layoutAutoConfigurator_Mock.Verify(lac => lac.ConfigurePreferredSeats(site, preferredSeats_Stub));
+            
+            It should_let_the_user_know_about_the_preferred_seats_that_got_configured = () => publishUserMessageWasRaised.ShouldBeTrue();
+
+            It should_include_the_site_whose_preferred_seat_got_configured_in_the_message = () => passedPayload.UserMessage.ShouldContain(site);
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "Detect and save preferred seats")]
+        public class when_told_to_auto_detect_and_save_the_preferred_seats_but_the_auto_detector_finds_no_room_with_preferred_seats
+            : LiveTrackerSettingsViewModelSpecs
+        {
+            static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
+
+            const string site = "SomeSite";
+
+            Establish context = () => {
+                pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
+                _pokerRoomInfoLocator_Stub
+                    .SetupGet(il => il.SupportedPokerRoomInfos)
+                    .Returns(pokerRoomInfos_Stub);
+                _autoDetector_Mock
+                    .SetupGet(ad => ad.PokerRoomsWithDetectedPreferredSeats)
+                    .Returns(new List<ITuple<string, IDictionary<int, int>>>());
+            };
+
+            Because of = () => _sut.DetectAndSavePreferredSeats();
+
+            It should_initialize_the_autoDetector_with_the_PokerRoomInfos_returned_by_the_PokerRoomInfoLocator
+                = () => _autoDetector_Mock.Verify(ad => ad.InitializeWith(pokerRoomInfos_Stub));
+
+            It should_tell_the_autoDetector_to_detect_preferredSeats = () => _autoDetector_Mock.Verify(ad => ad.DetectPreferredSeats());
+
+            It should_not_tell_the_layoutAutoConfigurator_to_configure_the_preferred_seats_for_any_pokerroom
+                = () => _layoutAutoConfigurator_Mock.Verify(
+                    lac => lac.ConfigurePreferredSeats(Moq.It.IsAny<string>(), Moq.It.IsAny<IDictionary<int, int>>()), Times.Never());
+        }
+
+        [Subject(typeof(LiveTrackerSettingsViewModel), "Detect and save preferred seats")]
+        public class when_the_user_says_he_wants_to_auto_detect_the_preferred_seats_but_the_auto_detector_finds_no_room_with_preferred_seats
+            : LiveTrackerSettingsViewModelSpecs
+        {
+            static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
+
+            const string site = "SomeSite";
+
+            static bool publishUserWarningWasRaised;
+
+            static UserMessageEventArgs passedPayload;
+
+            Establish context = () => {
+                pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
+                _pokerRoomInfoLocator_Stub
+                    .SetupGet(il => il.SupportedPokerRoomInfos)
+                    .Returns(pokerRoomInfos_Stub);
+                _autoDetector_Mock
+                    .SetupGet(ad => ad.PokerRoomsWithDetectedPreferredSeats)
+                    .Returns(new List<ITuple<string, IDictionary<int, int>>>());
+
+                _eventAggregator
+                    .GetEvent<UserMessageEvent>()
+                    .Subscribe(payload => {
+                        publishUserWarningWasRaised = true;
+                        passedPayload = payload;
+                    }, 
+                    ThreadOption.PublisherThread, 
+                    false, 
+                    args => args.MessageType == UserMessageTypes.Warning);
+            };
+
+            Because of = () => _sut.DetectPreferredSeatsCommand.Execute(null);
+
+            It should_initialize_the_autoDetector_with_the_PokerRoomInfos_returned_by_the_PokerRoomInfoLocator
+                = () => _autoDetector_Mock.Verify(ad => ad.InitializeWith(pokerRoomInfos_Stub));
+
+            It should_tell_the_autoDetector_to_detect_preferredSeats = () => _autoDetector_Mock.Verify(ad => ad.DetectPreferredSeats());
+
+            It should_not_tell_the_layoutAutoConfigurator_to_configure_the_preferred_seats_for_any_pokerroom
+                = () => _layoutAutoConfigurator_Mock.Verify(
+                    lac => lac.ConfigurePreferredSeats(Moq.It.IsAny<string>(), Moq.It.IsAny<IDictionary<int, int>>()), Times.Never());
+
+            It should_warn_the_user_know_that_no_preferred_seats_could_be_configured = () => publishUserWarningWasRaised.ShouldBeTrue();
         }
     }
 }

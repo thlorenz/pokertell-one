@@ -6,6 +6,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
     using Infrastructure.Interfaces;
 
+    using Tools.Interfaces;
+
     public interface ILiveTrackerSettingsViewModel : IFluentInterface, INotifyPropertyChanged
     {
         bool AutoTrack { get; }
@@ -34,8 +36,12 @@ namespace PokerTell.LiveTracker.Interfaces
 
         ICommand AutoDetectHandHistoryFoldersCommand { get; }
 
+        ICommand DetectPreferredSeatsCommand { get; }
+
         ILiveTrackerSettingsViewModel LoadSettings();
 
-        void DetectAndAddHandHistoryFolders();
+        ILiveTrackerSettingsViewModel DetectAndAddHandHistoryFolders();
+
+        IEnumerable<string> DetectAndSavePreferredSeats();
     }
 }

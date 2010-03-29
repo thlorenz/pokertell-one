@@ -7,22 +7,24 @@ namespace PokerTell.LiveTracker.PokerRooms
     using Tools.FunctionalCSharp;
     using Tools.Interfaces;
 
-    public class HandHistoryFolderAutoDetector : IHandHistoryFolderAutoDetector
+    public class PokerRoomSettingsDetector : IPokerRoomSettingsDetector
     {
         IEnumerable<IPokerRoomInfo> _pokerRoomInfos;
 
         public IList<ITuple<string, string>> PokerRoomsWithDetectedHandHistoryDirectories { get; protected set; }
 
+        public IList<ITuple<string, IDictionary<int, int>>> PokerRoomsWithDetectedPreferredSeats { get; protected set; }
+
         public IList<ITuple<string, string>> PokerRoomsWithoutDetectedHandHistoryDirectories { get; protected set; }
 
-        public IHandHistoryFolderAutoDetector InitializeWith(IEnumerable<IPokerRoomInfo> pokerRoomInfos)
+        public IPokerRoomSettingsDetector InitializeWith(IEnumerable<IPokerRoomInfo> pokerRoomInfos)
         {
             _pokerRoomInfos = pokerRoomInfos;
 
             return this;
         }
 
-        public IHandHistoryFolderAutoDetector Detect()
+        public IPokerRoomSettingsDetector DetectHandHistoryFolders()
         {
             PokerRoomsWithDetectedHandHistoryDirectories = new List<ITuple<string, string>>();
             PokerRoomsWithoutDetectedHandHistoryDirectories = new List<ITuple<string, string>>();
@@ -39,6 +41,24 @@ namespace PokerTell.LiveTracker.PokerRooms
                 }
             });
 
+            return this;
+        }
+
+        public IPokerRoomSettingsDetector DetectPreferredSeats()
+        {
+            PokerRoomsWithDetectedPreferredSeats = new List<ITuple<string, IDictionary<int, int>>>();
+
+            _pokerRoomInfos.ForEach(info => {
+                var detective = info.Detective;
+                
+                if (detective.PokerRoomSavesPreferredSeats)
+                {
+                    detective.Investigate();
+
+                    if (detective.PokerRoomIsInstalled && detective.DetectedPreferredSeats)
+                        PokerRoomsWithDetectedPreferredSeats.Add(Tuple.New(info.Site, detective.PreferredSeats));
+                }
+            });
             return this;
         }
     }

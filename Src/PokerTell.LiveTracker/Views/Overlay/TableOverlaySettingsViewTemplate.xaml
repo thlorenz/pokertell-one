@@ -29,7 +29,14 @@
                             <Setter Property="HeaderTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <TextBlock Text="Settings" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="Settings" />
+                                        <Image Grid.Column="1" Source="../../Resources/SettingsIcon.png"  MaxHeight="15"/>
+                                        </Grid>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>
