@@ -84,7 +84,6 @@
     <Compile Include="PokerStars\HoleCardsParserTests.cs" />
     <Compile Include="PokerStars\PlayerActionsParserTests.cs" />
     <Compile Include="PokerStars\PlayerSeatsParserTests.cs" />
-    <Compile Include="PokerStars\PokerHandParserTests.cs" />
     <Compile Include="PokerStars\StreetsParserTests.cs" />
     <Compile Include="Base\BoardParserTests.cs" />
     <Compile Include="PokerStars\AnteParserTests.cs" />

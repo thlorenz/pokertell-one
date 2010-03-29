@@ -72,7 +72,9 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
             PlayerName = pokerPlayer.Name;
             PlayerStatus.HarringtonM.Value = pokerPlayer.MAfter;
-            PlayerStatus.IsPresent = true;
+
+            // An M value <= 0 indicates that he was eliminated during the last hand
+            PlayerStatus.IsPresent = pokerPlayer.MAfter > 0;
 
             return this;
         }

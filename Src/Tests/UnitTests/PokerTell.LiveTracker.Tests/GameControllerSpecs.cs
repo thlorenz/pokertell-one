@@ -517,6 +517,8 @@ namespace PokerTell.LiveTracker.Tests
 
             It should_dispose_the_live_stats_window_manager = () => _liveStatsWindow_Mock.Verify(ls => ls.Dispose());
 
+            It should_dispose_the_game_history_window_manager = () => _gameHistoryWindow_Mock.Verify(gh => gh.Dispose());
+
             It should_raise_ShuttingDown = () => shuttingDownRaised.ShouldBeTrue();
         }
 

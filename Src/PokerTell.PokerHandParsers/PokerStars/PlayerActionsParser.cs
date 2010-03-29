@@ -1,13 +1,11 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     public class PlayerActionsParser : Base.PlayerActionsParser
     {
-        #region Constants and Fields
-
         const string PokerStarsAllinBetPattern = @": .+" + SharedPatterns.RatioPattern + @" and is all-in";
 
         const string PokerStarsUncalledBetPattern =
@@ -15,18 +13,10 @@ namespace PokerTell.PokerHandParsers.PokerStars
 
         const string PokerStarsWinningPattern = @".+collected " + SharedPatterns.RatioPattern + " from .*pot";
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public PlayerActionsParser(IConstructor<IAquiredPokerAction> aquiredPokerActionMake)
             : base(aquiredPokerActionMake)
         {
         }
-
-        #endregion
-
-        #region Properties
 
         protected override string ActionPattern
         {
@@ -64,7 +54,5 @@ namespace PokerTell.PokerHandParsers.PokerStars
                     ")";
             }
         }
-
-        #endregion
     }
 }

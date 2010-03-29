@@ -157,6 +157,7 @@ namespace PokerTell.LiveTracker
                 ShuttingDown();
                 _liveStatsWindow.Dispose();
                 _tableOverlayManager.Dispose();
+                _gameHistoryWindow.Dispose();
             };
         }
     }

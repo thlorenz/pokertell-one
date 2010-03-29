@@ -1,17 +1,14 @@
-using System;
-using System.Reflection;
-using System.Text.RegularExpressions;
-
-using log4net;
-
 namespace PokerTell.PokerHandParsers.Base
 {
+    using System;
+    using System.Reflection;
+    using System.Text.RegularExpressions;
+
+    using log4net;
+
     public abstract class StreetsParser
     {
-        #region Constants and Fields
-
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         Match _flop;
 
@@ -22,10 +19,6 @@ namespace PokerTell.PokerHandParsers.Base
         Match _summary;
 
         Match _turn;
-
-        #endregion
-
-        #region Properties
 
         public string Flop { get; protected set; }
 
@@ -50,10 +43,6 @@ namespace PokerTell.PokerHandParsers.Base
         protected abstract string SummaryPattern { get; }
 
         protected abstract string TurnPattern { get; }
-
-        #endregion
-
-        #region Public Methods
 
         public StreetsParser Parse(string handHistory)
         {
@@ -83,20 +72,16 @@ namespace PokerTell.PokerHandParsers.Base
         {
             return
                 string.Format(
-                    "Preflop: {0}, Flop: {1}, Turn: {2}, River: {3}, HasFlop: {4}, HasTurn: {5}, HasRiver: {6}, IsValid: {7}",
-                    Preflop,
-                    Flop,
-                    Turn,
-                    River,
-                    HasFlop,
-                    HasTurn,
-                    HasRiver,
+                    "Preflop: {0}\n Flop: {1}\n Turn: {2}\n River: {3}\n HasFlop: {4}, HasTurn: {5}, HasRiver: {6}, IsValid: {7}", 
+                    Preflop, 
+                    Flop, 
+                    Turn, 
+                    River, 
+                    HasFlop, 
+                    HasTurn, 
+                    HasRiver, 
                     IsValid);
         }
-
-        #endregion
-
-        #region Methods
 
         void ExtractFlop()
         {
@@ -161,7 +146,7 @@ namespace PokerTell.PokerHandParsers.Base
 
             _turn = MatchTurn();
             HasTurn = _turn.Success;
-            if (!HasTurn)
+            if (! HasTurn)
             {
                 return;
             }
@@ -189,7 +174,5 @@ namespace PokerTell.PokerHandParsers.Base
         {
             return Regex.Match(_handHistory, TurnPattern, RegexOptions.IgnoreCase);
         }
-
-        #endregion
     }
 }

@@ -100,9 +100,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_set_PlayerStatus_IsPresent_to_false = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = false);
         }
 
-
         [Subject(typeof(PlayerOverlayViewModel), "UpdateStatusWith")]
-        public class when_updating_with_non_null_statistics_and_converted_player : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
+        public class when_updating_with_converted_player_with_M_Greater_0 : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
         {
             const string playerName = "some name";
 
@@ -111,7 +110,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             Establish context = () => {
                 _convertedPlayer_Stub.SetupGet(cp => cp.Name).Returns(playerName);
                 _convertedPlayer_Stub.SetupGet(cp => cp.MAfter).Returns(M);
-
             };
 
             Because of = () => _sut.UpdateStatusWith(_convertedPlayer_Stub.Object);
@@ -121,7 +119,48 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_set_PlayerStatus_HarringtonM_Value_to_MAfter_of_converted_player = () => _harrintonM_VM_Stub.VerifySet(hm => hm.Value = M);
 
             It should_set_the_PlayerName_to_the_name_of_the_converted_player = () => _sut.PlayerName.ShouldEqual(playerName);
+        }
 
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatusWith")]
+        public class when_updating_with_converted_player_with_M_0_because_he_just_was_eliminated : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
+        {
+            const string playerName = "some name";
+
+            const int M = 0;
+
+            Establish context = () => {
+                _convertedPlayer_Stub.SetupGet(cp => cp.Name).Returns(playerName);
+                _convertedPlayer_Stub.SetupGet(cp => cp.MAfter).Returns(M);
+            };
+
+            Because of = () => _sut.UpdateStatusWith(_convertedPlayer_Stub.Object);
+
+            It should_set_PlayerStatus_IsPresent_to_false = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = false);
+
+            It should_set_PlayerStatus_HarringtonM_Value_to_MAfter_of_converted_player = () => _harrintonM_VM_Stub.VerifySet(hm => hm.Value = M);
+
+            It should_set_the_PlayerName_to_the_name_of_the_converted_player = () => _sut.PlayerName.ShouldEqual(playerName);
+        }
+
+        [Subject(typeof(PlayerOverlayViewModel), "UpdateStatusWith")]
+        public class when_updating_with_converted_player_with_M_neg1_because_he_just_was_eliminated_and_calculations_were_inaccurate : Ctx_NonNull_ConvertedPlayer_Statistics_And_Setup_HarringtonM
+        {
+            const string playerName = "some name";
+
+            const int M = -1;
+
+            Establish context = () => {
+                _convertedPlayer_Stub.SetupGet(cp => cp.Name).Returns(playerName);
+                _convertedPlayer_Stub.SetupGet(cp => cp.MAfter).Returns(M);
+            };
+
+            Because of = () => _sut.UpdateStatusWith(_convertedPlayer_Stub.Object);
+
+            It should_set_PlayerStatus_IsPresent_to_false = () => _playerStatusVM_Mock.VerifySet(ps => ps.IsPresent = false);
+
+            It should_set_PlayerStatus_HarringtonM_Value_to_MAfter_of_converted_player = () => _harrintonM_VM_Stub.VerifySet(hm => hm.Value = M);
+
+            It should_set_the_PlayerName_to_the_name_of_the_converted_player = () => _sut.PlayerName.ShouldEqual(playerName);
         }
 
         [Subject(typeof(PlayerOverlayViewModel), "UpdateStatisticsWith")]

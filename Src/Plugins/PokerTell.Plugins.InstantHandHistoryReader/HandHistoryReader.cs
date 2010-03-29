@@ -3,14 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Reflection;
 
     using Interfaces;
+
+    using log4net;
 
     /// <summary>
     /// Finds all Handhistories from Pokerroom's memory
     /// </summary>
     public class HandHistoryReader : IHandHistoryReader
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         Kernel32.MEMORY_BASIC_INFORMATION _memBasicInfo;
 
         Process _pokerClientProcess;
@@ -21,31 +26,39 @@
 
         int _regionBufferSize;
 
-        string _valueThatHandHistoryStartsWith;
-
         Kernel32.SYSTEM_INFO _sysInfo;
+
+        string _processName;
+
+        string _valueThatHandHistoryStartsWith;
 
         public IHandHistoryReader InitializeWith(string processName, string valueThatHandHistoryStartsWith)
         {
+            _processName = processName;
             _valueThatHandHistoryStartsWith = valueThatHandHistoryStartsWith;
+            _readGameIds = new List<long>();
 
-            if (!FindProcess(processName))
+            WasSuccessfullyInitialized = true;
+
+            return this;
+        }
+
+        void PrepareReader()
+        {
+            if (!FindProcess(_processName))
             {
-                string msg = "Couldn't find a running " + processName;
+                string msg = "Couldn't find a running " + _processName;
                 throw new ApplicationException(msg);
             }
 
             CreateMemoryReaderAndGetSystemInfo();
-            _readGameIds = new List<long>();
-             
-            WasSuccessfullyInitialized = true;
-            return this;
         }
 
         public bool WasSuccessfullyInitialized { get; protected set; }
 
         public IList<string> FindNewInstantHandHistories()
         {
+            PrepareReader();
             return ReadAllNewGames();
         }
 
@@ -129,7 +142,6 @@
                         }
                     }
 
-
                     // Not found yet -> start at next char in memory this time
                     // else return where it was found
                     if (found)
@@ -140,7 +152,7 @@
             }
             catch (Exception excep)
             {
-                Console.WriteLine(excep.ToString());
+                Log.Error(excep);
             }
 
             return 0;

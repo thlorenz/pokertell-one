@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
-using PokerTell.Infrastructure.Enumerations.PokerHand;
-using PokerTell.Infrastructure.Interfaces;
-using PokerTell.Infrastructure.Interfaces.PokerHand;
-
 namespace PokerTell.PokerHandParsers.Base
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text.RegularExpressions;
+
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+
     public abstract class PlayerActionsParser
     {
-        #region Constants and Fields
-
         public IDictionary<ActionTypes, string> ActionStrings;
 
         protected readonly IConstructor<IAquiredPokerAction> _aquiredPokerActionMake;
@@ -20,19 +18,11 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected string _streetHistory;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         protected PlayerActionsParser(IConstructor<IAquiredPokerAction> aquiredPokerActionMake)
         {
             _aquiredPokerActionMake = aquiredPokerActionMake;
             CreateActionStrings();
         }
-
-        #endregion
-
-        #region Properties
 
         public IList<IAquiredPokerAction> PlayerActions { get; protected set; }
 
@@ -44,15 +34,11 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string WinningPattern { get; }
 
-        #endregion
-
-        #region Public Methods
-
         public virtual PlayerActionsParser Parse(string streetHistory, string playerName)
         {
             _streetHistory = streetHistory;
             _playerName = Regex.Escape(playerName);
-          
+
             PlayerActions = new List<IAquiredPokerAction>();
 
             MatchCollection actions = MatchAllPlayerActions();
@@ -65,10 +51,6 @@ namespace PokerTell.PokerHandParsers.Base
 
             return this;
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Converts a human readable action to an Action What type and is called by the Hand Parser
@@ -120,12 +102,12 @@ namespace PokerTell.PokerHandParsers.Base
         {
             ActionStrings = new Dictionary<ActionTypes, string>
                 {
-                    { ActionTypes.B, "bets" },
-                    { ActionTypes.C, "calls" },
-                    { ActionTypes.F, "folds" },
-                    { ActionTypes.P, "posts" },
-                    { ActionTypes.R, "raises" },
-                    { ActionTypes.X, "checks" },
+                    { ActionTypes.B, "bets" }, 
+                    { ActionTypes.C, "calls" }, 
+                    { ActionTypes.F, "folds" }, 
+                    { ActionTypes.P, "posts" }, 
+                    { ActionTypes.R, "raises" }, 
+                    { ActionTypes.X, "checks" }, 
                 };
         }
 
@@ -218,7 +200,5 @@ namespace PokerTell.PokerHandParsers.Base
         {
             return Regex.Match(_streetHistory, WinningPattern, RegexOptions.IgnoreCase);
         }
-
-        #endregion
     }
 }

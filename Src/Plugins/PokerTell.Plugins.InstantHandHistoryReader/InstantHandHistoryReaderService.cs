@@ -52,6 +52,8 @@ namespace PokerTell.Plugins.InstantHandHistoryReader
                 var convertedHands = _repository.RetrieveHandsFromString(allHandHistoriesInOneString);
 
                 _repository.InsertHands(convertedHands);
+
+                Log.DebugFormat("Inserted {0} newly mined hands", convertedHands.Count());
             }
             catch (Exception excep)
             {

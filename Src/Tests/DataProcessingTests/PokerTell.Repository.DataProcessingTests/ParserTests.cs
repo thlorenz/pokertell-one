@@ -5,29 +5,21 @@ namespace PokerTell.Repository.DataProcessingTests
     using System.Collections.Generic;
     using System.IO;
 
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.PokerHandParsers;
-
     using Microsoft.Practices.Unity;
 
     using NUnit.Framework;
 
-    using PokerHand.Analyzation;
-    using PokerHand.Aquisition;
-    using PokerHand.Interfaces;
-    using PokerHand.Services;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
+    using PokerTell.PokerHand.Analyzation;
+    using PokerTell.PokerHand.Aquisition;
+    using PokerTell.PokerHand.Interfaces;
+    using PokerTell.PokerHand.Services;
+    using PokerTell.PokerHandParsers.FullTiltPoker;
 
-    using PokerHandParsers.PokerStars;
-
-    public class ParserTests 
+    public class ParserTests
     {
-        #region Constants and Fields
-
         IUnityContainer _container;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -53,11 +45,11 @@ namespace PokerTell.Repository.DataProcessingTests
         public void Parsing_EntireDirectory_FullTilt()
         {
             const bool printConvertedHands = false;
-            
+
             _container
                 .RegisterInstance<IPokerHandParsers>(
                 new PokerHandParserToUse(
-                    _container.Resolve<PokerHandParsers.FullTiltPoker.PokerHandParser>()));
+                    _container.Resolve<PokerHandParser>()));
 
             var repositoryParser = _container.Resolve<RepositoryParser>();
 
@@ -74,7 +66,7 @@ namespace PokerTell.Repository.DataProcessingTests
             _container
                 .RegisterInstance<IPokerHandParsers>(
                 new PokerHandParserToUse(
-                    _container.Resolve<PokerHandParser>()));
+                    _container.Resolve<PokerHandParsers.PokerStars.PokerHandParser>()));
 
             var repositoryParser = _container.Resolve<RepositoryParser>();
 
@@ -82,10 +74,6 @@ namespace PokerTell.Repository.DataProcessingTests
 
             ParseDirectoryWithParser(directory, repositoryParser, printConvertedHands);
         }
-
-        #endregion
-
-        #region Methods
 
         static void ParseDirectoryWithParser(string directory, RepositoryParser repositoryParser, bool printConverted)
         {
@@ -117,6 +105,7 @@ namespace PokerTell.Repository.DataProcessingTests
                     Console.WriteLine(excep);
                 }
             }
+
             Console.WriteLine("Finished Files #{0}", fileCounter);
         }
 
@@ -128,17 +117,9 @@ namespace PokerTell.Repository.DataProcessingTests
             }
         }
 
-        #endregion
-
         class PokerHandParserToUse : IPokerHandParsers
         {
-            #region Constants and Fields
-
             readonly IList<IPokerHandParser> _parsers;
-
-            #endregion
-
-            #region Constructors and Destructors
 
             public PokerHandParserToUse(IPokerHandParser parser)
             {
@@ -146,29 +127,15 @@ namespace PokerTell.Repository.DataProcessingTests
                 _parsers = new List<IPokerHandParser> { parser };
             }
 
-            #endregion
-
-            #region Implemented Interfaces
-
-            #region IEnumerable
-
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return GetEnumerator();
             }
 
-            #endregion
-
-            #region IEnumerable<IPokerHandParser>
-
             public IEnumerator<IPokerHandParser> GetEnumerator()
             {
                 return _parsers.GetEnumerator();
             }
-
-            #endregion
-
-            #endregion
         }
     }
 }

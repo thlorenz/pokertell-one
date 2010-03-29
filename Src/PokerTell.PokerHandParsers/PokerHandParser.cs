@@ -1,4 +1,4 @@
-namespace PokerTell.PokerHandParsers.Base
+namespace PokerTell.PokerHandParsers
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +10,7 @@ namespace PokerTell.PokerHandParsers.Base
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
+    using PokerTell.PokerHandParsers.Base;
 
     public abstract class PokerHandParser : IPokerHandParser
     {
@@ -20,6 +21,8 @@ namespace PokerTell.PokerHandParsers.Base
         protected BlindsParser BlindsParser;
 
         protected BoardParser BoardParser;
+
+        protected GameTypeParser GameTypeParser;
 
         protected HandHeaderParser HandHeaderParser;
 
@@ -44,8 +47,6 @@ namespace PokerTell.PokerHandParsers.Base
         protected TotalPotParser TotalPotParser;
 
         protected TotalSeatsParser TotalSeatsParser;
-
-        protected GameTypeParser GameTypeParser;
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -123,22 +124,6 @@ namespace PokerTell.PokerHandParsers.Base
             return this;
         }
 
-        void ParseHeroName()
-        {
-            if (HeroNameParser.Parse(_handHistory).IsValid)
-            {
-                AquiredPokerHand.HeroName = HeroNameParser.HeroName;
-            }
-            else
-            {
-                /* Don't need to log as it crowds log file unnecessarily when we use mining and thus never find a hero name.
-                 * Log.Debug("Failed to parse hero name correctly, setting it to string.empty");
-                 */
-              
-                AquiredPokerHand.HeroName = string.Empty;
-            }
-        }
-
         public bool RecognizesHandHistoriesIn(string histories)
         {
             return HandHeaderParser.Parse(histories).IsValid;
@@ -208,8 +193,7 @@ namespace PokerTell.PokerHandParsers.Base
         IAquiredPokerRound GetPlayerActionsFor(string streetHistory, string playerName)
         {
             IAquiredPokerRound aquiredRound = _aquiredRoundMake.New;
-            foreach (
-                IAquiredPokerAction action in PlayerActionsParser.Parse(streetHistory, playerName).PlayerActions)
+            foreach (IAquiredPokerAction action in PlayerActionsParser.Parse(streetHistory, playerName).PlayerActions)
             {
                 aquiredRound.Add(action);
             }
@@ -281,11 +265,12 @@ namespace PokerTell.PokerHandParsers.Base
             if (aquiredRound.Actions.Count > 0)
             {
                 aquiredPlayer.AddRound(aquiredRound);
+            }
 
-                if (StreetsParser.HasFlop)
-                {
-                    ParseFlopTurnAndRiver(aquiredPlayer);
-                }
+            // The only reason to parse  Flop, Turn and River if no Preflop actions were found, is to find eventual Winning Actions
+            if (StreetsParser.HasFlop)
+            {
+                ParseFlopTurnAndRiver(aquiredPlayer);
             }
         }
 
@@ -309,11 +294,24 @@ namespace PokerTell.PokerHandParsers.Base
             if (aquiredRound.Actions.Count > 0)
             {
                 aquiredPlayer.AddRound(aquiredRound);
+            }
 
-                if (StreetsParser.HasTurn)
-                {
-                    ParseTurnAndRiver(aquiredPlayer);
-                }
+            // The only reason to parse Turn and River if no Flop actions were found, is to find eventual Winning Actions
+            if (StreetsParser.HasTurn)
+            {
+                ParseTurnAndRiver(aquiredPlayer);
+            }
+        }
+
+        void ParseGameType()
+        {
+            if (GameTypeParser.Parse(_handHistory).IsValid)
+            {
+                AquiredPokerHand.GameType = GameTypeParser.GameType;
+            }
+            else
+            {
+                LogParsingError("GameTypeParser failed to find game type, leaving it as defualt.");
             }
         }
 
@@ -325,6 +323,21 @@ namespace PokerTell.PokerHandParsers.Base
             ParseTotalPot();
             ParseTotalSeats();
             ParseGameType();
+        }
+
+        void ParseHeroName()
+        {
+            if (HeroNameParser.Parse(_handHistory).IsValid)
+            {
+                AquiredPokerHand.HeroName = HeroNameParser.HeroName;
+            }
+            else
+            {
+                /* Don't need to log as it crowds log file unnecessarily when we use mining and thus never find a hero name.
+                 * Log.Debug("Failed to parse hero name correctly, setting it to string.empty");
+                 */
+                AquiredPokerHand.HeroName = string.Empty;
+            }
         }
 
         void ParsePlayers(string smallBlindPlayerName)
@@ -421,30 +434,18 @@ namespace PokerTell.PokerHandParsers.Base
             }
         }
 
-        void ParseGameType()
-        {
-            if (GameTypeParser.Parse(_handHistory).IsValid)
-            {
-                AquiredPokerHand.GameType = GameTypeParser.GameType;
-            }
-            else
-            {
-                LogParsingError("GameTypeParser failed to find game type, leaving it as defualt.");
-            }
-        }
-
-
         void ParseTurnAndRiver(IAquiredPokerPlayer aquiredPlayer)
         {
             IAquiredPokerRound aquiredRound = GetPlayerActionsFor(StreetsParser.Turn, aquiredPlayer.Name);
             if (aquiredRound.Actions.Count > 0)
             {
                 aquiredPlayer.AddRound(aquiredRound);
+            }
 
-                if (StreetsParser.HasRiver)
-                {
-                    ParseRiver(aquiredPlayer);
-                }
+            // The only reason to parse River if no Turn actions were found, is to find eventual Winning Actions
+            if (StreetsParser.HasRiver)
+            {
+                ParseRiver(aquiredPlayer);
             }
         }
 

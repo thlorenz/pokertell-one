@@ -46,7 +46,7 @@
                         </Canvas>
                     </Viewbox>
                   <StackPanel  Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" 
-                               Margin="5,0,50,0"
+                               Margin="5,0,70,0"
                                HorizontalAlignment="Right"
                               >
                     <ContentControl Content="{Binding OverlaySettings}" Opacity="0.98"/>

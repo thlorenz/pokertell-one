@@ -85,7 +85,7 @@
     <Compile Include="PartyPoker\HandHeaderParser.cs" />
     <Compile Include="Base\PlayerActionsParser.cs" />
     <Compile Include="Base\PlayerSeatsParser.cs" />
-    <Compile Include="Base\PokerHandParser.cs" />
+    <Compile Include="PokerHandParser.cs" />
     <Compile Include="PokerHandParsersModule.cs" />
     <Compile Include="PokerStars\BlindsParser.cs" />
     <Compile Include="PokerStars\AnteParser.cs" />

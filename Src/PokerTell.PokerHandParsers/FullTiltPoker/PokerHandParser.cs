@@ -6,7 +6,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
     using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
 
-    public class PokerHandParser : Base.PokerHandParser
+    public class PokerHandParser : PokerTell.PokerHandParsers.PokerHandParser
     {
         public PokerHandParser(
             IConstructor<IAquiredPokerHand> aquiredHandMake,
