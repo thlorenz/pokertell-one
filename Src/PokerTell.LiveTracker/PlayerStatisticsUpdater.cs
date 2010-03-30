@@ -3,8 +3,9 @@ namespace PokerTell.LiveTracker
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
+    using System.Globalization;
     using System.Reflection;
+    using System.Threading;
 
     using log4net;
 
@@ -24,6 +25,9 @@ namespace PokerTell.LiveTracker
             _backgroundWorker = new BackgroundWorker();
 
             _backgroundWorker.DoWork += (_, e) => {
+                // Make sure we parse doubles correctly
+                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
+
                 var playerStatistics = (IEnumerable<IPlayerStatistics>) e.Argument;
                 playerStatistics.ForEach(ps => ps.UpdateStatistics());
                 e.Result = playerStatistics;

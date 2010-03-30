@@ -1,8 +1,10 @@
 namespace PokerTell
 {
     using System;
+    using System.Globalization;
     using System.IO;
     using System.Reflection;
+    using System.Threading;
     using System.Windows;
 
     using DatabaseSetup.Views;
@@ -58,6 +60,8 @@ namespace PokerTell
         {
             AppDomain.CurrentDomain.UnhandledException +=
                 (sender, e) => HandleException(e.ExceptionObject as Exception);
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
 
             try
             {

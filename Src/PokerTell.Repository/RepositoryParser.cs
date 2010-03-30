@@ -2,25 +2,23 @@ namespace PokerTell.Repository
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
-
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHandParsers;
-
-    using Interfaces;
+    using System.Threading;
 
     using log4net;
 
     using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
+    using PokerTell.Repository.Interfaces;
 
     public class RepositoryParser : IRepositoryParser
     {
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        
-        #region Constants and Fields
 
         readonly IDictionary<ulong, IConvertedPokerHand> _parsedHands;
 
@@ -28,30 +26,26 @@ namespace PokerTell.Repository
 
         readonly IPokerHandParsers _pokerHandParsers;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public RepositoryParser(IPokerHandParsers pokerHandParsers, IConstructor<IPokerHandConverter> pokerHandConverterMake)
         {
             if (pokerHandParsers.Count() < 1)
             {
                 throw new ArgumentException("pokerHandParsers is empty");
             }
-            
+
             _pokerHandConverterMake = pokerHandConverterMake;
             _pokerHandParsers = pokerHandParsers;
 
             _parsedHands = new Dictionary<ulong, IConvertedPokerHand>();
         }
 
-        #endregion
-
-        #region Methods
-
         public IEnumerable<IConvertedPokerHand> RetrieveAndConvert(string handHistories, string fileName)
         {
+            // Make sure we parse doubles correctly
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
+            
             IPokerHandParser parser = FindCorrectParserFor(handHistories);
+
 
             bool didNotFindParser = parser == null;
 
@@ -61,7 +55,7 @@ namespace PokerTell.Repository
             }
 
             IDictionary<ulong, string> containedHandHistories = parser.ExtractSeparateHandHistories(handHistories);
-            
+
             return CollectHandsContainedIn(containedHandHistories, parser);
         }
 
@@ -74,8 +68,8 @@ namespace PokerTell.Repository
             {
                 try
                 {
-                  IConvertedPokerHand convertedPokerHand =
-                      GetConvertedHandHistoryFromPreviouslyParsedHandsOrParser(handHistory, parser);
+                    IConvertedPokerHand convertedPokerHand =
+                        GetConvertedHandHistoryFromPreviouslyParsedHandsOrParser(handHistory, parser);
 
                     convertedPokerHands.Add(convertedPokerHand);
                 }
@@ -83,8 +77,8 @@ namespace PokerTell.Repository
                 {
                     Log.Error(excep);
                 }
-               
             }
+
             return convertedPokerHands;
         }
 
@@ -141,7 +135,5 @@ namespace PokerTell.Repository
 
             return ConvertHandAndAddToParsedHands(aquiredPokerHand);
         }
-
-        #endregion
     }
 }
