@@ -48,10 +48,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\Log4Net\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Expression.Interactivity, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Lib\Microsoft.Expression\Microsoft.Expression.Interactivity.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -151,7 +147,6 @@
     <Compile Include="ToolsModule.cs" />
     <Compile Include="Validation\CollectionValidator.cs" />
     <Compile Include="Interfaces\ICollectionValidator.cs" />
-    <Compile Include="WPF\Command\CommandAction.cs" />
     <Compile Include="WPF\CommandBehavior.cs" />
     <Compile Include="WPF\Command\IWPFCommand.cs" />
     <Compile Include="WPF\Command\SimpleCommand.cs" />

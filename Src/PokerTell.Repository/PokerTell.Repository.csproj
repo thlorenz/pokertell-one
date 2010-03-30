@@ -78,9 +78,6 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UIAutomationProvider">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -122,10 +119,6 @@
     <ProjectReference Include="..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PokerTell.PokerHand\PokerTell.PokerHand.csproj">
-      <Project>{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}</Project>
-      <Name>PokerTell.PokerHand</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

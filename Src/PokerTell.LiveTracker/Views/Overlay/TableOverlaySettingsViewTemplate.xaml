@@ -29,14 +29,11 @@
                             <Setter Property="HeaderTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="Settings" />
-                                        <Image Grid.Column="1" Source="../../Resources/SettingsIcon.png"  MaxHeight="15"/>
-                                        </Grid>
+                                        <!-- Don't like the minwidth here, but right now this is the only way to push the Icon all the way to the right -->
+                                        <DockPanel MinWidth ="140"  HorizontalAlignment="Stretch">
+                                            <TextBlock DockPanel.Dock="Left" Text="Settings" />
+                                            <Image DockPanel.Dock="Right" Source="../../Resources/SettingsIcon.png"  MaxHeight="15" MaxWidth="15" HorizontalAlignment="Right" />
+                                        </DockPanel>
                                     </DataTemplate>
                                 </Setter.Value>
                             </Setter>

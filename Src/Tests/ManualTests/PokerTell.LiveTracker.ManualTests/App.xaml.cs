@@ -4,6 +4,8 @@
     using System.Reflection;
     using System.Windows;
 
+    using Infrastructure;
+
     using log4net;
 
     using NewHandCreator;
@@ -60,6 +62,8 @@
             {
                 _bootStrapper = new Bootstrapper();
                 _bootStrapper.Run();
+
+                GlobalCommands.StartServicesCommand.Execute(null);
             }
             catch (Exception excep)
             {
