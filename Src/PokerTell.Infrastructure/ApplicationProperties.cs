@@ -10,7 +10,7 @@ namespace PokerTell.Infrastructure
     /// </summary>
     public static class ApplicationProperties
     {
-        public const string ApplicationName = "PokerTellWPF";
+        public const string ApplicationName = "PokerTell";
 
         public const string LogFileName = "logfile.txt";
 

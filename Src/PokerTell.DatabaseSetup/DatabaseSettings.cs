@@ -4,34 +4,21 @@ namespace PokerTell.DatabaseSetup
     using System.Configuration;
     using System.Linq;
 
-    using Enumerations;
-
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.DatabaseSetup;
+    using PokerTell.DatabaseSetup.Enumerations;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class DatabaseSettings : IDatabaseSettings
     {
-        #region Constants and Fields
-
         readonly IDataProviderInfos _dataProviderInfos;
 
         readonly ISettings _settings;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public DatabaseSettings(ISettings settings, IDataProviderInfos dataProviderInfos)
         {
             _settings = settings;
             _dataProviderInfos = dataProviderInfos;
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IDatabaseSettings
 
         public bool ConnectionStringExistsFor(IDataProviderInfo dataProviderInfo)
         {
@@ -118,9 +105,5 @@ namespace PokerTell.DatabaseSetup
             _settings.Set(key, serverConnectString);
             return this;
         }
-
-        #endregion
-
-        #endregion
     }
 }

@@ -4,9 +4,12 @@ namespace PokerTell.LiveTracker
     using System.Reflection;
     using System.Windows.Controls;
 
+    using Infrastructure;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
@@ -44,7 +47,10 @@ namespace PokerTell.LiveTracker
         {
             RegisterViewsAndServices();
             RegisterMenu();
-            Console.WriteLine(Resources.ResourceManager.GetString("PokerStarsLayout"));
+
+            GlobalCommands.ConfigureServicesForFirstTimeCommand.RegisterCommand(new DelegateCommand<object>(ConfigureServicesForTheFirstTime));
+            GlobalCommands.StartServicesCommand.RegisterCommand(new DelegateCommand<object>(StartServices));
+
             Log.Info("got initialized.");
         }
 
@@ -108,16 +114,37 @@ namespace PokerTell.LiveTracker
         {
             var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
 
+            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, _container.Resolve<IGamesTracker>()).Create();
+            _regionManager.Regions["Shell.MainMenuRegion"].Add(liveTrackerMenuItem);
+        }
+
+        void ConfigureServicesForTheFirstTime(object ignore)
+        {
             var liveTrackerSettings = _container
                 .Resolve<ILiveTrackerSettingsViewModel>()
                 .LoadSettings();
 
-            var gamesTracker = _container
+            liveTrackerSettings
+                .AutoDetectHandHistoryFoldersCommand.Execute(null);
+            
+            liveTrackerSettings
+                .DetectAndSavePreferredSeats();
+
+            liveTrackerSettings
+                .SaveSettingsCommand.Execute(null);
+        }
+
+        void StartServices(object ignore)
+        {
+            var liveTrackerSettings = _container
+                .Resolve<ILiveTrackerSettingsViewModel>()
+                .LoadSettings();
+
+            _container
                 .Resolve<IGamesTracker>()
                 .InitializeWith(liveTrackerSettings);
 
-            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker).Create();
-            _regionManager.Regions["Shell.MainMenuRegion"].Add(liveTrackerMenuItem);
+            Log.Info("started services.");
         }
     }
 }

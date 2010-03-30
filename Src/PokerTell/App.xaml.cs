@@ -1,17 +1,25 @@
 namespace PokerTell
 {
     using System;
+    using System.IO;
     using System.Reflection;
     using System.Windows;
 
     using DatabaseSetup.Views;
 
+    using Infrastructure;
+    using Infrastructure.Events;
+
     using log4net;
     using log4net.Core;
+
+    using Microsoft.Practices.Composite.Events;
 
     using PokerTell.PokerHand.Views;
 
     using Tools;
+
+    using User;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -54,11 +62,29 @@ namespace PokerTell
             try
             {
                 new Bootstrapper().Run();
+
+                if (!File.Exists(Files.AppDataDirectory + Files.xmlUserConfig))
+                    ConfigureForTheFirstTimeAndStartServices();
+                else
+                    GlobalCommands.StartServicesCommand.Execute(null);
             }
             catch (Exception excep)
             {
                 HandleException(excep);
             }
+        }
+
+        static void ConfigureForTheFirstTimeAndStartServices()
+        {
+            // Instead of raising an event, we talk directly to the UserService to make sure the ShowDialog blocks this thread so we wait for the user to respond
+            var msg = PokerTell.Properties.Resources.Info_ConfiguringForFirstTime;
+            UserService.HandleUserMessageEvent(new UserMessageEventArgs(UserMessageTypes.Info, msg));
+
+            GlobalCommands.ConfigureServicesForFirstTimeCommand.Execute(null);
+            GlobalCommands.StartServicesCommand.Execute(null);
+
+            msg = PokerTell.Properties.Resources.Info_CompletedConfiguration;
+            UserService.HandleUserMessageEvent(new UserMessageEventArgs(UserMessageTypes.Info, msg));
         }
     }
 }

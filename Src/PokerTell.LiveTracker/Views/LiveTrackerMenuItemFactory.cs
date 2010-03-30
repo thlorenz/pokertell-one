@@ -47,7 +47,7 @@ namespace PokerTell.LiveTracker.Views
 
         ICommand _trackHandHistoryCommand;
 
-
+        // TODO: FileDialog
         public ICommand TrackHandHistoryCommand
         {
             get

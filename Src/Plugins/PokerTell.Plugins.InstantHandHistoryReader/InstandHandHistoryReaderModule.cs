@@ -1,17 +1,16 @@
 namespace PokerTell.Plugins.InstantHandHistoryReader
 {
-    using System;
     using System.Reflection;
     using System.Threading;
-
-    using Infrastructure;
-
-    using Interfaces;
 
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Unity;
+
+    using PokerTell.Infrastructure;
+    using PokerTell.Plugins.InstantHandHistoryReader.Interfaces;
 
     [ModuleDependency(ApplicationModules.ToolsModule)]
     [ModuleDependency(ApplicationModules.UserModule)]
@@ -21,14 +20,14 @@ namespace PokerTell.Plugins.InstantHandHistoryReader
     [ModuleDependency(ApplicationModules.RepositoryModule)]
     public class InstandHandHistoryReaderModule : IModule
     {
-        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-       
         // fire every 10 minutes
-        const int fireInterval = 10000 * 60; 
+        const int fireInterval = 10000 * 60;
 
-        InstantHandHistoryReaderService _readerService;
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IUnityContainer _container;
+
+        InstantHandHistoryReaderService _readerService;
 
         public InstandHandHistoryReaderModule(IUnityContainer container)
         {
@@ -37,13 +36,25 @@ namespace PokerTell.Plugins.InstantHandHistoryReader
 
         public void Initialize()
         {
+            RegisterViewsAndServices();
+
+            GlobalCommands.StartServicesCommand.RegisterCommand(new DelegateCommand<object>(StartServices));
+
+            Log.Info("got initialized");
+        }
+
+        void RegisterViewsAndServices()
+        {
             _container
                 .RegisterType<IHandHistoryReader, HandHistoryReader>();
+        }
 
+        void StartServices(object ignore)
+        {
             _readerService = _container.Resolve<InstantHandHistoryReaderService>();
             _readerService.Timer = new Timer(_readerService.ReadInstantHandHistoriesFromMemory, null, fireInterval, fireInterval);
 
-            Log.Info("got initialized");
+            Log.Info("started services.");
         }
     }
 }

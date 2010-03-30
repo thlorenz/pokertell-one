@@ -4,13 +4,14 @@ namespace PokerTell.SessionReview.ViewModels
     using System.Windows.Controls;
     using System.Windows.Input;
 
+    using Infrastructure;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
     using Microsoft.Win32;
 
-    using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Repository;

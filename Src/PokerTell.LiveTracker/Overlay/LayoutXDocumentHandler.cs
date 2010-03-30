@@ -53,6 +53,10 @@ namespace PokerTell.LiveTracker.Overlay
         {
             string fileName = DetermineFileName();
 
+            // Needed for first installation and in case the user decides to delete the layout path
+            if (!Directory.Exists(LayoutPath))
+                Directory.CreateDirectory(LayoutPath);
+
             var fullPathToCustomLayout = LayoutPath + fileName;
 
             xmlDoc.Save(fullPathToCustomLayout);

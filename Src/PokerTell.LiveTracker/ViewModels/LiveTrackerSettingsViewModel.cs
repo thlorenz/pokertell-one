@@ -252,11 +252,14 @@ namespace PokerTell.LiveTracker.ViewModels
                 .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, msg));
         }
 
-        void PublishUserInfoAbout(IEnumerable<string> roomsWhosePreferredSeatsWereSet)
+        void PublishUserInfoAbout(IEnumerable<string> roomsWhosePreferredSeatsWereConfigured)
         {
-            var sb = new StringBuilder(Resources.Info_PreferredSeatsHaveBeenConfigured);
-            sb.AppendLine();
-            roomsWhosePreferredSeatsWereSet.ForEach(room => sb.AppendLine(room));
+            var sb =
+                new StringBuilder(Resources.Info_PreferredSeatsHaveBeenConfigured)
+                    .AppendLine()
+                    .AppendLine();
+
+            roomsWhosePreferredSeatsWereConfigured.ForEach(room => sb.AppendLine(room));
 
             _eventAggregator
                 .GetEvent<UserMessageEvent>()

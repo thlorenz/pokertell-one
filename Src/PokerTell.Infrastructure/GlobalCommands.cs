@@ -4,8 +4,8 @@ namespace PokerTell.Infrastructure
 
     public static class GlobalCommands
     {
-        #region Constants and Fields
+        public static readonly CompositeCommand StartServicesCommand = new CompositeCommand();
+        public static readonly CompositeCommand ConfigureServicesForFirstTimeCommand = new CompositeCommand();
 
-        #endregion
     }
 }

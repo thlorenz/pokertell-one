@@ -13,148 +13,6 @@ namespace Tools
     /// </summary>
     public class Static
     {
-        #region FindNewestFileInDirectory
-
-        /// <summary>
-        /// FInds the newest file with a given extension  in a given directory
-        /// </summary>
-        /// <param name="str_dir">Full directory path</param>
-        /// <param name="extension">File estension</param>
-        /// <returns>Short Filename of newest file</returns>
-        public static string FindNewestFileInDirectory(string str_dir, string extension)
-        {
-            DateTime record_time;
-
-            string filename = string.Empty;
-
-            DirectoryInfo dir = new DirectoryInfo(@str_dir);
-            FileInfo[] files = dir.GetFiles("*." + extension);
-
-            record_time = DateTime.Now.AddYears(-5); // preset record to 5 years old
-
-            foreach (FileInfo file in files)
-            {
-                if (file.CreationTime.CompareTo(record_time) > 0)
-                {
-                    record_time = file.CreationTime;
-                    filename = file.Name;
-                }
-            }
-
-            return filename;
-        }
-
-        #endregion
-
-        #region ThisPointIsOnOneOfTheConnectedScreens
-
-        public static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
-        {
-            bool foundScreenThatContainsThePoint = false;
-
-            for (int i = 0; i < Screen.AllScreens.Length; i++)
-            {
-                if (Screen.AllScreens[i].Bounds.Contains(thePoint))
-                    foundScreenThatContainsThePoint = true;
-            }
-
-            return foundScreenThatContainsThePoint;
-        }
-
-        #endregion
-
-        public static string RemoveDirectoryAndExtensionFromFile(string fileName)
-        {
-            int extensionLength = new FileInfo(fileName).Extension.Length;
-            string databaseNameWithExtension = new FileInfo(fileName).Name;
-
-            if (extensionLength > 0)
-            {
-                // Make sure "." is also gone after removal
-                return databaseNameWithExtension.Substring(0, databaseNameWithExtension.Length - extensionLength);
-            }
-            else
-            {
-                return databaseNameWithExtension;
-            }
-        }
-
-        public static string GetUserDataPath(string applicationName)
-        {
-            string dir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            dir = Path.Combine(dir, applicationName);
-            if (! Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            return dir;
-        }
-
-        public static string GetCommonDataPath(string applicationName)
-        {
-            string dir = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
-            dir = Path.Combine(dir, applicationName);
-            if (! Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            return dir;
-        }
-
-        public static void CopyDirectory(string source, string destination)
-        {
-            if (destination[destination.Length - 1] != Path.DirectorySeparatorChar)
-            {
-                destination += Path.DirectorySeparatorChar;
-            }
-
-            if (!Directory.Exists(destination))
-            {
-                Directory.CreateDirectory(destination);
-            }
-
-            string[] entries = Directory.GetFileSystemEntries(source);
-            foreach (string item in entries)
-            {
-                if (Directory.Exists(item))
-                {
-                    CopyDirectory(item, destination + Path.GetFileName(item));
-                }
-                else
-                {
-                    File.Copy(item, destination + Path.GetFileName(item), true);
-                }
-            }
-        }
-
-        public static Bitmap TakeScreenShotAndSaveJpegAs(string fullPath)
-        {
-            int screenWidth = Screen.GetBounds(new Point(0, 0)).Width;
-            int screenHeight = Screen.GetBounds(new Point(0, 0)).Height;
-
-            Bitmap bmpScreenShot = new Bitmap(screenWidth, screenHeight);
-
-            Graphics gfx = Graphics.FromImage(bmpScreenShot);
-
-            gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
-
-            if (File.Exists(fullPath))
-            {
-                File.Delete(fullPath);
-            }
-
-            bmpScreenShot.Save(fullPath, ImageFormat.Jpeg);
-
-            return bmpScreenShot;
-        }
-
-        public static void NameThread(string name)
-        {
-            Thread currentThread = Thread.CurrentThread;
-            if (string.IsNullOrEmpty(currentThread.Name))
-            {
-                currentThread.Name = name + " [" + currentThread.ManagedThreadId + "]";
-            }
-        }
-
-        #region BuildRegExToMatchRange
-
         /// <summary>
         /// Builds a Regex Pattern that only matches values for the given range
         /// </summary>
@@ -379,12 +237,142 @@ namespace Tools
             return patD1;
         }
 
-        #endregion
+        public static void CopyDirectory(string source, string destination)
+        {
+            if (destination[destination.Length - 1] != Path.DirectorySeparatorChar)
+            {
+                destination += Path.DirectorySeparatorChar;
+            }
+
+            if (!Directory.Exists(destination))
+            {
+                Directory.CreateDirectory(destination);
+            }
+
+            string[] entries = Directory.GetFileSystemEntries(source);
+            foreach (string item in entries)
+            {
+                if (Directory.Exists(item))
+                {
+                    CopyDirectory(item, destination + Path.GetFileName(item));
+                }
+                else
+                {
+                    File.Copy(item, destination + Path.GetFileName(item), true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// FInds the newest file with a given extension  in a given directory
+        /// </summary>
+        /// <param name="str_dir">Full directory path</param>
+        /// <param name="extension">File estension</param>
+        /// <returns>Short Filename of newest file</returns>
+        public static string FindNewestFileInDirectory(string str_dir, string extension)
+        {
+            DateTime record_time;
+
+            string filename = string.Empty;
+
+            DirectoryInfo dir = new DirectoryInfo(@str_dir);
+            FileInfo[] files = dir.GetFiles("*." + extension);
+
+            record_time = DateTime.Now.AddYears(-5); // preset record to 5 years old
+
+            foreach (FileInfo file in files)
+            {
+                if (file.CreationTime.CompareTo(record_time) > 0)
+                {
+                    record_time = file.CreationTime;
+                    filename = file.Name;
+                }
+            }
+
+            return filename;
+        }
+
+        public static string GetCommonDataPath(string applicationName)
+        {
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData);
+            dir = Path.Combine(dir, applicationName);
+            if (! Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
+        public static string GetLocalUserDataPath(string applicationName)
+        {
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            dir = Path.Combine(dir, applicationName);
+            if (! Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+            return dir;
+        }
+
+        public static void NameThread(string name)
+        {
+            Thread currentThread = Thread.CurrentThread;
+            if (string.IsNullOrEmpty(currentThread.Name))
+            {
+                currentThread.Name = name + " [" + currentThread.ManagedThreadId + "]";
+            }
+        }
 
         public static bool OperatingSystemIsWindowsXPOrOlder()
         {
             return Environment.OSVersion.Platform.Equals(PlatformID.Win32NT)
                    && Environment.OSVersion.Version.Major <= 5;
+        }
+
+        public static string RemoveDirectoryAndExtensionFromFile(string fileName)
+        {
+            int extensionLength = new FileInfo(fileName).Extension.Length;
+            string databaseNameWithExtension = new FileInfo(fileName).Name;
+
+            if (extensionLength > 0)
+            {
+                // Make sure "." is also gone after removal
+                return databaseNameWithExtension.Substring(0, databaseNameWithExtension.Length - extensionLength);
+            }
+            else
+            {
+                return databaseNameWithExtension;
+            }
+        }
+
+        public static Bitmap TakeScreenShotAndSaveJpegAs(string fullPath)
+        {
+            int screenWidth = Screen.GetBounds(new Point(0, 0)).Width;
+            int screenHeight = Screen.GetBounds(new Point(0, 0)).Height;
+
+            Bitmap bmpScreenShot = new Bitmap(screenWidth, screenHeight);
+
+            Graphics gfx = Graphics.FromImage(bmpScreenShot);
+
+            gfx.CopyFromScreen(0, 0, 0, 0, new Size(screenWidth, screenHeight));
+
+            if (File.Exists(fullPath))
+            {
+                File.Delete(fullPath);
+            }
+
+            bmpScreenShot.Save(fullPath, ImageFormat.Jpeg);
+
+            return bmpScreenShot;
+        }
+
+        public static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
+        {
+            bool foundScreenThatContainsThePoint = false;
+
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.Contains(thePoint))
+                    foundScreenThatContainsThePoint = true;
+            }
+
+            return foundScreenThatContainsThePoint;
         }
     }
 }

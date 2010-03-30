@@ -171,7 +171,7 @@ namespace PokerTell.Plugins.PlayerPeeker
             // Get the bounds of the screen in which the Form is currently and only 
             // Apply loaded location only if it is within those bounds
             Point loadLocation = _settings.RetrievePoint(strPrefix + StateProperties.Location);
-            if (Screen.GetBounds(Location).Contains(loadLocation))
+            if (ThisPointIsOnOneOfTheConnectedScreens(loadLocation))
             {
                 Location = loadLocation;
             }
@@ -181,6 +181,19 @@ namespace PokerTell.Plugins.PlayerPeeker
             }
 
             Size = _settings.RetrieveSize(strPrefix + StateProperties.Size, Size);
+        }
+
+        static bool ThisPointIsOnOneOfTheConnectedScreens(Point thePoint)
+        {
+            bool foundScreenThatContainsThePoint = false;
+
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                if (Screen.AllScreens[i].Bounds.Contains(thePoint))
+                    foundScreenThatContainsThePoint = true;
+            }
+
+            return foundScreenThatContainsThePoint;
         }
 
         void QueryNextPlayer(int index)

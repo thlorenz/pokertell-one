@@ -9,6 +9,7 @@ namespace PokerTell.DatabaseSetup
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
@@ -34,6 +35,15 @@ namespace PokerTell.DatabaseSetup
 
         public void Initialize()
         {
+            RegisterViewsAndServices();
+
+            GlobalCommands.ConfigureServicesForFirstTimeCommand.RegisterCommand(new DelegateCommand<object>(ConfigureServicesForFirstTime));
+
+            Log.Info("got initialized.");
+        }
+
+        void RegisterViewsAndServices()
+        {
             IDataProviderInfos dataProviderInfos = new DataProviderInfos()
                 .Support(new MySqlInfo())
                 .Support(new SqLiteInfo());
@@ -43,6 +53,8 @@ namespace PokerTell.DatabaseSetup
                 .RegisterType<IDatabaseConnector, DatabaseConnector>()
                 .RegisterInstance(dataProviderInfos)
                 .RegisterType<IDatabaseSettings, DatabaseSettings>()
+                .RegisterType<IDatabaseManager, DatabaseManager>()
+                
                 .RegisterType<ConfigureMySqlDataProviderViewModel>()
                 .RegisterType<ConfigureMySqlDataProviderView>()
 
@@ -53,8 +65,28 @@ namespace PokerTell.DatabaseSetup
             _regionManager
                 .RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, 
                                         () => _container.Resolve<DatabaseSetupMenuItemFactory>().Create());
+        }
 
-            Log.Info("got initialized.");
+        void ConfigureServicesForFirstTime(object ignore)
+        {
+            const string firstDatabase = "pokertell";
+
+            _container
+                .Resolve<IDatabaseSettings>()
+                .SetCurrentDataProviderTo(new SqLiteInfo());
+
+            var databaseManager =
+                _container
+                    .RegisterType<IDataProviderInfo, SqLiteInfo>()
+                    .RegisterType<IManagedDatabase, EmbeddedManagedDatabase>()
+                    .Resolve<IDatabaseManager>();
+
+            if (!databaseManager.DatabaseExists(firstDatabase))
+                databaseManager.CreateDatabase(firstDatabase);
+
+            databaseManager.ChooseDatabase(firstDatabase);
+
+            Log.Info("configured services for the first time.");
         }
     }
 }

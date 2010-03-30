@@ -11,7 +11,6 @@ namespace PokerTell.User
 
     public class UserService
     {
-        #region Constructors and Destructors
 
         public UserService(IEventAggregator eventAggregator)
         {
@@ -25,10 +24,6 @@ namespace PokerTell.User
                 .Subscribe(HandleUserConfirmActionEvent, keepMeAlive);
         }
 
-        #endregion
-
-        #region Methods
-
         static void HandleUserConfirmActionEvent(UserConfirmActionEventArgs userConfirmActionEventArgs)
         {
             var viewModel = new ConfirmActionViewModel(
@@ -37,13 +32,12 @@ namespace PokerTell.User
             userConfirmActionView.ShowDialog();
         }
 
-        static void HandleUserMessageEvent(UserMessageEventArgs userMessageEventArgs)
+        public static void HandleUserMessageEvent(UserMessageEventArgs userMessageEventArgs)
         {
             var viewModel = new UserMessageViewModel(userMessageEventArgs);
             var userMessageView = new UserMessageView(viewModel) { Owner = Application.Current.MainWindow };
             userMessageView.ShowDialog();
         }
 
-        #endregion
     }
 }

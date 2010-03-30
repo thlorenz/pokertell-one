@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="ApplicationModules.cs" />
     <Compile Include="ApplicationProperties.cs" />
+    <Compile Include="GlobalCommands.cs" />
     <Compile Include="CustomExceptions.cs" />
     <Compile Include="Enumerations\DatabaseSetup\ActionTable.cs" />
     <Compile Include="Enumerations\DatabaseSetup\GameTable.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Events\ProgressUpdateEvent.cs" />
     <Compile Include="Events\UserConfirmActionEvent.cs" />
     <Compile Include="Events\UserMessageEvent.cs" />
-    <Compile Include="GlobalCommands.cs" />
     <Compile Include="Enumerations\PokerHand\ActionTypes.cs" />
     <Compile Include="Enumerations\PokerHand\StrategicPositions.cs" />
     <Compile Include="Enumerations\PokerHand\Streets.cs" />

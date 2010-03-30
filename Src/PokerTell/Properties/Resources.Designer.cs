@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PokerTell.Properties
-{
-
-
+namespace PokerTell.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,73 @@ namespace PokerTell.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "2.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PokerTell.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Congratulations,
+        ///
+        ///PokerTell has successfully configured itself and is ready to be used.
+        ///
+        ///The configured settings can later be changed via the LiveTracker Settings Menu or by manipulating the settings of the Table Overlay.
+        ///
+        ///Now you can either import existing hand histories via the Database Menu or just start playing on your favorite poker room to enjoy the great tools that PokerTell provides.
+        ///.
+        /// </summary>
+        internal static string Info_CompletedConfiguration {
+            get {
+                return ResourceManager.GetString("Info_CompletedConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome,
+        ///
+        ///PokerTell will now configure itself. 
+        ///
+        ///It will attempt to detect the hand history folders for the poker rooms you have installed and were it applies it will configure the Table Overlay to take your seat preferences into account.
+        ///
+        ///Additionally PokerTell will create a database to be used to store the information about your opponents.
+        ///.
+        /// </summary>
+        internal static string Info_ConfiguringForFirstTime {
+            get {
+                return ResourceManager.GetString("Info_ConfiguringForFirstTime", resourceCulture);
             }
         }
     }
