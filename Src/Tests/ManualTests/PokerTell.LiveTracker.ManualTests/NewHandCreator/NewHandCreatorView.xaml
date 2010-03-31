@@ -22,9 +22,15 @@
         <DataTemplate DataType="{x:Type ViewModels:NewHandCreatorViewModel}">
             <StackPanel MaxWidth="300">
                 <GroupBox Header="Hand Header">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Table Name"/>
-                        <TextBox MinWidth="150" Text="{Binding TableName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Table Name"/>
+                            <TextBox MinWidth="150" Text="{Binding TableName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Total Seats"/>
+                            <TextBox MinWidth="50" Text="{Binding TotalSeats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </StackPanel>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Players">
@@ -40,6 +46,10 @@
                         <ContentControl Content="{Binding Player4}" />
                         <ContentControl Content="{Binding Player5}" />
                         <ContentControl Content="{Binding Player6}" />
+                        <ContentControl Content="{Binding Player7}" />
+                        <ContentControl Content="{Binding Player8}" />
+                        <ContentControl Content="{Binding Player9}" />
+                        <ContentControl Content="{Binding Player10}" />
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Actions">

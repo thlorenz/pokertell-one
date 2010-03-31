@@ -153,19 +153,24 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     {
         const string DesignerPath = @"C:\SD\PokerTell\Src\Design\Designer\";
 
+        const string PokerStars_2max_Background = "PokerTables/PokerStars/PokerStars.2-max.jpg";
+        const string PokerStars_4max_Background = "PokerTables/PokerStars/PokerStars.4-max.jpg";
         const string PokerStars_6max_Background = "PokerTables/PokerStars/PokerStars.6-max.jpg";
+        const string PokerStars_7max_Background = "PokerTables/PokerStars/PokerStars.7-max.jpg";
+        const string PokerStars_8max_Background = "PokerTables/PokerStars/PokerStars.8-max.jpg";
+        const string PokerStars_9max_Background = "PokerTables/PokerStars/PokerStars.9-max.jpg";
+        const string PokerStars_10max_Background = "PokerTables/PokerStars/PokerStars.10-max.jpg";
 
-        static readonly object img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_6max_Background);
+        static readonly object img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_10max_Background);
 
         public TableOverlayWindowManagerMock()
             : base(() => new TableOverlayView {
                         Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill },
                         AllowsTransparency = false,
                         WindowStyle = WindowStyle.ToolWindow,
-                        Width = 800,
-                        Height = 560
+                        SizeToContent = SizeToContent.WidthAndHeight
                     })
-        {
+        { 
         }
     }
 }

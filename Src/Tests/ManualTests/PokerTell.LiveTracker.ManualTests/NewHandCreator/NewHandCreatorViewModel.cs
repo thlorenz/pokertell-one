@@ -48,10 +48,16 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
             Player3 = new PlayerViewModel("Kushum Peng", 3, true, "As Kh");
             Player4 = new PlayerViewModel("bigbiskit", 4, true, "As Kh");
             Player5 = new PlayerViewModel("MegVSPrime", 5, true, "As Kh");
-            Player6 = new PlayerViewModel("bigbiskit", 6, true, "As Kh");
+            Player6 = new PlayerViewModel("PokerHnd", 6, true, "As Kh");
+            Player7 = new PlayerViewModel("primzahl", 7, true, "As Kh");
+            Player8 = new PlayerViewModel("Przemo High", 8, true, "As Kh");
+            Player9 = new PlayerViewModel("Tx Maniac", 9, true, "As Kh");
+            Player10 = new PlayerViewModel("PokerHnd", 10, true, "As Kh");
         }
 
         public string TableName { get; set; }
+
+        public int TotalSeats { get; set; }
 
         public PlayerViewModel Player1 { get; set; }
 
@@ -64,6 +70,14 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
         public PlayerViewModel Player5 { get; set; }
 
         public PlayerViewModel Player6 { get; set; }
+
+        public PlayerViewModel Player7 { get; set; }
+
+        public PlayerViewModel Player8 { get; set; }
+
+        public PlayerViewModel Player9 { get; set; }
+
+        public PlayerViewModel Player10 { get; set; }
 
         ICommand _sendCommand;
 
@@ -88,21 +102,21 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         void CreateHandAndTriggerEvent()
         {
-            var hand = new ConvertedPokerHand(PokerSites.PokerStars, _gameId++, DateTime.Now, 30, 15, 6)
+            var hand = new ConvertedPokerHand(PokerSites.PokerStars, _gameId++, DateTime.Now, 30, 15, TotalSeats)
                 {
-                    TotalSeats = 6,
+                    TotalSeats = TotalSeats,
                     TableName = TableName, 
                     HeroName = Player1.Name, 
                     Board = "Ah Ks Qh", 
                 };
 
             this.ForEach(p => {
-                if (p.IsPresent) {
-                    var player = new ConvertedPokerPlayer(p.Name, 10, 10 + p.SeatNumber, p.SeatNumber - 1, 6, p.HoleCards)
+                if (p.IsPresent && p.SeatNumber <= TotalSeats) {
+                    var player = new ConvertedPokerPlayer(p.Name, 10, 10 + p.SeatNumber, p.SeatNumber - 1, TotalSeats, p.HoleCards)
                         { SeatNumber = p.SeatNumber };
                     player.Add(new ConvertedPokerRound().Add(new ConvertedPokerAction(ActionTypes.C, 1.0)));
                     player.Position = p.SeatNumber - 1;
-                    player.SetStrategicPosition(6);
+                    player.SetStrategicPosition(TotalSeats);
                     hand.AddPlayer(player);
                 };
             });
@@ -134,6 +148,10 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
             yield return Player4;
             yield return Player5;
             yield return Player6;
+            yield return Player7;
+            yield return Player8;
+            yield return Player9;
+            yield return Player10;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

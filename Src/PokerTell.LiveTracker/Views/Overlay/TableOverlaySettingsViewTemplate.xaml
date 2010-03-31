@@ -29,7 +29,7 @@
                             <Setter Property="HeaderTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <!-- Don't like the minwidth here, but right now this is the only way to push the Icon all the way to the right -->
+                                        <!-- Don't like the MinWidth here, but right now this is the only way to push the Icon all the way to the right -->
                                         <DockPanel MinWidth ="140"  HorizontalAlignment="Stretch">
                                             <TextBlock DockPanel.Dock="Left" Text="Settings" />
                                             <Image DockPanel.Dock="Right" Source="../../Resources/SettingsIcon.png"  MaxHeight="15" MaxWidth="15" HorizontalAlignment="Right" />

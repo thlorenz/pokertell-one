@@ -1,87 +1,134 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Layouts>
-  <Layout TotalSeats="5">
+  <Layout TotalSeats="2">
     <ShowPreFlop>true</ShowPreFlop>
     <ShowFlop>true</ShowFlop>
-    <ShowTurn>true</ShowTurn>
-    <ShowRiver>true</ShowRiver>
+    <ShowTurn>false</ShowTurn>
+    <ShowRiver>false</ShowRiver>
     <ShowHarringtonM>true</ShowHarringtonM>
-    <StatisticsPanelWidth>120</StatisticsPanelWidth>
-    <StatisticsPanelHeight>55</StatisticsPanelHeight>
-    <Background>#FF0000FF</Background>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
     <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
     <InPositionForeground>#FFFFFF00</InPositionForeground>
     <PreferredSeat>0</PreferredSeat>
     <BoardPosition>
-      <Left>300</Left>
-      <Top>10</Top>
+      <Left>345.48387096774195</Left>
+      <Top>123.38709677419355</Top>
     </BoardPosition>
     <PlayerStatisticsPanelPositions>
       <Position>
-        <Left>600</Left>
-        <Top>20</Top>
+        <Left>652.90322580645159</Left>
+        <Top>297.74193548387086</Top>
       </Position>
       <Position>
-        <Left>650</Left>
-        <Top>120</Top>
-      </Position>
-      <Position>
-        <Left>600</Left>
-        <Top>220</Top>
-      </Position>
-      <Position>
-        <Left>300</Left>
-        <Top>220</Top>
-      </Position>
-      <Position>
-        <Left>100</Left>
-        <Top>120</Top>
+        <Left>25.483870967741893</Left>
+        <Top>297.74193548387092</Top>
       </Position>
     </PlayerStatisticsPanelPositions>
     <HarringtonMPositions>
       <Position>
-        <Left>550</Left>
-        <Top>20</Top>
+        <Left>762.258064516129</Left>
+        <Top>291.9354838709678</Top>
       </Position>
       <Position>
-        <Left>600</Left>
-        <Top>120</Top>
-      </Position>
-      <Position>
-        <Left>550</Left>
-        <Top>220</Top>
-      </Position>
-      <Position>
-        <Left>250</Left>
-        <Top>220</Top>
-      </Position>
-      <Position>
-        <Left>50</Left>
-        <Top>120</Top>
+        <Left>126.45161290322585</Left>
+        <Top>293.87096774193554</Top>
       </Position>
     </HarringtonMPositions>
     <HoleCardsPositions>
       <Position>
-        <Left>550</Left>
-        <Top>10</Top>
+        <Left>702.258064516129</Left>
+        <Top>215.16129032258064</Top>
       </Position>
       <Position>
-        <Left>600</Left>
-        <Top>110</Top>
-      </Position>
-      <Position>
-        <Left>550</Left>
-        <Top>210</Top>
-      </Position>
-      <Position>
-        <Left>250</Left>
-        <Top>210</Top>
-      </Position>
-      <Position>
-        <Left>50</Left>
-        <Top>110</Top>
+        <Left>62.580645161290334</Left>
+        <Top>215.80645161290323</Top>
       </Position>
     </HoleCardsPositions>
+    <OverlayDetailsPosition>
+      <Left>205.5216549636591</Left>
+      <Top>287.45673406895094</Top>
+    </OverlayDetailsPosition>
+    <OverlayDetailsWidth>398.67825192182522</OverlayDetailsWidth>
+    <OverlayDetailsHeight>104.0512820512821</OverlayDetailsHeight>
+  </Layout>
+  <Layout TotalSeats="4">
+    <ShowPreFlop>true</ShowPreFlop>
+    <ShowFlop>true</ShowFlop>
+    <ShowTurn>false</ShowTurn>
+    <ShowRiver>false</ShowRiver>
+    <ShowHarringtonM>true</ShowHarringtonM>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
+    <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
+    <InPositionForeground>#FFFFFF00</InPositionForeground>
+    <PreferredSeat>0</PreferredSeat>
+    <BoardPosition>
+      <Left>343.54838709677421</Left>
+      <Top>109.19354838709677</Top>
+    </BoardPosition>
+    <PlayerStatisticsPanelPositions>
+      <Position>
+        <Left>654.83870967741927</Left>
+        <Top>175.16129032258067</Top>
+      </Position>
+      <Position>
+        <Left>438.38709677419342</Left>
+        <Top>382.90322580645164</Top>
+      </Position>
+      <Position>
+        <Left>18.709677419354875</Left>
+        <Top>288.06451612903226</Top>
+      </Position>
+      <Position>
+        <Left>6.1290322580645551</Left>
+        <Top>141.61290322580643</Top>
+      </Position>
+    </PlayerStatisticsPanelPositions>
+    <HarringtonMPositions>
+      <Position>
+        <Left>765.483870967742</Left>
+        <Top>173.2258064516129</Top>
+      </Position>
+      <Position>
+        <Left>543.87096774193549</Left>
+        <Top>382.258064516129</Top>
+      </Position>
+      <Position>
+        <Left>122.90322580645162</Left>
+        <Top>288.06451612903231</Top>
+      </Position>
+      <Position>
+        <Left>109.0322580645162</Left>
+        <Top>141.61290322580646</Top>
+      </Position>
+    </HarringtonMPositions>
+    <HoleCardsPositions>
+      <Position>
+        <Left>640.96774193548379</Left>
+        <Top>104.19354838709677</Top>
+      </Position>
+      <Position>
+        <Left>598.0645161290322</Left>
+        <Top>348.06451612903226</Top>
+      </Position>
+      <Position>
+        <Left>164.83870967741936</Left>
+        <Top>347.41935483870969</Top>
+      </Position>
+      <Position>
+        <Left>121.29032258064518</Left>
+        <Top>102.25806451612903</Top>
+      </Position>
+    </HoleCardsPositions>
+    <OverlayDetailsPosition>
+      <Left>197.13455818946557</Left>
+      <Top>193.90834697217673</Top>
+    </OverlayDetailsPosition>
+    <OverlayDetailsWidth>398.67825192182522</OverlayDetailsWidth>
+    <OverlayDetailsHeight>104.0512820512821</OverlayDetailsHeight>
   </Layout>
   <Layout TotalSeats="6">
     <ShowPreFlop>true</ShowPreFlop>
@@ -89,99 +136,623 @@
     <ShowTurn>false</ShowTurn>
     <ShowRiver>false</ShowRiver>
     <ShowHarringtonM>true</ShowHarringtonM>
-    <StatisticsPanelWidth>124.24242424242425</StatisticsPanelWidth>
-    <StatisticsPanelHeight>37.712418300653496</StatisticsPanelHeight>
-    <Background>#690000FF</Background>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
     <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
     <InPositionForeground>#FFFFFF00</InPositionForeground>
     <PreferredSeat>0</PreferredSeat>
     <BoardPosition>
-      <Left>346.97563874034461</Left>
-      <Top>83.820558526440877</Top>
+      <Left>348.98391003893846</Left>
+      <Top>121.2399133651506</Top>
     </BoardPosition>
     <PlayerStatisticsPanelPositions>
       <Position>
-        <Left>732.07644649172084</Left>
-        <Top>100.58783495818452</Top>
+        <Left>663.83792532296707</Left>
+        <Top>131.97722076617495</Top>
       </Position>
       <Position>
-        <Left>725.61803705001785</Left>
-        <Top>315.94454318306623</Top>
+        <Left>665.31034474232558</Left>
+        <Top>310.91890215742524</Top>
       </Position>
       <Position>
-        <Left>503.5322195704058</Left>
-        <Top>390.93359539519855</Top>
+        <Left>468.36942887273142</Left>
+        <Top>377.91033958124507</Top>
       </Position>
       <Position>
-        <Left>197.30169872244841</Left>
-        <Top>390.71177874491093</Top>
+        <Left>221.66186568726653</Left>
+        <Top>378.25620331259137</Top>
       </Position>
       <Position>
-        <Left>-48.56099957882914</Left>
-        <Top>317.57686368103327</Top>
+        <Left>3.6308945485488522</Left>
+        <Top>313.98712009128963</Top>
       </Position>
       <Position>
-        <Left>-57.221493142239751</Left>
-        <Top>103.12668832881982</Top>
+        <Left>7.2383910595799392</Left>
+        <Top>128.25489345702493</Top>
       </Position>
     </PlayerStatisticsPanelPositions>
     <HarringtonMPositions>
       <Position>
-        <Left>836.2529832935561</Left>
-        <Top>95.920258318124382</Top>
+        <Left>770.44653168065292</Left>
+        <Top>130.11380670522115</Top>
       </Position>
       <Position>
-        <Left>829.97590313050557</Left>
-        <Top>315.98105123599015</Top>
+        <Left>768.68558054986045</Left>
+        <Top>311.4649222037321</Top>
       </Position>
       <Position>
-        <Left>609.15900695358982</Left>
-        <Top>388.73916398558168</Top>
+        <Left>573.84856395822567</Left>
+        <Top>376.56742874407905</Top>
       </Position>
       <Position>
-        <Left>305.37401248197267</Left>
-        <Top>389.13515330193684</Top>
+        <Left>323.99058970320107</Left>
+        <Top>378.83342402346341</Top>
       </Position>
       <Position>
-        <Left>54.749984755600337</Left>
-        <Top>316.78855095954634</Top>
+        <Left>108.01383918074507</Left>
+        <Top>311.69012250627918</Top>
       </Position>
       <Position>
-        <Left>50.842199901585005</Left>
-        <Top>99.782380877425112</Top>
+        <Left>107.34178633665533</Left>
+        <Top>127.06443215947638</Top>
       </Position>
     </HarringtonMPositions>
     <HoleCardsPositions>
       <Position>
-        <Left>691.56956338621364</Left>
-        <Top>70.3565913238804</Top>
+        <Left>644.33052285685062</Left>
+        <Top>102.94550778376458</Top>
       </Position>
       <Position>
-        <Left>772.272918714025</Left>
-        <Top>221.12733398848803</Top>
+        <Left>721.16291044272646</Left>
+        <Top>231.60541504721428</Top>
       </Position>
       <Position>
-        <Left>634.64691843324454</Left>
-        <Top>357.80008423417109</Top>
+        <Left>598.03153381786</Left>
+        <Top>349.03912476353418</Top>
       </Position>
       <Position>
-        <Left>129.00884458795454</Left>
-        <Top>355.44714305770043</Top>
+        <Left>164.54234334725979</Left>
+        <Top>346.25938457961934</Top>
       </Position>
       <Position>
-        <Left>-18.43745612803594</Left>
-        <Top>221.12733398848803</Top>
+        <Left>39.061303177174977</Left>
+        <Top>230.75181703232593</Top>
       </Position>
       <Position>
-        <Left>62.674434929102929</Left>
-        <Top>70.5784079741682</Top>
+        <Left>118.31049779097225</Left>
+        <Top>99.296356692116916</Top>
       </Position>
     </HoleCardsPositions>
     <OverlayDetailsPosition>
-      <Left>197.89593376134587</Left>
-      <Top>194.54590692223727</Top>
+      <Left>197.13455818946557</Left>
+      <Top>193.90834697217673</Top>
     </OverlayDetailsPosition>
-    <OverlayDetailsWidth>456.37104172683348</OverlayDetailsWidth>
-    <OverlayDetailsHeight>149.91664348879172</OverlayDetailsHeight>
+    <OverlayDetailsWidth>398.67825192182522</OverlayDetailsWidth>
+    <OverlayDetailsHeight>104.0512820512821</OverlayDetailsHeight>
+  </Layout>
+  <Layout TotalSeats="7">
+    <ShowPreFlop>true</ShowPreFlop>
+    <ShowFlop>true</ShowFlop>
+    <ShowTurn>false</ShowTurn>
+    <ShowRiver>false</ShowRiver>
+    <ShowHarringtonM>true</ShowHarringtonM>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
+    <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
+    <InPositionForeground>#FFFFFF00</InPositionForeground>
+    <PreferredSeat>0</PreferredSeat>
+    <BoardPosition>
+      <Left>342.90322580645159</Left>
+      <Top>156.93548387096774</Top>
+    </BoardPosition>
+    <PlayerStatisticsPanelPositions>
+      <Position>
+        <Left>558.06451612903231</Left>
+        <Top>-13.870967741935466</Top>
+      </Position>
+      <Position>
+        <Left>662.258064516129</Left>
+        <Top>287.41935483870969</Top>
+      </Position>
+      <Position>
+        <Left>586.45161290322585</Left>
+        <Top>399.03225806451616</Top>
+      </Position>
+      <Position>
+        <Left>435.16129032258061</Left>
+        <Top>404.83870967741939</Top>
+      </Position>
+      <Position>
+        <Left>203.22580645161287</Left>
+        <Top>396.774193548387</Top>
+      </Position>
+      <Position>
+        <Left>4.8387096774193594</Left>
+        <Top>285.16129032258067</Top>
+      </Position>
+      <Position>
+        <Left>68.3870967741936</Left>
+        <Top>-15.483870967741922</Top>
+      </Position>
+    </PlayerStatisticsPanelPositions>
+    <HarringtonMPositions>
+      <Position>
+        <Left>668.70967741935476</Left>
+        <Top>-14.516129032258046</Top>
+      </Position>
+      <Position>
+        <Left>768.38709677419354</Left>
+        <Top>287.41935483870969</Top>
+      </Position>
+      <Position>
+        <Left>692.58064516129036</Left>
+        <Top>397.09677419354841</Top>
+      </Position>
+      <Position>
+        <Left>543.87096774193549</Left>
+        <Top>404.19354838709677</Top>
+      </Position>
+      <Position>
+        <Left>308.06451612903226</Left>
+        <Top>396.77419354838707</Top>
+      </Position>
+      <Position>
+        <Left>110.9677419354839</Left>
+        <Top>283.22580645161293</Top>
+      </Position>
+      <Position>
+        <Left>174.51612903225808</Left>
+        <Top>-16.774193548387103</Top>
+      </Position>
+    </HarringtonMPositions>
+    <HoleCardsPositions>
+      <Position>
+        <Left>568.70967741935488</Left>
+        <Top>48.709677419354833</Top>
+      </Position>
+      <Position>
+        <Left>695.483870967742</Left>
+        <Top>198.38709677419354</Top>
+      </Position>
+      <Position>
+        <Left>589.35483870967744</Left>
+        <Top>350</Top>
+      </Position>
+      <Position>
+        <Left>377.41935483870964</Left>
+        <Top>362.90322580645164</Top>
+      </Position>
+      <Position>
+        <Left>160.96774193548384</Left>
+        <Top>350.9677419354839</Top>
+      </Position>
+      <Position>
+        <Left>56.129032258064512</Left>
+        <Top>198.70967741935485</Top>
+      </Position>
+      <Position>
+        <Left>180.32258064516128</Left>
+        <Top>47.0967741935484</Top>
+      </Position>
+    </HoleCardsPositions>
+    <OverlayDetailsPosition>
+      <Left>197.13455818946557</Left>
+      <Top>193.90834697217673</Top>
+    </OverlayDetailsPosition>
+    <OverlayDetailsWidth>398.67825192182522</OverlayDetailsWidth>
+    <OverlayDetailsHeight>104.0512820512821</OverlayDetailsHeight>
+  </Layout>
+  <Layout TotalSeats="8">
+    <ShowPreFlop>true</ShowPreFlop>
+    <ShowFlop>true</ShowFlop>
+    <ShowTurn>false</ShowTurn>
+    <ShowRiver>false</ShowRiver>
+    <ShowHarringtonM>true</ShowHarringtonM>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
+    <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
+    <InPositionForeground>#FFFFFF00</InPositionForeground>
+    <PreferredSeat>0</PreferredSeat>
+    <BoardPosition>
+      <Left>342.258064516129</Left>
+      <Top>141.45161290322579</Top>
+    </BoardPosition>
+    <PlayerStatisticsPanelPositions>
+      <Position>
+        <Left>539.35483870967732</Left>
+        <Top>-8.0645161290322456</Top>
+      </Position>
+      <Position>
+        <Left>661.61290322580646</Left>
+        <Top>202.90322580645159</Top>
+      </Position>
+      <Position>
+        <Left>658.70967741935488</Left>
+        <Top>382.90322580645164</Top>
+      </Position>
+      <Position>
+        <Left>513.87096774193549</Left>
+        <Top>417.09677419354841</Top>
+      </Position>
+      <Position>
+        <Left>294.19354838709677</Left>
+        <Top>430.32258064516134</Top>
+      </Position>
+      <Position>
+        <Left>78.387096774193509</Left>
+        <Top>370.9677419354839</Top>
+      </Position>
+      <Position>
+        <Left>3.8709677419355017</Left>
+        <Top>222.58064516129031</Top>
+      </Position>
+      <Position>
+        <Left>113.22580645161293</Left>
+        <Top>-10.322580645161281</Top>
+      </Position>
+    </PlayerStatisticsPanelPositions>
+    <HarringtonMPositions>
+      <Position>
+        <Left>649.35483870967732</Left>
+        <Top>-9.3548387096774146</Top>
+      </Position>
+      <Position>
+        <Left>766.451612903226</Left>
+        <Top>199.67741935483872</Top>
+      </Position>
+      <Position>
+        <Left>768.70967741935488</Left>
+        <Top>381.61290322580646</Top>
+      </Position>
+      <Position>
+        <Left>621.9354838709678</Left>
+        <Top>416.45161290322585</Top>
+      </Position>
+      <Position>
+        <Left>403.54838709677421</Left>
+        <Top>429.03225806451621</Top>
+      </Position>
+      <Position>
+        <Left>181.29032258064518</Left>
+        <Top>372.90322580645164</Top>
+      </Position>
+      <Position>
+        <Left>112.58064516129035</Left>
+        <Top>221.93548387096774</Top>
+      </Position>
+      <Position>
+        <Left>216.12903225806451</Left>
+        <Top>-12.903225806451616</Top>
+      </Position>
+    </HarringtonMPositions>
+    <HoleCardsPositions>
+      <Position>
+        <Left>505.48387096774195</Left>
+        <Top>57.096774193548384</Top>
+      </Position>
+      <Position>
+        <Left>665.80645161290329</Left>
+        <Top>145.48387096774192</Top>
+      </Position>
+      <Position>
+        <Left>654.516129032258</Left>
+        <Top>294.51612903225811</Top>
+      </Position>
+      <Position>
+        <Left>476.77419354838713</Left>
+        <Top>365.48387096774195</Top>
+      </Position>
+      <Position>
+        <Left>290.64516129032256</Left>
+        <Top>365.16129032258067</Top>
+      </Position>
+      <Position>
+        <Left>123.2258064516129</Left>
+        <Top>294.83870967741944</Top>
+      </Position>
+      <Position>
+        <Left>75.161290322580612</Left>
+        <Top>145.80645161290323</Top>
+      </Position>
+      <Position>
+        <Left>221.29032258064524</Left>
+        <Top>60</Top>
+      </Position>
+    </HoleCardsPositions>
+    <OverlayDetailsPosition>
+      <Left>197.13455818946557</Left>
+      <Top>193.90834697217673</Top>
+    </OverlayDetailsPosition>
+    <OverlayDetailsWidth>398.67825192182522</OverlayDetailsWidth>
+    <OverlayDetailsHeight>104.0512820512821</OverlayDetailsHeight>
+  </Layout>
+  <Layout TotalSeats="9">
+    <ShowPreFlop>true</ShowPreFlop>
+    <ShowFlop>true</ShowFlop>
+    <ShowTurn>false</ShowTurn>
+    <ShowRiver>false</ShowRiver>
+    <ShowHarringtonM>true</ShowHarringtonM>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
+    <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
+    <InPositionForeground>#FFFFFF00</InPositionForeground>
+    <PreferredSeat>0</PreferredSeat>
+    <BoardPosition>
+      <Left>350.74468085106378</Left>
+      <Top>103.51063829787236</Top>
+    </BoardPosition>
+    <PlayerStatisticsPanelPositions>
+      <Position>
+        <Left>527.97872340425556</Left>
+        <Top>-9.5744680851063748</Top>
+      </Position>
+      <Position>
+        <Left>669.58819492107068</Left>
+        <Top>140.89567604667127</Top>
+      </Position>
+      <Position>
+        <Left>665.62758038118386</Left>
+        <Top>310.47519490347213</Top>
+      </Position>
+      <Position>
+        <Left>600.16815374056284</Left>
+        <Top>392.15511324639681</Top>
+      </Position>
+      <Position>
+        <Left>437.94169614416694</Left>
+        <Top>401.45161290322574</Top>
+      </Position>
+      <Position>
+        <Left>198.40425531914895</Left>
+        <Top>378.51063829787239</Top>
+      </Position>
+      <Position>
+        <Left>3.6170212765957075</Left>
+        <Top>314.468085106383</Top>
+      </Position>
+      <Position>
+        <Left>1.822959013075689</Left>
+        <Top>126.11729405346426</Top>
+      </Position>
+      <Position>
+        <Left>127.34042553191493</Left>
+        <Top>-9.3617021276595835</Top>
+      </Position>
+    </PlayerStatisticsPanelPositions>
+    <HarringtonMPositions>
+      <Position>
+        <Left>632.13631804023021</Left>
+        <Top>-12.426394241768309</Top>
+      </Position>
+      <Position>
+        <Left>768.773735987188</Left>
+        <Top>137.54747197437655</Top>
+      </Position>
+      <Position>
+        <Left>764.94738046213706</Left>
+        <Top>308.5836017105749</Top>
+      </Position>
+      <Position>
+        <Left>702.38846945779</Left>
+        <Top>390.55936856554553</Top>
+      </Position>
+      <Position>
+        <Left>541.05774398466622</Left>
+        <Top>398.74277096556455</Top>
+      </Position>
+      <Position>
+        <Left>295.15671471059255</Left>
+        <Top>377.66758178906434</Top>
+      </Position>
+      <Position>
+        <Left>103.40425531914893</Left>
+        <Top>313.61702127659566</Top>
+      </Position>
+      <Position>
+        <Left>95.995969941748839</Left>
+        <Top>126.01091107474082</Top>
+      </Position>
+      <Position>
+        <Left>232.73850377487989</Left>
+        <Top>-12.793411118737158</Top>
+      </Position>
+    </HarringtonMPositions>
+    <HoleCardsPositions>
+      <Position>
+        <Left>501.81537405628018</Left>
+        <Top>38.085106382978708</Top>
+      </Position>
+      <Position>
+        <Left>644.76664378860687</Left>
+        <Top>102.12765957446807</Top>
+      </Position>
+      <Position>
+        <Left>722.97872340425533</Left>
+        <Top>228.72340425531917</Top>
+      </Position>
+      <Position>
+        <Left>599.68085106382978</Left>
+        <Top>347.87234042553195</Top>
+      </Position>
+      <Position>
+        <Left>376.06382978723411</Left>
+        <Top>374.78723404255322</Top>
+      </Position>
+      <Position>
+        <Left>161.91489361702131</Left>
+        <Top>344.25531914893628</Top>
+      </Position>
+      <Position>
+        <Left>35.885380919697965</Left>
+        <Top>229.57446808510639</Top>
+      </Position>
+      <Position>
+        <Left>118.11942347288948</Left>
+        <Top>99.255319148936181</Top>
+      </Position>
+      <Position>
+        <Left>262.12765957446817</Left>
+        <Top>36.808510638297847</Top>
+      </Position>
+    </HoleCardsPositions>
+    <OverlayDetailsPosition>
+      <Left>197.13455818946557</Left>
+      <Top>193.90834697217673</Top>
+    </OverlayDetailsPosition>
+    <OverlayDetailsWidth>398.67825192182522</OverlayDetailsWidth>
+    <OverlayDetailsHeight>104.0512820512821</OverlayDetailsHeight>
+  </Layout>
+  <Layout TotalSeats="10">
+    <ShowPreFlop>true</ShowPreFlop>
+    <ShowFlop>true</ShowFlop>
+    <ShowTurn>false</ShowTurn>
+    <ShowRiver>false</ShowRiver>
+    <ShowHarringtonM>true</ShowHarringtonM>
+    <StatisticsPanelWidth>121.2365591397849</StatisticsPanelWidth>
+    <StatisticsPanelHeight>33.97849462365582</StatisticsPanelHeight>
+    <Background>#170000FF</Background>
+    <OutOfPositionForeground>#FFFFFFFF</OutOfPositionForeground>
+    <InPositionForeground>#FFFFFF00</InPositionForeground>
+    <PreferredSeat>0</PreferredSeat>
+    <BoardPosition>
+      <Left>341.61290322580646</Left>
+      <Top>106.61290322580645</Top>
+    </BoardPosition>
+    <PlayerStatisticsPanelPositions>
+      <Position>
+        <Left>523.87096774193537</Left>
+        <Top>-10.645161290322577</Top>
+      </Position>
+      <Position>
+        <Left>669.35483870967744</Left>
+        <Top>132.58064516129033</Top>
+      </Position>
+      <Position>
+        <Left>672.258064516129</Left>
+        <Top>290</Top>
+      </Position>
+      <Position>
+        <Left>671.93548387096769</Left>
+        <Top>394.51612903225805</Top>
+      </Position>
+      <Position>
+        <Left>536.77419354838707</Left>
+        <Top>407.74193548387103</Top>
+      </Position>
+      <Position>
+        <Left>324.83870967741939</Left>
+        <Top>377.41935483870969</Top>
+      </Position>
+      <Position>
+        <Left>4.5161290322580925</Left>
+        <Top>323.87096774193554</Top>
+      </Position>
+      <Position>
+        <Left>-2.9032258064516157</Left>
+        <Top>137.41935483870969</Top>
+      </Position>
+      <Position>
+        <Left>4.51612903225805</Left>
+        <Top>45.483870967741908</Top>
+      </Position>
+      <Position>
+        <Left>132.58064516129033</Left>
+        <Top>-7.4193548387096619</Top>
+      </Position>
+    </PlayerStatisticsPanelPositions>
+    <HarringtonMPositions>
+      <Position>
+        <Left>631.9354838709678</Left>
+        <Top>-11.290322580645153</Top>
+      </Position>
+      <Position>
+        <Left>770.96774193548379</Left>
+        <Top>129.35483870967741</Top>
+      </Position>
+      <Position>
+        <Left>774.516129032258</Left>
+        <Top>288.70967741935488</Top>
+      </Position>
+      <Position>
+        <Left>766.45161290322562</Left>
+        <Top>390</Top>
+      </Position>
+      <Position>
+        <Left>635.80645161290317</Left>
+        <Top>407.74193548387103</Top>
+      </Position>
+      <Position>
+        <Left>424.516129032258</Left>
+        <Top>376.12903225806451</Top>
+      </Position>
+      <Position>
+        <Left>103.54838709677422</Left>
+        <Top>322.58064516129036</Top>
+      </Position>
+      <Position>
+        <Left>100.64516129032259</Left>
+        <Top>135.48387096774195</Top>
+      </Position>
+      <Position>
+        <Left>106.7741935483871</Left>
+        <Top>45.483870967741936</Top>
+      </Position>
+      <Position>
+        <Left>236.77419354838708</Left>
+        <Top>-10.645161290322555</Top>
+      </Position>
+    </HarringtonMPositions>
+    <HoleCardsPositions>
+      <Position>
+        <Left>503.54838709677421</Left>
+        <Top>39.032258064516142</Top>
+      </Position>
+      <Position>
+        <Left>641.93548387096769</Left>
+        <Top>98.387096774193552</Top>
+      </Position>
+      <Position>
+        <Left>724.19354838709683</Left>
+        <Top>205.48387096774195</Top>
+      </Position>
+      <Position>
+        <Left>626.45161290322585</Left>
+        <Top>318.38709677419359</Top>
+      </Position>
+      <Position>
+        <Left>468.0645161290322</Left>
+        <Top>365.16129032258067</Top>
+      </Position>
+      <Position>
+        <Left>289.67741935483872</Left>
+        <Top>366.45161290322585</Top>
+      </Position>
+      <Position>
+        <Left>128.70967741935488</Left>
+        <Top>320</Top>
+      </Position>
+      <Position>
+        <Left>33.54838709677415</Left>
+        <Top>205.80645161290323</Top>
+      </Position>
+      <Position>
+        <Left>111.93548387096774</Left>
+        <Top>97.096774193548384</Top>
+      </Position>
+      <Position>
+        <Left>255.48387096774195</Left>
+        <Top>37.741935483870975</Top>
+      </Position>
+    </HoleCardsPositions>
+    <OverlayDetailsPosition>
+      <Left>223.87096774193554</Left>
+      <Top>195</Top>
+    </OverlayDetailsPosition>
+    <OverlayDetailsWidth>390.321875</OverlayDetailsWidth>
+    <OverlayDetailsHeight>109.35483870967744</OverlayDetailsHeight>
   </Layout>
 </Layouts>

@@ -34,7 +34,7 @@
 
             // RunTableOverlaySettings();
             // RunColorPickerExpanderView();
-             RunOverlayToTableAttacher();
+            // RunOverlayToTableAttacher();
             
            // RunHandHistoryFilesWatcher();
            // RunLiveTrackerSettingsWindow();
