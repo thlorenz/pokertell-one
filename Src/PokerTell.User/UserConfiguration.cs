@@ -7,17 +7,11 @@ namespace PokerTell.User
 
     public class UserConfiguration : IUserConfiguration
     {
-        #region Constants and Fields
-
         readonly Configuration _config;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public UserConfiguration()
         {
-            string configFile = Files.AppDataDirectory + Files.xmlUserConfig;
+            string configFile = Files.LocalUserAppDataPath + @"\" + Files.UserConfigFile;
 
             // Map the new configuration file.
             var configFileMap =
@@ -27,10 +21,6 @@ namespace PokerTell.User
             _config = ConfigurationManager.OpenMappedExeConfiguration(
                 configFileMap, ConfigurationUserLevel.None);
         }
-
-        #endregion
-
-        #region Properties
 
         public KeyValueConfigurationCollection AppSettings
         {
@@ -42,19 +32,9 @@ namespace PokerTell.User
             get { return _config.ConnectionStrings.ConnectionStrings; }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IUserConfiguration
-
         public void Save(ConfigurationSaveMode saveMode)
         {
             _config.Save(saveMode);
         }
-
-        #endregion
-
-        #endregion
     }
 }

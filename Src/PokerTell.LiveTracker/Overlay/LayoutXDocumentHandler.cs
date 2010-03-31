@@ -16,7 +16,7 @@ namespace PokerTell.LiveTracker.Overlay
 
     public class LayoutXDocumentHandler : ILayoutXDocumentHandler
     {
-        static readonly string LayoutPath = Files.AppDataDirectory + @"\layouts\";
+        static readonly string LayoutPath = Files.LocalUserAppDataPath + @"\layouts\";
 
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

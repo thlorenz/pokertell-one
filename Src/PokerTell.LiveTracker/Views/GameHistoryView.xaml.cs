@@ -14,6 +14,10 @@
         public GameHistoryView()
         {
             InitializeComponent();
+
+            Closing += (s, e) => {
+                if (ViewModel != null) ViewModel.SaveDimensions();
+            };
         }
 
         protected void WindowBorder_MouseDown(object sender, MouseButtonEventArgs e)
@@ -38,6 +42,11 @@
            int change = 0 - (e.Delta / rollSize);
 
            gameHistoryViewModel.CurrentHandIndex += change;
+        }
+
+        IGameHistoryViewModel ViewModel
+        {
+            get { return (IGameHistoryViewModel)DataContext; }
         }
     }
 }

@@ -22,7 +22,7 @@ using System.Windows;
 [assembly: ComVisible(false)]
 
 // Configure log4net using the log4net xml file
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "PokerTell.LiveTracker.ManualTests.log.xml", Watch = true)]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "PokerTell.LiveTracker.ManualTests.log.xml", Watch = false)]
 
 //In order to begin building localizable applications, set 
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
@@ -31,7 +31,7 @@ using System.Windows;
 //the NeutralResourceLanguage attribute below.  Update the "en-US" in
 //the line below to match the UICulture setting in the project file.
 
-//[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
+// [assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
 [assembly: ThemeInfo(

@@ -65,9 +65,13 @@ namespace PokerTell
 
             try
             {
+                new Logger(ApplicationProperties.ApplicationName)
+                   .InitializeConsoleAppender(Level.Debug)
+                   .InitializeRollingFileAppender(Files.LocalUserAppDataPath + @"\" + Files.LogFile, 5, Level.Debug);
+
                 new Bootstrapper().Run();
 
-                if (!File.Exists(Files.AppDataDirectory + Files.xmlUserConfig))
+                if (!File.Exists(Files.LocalUserAppDataPath + @"\" + Files.UserConfigFile))
                     ConfigureForTheFirstTimeAndStartServices();
                 else
                     GlobalCommands.StartServicesCommand.Execute(null);

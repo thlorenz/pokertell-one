@@ -9,7 +9,10 @@
     ShowInTaskbar="False"   
     MouseDown="WindowBorder_MouseDown"
     PreviewMouseWheel="Window_PreviewMouseWheel"    
-    Width="300" Height="200" >
+    Left="{Binding Dimensions.Left, Mode=TwoWay}"
+    Top="{Binding Dimensions.Top, Mode=TwoWay}"
+    Width="{Binding Dimensions.Width, Mode=TwoWay}"
+    Height="{Binding Dimensions.Height, Mode=TwoWay}" >
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

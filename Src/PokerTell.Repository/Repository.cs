@@ -123,7 +123,7 @@ namespace PokerTell.Repository
         static string ReadHandHistoriesFrom(string fileName, int remainingTries)
         {
             // Need to insure against reading our own logfile b/c it is locked and written to continously which leads to a crash
-            if (fileName.EndsWith(@"\" + ApplicationProperties.LogFileName))
+            if (fileName.EndsWith(@"\" + Files.LogFile))
             {
                 return string.Empty;
             }

@@ -15,7 +15,9 @@
         {
             InitializeComponent();
 
-            Closing += (s, e) => ((IPokerTableStatisticsViewModel)DataContext).SaveDimensions();
+            Closing += (s, e) => {
+                if (ViewModel != null) ViewModel.SaveDimensions();
+            };
         }
 
         protected void WindowBorder_MouseDown(object sender, MouseButtonEventArgs e)
@@ -44,5 +46,9 @@
             e.Handled = true;
         }
         
+        IPokerTableStatisticsViewModel ViewModel
+        {
+            get { return (IPokerTableStatisticsViewModel)DataContext; }
+        }
     }
 }

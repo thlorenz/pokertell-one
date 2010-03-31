@@ -1,5 +1,9 @@
 namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 {
+    using System.Drawing;
+
+    using Infrastructure.Interfaces;
+
     using Machine.Specifications;
 
     using Moq;
@@ -10,6 +14,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
     using Tools.Interfaces;
     using Tools.Validation;
+    using Tools.WPF.Interfaces;
 
     using It = Machine.Specifications.It;
 
@@ -22,11 +27,64 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
         protected static Mock<IConvertedPokerHand> _hand_Stub;
 
+        protected static Mock<ISettings> _settings_Mock;
+
+        protected static Mock<IDimensionsViewModel> _dimensionsVM_Mock;
+        
         Establish specContext = () => {
             _handHistoryVM_Mock = new Mock<IHandHistoryViewModel>();
             _hand_Stub = new Mock<IConvertedPokerHand>();
-            _sut = new GameHistoryViewModel(_handHistoryVM_Mock.Object, new CollectionValidator());
+            _settings_Mock = new Mock<ISettings>();
+
+            _dimensionsVM_Mock = new Mock<IDimensionsViewModel>();
+            _dimensionsVM_Mock
+                .Setup(d => d.InitializeWith(Moq.It.IsAny<Rectangle>()))
+                .Returns(_dimensionsVM_Mock.Object);
+            
+            _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, new CollectionValidator());
         };
+
+        [Subject(typeof(GameHistoryViewModel), "Instantiation")]
+        public class when_it_is_instantiated : GameHistoryViewModelSpecs
+        {
+            static Rectangle returnedRectangle;
+
+            Establish context = () => {
+                returnedRectangle = new Rectangle(1, 1, 2, 2);
+                _settings_Mock
+                    .Setup(s => s.RetrieveRectangle(GameHistoryViewModel.DimensionsKey, Moq.It.IsAny<Rectangle>()))
+                    .Returns(returnedRectangle);
+            };
+
+            Because of = () => _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, new CollectionValidator());
+
+            It should_ask_the_settings_for_its_dimensions_with_a_default_value
+                = () => _settings_Mock.Verify(s => s.RetrieveRectangle(GameHistoryViewModel.DimensionsKey, Moq.It.IsAny<Rectangle>()));
+
+            It should_initialize_the_dimensions_with_the_rectangle_returned_by_the_settings
+                = () => _dimensionsVM_Mock.Verify(d => d.InitializeWith(returnedRectangle));
+
+            It should_assign_its_dimensions_to_the_initialized_dimensions = () => _sut.Dimensions.ShouldEqual(_dimensionsVM_Mock.Object);
+        }
+
+        [Subject(typeof(GameHistoryViewModel), "Save Dimensions")]
+        public class when_told_to_save_its_dimensions : GameHistoryViewModelSpecs
+        {
+            static Rectangle returnedRectangle;
+
+            Establish context = () => {
+                returnedRectangle = new Rectangle(1, 1, 2, 2);
+                _dimensionsVM_Mock
+                    .SetupGet(d => d.Rectangle)
+                    .Returns(returnedRectangle);
+                _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, new CollectionValidator());
+            };
+
+            Because of = () => _sut.SaveDimensions();
+
+            It should_tell_the_settings_to_set_the_rectangle_for_its_key_to_the_one_returned_by_its_dimensions
+                = () => _settings_Mock.Verify(s => s.Set(GameHistoryViewModel.DimensionsKey, returnedRectangle));
+        }
 
         [Subject(typeof(GameHistoryViewModel), "AddNewHand")]
         public class when_the_history_was_empty : GameHistoryViewModelSpecs

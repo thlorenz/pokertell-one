@@ -17,7 +17,7 @@ namespace PokerTell.LiveTracker.Persistence
 
         const string fileName = "LiveTrackerSettings.xml";
 
-        readonly string _fullPath = Files.AppDataDirectory + string.Format("\\{0}", fileName);            
+        readonly string _fullPath = Files.LocalUserAppDataPath + string.Format("\\{0}", fileName);            
 
         public void Save(XDocument xmlDoc)
         {

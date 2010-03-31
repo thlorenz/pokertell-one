@@ -12,8 +12,6 @@ namespace PokerTell.Infrastructure
     {
         public const string ApplicationName = "PokerTell";
 
-        public const string LogFileName = "logfile.txt";
-
         public const double VersionNumber = 0.9;
 
         public const string Version = "0.9.0.0";

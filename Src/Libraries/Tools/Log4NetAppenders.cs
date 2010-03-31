@@ -1,8 +1,3 @@
-/*
- * User: Thorsten Lorenz
- * Date: 7/6/2009
- * 
-*/
 namespace Tools
 {
     using log4net.Appender;
@@ -12,7 +7,6 @@ namespace Tools
 
     public static class Log4NetAppenders
     {
-        #region Public Methods
 
         public static IAppender InitializeConsoleAppender()
         {
@@ -47,6 +41,5 @@ namespace Tools
             return appender;
         }
 
-        #endregion
     }
 }

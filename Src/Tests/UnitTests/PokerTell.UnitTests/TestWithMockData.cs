@@ -15,7 +15,7 @@ namespace PokerTell.UnitTests
 
         public const string SQLiteNewMockDatabase = "newmock";
 
-        public string MockFolder = Files.dirStartUp;
+        public string MockFolder = Files.StartupFolder;
 
         #endregion
 

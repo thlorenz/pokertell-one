@@ -15,18 +15,22 @@ namespace PokerTell.UnitTests
     [TestFixture]
     public class TestWithLog
     {
-        #region Constants and Fields
-
         ConsoleAppender _appender;
-
-        #endregion
-
-        #region Public Methods
 
         [TestFixtureTearDown]
         public void CleanupLog()
         {
             DisableLogger();
+        }
+
+        public void DisableLogger()
+        {
+            SetThreshold(Level.Off);
+        }
+
+        public void EnableLogger()
+        {
+            SetThreshold(Level.All);
         }
 
         [TestFixtureSetUp]
@@ -37,29 +41,13 @@ namespace PokerTell.UnitTests
             EnableLogger();
         }
 
-        void InitAppender()
+        public void NotLogged(Action unloggedCodeBlock)
         {
-            _appender = new ConsoleAppender
-                {
-                    Layout = new PatternLayout(
-                        "%newline%date [%thread] %level %logger - %message%newline")
+            DisableLogger();
 
-                };
-            BasicConfigurator.Configure(_appender);
-        }
+            unloggedCodeBlock.Invoke();
 
-        #endregion
-
-        #region Methods
-
-        public void DisableLogger()
-        {
-            SetThreshold(Level.Off);
-        }
-
-        public void EnableLogger()
-        {
-            SetThreshold(Level.All);
+            EnableLogger();
         }
 
         public void SetThreshold(Level level)
@@ -72,15 +60,14 @@ namespace PokerTell.UnitTests
             _appender.Threshold = level;
         }
 
-        public void NotLogged(Action unloggedCodeBlock)
+        void InitAppender()
         {
-            DisableLogger();
-
-            unloggedCodeBlock.Invoke();
-
-            EnableLogger();
+            _appender = new ConsoleAppender
+                {
+                    Layout = new PatternLayout(
+                        "%newline%date [%thread] %level %logger - %message%newline")
+                };
+            BasicConfigurator.Configure(_appender);
         }
-
-        #endregion
     }
 }

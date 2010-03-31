@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logger.cs" />
     <Compile Include="ExecuteProcess.cs" />
     <Compile Include="Extensions\ArrayComparer.cs" />
     <Compile Include="Extensions\GenericRangeFilterExtension.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="FunctionalCSharp\Option.cs" />
     <Compile Include="FunctionalCSharp\MemoizationExtensions.cs" />
     <Compile Include="FunctionalCSharp\Table.cs" />
+    <Compile Include="Interfaces\IApplicationLogger.cs" />
     <Compile Include="Interfaces\IFileSystemWatcher.cs">
       <SubType>Component</SubType>
     </Compile>
