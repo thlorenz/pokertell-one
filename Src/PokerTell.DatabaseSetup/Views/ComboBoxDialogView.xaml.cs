@@ -17,7 +17,7 @@ namespace PokerTell.DatabaseSetup.Views
         {
             InitializeComponent();
 
-            if (Static.OperatingSystemIsWindowsXPOrOlder())
+            if (Utils.OperatingSystemIsWindowsXPOrOlder())
             {
                 Background = ApplicationProperties.BorderedWindowBackgoundBrush;
                 AllowsTransparency = false;

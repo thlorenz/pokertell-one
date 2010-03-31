@@ -37,7 +37,7 @@ namespace PokerTell.Infrastructure
 
         public static readonly string AppDataDirectory = Application.StartupPath.Contains(@"TestDriven.NET")
                                                              ? dirAbsolutForUnitTestingOnly
-                                                             : Static.GetLocalUserDataPath(ApplicationProperties.ApplicationName);
+                                                             : Utils.GetLocalUserDataPath(ApplicationProperties.ApplicationName);
 
         public static readonly string dirDocuments = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) +
                                                      @"\PokerTell";

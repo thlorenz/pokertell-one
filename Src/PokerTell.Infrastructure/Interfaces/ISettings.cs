@@ -39,5 +39,9 @@ namespace PokerTell.Infrastructure.Interfaces
         /// </summary>
         /// <returns>String representation of all (key,value) pairs</returns>
         string ShowAll();
+
+        Rectangle RetrieveRectangle(string key);
+
+        Rectangle RetrieveRectangle(string key, Rectangle defaultValue);
     }
 }

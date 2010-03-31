@@ -1,4 +1,4 @@
-﻿namespace PokerTell
+namespace PokerTell
 {
     using System.Windows;
     using System.Windows.Input;
@@ -20,7 +20,7 @@
         {
             InitializeComponent();
 
-            if (Static.OperatingSystemIsWindowsXPOrOlder())
+            if (Utils.OperatingSystemIsWindowsXPOrOlder())
             {
                 Background = ApplicationProperties.BorderedWindowBackgoundBrush;
                 AllowsTransparency = false;

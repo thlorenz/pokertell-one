@@ -9,5 +9,7 @@ namespace Tools.WPF.Interfaces
         double Left { get; set; }
 
         double Top { get; set; }
+
+        IPositionViewModel InitializeWith(double left, double top);
     }
 }

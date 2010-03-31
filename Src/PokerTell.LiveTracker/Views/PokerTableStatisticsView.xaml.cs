@@ -14,6 +14,8 @@
         public PokerTableStatisticsView()
         {
             InitializeComponent();
+
+            Closing += (s, e) => ((IPokerTableStatisticsViewModel)DataContext).SaveDimensions();
         }
 
         protected void WindowBorder_MouseDown(object sender, MouseButtonEventArgs e)
@@ -41,5 +43,6 @@
 
             e.Handled = true;
         }
+        
     }
 }

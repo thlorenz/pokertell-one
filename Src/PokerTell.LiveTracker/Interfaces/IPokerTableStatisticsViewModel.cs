@@ -6,6 +6,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
     using Infrastructure.Interfaces.Statistics;
 
+    using Tools.WPF.Interfaces;
+
     public interface IPokerTableStatisticsViewModel
     {
         IDetailedStatisticsAnalyzerViewModel DetailedStatisticsAnalyzer { get; }
@@ -18,6 +20,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         string TableName { get; set; }
 
+        IDimensionsViewModel Dimensions { get; }
+
         void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics);
 
         IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName);
@@ -27,5 +31,7 @@ namespace PokerTell.LiveTracker.Interfaces
         event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet;
 
         event Action<IPlayerStatisticsViewModel> UserBrowsedAllHands;
+
+        IPokerTableStatisticsViewModel SaveDimensions();
     }
 }

@@ -11,7 +11,7 @@ namespace Tools
     /// <summary>
     /// Contains various static methods
     /// </summary>
-    public class Static
+    public class Utils
     {
         /// <summary>
         /// Builds a Regex Pattern that only matches values for the given range

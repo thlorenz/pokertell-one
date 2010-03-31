@@ -1,17 +1,12 @@
 namespace Tools
 {
-    using System;
-
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Unity;
 
-    using Validation;
-
-    using WPF;
-    using WPF.Interfaces;
-    using WPF.ViewModels;
+    using Tools.Interfaces;
+    using Tools.Validation;
+    using Tools.WPF.Interfaces;
+    using Tools.WPF.ViewModels;
 
     public class ToolsModule : IModule
     {
@@ -23,17 +18,17 @@ namespace Tools
         }
 
         /// <summary>
-        /// Only here to allow PokerTell to register its dependencies on tools here.
+        /// Only here to allow consuming Prism applications to register its dependencies on tools.
         /// </summary>
         public void Initialize()
         {
             _container
-
                 .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
                 .RegisterType<ICollectionValidator, CollectionValidator>()
 
                 // Tools.WPF
-                .RegisterType<IPositionViewModel, PositionViewModel>();
+                .RegisterType<IDimensionsViewModel, DimensionsViewModel>(new InjectionConstructor())
+                .RegisterType<IPositionViewModel, PositionViewModel>(new InjectionConstructor());
         }
     }
 }

@@ -5,6 +5,7 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
 
     using DesignWindows;
 
+    using Infrastructure.Interfaces;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
     using Infrastructure.Interfaces.Statistics;
@@ -33,6 +34,8 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
     using Statistics.ViewModels;
     using Statistics.ViewModels.Analyzation;
     using Statistics.ViewModels.StatisticsSetDetails;
+
+    using Tools.WPF.Interfaces;
 
     using ViewModels;
 
@@ -80,8 +83,12 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                                                         detailedPostFlopHeroReactsStatisticsViewModelMake, 
                                                         new Mock<IRepositoryHandBrowserViewModel>().Object);
 
+            // TODO: Before this test will work again, we will have to specify the settings and dimensions mocks otherwise it will either
+            //       fail or have size 0, 0
             var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
                 eventAggregator,
+                new Mock<ISettings>().Object,
+                new Mock<IDimensionsViewModel>().Object,
                 new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
                 detailedStatisticsAnalyzerViewModel);
             var designWindow = new TableStatisticsDesignWindow(eventAggregator, 

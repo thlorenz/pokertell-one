@@ -161,7 +161,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
         const string PokerStars_9max_Background = "PokerTables/PokerStars/PokerStars.9-max.jpg";
         const string PokerStars_10max_Background = "PokerTables/PokerStars/PokerStars.10-max.jpg";
 
-        static readonly object img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_10max_Background);
+        static readonly object img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_9max_Background);
 
         public TableOverlayWindowManagerMock()
             : base(() => new TableOverlayView {

@@ -1,6 +1,7 @@
 //Date: 4/22/2009
 namespace PokerTell.User.Tests
 {
+    using System;
     using System.Drawing;
 
     using Infrastructure.Interfaces;
@@ -9,6 +10,7 @@ namespace PokerTell.User.Tests
 
     using UnitTests;
     using UnitTests.Fakes;
+    using UnitTests.Tools;
 
     /// <summary>
     /// Description of Settings_Test.
@@ -17,8 +19,6 @@ namespace PokerTell.User.Tests
     public class SettingsTests : TestWithLog
     {
         ISettings _settings;
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -86,7 +86,7 @@ namespace PokerTell.User.Tests
             const int intSave = 5;
             _settings.Set("intSaved", intSave);
 
-            int intPersist =  _settings.RetrieveInt("intSaved");
+            int intPersist = _settings.RetrieveInt("intSaved");
 
             Assert.That(intPersist, Is.EqualTo(intSave), "Persisting Value with known Key");
 
@@ -94,7 +94,7 @@ namespace PokerTell.User.Tests
             Assert.That(intPersist, Is.EqualTo(int.MinValue), "Persisting Value with unknown Key");
 
             const int defaultValue = 2;
-            intPersist =  _settings.RetrieveInt("UNKNOWN_KEY", defaultValue);
+            intPersist = _settings.RetrieveInt("UNKNOWN_KEY", defaultValue);
             Assert.That(intPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
@@ -154,6 +154,22 @@ namespace PokerTell.User.Tests
         }
 
         [Test]
+        public void CanRetrieveRectangle()
+        {
+            const string key = "RectangleSaved";
+            var rectangleSaved = new Rectangle(1, 2, 3, 4);
+            
+            _settings.Set(key, rectangleSaved);
+
+            var rectanglePersisted = _settings.RetrieveRectangle(key);
+            rectanglePersisted.ShouldBeEqualTo(rectangleSaved);
+
+            var defaultValue = new Rectangle(2, 5, 4, 6);
+            rectanglePersisted = _settings.RetrieveRectangle("UnknownKey", defaultValue);
+            rectanglePersisted.ShouldBeEqualTo(defaultValue);
+        }
+
+        [Test]
         public void CanRetrieveString()
         {
             const string stringSave = "Test String";
@@ -171,6 +187,5 @@ namespace PokerTell.User.Tests
             Assert.That(stringPersist, Is.EqualTo(defaultValue), "Persisting Value with unknown Key and given default value");
         }
 
-        #endregion
     }
 }

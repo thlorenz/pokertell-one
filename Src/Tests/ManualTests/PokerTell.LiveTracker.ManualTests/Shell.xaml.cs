@@ -1,4 +1,4 @@
-﻿namespace PokerTell.LiveTracker.ManualTests
+namespace PokerTell.LiveTracker.ManualTests
 {
     using System.Windows;
     using System.Windows.Input;
@@ -18,7 +18,7 @@
         {
             InitializeComponent();
 
-            if (Static.OperatingSystemIsWindowsXPOrOlder())
+            if (Utils.OperatingSystemIsWindowsXPOrOlder())
             {
                 Background = ApplicationProperties.BorderedWindowBackgoundBrush;
                 AllowsTransparency = false;

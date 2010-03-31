@@ -1,16 +1,15 @@
 //Date: 4/21/2009
-using System.Configuration;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace PokerTell.User
 {
+    using System.Configuration;
     using System.Drawing;
-
-    using Infrastructure.Interfaces;
+    using System.Reflection;
+    using System.Text;
+    using System.Text.RegularExpressions;
 
     using log4net;
+
+    using PokerTell.Infrastructure.Interfaces;
 
     using Tools.Extensions;
 
@@ -20,25 +19,14 @@ namespace PokerTell.User
     /// </summary>
     public class Settings : ISettings
     {
-        #region Constants and Fields
-
-        static readonly ILog Log = LogManager.GetLogger(
-            MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IUserConfiguration _userConfiguration;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public Settings(IUserConfiguration userConfiguration)
         {
             _userConfiguration = userConfiguration;
         }
-
-        #endregion
-
-        #region Properties
 
         public KeyValueConfigurationCollection AppSettings
         {
@@ -49,12 +37,6 @@ namespace PokerTell.User
         {
             get { return _userConfiguration.ConnectionStrings; }
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region ISettings
 
         public bool RetrieveBool(string key)
         {
@@ -70,13 +52,15 @@ namespace PokerTell.User
                 if (!bool.TryParse(strValue, out result))
                 {
                     Log.DebugFormat(
-                        "Failed to load bool with key: [{0}] value: [{1}] correctly",
-                        key.ToStringNullSafe(),
+                        "Failed to load bool with key: [{0}] value: [{1}] correctly", 
+                        key.ToStringNullSafe(), 
                         strValue.ToStringNullSafe());
                     return defaultValue;
                 }
+
                 return result;
             }
+
             return defaultValue;
         }
 
@@ -114,13 +98,14 @@ namespace PokerTell.User
                     else
                     {
                         Log.DebugFormat(
-                            "Failed to load Argb Color with key: [{0}] value: [{1}] correctly",
-                            key.ToStringNullSafe(),
+                            "Failed to load Argb Color with key: [{0}] value: [{1}] correctly", 
+                            key.ToStringNullSafe(), 
                             strValue.ToStringNullSafe());
                         return defaultValue;
                     }
                 }
             }
+
             return defaultValue;
         }
 
@@ -138,11 +123,12 @@ namespace PokerTell.User
                 if (!double.TryParse(strValue, out result))
                 {
                     Log.DebugFormat(
-                        "Failed to load double with key: [{0}] value: [{1}] correctly",
-                        key.ToStringNullSafe(),
+                        "Failed to load double with key: [{0}] value: [{1}] correctly", 
+                        key.ToStringNullSafe(), 
                         strValue.ToStringNullSafe());
                     return defaultValue;
                 }
+
                 return result;
             }
 
@@ -163,8 +149,8 @@ namespace PokerTell.User
                 if (! int.TryParse(strValue, out result))
                 {
                     Log.DebugFormat(
-                        "Failed to load int with key: [{0}] value: [{1}] correctly",
-                        key.ToStringNullSafe(),
+                        "Failed to load int with key: [{0}] value: [{1}] correctly", 
+                        key.ToStringNullSafe(), 
                         strValue.ToStringNullSafe());
                     result = defaultValue;
                 }
@@ -197,12 +183,14 @@ namespace PokerTell.User
                     int y = int.Parse(m.Groups["Y"].Value);
                     return new Point(x, y);
                 }
+
                 Log.DebugFormat(
-                    "Failed to load Point with key: [{0}] value: [{1}] correctly",
-                    key.ToStringNullSafe(),
+                    "Failed to load Point with key: [{0}] value: [{1}] correctly", 
+                    key.ToStringNullSafe(), 
                     strValue.ToStringNullSafe());
                 return defaultValue;
             }
+
             return defaultValue;
         }
 
@@ -227,12 +215,48 @@ namespace PokerTell.User
                     int height = int.Parse(m.Groups["Height"].Value);
                     return new Size(width, height);
                 }
+
                 Log.DebugFormat(
-                    "Failed to load Size with key: [{0}] value: [{1}] correctly",
-                    key.ToStringNullSafe(),
+                    "Failed to load Size with key: [{0}] value: [{1}] correctly", 
+                    key.ToStringNullSafe(), 
                     strValue.ToStringNullSafe());
                 return defaultValue;
             }
+
+            return defaultValue;
+        }
+
+        public Rectangle RetrieveRectangle(string key)
+        {
+            return RetrieveRectangle(key, Rectangle.Empty);
+        }
+
+        public Rectangle RetrieveRectangle(string key, Rectangle defaultValue)
+        {
+            if (_userConfiguration.AppSettings[key] != null)
+            {
+                string strValue = _userConfiguration.AppSettings[key].Value;
+
+                const string patRectangle = @"{X=(?<X>-{0,1}\d+),.*Y=(?<Y>-{0,1}-{0,1}\d+).*Width=(?<Width>\d+),.*Height=(?<Height>\d+)}";
+
+                Match m = Regex.Match(strValue, patRectangle);
+
+                if (m.Success)
+                {
+                    int x = int.Parse(m.Groups["X"].Value);
+                    int y = int.Parse(m.Groups["Y"].Value);
+                    int width = int.Parse(m.Groups["Width"].Value);
+                    int height = int.Parse(m.Groups["Height"].Value);
+                    return new Rectangle(x, y, width, height);
+                }
+
+                Log.DebugFormat(
+                    "Failed to load Rectangle with key: [{0}] value: [{1}] correctly", 
+                    key.ToStringNullSafe(), 
+                    strValue.ToStringNullSafe());
+                return defaultValue;
+            }
+
             return defaultValue;
         }
 
@@ -247,6 +271,7 @@ namespace PokerTell.User
             {
                 return _userConfiguration.AppSettings[key].Value;
             }
+
             return defaultValue;
         }
 
@@ -280,17 +305,9 @@ namespace PokerTell.User
             return "\n" + sbToString;
         }
 
-        #endregion
-
-        #region IUserConfiguration
-
         public void Save(ConfigurationSaveMode saveMode)
         {
             _userConfiguration.Save(saveMode);
         }
-
-        #endregion
-
-        #endregion
     }
 }

@@ -16,6 +16,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
     using NUnit.Framework;
 
+    using Tools.WPF.Interfaces;
+
     using UnitTests.Tools;
 
     using Utilities;
@@ -250,7 +252,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         class PokerTableStatisticsViewModelTester : PokerTableStatisticsViewModel
         {
             public PokerTableStatisticsViewModelTester(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake)
-                : base(eventAggregator, playerStatisticsViewModelMake, new StubBuilder().Out<IDetailedStatisticsAnalyzerViewModel>())
+                : base(eventAggregator, new Mock<ISettings>().Object, new Mock<IDimensionsViewModel>().Object, playerStatisticsViewModelMake, new StubBuilder().Out<IDetailedStatisticsAnalyzerViewModel>())
             {
             }
 

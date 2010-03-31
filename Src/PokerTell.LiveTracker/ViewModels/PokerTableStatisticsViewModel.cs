@@ -3,6 +3,7 @@ namespace PokerTell.LiveTracker.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Drawing;
     using System.Linq;
     using System.Reflection;
     using System.Windows.Input;
@@ -19,10 +20,13 @@ namespace PokerTell.LiveTracker.ViewModels
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.WPF;
+    using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class PokerTableStatisticsViewModel : NotifyPropertyChanged, IPokerTableStatisticsViewModel
     {
+        public const string DimensionsKey = "PokerTell.LiveTracker.PokerTableStatistics.Dimensions";
+
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         readonly IEventAggregator _eventAggregator;
@@ -36,18 +40,32 @@ namespace PokerTell.LiveTracker.ViewModels
         readonly IDetailedStatisticsAnalyzerViewModel _detailedStatisticsAnalyzer;
 
         public PokerTableStatisticsViewModel(
-            IEventAggregator eventAggregator, 
-            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, 
+            IEventAggregator eventAggregator,
+            ISettings settings,
+            IDimensionsViewModel dimensions,
+            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
             IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
         {
             _eventAggregator = eventAggregator;
+            _settings = settings;
             _playerStatisticsViewModelMake = playerStatisticsViewModelMake;
             _detailedStatisticsAnalyzer = detailedStatisticsAnalyzerViewModel;
+
+            Dimensions = dimensions.InitializeWith(settings.RetrieveRectangle(DimensionsKey, new Rectangle(0, 0, 600, 400)));
 
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
         }
 
+        public IPokerTableStatisticsViewModel SaveDimensions()
+        {
+            _settings.Set(DimensionsKey, Dimensions.Rectangle);
+
+            return this;
+        }
+
         string _tableName;
+
+        readonly ISettings _settings;
 
         public string TableName
         {
@@ -64,6 +82,8 @@ namespace PokerTell.LiveTracker.ViewModels
         public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
         
         public event Action<IPlayerStatisticsViewModel> UserBrowsedAllHands = delegate { };
+
+        public IDimensionsViewModel Dimensions { get; protected set; }
 
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 

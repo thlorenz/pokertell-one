@@ -10,8 +10,15 @@ namespace Tools.WPF.ViewModels
 
         public PositionViewModel(double left, double top)
         {
+            InitializeWith(left, top);
+        }
+
+        public IPositionViewModel InitializeWith(double left, double top)
+        {
             Left = left;
             Top = top;
+
+           return this;
         }
 
         double _left;

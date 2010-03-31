@@ -2,6 +2,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Drawing;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
@@ -9,12 +10,15 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     using Infrastructure.Interfaces.Statistics;
 
     using LiveTracker.ViewModels;
+    using LiveTracker.ViewModels.Overlay;
 
     using Machine.Specifications;
 
     using Microsoft.Practices.Composite.Events;
 
     using Moq;
+
+    using Tools.WPF.Interfaces;
 
     using Utilities;
 
@@ -28,6 +32,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         protected static Mock<IConstructor<IPlayerStatisticsViewModel>> _playerStatisticsMake_Stub;
 
         protected static Mock<IDetailedStatisticsAnalyzerViewModel> _statisticsAnalyzer_Mock;
+
+        protected static Mock<ISettings> _settings_Mock;
+
+        protected static Mock<IDimensionsViewModel> _dimensionsVM_Mock;
 
         protected static PokerTableStatisticsViewModelSut _sut;
 
@@ -47,8 +55,64 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             _statisticsAnalyzer_Mock = new Mock<IDetailedStatisticsAnalyzerViewModel>();
 
-            _sut = new PokerTableStatisticsViewModelSut(_eventAggregator_Stub.Object, _playerStatisticsMake_Stub.Object, _statisticsAnalyzer_Mock.Object);
+            _settings_Mock = new Mock<ISettings>();
+            _dimensionsVM_Mock = new Mock<IDimensionsViewModel>();
+            _dimensionsVM_Mock
+                .Setup(d => d.InitializeWith(Moq.It.IsAny<Rectangle>()))
+                .Returns(_dimensionsVM_Mock.Object);
+
+            _sut = new PokerTableStatisticsViewModelSut(_eventAggregator_Stub.Object, 
+                                                        _settings_Mock.Object, 
+                                                        _dimensionsVM_Mock.Object, 
+                                                        _playerStatisticsMake_Stub.Object, 
+                                                        _statisticsAnalyzer_Mock.Object);
         };
+
+        [Subject(typeof(PokerTableStatisticsViewModel), "Instantiation")]
+        public class when_it_is_instantiated : PokerTableStatisticsViewModelSpecs
+        {
+            static Rectangle returnedRectangle;
+
+            Establish context = () => {
+                returnedRectangle = new Rectangle(1, 1, 2, 2);
+                _settings_Mock
+                    .Setup(s => s.RetrieveRectangle(PokerTableStatisticsViewModel.DimensionsKey, Moq.It.IsAny<Rectangle>()))
+                    .Returns(returnedRectangle);
+            };
+
+            Because of = () => _sut = new PokerTableStatisticsViewModelSut(_eventAggregator_Stub.Object, 
+                                                        _settings_Mock.Object, 
+                                                        _dimensionsVM_Mock.Object, 
+                                                        _playerStatisticsMake_Stub.Object, 
+                                                        _statisticsAnalyzer_Mock.Object);
+
+            It should_ask_the_settings_for_its_dimensions_with_a_default_value
+                = () => _settings_Mock.Verify(s => s.RetrieveRectangle(PokerTableStatisticsViewModel.DimensionsKey, Moq.It.IsAny<Rectangle>()));
+
+            It should_initialize_the_dimensions_with_the_rectangle_returned_by_the_settings
+                = () => _dimensionsVM_Mock.Verify(d => d.InitializeWith(returnedRectangle));
+
+            It should_assing_its_dimensions_to_the_initialized_dimensions = () => _sut.Dimensions.ShouldEqual(_dimensionsVM_Mock.Object);
+        }
+
+        [Subject(typeof(PokerTableStatisticsViewModel), "Save Dimensions")]
+        public class when_told_to_save_its_dimensions : PokerTableStatisticsViewModelSpecs
+        {
+            static Rectangle returnedRectangle;
+
+            Establish context = () => {
+                returnedRectangle = new Rectangle(1, 1, 2, 2);
+                _dimensionsVM_Mock
+                    .SetupGet(d => d.Rectangle)
+                    .Returns(returnedRectangle);
+                _sut.Dimensions_Set = _dimensionsVM_Mock.Object;
+            };
+
+            Because of = () => _sut.SaveDimensions();
+
+            It should_tell_the_settings_to_set_the_rectangle_for_its_key_to_the_one_returned_by_its_dimensions
+                = () => _settings_Mock.Verify(s => s.Set(PokerTableStatisticsViewModel.DimensionsKey, returnedRectangle));
+        }
 
         [Subject(typeof(PokerTableStatisticsViewModel), "GetPlayerStatisticsViewModelFor")]
         public class when_only_bob_and_ted_where_added : PokerTableStatisticsViewModelSpecs
@@ -223,8 +287,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
     public class PokerTableStatisticsViewModelSut : PokerTableStatisticsViewModel
     {
-        public PokerTableStatisticsViewModelSut(IEventAggregator eventAggregator, IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
-            : base(eventAggregator, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel)
+        public PokerTableStatisticsViewModelSut(
+            IEventAggregator eventAggregator,
+            ISettings settings,
+            IDimensionsViewModel dimensions,
+            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
+            IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
+            : base(eventAggregator, settings, dimensions, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel)
         {
         }
 
@@ -241,5 +310,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         }
 
         public bool BrowsedAllHandsOfPlayer { get; private set; }
+        
+        public IDimensionsViewModel Dimensions_Set
+        {
+            set { Dimensions = value; }
+        }
     }
 }
