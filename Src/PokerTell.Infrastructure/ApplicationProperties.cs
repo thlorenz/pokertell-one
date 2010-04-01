@@ -12,14 +12,9 @@ namespace PokerTell.Infrastructure
     {
         public const string ApplicationName = "PokerTell";
 
-        public const double VersionNumber = 0.9;
+        public const double VersionNumber = 0.7;
 
-        public const string Version = "0.9.0.0";
-
-        /// <summary>
-        /// Number of tables to be displayed in Tables Form
-        /// </summary>
-        public const int TablesPerPage = 5;
+        public const string Version = "0.7.0.0";
 
         /// <summary>
         /// Keys used to normalize the true bet sizes

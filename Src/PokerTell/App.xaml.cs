@@ -65,6 +65,9 @@ namespace PokerTell
 
             try
             {
+                if (!Directory.Exists(Files.LocalUserAppDataPath))
+                    Directory.CreateDirectory(Files.LocalUserAppDataPath);
+
                 new Logger(ApplicationProperties.ApplicationName)
                    .InitializeConsoleAppender(Level.Debug)
                    .InitializeRollingFileAppender(Files.LocalUserAppDataPath + @"\" + Files.LogFile, 5, Level.Debug);

@@ -2,6 +2,8 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 
+using PokerTell.Infrastructure;
+
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
@@ -19,8 +21,8 @@ using System.Windows;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
-// Configure log4net using the log4net xml file
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "PokerTell.log.xml", Watch = true)]
+// Configure log4net using the app.config file configuration section in order to avoid log being flooded with NHibernate messages
+[assembly: log4net.Config.XmlConfigurator()]
 
 //In order to begin building localizable applications, set 
 //<UICulture>CultureYouAreCodingWith</UICulture> in your .csproj file
@@ -52,7 +54,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.54.*")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion(ApplicationProperties.Version)]
+[assembly: AssemblyFileVersion(ApplicationProperties.Version)]
 
 // LineCounter: ^~(:Wh@//.+)~(:Wh@\{:Wh@)~(:Wh@\}:Wh@)~(:Wh@/#).+
