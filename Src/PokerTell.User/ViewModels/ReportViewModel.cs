@@ -1,6 +1,10 @@
 namespace PokerTell.User.ViewModels
 {
+    using System;
+    using System.Reflection;
     using System.Windows.Input;
+
+    using log4net;
 
     using PokerTell.User.Interfaces;
 
@@ -9,20 +13,30 @@ namespace PokerTell.User.ViewModels
 
     public class ReportViewModel : NotifyPropertyChanged, IReportViewModel
     {
-        public ReportViewModel(IReporter reporter)
-        {
-            _reporter = reporter;
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-            _reporter.PrepareReport();
-            LogFileContent = _reporter.LogfileContent;
-            ScreenshotPath = _reporter.ScreenShotFile;
-        }
+        readonly IReporter _reporter;
 
         bool _includeScreenshot;
 
         ICommand _sendReportCommand;
 
-        readonly IReporter _reporter;
+        public ReportViewModel(IReporter reporter)
+        {
+            _reporter = reporter;
+            try
+            {
+                _reporter.PrepareReport();
+                LogFileContent = _reporter.LogfileContent;
+                ScreenshotPath = _reporter.ScreenShotFile;
+            }
+            catch (Exception excep)
+            {
+                Log.Error(excep);
+                LogFileContent = "Couldn't read logfile";
+                ScreenshotPath = string.Empty;
+            }
+        }
 
         public string Comments { get; set; }
 
@@ -46,6 +60,7 @@ namespace PokerTell.User.ViewModels
             {
                 return _sendReportCommand ?? (_sendReportCommand = new SimpleCommand
                     {
+                        // TODO: SUbject should be last or second line of logfile to see right away what the problem is
                         ExecuteDelegate = arg => _reporter.SendReport("User Report", Comments, IncludeScreenshot)
                     });
             }

@@ -131,5 +131,32 @@ namespace PokerTell.User.Properties {
                 return ResourceManager.GetString("Title_Warning", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string User_MenuItem_About {
+            get {
+                return ResourceManager.GetString("User_MenuItem_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report a Problem.
+        /// </summary>
+        public static string User_MenuItem_ReportAProblem {
+            get {
+                return ResourceManager.GetString("User_MenuItem_ReportAProblem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string User_MenuItem_Title {
+            get {
+                return ResourceManager.GetString("User_MenuItem_Title", resourceCulture);
+            }
+        }
     }
 }

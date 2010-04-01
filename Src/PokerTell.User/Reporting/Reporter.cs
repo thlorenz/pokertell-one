@@ -40,11 +40,16 @@ namespace PokerTell.User.Reporting
 
         public string ScreenShotFile { get; protected set; }
 
-        public IReporter DeleteReportingTempDirectory()
+        public IReporter DeleteReportingTempFolder()
         {
-            if (Directory.Exists(_tempFolder))
+            try
             {
-                Directory.Delete(_tempFolder, true);
+                if (Directory.Exists(_tempFolder))
+                    Directory.Delete(_tempFolder, true);
+            }
+            catch (Exception excep)
+            {
+                Log.Error(excep);
             }
 
             return this;
@@ -52,6 +57,9 @@ namespace PokerTell.User.Reporting
 
         public IReporter PrepareReport()
         {
+            if (! Directory.Exists(_tempFolder))
+                Directory.CreateDirectory(_tempFolder);
+
             AssignFileNamesForCurrentCountAndIncrementIt();
 
             Utils.TakeScreenShotAndSaveJpegAs(ScreenShotFile);
@@ -62,9 +70,6 @@ namespace PokerTell.User.Reporting
 
         public IReporter SendReport(string caption, string comments, bool includeScreenshot)
         {
-            if (! Directory.Exists(_tempFolder))
-                Directory.CreateDirectory(_tempFolder);
-
             new Thread(() => SendMail(caption, comments, _logFileCopy, ScreenShotFile, includeScreenshot))
                 .Start();
 

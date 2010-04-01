@@ -8,7 +8,7 @@ namespace PokerTell.User.Interfaces
 
         string ScreenShotFile { get; }
 
-        IReporter DeleteReportingTempDirectory();
+        IReporter DeleteReportingTempFolder();
 
         IReporter PrepareReport();
 

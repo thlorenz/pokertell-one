@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IWindowManagers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -111,9 +112,11 @@
     <Compile Include="Views\StatusBarView.xaml.cs">
       <DependentUpon>StatusBarView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserMenuItemFactory.cs" />
     <Compile Include="Views\UserMessageView.xaml.cs">
       <DependentUpon>UserMessageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowManagers.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Libraries\Tools\Tools.csproj">

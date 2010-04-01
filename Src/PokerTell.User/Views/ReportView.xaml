@@ -67,24 +67,23 @@
             </Grid>
         <!-- Report Content -->
             <Expander Header="{x:Static Properties:Resources.ReportView_ReportContent}" Foreground="White">
-               <TabControl MaxHeight="200">
+               <TabControl MaxHeight="200" MaxWidth="400" >
                   <TabItem >
                      <TabItem.Header>
                         <TextBlock Padding="3" Text="{x:Static Properties:Resources.ReportView_LogfileContent}"/>
                      </TabItem.Header>
                      <TextBox
+                        Margin="5" 
                         MinHeight="200"
                         Text="{Binding LogFileContent, Mode=OneWay}"
-                        VerticalScrollBarVisibility="Visible"
                         TextWrapping="Wrap"
                         IsReadOnly="True"
                         Background="AntiqueWhite"
-                        Foreground="Black"
-                        Margin="5"/>
+                        Foreground="Black" />
                   </TabItem>
                   <TabItem Visibility="{Binding IncludeScreenshot, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}" Margin="3">
                      <TabItem.Header>
-                        <TextBlock Padding="3" Text="{x:Static Properties:Resources.ReportView_LogfileContent}"/>
+                        <TextBlock Padding="3" Text="{x:Static Properties:Resources.ReportView_Screenshot}"/>
                      </TabItem.Header>
                      <Viewbox  MinHeight="200" StretchDirection="Both" Stretch="Uniform">
                         <Image Source="{Binding ScreenshotPath}"/>

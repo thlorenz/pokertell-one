@@ -11,7 +11,6 @@ namespace PokerTell.User
 
     public class UserService
     {
-
         public UserService(IEventAggregator eventAggregator)
         {
             const bool keepMeAlive = true;

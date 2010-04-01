@@ -141,4 +141,13 @@
   <data name="Title_Warning" xml:space="preserve">
     <value>Warning</value>
   </data>
+  <data name="User_MenuItem_About" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="User_MenuItem_ReportAProblem" xml:space="preserve">
+    <value>Report a Problem</value>
+  </data>
+  <data name="User_MenuItem_Title" xml:space="preserve">
+    <value>Help</value>
+  </data>
 </root>

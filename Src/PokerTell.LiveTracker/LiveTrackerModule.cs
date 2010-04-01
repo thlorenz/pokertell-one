@@ -115,7 +115,7 @@ namespace PokerTell.LiveTracker
             var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
 
             MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, _container.Resolve<IGamesTracker>()).Create();
-            _regionManager.Regions["Shell.MainMenuRegion"].Add(liveTrackerMenuItem);
+            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(liveTrackerMenuItem);
         }
 
         void ConfigureServicesForTheFirstTime(object ignore)
