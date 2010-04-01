@@ -133,11 +133,29 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Don&apos;t Send.
+        /// </summary>
+        public static string Commands_DontSend {
+            get {
+                return ResourceManager.GetString("Commands_DontSend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         public static string Commands_Import {
             get {
                 return ResourceManager.GetString("Commands_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string Commands_Ok {
+            get {
+                return ResourceManager.GetString("Commands_Ok", resourceCulture);
             }
         }
         
@@ -156,6 +174,15 @@ namespace PokerTell.Infrastructure.Properties {
         public static string Commands_Save {
             get {
                 return ResourceManager.GetString("Commands_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send.
+        /// </summary>
+        public static string Commands_Send {
+            get {
+                return ResourceManager.GetString("Commands_Send", resourceCulture);
             }
         }
         

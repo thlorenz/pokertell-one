@@ -1,4 +1,4 @@
-namespace PokerTell.User.ViewModels
+namespace PokerTell.User.Interfaces
 {
     public interface IProgressViewModel
     {

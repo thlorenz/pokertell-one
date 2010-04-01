@@ -237,4 +237,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

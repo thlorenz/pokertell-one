@@ -1736,51 +1736,6 @@
         }
         "Folder"
         {
-            "{994432C3-9487-495D-8656-3E829A8DBDDE}:_0DDA45C156AC49C09464CB0C57DA84FB"
-            {
-            "DefaultLocation" = "8:[LocalAppDataFolder]"
-            "Name" = "8:User's LocalAppDataFolder"
-            "AlwaysCreate" = "11:FALSE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:LOCALAPPDATAFOLDER"
-                "Folders"
-                {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_8086173161344DBFA58D0F701AC6DFE3"
-                    {
-                    "Name" = "8:PokerTell"
-                    "AlwaysCreate" = "11:FALSE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_C43373A9E7B84D969F38CDF0CFB1C44D"
-                        "Folders"
-                        {
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_5153F4C42A6D42E79F110670C745F279"
-                            {
-                            "Name" = "8:data"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_3A51B19C14704733AD1346F7441044E4"
-                                "Folders"
-                                {
-                                }
-                            }
-                            "{9EF0B969-E518-4E46-987F-47570745A589}:_58268953498C49E1970527D39BFA0115"
-                            {
-                            "Name" = "8:layouts"
-                            "AlwaysCreate" = "11:FALSE"
-                            "Condition" = "8:"
-                            "Transitive" = "11:FALSE"
-                            "Property" = "8:_5AB5942EA7A6496A91E78CBE3B219535"
-                                "Folders"
-                                {
-                                }
-                            }
-                        }
-                    }
-                }
-            }
             "{1525181F-901A-416C-8A58-119130FE478E}:_83225F8850B34B82A36B73A72244481B"
             {
             "Name" = "8:#1919"
@@ -1832,7 +1787,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PokerTell"
         "ProductCode" = "8:{DBFF126D-D7ED-4BD1-B0D1-351C4D3DC8A0}"
-        "PackageCode" = "8:{57F9D124-DA4A-49B6-9C8D-BA5F099DD56F}"
+        "PackageCode" = "8:{ABEB3FBE-E7C7-4B79-BFC5-19166C97A2E9}"
         "UpgradeCode" = "8:{5751CC45-F22D-498F-A117-000C102FB84B}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"

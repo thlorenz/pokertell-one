@@ -33,7 +33,7 @@ namespace PokerTell.DatabaseSetup
             _dataProviderInfo = dataProviderInfo;
             _dataProvider = dataProvider;
 
-            _databaseDirectory = string.Format("{0}{1}", Files.LocalUserAppDataPath, Files.DataFolder);
+            _databaseDirectory = string.Format("{0}\\{1}\\", Files.LocalUserAppDataPath, Files.DataFolder);
 
             ValidateDatabaseDirectoryAndRecreateIfNeccessary();
         }
@@ -145,7 +145,7 @@ namespace PokerTell.DatabaseSetup
         {
             if (!Directory.Exists(_databaseDirectory))
             {
-                Log.Debug(_databaseDirectory + " was deleted and is being recreated.");
+                Log.Debug(_databaseDirectory + " was not found and therefore was created.");
                 Directory.CreateDirectory(_databaseDirectory);
             }
         }

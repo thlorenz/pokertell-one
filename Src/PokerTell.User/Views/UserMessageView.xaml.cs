@@ -11,7 +11,6 @@
     /// </summary>
     public partial class UserMessageView
     {
-        #region Constructors and Destructors
 
         public UserMessageView()
         {
@@ -36,6 +35,5 @@
         {
             Close();
         }
-        #endregion
     }
 }

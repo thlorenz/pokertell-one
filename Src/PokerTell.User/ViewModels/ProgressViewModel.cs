@@ -1,5 +1,7 @@
 namespace PokerTell.User.ViewModels
 {
+    using Interfaces;
+
     using Tools.WPF.ViewModels;
 
     public class ProgressViewModel : NotifyPropertyChanged, IProgressViewModel

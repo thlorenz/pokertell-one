@@ -61,6 +61,60 @@ namespace PokerTell.User.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Include Screenshot.
+        /// </summary>
+        public static string ReportView_IncludeScreenshot {
+            get {
+                return ResourceManager.GetString("ReportView_IncludeScreenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Logfile Content.
+        /// </summary>
+        public static string ReportView_LogfileContent {
+            get {
+                return ResourceManager.GetString("ReportView_LogfileContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please add your comments about the problem that you encountered here.
+        /// </summary>
+        public static string ReportView_PleaseAddComments {
+            get {
+                return ResourceManager.GetString("ReportView_PleaseAddComments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report Content.
+        /// </summary>
+        public static string ReportView_ReportContent {
+            get {
+                return ResourceManager.GetString("ReportView_ReportContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Screenshot.
+        /// </summary>
+        public static string ReportView_Screenshot {
+            get {
+                return ResourceManager.GetString("ReportView_Screenshot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Report.
+        /// </summary>
+        public static string ReportView_Title {
+            get {
+                return ResourceManager.GetString("ReportView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connected to {0}.
         /// </summary>
         public static string Status_ConnectedTo {

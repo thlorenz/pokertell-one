@@ -141,14 +141,23 @@
   <data name="Commands_Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Commands_DontSend" xml:space="preserve">
+    <value>Don't Send</value>
+  </data>
   <data name="Commands_Import" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="Commands_Ok" xml:space="preserve">
+    <value>Ok</value>
   </data>
   <data name="Commands_Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
   <data name="Commands_Save" xml:space="preserve">
     <value>Save</value>
+  </data>
+  <data name="Commands_Send" xml:space="preserve">
+    <value>Send</value>
   </data>
   <data name="Descriptions_Advanced" xml:space="preserve">
     <value>Advanced</value>

@@ -4,6 +4,8 @@
 
     using Infrastructure.Interfaces.DatabaseSetup;
 
+    using Interfaces;
+
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Composite.Presentation.Events;
 

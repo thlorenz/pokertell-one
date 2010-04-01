@@ -1,0 +1,104 @@
+﻿<ToolsViews:DialogView x:Class="PokerTell.User.Views.ReportView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
+        xmlns:ToolsViews="clr-namespace:Tools.WPF.Views;assembly=Tools"
+        xmlns:Properties="clr-namespace:PokerTell.User.Properties"
+        xmlns:ViewModels="clr-namespace:PokerTell.User.ViewModels"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        ShowInTaskbar="True"   
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        MouseDown="WindowBorder_MouseDown"
+        Title="{x:Static Properties:Resources.ReportView_Title}">
+      
+    <ToolsViews:DialogView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type ViewModels:ReportViewModel}">
+                
+ <StackPanel>
+   <!-- Title -->
+      <Border Margin="2" Background="{DynamicResource DarkToLightBorderBrush}" CornerRadius="10, 10, 0, 0" Padding="5">
+         <Label Content="{x:Static Properties:Resources.ReportView_Title}"/>
+      </Border>
+   <!-- Comments -->
+      <Border Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Margin="2" Padding="5">
+         <StackPanel>
+            <Label Content="{x:Static Properties:Resources.ReportView_PleaseAddComments}" Margin="3"/>
+            <TextBox
+               Initialized="Comments_TextBox_Initialized" 
+               Text="{Binding Comments, Mode=TwoWay}"
+               MinHeight="100"
+               AcceptsReturn="True"
+               TextWrapping="Wrap"
+               IsReadOnly="False"
+               Background="AntiqueWhite"
+               Foreground="Black"/>
+         </StackPanel>
+      </Border>
+   <!--Include Screenshot/ Don't Send / Send -->
+      <Border Margin="2" Background="{DynamicResource LightToDarkBorderBrush}" CornerRadius="0, 0, 10, 10" Padding="5">
+         <StackPanel>
+            <Grid>
+               <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+               </Grid.ColumnDefinitions>
+               <CheckBox Grid.Column="0" Content="{x:Static Properties:Resources.ReportView_IncludeScreenshot}" IsChecked="{Binding IncludeScreenshot}" HorizontalAlignment="Left"/>
+               <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                  <Button Click="Close_Click"
+                          HorizontalAlignment="Right" 
+                          Padding="5" 
+                          Margin="3"
+                          Content="{x:Static GlobalProperties:Resources.Commands_DontSend}"/>
+                  <Button Command="{Binding SendReportCommand}"
+                          Click="Close_Click"
+                          HorizontalAlignment="Right" 
+                          Padding="5" 
+                          Margin="3" 
+                          Content="{x:Static GlobalProperties:Resources.Commands_Send}"/>
+               </StackPanel>
+            </Grid>
+        <!-- Report Content -->
+            <Expander Header="{x:Static Properties:Resources.ReportView_ReportContent}" Foreground="White">
+               <TabControl MaxHeight="200">
+                  <TabItem >
+                     <TabItem.Header>
+                        <TextBlock Padding="3" Text="{x:Static Properties:Resources.ReportView_LogfileContent}"/>
+                     </TabItem.Header>
+                     <TextBox
+                        MinHeight="200"
+                        Text="{Binding LogFileContent, Mode=OneWay}"
+                        VerticalScrollBarVisibility="Visible"
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"
+                        Background="AntiqueWhite"
+                        Foreground="Black"
+                        Margin="5"/>
+                  </TabItem>
+                  <TabItem Visibility="{Binding IncludeScreenshot, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}" Margin="3">
+                     <TabItem.Header>
+                        <TextBlock Padding="3" Text="{x:Static Properties:Resources.ReportView_LogfileContent}"/>
+                     </TabItem.Header>
+                     <Viewbox  MinHeight="200" StretchDirection="Both" Stretch="Uniform">
+                        <Image Source="{Binding ScreenshotPath}"/>
+                     </Viewbox>
+                  </TabItem>
+               </TabControl>
+            </Expander>
+         </StackPanel>
+      </Border>
+   </StackPanel>
+                </DataTemplate>
+        </ResourceDictionary>
+    
+    </ToolsViews:DialogView.Resources>
+    <ContentControl Content="{Binding}" />
+    
+</ToolsViews:DialogView>

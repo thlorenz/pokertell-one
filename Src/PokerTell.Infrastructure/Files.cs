@@ -15,9 +15,11 @@ namespace PokerTell.Infrastructure
 
         public const string ForUnitTestingOnlyDataFolder = @"C:\SD\PokerTell\data\Mocking";
 
-        public const string DataFolder = @"\data\";
+        public const string DataFolder = @"data";
 
         public const string UserConfigFile = @"User.config";
+
+        public const string TempFolder = "temp";
 
         public static readonly string LocalUserAppDataPath = Application.StartupPath.Contains(@"TestDriven.NET")
                                                              ? ForUnitTestingOnlyDataFolder
