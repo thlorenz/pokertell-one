@@ -21,12 +21,15 @@ namespace PokerTell.User.ViewModels
 
         ICommand _sendReportCommand;
 
+        public string Subject { get; set; }
+
         public ReportViewModel(IReporter reporter)
         {
             _reporter = reporter;
             try
             {
                 _reporter.PrepareReport();
+                Subject = "[No Subject]";
                 LogFileContent = _reporter.LogfileContent;
                 ScreenshotPath = _reporter.ScreenShotFile;
             }
@@ -60,8 +63,7 @@ namespace PokerTell.User.ViewModels
             {
                 return _sendReportCommand ?? (_sendReportCommand = new SimpleCommand
                     {
-                        // TODO: SUbject should be last or second line of logfile to see right away what the problem is
-                        ExecuteDelegate = arg => _reporter.SendReport("User Report", Comments, IncludeScreenshot)
+                        ExecuteDelegate = arg => _reporter.SendReport(Subject, Comments, IncludeScreenshot)
                     });
             }
         }

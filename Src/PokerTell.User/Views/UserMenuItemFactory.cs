@@ -35,7 +35,11 @@ namespace PokerTell.User.Views
             {
                 return _reportProblemCommand ?? (_reportProblemCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => _reportWindowMake.New.ShowDialog() 
+                        ExecuteDelegate = arg => {
+                            var reportWindow = _reportWindowMake.New;
+                            reportWindow.Subject = "User Report";
+                            reportWindow.ShowDialog();
+                        }
                     });
             }
         }

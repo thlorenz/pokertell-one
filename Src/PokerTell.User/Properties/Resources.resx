@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="NonTerminatingUnhandledException_Message" xml:space="preserve">
+    <value>We are very sorry ...
+
+Something unexpected occurred, but you will be able to resume what you were doing.
+
+In the next dialog you'll get a chance to send us a short report, including any comments you may have.
+</value>
+  </data>
   <data name="ReportView_IncludeScreenshot" xml:space="preserve">
     <value>Include Screenshot</value>
   </data>
@@ -137,6 +145,13 @@
   </data>
   <data name="Status_ConnectedTo" xml:space="preserve">
     <value>Connected to {0}</value>
+  </data>
+  <data name="TerminatingUnhandledException_Message" xml:space="preserve">
+    <value>We are very sorry ...
+
+Something unexpected occurred, and PokerTell will have to close.
+
+In the next dialog you'll get a chance to send us a short report, including any comments you may have.</value>
   </data>
   <data name="Title_Warning" xml:space="preserve">
     <value>Warning</value>

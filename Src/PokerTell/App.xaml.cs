@@ -6,22 +6,18 @@ namespace PokerTell
     using System.Reflection;
     using System.Threading;
     using System.Windows;
-
-    using DatabaseSetup.Views;
-
-    using Infrastructure;
-    using Infrastructure.Events;
+    using System.Windows.Threading;
 
     using log4net;
     using log4net.Core;
 
-    using Microsoft.Practices.Composite.Events;
+    using Microsoft.Practices.Unity;
 
-    using PokerTell.PokerHand.Views;
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.User;
 
     using Tools;
-
-    using User;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -30,72 +26,152 @@ namespace PokerTell
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        static IUnityContainer _container;
+
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            RunInDebugMode();
-
-//            Current.DispatcherUnhandledException += (sender, args) => {
-//                Log.Error(args.Exception);
-//                args.Handled = true;
-//            };
+            // RunInDebugMode();
+            RunInReleaseMode();
 
             ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
-        static void HandleException(Exception excep)
+        static void BootApplication()
         {
-            if (excep == null)
-            {
-                return;
-            }
+            var bootstrapper = new Bootstrapper();
+            _container = bootstrapper.Container;
+            bootstrapper.Run();
 
-            Log.Error("An unhandled error occurred", excep);
+            if (!File.Exists(Files.LocalUserAppDataPath + @"\" + Files.UserConfigFile))
+                ConfigureForTheFirstTimeAndStartServices();
+            else
+                StartServices();
+        }
+
+        static void ConfigureForTheFirstTimeAndStartServices()
+        {
+            InformUserThatConfigurationWillTakePlace();
+
+            ConfigureServicesForTheFirstTime();
+            StartServices();
+
+            InformUserThatConfigurationWasCompleted();
+        }
+
+        static void ConfigureServicesForTheFirstTime()
+        {
+            GlobalCommands.ConfigureServicesForFirstTimeCommand.Execute(null);
+        }
+
+        static void HandleDevelopmentException(Exception excep)
+        {
+            if (excep == null) return;
+
+            LogExceptionAndFullStackTrace(excep);
 
             Environment.Exit(1);
+        }
+
+        static void HandleAppDomainException(UnhandledExceptionEventArgs e)
+        {
+            var excep = e.ExceptionObject as Exception;
+            if (excep == null) return;
+
+            LogExceptionAndFullStackTrace(excep);
+
+            UserService.PublishUnhandledException(excep, e.IsTerminating);
+        }
+
+        static void HandleDispatcherException(DispatcherUnhandledExceptionEventArgs e)
+        {
+            var excep = e.Exception;
+            if (excep == null) return;
+
+            LogExceptionAndFullStackTrace(excep);
+
+            UserService.PublishUnhandledException(excep, false);
+
+            e.Handled = true;
+        }
+
+        static void InformUserThatConfigurationWasCompleted()
+        {
+            string msg = PokerTell.Properties.Resources.Info_CompletedConfiguration;
+            UserService.HandleUserMessageEvent(new UserMessageEventArgs(UserMessageTypes.Info, msg));
+        }
+
+        static void InformUserThatConfigurationWillTakePlace()
+        {
+            var msg = PokerTell.Properties.Resources.Info_ConfiguringForFirstTime;
+            UserService.HandleUserMessageEvent(new UserMessageEventArgs(UserMessageTypes.Info, msg));
+        }
+
+        static void InitializeEnvironment()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
+
+            if (!Directory.Exists(Files.LocalUserAppDataPath))
+                Directory.CreateDirectory(Files.LocalUserAppDataPath);
+        }
+
+        static void InitializeLogger()
+        {
+            new Logger(ApplicationProperties.ApplicationName)
+                .InitializeConsoleAppender(Level.Debug)
+                .InitializeRollingFileAppender(Files.LocalUserAppDataPath + @"\" + Files.LogFile, 5, Level.Debug);
+
+            Log.InfoFormat("\n\n{0}", Utils.EnvironmentInformation);
+        }
+
+        static void LogExceptionAndFullStackTrace(Exception excep)
+        {
+            Log.Error(excep);
+            Log.InfoFormat("Full StackTrace: \n{0}", Environment.StackTrace);
         }
 
         static void RunInDebugMode()
         {
             AppDomain.CurrentDomain.UnhandledException +=
-                (sender, e) => HandleException(e.ExceptionObject as Exception);
-
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
+                (sender, e) => HandleDevelopmentException(e.ExceptionObject as Exception);
 
             try
             {
-                if (!Directory.Exists(Files.LocalUserAppDataPath))
-                    Directory.CreateDirectory(Files.LocalUserAppDataPath);
+                InitializeEnvironment();
 
-                new Logger(ApplicationProperties.ApplicationName)
-                   .InitializeConsoleAppender(Level.Debug)
-                   .InitializeRollingFileAppender(Files.LocalUserAppDataPath + @"\" + Files.LogFile, 5, Level.Debug);
+                InitializeLogger();
 
-                new Bootstrapper().Run();
-
-                if (!File.Exists(Files.LocalUserAppDataPath + @"\" + Files.UserConfigFile))
-                    ConfigureForTheFirstTimeAndStartServices();
-                else
-                    GlobalCommands.StartServicesCommand.Execute(null);
+                BootApplication();
             }
             catch (Exception excep)
             {
-                HandleException(excep);
+                HandleDevelopmentException(excep);
             }
         }
 
-        static void ConfigureForTheFirstTimeAndStartServices()
+        static void RunInReleaseMode()
         {
-            // Instead of raising an event, we talk directly to the UserService to make sure the ShowDialog blocks this thread so we wait for the user to respond
-            var msg = PokerTell.Properties.Resources.Info_ConfiguringForFirstTime;
-            UserService.HandleUserMessageEvent(new UserMessageEventArgs(UserMessageTypes.Info, msg));
+            Current.DispatcherUnhandledException += (_, e) => HandleDispatcherException(e);
+            AppDomain.CurrentDomain.UnhandledException += (_, e) => HandleAppDomainException(e);
 
-            GlobalCommands.ConfigureServicesForFirstTimeCommand.Execute(null);
+            try
+            {
+                InitializeEnvironment();
+
+                InitializeLogger();
+
+                BootApplication();
+            }
+            catch (Exception excep)
+            {
+                HandleAppDomainException(new UnhandledExceptionEventArgs(excep, false));
+            }
+        }
+
+        static void StartServices()
+        {
             GlobalCommands.StartServicesCommand.Execute(null);
-
-            msg = PokerTell.Properties.Resources.Info_CompletedConfiguration;
-            UserService.HandleUserMessageEvent(new UserMessageEventArgs(UserMessageTypes.Info, msg));
         }
     }
 }

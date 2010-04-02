@@ -19,6 +19,8 @@ namespace PokerTell.User.Tests.ViewModels
        
         protected const string UserComments = "some Comments";
 
+        protected const string Subject = "some Subject";
+
         protected const string LogFileContent = "some Content";
 
         protected const string ScreenshotPath = "some Path";
@@ -57,13 +59,14 @@ namespace PokerTell.User.Tests.ViewModels
             
             Establish context = () => {
                 _sut.Comments = UserComments;
+                _sut.Subject = Subject;
                 _sut.IncludeScreenshot = includeScreenShot;
             };
 
             Because of = () => _sut.SendReportCommand.Execute(null);
 
-            It should_tell_the_reporter_to_send_the_report_including_the_screenshot
-                = () => _reporter_Mock.Verify(r => r.SendReport(Moq.It.IsAny<string>(), UserComments, includeScreenShot));
+            It should_tell_the_reporter_to_send_the_report_including_the_screenshot_UserComments_and_Subject
+                = () => _reporter_Mock.Verify(r => r.SendReport(Subject, UserComments, includeScreenShot));
         }
 
         [Subject(typeof(ReportViewModel), "Send Report")]
@@ -73,13 +76,14 @@ namespace PokerTell.User.Tests.ViewModels
             
             Establish context = () => {
                 _sut.Comments = UserComments;
+                _sut.Subject = Subject;
                 _sut.IncludeScreenshot = includeScreenShot;
             };
 
             Because of = () => _sut.SendReportCommand.Execute(null);
 
-            It should_tell_the_reporter_to_send_the_report_without_the_screenshot
-                = () => _reporter_Mock.Verify(r => r.SendReport(Moq.It.IsAny<string>(), UserComments, includeScreenShot));
+            It should_tell_the_reporter_to_send_the_report_without_the_screenshot_including_UserComments_and_Subject
+                = () => _reporter_Mock.Verify(r => r.SendReport(Subject, UserComments, includeScreenShot));
         }
     }
 }

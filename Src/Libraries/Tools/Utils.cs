@@ -4,6 +4,7 @@ namespace Tools
     using System.Drawing;
     using System.Drawing.Imaging;
     using System.IO;
+    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading;
     using System.Windows.Forms;
@@ -13,6 +14,19 @@ namespace Tools
     /// </summary>
     public class Utils
     {
+        public static string EnvironmentInformation
+        {
+            get
+            {
+                return new StringBuilder()
+                    .AppendFormat("OSVersion: {0}\n", Environment.OSVersion)
+                    .AppendFormat("CLR Version: {0}\n", Environment.Version)
+                    .AppendFormat("ProcessorCount: {0}\n", Environment.ProcessorCount)
+                    .AppendFormat("WorkingSet: {0}\n", Environment.WorkingSet)
+                    .ToString();
+            }
+        }
+
         /// <summary>
         /// Builds a Regex Pattern that only matches values for the given range
         /// </summary>

@@ -4,5 +4,6 @@ namespace PokerTell.User.Interfaces
 
     public interface IReportWindowManager : IWindowManager
     {
+        string Subject { get; set; }
     }
 }

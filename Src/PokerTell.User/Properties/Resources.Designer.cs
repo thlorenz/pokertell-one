@@ -61,6 +61,20 @@ namespace PokerTell.User.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We are very sorry ...
+        ///
+        ///Something unexpected occurred, but you will be able to resume what you were doing.
+        ///
+        ///In the next dialog you&apos;ll get a chance to send us a short report, including any comments you may have.
+        ///.
+        /// </summary>
+        public static string NonTerminatingUnhandledException_Message {
+            get {
+                return ResourceManager.GetString("NonTerminatingUnhandledException_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Include Screenshot.
         /// </summary>
         public static string ReportView_IncludeScreenshot {
@@ -120,6 +134,19 @@ namespace PokerTell.User.Properties {
         public static string Status_ConnectedTo {
             get {
                 return ResourceManager.GetString("Status_ConnectedTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to We are very sorry ...
+        ///
+        ///Something unexpected occurred, and PokerTell will have to close.
+        ///
+        ///In the next dialog you&apos;ll get a chance to send us a short report, including any comments you may have..
+        /// </summary>
+        public static string TerminatingUnhandledException_Message {
+            get {
+                return ResourceManager.GetString("TerminatingUnhandledException_Message", resourceCulture);
             }
         }
         

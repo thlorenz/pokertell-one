@@ -15,5 +15,7 @@ namespace PokerTell.User.Interfaces
         string ScreenshotPath { get; }
 
         ICommand SendReportCommand { get; }
+
+        string Subject { get; set; }
     }
 }

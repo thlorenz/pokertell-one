@@ -9,6 +9,7 @@ namespace PokerTell.User
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
@@ -38,9 +39,18 @@ namespace PokerTell.User
             RegisterViewsAndServices();
             CleanupReporterTempFolder();
 
-            RegisterMenu();
+            GlobalCommands.StartServicesCommand.RegisterCommand(new DelegateCommand<object>(StartServices));
 
             Log.Info("got initialized.");
+        }
+
+        void StartServices(object ignore)
+        {
+            // Register menu here in order to make it show as last item
+            // A cleaner but more involved solution is here: http://blogs.southworks.net/dschenkelman/2009/03/
+            RegisterMenu();
+
+            Log.Info("started services.");
         }
 
         void CleanupReporterTempFolder()

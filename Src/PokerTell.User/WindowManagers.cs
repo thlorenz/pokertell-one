@@ -7,6 +7,8 @@ namespace PokerTell.User
 
     using Tools.WPF;
 
+    using ViewModels;
+
     using Views;
 
     public class ReportWindowManager : WindowManager, IReportWindowManager
@@ -16,5 +18,17 @@ namespace PokerTell.User
         {
             DataContext = reportViewModel;
         }
+
+        public string Subject
+        {
+            get { return ViewModel.Subject; }
+            set { ViewModel.Subject = value; }
+        }
+
+        protected IReportViewModel ViewModel
+        {
+             get { return (IReportViewModel)DataContext; }
+        }
+
     }
 }
