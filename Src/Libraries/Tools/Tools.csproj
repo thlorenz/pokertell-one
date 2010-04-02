@@ -154,7 +154,7 @@
     <Compile Include="Validation\CollectionValidator.cs" />
     <Compile Include="Interfaces\ICollectionValidator.cs" />
     <Compile Include="WPF\CommandBehavior.cs" />
-    <Compile Include="WPF\Command\IWPFCommand.cs" />
+    <Compile Include="WPF\CommandBindingExtension.cs" />
     <Compile Include="WPF\Command\SimpleCommand.cs" />
     <Compile Include="WPF\Controls\ColorPicker\ColorPicker.cs" />
     <Compile Include="WPF\Controls\ColorPicker\ColorPickerDialog.xaml.cs">
