@@ -26,23 +26,19 @@ namespace PokerTell
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        static IUnityContainer _container;
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
-            // RunInDebugMode();
-            RunInReleaseMode();
+            RunInDebugMode();
+           // RunInReleaseMode();
 
             ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
 
         static void BootApplication()
         {
-            var bootstrapper = new Bootstrapper();
-            _container = bootstrapper.Container;
-            bootstrapper.Run();
+            new Bootstrapper().Run();
 
             if (!File.Exists(Files.LocalUserAppDataPath + @"\" + Files.UserConfigFile))
                 ConfigureForTheFirstTimeAndStartServices();
@@ -133,8 +129,7 @@ namespace PokerTell
 
         static void RunInDebugMode()
         {
-            AppDomain.CurrentDomain.UnhandledException +=
-                (sender, e) => HandleDevelopmentException(e.ExceptionObject as Exception);
+            AppDomain.CurrentDomain.UnhandledException += (_, e) => HandleDevelopmentException(e.ExceptionObject as Exception);
 
             try
             {
