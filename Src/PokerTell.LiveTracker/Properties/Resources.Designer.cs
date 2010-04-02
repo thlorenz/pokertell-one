@@ -229,21 +229,39 @@ namespace PokerTell.LiveTracker.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;Layouts&gt;
-        ///  &lt;Layout TotalSeats=&quot;5&quot;&gt;
+        ///  &lt;Layout TotalSeats=&quot;2&quot;&gt;
         ///    &lt;ShowPreFlop&gt;true&lt;/ShowPreFlop&gt;
         ///    &lt;ShowFlop&gt;true&lt;/ShowFlop&gt;
-        ///    &lt;ShowTurn&gt;true&lt;/ShowTurn&gt;
-        ///    &lt;ShowRiver&gt;true&lt;/ShowRiver&gt;
+        ///    &lt;ShowTurn&gt;false&lt;/ShowTurn&gt;
+        ///    &lt;ShowRiver&gt;false&lt;/ShowRiver&gt;
         ///    &lt;ShowHarringtonM&gt;true&lt;/ShowHarringtonM&gt;
-        ///    &lt;StatisticsPanelWidth&gt;120&lt;/StatisticsPanelWidth&gt;
-        ///    &lt;StatisticsPanelHeight&gt;55&lt;/StatisticsPanelHeight&gt;
-        ///    &lt;Background&gt;#FF0000FF&lt;/Background&gt;
+        ///    &lt;StatisticsPanelWidth&gt;121.2365591397849&lt;/StatisticsPanelWidth&gt;
+        ///    &lt;StatisticsPanelHeight&gt;33.97849462365582&lt;/StatisticsPanelHeight&gt;
+        ///    &lt;Background&gt;#170000FF&lt;/Background&gt;
         ///    &lt;OutOfPositionForeground&gt;#FFFFFFFF&lt;/OutOfPositionForeground&gt;
-        ///    &lt;InPositionForeground&gt;#FFFFFF00&lt;/InPos [rest of string was truncated]&quot;;.
+        ///    &lt;InPosi [rest of string was truncated]&quot;;.
         /// </summary>
         public static string PokerStarsLayout {
             get {
                 return ResourceManager.GetString("PokerStarsLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handhistories.
+        /// </summary>
+        public static string TrackHandHistoryDialog_Handhistories {
+            get {
+                return ResourceManager.GetString("TrackHandHistoryDialog_Handhistories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a Hand History.
+        /// </summary>
+        public static string TrackHandHistoryDialog_Title {
+            get {
+                return ResourceManager.GetString("TrackHandHistoryDialog_Title", resourceCulture);
             }
         }
         

@@ -31,5 +31,7 @@ namespace PokerTell.Infrastructure
         public static readonly string StartupFolder = Application.StartupPath.Contains(@"TestDriven.NET")
                                                        ? ForUnitTestingOnlyDataFolder
                                                        : Application.StartupPath;
+
+        public static readonly string ProgramFilesFolder = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
     }
 }

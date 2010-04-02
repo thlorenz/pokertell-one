@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using System.Windows.Controls;
     using System.Windows.Media;
 
+    using Infrastructure;
+
     using Interfaces;
 
     using log4net;
@@ -144,8 +146,8 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
                 .Resolve<IGamesTracker>()
                 .InitializeWith(liveTrackerSettings);
 
-            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker).Create();
-            _regionManager.Regions["Shell.MainMenuRegion"].Add(liveTrackerMenuItem);
+            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker, liveTrackerSettings).Create();
+            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(liveTrackerMenuItem);
         }
     }
 
