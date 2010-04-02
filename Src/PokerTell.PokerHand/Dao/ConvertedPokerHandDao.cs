@@ -10,7 +10,7 @@ namespace PokerTell.PokerHand.Dao
     {
         const string FindConvertedPokerHandByGameIdAndSite = "FindConvertedPokerHandByGameIdAndSite";
 
-        ISession _session;
+         //ISession _session;
 
         readonly ISessionFactoryManager _sessionFactoryManager;
 
@@ -18,7 +18,7 @@ namespace PokerTell.PokerHand.Dao
 
         ISession Session
         {
-            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
+            get { return  _sessionFactoryManager.CurrentSession; }
         }
 
         public ConvertedPokerHandDao(ISessionFactoryManager sessionFactoryManager, IPlayerIdentityDao playerIdentityDao)
