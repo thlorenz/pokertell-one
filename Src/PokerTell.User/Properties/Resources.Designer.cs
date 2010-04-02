@@ -61,6 +61,51 @@ namespace PokerTell.User.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Author:.
+        /// </summary>
+        public static string AboutView_Author {
+            get {
+                return ResourceManager.GetString("AboutView_Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Homepage.
+        /// </summary>
+        public static string AboutView_Homepage {
+            get {
+                return ResourceManager.GetString("AboutView_Homepage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Many thanks go to:.
+        /// </summary>
+        public static string AboutView_ThanksTo {
+            get {
+                return ResourceManager.GetString("AboutView_ThanksTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string AboutView_Title {
+            get {
+                return ResourceManager.GetString("AboutView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version:.
+        /// </summary>
+        public static string AboutView_Version {
+            get {
+                return ResourceManager.GetString("AboutView_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We are very sorry ...
         ///
         ///Something unexpected occurred, but you will be able to resume what you were doing.
@@ -120,7 +165,7 @@ namespace PokerTell.User.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Report.
+        ///   Looks up a localized string similar to PokerTell Report.
         /// </summary>
         public static string ReportView_Title {
             get {

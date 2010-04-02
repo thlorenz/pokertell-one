@@ -28,10 +28,9 @@ namespace PokerTell
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
 
-            RunInDebugMode();
-           // RunInReleaseMode();
+            // RunInDebugMode(e);
+            RunInReleaseMode(e);
 
             ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
@@ -127,9 +126,11 @@ namespace PokerTell
             Log.InfoFormat("Full StackTrace: \n{0}", Environment.StackTrace);
         }
 
-        static void RunInDebugMode()
+        void RunInDebugMode(StartupEventArgs startupEventArgs)
         {
             AppDomain.CurrentDomain.UnhandledException += (_, e) => HandleDevelopmentException(e.ExceptionObject as Exception);
+
+            base.OnStartup(startupEventArgs);
 
             try
             {
@@ -145,10 +146,12 @@ namespace PokerTell
             }
         }
 
-        static void RunInReleaseMode()
+        void RunInReleaseMode(StartupEventArgs startupEventArgs)
         {
             Current.DispatcherUnhandledException += (_, e) => HandleDispatcherException(e);
             AppDomain.CurrentDomain.UnhandledException += (_, e) => HandleAppDomainException(e);
+
+            base.OnStartup(startupEventArgs);
 
             try
             {

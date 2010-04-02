@@ -1,5 +1,6 @@
 namespace PokerTell.Repository
 {
+    using System;
     using System.Reflection;
 
     using log4net;
@@ -17,8 +18,6 @@ namespace PokerTell.Repository
     using PokerTell.Repository.NHibernate;
     using PokerTell.Repository.ViewModels;
     using PokerTell.Repository.Views;
-
-    using Tools.WPF;
 
     public class RepositoryModule : IModule
     {
@@ -40,8 +39,21 @@ namespace PokerTell.Repository
             RegisterViewsAndServices();
 
             GlobalCommands.StartServicesCommand.RegisterCommand(new DelegateCommand<object>(StartServices));
-           
+
             Log.Info("got initialized.");
+        }
+
+        void AttemptToConnectToDatabaseAndAssignResultingDataProviderToRepository()
+        {
+            var dataProvider = _container.Resolve<IDatabaseConnector>()
+                .InitializeFromSettings()
+                .ConnectToDatabase()
+                .DataProvider;
+
+            if (dataProvider.IsConnectedToDatabase)
+                _container.Resolve<ISessionFactoryManager>().Use(dataProvider);
+
+            Log.Info("started services.");
         }
 
         void RegisterViewsAndServices()
@@ -59,32 +71,12 @@ namespace PokerTell.Repository
             _container
                 .Resolve<RepositoryMenuItemFactory>()
                 .Create()
-                .ForEach(menuItem =>
-                         _regionManager.RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, 
-                                                               () => menuItem));
+                .ForEach(menuItem => _regionManager.RegisterViewWithRegion(ApplicationProperties.ShellDatabaseMenuRegion, () => menuItem));
         }
 
         void StartServices(object ignore)
         {
             AttemptToConnectToDatabaseAndAssignResultingDataProviderToRepository();
-        }
-
-        void AttemptToConnectToDatabaseAndAssignResultingDataProviderToRepository()
-        {
-            var databaseConnector = _container.Resolve<IDatabaseConnector>();
-
-            var dataProvider =
-                databaseConnector
-                    .InitializeFromSettings()
-                    .ConnectToDatabase()
-                    .DataProvider;
-
-            var sessionFactoryManager = _container.Resolve<ISessionFactoryManager>();
-            
-            if (dataProvider.IsConnectedToDatabase)
-                   sessionFactoryManager.Use(dataProvider);
-
-            Log.Info("started services.");
         }
     }
 }

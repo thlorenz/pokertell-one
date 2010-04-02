@@ -7,28 +7,23 @@
     MouseDown="WindowBorder_MouseDown"
     SizeToContent="WidthAndHeight"
     Title="{Binding Title}"
-    WindowStartupLocation="CenterOwner"   
-        >
+    WindowStartupLocation="CenterOwner">
     <StackPanel MaxWidth="500">
-        <Border
-             Background="{DynamicResource DarkToLightBorderBrush}"
-             CornerRadius="10, 10, 0, 0"
-             Margin="2"
-             Padding="5"
-            
-         >
+        <Border Background="{DynamicResource DarkToLightBorderBrush}"
+                CornerRadius="10, 10, 0, 0"
+                Margin="2"
+                Padding="5">
             <Label Content="{Binding Title}" Margin="5, 5, 5, 15 "/>
         </Border>
-        <Border
-             Background="{DynamicResource LightToDarkToLightBorderBrush}"
-             CornerRadius="3"
-             Margin="2"
-             Padding="5">
+        <Border  Background="{DynamicResource LightToDarkToLightBorderBrush}"
+                CornerRadius="3"
+                Margin="2"
+                Padding="5">
             <TextBox Text="{Binding Message, Mode=OneWay}"
-                             TextWrapping="Wrap"  
-                             IsReadOnly="True" 
-                             Background="AntiqueWhite"
-                             Foreground="Black"/>
+                     TextWrapping="Wrap"  
+                     IsReadOnly="True" 
+                     Background="AntiqueWhite"
+                     Foreground="Black"/>
         </Border>
 
         <Border  Background="{DynamicResource LightToDarkBorderBrush}"
@@ -43,7 +38,7 @@
                         Margin="5"/>
                 <Expander Header="Details" 
                           Visibility="{Binding ContainsDetails, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
-                    
+
                     <TextBox Text="{Binding Details, Mode=OneWay}"
                              TextWrapping="Wrap"  
                              IsReadOnly="True" 

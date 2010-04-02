@@ -151,11 +151,11 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ok.
+        ///   Looks up a localized string similar to OK.
         /// </summary>
-        public static string Commands_Ok {
+        public static string Commands_OK {
             get {
-                return ResourceManager.GetString("Commands_Ok", resourceCulture);
+                return ResourceManager.GetString("Commands_OK", resourceCulture);
             }
         }
         
@@ -196,7 +196,16 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http:\\www.GetPokerTell.vom\SupportedRooms.html.
+        ///   Looks up a localized string similar to http://www.GetPokerTell.com.
+        /// </summary>
+        public static string Links_Homepage {
+            get {
+                return ResourceManager.GetString("Links_Homepage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to http://www.GetPokerTell.com\SupportedRooms.html.
         /// </summary>
         public static string Links_ListOfSupportedPokerRooms {
             get {

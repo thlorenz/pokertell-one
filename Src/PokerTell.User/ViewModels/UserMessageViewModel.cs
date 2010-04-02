@@ -5,22 +5,12 @@ namespace PokerTell.User.ViewModels
 
     public class UserMessageViewModel
     {
-        #region Constants and Fields
-
         readonly UserMessageEventArgs _userMessageEventArgs;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public UserMessageViewModel(UserMessageEventArgs userMessageEventArgs)
         {
             _userMessageEventArgs = userMessageEventArgs;
         }
-
-        #endregion
-
-        #region Properties
 
         public bool ContainsDetails
         {
@@ -32,7 +22,7 @@ namespace PokerTell.User.ViewModels
             get
             {
                 return _userMessageEventArgs.Exception != null
-                           ? _userMessageEventArgs.Exception.Message
+                           ? string.Format("Source: {0}\nMessage: {1}", _userMessageEventArgs.Exception.Source, _userMessageEventArgs.Exception.Message)
                            : string.Empty;
             }
         }
@@ -46,7 +36,5 @@ namespace PokerTell.User.ViewModels
         {
             get { return string.Format("{0} {1}", ApplicationProperties.ApplicationName, _userMessageEventArgs.MessageType); }
         }
-
-        #endregion
     }
 }

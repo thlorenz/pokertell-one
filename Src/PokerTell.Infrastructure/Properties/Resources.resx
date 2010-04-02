@@ -147,8 +147,8 @@
   <data name="Commands_Import" xml:space="preserve">
     <value>Import</value>
   </data>
-  <data name="Commands_Ok" xml:space="preserve">
-    <value>Ok</value>
+  <data name="Commands_OK" xml:space="preserve">
+    <value>OK</value>
   </data>
   <data name="Commands_Remove" xml:space="preserve">
     <value>Remove</value>
@@ -162,7 +162,10 @@
   <data name="Descriptions_Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
+  <data name="Links_Homepage" xml:space="preserve">
+    <value>http://www.GetPokerTell.com</value>
+  </data>
   <data name="Links_ListOfSupportedPokerRooms" xml:space="preserve">
-    <value>http:\\www.GetPokerTell.vom\SupportedRooms.html</value>
+    <value>http://www.GetPokerTell.com\SupportedRooms.html</value>
   </data>
 </root>

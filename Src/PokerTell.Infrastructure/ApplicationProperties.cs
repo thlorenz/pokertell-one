@@ -1,5 +1,6 @@
 namespace PokerTell.Infrastructure
 {
+    using System;
     using System.Globalization;
     using System.Threading;
     using System.Windows.Media;
@@ -51,6 +52,8 @@ namespace PokerTell.Infrastructure
             // #FF 3C 3C 3C => Color.FromScRgb(255, 60, 60, 60)
             get { return new SolidColorBrush(Colors.Black); }
         }
+
+        public const string Author = "Thorsten Lorenz";
 
         public const string PokerHandMappingAssemblyName = "PokerTell.PokerHand";
 

@@ -52,9 +52,8 @@ namespace PokerTell.User.Views
         {
             get
             {
-                return _showAboutCommand ?? (_showAboutCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => { }
+                return _showAboutCommand ?? (_showAboutCommand = new SimpleCommand {
+                        ExecuteDelegate = arg => new AboutView().ShowDialog()
                     });
             }
         }

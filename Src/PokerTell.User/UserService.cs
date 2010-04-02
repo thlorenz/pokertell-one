@@ -60,7 +60,7 @@ namespace PokerTell.User
         static void GiveUserChanceToSendProblemReport(Exception excep)
         {
             var reportWindow = _container.Resolve<IReportWindowManager>();
-            reportWindow.Subject = string.Format("{0} [{1}] ", excep.Message, Environment.OSVersion);
+            reportWindow.Subject = string.Format("{0}: {1} [{2}] ", excep.Source, excep.Message, Environment.OSVersion);
             reportWindow.ShowDialog();
         }
     }
