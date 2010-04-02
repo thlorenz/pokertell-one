@@ -13,35 +13,19 @@ namespace PokerTell.PokerHand.Dao
 
     public class ConvertedPokerPlayerDao : IConvertedPokerPlayerDao
     {
-        #region Constants and Fields
-
         const string FindAnalyzablePokerPlayer = "FindAnalyzablePokerPlayer";
 
         readonly ISessionFactoryManager _sessionFactoryManager;
-
-        ISession _session;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public ConvertedPokerPlayerDao(ISessionFactoryManager sessionFactoryManager)
         {
             _sessionFactoryManager = sessionFactoryManager;
         }
 
-        #endregion
-
-        #region Properties
-
         ISession Session
         {
-            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
+            get { return _sessionFactoryManager.CurrentSession; }
         }
-
-        #endregion
-
-        #region Public Methods
 
         public IList UsingRawSqlQueryConvertedPokerPlayersWith(int playerIdentity)
         {
@@ -69,12 +53,6 @@ namespace PokerTell.PokerHand.Dao
             return Session.CreateSQLQuery(query)
                 .List();
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IConvertedPokerPlayerDao
 
         public IEnumerable<IAnalyzablePokerPlayer> FindAnalyzablePlayersWith(int playerIdentity, long lastQueriedId)
         {
@@ -160,9 +138,5 @@ namespace PokerTell.PokerHand.Dao
                 .SetInt32("playerIdentity", playerIdentity)
                 .List<IConvertedPokerPlayer>();
         }
-
-        #endregion
-
-        #endregion
     }
 }

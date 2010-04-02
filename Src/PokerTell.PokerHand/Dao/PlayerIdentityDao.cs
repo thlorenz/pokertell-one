@@ -12,8 +12,6 @@ namespace PokerTell.PokerHand.Dao
 
         readonly ISessionFactoryManager _sessionFactoryManager;
 
-        ISession _session;
-
         public PlayerIdentityDao(ISessionFactoryManager sessionFactoryManager)
         {
             _sessionFactoryManager = sessionFactoryManager;
@@ -21,7 +19,7 @@ namespace PokerTell.PokerHand.Dao
 
         ISession Session
         {
-            get { return _session ?? (_session = _sessionFactoryManager.CurrentSession); }
+            get { return _sessionFactoryManager.CurrentSession; }
         }
 
         public IPlayerIdentity FindOrInsert(string name, string site, IStatelessSession statelessSession)

@@ -36,20 +36,8 @@ namespace PokerTell.Repository.NHibernate
             }
             catch (Exception excep)
             {
-                try
-                {
-                    _sessionFactoryManager.CurrentSession.Transaction.Rollback();
-                }
-                catch (TransactionException rollbackExcep)
-                {
-                    // Under ultra heavy loads we might get: NHibernate.TransactionException: Transaction not successfully started
-                    // when trying to roll back due to another error (also due to heavy load)
-                    // Although catching this here keeps the application running and the database can be read, we may want to handle this
-                    // differently or at least inform the user b/c from now on nothing can be saved to the database.
-                    // On the other hand it is very unlikely that it ever really occurs.
-                    Log.Error(rollbackExcep);
-                }
-
+               _sessionFactoryManager.CurrentSession.Transaction.Rollback();
+            
                 Log.Error(excep);
             }
             finally
