@@ -11,24 +11,21 @@
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <ContentControl Grid.Column="0"
-            cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.HandHistoriesRegion}"
-                        />
-        
+            cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.HandHistoriesRegion}" />
+
         <GridSplitter
              Grid.Column="1"
              Grid.Row="0"
              Width="3"
              HorizontalAlignment="Stretch"
              Margin="5, 0"
-             ResizeDirection="Columns"
-            />
-       
+             ResizeDirection="Columns" />
+
         <ContentControl Grid.Column="2"
                         cal:RegionManager.RegionName="ReviewSettingsRegion"
-                        VerticalAlignment="Top"
-                        />
+                        VerticalAlignment="Top" />
     </Grid>
 
 

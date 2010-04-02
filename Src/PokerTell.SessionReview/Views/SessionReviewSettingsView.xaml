@@ -4,60 +4,56 @@
     >
     <Border
         CornerRadius="5"
-        Background="{DynamicResource SolidBorderBrush}"
+        Background="{DynamicResource LightBorderBrush}"
         Margin="5"
         Padding="5"
         HorizontalAlignment="Center">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel>
-                <Label
-                    FontSize="12"
-                    Content="Help"
-                    HorizontalAlignment="Right"
-                    x:Name="HelpLabel" />
-                   
-                    <Label Content="Hero's Name" Margin="5"/>
-            <TextBox Text="{Binding Filter.HeroName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
-        </StackPanel>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel>
 
-        <GroupBox Grid.Row="1" 
+                <Label Content="Hero's Name" Margin="5"/>
+                <TextBox Text="{Binding Filter.HeroName, UpdateSourceTrigger=PropertyChanged}" Margin="5"/>
+            </StackPanel>
+
+            <GroupBox Grid.Row="1" 
                   Width="Auto"
                   Margin="5"
                   Header="Show">
-            <StackPanel>
-                <RadioButton Content="All" 
+                <StackPanel>
+                    <RadioButton Content="All" 
                              x:Name="radShowAll"
                              Checked="RadioButton_Checked" 
                              IsChecked="{Binding Filter.ShowAll, Mode= OneTime}" />
-                <RadioButton Content="Money Invested"
+                    <RadioButton Content="Money Invested"
                              x:Name="radShowMoneyInvested"
                              Checked="RadioButton_Checked" 
                              IsChecked="{Binding Filter.ShowMoneyInvested, Mode= OneTime}"/>
-                <RadioButton Content="Saw Flop" 
+                    <RadioButton Content="Saw Flop" 
                              x:Name="radShowSawFlop"
                              Checked="RadioButton_Checked" 
                              IsChecked="{Binding Filter.ShowSawFlop, Mode= OneTime}" />
-                <RadioButton Content="Selected Only"
+                    <RadioButton Content="Selected Only"
                              x:Name="radShowSelectedOnly"
                              Checked="RadioButton_Checked" 
                              IsChecked="{Binding Filter.ShowSelectedOnly, Mode= OneTime}"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Grid.Row="2" 
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Grid.Row="2" 
                   Width="Auto"
                   Margin="5"
                   Header="Display">
-            <StackPanel>
-                <CheckBox Content="Select Hero" 
+                <StackPanel>
+                    <CheckBox Content="Select Hero" 
                           IsChecked="{Binding Filter.SelectHero}"/>
-                <CheckBox Content="Inactive Players" 
+                    <CheckBox Content="Inactive Players" 
                           IsChecked="{Binding Filter.ShowPreflopFolds}"/>
-            </StackPanel>
-        </GroupBox>
-    </Grid>
-</Border></UserControl>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Border>
+</UserControl>

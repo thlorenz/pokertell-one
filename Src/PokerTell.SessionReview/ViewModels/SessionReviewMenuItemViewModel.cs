@@ -4,14 +4,13 @@ namespace PokerTell.SessionReview.ViewModels
     using System.Windows.Controls;
     using System.Windows.Input;
 
-    using Infrastructure;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
     using Microsoft.Win32;
 
+    using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Repository;
@@ -22,20 +21,20 @@ namespace PokerTell.SessionReview.ViewModels
 
     public class SessionReviewMenuItemViewModel : MenuItem
     {
-        readonly IUnityContainer _container;
-
-        readonly IRegionManager _regionManager;
-
         static readonly ILog Log = LogManager.GetLogger(
             MethodBase.GetCurrentMethod().DeclaringType);
 
-        ICommand _openReviewCommand;
-
-        readonly IRepository _repository;
+        readonly IUnityContainer _container;
 
         readonly IConstructor<IHandHistoriesViewModel> _handHistoriesViewModelMake;
 
+        readonly IRegionManager _regionManager;
+
+        readonly IRepository _repository;
+
         ICommand _importHandHistoriesCommand;
+
+        ICommand _openReviewCommand;
 
         public SessionReviewMenuItemViewModel(
             IUnityContainer container, 
@@ -47,6 +46,17 @@ namespace PokerTell.SessionReview.ViewModels
             _container = container;
             _repository = repository;
             _handHistoriesViewModelMake = handHistoriesViewModelMake;
+        }
+
+        public ICommand ImportHandHistoriesCommand
+        {
+            get
+            {
+                return _importHandHistoriesCommand ?? (_importHandHistoriesCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = ImportHandHistories
+                    });
+            }
         }
 
         public ICommand OpenReviewCommand
@@ -65,22 +75,40 @@ namespace PokerTell.SessionReview.ViewModels
             get { return Commands.SaveSessionReviewCommand; }
         }
 
-        public ICommand ImportHandHistoriesCommand
+        public void OpenReview(object arg)
         {
-            get
+            var handHistoriesViewModel = LoadHandHistoriesViewModelFromFile();
+
+            if (handHistoriesViewModel != null)
+                ShowSessionReviewFor(handHistoriesViewModel);
+        }
+
+        static IHandHistoriesViewModel LoadHandHistoriesViewModelFromFile()
+        {
+            var openFileDialog = new OpenFileDialog
+                {
+                    AddExtension = true, 
+                    DefaultExt = "pthh", 
+                    Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*", 
+                    Title = "Open PokerTell Session Review"
+                };
+
+            if ((bool)openFileDialog.ShowDialog())
             {
-                return _importHandHistoriesCommand ?? (_importHandHistoriesCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = ImportHandHistories
-                    });
+                var handHistoriesViewModel = (IHandHistoriesViewModel)BinarySerializer.Deserialize(openFileDialog.FileName);
+
+                return handHistoriesViewModel;
             }
+
+            return null;
         }
 
         void ImportHandHistories(object arg)
         {
             var handHistoriesViewModel = ImportHandHistoriesViewModelFromFile();
 
-            ShowSessionReviewFor(handHistoriesViewModel);
+            if (handHistoriesViewModel != null)
+                ShowSessionReviewFor(handHistoriesViewModel);
         }
 
         IHandHistoriesViewModel ImportHandHistoriesViewModelFromFile()
@@ -102,13 +130,6 @@ namespace PokerTell.SessionReview.ViewModels
             }
 
             return null;
-        }
-
-        public void OpenReview(object arg)
-        {
-            var handHistoriesViewModel = LoadHandHistoriesViewModelFromFile();
-
-            ShowSessionReviewFor(handHistoriesViewModel);
         }
 
         void ShowSessionReviewFor(IHandHistoriesViewModel handHistoriesViewModel)
@@ -133,31 +154,6 @@ namespace PokerTell.SessionReview.ViewModels
             scopedRegionManager.Regions["ReviewSettingsRegion"].Add(settingsView);
 
             region.Activate(reviewView);
-        }
-
-        IHandHistoriesViewModel LoadHandHistoriesViewModelFromFile()
-        {
-            var openFileDialog = new OpenFileDialog
-                {
-                    AddExtension = true, 
-                    DefaultExt = "pthh", 
-                    Filter = "PokerTell HandHistories (*.pthh)|*.pthh|All files (*.*)|*.*", 
-                    Title = "Open PokerTell Session Review"
-                };
-
-            IHandHistoriesViewModel handHistoriesViewModel;
-
-            if ((bool)openFileDialog.ShowDialog())
-            {
-                handHistoriesViewModel =
-                    (IHandHistoriesViewModel)BinarySerializer.Deserialize(openFileDialog.FileName);
-
-                return handHistoriesViewModel;
-            }
-
-            handHistoriesViewModel = _container.Resolve<IHandHistoriesViewModel>();
-            handHistoriesViewModel.HandHistoriesFilter.HeroName = "hero";
-            return handHistoriesViewModel;
         }
     }
 }

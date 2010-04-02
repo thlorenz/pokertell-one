@@ -3,7 +3,6 @@ namespace PokerTell.SessionReview.ViewModels
     using System;
     using System.IO;
     using System.Reflection;
-    using System.Windows;
     using System.Windows.Controls;
 
     using log4net;
@@ -15,8 +14,6 @@ namespace PokerTell.SessionReview.ViewModels
 
     public class SessionReviewReportViewModel : ItemsRegionViewModel
     {
-        #region Constants and Fields
-
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -24,28 +21,16 @@ namespace PokerTell.SessionReview.ViewModels
 
         DelegateCommand<object> _saveReportCommand;
 
-        #endregion
-
-        #region Constructors and Destructors
-
-        public SessionReviewReportViewModel(string nameOfReview, string htmlDocumentText)
+        public SessionReviewReportViewModel(string headerInfo, string htmlDocumentText)
         {
-            HeaderInfo = "Report for " + nameOfReview;
+            HeaderInfo = headerInfo;
             HtmlDocumentText = htmlDocumentText;
 
             Commands.SaveSessionReviewReportCommand.RegisterCommand(SaveReportCommand);
             Commands.PrintSessionReviewReportCommand.RegisterCommand(PrintReportCommand);
         }
 
-        #endregion
-
-        #region Events
-
         public event Action PrintRequested;
-
-        #endregion
-
-        #region Properties
 
         public string HtmlDocumentText { get; private set; }
 
@@ -74,10 +59,6 @@ namespace PokerTell.SessionReview.ViewModels
                 return _saveReportCommand;
             }
         }
-
-        #endregion
-
-        #region Public Methods
 
         public bool CanCopyWebBrowserContentToClipboard(WebBrowser arg)
         {
@@ -118,10 +99,6 @@ namespace PokerTell.SessionReview.ViewModels
             }
         }
 
-        #endregion
-
-        #region Methods
-
         protected override void OnIsActiveChanged()
         {
             SaveReportCommand.IsActive =
@@ -136,7 +113,5 @@ namespace PokerTell.SessionReview.ViewModels
                 requested();
             }
         }
-
-        #endregion
     }
 }

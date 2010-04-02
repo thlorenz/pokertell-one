@@ -8,8 +8,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary
-                    Source="HandHistoryView.xaml" />
+                <ResourceDictionary Source="HandHistoryView.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -32,9 +31,8 @@
             <StackPanel
                 Orientation="Horizontal"
                 HorizontalAlignment="Left">
-                <Border
-                    CornerRadius="5"
-                    Background="DimGray">
+                <Border CornerRadius="5"
+                        Background="{DynamicResource LightBorderBrush}">
 
                     <StackPanel
                         Orientation="Horizontal">
@@ -73,7 +71,7 @@
 
                     <Border
                         CornerRadius="5"
-                        Background="DimGray"
+                        Background="{DynamicResource LightBorderBrush}"
                         HorizontalAlignment="Right">
 
                         <StackPanel
@@ -92,9 +90,9 @@
                     </Border>
                 
                 <Border
-                    Margin="0, 0, 5, 0"
+                    Margin="3, 0, 5, 0"
                     CornerRadius="5"
-                    Background="DimGray"
+                    Background="{DynamicResource LightBorderBrush}"
                     HorizontalAlignment="Right">
                     <StackPanel
                         Orientation="Horizontal"
@@ -131,20 +129,15 @@
 
         <Border
             Grid.Row="1"
-            BorderBrush="{DynamicResource SolidBorderBrush}"
+            Background="{DynamicResource DarkBorderBrush}"
             BorderThickness="2">
             <ScrollViewer
                 x:Name="HandsScrollViewer"
                 Margin="5">
-                <Border
-                    CornerRadius="10"
-                    Margin="5, 20, 5, 10"
-                    Background="White">
-
-                    <ItemsControl
-                        ItemsSource="{Binding HandHistoriesOnPage}" />
-
-
+                <Border CornerRadius="10"
+                        Margin="5, 20, 5, 10"
+                        Background="White">
+                    <ItemsControl ItemsSource="{Binding HandHistoriesOnPage}" />
                 </Border>
             </ScrollViewer>
         </Border>

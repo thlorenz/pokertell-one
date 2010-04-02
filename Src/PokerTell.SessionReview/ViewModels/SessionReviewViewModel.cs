@@ -1,9 +1,8 @@
 namespace PokerTell.SessionReview.ViewModels
 {
+    using System.Linq;
     using System.Reflection;
     using System.Text;
-
-    using Interfaces;
 
     using log4net;
 
@@ -13,6 +12,7 @@ namespace PokerTell.SessionReview.ViewModels
 
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.SessionReview.Interfaces;
     using PokerTell.SessionReview.Views;
 
     using Tools.Serialization;
@@ -31,6 +31,8 @@ namespace PokerTell.SessionReview.ViewModels
 
         DelegateCommand<object> _saveCommand;
 
+        string _firstHandInfo;
+
         public SessionReviewViewModel(IRegionManager regionManager, IHandHistoriesViewModel handHistoriesViewModel)
         {
             _regionManager = regionManager;
@@ -43,7 +45,7 @@ namespace PokerTell.SessionReview.ViewModels
 
             Commands.CreateSessionReviewReportCommand.RegisterCommand(CreateReportCommand);
 
-            HeaderInfo = "SessionReview " + GetHashCode() + " for: " + _handHistoriesViewModel.GetHashCode();
+            SetHeaderInfo();
         }
 
         public DelegateCommand<object> CreateReportCommand
@@ -65,10 +67,8 @@ namespace PokerTell.SessionReview.ViewModels
             get { return _saveCommand ?? (_saveCommand = new DelegateCommand<object>(Save, arg => IsActive)); }
         }
 
-    public void CreateReport(object arg)
+        public void CreateReport(object arg)
         {
-            Log.InfoFormat("SessionReview->CreatingReport: {0}", GetHashCode());
-
             string htmlText = BuildHtmlText();
 
             AddReportToShell(htmlText);
@@ -76,7 +76,6 @@ namespace PokerTell.SessionReview.ViewModels
 
         public void Save(object arg)
         {
-            Log.InfoFormat("SessionReview->Saving: {0}", GetHashCode());
             var saveFileDialog = new SaveFileDialog
                 {
                     AddExtension = true, 
@@ -100,7 +99,7 @@ namespace PokerTell.SessionReview.ViewModels
 
         void AddReportToShell(string htmlText)
         {
-            var reportViewModel = new SessionReviewReportViewModel(GetHashCode().ToString(), htmlText);
+            var reportViewModel = new SessionReviewReportViewModel(string.Format("{0} Session Report", _firstHandInfo), htmlText);
             var reportView = new SessionReviewReportView(reportViewModel);
             _regionManager.Regions[ApplicationProperties.ShellMainRegion].Add(reportView);
             _regionManager.Regions[ApplicationProperties.ShellMainRegion].Activate(reportView);
@@ -127,6 +126,15 @@ namespace PokerTell.SessionReview.ViewModels
             const string htmlEnd = "\r\n</body>\r\n</html>\r\n";
 
             return htmlBegin + htmlHandHistories + htmlEnd;
+        }
+
+        void SetHeaderInfo()
+        {
+            var firstHand = _handHistoriesViewModel.HandHistoriesOnPage.FirstOrDefault();
+            _firstHandInfo = firstHand != null
+                                    ? firstHand.Hand.TableName
+                                    : string.Empty;
+            HeaderInfo = string.Format("{0} Session Review", _firstHandInfo);
         }
     }
 }
