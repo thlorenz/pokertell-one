@@ -99,7 +99,7 @@ namespace PokerTell.SessionReview.ViewModels
 
         void AddReportToShell(string htmlText)
         {
-            var reportViewModel = new SessionReviewReportViewModel(string.Format("{0} Session Report", _firstHandInfo), htmlText);
+            var reportViewModel = new SessionReviewReportViewModel(string.Format("{0} Report", _firstHandInfo), htmlText);
             var reportView = new SessionReviewReportView(reportViewModel);
             _regionManager.Regions[ApplicationProperties.ShellMainRegion].Add(reportView);
             _regionManager.Regions[ApplicationProperties.ShellMainRegion].Activate(reportView);
