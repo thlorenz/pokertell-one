@@ -98,8 +98,8 @@ namespace PokerTell.PokerHandParsers.Base
 
         void ExtractRiver()
         {
-            int length = _summary.Index - _river.Index;
-            River = _handHistory.Substring(_river.Index, length);
+            // River will include the remainder of the history. This is important in order to find winning actions contained in the summary portion.
+            River = _handHistory.Substring(_river.Index);
         }
 
         void ExtractStreets()

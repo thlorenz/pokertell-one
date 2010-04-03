@@ -9,8 +9,6 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
     public class PlayerActionsParserTests : Base.PlayerActionsParserTests
     {
-        #region Methods
-
         protected override string AllinBetActionFor(string playerName, double ratio)
         {
             // 007hitman raises to $10, and is all in
@@ -70,12 +68,16 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
             return string.Format("Uncalled bet of ${0} returned to {1}", ratio, playerName);
         }
 
-        protected override string WinningActionFor(string playerName, double ratio)
+        protected override string ShowedAndWonFor(string playerName, double ratio)
         {
-            // 007hitman showed [Qh Qd] and won ($19.57) 
-            return string.Format("{0} showed [Qh Qd] and won (${1})", playerName, ratio);
+            // maven1225 (small blind) showed [As 5s] and won (551) 
+            return string.Format("{0} (small blind) showed [As 5s] and won (${1})", playerName, ratio);
         }
 
-        #endregion
+        protected override string DidNotShowAndCollectedFor(string playerName, double ratio)
+        {
+            // maven1225 collected (48)
+            return string.Format("{0} collected (${1})", playerName, ratio);
+        }
     }
 }

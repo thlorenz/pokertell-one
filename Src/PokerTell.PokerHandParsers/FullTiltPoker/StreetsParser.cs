@@ -2,7 +2,6 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
     public class StreetsParser : Base.StreetsParser
     {
-        #region Constants and Fields
 
         const string FullTiltFlopPattern = @"\*\*\* FLOP \*\*\*";
 
@@ -12,7 +11,6 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 
         const string FullTiltRiverPattern = @"\*\*\* RIVER \*\*\*";
 
-        #endregion
 
         protected override string FlopPattern
         {

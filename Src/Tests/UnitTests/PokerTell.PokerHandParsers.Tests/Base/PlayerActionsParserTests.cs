@@ -157,7 +157,20 @@ namespace PokerTell.PokerHandParsers.Tests.Base
             var winningAction = new AquiredPokerAction(ActionTypes.W, ratio);
 
             string streetHistory = AllinBetActionFor(PlayerName, ratio) + " \n" +
-                                   WinningActionFor(PlayerName, ratio);
+                                   ShowedAndWonFor(PlayerName, ratio);
+
+            _parser.Parse(streetHistory, PlayerName);
+
+            Affirm.That(_parser.PlayerActions.Last()).IsEqualTo(winningAction);
+        }
+
+        [Test]
+        public void Parse_PlayerDidNotShowAndCollected_AddsWinningActionAsLastToPlayerActions()
+        {
+            const double ratio = 1.0;
+            var winningAction = new AquiredPokerAction(ActionTypes.W, ratio);
+
+            string streetHistory = DidNotShowAndCollectedFor(PlayerName, ratio);
 
             _parser.Parse(streetHistory, PlayerName);
 
@@ -178,7 +191,9 @@ namespace PokerTell.PokerHandParsers.Tests.Base
 
         protected abstract string AllinBetActionFor(string playerName, double ratio);
 
-        protected abstract string WinningActionFor(string playerName, double ratio);
+        protected abstract string ShowedAndWonFor(string playerName, double ratio);
+
+        protected abstract string DidNotShowAndCollectedFor(string playerName, double ratio);
 
         public enum PostingTypes
         {

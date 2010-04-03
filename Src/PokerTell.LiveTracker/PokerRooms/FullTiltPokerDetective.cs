@@ -18,7 +18,9 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         const string AppFolder = @"\FullTiltPoker";
 
-        const string SettingsFileName = "machine.prefs";
+        const string HandHistoryPathSettingsFileName = "machine.prefs";
+
+        const string SeatPreferenceSettingsFileName = "renniweg_user.prefs";
 
         public bool PokerRoomIsInstalled { get; protected set; }
 
@@ -50,7 +52,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         void TryToExtractSettingsFrom(string settingsFolder)
         {
-            var machinePrefsPath = string.Format("{0}\\{1}", settingsFolder, SettingsFileName);
+            var machinePrefsPath = string.Format("{0}\\{1}", settingsFolder, HandHistoryPathSettingsFileName);
 
             if (File.Exists(machinePrefsPath))
             {

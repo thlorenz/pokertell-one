@@ -68,10 +68,16 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
             return string.Format("{0}: bets {1} and is all-in", playerName, ratio);
         }
 
-        protected override string WinningActionFor(string playerName, double ratio)
+        protected override string ShowedAndWonFor(string playerName, double ratio)
         {
             // Gryko13 collected $1.70 from pot
             return string.Format("{0} collected ${1} from pot", playerName, ratio);
+        }
+
+        protected override string DidNotShowAndCollectedFor(string playerName, double ratio)
+        {
+            // Same Pattern for both in PokerStars
+            return ShowedAndWonFor(playerName, ratio);
         }
     }
 }

@@ -15,7 +15,6 @@ namespace PokerTell.Repository.DataProcessingTests
     using PokerTell.PokerHand.Aquisition;
     using PokerTell.PokerHand.Interfaces;
     using PokerTell.PokerHand.Services;
-    using PokerTell.PokerHandParsers.FullTiltPoker;
 
     public class ParserTests
     {
@@ -37,31 +36,31 @@ namespace PokerTell.Repository.DataProcessingTests
                 .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
                 .RegisterType<IPokerActionConverter, PokerActionConverter>()
                 .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
-                .RegisterType<IPokerHandConverter, PokerHandConverter>()
+                .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() => _container.Resolve<IPokerHandConverter>())
                 .RegisterType<RepositoryParser>();
         }
 
         [Test]
         public void Parsing_EntireDirectory_FullTilt()
         {
-            const bool printConvertedHands = false;
+            const bool printConvertedHands = true;
 
             _container
                 .RegisterInstance<IPokerHandParsers>(
                 new PokerHandParserToUse(
-                    _container.Resolve<PokerHandParser>()));
+                    _container.Resolve<PokerHandParsers.FullTiltPoker.PokerHandParser>()));
 
             var repositoryParser = _container.Resolve<RepositoryParser>();
 
-            const string directory = @"C:\SD\PokerTell\TestData\HandHistories\FullTilt\Batches\New\";
+            const string batchDirectory = @"C:\SD\PokerTell\TestData\HandHistories\FullTilt\Batches\New\";
 
-            ParseDirectoryWithParser(directory, repositoryParser, printConvertedHands);
+            ParseDirectoryWithParser(batchDirectory, repositoryParser, printConvertedHands);
         }
 
         [Test]
         public void Parsing_EntireDirectory_PokerStars()
         {
-            const bool printConvertedHands = false;
+            const bool printConvertedHands = true;
 
             _container
                 .RegisterInstance<IPokerHandParsers>(
@@ -70,7 +69,7 @@ namespace PokerTell.Repository.DataProcessingTests
 
             var repositoryParser = _container.Resolve<RepositoryParser>();
 
-            const string directory = @"C:\Program Files\PokerStars\HandHistory\renniweg\";
+            const string directory = @"C:\Program Files\PokerStars\HandHistory\";
 
             ParseDirectoryWithParser(directory, repositoryParser, printConvertedHands);
         }

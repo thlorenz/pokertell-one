@@ -10,7 +10,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 
         const string FullTiltUncalledBetPattern = @"Uncalled bet of " + SharedPatterns.RatioPattern + @" returned to *";
 
-        const string FullTiltWinningPattern = @".+and won \(" + SharedPatterns.RatioPattern + @"\)";
+        const string FullTiltWinningPattern = @".+(and won|collected) \(" + SharedPatterns.RatioPattern + @"\)";
 
         public PlayerActionsParser(IConstructor<IAquiredPokerAction> aquiredPokerActionMake)
             : base(aquiredPokerActionMake)
