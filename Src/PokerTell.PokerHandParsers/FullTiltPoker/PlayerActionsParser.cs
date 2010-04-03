@@ -1,22 +1,16 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     public class PlayerActionsParser : Base.PlayerActionsParser
     {
-        #region Constants and Fields
-
         const string FullTiltAllinBetPattern = @".+" + SharedPatterns.RatioPattern + @", and is all in";
 
         const string FullTiltUncalledBetPattern = @"Uncalled bet of " + SharedPatterns.RatioPattern + @" returned to *";
 
         const string FullTiltWinningPattern = @".+and won \(" + SharedPatterns.RatioPattern + @"\)";
-
-        #endregion
-
-        #region Properties
 
         public PlayerActionsParser(IConstructor<IAquiredPokerAction> aquiredPokerActionMake)
             : base(aquiredPokerActionMake)
@@ -59,7 +53,5 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
                     ")";
             }
         }
-
-        #endregion
     }
 }

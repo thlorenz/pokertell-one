@@ -134,6 +134,10 @@ You may then add its Hand History Folder manually inside the Advanced section.</
   <data name="AutoDetectHandHistoryFoldersResultsView_Title" xml:space="preserve">
     <value>Results of automatic Hand History folders detection</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="FullTiltPokerLayout" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FullTiltPoker.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="Info_PreferredSeatsHaveBeenConfigured" xml:space="preserve">
     <value>The preferred seats of the following Poker sites have been configured:</value>
   </data>
@@ -173,7 +177,6 @@ You may then add its Hand History Folder manually inside the Advanced section.</
   <data name="LiveTracker_MenuItem_TrackHandHistory" xml:space="preserve">
     <value>Track Hand History</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="PokerStarsLayout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\PokerStars.xml;System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>

@@ -15,7 +15,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         public string TableClass
         {
-            get { return "PokerTableClass"; }
+            get { return "PokerStarsTableFrameClass"; }
         }
 
         public string ProcessName

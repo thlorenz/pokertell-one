@@ -20,7 +20,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
         public string ProcessName
         {
-            get { return "FullTilt"; }
+            get { return "FullTiltPoker"; }
         }
 
         public string FileExtension

@@ -12,6 +12,9 @@
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="CenterOwner"
     MouseDown="WindowBorder_MouseDown">
+    <Views:DialogView.InputBindings>
+        <KeyBinding Key="Enter" Command="{WPF:CommandBinding ImportCommand}" />
+    </Views:DialogView.InputBindings>
     <StackPanel HorizontalAlignment="Center">
         <StackPanel.Resources>
             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
@@ -51,9 +54,6 @@
          Margin="0,5,0,0"
          Padding="5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <StackPanel.InputBindings>
-                    <KeyBinding Key="Enter" Command="{WPF:CommandBinding ImportCommand}" />
-                </StackPanel.InputBindings>
                 <Button Content="{x:Static GlobalProperties:Resources.Commands_Import}" 
                         Command="{Binding ImportCommand}"/>
                 <Button Content="{x:Static GlobalProperties:Resources.Commands_Close}"

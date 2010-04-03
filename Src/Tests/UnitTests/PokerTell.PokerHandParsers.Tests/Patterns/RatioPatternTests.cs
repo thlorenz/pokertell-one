@@ -11,7 +11,7 @@ namespace PokerTell.PokerHandParsers.Tests.Patterns
         public void Match_TwoDigitNumber_ExtractsIt()
         {
             const int twoDigitNumber = 10;
-            Match match =  Regex.Match(twoDigitNumber.ToString(), SharedPatterns.RatioPattern, RegexOptions.IgnoreCase);
+            Match match = Regex.Match(twoDigitNumber.ToString(), SharedPatterns.RatioPattern, RegexOptions.IgnoreCase);
             int extractedNumber = Convert.ToInt32(match.Groups["Ratio"].Value);
             Assert.That(extractedNumber, Is.EqualTo(twoDigitNumber));
         }
@@ -44,11 +44,19 @@ namespace PokerTell.PokerHandParsers.Tests.Patterns
         }
 
         [Test]
+        public void Match_DoubleNumberWithEuroSign_ExtractsIt()
+        {
+            const double doubleNumber = 1.5;
+            Match match = Regex.Match("€" + doubleNumber.ToString(), SharedPatterns.RatioPattern, RegexOptions.IgnoreCase);
+            double extractedNumber = Convert.ToDouble(match.Groups["Ratio"].Value);
+            Assert.That(extractedNumber, Is.EqualTo(doubleNumber));
+        }
+        [Test]
         public void Match_BigNumberCommaSeparated_ExtractsIt()
         {
             const int multiDigitNumber = 1001000;
             Match match = Regex.Match("1,001,000", SharedPatterns.RatioPattern, RegexOptions.IgnoreCase);
-            int extractedNumber = Convert.ToInt32(match.Groups["Ratio"].Value.Replace(",",string.Empty));
+            int extractedNumber = Convert.ToInt32(match.Groups["Ratio"].Value.Replace(",", string.Empty));
             Assert.That(extractedNumber, Is.EqualTo(multiDigitNumber));
         }
 
@@ -57,7 +65,7 @@ namespace PokerTell.PokerHandParsers.Tests.Patterns
         {
             const double multiDigitDoubleNumber = 1001000.23;
             Match match = Regex.Match("1,001,000.23", SharedPatterns.RatioPattern, RegexOptions.IgnoreCase);
-            double extractedNumber = Convert.ToDouble(match.Groups["Ratio"].Value.Replace(",",string.Empty));
+            double extractedNumber = Convert.ToDouble(match.Groups["Ratio"].Value.Replace(",", string.Empty));
             Assert.That(extractedNumber, Is.EqualTo(multiDigitDoubleNumber));
         }
     }

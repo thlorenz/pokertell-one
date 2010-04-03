@@ -73,6 +73,9 @@ namespace PokerTell.LiveTracker.Overlay
 
             var xmlDoc = _xDocumentHandler.Load();
 
+            if (xmlDoc == null)
+                return DefaultSettingsFor(seats);
+
             var xml = xmlDoc.Descendants(Layout)
                 .FirstOrDefault(l => l.Attributes()
                                 .Any(att => att.Name == TotalSeats && att.Value == seats.ToString()));

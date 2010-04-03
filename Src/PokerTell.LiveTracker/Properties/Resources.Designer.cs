@@ -110,6 +110,27 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;Layouts&gt;
+        ///  &lt;Layout TotalSeats=&quot;2&quot;&gt;
+        ///    &lt;ShowPreFlop&gt;true&lt;/ShowPreFlop&gt;
+        ///    &lt;ShowFlop&gt;true&lt;/ShowFlop&gt;
+        ///    &lt;ShowTurn&gt;false&lt;/ShowTurn&gt;
+        ///    &lt;ShowRiver&gt;false&lt;/ShowRiver&gt;
+        ///    &lt;ShowHarringtonM&gt;true&lt;/ShowHarringtonM&gt;
+        ///    &lt;StatisticsPanelWidth&gt;121.2365591397849&lt;/StatisticsPanelWidth&gt;
+        ///    &lt;StatisticsPanelHeight&gt;33.97849462365582&lt;/StatisticsPanelHeight&gt;
+        ///    &lt;Background&gt;#170000FF&lt;/Background&gt;
+        ///    &lt;OutOfPositionForeground&gt;#FFFFFFFF&lt;/OutOfPositionForeground&gt;
+        ///    &lt;InPosi [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string FullTiltPokerLayout {
+            get {
+                return ResourceManager.GetString("FullTiltPokerLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The preferred seats of the following Poker sites have been configured:.
         /// </summary>
         public static string Info_PreferredSeatsHaveBeenConfigured {

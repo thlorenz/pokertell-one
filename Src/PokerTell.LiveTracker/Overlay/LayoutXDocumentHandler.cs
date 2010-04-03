@@ -45,7 +45,7 @@ namespace PokerTell.LiveTracker.Overlay
 
             // If the custom layout was not found or we encountered an error when loading it we will use the default layout from the resources
             var defaultLayoutResource = Resources.ResourceManager.GetString(fileName.Replace(".xml", "Layout"));
-
+            
             return defaultLayoutResource != null ? XDocument.Parse(defaultLayoutResource) : null;
         }
 
@@ -53,7 +53,7 @@ namespace PokerTell.LiveTracker.Overlay
         {
             string fileName = DetermineFileName();
 
-            // Needed for first installation and in case the user decides to delete the layout path
+            // Needed for first run of app and in case the user decides to delete the layout path
             if (!Directory.Exists(LayoutPath))
                 Directory.CreateDirectory(LayoutPath);
 
@@ -69,7 +69,7 @@ namespace PokerTell.LiveTracker.Overlay
 
             return PokerSite.ToLower().Match()
                 .With(site => site == new PokerStarsInfo().Site.ToLower(), _ => "PokerStars.xml")
-                .With(site => site == new FullTiltPokerInfo().Site.ToLower(), _ => "FullTilt.xml")
+                .With(site => site == new FullTiltPokerInfo().Site.ToLower(), _ => "FullTiltPoker.xml")
                 .Do();
         }
     }

@@ -6,8 +6,8 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
     {
         protected override string ValidTableName(string tableName)
         {
-            // Table Bicycle 
-            return string.Format("Table {0} ", tableName);
+            // Table Bicycle - 300/600
+            return string.Format("Table {0} - 300/600", tableName);
         }
 
         protected override TableNameParser GetTableNameParser()

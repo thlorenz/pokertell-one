@@ -24,6 +24,8 @@ namespace Tools.WPF
     [MarkupExtensionReturnType(typeof(ICommand))]
     public class CommandBindingExtension : MarkupExtension
     {
+        static ICommand _dummyCommand;
+
         bool _dataContextChangeHandlerSet;
 
         object _targetObject;
@@ -41,6 +43,11 @@ namespace Tools.WPF
 
         [ConstructorArgument("commandName")]
         public string CommandName { get; set; }
+
+        static ICommand DummyCommand
+        {
+            get { return _dummyCommand ?? (_dummyCommand = new SimpleCommand { ExecuteDelegate = _ => { } }); }
+        }
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -83,7 +90,7 @@ namespace Tools.WPF
             }
 
             // The Command property of an InputBinding cannot be null, so we return a dummy extension instead
-            return DummyCommand.Instance;
+            return DummyCommand;
         }
 
         void AssignCommand(ICommand command)
@@ -142,40 +149,6 @@ namespace Tools.WPF
                         AssignCommand(command);
                     }
                 }
-            }
-        }
-
-        // A dummy command that does nothing...
-        class DummyCommand : ICommand
-        {
-            static DummyCommand _instance;
-
-            DummyCommand()
-            {
-            }
-
-            public event EventHandler CanExecuteChanged;
-
-            public static DummyCommand Instance
-            {
-                get
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new DummyCommand();
-                    }
-
-                    return _instance;
-                }
-            }
-
-            public bool CanExecute(object parameter)
-            {
-                return false;
-            }
-
-            public void Execute(object parameter)
-            {
             }
         }
     }
