@@ -26,8 +26,8 @@
     <property name="GameId" index="ConvertedPokerHand_GameId" >
       <column name="GameId" sql-type="bigint(20)" not-null="true" /> <!-- Need to be explicit(sql-type) for SQLite -->
     </property>
-    <property name="TableName" length="20" >
-      <column name="TableName" sql-type="varchar(20)" />
+    <property name="TableName" length="100" >
+      <column name="TableName" sql-type="varchar(100)" />
     </property>
 
     <property name="BB" column="BigBlind" index="ConvertedPokerHand_BB" />
