@@ -117,7 +117,7 @@ namespace PokerTell.LiveTracker.Overlay
                 return true;
             };
 
-            _windowFinder.FindWindowMatching(new Regex(tableName), new Regex(processName), foundWindowCallback);
+            _windowFinder.FindWindowMatching(new Regex(Regex.Escape(tableName)), new Regex(processName), foundWindowCallback);
             if (! tableFound)
             {
                 Log.DebugFormat("Could not find table with Name: [{0}] and ProcessName : [{1}]", tableName, processName);
