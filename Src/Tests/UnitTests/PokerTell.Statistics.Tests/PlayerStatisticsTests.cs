@@ -3,27 +3,24 @@ namespace PokerTell.Statistics.Tests
     using System.Collections.Generic;
     using System.Linq;
 
-    using Fakes;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces.DatabaseSetup;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-    using Infrastructure.Interfaces.Statistics;
-
     using Microsoft.Practices.Composite.Events;
 
     using Moq;
 
     using NUnit.Framework;
 
-    using UnitTests.Tools;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Statistics.Tests.Fakes;
+    using PokerTell.UnitTests.Tools;
 
     [TestFixture]
     public class PlayerStatisticsTests
     {
-
         const int Id = 1;
 
         const string Name = "somePlayer";
@@ -40,7 +37,20 @@ namespace PokerTell.Statistics.Tests
 
         PlayerStatisticsSut _sut;
 
+        [SetUp]
+        public void _Init()
+        {
+            _stub = new StubBuilder();
+            _eventAggregator = new EventAggregator();
+            _repositoryMock = new Mock<IRepository>();
 
+            _playerIdentityStub = _stub.Setup<IPlayerIdentity>()
+                .Get(pi => pi.Id).Returns(Id)
+                .Out;
+
+            _sut = new PlayerStatisticsSut(_eventAggregator, _repositoryMock.Object);
+            _sut.InitializePlayer(Name, Site);
+        }
 
         [Test]
         public void DatabaseInUseChangedEventWasRaised_AnalyzablePlayersNotEmpty_ReinitializesAnalyzablePlayers()
@@ -171,23 +181,7 @@ namespace PokerTell.Statistics.Tests
                 .InitializePlayer(Name, Site)
                 .UpdateStatistics();
 
-            _sut.StatisticsWereUpdated.ShouldBeTrue();
-        }
-
-        [Test]
-        public void
-            UpdateStatistics_PlayerIdentityIsNullRepositoryReturnsPlayerIdentity_CallsRepositoryFindAnalayzablePlayersForIdAndLastQueriedId
-            ()
-        {
-            _repositoryMock
-                .Setup(rp => rp.FindPlayerIdentityFor(Name, Site))
-                .Returns(_playerIdentityStub);
-
-            _sut
-                .InitializePlayer(Name, Site)
-                .UpdateStatistics();
-
-            _repositoryMock.Verify(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId));
+            _sut.StatisticsGotUpdated.ShouldBeTrue();
         }
 
         [Test]
@@ -216,13 +210,29 @@ namespace PokerTell.Statistics.Tests
         }
 
         [Test]
+        public void
+            UpdateStatistics_PlayerIdentityIsNullRepositoryReturnsPlayerIdentity_CallsRepositoryFindAnalayzablePlayersForIdAndLastQueriedId
+            ()
+        {
+            _repositoryMock
+                .Setup(rp => rp.FindPlayerIdentityFor(Name, Site))
+                .Returns(_playerIdentityStub);
+
+            _sut
+                .InitializePlayer(Name, Site)
+                .UpdateStatistics();
+
+            _repositoryMock.Verify(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId));
+        }
+
+        [Test]
         public void UpdateStatistics_RepositoryReturnsEmptyList_LastQueriedIdIsUnchanged()
         {
             const long originalLastQueriedId = 1;
 
             _repositoryMock
                 .Setup(rp => rp.FindAnalyzablePlayersWith(_playerIdentityStub.Id, _sut.LastQueriedId))
-                .Returns(new List<IAnalyzablePokerPlayer> { });
+                .Returns(new List<IAnalyzablePokerPlayer>());
 
             _sut.PlayerIdentitySet = _playerIdentityStub;
             _sut.LastQueriedId = originalLastQueriedId;
@@ -258,21 +268,5 @@ namespace PokerTell.Statistics.Tests
 
             _sut.LastQueriedId.ShouldBeEqualTo(analyzablePlayerStub2.Id);
         }
-
-        [SetUp]
-        public void _Init()
-        {
-            _stub = new StubBuilder();
-            _eventAggregator = new EventAggregator();
-            _repositoryMock = new Mock<IRepository>();
-
-            _playerIdentityStub = _stub.Setup<IPlayerIdentity>()
-                .Get(pi => pi.Id).Returns(Id)
-                .Out;
-
-            _sut = new PlayerStatisticsSut(_eventAggregator, _repositoryMock.Object);
-            _sut.InitializePlayer(Name, Site);
-        }
-
     }
 }

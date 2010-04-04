@@ -1,25 +1,14 @@
 namespace PokerTell.LiveTracker.Design.Statistics
 {
-    using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Statistics.ViewModels;
 
     public class PostFlopStatisticsSetsDesignModel : PostFlopStatisticsSetsViewModel
     {
-        public PostFlopStatisticsSetsDesignModel(Streets street, int seatNumber)
-            : base(street)
+        public PostFlopStatisticsSetsDesignModel(int seatNumber)
         {
-            HeroXOrHeroBOutOfPositionStatisticsSet =
-                StatisticsSetSummaryDesignModel.GetHeroXOrHeroBSetSummaryDesignModel((int)street + seatNumber);
-            OppBIntoHeroOutOfPositionStatisticsSet =
-                StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel((int)(12 + street + seatNumber), 
-                                                                                           (int)(30 + street + seatNumber));
-            HeroXOutOfPositionOppBStatisticsSet =
-                StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel(29 - (int)street + seatNumber, 
-                                                                                           17 - (int)street + seatNumber);
-
-            HeroXOrHeroBInPositionStatisticsSet = StatisticsSetSummaryDesignModel.GetHeroXOrHeroBSetSummaryDesignModel((int)(1 + street + seatNumber));
+            HeroXOrHeroBInPositionStatisticsSet = StatisticsSetSummaryDesignModel.GetHeroXOrHeroBSetSummaryDesignModel(1 + seatNumber);
             OppBIntoHeroInPositionStatisticsSet =
-                StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel(02 + (3 * (int)street + seatNumber), 04 + (3 * (int)street + seatNumber));
+                StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel(02 + (3 * +seatNumber), 04 + seatNumber);
 
             TotalCountOutOfPosition = 2345;
             TotalCountInPosition = 1003;
@@ -27,14 +16,14 @@ namespace PokerTell.LiveTracker.Design.Statistics
             RegisterEvents();
         }
 
-        public int TotalCountOutOfPositionSet
-        {
-            set { TotalCountOutOfPosition = value; }
-        }
-
         public int TotalCountInPositionSet
         {
             set { TotalCountInPosition = value; }
+        }
+
+        public int TotalCountOutOfPositionSet
+        {
+            set { TotalCountOutOfPosition = value; }
         }
     }
 }

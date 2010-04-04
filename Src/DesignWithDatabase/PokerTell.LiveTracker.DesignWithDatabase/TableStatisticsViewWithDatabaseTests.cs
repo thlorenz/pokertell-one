@@ -89,7 +89,7 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                 eventAggregator,
                 new Mock<ISettings>().Object,
                 new Mock<IDimensionsViewModel>().Object,
-                new Constructor<IPlayerStatisticsViewModel>(() => new PlayerStatisticsViewModel()),
+                new Constructor<IPlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>()),
                 detailedStatisticsAnalyzerViewModel);
             var designWindow = new TableStatisticsDesignWindow(eventAggregator, 
                                                                _container.Resolve<IRepositoryHandBrowserViewModel>())

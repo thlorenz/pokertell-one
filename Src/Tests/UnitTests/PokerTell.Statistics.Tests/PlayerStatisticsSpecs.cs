@@ -1,5 +1,7 @@
 namespace PokerTell.Statistics.Tests
 {
+    using System.Linq;
+
     using Fakes;
 
     using Infrastructure.Enumerations.PokerHand;
@@ -17,6 +19,10 @@ namespace PokerTell.Statistics.Tests
     // Resharper disable InconsistentNaming
     public abstract class PlayerStatisticsSpecs
     {
+        const string Name = "somePlayer";
+
+        const string Site = "someSite";
+
         protected static PlayerStatisticsSut _sut;
 
         protected static IEventAggregator _eventAggregator;
@@ -28,6 +34,19 @@ namespace PokerTell.Statistics.Tests
             _repository_Stub = new Mock<IRepository>();
 
             _sut = new PlayerStatisticsSut(_eventAggregator, _repository_Stub.Object);
+            _sut.InitializePlayer(Name, Site);
         };
+
+        [Subject(typeof(PlayerStatistics), "UpdateStatisticsWith")]
+        public class when_statistics_are_being_updated_with_new_data_or_because_a_filter_is_applied : PlayerStatisticsSpecs
+        {
+            static bool statisticsWereUpdatedWasRaised;
+
+            Establish context = () => _sut.StatisticsWereUpdated += () => statisticsWereUpdatedWasRaised = true;
+
+            Because of = () => _sut.UpdateStatisticsWith_Invoke(Enumerable.Empty<IAnalyzablePokerPlayer>());
+
+            It should_let_me_know_that_it_was_updated = () => statisticsWereUpdatedWasRaised.ShouldBeTrue();
+        }
     }
 }

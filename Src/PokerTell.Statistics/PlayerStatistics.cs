@@ -1,5 +1,6 @@
 namespace PokerTell.Statistics
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
@@ -184,7 +185,7 @@ namespace PokerTell.Statistics
 
             if (PlayerIdentity != null)
             {
-                ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(_repository);
+                ExtractAnalyzablePlayersAndRememberLastQueriedIdFrom(_repository);
 
                 FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
             }
@@ -207,8 +208,7 @@ namespace PokerTell.Statistics
             ActionSequences actionSequence, 
             bool inPosition)
         {
-            return new ActionSequenceStatisticsSet(
-                percentagesCalculator, statistics, playerName, street, actionSequence, inPosition);
+            return new ActionSequenceStatisticsSet(percentagesCalculator, statistics, playerName, street, actionSequence, inPosition);
         }
 
         protected virtual IActionSequenceStatisticsSet NewHeroCheckOrBetSetStatistics(
@@ -243,6 +243,8 @@ namespace PokerTell.Statistics
             {
                 statisticsSet.UpdateWith(filteredAnalyzablePlayers);
             }
+
+            StatisticsWereUpdated();
         }
 
         void CreatePostFlopStatistics()
@@ -254,7 +256,7 @@ namespace PokerTell.Statistics
             OppBIntoHeroOutOfPosition = new IActionSequenceStatisticsSet[(int)(Streets.River + 1)];
         }
 
-        void ExtractAnalyzablePlayersAndUpdateLastQueriedIdFrom(IRepository repository)
+        void ExtractAnalyzablePlayersAndRememberLastQueriedIdFrom(IRepository repository)
         {
             IEnumerable<IAnalyzablePokerPlayer> newAnalyzablePlayers =
                 repository.FindAnalyzablePlayersWith(PlayerIdentity.Id, _lastQueriedId);
@@ -307,6 +309,8 @@ namespace PokerTell.Statistics
             HeroXOrHeroBInPosition[(int)street] =
                 NewHeroCheckOrBetSetStatistics(new SeparateRowsPercentagesCalculator(), heroXOrHeroBInPositionStatistics, _playerName, street, true);
         }
+
+        public event Action StatisticsWereUpdated = delegate { };
 
         void InitializeHeroXOutOfPositionOppBStatistics(Streets street, int betSizeIndexCount)
         {

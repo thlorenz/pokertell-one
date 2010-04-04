@@ -163,7 +163,6 @@
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
-    <Compile Include="ViewModels\_Design\PlayerStatisticsDesignModel.cs" />
     <Compile Include="ViewModels\_Design\PostFlopStatisticsSetsDesignModel.cs" />
     <Compile Include="ViewModels\_Design\PreFlopStatisticsSetsDesignModel.cs" />
     <Compile Include="ViewModels\_Design\StatisticsSetSummaryDesignModel.cs" />

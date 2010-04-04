@@ -3,7 +3,6 @@ namespace PokerTell.Statistics.ViewModels
     using System;
     using System.Collections;
     using System.Collections.Generic;
-    using System.Linq;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
@@ -13,32 +12,24 @@ namespace PokerTell.Statistics.ViewModels
 
     public class PostFlopStatisticsSetsViewModel : NotifyPropertyChanged, IPostFlopStatisticsSetsViewModel
     {
-        #region Constants and Fields
+        Streets _street;
 
-        readonly Streets _street;
+        int _totalCountInPosition;
 
-        #endregion
+        int _totalCountOutOfPosition;
 
-        #region Constructors and Destructors
-
-        public PostFlopStatisticsSetsViewModel(Streets street)
+        public IPostFlopStatisticsSetsViewModel InitializeWith(Streets street)
         {
             _street = street;
 
             InitializeStatisticsSetSummaryViewModels();
 
             RegisterEvents();
+
+            return this;
         }
 
-        #endregion
-
-        #region Events
-
         public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
-
-        #endregion
-
-        #region Properties
 
         public IStatisticsSetSummaryViewModel HeroXOrHeroBInPositionStatisticsSet { get; protected set; }
 
@@ -50,8 +41,6 @@ namespace PokerTell.Statistics.ViewModels
 
         public IStatisticsSetSummaryViewModel OppBIntoHeroOutOfPositionStatisticsSet { get; protected set; }
 
-        int _totalCountInPosition;
-
         public int TotalCountInPosition
         {
             get { return _totalCountInPosition; }
@@ -61,8 +50,6 @@ namespace PokerTell.Statistics.ViewModels
                 RaisePropertyChanged(() => TotalCountInPosition);
             }
         }
-
-        int _totalCountOutOfPosition;
 
         public int TotalCountOutOfPosition
         {
@@ -74,29 +61,15 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IEnumerable
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        #endregion
-
-        #region IEnumerable<IStatisticsSetSummaryViewModel>
-
         public IEnumerator<IStatisticsSetSummaryViewModel> GetEnumerator()
         {
             return GetAllStatisticsSets().GetEnumerator();
         }
-
-        #endregion
-
-        #region IPostFlopStatisticsSetsViewModel
 
         public IPostFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
@@ -112,11 +85,14 @@ namespace PokerTell.Statistics.ViewModels
             return this;
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
+        protected void RegisterEvents()
+        {
+            foreach (var statisticsSetsSummary in this)
+            {
+                statisticsSetsSummary.StatisticsSetSelectedEvent +=
+                    statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
+            }
+        }
 
         IEnumerable<IStatisticsSetSummaryViewModel> GetAllStatisticsSets()
         {
@@ -153,16 +129,5 @@ namespace PokerTell.Statistics.ViewModels
             HeroXOrHeroBInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
             OppBIntoHeroInPositionStatisticsSet = new StatisticsSetSummaryViewModel();
         }
-
-        protected void RegisterEvents()
-        {
-            foreach (var statisticsSetsSummary in this)
-            {
-                statisticsSetsSummary.StatisticsSetSelectedEvent +=
-                    statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
-            }
-        }
-
-        #endregion
     }
 }

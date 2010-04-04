@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
+    <Compile Include="ViewModels\PlayerStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroActsStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelSpecs.cs" />

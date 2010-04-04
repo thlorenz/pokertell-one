@@ -65,7 +65,7 @@ namespace PokerTell.Statistics.Tests.Fakes
         protected override void UpdateStatisticsWith(IEnumerable<IAnalyzablePokerPlayer> filteredAnalyzablePlayers)
         {
             base.UpdateStatisticsWith(filteredAnalyzablePlayers);
-            StatisticsWereUpdated = true;
+            StatisticsGotUpdated = true;
         }
 
         public IEnumerable<IAnalyzablePokerPlayer> GetFilteredAnalyzablePlayersInvoke()
@@ -85,7 +85,7 @@ namespace PokerTell.Statistics.Tests.Fakes
             return this;
         }
 
-        internal bool StatisticsWereUpdated { get; private set; }
+        internal bool StatisticsGotUpdated { get; private set; }
 
         internal bool MatchingPlayersWereFiltered { get; private set; }
     }

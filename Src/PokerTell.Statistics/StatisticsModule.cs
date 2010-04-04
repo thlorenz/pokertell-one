@@ -49,8 +49,13 @@ namespace PokerTell.Statistics
         void RegisterViewsAndServices()
         {
             _container
+                // StatisicsSets
+                .RegisterType<IPreFlopStatisticsSetsViewModel, PreFlopStatisticsSetsViewModel>()
+                .RegisterType<IPostFlopStatisticsSetsViewModel, PostFlopStatisticsSetsViewModel>()
+
+                // Statistics and ViewModel
                 .RegisterTypeAndConstructor<IPlayerStatistics, PlayerStatistics>(() => _container.Resolve<IPlayerStatistics>())
-                .RegisterConstructor<IPlayerStatisticsViewModel, PlayerStatisticsViewModel>()
+                .RegisterTypeAndConstructor<IPlayerStatisticsViewModel, PlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>())
 
                 // RaiseReactionAnalyzation
                 .RegisterType<IReactionAnalyzationPreparer, ReactionAnalyzationPreparer>()
@@ -62,7 +67,7 @@ namespace PokerTell.Statistics
                 // RepositoryHandBrowser
                 .RegisterType<IRepositoryHandBrowser, RepositoryHandBrowser>()
                 .RegisterType<IRepositoryHandBrowserViewModel, RepositoryHandBrowserViewModel>()
-
+                
                 // Detailed Statistics Describers
                 .RegisterType<IDetailedPreFlopStatisticsDescriber, DetailedPreFlopStatisticsDescriber>()
                 .RegisterType<IDetailedPostFlopHeroActsStatisticsDescriber, DetailedPostFlopHeroActsStatisticsDescriber>()

@@ -3,30 +3,28 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
     using System;
     using System.Collections.Generic;
 
-    using Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
 
     public interface IPostFlopStatisticsSetsViewModel : IFluentInterface, IEnumerable<IStatisticsSetSummaryViewModel>
     {
-        #region Properties
-
-        IStatisticsSetSummaryViewModel HeroXOrHeroBOutOfPositionStatisticsSet { get; }
+        event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
 
         IStatisticsSetSummaryViewModel HeroXOrHeroBInPositionStatisticsSet { get; }
 
-        IStatisticsSetSummaryViewModel OppBIntoHeroOutOfPositionStatisticsSet { get; }
-
-        IStatisticsSetSummaryViewModel OppBIntoHeroInPositionStatisticsSet { get; }
+        IStatisticsSetSummaryViewModel HeroXOrHeroBOutOfPositionStatisticsSet { get; }
 
         IStatisticsSetSummaryViewModel HeroXOutOfPositionOppBStatisticsSet { get; }
 
-        int TotalCountOutOfPosition { get; }
+        IStatisticsSetSummaryViewModel OppBIntoHeroInPositionStatisticsSet { get; }
+
+        IStatisticsSetSummaryViewModel OppBIntoHeroOutOfPositionStatisticsSet { get; }
 
         int TotalCountInPosition { get; }
 
-        #endregion
+        int TotalCountOutOfPosition { get; }
+
+        IPostFlopStatisticsSetsViewModel InitializeWith(Streets street);
 
         IPostFlopStatisticsSetsViewModel UpdateWith(IPlayerStatistics playerStatistics);
-
-        event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent;
     }
 }

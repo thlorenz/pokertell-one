@@ -5,7 +5,6 @@ namespace PokerTell.Statistics.ViewModels._Design
     public class PostFlopStatisticsSetsDesignModel : PostFlopStatisticsSetsViewModel
     {
         public PostFlopStatisticsSetsDesignModel(Streets street)
-            : base(street)
         {
             HeroXOrHeroBOutOfPositionStatisticsSet =
                 StatisticsSetSummaryDesignModel.GetHeroXOrHeroBSetSummaryDesignModel((int)street);

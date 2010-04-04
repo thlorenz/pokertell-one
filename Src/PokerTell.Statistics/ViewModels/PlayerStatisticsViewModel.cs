@@ -1,41 +1,36 @@
 namespace PokerTell.Statistics.ViewModels
 {
     using System;
-    using System.Windows.Input;
+    using System.Windows;
+    using System.Windows.Threading;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
-    using Tools.WPF;
     using Tools.WPF.ViewModels;
 
     public class PlayerStatisticsViewModel : NotifyPropertyChanged, IPlayerStatisticsViewModel
     {
-        public PlayerStatisticsViewModel()
+        public PlayerStatisticsViewModel(
+            IPreFlopStatisticsSetsViewModel preFlopStatisticsSetsViewModel, 
+            IPostFlopStatisticsSetsViewModel flopStatisticsSetsViewModel, 
+            IPostFlopStatisticsSetsViewModel turnStatisticsSetsViewModel, 
+            IPostFlopStatisticsSetsViewModel riverStatisticsSetsViewModel)
         {
-            InitializeStatisticsSetsViewModels();
+            PreFlopStatisticsSets = preFlopStatisticsSetsViewModel;
+
+            FlopStatisticsSets = flopStatisticsSetsViewModel;
+            TurnStatisticsSets = turnStatisticsSetsViewModel;
+            RiverStatisticsSets = riverStatisticsSetsViewModel;
+
+            InitializeStatisticsSets();
 
             RegisterEvents();
         }
 
-        public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
-
         public event Action<IPlayerStatisticsViewModel> BrowseAllMyHandsRequested = delegate { };
 
-        public IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; protected set; }
-
-        public string PlayerName
-        {
-            get { return PlayerStatistics.PlayerIdentity.Name; }
-        }
-
-        public IPreFlopStatisticsSetsViewModel PreFlopStatisticsSets { get; protected set; }
-
-        public IPostFlopStatisticsSetsViewModel RiverStatisticsSets { get; protected set; }
-
-        public IPostFlopStatisticsSetsViewModel TurnStatisticsSets { get; protected set; }
-
-        public IPlayerStatistics PlayerStatistics { get; protected set; }
+        public event Action<IActionSequenceStatisticsSet> SelectedStatisticsSetEvent = delegate { };
 
         public IAnalyzablePokerPlayersFilter Filter
         {
@@ -46,6 +41,21 @@ namespace PokerTell.Statistics.ViewModels
                 UpdateStatisticsSets();
             }
         }
+
+        public IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; protected set; }
+
+        public string PlayerName
+        {
+            get { return PlayerStatistics.PlayerIdentity.Name; }
+        }
+
+        public IPlayerStatistics PlayerStatistics { get; protected set; }
+
+        public IPreFlopStatisticsSetsViewModel PreFlopStatisticsSets { get; protected set; }
+
+        public IPostFlopStatisticsSetsViewModel RiverStatisticsSets { get; protected set; }
+
+        public IPostFlopStatisticsSetsViewModel TurnStatisticsSets { get; protected set; }
 
         public override string ToString()
         {
@@ -60,18 +70,15 @@ namespace PokerTell.Statistics.ViewModels
         public IPlayerStatisticsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
             PlayerStatistics = playerStatistics;
+         
+            // Need to dispatch here since the update will also be done on a background thread (PlayerStatistics Updater) and we will
+            // affect the gui when we update the underlying viewmodels
+            PlayerStatistics.StatisticsWereUpdated += () =>
+                UIThreadOrCurrentDispatcher.Invoke(DispatcherPriority.DataBind, new Action(UpdateStatisticsSets));
 
             UpdateStatisticsSets();
-
+            
             return this;
-        }
-
-        void UpdateStatisticsSets()
-        {
-            PreFlopStatisticsSets.UpdateWith(PlayerStatistics);
-            FlopStatisticsSets.UpdateWith(PlayerStatistics);
-            TurnStatisticsSets.UpdateWith(PlayerStatistics);
-            RiverStatisticsSets.UpdateWith(PlayerStatistics);
         }
 
         protected void RegisterEvents()
@@ -92,12 +99,33 @@ namespace PokerTell.Statistics.ViewModels
                 statisticsSet => SelectedStatisticsSetEvent(statisticsSet);
         }
 
-        void InitializeStatisticsSetsViewModels()
+        void InitializeStatisticsSets()
         {
-            PreFlopStatisticsSets = new PreFlopStatisticsSetsViewModel();
-            FlopStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Flop);
-            TurnStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.Turn);
-            RiverStatisticsSets = new PostFlopStatisticsSetsViewModel(Streets.River);
+            FlopStatisticsSets.InitializeWith(Streets.Flop);
+            TurnStatisticsSets.InitializeWith(Streets.Turn);
+            RiverStatisticsSets.InitializeWith(Streets.River);
+        }
+
+        void UpdateStatisticsSets()
+        {
+            PreFlopStatisticsSets.UpdateWith(PlayerStatistics);
+            FlopStatisticsSets.UpdateWith(PlayerStatistics);
+            TurnStatisticsSets.UpdateWith(PlayerStatistics);
+            RiverStatisticsSets.UpdateWith(PlayerStatistics);
+        }
+
+        /// <summary>
+        /// Needed because durin testing Application.Current is null, so we need to swap out the Dispatcher object
+        /// </summary>
+        static Dispatcher UIThreadOrCurrentDispatcher
+        {
+            get
+            {
+                if (Application.Current != null && Application.Current.Dispatcher != null)
+                    return Application.Current.Dispatcher;
+                
+                return Dispatcher.CurrentDispatcher;
+            }
         }
     }
 }

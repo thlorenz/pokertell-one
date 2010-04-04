@@ -1,5 +1,6 @@
 namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
+    using System;
     using System.Collections.Generic;
 
     using Enumerations.PokerHand;
@@ -39,5 +40,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         IPlayerStatistics UpdateStatistics();
 
         IPlayerStatistics InitializePlayer(string playerName, string pokerSite);
+
+        event Action StatisticsWereUpdated;
     }
 }
