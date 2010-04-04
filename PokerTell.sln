@@ -113,6 +113,8 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.Setup", "Src\Depl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.User.Design", "Src\Design\PokerTell.User.Design\PokerTell.User.Design.csproj", "{C7F21E7B-3070-44F2-89D9-C49133D94493}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.WithPlugins.Setup", "Src\Deployment\PokerTell.WithPlugins.Setup\PokerTell.WithPlugins.Setup.vdproj", "{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -275,6 +277,10 @@ Global
 		{C7F21E7B-3070-44F2-89D9-C49133D94493}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F21E7B-3070-44F2-89D9-C49133D94493}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7F21E7B-3070-44F2-89D9-C49133D94493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Debug|Any CPU.ActiveCfg = Debug
+		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Debug|Any CPU.Build.0 = Debug
+		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Release|Any CPU.ActiveCfg = Release
+		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -324,6 +330,7 @@ Global
 		{5B654EE9-2E7C-4DA0-9DF3-279FC11B3553} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
 		{C638E665-5926-441B-A74A-32DCBFC7347D} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
 		{729A9427-0250-4598-9077-6E5A941F3945} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
+		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
