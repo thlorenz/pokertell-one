@@ -96,8 +96,8 @@ namespace PokerTell.Statistics.Analyzation
                 }
                 else
                 {
-                    AverageChenValues[i] = "n/a";
-                    AverageSklanskyMalmuthGroupings[i] = "n/a";
+                    AverageChenValues[i] = "na";
+                    AverageSklanskyMalmuthGroupings[i] = "na";
                 }
             }
         }

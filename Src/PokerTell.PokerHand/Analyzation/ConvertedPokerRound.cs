@@ -111,14 +111,14 @@ namespace PokerTell.PokerHand.Analyzation
         /// <returns>String representation of the round, including info about all actions</returns>
         public override string ToString()
         {
-            string actStr = string.Empty;
+            string allActions = string.Empty;
 
-            foreach (IConvertedPokerAction iA in Actions)
+            foreach (IConvertedPokerAction action in Actions)
             {
-                actStr = actStr + iA.ToString() + " ";
+                allActions = allActions + action.ToString() + " ";
             }
 
-            return actStr;
+            return allActions;
         }
     }
 }

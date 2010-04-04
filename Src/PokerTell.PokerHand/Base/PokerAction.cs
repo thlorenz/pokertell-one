@@ -106,7 +106,6 @@ namespace PokerTell.PokerHand.Base
                     return ActionTypes.P;
                 }
 
-                // post ante
                 throw new FormatException("Invalid Action string " + theActionString);
             }
             catch (FormatException excep)
@@ -115,8 +114,6 @@ namespace PokerTell.PokerHand.Base
             }
 
             return ActionTypes.E;
-
-            // error
         }
 
         public override bool Equals(object obj)
@@ -135,7 +132,6 @@ namespace PokerTell.PokerHand.Base
         /// <returns>String representation of the action type and ratio</returns>
         public override string ToString()
         {
-            string actionString;
             switch (What)
             {
                 case ActionTypes.P:
@@ -143,21 +139,19 @@ namespace PokerTell.PokerHand.Base
                 case ActionTypes.C:
                 case ActionTypes.W:
                 case ActionTypes.R:
-                    actionString = string.Format("{0} {1:F1} ", What, Ratio);
-                    break;
+                    return string.Format("{0} {1:F1} ", What, Ratio);
 
                 case ActionTypes.A:
+                case ActionTypes.E:
+                    return string.Format("{0} ", What);
+
                 case ActionTypes.X:
                 case ActionTypes.F:
-                case ActionTypes.E:
-                    actionString = string.Format("{0}       ", What);
-                    break;
+                    return string.Format("{0}       ", What);
+                
                 default:
-                    actionString = string.Format("{0} {1:F1} ", What, Ratio);
-                    break;
+                    return string.Format("{0} {1:F1} ", What, Ratio);
             }
-
-            return actionString;
         }
     }
 }

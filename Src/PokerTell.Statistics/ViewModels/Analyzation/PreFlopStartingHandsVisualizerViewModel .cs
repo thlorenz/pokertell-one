@@ -39,8 +39,8 @@ namespace PokerTell.Statistics.ViewModels.Analyzation
         {
             var sb = new StringBuilder();
             return sb
-                .AppendLine("The table shows all hands that were found at least once as white, others as black.")
-                .AppendLine("The more often they were found, the more red their background is.")
+                .AppendLine("The table shows all hands that were found at least once as white, others as gray.")
+                .AppendLine("The more often they were found, the redder is their background.")
                 .AppendLine("Cards to the left of the pairs are offsuit, the ones to the right are suited.")
                 .ToString();
         }

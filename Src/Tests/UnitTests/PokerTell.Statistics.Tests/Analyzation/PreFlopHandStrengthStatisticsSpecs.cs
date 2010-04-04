@@ -238,10 +238,10 @@ namespace PokerTell.Statistics.Tests.Analyzation
                 _valuedHoleCardsAverageMock.Verify(a => a.InitializeWith(Moq.It.Is<IEnumerable<IValuedHoleCards>>(l => l.Count() == 0)));
 
             It should_set_the_AverageChenValue_at_col_0_to_not_available
-                = () => _sut.AverageChenValues[0].ShouldEqual("n/a");
+                = () => _sut.AverageChenValues[0].ShouldEqual("na");
 
             It should_set_the_AverageSklanskyMalmuthGrouping_at_col_0_to_not_available
-                = () => _sut.AverageSklanskyMalmuthGroupings[0].ShouldEqual("n/a");
+                = () => _sut.AverageSklanskyMalmuthGroupings[0].ShouldEqual("na");
         }
     }
 
