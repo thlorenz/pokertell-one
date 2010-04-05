@@ -247,5 +247,20 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_not_tell_the_PlayerStatus_to_show_the_holecards_for_2_seconds =
                 () => _playerStatusVM_Mock.Verify(ps => ps.ShowHoleCardsFor(duration, Moq.It.IsAny<string>()), Times.Never());
         }
+
+        [Subject(typeof(PlayerOverlayViewModel), "FilterAdjustmentRequested")]
+        public class when_the_user_request_to_adjust_the_filter_for_the_players_statistics : PlayerOverlayViewModelSpecs
+        {
+            static bool filterAjustmentRequestedWasRaisedWithCorrectPayload;
+
+            Establish context = () => {
+                _sut.UpdateStatisticsWith(_playerStatisticsVM_Stub.Object);
+                _sut.FilterAdjustmentRequested += arg => filterAjustmentRequestedWasRaisedWithCorrectPayload = arg.Equals(_playerStatisticsVM_Stub.Object);
+            };
+
+            Because of = () => _sut.FilterAdjustmentRequestedCommand.Execute(null);
+
+            It should_let_me_know_and_pass_itself_as_the_payload = () => filterAjustmentRequestedWasRaisedWithCorrectPayload.ShouldBeTrue();
+        }
     }
 }

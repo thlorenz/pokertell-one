@@ -1,5 +1,8 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
+    using System;
+    using System.Windows.Input;
+
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
@@ -21,6 +24,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         bool IsPresentAndHasStatistics { get; }
 
+        ICommand FilterAdjustmentRequestedCommand { get; }
+
         IPlayerOverlayViewModel InitializeWith(ITableOverlaySettingsViewModel settings, int seatNumber);
 
         IPlayerOverlayViewModel ShowHoleCardsFor(int showHoleCardsDuration);
@@ -28,5 +33,7 @@ namespace PokerTell.LiveTracker.Interfaces
         IPlayerOverlayViewModel UpdateStatusWith(IConvertedPokerPlayer pokerPlayer);
 
         void UpdateStatisticsWith(IPlayerStatisticsViewModel playerStatistics);
+
+        event Action<IPlayerStatisticsViewModel> FilterAdjustmentRequested;
     }
 }

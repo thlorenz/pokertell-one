@@ -89,7 +89,7 @@ namespace PokerTell.LiveTracker.ViewModels
             {
                 return _filterAdjustmentRequestedCommand ?? (_filterAdjustmentRequestedCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => DisplayFilterAdjustmentPopup(), 
+                        ExecuteDelegate = arg => DisplayFilterAdjustmentPopup(SelectedPlayer), 
                         CanExecuteDelegate = arg => SelectedPlayer != null
                     });
             }
@@ -227,9 +227,9 @@ namespace PokerTell.LiveTracker.ViewModels
             return playersStatisticsList;
         }
 
-        void DisplayFilterAdjustmentPopup()
+        public virtual void DisplayFilterAdjustmentPopup(IPlayerStatisticsViewModel player)
         {
-            FilterAdjustmentPopup.InitializeWith(SelectedPlayer.PlayerName, SelectedPlayer.Filter, ApplyFilterTo, ApplyFilterToAll);
+            FilterAdjustmentPopup.InitializeWith(player.PlayerName, player.Filter, ApplyFilterTo, ApplyFilterToAll);
             ShowFilterAdjustmentPopup = true;
         }
 

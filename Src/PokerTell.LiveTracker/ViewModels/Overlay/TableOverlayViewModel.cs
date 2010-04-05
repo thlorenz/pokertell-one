@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using System.Linq;
     using System.Windows.Input;
 
+    using Infrastructure.Interfaces.Statistics;
+
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.LiveTracker.Interfaces;
@@ -142,6 +144,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
             PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => ShowOverlayDetails = true;
             PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => ShowOverlayDetails = true;
+            PlayerOverlays.ForEach(
+                po => po.FilterAdjustmentRequested += playerStatisticsViewModel => PokerTableStatisticsViewModel.DisplayFilterAdjustmentPopup(playerStatisticsViewModel));
         }
 
         void CreatePlayerOverlays(int totalSeats)

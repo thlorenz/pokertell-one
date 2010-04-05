@@ -1,11 +1,13 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
     using System;
+    using System.Windows.Input;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
 
+    using Tools.WPF;
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
@@ -101,5 +103,20 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
             return this;
         }
+
+        ICommand _filterAdjustmentRequestedCommand;
+
+        public ICommand FilterAdjustmentRequestedCommand
+        {
+            get
+            {
+                return _filterAdjustmentRequestedCommand ?? (_filterAdjustmentRequestedCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => FilterAdjustmentRequested(PlayerStatistics)
+                    });
+            }
+        }
+
+        public event Action<IPlayerStatisticsViewModel> FilterAdjustmentRequested = delegate { };
     }
 }

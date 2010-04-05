@@ -21,7 +21,7 @@
                        SmallChange="1"
                        LargeChange="5"
                        Value="{Binding CurrentHandIndex, Mode=TwoWay}"
-                       HorizontalAlignment="Stretch"
+                       Height="200"
                        Margin="1,0" />
         </Grid>
     </DataTemplate>

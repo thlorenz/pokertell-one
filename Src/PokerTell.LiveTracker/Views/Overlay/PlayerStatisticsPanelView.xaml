@@ -9,7 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            
+
             <!-- Inactive Label Style -->
             <Style x:Key="InactiveLabelStyle" TargetType="{x:Type Label}">
                 <Setter Property="Padding" Value="0" />
@@ -18,7 +18,7 @@
                     Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Border}}, 
                             Path=DataContext.Settings.InPositionForeground.Brush}" />
             </Style>
-            
+
             <!-- Active Label Style -->
             <Style x:Key="ActiveLabelStyle" TargetType="{x:Type Label}">
                 <Setter Property="Padding" Value="0" />
@@ -35,7 +35,7 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
-            
+
             <!-- StatisticsSetLabelStyle -->
             <Style x:Key ="StatisticsSetLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource ActiveLabelStyle}">
                 <Setter Property="WPF:CommandBehavior.Event" Value="MouseLeftButtonDown"/>
@@ -127,7 +127,7 @@
                            DataContext="{Binding HeroXOrHeroBInPositionStatisticsSet}"
                            Content="{Binding Rows[1].Percentage}"
                            Margin="3,0,1,0"/>
-                    
+
                     <!-- OppBIntoHeroInPositionStatisticsSet -->
                     <Label Style="{StaticResource InPositionStatisticsSetLabelStyle}"
                            DataContext="{Binding OppBIntoHeroInPositionStatisticsSet}">
@@ -160,9 +160,12 @@
                 <StackPanel Orientation="Vertical" >
                     <!-- Preflop -->
                     <!-- Bind Visibility to Main Settings Show PreFlop -->
-                    <ContentControl Content="{Binding PlayerStatistics.PreFlopStatisticsSets}" 
+                    <Grid>
+                        <ContentControl Content="{Binding PlayerStatistics.PreFlopStatisticsSets}" 
                                           ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"
                                           Visibility="{Binding Settings.ShowPreFlop, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+                        <Button Content="F" Command="{Binding FilterAdjustmentRequestedCommand}" HorizontalAlignment="Right" Padding="5,3" FontSize="8"/>
+                    </Grid>
                     <!-- Flop -->
                     <!-- Bind Visibility to Main Settings Show Flop -->
                     <ContentControl Content="{Binding PlayerStatistics.FlopStatisticsSets}"

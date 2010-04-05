@@ -449,5 +449,19 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_update_bobs_status_with_null = () => _playerOverlay_Bob_VM_Mock.Verify(bob => bob.UpdateStatusWith(null));
         }
+
+
+        [Subject(typeof(TableOverlayViewModel), "PlayerOverlay FilterAdjustmentRequested")]
+        public class when_teds_playeroverlay_says_that_the_user_want_to_adjust_its_filter : Ctx_Ted_In_Seat1
+        {
+            static Mock<IPlayerStatisticsViewModel> tedsStatisticsVM_Stub;
+
+            Establish context = () => tedsStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
+
+            Because of = () => _playerOverlay_Ted_VM_Mock.Raise(po => po.FilterAdjustmentRequested += null, tedsStatisticsVM_Stub.Object);
+
+            It should_tell_the_PokerTableStatistics_viewmodel_to_display_the_filter_adjustment_popup_for_teds_statistics
+                = () => _pokerTableStatisticsVM_Stub.Verify(pts => pts.DisplayFilterAdjustmentPopup(tedsStatisticsVM_Stub.Object));
+        }
     }
 }
