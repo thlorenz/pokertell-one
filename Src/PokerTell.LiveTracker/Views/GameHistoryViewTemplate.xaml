@@ -15,13 +15,14 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <ContentControl Content="{Binding CurrentHandHistory, Mode=OneWay}" />
+          
             <ScrollBar Grid.Column="1"
                        Minimum="0"
                        Maximum="{Binding HandCount, Converter={StaticResource CountToMaximumConverter}}"
                        SmallChange="1"
                        LargeChange="5"
                        Value="{Binding CurrentHandIndex, Mode=TwoWay}"
-                       Height="200"
+                       MinHeight="150"
                        Margin="1,0" />
         </Grid>
     </DataTemplate>

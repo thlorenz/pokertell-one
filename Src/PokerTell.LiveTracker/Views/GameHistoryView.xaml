@@ -37,7 +37,7 @@
                         HorizontalAlignment="Right" 
                         Click="CloseButton_Clicked" 
                         Width="15" Height="15" />
-            <Viewbox Grid.Row="1" Stretch="Fill">
+            <Viewbox Grid.Row="1" Stretch="Fill" Height="150">
                 <ContentControl Grid.Row="1" Content="{Binding}" />
             </Viewbox>
         </Grid>

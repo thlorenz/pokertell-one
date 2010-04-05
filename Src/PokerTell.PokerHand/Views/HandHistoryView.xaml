@@ -76,9 +76,9 @@
                     </Border>
                 </StackPanel>
                 <!-- Players Grid -->
-                <ListView Grid.Row="1" ItemsSource="{Binding PlayerRows}" SelectedIndex="{Binding SelectedRow}">
+                <ListView Grid.Row="1" ItemsSource="{Binding PlayerRows}" SelectedIndex="{Binding SelectedRow}" >
                     <ListView.View>
-                        <GridView AllowsColumnReorder="False">
+                        <GridView AllowsColumnReorder="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                             <GridView.ColumnHeaderTemplate>
                                 <DataTemplate>
                                     <Label Margin="0" Content="{Binding}" FontSize="9" Padding="0"/>
