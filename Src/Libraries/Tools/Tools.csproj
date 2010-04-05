@@ -90,6 +90,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IDispatcher.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ExecuteProcess.cs" />
     <Compile Include="Extensions\ArrayComparer.cs" />

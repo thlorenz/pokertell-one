@@ -41,6 +41,6 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         IPlayerStatistics InitializePlayer(string playerName, string pokerSite);
 
-        event Action StatisticsWereUpdated;
+        event Action FilterChanged;
     }
 }

@@ -7,16 +7,16 @@ namespace PokerTell.Statistics.ViewModels
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
+    using Tools.Interfaces;
     using Tools.WPF.ViewModels;
 
     public class PlayerStatisticsViewModel : NotifyPropertyChanged, IPlayerStatisticsViewModel
     {
-        public PlayerStatisticsViewModel(
-            IPreFlopStatisticsSetsViewModel preFlopStatisticsSetsViewModel, 
-            IPostFlopStatisticsSetsViewModel flopStatisticsSetsViewModel, 
-            IPostFlopStatisticsSetsViewModel turnStatisticsSetsViewModel, 
-            IPostFlopStatisticsSetsViewModel riverStatisticsSetsViewModel)
+        readonly IDispatcher _dispatcher;
+
+        public PlayerStatisticsViewModel(IDispatcher dispatcher, IPreFlopStatisticsSetsViewModel preFlopStatisticsSetsViewModel, IPostFlopStatisticsSetsViewModel flopStatisticsSetsViewModel, IPostFlopStatisticsSetsViewModel turnStatisticsSetsViewModel, IPostFlopStatisticsSetsViewModel riverStatisticsSetsViewModel)
         {
+            _dispatcher = dispatcher;
             PreFlopStatisticsSets = preFlopStatisticsSetsViewModel;
 
             FlopStatisticsSets = flopStatisticsSetsViewModel;
@@ -38,7 +38,6 @@ namespace PokerTell.Statistics.ViewModels
             set
             {
                 PlayerStatistics.Filter = value;
-                UpdateStatisticsSets();
             }
         }
 
@@ -71,10 +70,10 @@ namespace PokerTell.Statistics.ViewModels
         {
             PlayerStatistics = playerStatistics;
          
-            // Need to dispatch here since the update will also be done on a background thread (PlayerStatistics Updater) and we will
+            // Need to dispatch here since the filter change could also be done on a background thread and we will
             // affect the gui when we update the underlying viewmodels
-            PlayerStatistics.StatisticsWereUpdated += () =>
-                UIThreadOrCurrentDispatcher.Invoke(DispatcherPriority.DataBind, new Action(UpdateStatisticsSets));
+            PlayerStatistics.FilterChanged += () =>
+                _dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.DataBind, new Action(UpdateStatisticsSets));
 
             UpdateStatisticsSets();
             
@@ -112,20 +111,6 @@ namespace PokerTell.Statistics.ViewModels
             FlopStatisticsSets.UpdateWith(PlayerStatistics);
             TurnStatisticsSets.UpdateWith(PlayerStatistics);
             RiverStatisticsSets.UpdateWith(PlayerStatistics);
-        }
-
-        /// <summary>
-        /// Needed because durin testing Application.Current is null, so we need to swap out the Dispatcher object
-        /// </summary>
-        static Dispatcher UIThreadOrCurrentDispatcher
-        {
-            get
-            {
-                if (Application.Current != null && Application.Current.Dispatcher != null)
-                    return Application.Current.Dispatcher;
-                
-                return Dispatcher.CurrentDispatcher;
-            }
         }
     }
 }

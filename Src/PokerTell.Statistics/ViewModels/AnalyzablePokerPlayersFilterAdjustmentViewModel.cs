@@ -3,25 +3,21 @@ namespace PokerTell.Statistics.ViewModels
     using System;
     using System.Windows.Input;
 
+    using Interfaces;
+
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
     using Tools.WPF;
 
-    public class AnalyzablePokerPlayersFilterAdjustmentViewModel 
+    public class AnalyzablePokerPlayersFilterAdjustmentViewModel : IAnalyzablePokerPlayersFilterAdjustmentViewModel
     {
-        #region Constants and Fields
-
-        Action<string, IAnalyzablePokerPlayersFilter> _applyTo;
-
-        Action<IAnalyzablePokerPlayersFilter> _applyToAll;
-
         ICommand _applyFilterToAllCommand;
 
         ICommand _applyFilterToPlayerCommand;
 
-        #endregion
+        Action<string, IAnalyzablePokerPlayersFilter> _applyTo;
 
-        #region Constructors and Destructors
+        Action<IAnalyzablePokerPlayersFilter> _applyToAll;
 
         public AnalyzablePokerPlayersFilterAdjustmentViewModel()
         {
@@ -35,18 +31,6 @@ namespace PokerTell.Statistics.ViewModels
         {
             InitializeWith(playerName, currentFilter, applyTo, applyToAll);
         }
-
-        void InitializeWith(string playerName, IAnalyzablePokerPlayersFilter currentFilter, Action<string, IAnalyzablePokerPlayersFilter> applyTo, Action<IAnalyzablePokerPlayersFilter> applyToAll)
-        {
-            PlayerName = playerName;
-            Filter = new AnalyzablePokerPlayersFilterViewModel(currentFilter);
-            _applyTo = applyTo;
-            _applyToAll = applyToAll;
-        }
-
-        #endregion
-
-        #region Properties
 
         public ICommand ApplyFilterToAllCommand
         {
@@ -74,6 +58,14 @@ namespace PokerTell.Statistics.ViewModels
 
         public string PlayerName { get; protected set; }
 
-        #endregion
+        public IAnalyzablePokerPlayersFilterAdjustmentViewModel InitializeWith(string playerName, IAnalyzablePokerPlayersFilter currentFilter, Action<string, IAnalyzablePokerPlayersFilter> applyTo, Action<IAnalyzablePokerPlayersFilter> applyToAll)
+        {
+            PlayerName = playerName;
+            Filter = new AnalyzablePokerPlayersFilterViewModel(currentFilter);
+            _applyTo = applyTo;
+            _applyToAll = applyToAll;
+
+            return this;
+        }
     }
 }

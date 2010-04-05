@@ -24,6 +24,7 @@ namespace Tools
         {
             _container
                 .RegisterType<IDispatcherTimer, DispatcherTimerAdapter>()
+                .RegisterType<IDispatcher, WindowsApplicationDispatcher>()
                 .RegisterType<ICollectionValidator, CollectionValidator>()
 
                 // Tools.WPF

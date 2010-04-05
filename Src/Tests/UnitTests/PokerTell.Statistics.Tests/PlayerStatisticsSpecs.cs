@@ -7,6 +7,7 @@ namespace PokerTell.Statistics.Tests
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Repository;
+    using Infrastructure.Interfaces.Statistics;
 
     using Machine.Specifications;
 
@@ -37,16 +38,16 @@ namespace PokerTell.Statistics.Tests
             _sut.InitializePlayer(Name, Site);
         };
 
-        [Subject(typeof(PlayerStatistics), "UpdateStatisticsWith")]
-        public class when_statistics_are_being_updated_with_new_data_or_because_a_filter_is_applied : PlayerStatisticsSpecs
+        [Subject(typeof(PlayerStatistics), "Changing Filter")]
+        public class when_a_new_filter_is_applied : PlayerStatisticsSpecs
         {
-            static bool statisticsWereUpdatedWasRaised;
+            static bool filterChangedWasRaised;
 
-            Establish context = () => _sut.StatisticsWereUpdated += () => statisticsWereUpdatedWasRaised = true;
+            Establish context = () => _sut.FilterChanged += () => filterChangedWasRaised = true;
 
-            Because of = () => _sut.UpdateStatisticsWith_Invoke(Enumerable.Empty<IAnalyzablePokerPlayer>());
+            Because of = () => _sut.Filter = new Mock<IAnalyzablePokerPlayersFilter>().Object;
 
-            It should_let_me_know_that_it_was_updated = () => statisticsWereUpdatedWasRaised.ShouldBeTrue();
+            It should_let_me_know_that_it_was_changed = () => filterChangedWasRaised.ShouldBeTrue();
         }
     }
 }

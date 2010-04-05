@@ -5,13 +5,7 @@ namespace Tools.Interfaces
 
     public interface IDispatcherTimer
     {
-        #region Events
-
         event EventHandler Tick;
-
-        #endregion
-
-        #region Properties
 
         Dispatcher Dispatcher { get; }
 
@@ -21,15 +15,9 @@ namespace Tools.Interfaces
 
         object Tag { get; set; }
 
-        #endregion
-
-        #region Public Methods
-
         void Start();
 
         void Stop();
-
-        #endregion
     }
 
     /// <summary>
@@ -38,5 +26,4 @@ namespace Tools.Interfaces
     public class DispatcherTimerAdapter : DispatcherTimer, IDispatcherTimer
     {
     }
-
 }

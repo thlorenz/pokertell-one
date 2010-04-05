@@ -6,7 +6,6 @@ namespace Tools
     public class Normalizer
     {
         /// <summary>
-        /// 
         /// Assumes more then 1 keyvalue and that they are ordered
         /// </summary>
         /// <param name="keyValues"></param>

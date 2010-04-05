@@ -13,7 +13,9 @@ namespace PokerTell.Statistics.Tests.ViewModels
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.ViewModels;
 
-    using It=Machine.Specifications.It;
+    using Tools.Interfaces;
+
+    using It = Machine.Specifications.It;
 
     // Resharper disable InconsistentNaming
     public class PlayerStatisticsViewModelSpecs
@@ -28,6 +30,8 @@ namespace PokerTell.Statistics.Tests.ViewModels
             
         protected static Mock<IPlayerStatistics> _playerStatistics_Stub;
 
+        protected static IDispatcher _dispatcher_Stub;
+
         protected static PlayerStatisticsViewModel _sut;
 
         Establish specContext = () => {
@@ -38,15 +42,18 @@ namespace PokerTell.Statistics.Tests.ViewModels
             _riverStatisticsSetsVM_Mock = new Mock<IPostFlopStatisticsSetsViewModel>();
 
             _playerStatistics_Stub = new Mock<IPlayerStatistics>();
+
+            _dispatcher_Stub = new WindowsThreadingDispatcher();
         };
 
         public class Ctx_InstantiatedSut : PlayerStatisticsViewModelSpecs
         {
             Establish instantiatedContext = () => _sut = new PlayerStatisticsViewModel(
-                                                 _preFlopStatisticsSetsVM_Mock.Object,
-                                                 _flopStatisticsSetsVM_Mock.Object,
-                                                 _turnStatisticsSetsVM_Mock.Object,
-                                                 _riverStatisticsSetsVM_Mock.Object);
+                                                             _dispatcher_Stub,
+                                                             _preFlopStatisticsSetsVM_Mock.Object,
+                                                             _flopStatisticsSetsVM_Mock.Object,
+                                                             _turnStatisticsSetsVM_Mock.Object,
+                                                             _riverStatisticsSetsVM_Mock.Object);
         }
 
         public class Ctx_UpdatedWithStatistics : Ctx_InstantiatedSut
@@ -58,6 +65,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
         public class when_it_is_instantiated : PlayerStatisticsViewModelSpecs
         {
             Because of = () => _sut = new PlayerStatisticsViewModel(
+                                          _dispatcher_Stub,
                                           _preFlopStatisticsSetsVM_Mock.Object,
                                           _flopStatisticsSetsVM_Mock.Object,
                                           _turnStatisticsSetsVM_Mock.Object,
@@ -103,22 +111,21 @@ namespace PokerTell.Statistics.Tests.ViewModels
                 = () => _riverStatisticsSetsVM_Mock.Verify(vm => vm.UpdateWith(_playerStatistics_Stub.Object));
         }
 
-        [RequiresSTA]
-        [Subject(typeof(PlayerStatisticsViewModel), "PlayerStatisticsWereUpdated")]
-        public class when_the_playerstatistics_say_that_they_were_updated : Ctx_UpdatedWithStatistics
+        [Subject(typeof(PlayerStatisticsViewModel), "FilterChanged")]
+        public class when_the_playerstatistics_says_that_its_filter_was_changed : Ctx_UpdatedWithStatistics
         {
-            Because of = () => _playerStatistics_Stub.Raise(ps => ps.StatisticsWereUpdated += null);                
+            Because of = () => _playerStatistics_Stub.Raise(ps => ps.FilterChanged += null);                
 
-            It should_update_the_preflop_statistics_viewmodel_with_it_again
+            It should_update_the_preflop_statistics_viewmodel_with_its_statistics_again
                 = () => _preFlopStatisticsSetsVM_Mock.Verify(vm => vm.UpdateWith(_playerStatistics_Stub.Object), Times.Exactly(2));
 
-            It should_update_the_flop_statistics_viewmodel_with_it_again
+            It should_update_the_flop_statistics_viewmodel_with_its_statistics_again
                 = () => _flopStatisticsSetsVM_Mock.Verify(vm => vm.UpdateWith(_playerStatistics_Stub.Object), Times.Exactly(2));
 
-            It should_update_the_turn_statistics_viewmodel_with_it_again
+            It should_update_the_turn_statistics_viewmodel_with_its_statistics_again
                 = () => _turnStatisticsSetsVM_Mock.Verify(vm => vm.UpdateWith(_playerStatistics_Stub.Object), Times.Exactly(2));
 
-            It should_update_the_river_statistics_viewmodel_with_it_again
+            It should_update_the_river_statistics_viewmodel_with_its_statistics_again
                 = () => _riverStatisticsSetsVM_Mock.Verify(vm => vm.UpdateWith(_playerStatistics_Stub.Object), Times.Exactly(2));
         }
     }

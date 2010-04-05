@@ -55,6 +55,7 @@ namespace PokerTell.Statistics
             {
                 _filter = value;
                 FilterAnalyzablePlayersAndUpdateStatisticsSetsWithThem();
+                FilterChanged();
             }
         }
 
@@ -243,8 +244,6 @@ namespace PokerTell.Statistics
             {
                 statisticsSet.UpdateWith(filteredAnalyzablePlayers);
             }
-
-            StatisticsWereUpdated();
         }
 
         void CreatePostFlopStatistics()
@@ -310,7 +309,7 @@ namespace PokerTell.Statistics
                 NewHeroCheckOrBetSetStatistics(new SeparateRowsPercentagesCalculator(), heroXOrHeroBInPositionStatistics, _playerName, street, true);
         }
 
-        public event Action StatisticsWereUpdated = delegate { };
+        public event Action FilterChanged = delegate { };
 
         void InitializeHeroXOutOfPositionOppBStatistics(Streets street, int betSizeIndexCount)
         {
