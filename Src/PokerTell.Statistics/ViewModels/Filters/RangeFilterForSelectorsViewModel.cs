@@ -13,19 +13,15 @@ namespace PokerTell.Statistics.ViewModels.Filters
     public class RangeFilterForSelectorsViewModel<T> : RangeFilterViewModel<T>, IRangeFilterForSelectorsViewModel<T>
         where T : IComparable
     {
-        #region Constants and Fields
+        IList<IValueViewModel<T>> _allAvailableItems;
 
         IValueViewModel<T> _max;
 
         IValueViewModel<T> _min;
 
         /* To temporarily disable the updates while populating ListItems, otherwise recursion occurs due to the 
-           Fact that when the ItemsCollection changes, the selected item is updated as well */ 
+           Fact that when the ItemsCollection changes, the selected item is updated as well */
         bool _updateMaxAndMinEnabled = true;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public RangeFilterForSelectorsViewModel(
             GenericRangeFilter<T> genericRangeFilter, IEnumerable<T> availableValues, string filterName)
@@ -37,7 +33,8 @@ namespace PokerTell.Statistics.ViewModels.Filters
             GenericRangeFilter<T> genericRangeFilter, 
             IEnumerable<T> availableValues, 
             string filterName, 
-            Func<T, string> convertValueToDisplay) : base(genericRangeFilter, filterName)
+            Func<T, string> convertValueToDisplay)
+            : base(genericRangeFilter, filterName)
         {
             CreateAndPopulateAllAvailableItemsFrom(availableValues, convertValueToDisplay);
 
@@ -49,10 +46,6 @@ namespace PokerTell.Statistics.ViewModels.Filters
             AddLegalAndRemoveIllegalMaxItems();
         }
 
-        #endregion
-
-        #region Properties
-
         /// <summary>
         /// Values that the user can choose to use as MaxValue
         /// </summary>
@@ -63,7 +56,13 @@ namespace PokerTell.Statistics.ViewModels.Filters
         /// </summary>
         public IList<IValueViewModel<T>> AvailableMinItems { get; private set; }
 
-        IList<IValueViewModel<T>> _allAvailableItems;
+        /// <summary>
+        /// Returns a filter according to the values currently selected by the user
+        /// </summary>
+        public override GenericRangeFilter<T> CurrentFilter
+        {
+            get { return new GenericRangeFilter<T> { Range = new GenericRange<T>(Min.Value, Max.Value), IsActive = IsActive }; }
+        }
 
         public IValueViewModel<T> Max
         {
@@ -90,7 +89,7 @@ namespace PokerTell.Statistics.ViewModels.Filters
                 if (_updateMaxAndMinEnabled)
                 {
                     _min = value;
-                    
+
                     AddLegalAndRemoveIllegalMaxItems();
                     AdjustMaxToAvailableMaxItems();
 
@@ -99,56 +98,10 @@ namespace PokerTell.Statistics.ViewModels.Filters
             }
         }
 
-        #endregion
-
-        #region Methods
-
-        void CreateAndPopulateAllAvailableItemsFrom(IEnumerable<T> availableValues, Func<T, string> convertValueToDisplay)
-        {
-            _allAvailableItems = new List<IValueViewModel<T>>();
-            availableValues.ForEach(value => _allAvailableItems.Add(new ValueViewModel<T>(value, convertValueToDisplay)));
-        }
-
-        void CreateAndPopulateAvailableMinAndMaxItemsFromAllAvailableItems()
-        {
-            AvailableMaxItems = new ObservableCollection<IValueViewModel<T>>();
-            AvailableMinItems = new ObservableCollection<IValueViewModel<T>>();
-           
-            _allAvailableItems.ForEach(item => {
-                AvailableMinItems.Add(item);
-                AvailableMaxItems.Add(item);
-            });
-        }
-
-        void DetermineMinAndMaxValuesFrom(GenericRangeFilter<T> genericRangeFilter)
-        {
-            _min = AvailableMinItems.FirstOrDefault(item => item.Value.Equals(genericRangeFilter.Range.MinValue)) ??
-                  AvailableMinItems.First();
-
-            _max = AvailableMaxItems.FirstOrDefault(item => item.Value.Equals(genericRangeFilter.Range.MaxValue)) ??
-                  AvailableMaxItems.Last();
-        }
-
-        void AdjustMinToAvailableMinValues()
-        {
-            // Check if current min is contained in available min values -> if not select largest available
-            _min = AvailableMinItems.FirstOrDefault(item => item.Value.Equals(Min.Value)) ??
-                  AvailableMinItems.Last();
-            RaisePropertyChanged(() => Min);
-        }
-
-        void AdjustMaxToAvailableMaxItems()
-        {
-            // Check if current max is contained in available max values -> if not select smallest available
-            _max = AvailableMaxItems.FirstOrDefault(item => item.Value.Equals(Max.Value)) ??
-                  AvailableMaxItems.First();
-            RaisePropertyChanged(() => Max);
-        }
-
         void AddLegalAndRemoveIllegalMaxItems()
         {
             _updateMaxAndMinEnabled = false;
-         
+
             AvailableMaxItems.Clear();
             _allAvailableItems.ForEach(item => {
                 if (item.CompareTo(Min) >= 0)
@@ -163,10 +116,9 @@ namespace PokerTell.Statistics.ViewModels.Filters
         void AddLegalAndRemoveIllegalMinItems()
         {
             _updateMaxAndMinEnabled = false;
-          
+
             AvailableMinItems.Clear();
-            _allAvailableItems.ForEach(item =>
-            {
+            _allAvailableItems.ForEach(item => {
                 if (item.CompareTo(Max) <= 0)
                 {
                     AvailableMinItems.Add(item);
@@ -176,14 +128,46 @@ namespace PokerTell.Statistics.ViewModels.Filters
             _updateMaxAndMinEnabled = true;
         }
 
-        #endregion
-
-        /// <summary>
-        /// Returns a filter according to the values currently selected by the user
-        /// </summary>
-        public override GenericRangeFilter<T> CurrentFilter
+        void AdjustMaxToAvailableMaxItems()
         {
-            get { return new GenericRangeFilter<T> { Range = new GenericRange<T>(Min.Value, Max.Value), IsActive = IsActive }; }
+            // Check if current max is contained in available max values -> if not select smallest available
+            _max = AvailableMaxItems.FirstOrDefault(item => item.Value.Equals(Max.Value)) ??
+                   AvailableMaxItems.First();
+            RaisePropertyChanged(() => Max);
+        }
+
+        void AdjustMinToAvailableMinValues()
+        {
+            // Check if current min is contained in available min values -> if not select largest available
+            _min = AvailableMinItems.FirstOrDefault(item => item.Value.Equals(Min.Value)) ??
+                   AvailableMinItems.Last();
+            RaisePropertyChanged(() => Min);
+        }
+
+        void CreateAndPopulateAllAvailableItemsFrom(IEnumerable<T> availableValues, Func<T, string> convertValueToDisplay)
+        {
+            _allAvailableItems = new List<IValueViewModel<T>>();
+            availableValues.ForEach(value => _allAvailableItems.Add(new ValueViewModel<T>(value, convertValueToDisplay)));
+        }
+
+        void CreateAndPopulateAvailableMinAndMaxItemsFromAllAvailableItems()
+        {
+            AvailableMaxItems = new ObservableCollection<IValueViewModel<T>>();
+            AvailableMinItems = new ObservableCollection<IValueViewModel<T>>();
+
+            _allAvailableItems.ForEach(item => {
+                AvailableMinItems.Add(item);
+                AvailableMaxItems.Add(item);
+            });
+        }
+
+        void DetermineMinAndMaxValuesFrom(GenericRangeFilter<T> genericRangeFilter)
+        {
+            _min = AvailableMinItems.FirstOrDefault(item => item.Value.Equals(genericRangeFilter.Range.MinValue)) ??
+                   AvailableMinItems.First();
+
+            _max = AvailableMaxItems.FirstOrDefault(item => item.Value.Equals(genericRangeFilter.Range.MaxValue)) ??
+                   AvailableMaxItems.Last();
         }
     }
 }

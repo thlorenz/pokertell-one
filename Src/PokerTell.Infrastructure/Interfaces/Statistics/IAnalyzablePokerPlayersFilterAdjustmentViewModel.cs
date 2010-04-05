@@ -1,11 +1,7 @@
-namespace PokerTell.Statistics.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.Statistics
 {
     using System;
     using System.Windows.Input;
-
-    using Infrastructure.Interfaces.Statistics;
-
-    using ViewModels;
 
     public interface IAnalyzablePokerPlayersFilterAdjustmentViewModel
     {

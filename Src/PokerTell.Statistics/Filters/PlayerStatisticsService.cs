@@ -21,14 +21,14 @@ namespace PokerTell.Statistics.Filters
 
         static void HandleAdjustAnalyzablePokerPlayersFilterEvent(AdjustAnalyzablePokerPlayersFilterEventArgs args)
         {
-            var viewModel = new AnalyzablePokerPlayersFilterAdjustmentViewModel(
+            var viewModel = new AnalyzablePokerPlayersFilterAdjustmentViewModel().InitializeWith(
                 args.PlayerName,
                 args.CurrentFilter,
                 args.ApplyTo,
                 args.ApplyToAll);
 
             var view = new AnalyzablePokerPlayersFilterAdjustmentView(viewModel) { Topmost = true };
-            view.ShowDialog();
+            view.Show();
         }
     }
 }

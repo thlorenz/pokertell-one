@@ -3,13 +3,12 @@ namespace PokerTell.Statistics.ViewModels
     using System;
     using System.Windows.Input;
 
-    using Interfaces;
-
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
     using Tools.WPF;
+    using Tools.WPF.ViewModels;
 
-    public class AnalyzablePokerPlayersFilterAdjustmentViewModel : IAnalyzablePokerPlayersFilterAdjustmentViewModel
+    public class AnalyzablePokerPlayersFilterAdjustmentViewModel : NotifyPropertyChanged, IAnalyzablePokerPlayersFilterAdjustmentViewModel
     {
         ICommand _applyFilterToAllCommand;
 
@@ -19,18 +18,7 @@ namespace PokerTell.Statistics.ViewModels
 
         Action<IAnalyzablePokerPlayersFilter> _applyToAll;
 
-        public AnalyzablePokerPlayersFilterAdjustmentViewModel()
-        {
-        }
-
-        public AnalyzablePokerPlayersFilterAdjustmentViewModel(
-            string playerName, 
-            IAnalyzablePokerPlayersFilter currentFilter, 
-            Action<string, IAnalyzablePokerPlayersFilter> applyTo, 
-            Action<IAnalyzablePokerPlayersFilter> applyToAll)
-        {
-            InitializeWith(playerName, currentFilter, applyTo, applyToAll);
-        }
+        IAnalyzablePokerPlayersFilterViewModel _filter;
 
         public ICommand ApplyFilterToAllCommand
         {
@@ -54,11 +42,33 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
-        public IAnalyzablePokerPlayersFilterViewModel Filter { get; protected set; }
+        public IAnalyzablePokerPlayersFilterViewModel Filter
+        {
+            get { return _filter; }
+            protected set
+            {
+                _filter = value;
+                RaisePropertyChanged(() => Filter);
+            }
+        }
 
-        public string PlayerName { get; protected set; }
+        string _playerName;
 
-        public IAnalyzablePokerPlayersFilterAdjustmentViewModel InitializeWith(string playerName, IAnalyzablePokerPlayersFilter currentFilter, Action<string, IAnalyzablePokerPlayersFilter> applyTo, Action<IAnalyzablePokerPlayersFilter> applyToAll)
+        public string PlayerName
+        {
+            get { return _playerName; }
+            protected set
+            {
+                _playerName = value;
+                RaisePropertyChanged(() => PlayerName);
+            }
+        }
+
+        public IAnalyzablePokerPlayersFilterAdjustmentViewModel InitializeWith(
+            string playerName, 
+            IAnalyzablePokerPlayersFilter currentFilter, 
+            Action<string, IAnalyzablePokerPlayersFilter> applyTo, 
+            Action<IAnalyzablePokerPlayersFilter> applyToAll)
         {
             PlayerName = playerName;
             Filter = new AnalyzablePokerPlayersFilterViewModel(currentFilter);

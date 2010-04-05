@@ -8,16 +8,13 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Reflection;
     using System.Windows.Input;
 
-    using Infrastructure.Enumerations.PokerHand;
-
     using log4net;
 
-    using Microsoft.Practices.Composite.Events;
-
-    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.Statistics.ViewModels;
 
     using Tools.WPF;
     using Tools.WPF.Interfaces;
@@ -29,61 +26,74 @@ namespace PokerTell.LiveTracker.ViewModels
 
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly IEventAggregator _eventAggregator;
+        readonly IDetailedStatisticsAnalyzerViewModel _detailedStatisticsAnalyzer;
 
         readonly IConstructor<IPlayerStatisticsViewModel> _playerStatisticsViewModelMake;
+
+        readonly ISettings _settings;
+
+        IAnalyzablePokerPlayersFilterAdjustmentViewModel _filterAdjustmentPopup;
 
         ICommand _filterAdjustmentRequestedCommand;
 
         IPlayerStatisticsViewModel _selectedPlayer;
 
-        readonly IDetailedStatisticsAnalyzerViewModel _detailedStatisticsAnalyzer;
+        bool _showFilterAdjustmentPopup;
+
+        string _tableName;
 
         public PokerTableStatisticsViewModel(
-            IEventAggregator eventAggregator,
-            ISettings settings,
-            IDimensionsViewModel dimensions,
-            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
-            IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel)
+            ISettings settings, 
+            IDimensionsViewModel dimensions, 
+            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, 
+            IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel, 
+            IAnalyzablePokerPlayersFilterAdjustmentViewModel filterAdjustmentViewModel)
         {
-            _eventAggregator = eventAggregator;
             _settings = settings;
             _playerStatisticsViewModelMake = playerStatisticsViewModelMake;
             _detailedStatisticsAnalyzer = detailedStatisticsAnalyzerViewModel;
 
             Dimensions = dimensions.InitializeWith(settings.RetrieveRectangle(DimensionsKey, new Rectangle(0, 0, 600, 400)));
 
+            FilterAdjustmentPopup = filterAdjustmentViewModel;
+
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
-        }
-
-        public IPokerTableStatisticsViewModel SaveDimensions()
-        {
-            _settings.Set(DimensionsKey, Dimensions.Rectangle);
-
-            return this;
-        }
-
-        string _tableName;
-
-        readonly ISettings _settings;
-
-        public string TableName
-        {
-            get { return _tableName; }
-            set
-            {
-                _tableName = value;
-                RaisePropertyChanged(() => TableName);
-            }
         }
 
         public event Action PlayersStatisticsWereUpdated = delegate { };
 
-        public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
-        
         public event Action<IPlayerStatisticsViewModel> UserBrowsedAllHands = delegate { };
 
+        public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
+
+        public IDetailedStatisticsAnalyzerViewModel DetailedStatisticsAnalyzer
+        {
+            get { return _detailedStatisticsAnalyzer; }
+        }
+
         public IDimensionsViewModel Dimensions { get; protected set; }
+
+        public IAnalyzablePokerPlayersFilterAdjustmentViewModel FilterAdjustmentPopup
+        {
+            get { return _filterAdjustmentPopup; }
+            set
+            {
+                _filterAdjustmentPopup = value;
+                RaisePropertyChanged(() => FilterAdjustmentPopup);
+            }
+        }
+
+        public ICommand FilterAdjustmentRequestedCommand
+        {
+            get
+            {
+                return _filterAdjustmentRequestedCommand ?? (_filterAdjustmentRequestedCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => DisplayFilterAdjustmentPopup(), 
+                        CanExecuteDelegate = arg => SelectedPlayer != null
+                    });
+            }
+        }
 
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
@@ -96,49 +106,40 @@ namespace PokerTell.LiveTracker.ViewModels
 
                 BrowseAllHandsOf(_selectedPlayer);
 
-                 RaisePropertyChanged(() => SelectedPlayer);
+                RaisePropertyChanged(() => SelectedPlayer);
             }
         }
 
-        protected virtual void BrowseAllHandsOf(IPlayerStatisticsViewModel selectedPlayer)
+        public bool ShowFilterAdjustmentPopup
         {
-            if (selectedPlayer != null && selectedPlayer.PlayerStatistics != null)
+            get { return _showFilterAdjustmentPopup; }
+            set
             {
-                var activeAnalyzablePlayers = 
-                    from player in selectedPlayer.PlayerStatistics.FilteredAnalyzablePokerPlayers
-                    where
-                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.HeroF &&
-                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.OppRHeroF &&
-                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.NonStandard
-                    select player;
-
-                if (activeAnalyzablePlayers.Count() > 0)
-                    _detailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
+                _showFilterAdjustmentPopup = value;
+                RaisePropertyChanged(() => ShowFilterAdjustmentPopup);
             }
         }
 
-        public IDetailedStatisticsAnalyzerViewModel DetailedStatisticsAnalyzer
+        public string TableName
         {
-            get { return _detailedStatisticsAnalyzer; }
-        }
-
-        public ICommand FilterAdjustmentRequestedCommand
-        {
-            get
+            get { return _tableName; }
+            set
             {
-                return _filterAdjustmentRequestedCommand ?? (_filterAdjustmentRequestedCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg =>
-                                          _eventAggregator
-                                              .GetEvent<AdjustAnalyzablePokerPlayersFilterEvent>()
-                                              .Publish(new AdjustAnalyzablePokerPlayersFilterEventArgs(
-                                                           SelectedPlayer.PlayerName, 
-                                                           SelectedPlayer.Filter, 
-                                                           ApplyFilterTo, 
-                                                           ApplyFilterToAll)), 
-                        CanExecuteDelegate = arg => SelectedPlayer != null
-                    });
+                _tableName = value;
+                RaisePropertyChanged(() => TableName);
             }
+        }
+
+        public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)
+        {
+            return Players.FirstOrDefault(p => p.PlayerName == playerName);
+        }
+
+        public IPokerTableStatisticsViewModel SaveDimensions()
+        {
+            _settings.Set(DimensionsKey, Dimensions.Rectangle);
+
+            return this;
         }
 
         public void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics)
@@ -155,9 +156,27 @@ namespace PokerTell.LiveTracker.ViewModels
             PlayersStatisticsWereUpdated();
         }
 
-        public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)
+        protected IPlayerStatisticsViewModel AddNewPlayerToPlayersIfNotFound(IPlayerStatisticsViewModel matchingPlayer)
         {
-            return Players.FirstOrDefault(p => p.PlayerName == playerName);
+            if (matchingPlayer == null)
+            {
+                matchingPlayer = _playerStatisticsViewModelMake.New;
+
+                matchingPlayer.SelectedStatisticsSetEvent +=
+                    sequenceStatisticsSet => {
+                        DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
+                        UserSelectedStatisticsSet(sequenceStatisticsSet);
+                    };
+
+                matchingPlayer.BrowseAllMyHandsRequested += player => {
+                    BrowseAllHandsOf(player);
+                    UserBrowsedAllHands(player);
+                };
+
+                Players.Add(matchingPlayer);
+            }
+
+            return matchingPlayer;
         }
 
         protected void ApplyFilterTo(string playerName, IAnalyzablePokerPlayersFilter adjustedFilter)
@@ -173,6 +192,23 @@ namespace PokerTell.LiveTracker.ViewModels
         protected void ApplyFilterToAll(IAnalyzablePokerPlayersFilter adjustedFilter)
         {
             Players.ToList().ForEach(p => p.Filter = adjustedFilter);
+        }
+
+        protected virtual void BrowseAllHandsOf(IPlayerStatisticsViewModel selectedPlayer)
+        {
+            if (selectedPlayer != null && selectedPlayer.PlayerStatistics != null)
+            {
+                var activeAnalyzablePlayers =
+                    from player in selectedPlayer.PlayerStatistics.FilteredAnalyzablePokerPlayers
+                    where
+                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.HeroF &&
+                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.OppRHeroF &&
+                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.NonStandard
+                    select player;
+
+                if (activeAnalyzablePlayers.Count() > 0)
+                    _detailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
+            }
         }
 
         static List<IPlayerStatistics> ValidateAndConvertToList(IEnumerable<IPlayerStatistics> playersStatistics)
@@ -191,27 +227,10 @@ namespace PokerTell.LiveTracker.ViewModels
             return playersStatisticsList;
         }
 
-        protected IPlayerStatisticsViewModel AddNewPlayerToPlayersIfNotFound(IPlayerStatisticsViewModel matchingPlayer)
+        void DisplayFilterAdjustmentPopup()
         {
-            if (matchingPlayer == null)
-            {
-                matchingPlayer = _playerStatisticsViewModelMake.New;
-
-                matchingPlayer.SelectedStatisticsSetEvent +=
-                    sequenceStatisticsSet => {
-                        DetailedStatisticsAnalyzer.InitializeWith(sequenceStatisticsSet);
-                        UserSelectedStatisticsSet(sequenceStatisticsSet);
-                };
-
-                matchingPlayer.BrowseAllMyHandsRequested += player => {
-                    BrowseAllHandsOf(player);
-                    UserBrowsedAllHands(player);
-                };
-
-                Players.Add(matchingPlayer);
-            }
-
-            return matchingPlayer;
+            FilterAdjustmentPopup.InitializeWith(SelectedPlayer.PlayerName, SelectedPlayer.Filter, ApplyFilterTo, ApplyFilterToAll);
+            ShowFilterAdjustmentPopup = true;
         }
 
         IPlayerStatisticsViewModel FindOrAddMatchingPlayer(

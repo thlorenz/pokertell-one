@@ -85,12 +85,11 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
 
             // TODO: Before this test will work again, we will have to specify the settings and dimensions mocks otherwise it will either
             //       fail or have size 0, 0
-            var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
-                eventAggregator,
-                new Mock<ISettings>().Object,
+            var tableStatisticsViewModel = new PokerTableStatisticsViewModel(new Mock<ISettings>().Object,
                 new Mock<IDimensionsViewModel>().Object,
                 new Constructor<IPlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>()),
-                detailedStatisticsAnalyzerViewModel);
+                detailedStatisticsAnalyzerViewModel, 
+                new Mock<IAnalyzablePokerPlayersFilterAdjustmentViewModel>().Object);
             var designWindow = new TableStatisticsDesignWindow(eventAggregator, 
                                                                _container.Resolve<IRepositoryHandBrowserViewModel>())
                 {

@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ViewModels="clr-namespace:PokerTell.Statistics.ViewModels"
+    xmlns:Properties="clr-namespace:PokerTell.Statistics.Properties">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+        <ResourceDictionary Source="AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
+    <DataTemplate DataType="{x:Type ViewModels:AnalyzablePokerPlayersFilterAdjustmentViewModel}">
+        <StackPanel>
+            <Border Background="{StaticResource LightBorderBrush}" CornerRadius="5, 5, 0, 0" HorizontalAlignment="Left" Padding="5">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="{x:Static Properties:Resources.FilterAdjustment_FilterFor}"  />
+                    <Label Content="{Binding PlayerName}" />
+                </StackPanel>
+            </Border>
+            <ContentControl Content="{Binding Filter}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                        <Setter Property="Margin" Value="3"/>
+                        <Setter Property="Padding" Value="5"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button Content="{x:Static Properties:Resources.FilterAdjustment_ApplyFilter}" Command="{Binding ApplyFilterToPlayerCommand}"/>
+                <Button Content="{x:Static Properties:Resources.FilterAdjustment_ApplyFilterToAll}" Command="{Binding ApplyFilterToAllCommand}"/>
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

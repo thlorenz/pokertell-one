@@ -1,7 +1,6 @@
 namespace PokerTell.Statistics.ViewModels
 {
     using System;
-    using System.Windows;
     using System.Windows.Threading;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
@@ -14,7 +13,12 @@ namespace PokerTell.Statistics.ViewModels
     {
         readonly IDispatcher _dispatcher;
 
-        public PlayerStatisticsViewModel(IDispatcher dispatcher, IPreFlopStatisticsSetsViewModel preFlopStatisticsSetsViewModel, IPostFlopStatisticsSetsViewModel flopStatisticsSetsViewModel, IPostFlopStatisticsSetsViewModel turnStatisticsSetsViewModel, IPostFlopStatisticsSetsViewModel riverStatisticsSetsViewModel)
+        public PlayerStatisticsViewModel(
+            IDispatcher dispatcher, 
+            IPreFlopStatisticsSetsViewModel preFlopStatisticsSetsViewModel, 
+            IPostFlopStatisticsSetsViewModel flopStatisticsSetsViewModel, 
+            IPostFlopStatisticsSetsViewModel turnStatisticsSetsViewModel, 
+            IPostFlopStatisticsSetsViewModel riverStatisticsSetsViewModel)
         {
             _dispatcher = dispatcher;
             PreFlopStatisticsSets = preFlopStatisticsSetsViewModel;
@@ -35,10 +39,7 @@ namespace PokerTell.Statistics.ViewModels
         public IAnalyzablePokerPlayersFilter Filter
         {
             get { return PlayerStatistics.Filter; }
-            set
-            {
-                PlayerStatistics.Filter = value;
-            }
+            set { PlayerStatistics.Filter = value; }
         }
 
         public IPostFlopStatisticsSetsViewModel FlopStatisticsSets { get; protected set; }
@@ -69,14 +70,13 @@ namespace PokerTell.Statistics.ViewModels
         public IPlayerStatisticsViewModel UpdateWith(IPlayerStatistics playerStatistics)
         {
             PlayerStatistics = playerStatistics;
-         
+
             // Need to dispatch here since the filter change could also be done on a background thread and we will
             // affect the gui when we update the underlying viewmodels
-            PlayerStatistics.FilterChanged += () =>
-                _dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.DataBind, new Action(UpdateStatisticsSets));
+            PlayerStatistics.FilterChanged += () => _dispatcher.CurrentDispatcher.Invoke(DispatcherPriority.DataBind, new Action(UpdateStatisticsSets));
 
             UpdateStatisticsSets();
-            
+
             return this;
         }
 

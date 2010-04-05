@@ -1,4 +1,4 @@
-﻿namespace PokerTell.Statistics.Views
+namespace PokerTell.Statistics.Views
 {
     using System.Windows;
     using System.Windows.Input;
@@ -14,7 +14,7 @@
     {
         #region Constructors and Destructors
 
-        public AnalyzablePokerPlayersFilterAdjustmentView(AnalyzablePokerPlayersFilterAdjustmentViewModel viewModel)
+        public AnalyzablePokerPlayersFilterAdjustmentView(IAnalyzablePokerPlayersFilterAdjustmentViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;

@@ -36,7 +36,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
         {
             _filterStub.MFilter.IsActive = true;
             
-            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel(playerName, _filterStub, delegate { }, delegate { });
+            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel().InitializeWith(playerName, _filterStub, delegate { }, delegate { });
 
             sut.Filter.CurrentFilter.ShouldBeEqualTo(_filterStub);
         }
@@ -48,7 +48,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
             Action<string, IAnalyzablePokerPlayersFilter> applyTo =
                 (name, filter) => wasInvokedWithCorrectName = name == playerName;
 
-            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel(playerName, _filterStub, applyTo, delegate { });
+            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel().InitializeWith(playerName, _filterStub, applyTo, delegate { });
 
             sut.ApplyFilterToPlayerCommand.Execute(null);
 
@@ -63,7 +63,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
                 (name, filter) => wasInvokedWithCorrectFilter = filter.Equals(_filterStub);
 
             _filterStub.MFilter.IsActive = true;
-            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel(playerName, _filterStub, applyTo, delegate { });
+            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel().InitializeWith(playerName, _filterStub, applyTo, delegate { });
             
             sut.ApplyFilterToPlayerCommand.Execute(null);
 
@@ -78,7 +78,7 @@ namespace PokerTell.Statistics.Tests.ViewModels
                 filter => wasInvokedWithCorrectFilter = filter.Equals(_filterStub);
 
             _filterStub.MFilter.IsActive = true;
-            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel(playerName, _filterStub, delegate { }, applyToAll);
+            var sut = new AnalyzablePokerPlayersFilterAdjustmentViewModel().InitializeWith(playerName, _filterStub, delegate { }, applyToAll);
 
             sut.ApplyFilterToAllCommand.Execute(null);
 

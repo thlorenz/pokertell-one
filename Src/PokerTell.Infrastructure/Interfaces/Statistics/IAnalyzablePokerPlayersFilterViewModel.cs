@@ -4,26 +4,22 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
     public interface IAnalyzablePokerPlayersFilterViewModel : IFluentInterface
     {
-        #region Properties
+        IRangeFilterForInputsViewModel<double> AnteFilter { get; }
+
+        IRangeFilterForInputsViewModel<double> BigBlindFilter { get; }
+
+        IAnalyzablePokerPlayersFilter CurrentFilter { get; }
+
+        IRangeFilterForInputsViewModel<int> MFilter { get; }
 
         IRangeFilterForSelectorsViewModel<int> PlayersInFlopFilter { get; }
 
         IRangeFilterForSelectorsViewModel<StrategicPositions> StrategicPositionFilter { get; }
 
-        IRangeFilterForSelectorsViewModel<int> TotalPlayersFilter { get; }
-
-        IRangeFilterForInputsViewModel<double> AnteFilter { get; }
-
-        IRangeFilterForInputsViewModel<double> BigBlindFilter { get;  }
-
-        IRangeFilterForInputsViewModel<int> MFilter { get;  }
-
         IRangeFilterForSelectorsViewModel<int> TimeRangeFilter { get; }
 
         IRangeFilterForSelectorsViewModel<string> TimeRangeFilterDisplay { get; }
 
-        IAnalyzablePokerPlayersFilter CurrentFilter { get; }
-
-        #endregion
+        IRangeFilterForSelectorsViewModel<int> TotalPlayersFilter { get; }
     }
 }

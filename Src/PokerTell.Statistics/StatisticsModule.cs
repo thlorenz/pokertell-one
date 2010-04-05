@@ -49,6 +49,7 @@ namespace PokerTell.Statistics
         void RegisterViewsAndServices()
         {
             _container
+
                 // StatisicsSets
                 .RegisterType<IPreFlopStatisticsSetsViewModel, PreFlopStatisticsSetsViewModel>()
                 .RegisterType<IPostFlopStatisticsSetsViewModel, PostFlopStatisticsSetsViewModel>()
@@ -113,7 +114,11 @@ namespace PokerTell.Statistics
                 .RegisterConstructor(() => _container.Resolve<IDetailedPreFlopStatisticsViewModel>())
                 .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroActsStatisticsViewModel>())
                 .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroReactsStatisticsViewModel>())
-                .RegisterType<IDetailedStatisticsAnalyzerViewModel, DetailedStatisticsAnalyzerViewModel>();
+                .RegisterType<IDetailedStatisticsAnalyzerViewModel, DetailedStatisticsAnalyzerViewModel>()
+                
+                // AnalyzablePokerPlayersFilterAdjustmentViewModel 
+                .RegisterType<IAnalyzablePokerPlayersFilterAdjustmentViewModel, AnalyzablePokerPlayersFilterAdjustmentViewModel>()
+                ;
 
              // Activate PlayerStatistics Service (right now provides filtering)
             _container

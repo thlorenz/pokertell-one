@@ -42,6 +42,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
         void LoadDefaultHand()
         {
             TableName = "PokerTable";
+            TotalSeats = 9;
 
             Player1 = new PlayerViewModel("Greystoke-11", 1, true, "As Kh");
             Player2 = new PlayerViewModel("salemorguy", 2, true, "As Kh");

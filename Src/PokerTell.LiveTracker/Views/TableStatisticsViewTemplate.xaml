@@ -10,6 +10,7 @@
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/PostFlopStatisticsSetsViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/PreFlopStatisticsSetsViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/AnalyzablePokerPlayersFilterAdjustmentViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsWithInformationPanelViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
@@ -31,8 +32,8 @@
                     <ContentControl Content="{Binding CurrentViewModel}" 
                                     ContentTemplate="{StaticResource DetailedStatisticsWithInformationPanelViewTemplate}"
                                     HorizontalContentAlignment="Stretch"/>
-                    <Popup AllowsTransparency="True" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Bottom"  StaysOpen="False">
-                        <ContentControl Content="{Binding PopupViewModel}" ContentTemplate="{StaticResource DetailedStatisticsWithInformationPanelViewTemplate}" />
+                    <Popup AllowsTransparency="False" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Center"  StaysOpen="False">
+                        <ContentControl Content="{Binding PopupViewModel}" />
                     </Popup>
                 </StackPanel>
             </Viewbox>
@@ -51,6 +52,7 @@
                             <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                             <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                         </TabControl>
+
 
                         <!-- Filter Command -->
                         <Button Command="{Binding FilterAdjustmentRequestedCommand}" 
@@ -79,6 +81,11 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
+            
+            <!-- FilterAdjustmentPopup added last to ensure it is on top of the other controls -->
+            <Popup AllowsTransparency="True" IsOpen="{Binding ShowFilterAdjustmentPopup}" PopupAnimation="Scroll" Placement="Mouse"  StaysOpen="False">
+                <ContentControl Content="{Binding FilterAdjustmentPopup}" />
+            </Popup>
         </Grid>
 
     </DataTemplate>

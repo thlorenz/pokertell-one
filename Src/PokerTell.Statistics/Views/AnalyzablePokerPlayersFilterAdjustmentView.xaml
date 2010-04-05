@@ -10,29 +10,8 @@
     WindowStartupLocation="CenterOwner" >
 
     <Window.Resources>
-        <ResourceDictionary Source="AnalyzablePokerPlayersFilterViewTemplate.xaml"/>
+        <ResourceDictionary Source="AnalyzablePokerPlayersFilterAdjustmentViewTemplate.xaml"/>
     </Window.Resources>
-    <StackPanel>
-        <Border Background="Gray" CornerRadius="5, 5, 0, 0" HorizontalAlignment="Left" Padding="5">
-        <StackPanel Orientation="Horizontal">
-            <Label Content="Filter for: "  />
-            <Label Content="{Binding PlayerName}" />
-        </StackPanel>
-        </Border>    
-        <ContentControl DataContext="{Binding Filter}" 
-                            Content="{Binding}" 
-                            ContentTemplate="{StaticResource AnalyzablePokerPlayersFilterViewTemplate}" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                    <Setter Property="Margin" Value="3"/>
-                    <Setter Property="Padding" Value="5"/>
-                </Style>
-            </StackPanel.Resources>
-            <Button Content="Apply Filter" Command="{Binding ApplyFilterToPlayerCommand}"/>
-            <Button Content="Apply Filter to all" Command="{Binding ApplyFilterToAllCommand}"/>
-            <Button Content="Close" Click="Close_Click" />
-        </StackPanel>
-    </StackPanel>
-
+    
+    <ContentControl Content="{Binding}" />
 </Window>
