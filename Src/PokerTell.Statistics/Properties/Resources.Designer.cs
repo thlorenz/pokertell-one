@@ -79,7 +79,7 @@ namespace PokerTell.Statistics.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Filter for: .
+        ///   Looks up a localized string similar to Filter for .
         /// </summary>
         public static string FilterAdjustment_FilterFor {
             get {

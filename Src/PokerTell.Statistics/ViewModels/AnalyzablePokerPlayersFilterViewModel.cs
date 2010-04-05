@@ -32,21 +32,13 @@ namespace PokerTell.Statistics.ViewModels
 
         protected void InitializePropertiesFrom(IAnalyzablePokerPlayersFilter filter)
         {
-            TotalPlayersFilter = new RangeFilterForSelectorsViewModel<int>(
-                filter.TotalPlayersFilter, 
-                2.To(10), 
-                "Total Players");
+            TotalPlayersFilter = new RangeFilterForSelectorsViewModel<int>(filter.TotalPlayersFilter, 2.To(10), "Total Players");
 
-            PlayersInFlopFilter = new RangeFilterForSelectorsViewModel<int>(
-                filter.PlayersInFlopFilter, 
-                2.To(10), 
-                "Players in Flop");
+            PlayersInFlopFilter = new RangeFilterForSelectorsViewModel<int>(filter.PlayersInFlopFilter, 2.To(10), "Players in Flop");
 
             StrategicPositionFilter =
                 new RangeFilterForSelectorsViewModel<StrategicPositions>(
-                    filter.StrategicPositionFilter, 
-                    StrategicPositions.SB.To(StrategicPositions.BU), 
-                    "Position");
+                    filter.StrategicPositionFilter, StrategicPositions.SB.To(StrategicPositions.BU), "Position"); 
 
             TimeRangeFilter =
                 new RangeFilterForSelectorsViewModel<int>(

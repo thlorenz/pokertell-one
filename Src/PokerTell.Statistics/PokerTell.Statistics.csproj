@@ -131,7 +131,6 @@
     <Compile Include="Detailed\HeroCheckOrBetSetStatistics.cs" />
     <Compile Include="Utilities\SeparateRowsPercentagesCalculator.cs" />
     <Compile Include="Filters\AnalyzablePokerPlayersFilter.cs" />
-    <Compile Include="Filters\PlayerStatisticsService.cs" />
     <Compile Include="Interfaces\IReactionAnalyzationPreparer.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModel.cs" />
     <Compile Include="ViewModels\AnalyzablePokerPlayersFilterViewModel.cs" />
@@ -174,19 +173,12 @@
     <Compile Include="ViewModels\_Design\PostFlopStatisticsSetsDesignModel.cs" />
     <Compile Include="ViewModels\_Design\PreFlopStatisticsSetsDesignModel.cs" />
     <Compile Include="ViewModels\_Design\StatisticsSetSummaryDesignModel.cs" />
-    <Compile Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml.cs">
-      <DependentUpon>AnalyzablePokerPlayersFilterAdjustmentView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\AnalyzablePokerPlayersFilterViewTemplate.xaml.cs">
       <DependentUpon>AnalyzablePokerPlayersFilterViewTemplate.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\StatisticsSetDetails\DetailedStatisticsDataGridTemplates.xaml.cs">
       <DependentUpon>DetailedStatisticsDataGridTemplates.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AnalyzablePokerPlayersFilterAdjustmentView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\AnalyzablePokerPlayersFilterAdjustmentViewTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

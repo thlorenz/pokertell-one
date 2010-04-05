@@ -119,10 +119,6 @@ namespace PokerTell.Statistics
                 // AnalyzablePokerPlayersFilterAdjustmentViewModel 
                 .RegisterType<IAnalyzablePokerPlayersFilterAdjustmentViewModel, AnalyzablePokerPlayersFilterAdjustmentViewModel>()
                 ;
-
-             // Activate PlayerStatistics Service (right now provides filtering)
-            _container
-                .Resolve<PlayerStatisticsService>();
         }
     }
 }

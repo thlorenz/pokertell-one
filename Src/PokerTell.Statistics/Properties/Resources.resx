@@ -124,6 +124,6 @@
     <value>Apply Filter to all</value>
   </data>
   <data name="FilterAdjustment_FilterFor" xml:space="preserve">
-    <value>Filter for: </value>
+    <value>Filter for </value>
   </data>
 </root>

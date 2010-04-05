@@ -65,7 +65,6 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
             const string renniweg = "renniweg";
 
             var eventAggregator = new EventAggregator();
-            new PlayerStatisticsService(eventAggregator);
 
             var detailedPreFlopStatisticsViewModelMake =
                 new Constructor<IDetailedPreFlopStatisticsViewModel>(() => _container.Resolve<DetailedPreFlopStatisticsViewModel>());
