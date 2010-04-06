@@ -407,9 +407,9 @@ namespace PokerTell.PokerHand.Analyzation
             if (TotalPlayers == 2)
             {
                 Players = Players.Reverse().ToList();
-                for (int position = 0; position <= 1; position++)
-                    if (Players[position] != null)
-                        Players[position].Position = position;
+                //for (int position = 0; position <= 1; position++)
+                //    if (Players[position] != null)
+                //        Players[position].Position = position;
             }
             
             return this;
