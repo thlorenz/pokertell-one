@@ -21,7 +21,7 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type Overlay:TableOverlayViewModel}">
-                <Grid>
+                <Grid Canvas.ZIndex="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20"/>
                         <RowDefinition />
