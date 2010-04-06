@@ -1,12 +1,3 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ConvertedPokerHand.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The converted poker hand.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
-
 namespace PokerTell.PokerHand.Analyzation
 {
     using System;
@@ -32,8 +23,7 @@ namespace PokerTell.PokerHand.Analyzation
         /// <summary>
         /// The log.
         /// </summary>
-        static readonly ILog Log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// The _sequences.
@@ -449,17 +439,6 @@ namespace PokerTell.PokerHand.Analyzation
             }
 
             return this;
-        }
-
-        /// <summary>
-        /// The set strategic positions for all players.
-        /// </summary>
-        public void SetStrategicPositionsForAllPlayers()
-        {
-            foreach (IConvertedPokerPlayer convertedPlayer in this)
-            {
-                convertedPlayer.SetStrategicPosition(TotalPlayers);
-            }
         }
 
         /// <summary>

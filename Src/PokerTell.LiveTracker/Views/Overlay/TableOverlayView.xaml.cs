@@ -1,7 +1,6 @@
 ﻿namespace PokerTell.LiveTracker.Views.Overlay
 {
     using System.Windows;
-    using System.Windows.Controls;
 
     using Interfaces;
 

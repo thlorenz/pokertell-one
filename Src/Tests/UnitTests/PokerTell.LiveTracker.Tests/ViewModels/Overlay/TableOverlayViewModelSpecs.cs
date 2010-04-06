@@ -393,8 +393,18 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_let_me_know = () => showLiveStatsWindowWasRaised.ShouldBeTrue();
         }
 
+        [Subject(typeof(TableOverlayViewModel), "ShowGameHistory Command")]
+        public class when_the_user_wants_to_browse_the_game_history : TableOverlayViewModelSpecs
+        {
+            Because of = () => _sut.ShowGameHistoryCommand.Execute(null);
+
+            It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
+
+            It should_select_the_game_history = () => _sut.GameHistoryIsSelected.ShouldBeTrue();
+        }
+
         [Subject(typeof(TableOverlayViewModel), "ShowGameHistoryWindow Command")]
-        public class when_user_executes_show_game_history_window_command : TableOverlayViewModelSpecs
+        public class when_user_wants_to_popout_the_game_history : TableOverlayViewModelSpecs
         {
             static bool showGameHistoryWindowWasRaised;
 
@@ -423,6 +433,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             Because of = () => _pokerTableStatisticsVM_Stub.Raise(pts => pts.UserSelectedStatisticsSet += null, (IActionSequenceStatisticsSet)null);
 
             It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
+
+            It should_select_the_detailed_statistics = () => _sut.DetailedStatisticsIsSelected.ShouldBeTrue();
         }
 
         [Subject(typeof(TableOverlayViewModel), "User wants to browse players hands")]
@@ -433,6 +445,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             Because of = () => _pokerTableStatisticsVM_Stub.Raise(pts => pts.UserBrowsedAllHands += null, (IPlayerStatisticsViewModel)null);
 
             It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
+
+            It should_select_the_detailed_statistics = () => _sut.DetailedStatisticsIsSelected.ShouldBeTrue();
         }
 
         [Subject(typeof(TableOverlayViewModel), "Hide all players")]

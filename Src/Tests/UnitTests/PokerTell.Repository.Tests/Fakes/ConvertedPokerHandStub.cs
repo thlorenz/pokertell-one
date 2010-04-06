@@ -199,14 +199,6 @@ namespace PokerTell.Repository.Tests.Fakes
         }
 
         /// <summary>
-        /// The set strategic positions for all players.
-        /// </summary>
-        public void SetStrategicPositionsForAllPlayers()
-        {
-            // throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Determines who was in position in each round of the hand
         /// This is needed for statistic analysis, since it is important to know if a player was in
         /// position when he acted a certain way

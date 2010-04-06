@@ -22,8 +22,6 @@
         public OverlayDetailsView()
         {
             InitializeComponent();
-
-            DataContextChanged += OverlayDetailsView_DataContextChanged;
         }
 
         public void ResizableElement_MouseEnter(object sender, MouseEventArgs e)
@@ -68,14 +66,6 @@
            tableOverlayViewModel.PokerTableStatisticsViewModel.DetailedStatisticsAnalyzer.CurrentViewModel.Scroll(change);
 
            e.Handled = true;
-        }
-
-        void OverlayDetailsView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-           var tableOverlayViewModel = (ITableOverlayViewModel) DataContext;
-
-           tableOverlayViewModel.PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => DetailedStatistics_TabItem.IsSelected = true;
-           tableOverlayViewModel.PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => DetailedStatistics_TabItem.IsSelected = true;
         }
     }
 }

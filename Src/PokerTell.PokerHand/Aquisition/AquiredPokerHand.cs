@@ -119,8 +119,7 @@ namespace PokerTell.PokerHand.Aquisition
             _players.Sort();
 
             // For Headsup, the small blind is the button and thus needs to be shown after the big blind
-            if (_players.Count == 2)
-                _players.Reverse();
+            if (_players.Count == 2) _players.Reverse();
         }
 
         /// <summary>

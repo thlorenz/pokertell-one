@@ -68,6 +68,30 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         public event Action ShowGameHistoryWindowRequested = delegate { };
 
+        bool _detailedStatisticsIsSelected;
+
+        public bool DetailedStatisticsIsSelected
+        {
+            get { return _detailedStatisticsIsSelected; }
+            set
+            {
+                _detailedStatisticsIsSelected = value;
+                RaisePropertyChanged(() => DetailedStatisticsIsSelected);
+            }
+        }
+
+        bool _gameHistoryIsSelected;
+
+        public bool GameHistoryIsSelected
+        {
+            get { return _gameHistoryIsSelected; }
+            set
+            {
+                _gameHistoryIsSelected = value;
+                RaisePropertyChanged(() => GameHistoryIsSelected);
+            }
+        }
+
         public ITableOverlayViewModel HideAllPlayers()
         {
             PlayerOverlays.ForEach(po => po.UpdateStatusWith(null));
@@ -102,6 +126,22 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
+        ICommand _showGameHistoryCommand;
+
+        public ICommand ShowGameHistoryCommand
+        {
+            get
+            {
+                return _showGameHistoryCommand ?? (_showGameHistoryCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => {
+                            ShowOverlayDetails = true;
+                            GameHistoryIsSelected = true;
+                        },
+                    });
+            }
+        }
+
         ICommand _hideOverlayDetailsCommand;
 
         public ICommand HideOverlayDetailsCommand
@@ -111,7 +151,6 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 return _hideOverlayDetailsCommand ?? (_hideOverlayDetailsCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg =>  ShowOverlayDetails = false
-                        
                     });
             }
         }
@@ -142,8 +181,16 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         void RegisterEvents()
         {
             PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
-            PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => ShowOverlayDetails = true;
-            PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => ShowOverlayDetails = true;
+            PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => {
+                ShowOverlayDetails = true;
+                DetailedStatisticsIsSelected = true;
+            };
+
+            PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => {
+                ShowOverlayDetails = true;
+                DetailedStatisticsIsSelected = true;
+            };
+
             PlayerOverlays.ForEach(
                 po => po.FilterAdjustmentRequested += playerStatisticsViewModel => PokerTableStatisticsViewModel.DisplayFilterAdjustmentPopup(playerStatisticsViewModel));
         }

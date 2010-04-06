@@ -8,29 +8,20 @@ namespace Tools.WPF.Converters
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToVisibleOrHiddenConverter : IValueConverter
     {
-        #region Implemented Interfaces
-
-        #region IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
-            {
                 return Visibility.Visible;
-            }
-            else
-            {
-                return Visibility.Hidden;
-            }
+
+            return Visibility.Hidden;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value.Equals(Visibility.Visible))
+                return true;
+
+            return false;
         }
-
-        #endregion
-
-        #endregion
     }
 }

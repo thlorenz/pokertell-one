@@ -13,29 +13,20 @@ namespace Tools.WPF.Converters
     [ValueConversion(typeof(bool), typeof(Visibility))]
     public class BoolToVisibleOrCollapsedConverter : IValueConverter
     {
-        #region Implemented Interfaces
-
-        #region IValueConverter
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((bool)value)
-            {
                 return Visibility.Visible;
-            }
-            else
-            {
-                return Visibility.Collapsed;
-            }
+
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value.Equals(Visibility.Visible))
+                return true;
+
+            return false;
         }
-
-        #endregion
-
-        #endregion
     }
 }
