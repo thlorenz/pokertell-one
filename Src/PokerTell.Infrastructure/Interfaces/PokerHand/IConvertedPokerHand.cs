@@ -60,11 +60,9 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         /// </param>
         IConvertedPokerHand AddPlayer(IConvertedPokerPlayer convertedPlayer);
 
-        IConvertedPokerHand AddPlayersFrom(
-            IAquiredPokerHand aquiredHand, double startingPot, IConstructor<IConvertedPokerPlayer> convertedPlayerMake);
+        IConvertedPokerHand AddPlayersFrom(IAquiredPokerHand aquiredHand, double startingPot, IConstructor<IConvertedPokerPlayer> convertedPlayerMake);
 
-        IConvertedPokerHand InitializeWith(
-            string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers);
+        IConvertedPokerHand InitializeWith(string site, ulong gameId, DateTime timeStamp, double bb, double sb, int totalPlayers);
 
         IConvertedPokerHand InitializeWith(IAquiredPokerHand aquiredHand);
 
@@ -84,5 +82,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         IConvertedPokerHand SetWhoHasPositionInEachRound();
 
         #endregion
+
+        IConvertedPokerHand AdjustOrderOfPlayersIfItIsHeadsUp();
     }
 }

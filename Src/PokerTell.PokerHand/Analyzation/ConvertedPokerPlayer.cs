@@ -657,11 +657,9 @@ namespace PokerTell.PokerHand.Analyzation
             {
                 case 1:
                     StrategicPosition = StrategicPositions.BB;
-                    Position = 0;
                     break;
                 case 0:
                     StrategicPosition = StrategicPositions.BU;
-                    Position = 1;
                     break;
             }
         }

@@ -84,7 +84,7 @@ namespace PokerTell.PokerHand.Aquisition
         /// Method to add a player to the hand
         /// This version is used by the Parser and when importing a hand from Poker Office
         /// </summary>
-        /// <param name="P">Poker Player</param>
+        /// <param name="aquiredPlayer">Poker Player</param>
         public IAquiredPokerHand AddPlayer(IAquiredPokerPlayer aquiredPlayer)
         {
             _players.Add(aquiredPlayer);
@@ -92,16 +92,16 @@ namespace PokerTell.PokerHand.Aquisition
         }
 
         /// <summary>
-        /// Determines if a player with a certain ID already was added to the hand
+        /// Determines if a player with a certain id already was added to the hand
         /// Needed when importing from Poker Office to avoid adding a player twice
         /// </summary>
-        /// <param name="ID">ID of the player</param>
+        /// <param name="id">ID of the player</param>
         /// <returns></returns>
-        public bool PlayerExists(long ID)
+        public bool PlayerExists(long id)
         {
             foreach (IAquiredPokerPlayer aquiredPlayer in this)
             {
-                if (aquiredPlayer.Id == ID)
+                if (aquiredPlayer.Id == id)
                 {
                     return true;
                 }
@@ -117,9 +117,6 @@ namespace PokerTell.PokerHand.Aquisition
         public void SortPlayersByPosition()
         {
             _players.Sort();
-
-            // For Headsup, the small blind is the button and thus needs to be shown after the big blind
-            if (_players.Count == 2) _players.Reverse();
         }
 
         /// <summary>

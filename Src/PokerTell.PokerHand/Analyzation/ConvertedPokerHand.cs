@@ -402,21 +402,33 @@ namespace PokerTell.PokerHand.Analyzation
             _players.Remove(_players.ElementAt(index));
         }
 
-        /// <summary>
-        /// Remove a Poker Player
-        /// Needed when converting hand
-        /// </summary>
-        /// <param name="thePlayer">
-        /// Player to remove
-        /// </param>
-        /// <returns>
-        /// true if player could be removed
-        /// </returns>
-        public bool RemovePlayer(IConvertedPokerPlayer thePlayer)
+        public IConvertedPokerHand AdjustOrderOfPlayersIfItIsHeadsUp()
         {
-            return _players.Remove(thePlayer);
+            if (TotalPlayers == 2)
+            {
+                Players = Players.Reverse().ToList();
+                for (int position = 0; position <= 1; position++)
+                    if (Players[position] != null)
+                        Players[position].Position = position;
+            }
+            
+            return this;
         }
+        /*
+         
+            if (TotalSeats == 2 && Players.Count == 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (Players[i].StrategicPosition == StrategicPositions.BU)
+                        Players[i].Position = 1;
+                    else if (Players[i].StrategicPosition == StrategicPositions.BB)
+                        Players[i].Position = 0;
+                }
 
+                Players = Players.OrderBy(p => p.Position).ToList();
+            }
+         */
         /// <summary>
         /// Determines for each round, how many active players were in it
         /// This is needed to filter the statistics by how many opponents a player faced when he acted

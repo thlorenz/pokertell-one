@@ -8,7 +8,6 @@ namespace PokerTell.PokerHand.Interfaces
 
         IPokerRoundsConverter ConvertPreflop();
 
-        IPokerRoundsConverter InitializeWith(
-            IAquiredPokerHand aquiredHand, IConvertedPokerHand convertedHand, double pot, double toCall);
+        IPokerRoundsConverter InitializeWith(IAquiredPokerHand aquiredHand, IConvertedPokerHand convertedHand, double pot, double toCall);
     }
 }

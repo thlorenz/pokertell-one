@@ -3,18 +3,15 @@ namespace PokerTell.PokerHand.Services
     using System;
     using System.Reflection;
 
-    using Interfaces;
-
     using log4net;
 
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHand.Interfaces;
 
     public class PokerRoundsConverter : IPokerRoundsConverter
     {
-        #region Constants and Fields
-
         protected int ActionCount;
 
         protected bool FoundAction;
@@ -39,10 +36,6 @@ namespace PokerTell.PokerHand.Services
 
         IConvertedPokerHand _convertedHand;
 
-        #endregion
-
-        #region Constructors and Destructors
-
         public PokerRoundsConverter(
             IConstructor<IConvertedPokerActionWithId> convertedActionWithId, 
             IConstructor<IConvertedPokerRound> convertedRound, 
@@ -53,25 +46,15 @@ namespace PokerTell.PokerHand.Services
             _actionConverter = actionConverter;
         }
 
-        #endregion
-
-        #region Properties
-
         bool HeadsUp
         {
-            get { return _aquiredHand.Players.Count == 2; }
+            get { return _aquiredHand.TotalPlayers == 2; }
         }
 
         bool ThreeOrMore
         {
-            get { return _aquiredHand.Players.Count >= 3; }
+            get { return _aquiredHand.TotalPlayers >= 3; }
         }
-
-        #endregion
-
-        #region Implemented Interfaces
-
-        #region IPokerRoundsConverter
 
         public virtual IConvertedPokerHand ConvertFlopTurnAndRiver()
         {
@@ -88,7 +71,7 @@ namespace PokerTell.PokerHand.Services
                     FoundAction = false;
                     int fromPlayer;
                     int toPlayer;
-                    
+
                     if (HeadsUp)
                     {
                         // BigBlind acts before button (small Blind)
@@ -127,7 +110,7 @@ namespace PokerTell.PokerHand.Services
 
                 int fromPlayer;
                 int toPlayer;
-               
+
                 if (HeadsUp)
                 {
                     fromPlayer = 0;
@@ -172,12 +155,6 @@ namespace PokerTell.PokerHand.Services
             return this;
         }
 
-        #endregion
-
-        #endregion
-
-        #region Methods
-
         protected virtual void ProcessPlayersForRound(Streets street, int fromPlayer, int toPlayer)
         {
             if (fromPlayer <= toPlayer)
@@ -187,32 +164,25 @@ namespace PokerTell.PokerHand.Services
                     // Check if non empty bettinground for that player exists in the current round
                     IAquiredPokerPlayer aquiredPlayer = _aquiredHand[playerIndex];
 
-                    if (aquiredPlayer.Count > (int)street
-                        && aquiredPlayer[street].Actions.Count > ActionCount)
-                    {
-                        ProcessRound(street, aquiredPlayer[street], _convertedHand[playerIndex]);
-                    }
+                    if (aquiredPlayer.Count > (int)street && aquiredPlayer[street].Actions.Count > ActionCount)
+                            ProcessRound(street, aquiredPlayer[street], _convertedHand[playerIndex]);
                 }
             }
             else
             {
-                // Headsup
+                // Headsup Postflop
                 for (int playerIndex = fromPlayer; playerIndex >= toPlayer; playerIndex--)
                 {
                     // Check if non empty bettinground for that player exists in the current round
                     IAquiredPokerPlayer aquiredPlayer = _aquiredHand[playerIndex];
 
-                    if (aquiredPlayer.Count > (int)street
-                        && aquiredPlayer[street].Actions.Count > ActionCount)
-                    {
+                    if (aquiredPlayer.Count > (int)street && aquiredPlayer[street].Actions.Count > ActionCount)
                         ProcessRound(street, aquiredPlayer[street], _convertedHand[playerIndex]);
-                    }
                 }
             }
         }
 
-        protected virtual void ProcessRound(
-            Streets street, IAquiredPokerRound aquiredPokerRound, IConvertedPokerPlayer convertedPlayer)
+        protected virtual void ProcessRound(Streets street, IAquiredPokerRound aquiredPokerRound, IConvertedPokerPlayer convertedPlayer)
         {
             try
             {
@@ -238,8 +208,7 @@ namespace PokerTell.PokerHand.Services
             }
         }
 
-        void SetActionSequenceAndAddActionTo(
-            IConvertedPokerPlayer convertedPlayer, IConvertedPokerAction convertedAction, Streets street)
+        void SetActionSequenceAndAddActionTo(IConvertedPokerPlayer convertedPlayer, IConvertedPokerAction convertedAction, Streets street)
         {
             convertedPlayer.SetActionSequenceString(ref SequenceSoFar, convertedAction, street);
 
@@ -250,7 +219,5 @@ namespace PokerTell.PokerHand.Services
 
             convertedPlayer[street].Add(convertedAction);
         }
-
-        #endregion
     }
 }

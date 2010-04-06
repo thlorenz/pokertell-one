@@ -22,6 +22,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
 
     using UnitTests;
 
+    // Resharper disable InconsistentNaming
     public class Preflop_HeadsUp : TestWithLog
     {
         

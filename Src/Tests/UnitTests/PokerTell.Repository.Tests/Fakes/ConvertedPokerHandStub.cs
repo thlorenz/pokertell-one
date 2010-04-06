@@ -209,6 +209,11 @@ namespace PokerTell.Repository.Tests.Fakes
             return this;
         }
 
+        public IConvertedPokerHand AdjustOrderOfPlayersIfItIsHeadsUp()
+        {
+            return this;
+        }
+
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>

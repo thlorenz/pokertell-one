@@ -2,58 +2,31 @@ namespace PokerTell.PokerHand.Tests.Services
 {
     using System;
 
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
-
-    using Interfaces;
-
     using Microsoft.Practices.Unity;
 
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Aquisition;
+    using PokerTell.PokerHand.Interfaces;
     using PokerTell.PokerHand.Services;
-
-    using UnitTests;
+    using PokerTell.UnitTests;
 
     [TestFixture]
     public class PokerHandConverterTests : TestWithLog
     {
-        #region Constants and Fields
-
         const double BigBlind = 10.0;
 
         const double SmallBlind = 5.0;
 
         IAquiredPokerHand _aquiredHand;
 
-        MockPokerHandConverter _converter;
-
         UnityContainer _container;
 
-        #endregion
-
-        #region Public Methods
-
-        [TestFixtureSetUp]
-        public void _InitConverter()
-        {
-            _container = new UnityContainer();
-           
-            _container
-                .RegisterConstructor<IConvertedPokerAction, ConvertedPokerAction>()
-                .RegisterConstructor<IConvertedPokerActionWithId, ConvertedPokerActionWithId>()
-                .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
-                .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
-                .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
-                .RegisterType<IPokerActionConverter, PokerActionConverter>()
-                .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>();
-            
-            _converter = _container.Resolve<MockPokerHandConverter>();
-        }
-
+        MockPokerHandConverter _converter;
 
         [SetUp]
         public void _Init()
@@ -64,6 +37,23 @@ namespace PokerTell.PokerHand.Tests.Services
 
             _aquiredHand = new AquiredPokerHand(
                 "SomeSite", someGameId, someDateTime, BigBlind, SmallBlind, someTotalPlayers);
+        }
+
+        [TestFixtureSetUp]
+        public void _InitConverter()
+        {
+            _container = new UnityContainer();
+
+            _container
+                .RegisterConstructor<IConvertedPokerAction, ConvertedPokerAction>()
+                .RegisterConstructor<IConvertedPokerActionWithId, ConvertedPokerActionWithId>()
+                .RegisterConstructor<IConvertedPokerRound, ConvertedPokerRound>()
+                .RegisterConstructor<IConvertedPokerPlayer, ConvertedPokerPlayer>()
+                .RegisterConstructor<IConvertedPokerHand, ConvertedPokerHand>()
+                .RegisterType<IPokerActionConverter, PokerActionConverter>()
+                .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>();
+
+            _converter = _container.Resolve<MockPokerHandConverter>();
         }
 
         [Test]
@@ -152,10 +142,6 @@ namespace PokerTell.PokerHand.Tests.Services
             Assert.That(calculatedPot, Is.EqualTo(expectedPot));
         }
 
-        #endregion
-
-        #region Methods
-
         static IAquiredPokerPlayer CreateAquiredPlayer(string someName)
         {
             const int someStack = 1;
@@ -186,31 +172,21 @@ namespace PokerTell.PokerHand.Tests.Services
 
             return aquiredPlayer;
         }
-
-        #endregion
     }
 
     internal class MockPokerHandConverter : PokerHandConverter
     {
-        #region Constructors and Destructors
-
         public MockPokerHandConverter(
             IConstructor<IConvertedPokerPlayer> convertedPlayer, 
-            IConstructor<IConvertedPokerHand> convertedHand,
+            IConstructor<IConvertedPokerHand> convertedHand, 
             IPokerRoundsConverter roundsConverter)
             : base(convertedPlayer, convertedHand, roundsConverter)
         {
         }
 
-        #endregion
-
-        #region Public Methods
-
         public double CallRemovePostingActionsAndCalculatePotAfterPosting(ref IAquiredPokerHand aquiredHand)
         {
             return RemovePostingActionsAndCalculatePotAfterPosting(ref aquiredHand);
         }
-
-        #endregion
     }
 }

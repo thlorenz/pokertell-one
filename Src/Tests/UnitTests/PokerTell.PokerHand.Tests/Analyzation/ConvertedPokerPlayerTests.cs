@@ -1,26 +1,20 @@
 namespace PokerTell.PokerHand.Tests.Analyzation
 {
-    using Factories;
-
-    using Fakes;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-
     using Moq;
 
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.PokerHand.Analyzation;
-
-    using UnitTests;
-    using UnitTests.Tools;
+    using PokerTell.PokerHand.Tests.Factories;
+    using PokerTell.PokerHand.Tests.Fakes;
+    using PokerTell.UnitTests;
+    using PokerTell.UnitTests.Tools;
 
     [TestFixture]
     public class ConvertedPokerPlayerTests : TestWithLog
     {
-        #region Constants and Fields
-
         const int NinePlayers = 9;
 
         const int SixPlayers = 6;
@@ -30,10 +24,6 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         ConvertedPokerPlayer _convertedPlayer;
 
         StubBuilder _stub;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -112,9 +102,49 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         }
 
         [Test]
+        public void BinaryDeserialized_PreflopRaiseInFrontPositionIsNonSerialized_DoesNotSerializeIt()
+        {
+            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+            player.PreflopRaiseInFrontPos = _stub.Some(1);
+
+            Assert.That(
+                player.BinaryDeserializedInMemory().PreflopRaiseInFrontPos, 
+                Is.Not.EqualTo(player.PreflopRaiseInFrontPos));
+        }
+
+        [Test]
         public void BinaryDeserialized_SerializedInitializedPlayer_ReturnsSamePlayer()
         {
             DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+
+            Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
+        }
+
+        [Test]
+        public void BinaryDeserialized_SerializedPlayerWithInPosition_ReturnsSamePlayer()
+        {
+            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+            player.InPosition = new bool?[] { true, false, true };
+
+            Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
+        }
+
+        [Test]
+        public void BinaryDeserialized_SerializedPlayerWithMAfter_SerializesIt()
+        {
+            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+            player.MAfter = _stub.Some(20);
+
+            Assert.That(
+                player.BinaryDeserializedInMemory().MAfter, 
+                Is.EqualTo(player.MAfter));
+        }
+
+        [Test]
+        public void BinaryDeserialized_SerializedPlayerWithMBefore_ReturnsSamePlayer()
+        {
+            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
+            player.MBefore = _stub.Some(20);
 
             Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
         }
@@ -140,43 +170,12 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         }
 
         [Test]
-        public void BinaryDeserialized_SerializedPlayerWithInPosition_ReturnsSamePlayer()
+        public void BinaryDeserialized_SerializedPlayerWithSequence_ReturnsSamePlayer()
         {
             DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
-            player.InPosition = new bool?[] { true, false, true };
+            player.SequenceStrings = new[] { "some", "someMore" };
 
             Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
-        }
-
-        [Test]
-        public void BinaryDeserialized_SerializedPlayerWithMBefore_ReturnsSamePlayer()
-        {
-            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
-            player.MBefore = _stub.Some(20);
-
-            Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
-        }
-
-        [Test]
-        public void BinaryDeserialized_PreflopRaiseInFrontPositionIsNonSerialized_DoesNotSerializeIt()
-        {
-            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
-            player.PreflopRaiseInFrontPos = _stub.Some(1);
-
-            Assert.That(
-                player.BinaryDeserializedInMemory().PreflopRaiseInFrontPos,
-                Is.Not.EqualTo(player.PreflopRaiseInFrontPos));
-        }
-
-        [Test]
-        public void BinaryDeserialized_SerializedPlayerWithMAfter_SerializesIt()
-        {
-            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
-            player.MAfter = _stub.Some(20);
-
-            Assert.That(
-                player.BinaryDeserializedInMemory().MAfter,
-                Is.EqualTo(player.MAfter));
         }
 
         [Test]
@@ -186,17 +185,8 @@ namespace PokerTell.PokerHand.Tests.Analyzation
             player.StrategicPosition = _stub.Some(StrategicPositions.BU);
 
             Assert.That(
-                player.BinaryDeserializedInMemory().StrategicPosition,
+                player.BinaryDeserializedInMemory().StrategicPosition, 
                 Is.EqualTo(player.StrategicPosition));
-        }
-
-        [Test]
-        public void BinaryDeserialized_SerializedPlayerWithSequence_ReturnsSamePlayer()
-        {
-            DecapsulatedConvertedPlayer player = ConvertedFactory.InitializeConvertedPokerPlayerWithSomeValidValues();
-            player.SequenceStrings = new[] { "some", "someMore" };
-
-            Affirm.That(player.BinaryDeserializedInMemory()).IsEqualTo(player);
         }
 
         [Test]
@@ -272,9 +262,8 @@ namespace PokerTell.PokerHand.Tests.Analyzation
         public void SetStrategicPosition_SixPlayersVaryPositions_SetsStrategicPositionCorrectly(
             [Values(0, 1, 2, 3, 4, 5)] int postion, 
             [Values(
-                StrategicPositions.SB, StrategicPositions.BB, StrategicPositions.MI,
-                StrategicPositions.LT, StrategicPositions.CO, StrategicPositions.BU)] 
-                StrategicPositions expectedStrategicPosition)
+                StrategicPositions.SB, StrategicPositions.BB, StrategicPositions.MI, 
+                StrategicPositions.LT, StrategicPositions.CO, StrategicPositions.BU)] StrategicPositions expectedStrategicPosition)
         {
             _convertedPlayer.Position = postion;
 
@@ -282,7 +271,5 @@ namespace PokerTell.PokerHand.Tests.Analyzation
 
             Assert.That(_convertedPlayer.StrategicPosition, Is.EqualTo(expectedStrategicPosition));
         }
-
-        #endregion
     }
 }

@@ -94,6 +94,7 @@ namespace PokerTell.PokerHand.Services
                 convertedHand
                     .RemoveInactivePlayers()
                     .SetNumOfPlayersInEachRound()
+                    .AdjustOrderOfPlayersIfItIsHeadsUp()
                     .SetWhoHasPositionInEachRound();
 
                 foreach (var player in convertedHand)

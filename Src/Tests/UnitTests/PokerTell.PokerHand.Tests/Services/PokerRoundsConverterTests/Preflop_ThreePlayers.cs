@@ -2,32 +2,24 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
 {
     using System;
 
-    using Fakes;
-
-    using Infrastructure.Enumerations.PokerHand;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Services;
-
-    using Interfaces;
-
     using Microsoft.Practices.Unity;
 
     using Moq;
 
     using NUnit.Framework;
 
+    using PokerTell.Infrastructure.Enumerations.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Services;
     using PokerTell.PokerHand.Analyzation;
     using PokerTell.PokerHand.Aquisition;
+    using PokerTell.PokerHand.Interfaces;
     using PokerTell.PokerHand.Services;
-
-    using Services;
-
-    using UnitTests;
+    using PokerTell.PokerHand.Tests.Fakes;
+    using PokerTell.UnitTests;
 
     public class Preflop_ThreePlayers : TestWithLog
     {
-        #region Constants and Fields
-
         IUnityContainer _container;
 
         Constructor<IConvertedPokerPlayer> _convertedPlayerMake;
@@ -35,10 +27,6 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
         MockPokerRoundsConverter _converter;
 
         StubBuilder _stub;
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -137,25 +125,6 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
         }
 
         [Test]
-        public void ConvertPreflop_Player1IsSmallBlind_SetsBigBlindsSecondActionToFold()
-        {
-            RelativeRatioResult result = ConvertPreflopThreePlayersHand();
-
-            Assert.That(result.Player2FirstRound[1].What, Is.EqualTo(ActionTypes.F));
-        }
-
-        [Test]
-        public void ConvertPreflop_Player1IsSmallBlind_SetsSmallBlindsPreflopSequenceString()
-        {
-            const string expectedSequence = "C";
-
-            var result = ConvertPreflopThreePlayersHand();
-            var smallBlindPreflopSequence = result.ConvertedHand[0].SequenceStrings[(int)Streets.PreFlop];
-
-            Assert.That(smallBlindPreflopSequence, Is.EqualTo(expectedSequence));
-        }
-
-        [Test]
         public void ConvertPreflop_Player1IsSmallBlind_SetsBigBlindsPreflopSequenceString()
         {
             const string expectedSequence = "R";
@@ -164,6 +133,14 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             var bigBlindPreflopSequence = result.ConvertedHand[1].SequenceStrings[(int)Streets.PreFlop];
 
             Assert.That(bigBlindPreflopSequence, Is.EqualTo(expectedSequence));
+        }
+
+        [Test]
+        public void ConvertPreflop_Player1IsSmallBlind_SetsBigBlindsSecondActionToFold()
+        {
+            RelativeRatioResult result = ConvertPreflopThreePlayersHand();
+
+            Assert.That(result.Player2FirstRound[1].What, Is.EqualTo(ActionTypes.F));
         }
 
         [Test]
@@ -177,9 +154,16 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             Assert.That(buttonPreflopSequence, Is.EqualTo(expectedSequence));
         }
 
-        #endregion
+        [Test]
+        public void ConvertPreflop_Player1IsSmallBlind_SetsSmallBlindsPreflopSequenceString()
+        {
+            const string expectedSequence = "C";
 
-        #region Methods
+            var result = ConvertPreflopThreePlayersHand();
+            var smallBlindPreflopSequence = result.ConvertedHand[0].SequenceStrings[(int)Streets.PreFlop];
+
+            Assert.That(smallBlindPreflopSequence, Is.EqualTo(expectedSequence));
+        }
 
         RelativeRatioResult ConvertPreflopThreePlayersHand()
         {
@@ -190,7 +174,7 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             const double bigBlind = 2.0;
             const double pot = smallBlind + bigBlind;
             const double toCall = bigBlind;
-            const int totalPlayers = 2;
+            const int totalPlayers = 3;
             const int smallBlindPosition = 0;
             const int bigBlindPosition = 1;
             const int buttonPosition = 2;
@@ -283,12 +267,8 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
                 relativeRatio5);
         }
 
-        #endregion
-
         class RelativeRatioResult
         {
-            #region Constants and Fields
-
             public readonly IConvertedPokerHand ConvertedHand;
 
             public readonly IConvertedPokerRound Player1FirstRound;
@@ -306,10 +286,6 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
             public readonly double RelativeRatio4;
 
             public readonly double RelativeRatio5;
-
-            #endregion
-
-            #region Constructors and Destructors
 
             public RelativeRatioResult(
                 IConvertedPokerHand convertedHand, 
@@ -332,8 +308,6 @@ namespace PokerTell.PokerHand.Tests.Services.PokerRoundsConverterTests
                 RelativeRatio2 = relativeRatio2;
                 RelativeRatio1 = relativeRatio1;
             }
-
-            #endregion
         }
     }
 }
