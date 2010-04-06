@@ -387,7 +387,7 @@ namespace PokerTell.DatabaseSetup.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USE {0};
+        ///   Looks up a localized string similar to USE `{0}`;
         ///DELETE FROM version WHERE Id = 0;
         ///INSERT INTO version (Id, Number) values (0, {1});.
         /// </summary>

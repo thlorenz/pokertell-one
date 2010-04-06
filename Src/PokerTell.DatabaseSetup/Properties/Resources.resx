@@ -411,7 +411,7 @@ Choosing a simpler name may solve the problem.</value>
 INSERT INTO version (Id, Number) values (0, {0});</value>
   </data>
   <data name="Sql_Queries_External_InsertVersionNumber" xml:space="preserve">
-    <value>USE {0};
+    <value>USE `{0}`;
 DELETE FROM version WHERE Id = 0;
 INSERT INTO version (Id, Number) values (0, {1});</value>
   </data>
