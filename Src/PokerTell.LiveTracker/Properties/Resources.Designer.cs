@@ -269,6 +269,33 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string TableStatisticsView_Filter {
+            get {
+                return ResourceManager.GetString("TableStatisticsView_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Investigator.
+        /// </summary>
+        public static string TableStatisticsView_Investigator {
+            get {
+                return ResourceManager.GetString("TableStatisticsView_Investigator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Players.
+        /// </summary>
+        public static string TableStatisticsView_Players {
+            get {
+                return ResourceManager.GetString("TableStatisticsView_Players", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Handhistories.
         /// </summary>
         public static string TrackHandHistoryDialog_Handhistories {

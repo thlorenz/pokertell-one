@@ -86,5 +86,77 @@ namespace PokerTell.Statistics.Properties {
                 return ResourceManager.GetString("FilterAdjustment_FilterFor", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse Hands.
+        /// </summary>
+        public static string InvestigatorView_BrowseHands {
+            get {
+                return ResourceManager.GetString("InvestigatorView_BrowseHands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Cards.
+        /// </summary>
+        public static string InvestigatorView_InvestigateHoleCards {
+            get {
+                return ResourceManager.GetString("InvestigatorView_InvestigateHoleCards", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ShowRaise.
+        /// </summary>
+        public static string InvestigatorView_ShowRaise {
+            get {
+                return ResourceManager.GetString("InvestigatorView_ShowRaise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Visualize Hands.
+        /// </summary>
+        public static string InvestigatorView_VisualizeHands {
+            get {
+                return ResourceManager.GetString("InvestigatorView_VisualizeHands", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check or Bet.
+        /// </summary>
+        public static string StatisticsSets_CheckOrBet {
+            get {
+                return ResourceManager.GetString("StatisticsSets_CheckOrBet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check then React.
+        /// </summary>
+        public static string StatisticsSets_CheckThenReact {
+            get {
+                return ResourceManager.GetString("StatisticsSets_CheckThenReact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to React to Bet.
+        /// </summary>
+        public static string StatisticsSets_ReactToBet {
+            get {
+                return ResourceManager.GetString("StatisticsSets_ReactToBet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Count.
+        /// </summary>
+        public static string StatisticsSets_TotalCount {
+            get {
+                return ResourceManager.GetString("StatisticsSets_TotalCount", resourceCulture);
+            }
+        }
     }
 }

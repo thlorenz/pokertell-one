@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Statistics="clr-namespace:PokerTell.Infrastructure.Interfaces.Statistics;assembly=PokerTell.Infrastructure"                      
+    xmlns:Statistics="clr-namespace:PokerTell.Infrastructure.Interfaces.Statistics;assembly=PokerTell.Infrastructure"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
+    xmlns:Properties="clr-namespace:PokerTell.Statistics.Properties"                      
     >
 
     <DataTemplate x:Key="PreFlopStatisticsSetsViewTemplate" DataType="{x:Type Statistics:IPreFlopStatisticsSetsViewModel}" >
@@ -29,7 +31,7 @@
                     <Setter Property="CornerRadius" Value="2" />
                 </Style>
             </StackPanel.Resources>
-            <GroupBox Header="Preflop" FontSize="9">
+            <GroupBox Header="{x:Static GlobalProperties:Resources.Lingo_Preflop}" FontSize="9">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition />
@@ -41,17 +43,17 @@
 
                     <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource StatisticsSetSurroundingBorder}">
                         <StackPanel>
-                            <Label Content="Unraised Pot" Style="{StaticResource HeaderLabelStyle}"/>
+                            <Label Content="{x:Static GlobalProperties:Resources.Lingo_UnraisedPot}" Style="{StaticResource HeaderLabelStyle}"/>
                             <ContentControl Content="{Binding PreFlopUnraisedPotStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
-                            <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
+                            <Label Style="{StaticResource HeaderLabelStyle}" Content="{x:Static Properties:Resources.StatisticsSets_TotalCount}"/>
                             <Label Content="{Binding TotalCountPreFlopUnraisedPot}" HorizontalContentAlignment="Center" FontSize="12"/>
                         </StackPanel>
                     </Border>
                     <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource StatisticsSetSurroundingBorder}">
                         <StackPanel>
-                            <Label Content="Raised Pot" Style="{StaticResource HeaderLabelStyle}"/>
+                            <Label Content="{x:Static GlobalProperties:Resources.Lingo_RaisedPot}" Style="{StaticResource HeaderLabelStyle}"/>
                             <ContentControl Content="{Binding PreFlopRaisedPotStatisticsSet}" ContentTemplate="{StaticResource StatisticsSetSummaryViewTemplate}" />
-                            <Label Style="{StaticResource HeaderLabelStyle}" Content="Total Count"/>
+                            <Label Style="{StaticResource HeaderLabelStyle}" Content="{x:Static Properties:Resources.StatisticsSets_TotalCount}"/>
                             <Label Content="{Binding TotalCountPreFlopRaisedPot}" HorizontalContentAlignment="Center" FontSize="12"/>
                         </StackPanel>
                     </Border>

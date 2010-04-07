@@ -9,7 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsViewTemplate.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
-                <ResourceDictionary Source="../InvestigatorViewTemplates.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/InvestigatorViewTemplates.xaml"/>
                 <ResourceDictionary Source="../GameHistoryViewTemplate.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style TargetType="{x:Type TabControl}">

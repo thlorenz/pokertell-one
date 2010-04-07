@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Properties="clr-namespace:PokerTell.Statistics.Properties">
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
@@ -13,19 +14,19 @@
         <Setter Property="FontSize" Value="8" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Command" Value="{Binding InvestigateRaiseReactionCommand}" />
-        <Setter Property="Content" Value="Show Raise"/>
+        <Setter Property="Content" Value="{x:Static Properties:Resources.InvestigatorView_ShowRaise}"/>
     </Style>
     <Style x:Key="VisualizeHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
         <Setter Property="Command" Value="{Binding VisualizeStartingHandsCommand}" />
-        <Setter Property="Content" Value="Visualize Hands"/>
+        <Setter Property="Content" Value="{x:Static Properties:Resources.InvestigatorView_VisualizeHands}"/>
     </Style>
     <Style x:Key="BrowseHandsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
         <Setter Property="Command" Value="{Binding BrowseHandsCommand}" />
-        <Setter Property="Content" Value="Browse Hands"/>
+        <Setter Property="Content" Value="{x:Static Properties:Resources.InvestigatorView_BrowseHands}"/>
     </Style>
     <Style x:Key="InvestigateHoleCardsButtonStyle" TargetType="{x:Type Button}"  BasedOn="{StaticResource InvestigateRaiseButtonStyle}">
         <Setter Property="Command" Value="{Binding InvestigateHoleCardsCommand}" />
-        <Setter Property="Content" Value="Show Cards"/>
+        <Setter Property="Content" Value="{x:Static Properties:Resources.InvestigatorView_InvestigateHoleCards}"/>
     </Style>
     
     <DataTemplate x:Key="InvestigatorCommandsTemplate">

@@ -19,6 +19,10 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         bool Visible { get; }
 
+        IDetailedStatisticsAnalyzerContentViewModel PopupViewModel { get; set; }
+
+        bool ShowPopup { get; set; }
+
         IDetailedStatisticsAnalyzerViewModel AddViewModel(IDetailedStatisticsAnalyzerContentViewModel viewModel);
 
         IDetailedStatisticsAnalyzerViewModel NavigateTo(int index);

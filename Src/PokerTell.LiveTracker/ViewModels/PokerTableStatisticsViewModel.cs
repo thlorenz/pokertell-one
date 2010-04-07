@@ -14,7 +14,6 @@ namespace PokerTell.LiveTracker.ViewModels
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.LiveTracker.Interfaces;
-    using PokerTell.Statistics.ViewModels;
 
     using Tools.WPF;
     using Tools.WPF.Interfaces;

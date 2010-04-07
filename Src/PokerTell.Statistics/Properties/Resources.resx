@@ -126,4 +126,28 @@
   <data name="FilterAdjustment_FilterFor" xml:space="preserve">
     <value>Filter for </value>
   </data>
+  <data name="InvestigatorView_BrowseHands" xml:space="preserve">
+    <value>Browse Hands</value>
+  </data>
+  <data name="InvestigatorView_InvestigateHoleCards" xml:space="preserve">
+    <value>Show Cards</value>
+  </data>
+  <data name="InvestigatorView_ShowRaise" xml:space="preserve">
+    <value>ShowRaise</value>
+  </data>
+  <data name="InvestigatorView_VisualizeHands" xml:space="preserve">
+    <value>Visualize Hands</value>
+  </data>
+  <data name="StatisticsSets_CheckOrBet" xml:space="preserve">
+    <value>Check or Bet</value>
+  </data>
+  <data name="StatisticsSets_CheckThenReact" xml:space="preserve">
+    <value>Check then React</value>
+  </data>
+  <data name="StatisticsSets_ReactToBet" xml:space="preserve">
+    <value>React to Bet</value>
+  </data>
+  <data name="StatisticsSets_TotalCount" xml:space="preserve">
+    <value>Total Count</value>
+  </data>
 </root>

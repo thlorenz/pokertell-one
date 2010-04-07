@@ -1,6 +1,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels" >
+    xmlns:ViewModels="clr-namespace:PokerTell.LiveTracker.ViewModels"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
+    xmlns:Properties="clr-namespace:PokerTell.LiveTracker.Properties" >
 
     <DataTemplate x:Key="TableStatisticsViewTemplate" DataType="{x:Type ViewModels:PokerTableStatisticsViewModel}" >
         <DataTemplate.Resources>
@@ -13,7 +15,7 @@
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/StatisticsSetDetails/DetailedStatisticsWithInformationPanelViewTemplate.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.PokerHand;component/Views/HandHistoryView.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
-                    <ResourceDictionary Source="InvestigatorViewTemplates.xaml"/>
+                    <ResourceDictionary Source="pack://application:,,,/PokerTell.Statistics;component/Views/InvestigatorViewTemplates.xaml"/>
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -26,36 +28,36 @@
 
             <!-- Top Row -->
             <Viewbox Grid.Row="0" Width="410" MinHeight="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
-                <StackPanel DataContext="{Binding DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
+                <StackPanel VerticalAlignment="Top" >
                     <!-- Statistics Analyzer -->
-                    <ContentControl Content="{Binding CurrentViewModel}" 
+                    <ContentControl Content="{Binding DetailedStatisticsAnalyzer.CurrentViewModel}" 
                                     ContentTemplate="{StaticResource DetailedStatisticsWithInformationPanelViewTemplate}"
                                     HorizontalContentAlignment="Stretch"/>
-                    <Popup AllowsTransparency="False" IsOpen="{Binding ShowPopup}" PopupAnimation="Scroll" Placement="Center"  StaysOpen="False">
-                        <ContentControl Content="{Binding PopupViewModel}" />
+                    <Popup AllowsTransparency="False" IsOpen="{Binding  DetailedStatisticsAnalyzer.ShowPopup}" PopupAnimation="Scroll" Placement="Center"  StaysOpen="False">
+                        <ContentControl Content="{Binding  DetailedStatisticsAnalyzer.PopupViewModel}" />
                     </Popup>
                 </StackPanel>
             </Viewbox>
 
             <!-- Bottom Row -->
-            <StackPanel x:Name="bottomRowStackPanel" Grid.Row="1" Orientation="Horizontal">
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
 
                     <!-- Preflop Set -->
-                    <ContentControl DataContext="{Binding SelectedPlayer}" Content="{Binding PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
+                    <ContentControl Content="{Binding  SelectedPlayer.PreFlopStatisticsSets}" ContentTemplate="{StaticResource PreFlopStatisticsSetsViewTemplate}"/>
 
                     <Grid>
                         <!-- Postflop sets -->
-                        <TabControl  DataContext="{Binding SelectedPlayer}">
-                            <TabItem Header="Flop" Content="{Binding FlopStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
-                            <TabItem Header="Turn" Content="{Binding TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
-                            <TabItem Header="River" Content="{Binding RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
+                        <TabControl>
+                            <TabItem Header="{x:Static GlobalProperties:Resources.Lingo_Flop}" Content="{Binding SelectedPlayer.FlopStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
+                            <TabItem Header="{x:Static GlobalProperties:Resources.Lingo_Turn}" Content="{Binding SelectedPlayer.TurnStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
+                            <TabItem Header="{x:Static GlobalProperties:Resources.Lingo_River}" Content="{Binding SelectedPlayer.RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                         </TabControl>
 
 
                         <!-- Filter Command -->
                         <Button Command="{Binding FilterAdjustmentRequestedCommand}" 
-                                Content="Filter"
+                                Content="{x:Static Properties:Resources.TableStatisticsView_Filter}"
                                 VerticalAlignment="Top"
                                 HorizontalAlignment="Right"
                                 Padding="5, 3"
@@ -64,13 +66,13 @@
                     </Grid>
                     <StackPanel Orientation="Vertical">
                         <!-- StatisticsAnalyzer Commanding -->
-                        <GroupBox Header="Investigator">
+                        <GroupBox Header="{x:Static Properties:Resources.TableStatisticsView_Investigator}">
                             <StackPanel Orientation="Vertical" DataContext="{Binding DetailedStatisticsAnalyzer}">
                                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource InvestigatorNavigationTemplate}" />
                                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource InvestigatorCommandsTemplate}" />
                             </StackPanel>
                         </GroupBox>
-                        <GroupBox Header="Players">
+                        <GroupBox Header="{x:Static Properties:Resources.TableStatisticsView_Players}">
                             <!-- List of Players-->
                             <ListBox ItemsSource="{Binding Players}"
                                      SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"

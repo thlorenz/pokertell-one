@@ -196,6 +196,78 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Flop.
+        /// </summary>
+        public static string Lingo_Flop {
+            get {
+                return ResourceManager.GetString("Lingo_Flop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In Position.
+        /// </summary>
+        public static string Lingo_InPosition {
+            get {
+                return ResourceManager.GetString("Lingo_InPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Out of Position.
+        /// </summary>
+        public static string Lingo_OutOfPosition {
+            get {
+                return ResourceManager.GetString("Lingo_OutOfPosition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preflop.
+        /// </summary>
+        public static string Lingo_Preflop {
+            get {
+                return ResourceManager.GetString("Lingo_Preflop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Raised Pot.
+        /// </summary>
+        public static string Lingo_RaisedPot {
+            get {
+                return ResourceManager.GetString("Lingo_RaisedPot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to River.
+        /// </summary>
+        public static string Lingo_River {
+            get {
+                return ResourceManager.GetString("Lingo_River", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn.
+        /// </summary>
+        public static string Lingo_Turn {
+            get {
+                return ResourceManager.GetString("Lingo_Turn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unraised Pot.
+        /// </summary>
+        public static string Lingo_UnraisedPot {
+            get {
+                return ResourceManager.GetString("Lingo_UnraisedPot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to http://www.GetPokerTell.com.
         /// </summary>
         public static string Links_Homepage {
@@ -205,7 +277,7 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://www.GetPokerTell.com\SupportedRooms.html.
+        ///   Looks up a localized string similar to http://www.GetPokerTell.com/SupportedRooms.html.
         /// </summary>
         public static string Links_ListOfSupportedPokerRooms {
             get {

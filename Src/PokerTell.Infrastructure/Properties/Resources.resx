@@ -162,10 +162,34 @@
   <data name="Descriptions_Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
+  <data name="Lingo_Flop" xml:space="preserve">
+    <value>Flop</value>
+  </data>
+  <data name="Lingo_InPosition" xml:space="preserve">
+    <value>In Position</value>
+  </data>
+  <data name="Lingo_OutOfPosition" xml:space="preserve">
+    <value>Out of Position</value>
+  </data>
+  <data name="Lingo_Preflop" xml:space="preserve">
+    <value>Preflop</value>
+  </data>
+  <data name="Lingo_RaisedPot" xml:space="preserve">
+    <value>Raised Pot</value>
+  </data>
+  <data name="Lingo_River" xml:space="preserve">
+    <value>River</value>
+  </data>
+  <data name="Lingo_Turn" xml:space="preserve">
+    <value>Turn</value>
+  </data>
+  <data name="Lingo_UnraisedPot" xml:space="preserve">
+    <value>Unraised Pot</value>
+  </data>
   <data name="Links_Homepage" xml:space="preserve">
     <value>http://www.GetPokerTell.com</value>
   </data>
   <data name="Links_ListOfSupportedPokerRooms" xml:space="preserve">
-    <value>http://www.GetPokerTell.com\SupportedRooms.html</value>
+    <value>http://www.GetPokerTell.com/SupportedRooms.html</value>
   </data>
 </root>
