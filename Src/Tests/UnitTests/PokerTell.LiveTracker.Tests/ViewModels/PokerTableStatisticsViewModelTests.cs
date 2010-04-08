@@ -211,6 +211,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                     new Mock<IDimensionsViewModel>().Object, 
                     playerStatisticsViewModelMake, 
                     new StubBuilder().Out<IDetailedStatisticsAnalyzerViewModel>(), 
+                    new StubBuilder().Out<IActiveAnalyzablePlayersSelector>(),
                     new StubBuilder().Out<IFilterPopupViewModel>())
             {
             }

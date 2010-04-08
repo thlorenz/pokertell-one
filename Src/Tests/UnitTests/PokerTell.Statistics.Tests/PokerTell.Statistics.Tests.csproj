@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\ActiveAnalyzablePlayersSelectorSpecs.cs" />
     <Compile Include="Analyzation\HandBrowserSpecs.cs" />
     <Compile Include="Analyzation\PostFlopHeroReactsRaiseReactionDescriberSpecs.cs" />
     <Compile Include="Analyzation\PostFlopHeroActsRaiseReactionDescriberSpecs.cs" />

@@ -155,6 +155,7 @@
     <Compile Include="Interfaces\Repository\ISessionFactoryManager.cs" />
     <Compile Include="Interfaces\Statistics\IActionSequenceStatistic.cs" />
     <Compile Include="Interfaces\Statistics\IActionSequenceStatisticsSet.cs" />
+    <Compile Include="Interfaces\Statistics\IActiveAnalyzablePlayersSelector.cs" />
     <Compile Include="Interfaces\Statistics\IAnalyzablePokerPlayersFilter.cs" />
     <Compile Include="Interfaces\Statistics\IAnalyzablePokerPlayersFilterAdjustmentViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IAnalyzablePokerPlayersFilterViewModel.cs" />

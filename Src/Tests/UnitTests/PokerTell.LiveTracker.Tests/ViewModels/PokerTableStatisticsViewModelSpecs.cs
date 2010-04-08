@@ -3,6 +3,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Linq;
 
     using Infrastructure.Enumerations.PokerHand;
     using Infrastructure.Interfaces;
@@ -27,6 +28,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     // Resharper disable InconsistentNaming
     public abstract class PokerTableStatisticsViewModelSpecs
     {
+        protected const string PlayerName = "someName";
+
         protected static Mock<IFilterPopupViewModel> _filterPopupVM_Mock;
 
         protected static Mock<IConstructor<IPlayerStatisticsViewModel>> _playerStatisticsMake_Stub;
@@ -36,6 +39,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         protected static Mock<ISettings> _settings_Mock;
 
         protected static Mock<IDimensionsViewModel> _dimensionsVM_Mock;
+
+        protected static Mock<IActiveAnalyzablePlayersSelector> _activePlayersSelector_Mock;
 
         protected static PokerTableStatisticsViewModelSut _sut;
 
@@ -47,7 +52,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             _playerStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
             _playerStatisticsVM_Stub
                 .SetupGet(vm => vm.PlayerName)
-                .Returns("someName");
+                .Returns(PlayerName);
 
             _playerStatisticsMake_Stub = new Mock<IConstructor<IPlayerStatisticsViewModel>>();
             _playerStatisticsMake_Stub
@@ -61,10 +66,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                 .Setup(d => d.InitializeWith(Moq.It.IsAny<Rectangle>()))
                 .Returns(_dimensionsVM_Mock.Object);
 
+            _activePlayersSelector_Mock = new Mock<IActiveAnalyzablePlayersSelector>();
+
             _sut = new PokerTableStatisticsViewModelSut(_settings_Mock.Object,
                                                         _dimensionsVM_Mock.Object,
                                                         _playerStatisticsMake_Stub.Object,
                                                         _statisticsAnalyzer_Mock.Object,
+                                                        _activePlayersSelector_Mock.Object,
                                                         _filterPopupVM_Mock.Object);
         };
 
@@ -84,6 +92,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                                                                            _dimensionsVM_Mock.Object,
                                                                            _playerStatisticsMake_Stub.Object,
                                                                            _statisticsAnalyzer_Mock.Object,
+                                                                           _activePlayersSelector_Mock.Object,
                                                                            _filterPopupVM_Mock.Object);
 
             It should_ask_the_settings_for_its_dimensions_with_a_default_value
@@ -108,7 +117,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                 _sut.Dimensions_Set = _dimensionsVM_Mock.Object;
             };
 
-            Because of = () => _sut.SaveDimensions();
+            Because of = () => _sut.SaveDimensions(); 
 
             It should_tell_the_settings_to_set_the_rectangle_for_its_key_to_the_one_returned_by_its_dimensions
                 = () => _settings_Mock.Verify(s => s.Set(PokerTableStatisticsViewModel.DimensionsKey, returnedRectangle));
@@ -185,86 +194,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_let_me_know = () => selectedStatisticsWasReraised.ShouldBeTrue();
         }
 
-        [Subject(typeof(PokerTableStatisticsViewModel), "Selected Player")]
-        public class when_the_a_player_with_active_analyzable_PokerPlayer_is_selected : PokerTableStatisticsViewModelSpecs
-        {
-            const string playerName = "someName";
-
-            static Mock<IPlayerStatistics> playerStatistics_Stub;
-
-            static IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers_Stub;
-
-            static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
-
-            static Mock<IAnalyzablePokerPlayer> _activeAnalyzablePokerPlayer_Stub;
-
-            Establish context = () => {
-                _activeAnalyzablePokerPlayer_Stub = new Mock<IAnalyzablePokerPlayer>();
-                _activeAnalyzablePokerPlayer_Stub
-                    .SetupGet(ap => ap.ActionSequences)
-                    .Returns(new[] { ActionSequences.HeroC });
-
-                analyzablePokerPlayers_Stub = new[] { _activeAnalyzablePokerPlayer_Stub.Object };
-
-                playerStatistics_Stub = new Mock<IPlayerStatistics>();
-                playerStatistics_Stub
-                    .SetupGet(ps => ps.FilteredAnalyzablePokerPlayers)
-                    .Returns(analyzablePokerPlayers_Stub);
-
-                playerStatisticsVM_Stub = _playerStatisticsVM_Stub;
-                playerStatisticsVM_Stub
-                    .SetupGet(vm => vm.PlayerStatistics)
-                    .Returns(playerStatistics_Stub.Object);
-                playerStatisticsVM_Stub
-                    .SetupGet(vm => vm.PlayerName)
-                    .Returns(playerName);
-            };
-
-            Because of = () => _sut.SelectedPlayer = playerStatisticsVM_Stub.Object;
-
-            It should_initialize_the_detailed_statistics_analyzer_with_the_filtered_analyzable_players_of_the_selected_player_and_the_players_name
-                = () => _statisticsAnalyzer_Mock.Verify(sa => sa.InitializeWith(analyzablePokerPlayers_Stub, playerName));
-        }
 
         [Subject(typeof(PokerTableStatisticsViewModel), "Selected Player")]
-        public class when_the_a_player_without_active_analyzable_PokerPlayer_is_selected : PokerTableStatisticsViewModelSpecs
+        public class when_the_a_player_is_selected : PokerTableStatisticsViewModelSpecs
         {
-            const string playerName = "someName";
+            Because of = () => _sut.SelectedPlayer = _playerStatisticsVM_Stub.Object;
 
-            static Mock<IPlayerStatistics> playerStatistics_Stub;
-
-            static IEnumerable<IAnalyzablePokerPlayer> analyzablePokerPlayers_Stub;
-
-            static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
-            
-            static Mock<IAnalyzablePokerPlayer> _activeAnalyzablePokerPlayer_Stub;
-
-            Establish context = () => {
-                _activeAnalyzablePokerPlayer_Stub = new Mock<IAnalyzablePokerPlayer>();
-                _activeAnalyzablePokerPlayer_Stub
-                    .SetupGet(ap => ap.ActionSequences)
-                    .Returns(new[] { ActionSequences.HeroF });
-
-                analyzablePokerPlayers_Stub = new[] { _activeAnalyzablePokerPlayer_Stub.Object };
-
-                playerStatistics_Stub = new Mock<IPlayerStatistics>();
-                playerStatistics_Stub
-                    .SetupGet(ps => ps.FilteredAnalyzablePokerPlayers)
-                    .Returns(analyzablePokerPlayers_Stub);
-
-                playerStatisticsVM_Stub = _playerStatisticsVM_Stub;
-                playerStatisticsVM_Stub
-                    .SetupGet(vm => vm.PlayerStatistics)
-                    .Returns(playerStatistics_Stub.Object);
-                playerStatisticsVM_Stub
-                    .SetupGet(vm => vm.PlayerName)
-                    .Returns(playerName);
-            };
-
-            Because of = () => _sut.SelectedPlayer = playerStatisticsVM_Stub.Object;
-
-            It should_not_initialize_the_detailed_statistics_analyzer_with_the_filtered_analyzable_players_of_the_selected_player_and_the_players_name
-                = () => _statisticsAnalyzer_Mock.Verify(sa => sa.InitializeWith(analyzablePokerPlayers_Stub, playerName), Times.Never());
+            It should_browse_the_hands_of_the_player = () => _sut.PlayerWhoseHandsWereBrowsed.ShouldEqual(_playerStatisticsVM_Stub.Object);
         }
 
         [Subject(typeof(PokerTableStatisticsViewModel), "BrowseAllHands")]
@@ -273,15 +209,74 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             static bool browseHandsWasReraised;
 
             Establish context = () => {
-                _sut.AddNewPlayerToPlayersIfNotFound_Invoke(null);
                 _sut.UserBrowsedAllHands += _ => browseHandsWasReraised = true;
+
+                _sut.AddNewPlayerToPlayersIfNotFound_Invoke(null);
             };
 
             Because of = () => _playerStatisticsVM_Stub.Raise(psvm => psvm.BrowseAllMyHandsRequested += null, _playerStatisticsVM_Stub.Object);
 
             It should_let_me_know = () => browseHandsWasReraised.ShouldBeTrue();
 
-            It should_browse_the_hands_of_the_player = () => _sut.BrowsedAllHandsOfPlayer.ShouldBeTrue();
+            It should_browse_the_hands_of_the_player = () => _sut.PlayerWhoseHandsWereBrowsed.ShouldEqual(_playerStatisticsVM_Stub.Object);
+        }
+
+        [Subject(typeof(PokerTableStatisticsViewModelSpecs), "BrowseAllHands")]
+        public class when_told_to_browse_all_hands_of_a_player_and_the_active_player_selector_returns_empty_list : PokerTableStatisticsViewModelSpecs
+        {
+            static Mock<IPlayerStatistics> statisticsOfSelectedPlayer_Stub;
+
+            static IEnumerable<IAnalyzablePokerPlayer> returnedActivePlayers;
+
+            Establish context = () => {
+                returnedActivePlayers = Enumerable.Empty<IAnalyzablePokerPlayer>();
+
+                statisticsOfSelectedPlayer_Stub = new Mock<IPlayerStatistics>();
+                _playerStatisticsVM_Stub
+                    .SetupGet(pvm => pvm.PlayerStatistics)
+                    .Returns(statisticsOfSelectedPlayer_Stub.Object);
+
+                _activePlayersSelector_Mock
+                    .Setup(ap => ap.SelectFrom(statisticsOfSelectedPlayer_Stub.Object))
+                    .Returns(returnedActivePlayers);
+            };
+
+            Because of = () => _sut.BrowseAllHandsOf_Invoke(_playerStatisticsVM_Stub.Object);
+
+            It should_select_the_active_players_from_the_player_statistics
+                = () => _activePlayersSelector_Mock.Verify(ps => ps.SelectFrom(statisticsOfSelectedPlayer_Stub.Object));
+
+            It should_not_initialize_the_detailed_statistics_analyzer_with_the_returned_active_players
+                = () => _statisticsAnalyzer_Mock.Verify(dsa => dsa.InitializeWith(returnedActivePlayers, PlayerName), Times.Never());
+        }
+
+        [Subject(typeof(PokerTableStatisticsViewModelSpecs), "BrowseAllHands")]
+        public class when_told_to_browse_all_hands_of_a_player_and_the_active_player_selector_returns_non_empty_list : PokerTableStatisticsViewModelSpecs
+        {
+            static Mock<IPlayerStatistics> statisticsOfSelectedPlayer_Stub;
+
+            static IEnumerable<IAnalyzablePokerPlayer> returnedActivePlayers;
+
+            Establish context = () => {
+                returnedActivePlayers = new[] { new Mock<IAnalyzablePokerPlayer>().Object };
+
+                statisticsOfSelectedPlayer_Stub = new Mock<IPlayerStatistics>();
+                _playerStatisticsVM_Stub
+                    .SetupGet(pvm => pvm.PlayerStatistics)
+                    .Returns(statisticsOfSelectedPlayer_Stub.Object);
+
+                _activePlayersSelector_Mock
+                    .Setup(ap => ap.SelectFrom(statisticsOfSelectedPlayer_Stub.Object))
+                    .Returns(returnedActivePlayers);
+            };
+
+            Because of = () => _sut.BrowseAllHandsOf_Invoke(_playerStatisticsVM_Stub.Object);
+
+            It should_select_the_active_players_from_the_player_statistics
+                = () => _activePlayersSelector_Mock.Verify(ps => ps.SelectFrom(statisticsOfSelectedPlayer_Stub.Object));
+
+            It should_initialize_the_detailed_statistics_analyzer_with_the_returned_active_players
+                = () => _statisticsAnalyzer_Mock.Verify(dsa => dsa.InitializeWith(returnedActivePlayers, PlayerName));
         }
 
         [Subject(typeof(PokerTableStatisticsViewModel), "DisplayFilterAdjustmentPopup")]
@@ -350,8 +345,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             IDimensionsViewModel dimensions,
             IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
             IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel,
+            IActiveAnalyzablePlayersSelector activePlayersSelector,
             IFilterPopupViewModel filterPopupViewModel)
-            : base(settings, dimensions, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel, filterPopupViewModel)
+            : base(settings, dimensions, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel, activePlayersSelector, filterPopupViewModel)
         {
         }
 
@@ -364,10 +360,15 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         protected override void BrowseAllHandsOf(IPlayerStatisticsViewModel selectedPlayer)
         {
             base.BrowseAllHandsOf(selectedPlayer);
-            BrowsedAllHandsOfPlayer = true;
+            PlayerWhoseHandsWereBrowsed = selectedPlayer;
         }
 
-        public bool BrowsedAllHandsOfPlayer { get; private set; }
+        public void BrowseAllHandsOf_Invoke(IPlayerStatisticsViewModel selectedPlayer)
+        {
+            base.BrowseAllHandsOf(selectedPlayer);
+        }
+
+        public IPlayerStatisticsViewModel PlayerWhoseHandsWereBrowsed;
         
         public IDimensionsViewModel Dimensions_Set
         {

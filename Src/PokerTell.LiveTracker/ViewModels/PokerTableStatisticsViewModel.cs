@@ -25,8 +25,6 @@ namespace PokerTell.LiveTracker.ViewModels
 
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly IDetailedStatisticsAnalyzerViewModel _detailedStatisticsAnalyzer;
-
         readonly IConstructor<IPlayerStatisticsViewModel> _playerStatisticsViewModelMake;
 
         readonly ISettings _settings;
@@ -37,20 +35,26 @@ namespace PokerTell.LiveTracker.ViewModels
 
         string _tableName;
 
+        readonly IActiveAnalyzablePlayersSelector _activePlayersSelector;
+
         public IFilterPopupViewModel FilterPopup { get; set; }
 
         public PokerTableStatisticsViewModel(
-            ISettings settings, 
-            IDimensionsViewModel dimensions, 
-            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, 
-            IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel, 
+            ISettings settings,
+            IDimensionsViewModel dimensions,
+            IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
+            IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel,
+            IActiveAnalyzablePlayersSelector activePlayersSelector,
             IFilterPopupViewModel filterPopupViewModel)
         {
-            FilterPopup = filterPopupViewModel;
             _settings = settings;
             _playerStatisticsViewModelMake = playerStatisticsViewModelMake;
-            _detailedStatisticsAnalyzer = detailedStatisticsAnalyzerViewModel;
+            DetailedStatisticsAnalyzer = detailedStatisticsAnalyzerViewModel;
 
+            _activePlayersSelector = activePlayersSelector;
+
+            FilterPopup = filterPopupViewModel;
+            
             Dimensions = dimensions.InitializeWith(settings.RetrieveRectangle(DimensionsKey, new Rectangle(0, 0, 600, 400)));
 
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
@@ -62,10 +66,7 @@ namespace PokerTell.LiveTracker.ViewModels
 
         public event Action<IActionSequenceStatisticsSet> UserSelectedStatisticsSet = delegate { };
 
-        public IDetailedStatisticsAnalyzerViewModel DetailedStatisticsAnalyzer
-        {
-            get { return _detailedStatisticsAnalyzer; }
-        }
+        public IDetailedStatisticsAnalyzerViewModel DetailedStatisticsAnalyzer { get; protected set; }
 
         public IDimensionsViewModel Dimensions { get; protected set; }
 
@@ -177,18 +178,12 @@ namespace PokerTell.LiveTracker.ViewModels
 
         protected virtual void BrowseAllHandsOf(IPlayerStatisticsViewModel selectedPlayer)
         {
-            if (selectedPlayer != null && selectedPlayer.PlayerStatistics != null)
+            if (selectedPlayer != null)
             {
-                var activeAnalyzablePlayers =
-                    from player in selectedPlayer.PlayerStatistics.FilteredAnalyzablePokerPlayers
-                    where
-                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.HeroF &&
-                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.OppRHeroF &&
-                        player.ActionSequences[(int)Streets.PreFlop] != ActionSequences.NonStandard
-                    select player;
+                var activeAnalyzablePlayers = _activePlayersSelector.SelectFrom(selectedPlayer.PlayerStatistics);
 
                 if (activeAnalyzablePlayers.Count() > 0)
-                    _detailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
+                    DetailedStatisticsAnalyzer.InitializeWith(activeAnalyzablePlayers, selectedPlayer.PlayerName);
             }
         }
 

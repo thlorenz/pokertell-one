@@ -77,6 +77,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzation\ActiveAnalyzablePlayersSelector.cs" />
     <Compile Include="Analyzation\RepositoryHandBrowser.cs" />
     <Compile Include="Interfaces\IPreFlopStartingHandsVisualizer.cs" />
     <Compile Include="Interfaces\IPreFlopStartingHandsVisualizerViewModel.cs" />

@@ -88,6 +88,7 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                 new Mock<IDimensionsViewModel>().Object,
                 new Constructor<IPlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>()),
                 detailedStatisticsAnalyzerViewModel, 
+                new Mock<IActiveAnalyzablePlayersSelector>().Object,
                 new Mock<IFilterPopupViewModel>().Object);
             var designWindow = new TableStatisticsDesignWindow(eventAggregator, 
                                                                _container.Resolve<IRepositoryHandBrowserViewModel>())
