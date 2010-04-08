@@ -13,6 +13,12 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
 
         string PlayerName { get; }
 
-        IAnalyzablePokerPlayersFilterAdjustmentViewModel InitializeWith(string playerName, IAnalyzablePokerPlayersFilter currentFilter, Action<string, IAnalyzablePokerPlayersFilter> applyTo, Action<IAnalyzablePokerPlayersFilter> applyToAll);
+        bool ShowApplyToAllCommand { get; }
+
+        IAnalyzablePokerPlayersFilterAdjustmentViewModel InitializeWith(
+            string playerName, 
+            IAnalyzablePokerPlayersFilter currentFilter, 
+            Action<string, IAnalyzablePokerPlayersFilter> applyTo, 
+            Action<IAnalyzablePokerPlayersFilter> applyToAll);
     }
 }

@@ -46,10 +46,10 @@
                                 <ItemsControl ItemsSource="{Binding OverlaySettingsAid.HoleCards}"
                                           Visibility="{Binding OverlaySettings.PositioningMuckedCards, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
                             </Canvas>
-                            
+
                             <!-- FilterAdjustmentPopup added last to ensure it is on top of the other controls -->
-                            <Popup AllowsTransparency="True" IsOpen="{Binding  PokerTableStatisticsViewModel.ShowFilterAdjustmentPopup}" PopupAnimation="Scroll" Placement="Mouse"  StaysOpen="False">
-                                <ContentControl Content="{Binding  PokerTableStatisticsViewModel.FilterAdjustmentPopup}" />
+                            <Popup AllowsTransparency="True" IsOpen="{Binding PokerTableStatisticsViewModel.FilterPopup.Show}" PopupAnimation="Scroll" Placement="Mouse"  StaysOpen="False">
+                                <ContentControl Content="{Binding PokerTableStatisticsViewModel.FilterPopup.Filter}" />
                             </Popup>
                         </Grid>
                     </Viewbox>

@@ -139,6 +139,7 @@
     <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModels.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopStartingHandsVisualizerViewModel .cs" />
     <Compile Include="ViewModels\Base\DetailedStatisticsAnalyzerContentViewModel.cs" />
+    <Compile Include="ViewModels\FilterPopupViewModel.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverter.cs" />
     <Compile Include="ViewModels\Filters\ValueViewModel.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModel.cs" />
@@ -155,6 +156,7 @@
     <Compile Include="ViewModels\PreFlopStatisticsSetsViewModel.cs" />
     <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModel.cs" />
     <Compile Include="ViewModels\Base\StatisticsTableCellViewModel.cs" />
+    <Compile Include="ViewModels\RepositoryPlayersStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroActsStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroReactsStatisticsViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModel.cs" />
@@ -170,9 +172,6 @@
     <Compile Include="ViewModels\StatisticsSetSummary\BarViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryRowViewModel.cs" />
     <Compile Include="ViewModels\StatisticsSetSummary\StatisticsSetSummaryViewModel.cs" />
-    <Compile Include="ViewModels\_Design\PostFlopStatisticsSetsDesignModel.cs" />
-    <Compile Include="ViewModels\_Design\PreFlopStatisticsSetsDesignModel.cs" />
-    <Compile Include="ViewModels\_Design\StatisticsSetSummaryDesignModel.cs" />
     <Compile Include="Views\AnalyzablePokerPlayersFilterViewTemplate.xaml.cs">
       <DependentUpon>AnalyzablePokerPlayersFilterViewTemplate.xaml</DependentUpon>
     </Compile>

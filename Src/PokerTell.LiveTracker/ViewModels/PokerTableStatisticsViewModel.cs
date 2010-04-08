@@ -31,30 +31,27 @@ namespace PokerTell.LiveTracker.ViewModels
 
         readonly ISettings _settings;
 
-        IAnalyzablePokerPlayersFilterAdjustmentViewModel _filterAdjustmentPopup;
-
         ICommand _filterAdjustmentRequestedCommand;
 
         IPlayerStatisticsViewModel _selectedPlayer;
 
-        bool _showFilterAdjustmentPopup;
-
         string _tableName;
+
+        public IFilterPopupViewModel FilterPopup { get; set; }
 
         public PokerTableStatisticsViewModel(
             ISettings settings, 
             IDimensionsViewModel dimensions, 
             IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake, 
             IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel, 
-            IAnalyzablePokerPlayersFilterAdjustmentViewModel filterAdjustmentViewModel)
+            IFilterPopupViewModel filterPopupViewModel)
         {
+            FilterPopup = filterPopupViewModel;
             _settings = settings;
             _playerStatisticsViewModelMake = playerStatisticsViewModelMake;
             _detailedStatisticsAnalyzer = detailedStatisticsAnalyzerViewModel;
 
             Dimensions = dimensions.InitializeWith(settings.RetrieveRectangle(DimensionsKey, new Rectangle(0, 0, 600, 400)));
-
-            FilterAdjustmentPopup = filterAdjustmentViewModel;
 
             Players = new ObservableCollection<IPlayerStatisticsViewModel>();
         }
@@ -71,16 +68,6 @@ namespace PokerTell.LiveTracker.ViewModels
         }
 
         public IDimensionsViewModel Dimensions { get; protected set; }
-
-        public IAnalyzablePokerPlayersFilterAdjustmentViewModel FilterAdjustmentPopup
-        {
-            get { return _filterAdjustmentPopup; }
-            set
-            {
-                _filterAdjustmentPopup = value;
-                RaisePropertyChanged(() => FilterAdjustmentPopup);
-            }
-        }
 
         public ICommand FilterAdjustmentRequestedCommand
         {
@@ -109,16 +96,6 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
-        public bool ShowFilterAdjustmentPopup
-        {
-            get { return _showFilterAdjustmentPopup; }
-            set
-            {
-                _showFilterAdjustmentPopup = value;
-                RaisePropertyChanged(() => ShowFilterAdjustmentPopup);
-            }
-        }
-
         public string TableName
         {
             get { return _tableName; }
@@ -127,6 +104,11 @@ namespace PokerTell.LiveTracker.ViewModels
                 _tableName = value;
                 RaisePropertyChanged(() => TableName);
             }
+        }
+
+        public virtual void DisplayFilterAdjustmentPopup(IPlayerStatisticsViewModel player)
+        {
+            FilterPopup.ShowFilter(player.PlayerName, player.Filter, ApplyFilterTo, ApplyFilterToAll);
         }
 
         public IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName)
@@ -224,12 +206,6 @@ namespace PokerTell.LiveTracker.ViewModels
             }
 
             return playersStatisticsList;
-        }
-
-        public virtual void DisplayFilterAdjustmentPopup(IPlayerStatisticsViewModel player)
-        {
-            FilterAdjustmentPopup.InitializeWith(player.PlayerName, player.Filter, ApplyFilterTo, ApplyFilterToAll);
-            ShowFilterAdjustmentPopup = true;
         }
 
         IPlayerStatisticsViewModel FindOrAddMatchingPlayer(

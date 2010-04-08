@@ -22,9 +22,7 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IDimensionsViewModel Dimensions { get; }
 
-        IAnalyzablePokerPlayersFilterAdjustmentViewModel FilterAdjustmentPopup { get; set; }
-
-        bool ShowFilterAdjustmentPopup { get; set; }
+        IFilterPopupViewModel FilterPopup { get; set; }
 
         void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics);
 
@@ -36,8 +34,9 @@ namespace PokerTell.LiveTracker.Interfaces
 
         event Action<IPlayerStatisticsViewModel> UserBrowsedAllHands;
 
+        void DisplayFilterAdjustmentPopup(IPlayerStatisticsViewModel player);   
+        
         IPokerTableStatisticsViewModel SaveDimensions();
 
-        void DisplayFilterAdjustmentPopup(IPlayerStatisticsViewModel player);
     }
 }

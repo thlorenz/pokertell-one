@@ -109,13 +109,14 @@
     <Compile Include="Fakes\PlayerStatisticsSut.cs" />
     <Compile Include="PlayerStatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModelTests.cs" />
+    <Compile Include="ViewModels\AnalyzablePokerPlayersFilterAdjustmentViewModelSpecs.cs" />
     <Compile Include="ViewModels\Analyzation\DetailedRaiseReactionStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\Analyzation\RepositoryHandBrowserViewModelSpecs.cs" />
     <Compile Include="Analyzation\PreFlopRaiseReactionDescriberSpecs.cs" />
     <Compile Include="ViewModels\Analyzation\PreFlopHandStrengthStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModelSpecs.cs" />
     <Compile Include="ViewModels\DetailedStatisticsAnalyzerViewModelTests.cs" />
+    <Compile Include="ViewModels\FilterPopupViewModelSpecs.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForSelectorsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />

@@ -84,8 +84,8 @@
             </StackPanel>
             
             <!-- FilterAdjustmentPopup added last to ensure it is on top of the other controls -->
-            <Popup AllowsTransparency="True" IsOpen="{Binding ShowFilterAdjustmentPopup}" PopupAnimation="Scroll" Placement="Mouse"  StaysOpen="False">
-                <ContentControl Content="{Binding FilterAdjustmentPopup}" />
+            <Popup AllowsTransparency="True" IsOpen="{Binding FilterPopup.Show}" PopupAnimation="Scroll" Placement="Mouse"  StaysOpen="False">
+                <ContentControl Content="{Binding FilterPopup.Filter}" />
             </Popup>
         </Grid>
 

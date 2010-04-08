@@ -112,6 +112,10 @@
       <Project>{74FD9DD4-7003-4AAC-9E8C-51A18A6D1334}</Project>
       <Name>PokerTell.LiveTracker</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\PokerTell.Statistics\PokerTell.Statistics.csproj">
+      <Project>{40A1B01E-8BBC-4F9E-B5E8-AA0BE4C70988}</Project>
+      <Name>PokerTell.Statistics</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PokerTell.UnitTests\PokerTell.UnitTests.csproj">
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>
       <Name>PokerTell.UnitTests</Name>

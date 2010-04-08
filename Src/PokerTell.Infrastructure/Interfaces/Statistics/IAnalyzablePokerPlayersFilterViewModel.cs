@@ -21,5 +21,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         IRangeFilterForSelectorsViewModel<string> TimeRangeFilterDisplay { get; }
 
         IRangeFilterForSelectorsViewModel<int> TotalPlayersFilter { get; }
+
+        IAnalyzablePokerPlayersFilterViewModel InitializeWith(IAnalyzablePokerPlayersFilter filter);
     }
 }

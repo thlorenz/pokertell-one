@@ -1,5 +1,7 @@
 namespace PokerTell.Statistics.ViewModels
 {
+    using System;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;
     using PokerTell.Statistics.Filters;
@@ -9,11 +11,6 @@ namespace PokerTell.Statistics.ViewModels
 
     public class AnalyzablePokerPlayersFilterViewModel : IAnalyzablePokerPlayersFilterViewModel
     {
-        public AnalyzablePokerPlayersFilterViewModel(IAnalyzablePokerPlayersFilter filter)
-        {
-            InitializePropertiesFrom(filter);
-        }
-
         public IRangeFilterForInputsViewModel<double> AnteFilter { get; protected set; }
 
         public IRangeFilterForInputsViewModel<double> BigBlindFilter { get; protected set; }
@@ -30,7 +27,7 @@ namespace PokerTell.Statistics.ViewModels
 
         public IRangeFilterForSelectorsViewModel<int> TotalPlayersFilter { get; protected set; }
 
-        protected void InitializePropertiesFrom(IAnalyzablePokerPlayersFilter filter)
+        public IAnalyzablePokerPlayersFilterViewModel InitializeWith(IAnalyzablePokerPlayersFilter filter)
         {
             TotalPlayersFilter = new RangeFilterForSelectorsViewModel<int>(filter.TotalPlayersFilter, 2.To(10), "Total Players");
 
@@ -50,6 +47,7 @@ namespace PokerTell.Statistics.ViewModels
             AnteFilter = new RangeFilterForInputsViewModel<double>(filter.AnteFilter, "Ante");
             BigBlindFilter = new RangeFilterForInputsViewModel<double>(filter.BigBlindFilter, "Big Blind");
             MFilter = new RangeFilterForInputsViewModel<int>(filter.MFilter, "M");
+            return this;
         }
 
         public IAnalyzablePokerPlayersFilter CurrentFilter

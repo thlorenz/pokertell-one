@@ -3,6 +3,8 @@ namespace PokerTell.Statistics.ViewModels
     using System;
     using System.Windows.Input;
 
+    using Infrastructure.Interfaces;
+
     using PokerTell.Infrastructure.Interfaces.Statistics;
 
     using Tools.WPF;
@@ -10,6 +12,11 @@ namespace PokerTell.Statistics.ViewModels
 
     public class AnalyzablePokerPlayersFilterAdjustmentViewModel : NotifyPropertyChanged, IAnalyzablePokerPlayersFilterAdjustmentViewModel
     {
+        public AnalyzablePokerPlayersFilterAdjustmentViewModel(IConstructor<IAnalyzablePokerPlayersFilterViewModel> filterViewModelMake)
+        {
+            _filterViewModelMake = filterViewModelMake;
+        }
+
         ICommand _applyFilterToAllCommand;
 
         ICommand _applyFilterToPlayerCommand;
@@ -17,8 +24,6 @@ namespace PokerTell.Statistics.ViewModels
         Action<string, IAnalyzablePokerPlayersFilter> _applyTo;
 
         Action<IAnalyzablePokerPlayersFilter> _applyToAll;
-
-        IAnalyzablePokerPlayersFilterViewModel _filter;
 
         public ICommand ApplyFilterToAllCommand
         {
@@ -42,6 +47,8 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
+        IAnalyzablePokerPlayersFilterViewModel _filter;
+
         public IAnalyzablePokerPlayersFilterViewModel Filter
         {
             get { return _filter; }
@@ -54,6 +61,8 @@ namespace PokerTell.Statistics.ViewModels
 
         string _playerName;
 
+        readonly IConstructor<IAnalyzablePokerPlayersFilterViewModel> _filterViewModelMake;
+
         public string PlayerName
         {
             get { return _playerName; }
@@ -64,6 +73,11 @@ namespace PokerTell.Statistics.ViewModels
             }
         }
 
+        public bool ShowApplyToAllCommand
+        {
+            get { return _applyToAll != null; }
+        }
+
         public IAnalyzablePokerPlayersFilterAdjustmentViewModel InitializeWith(
             string playerName, 
             IAnalyzablePokerPlayersFilter currentFilter, 
@@ -71,10 +85,14 @@ namespace PokerTell.Statistics.ViewModels
             Action<IAnalyzablePokerPlayersFilter> applyToAll)
         {
             PlayerName = playerName;
-            Filter = new AnalyzablePokerPlayersFilterViewModel(currentFilter);
+
+            // Need to create a new filter each time, to renew the binding and ensure that each player gets a separate one since the properties of the 
+            // filter itself don't raise property changed
+            Filter = _filterViewModelMake.New.InitializeWith(currentFilter);
+
             _applyTo = applyTo;
             _applyToAll = applyToAll;
-
+            
             return this;
         }
     }

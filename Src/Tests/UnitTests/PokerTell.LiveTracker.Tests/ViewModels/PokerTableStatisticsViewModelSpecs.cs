@@ -27,7 +27,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     // Resharper disable InconsistentNaming
     public abstract class PokerTableStatisticsViewModelSpecs
     {
-        protected static Mock<IAnalyzablePokerPlayersFilterAdjustmentViewModel> _filterAdjustmentVM_Mock;
+        protected static Mock<IFilterPopupViewModel> _filterPopupVM_Mock;
 
         protected static Mock<IConstructor<IPlayerStatisticsViewModel>> _playerStatisticsMake_Stub;
 
@@ -42,7 +42,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         static Mock<IPlayerStatisticsViewModel> _playerStatisticsVM_Stub;
 
         Establish specContext = () => {
-            _filterAdjustmentVM_Mock = new Mock<IAnalyzablePokerPlayersFilterAdjustmentViewModel>();
+            _filterPopupVM_Mock = new Mock<IFilterPopupViewModel>();
 
             _playerStatisticsVM_Stub = new Mock<IPlayerStatisticsViewModel>();
             _playerStatisticsVM_Stub
@@ -65,7 +65,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                                                         _dimensionsVM_Mock.Object,
                                                         _playerStatisticsMake_Stub.Object,
                                                         _statisticsAnalyzer_Mock.Object,
-                                                        _filterAdjustmentVM_Mock.Object);
+                                                        _filterPopupVM_Mock.Object);
         };
 
         [Subject(typeof(PokerTableStatisticsViewModel), "Instantiation")]
@@ -84,7 +84,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                                                                            _dimensionsVM_Mock.Object,
                                                                            _playerStatisticsMake_Stub.Object,
                                                                            _statisticsAnalyzer_Mock.Object,
-                                                                           _filterAdjustmentVM_Mock.Object);
+                                                                           _filterPopupVM_Mock.Object);
 
             It should_ask_the_settings_for_its_dimensions_with_a_default_value
                 = () => _settings_Mock.Verify(s => s.RetrieveRectangle(PokerTableStatisticsViewModel.DimensionsKey, Moq.It.IsAny<Rectangle>()));
@@ -303,39 +303,55 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             Because of = () => _sut.DisplayFilterAdjustmentPopup(playerStatisticsVM_Stub.Object);
 
-            It should_initialize_the_filter_adjustment_viewmodel_with_the_players_name_and_filter
-                = () => _filterAdjustmentVM_Mock.Verify(
-                            fa => fa.InitializeWith(playerName,
-                                                    playerFilter_Stub.Object,
-                                                    Moq.It.IsAny<Action<string, IAnalyzablePokerPlayersFilter>>(),
-                                                    Moq.It.IsAny<Action<IAnalyzablePokerPlayersFilter>>()));
+            It should_tell_the_filter_popup_viewmodel_to_show__the_filter_for_the_player
+                = () => _filterPopupVM_Mock.Verify(
+                            fp => fp.ShowFilter(playerName,
+                                                playerFilter_Stub.Object,
+                                                Moq.It.IsAny<Action<string, IAnalyzablePokerPlayersFilter>>(),
+                                                Moq.It.IsAny<Action<IAnalyzablePokerPlayersFilter>>()));
 
-            It should_set_ShowFilterAdjustmentPopup_to_true = () => _sut.ShowFilterAdjustmentPopup.ShouldBeTrue();
         }
 
         [Subject(typeof(PokerTableStatisticsViewModel), "FilterAdjustmentRequestedCommand")]
         public class when_the_user_clicks_the_Filter_Button_in_the_PokerTableStatisticsWindow_and_a_player_was_selected : PokerTableStatisticsViewModelSpecs
         {
-            Establish context = () => _sut.SelectedPlayer = _playerStatisticsVM_Stub.Object;
+            const string playerName = "someName";
+
+            static Mock<IAnalyzablePokerPlayersFilter> playerFilter_Stub;
+
+            static Mock<IPlayerStatisticsViewModel> playerStatisticsVM_Stub;
+
+            Establish context = () => {
+                playerFilter_Stub = new Mock<IAnalyzablePokerPlayersFilter>();
+                playerStatisticsVM_Stub = Utils.PlayerStatisticsVM_MockFor(playerName);
+                playerStatisticsVM_Stub
+                    .SetupGet(p => p.Filter)
+                    .Returns(playerFilter_Stub.Object);
+
+                _sut.SelectedPlayer = playerStatisticsVM_Stub.Object;
+            };
 
             Because of = () => _sut.FilterAdjustmentRequestedCommand.Execute(null);
 
-            It should_display_the_Filter_Adjustment_Popup = () => _sut.DisplayFilterAdjustmentPopupWasInvoked.ShouldBeTrue();
+            It should_tell_the_filter_popup_viewmodel_to_show_the_filter_for_the_selected_player
+                = () => _filterPopupVM_Mock.Verify(
+                            fp => fp.ShowFilter(playerName,
+                                                playerFilter_Stub.Object,
+                                                Moq.It.IsAny<Action<string, IAnalyzablePokerPlayersFilter>>(),
+                                                Moq.It.IsAny<Action<IAnalyzablePokerPlayersFilter>>()));
         }
 
     }
 
     public class PokerTableStatisticsViewModelSut : PokerTableStatisticsViewModel
     {
-       public bool DisplayFilterAdjustmentPopupWasInvoked;
-
         public PokerTableStatisticsViewModelSut(
             ISettings settings,
             IDimensionsViewModel dimensions,
             IConstructor<IPlayerStatisticsViewModel> playerStatisticsViewModelMake,
             IDetailedStatisticsAnalyzerViewModel detailedStatisticsAnalyzerViewModel,
-            IAnalyzablePokerPlayersFilterAdjustmentViewModel filterAdjustmentViewModel)
-            : base(settings, dimensions, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel, filterAdjustmentViewModel)
+            IFilterPopupViewModel filterPopupViewModel)
+            : base(settings, dimensions, playerStatisticsViewModelMake, detailedStatisticsAnalyzerViewModel, filterPopupViewModel)
         {
         }
 
@@ -349,12 +365,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         {
             base.BrowseAllHandsOf(selectedPlayer);
             BrowsedAllHandsOfPlayer = true;
-        }
-
-        public override void DisplayFilterAdjustmentPopup(IPlayerStatisticsViewModel player)
-        {
-            base.DisplayFilterAdjustmentPopup(player);
-            DisplayFilterAdjustmentPopupWasInvoked = true;
         }
 
         public bool BrowsedAllHandsOfPlayer { get; private set; }

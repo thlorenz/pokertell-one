@@ -12,7 +12,6 @@ namespace PokerTell.LiveTracker.Design.Statistics
     /// </summary>
     public partial class TableStatisticsDesignWindow : Window
     {
-        #region Constructors and Destructors
 
         public TableStatisticsDesignWindow(IEventAggregator eventAggregator, IRepositoryHandBrowserViewModel handBrowserViewModel)
         {
@@ -27,6 +26,5 @@ namespace PokerTell.LiveTracker.Design.Statistics
             }
         }
 
-        #endregion
     }
 }

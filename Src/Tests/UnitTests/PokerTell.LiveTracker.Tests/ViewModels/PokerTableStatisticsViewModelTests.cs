@@ -20,8 +20,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
     public class PokerTableStatisticsViewModelTests
     {
-        IEventAggregator _eventAggregator;
-
         Mock<IConstructor<IPlayerStatisticsViewModel>> _playerStatisticsViewModelMakeStub;
 
         StubBuilder _stub;
@@ -37,7 +35,6 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                 .SetupGet(make => make.New)
                 .Returns(_stub.Out<IPlayerStatisticsViewModel>);
 
-            _eventAggregator = new EventAggregator();
             _sut = new PokerTableStatisticsViewModelTester(_playerStatisticsViewModelMakeStub.Object);
         }
 
@@ -214,7 +211,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                     new Mock<IDimensionsViewModel>().Object, 
                     playerStatisticsViewModelMake, 
                     new StubBuilder().Out<IDetailedStatisticsAnalyzerViewModel>(), 
-                    new StubBuilder().Out<IAnalyzablePokerPlayersFilterAdjustmentViewModel>())
+                    new StubBuilder().Out<IFilterPopupViewModel>())
             {
             }
 

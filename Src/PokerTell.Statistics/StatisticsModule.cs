@@ -116,7 +116,9 @@ namespace PokerTell.Statistics
                 .RegisterConstructor(() => _container.Resolve<IDetailedPostFlopHeroReactsStatisticsViewModel>())
                 .RegisterType<IDetailedStatisticsAnalyzerViewModel, DetailedStatisticsAnalyzerViewModel>()
                 
-                // AnalyzablePokerPlayersFilterAdjustmentViewModel 
+                // Player Filter 
+                .RegisterType<IFilterPopupViewModel, FilterPopupViewModel>()
+                .RegisterConstructor<IAnalyzablePokerPlayersFilterViewModel, AnalyzablePokerPlayersFilterViewModel>()
                 .RegisterType<IAnalyzablePokerPlayersFilterAdjustmentViewModel, AnalyzablePokerPlayersFilterAdjustmentViewModel>()
                 ;
         }
