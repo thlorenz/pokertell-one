@@ -82,7 +82,6 @@
     <Compile Include="Interfaces\IOverlayBoardViewModel.cs" />
     <Compile Include="Interfaces\IOverlayHoleCardsViewModel.cs" />
     <Compile Include="Interfaces\IOverlaySettingsAidViewModel.cs" />
-    <Compile Include="Interfaces\IPlayerStatisticsUpdater.cs" />
     <Compile Include="Interfaces\IPokerRoomDetective.cs" />
     <Compile Include="Interfaces\IWindowManagers.cs" />
     <Compile Include="Interfaces\ISeatMapper.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="Overlay\OverlayToTableAttacher.cs" />
     <Compile Include="Overlay\WindowManipulator.cs" />
     <Compile Include="Persistence\LiveTrackerSettingsXDocumentHandler.cs" />
-    <Compile Include="PlayerStatisticsUpdater.cs" />
     <Compile Include="PokerRooms\FullTiltPokerDetective.cs" />
     <Compile Include="PokerRooms\FullTiltPokerInfo.cs" />
     <Compile Include="Interfaces\IPokerRoomInfo.cs" />

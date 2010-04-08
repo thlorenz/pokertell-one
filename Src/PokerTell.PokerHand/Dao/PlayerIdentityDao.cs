@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHand.Dao
 {
+    using System.Collections.Generic;
+
     using NHibernate;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -53,19 +55,18 @@ namespace PokerTell.PokerHand.Dao
             IQuery query = Session.GetNamedQuery(FindPlayerIdentityByNameAndSite);
 
             return SetQueryParametersAndReturnResultFor(query, name, site);
-
-            /* Using Linq
-            return (from identity in _session.Linq<PlayerIdentity>()
-                    where identity.Name == name && identity.Site == site
-                    select identity)
-                .SingleOrDefault();
-             */
         }
 
         public IPlayerIdentity Insert(IPlayerIdentity playerIdentity)
         {
             Session.SaveOrUpdate(playerIdentity);
             return playerIdentity;
+        }
+
+        public IList<IPlayerIdentity> GetAll()
+        {
+            var query = string.Format("From {0}", typeof(PlayerIdentity).Name);
+            return Session.CreateQuery(query).List<IPlayerIdentity>();
         }
 
         static IPlayerIdentity FindPlayerIdentityFor(string name, string site, IStatelessSession statelessSession)

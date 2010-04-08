@@ -57,6 +57,7 @@ namespace PokerTell.Statistics
                 // Statistics and ViewModel
                 .RegisterTypeAndConstructor<IPlayerStatistics, PlayerStatistics>(() => _container.Resolve<IPlayerStatistics>())
                 .RegisterTypeAndConstructor<IPlayerStatisticsViewModel, PlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>())
+                .RegisterType<IPlayerStatisticsUpdater, PlayerStatisticsUpdater>()
 
                 // RaiseReactionAnalyzation
                 .RegisterType<IReactionAnalyzationPreparer, ReactionAnalyzationPreparer>()

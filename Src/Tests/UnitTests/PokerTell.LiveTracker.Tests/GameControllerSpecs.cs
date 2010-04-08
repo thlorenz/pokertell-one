@@ -495,7 +495,7 @@ namespace PokerTell.LiveTracker.Tests
 
             Establish context = () => playerStatistics_Stub = new[] { new Mock<IPlayerStatistics>().Object };
 
-            Because of = () => _playerStatisticsUpdater_Mock.Raise(u => u.FinishedUpdatingPlayerStatistics += null, playerStatistics_Stub);
+            Because of = () => _playerStatisticsUpdater_Mock.Raise(u => u.FinishedUpdatingMultiplePlayerStatistics += null, playerStatistics_Stub);
 
             It should_update_the_overlay_pokertable_statistics_with_the_passed_player_statistics
                 = () => _overlayPokerTableStatistics_Mock.Verify(ts => ts.UpdateWith(playerStatistics_Stub));

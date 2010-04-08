@@ -1,8 +1,10 @@
 namespace PokerTell.Infrastructure.Interfaces.PokerHand
 {
+    using System.Collections.Generic;
+
     using NHibernate;
 
-    public interface IPlayerIdentityDao
+    public interface IPlayerIdentityDao : IFluentInterface
     {
         IPlayerIdentity FindOrInsert(string name, string site, IStatelessSession statelessSession);
 
@@ -11,5 +13,7 @@ namespace PokerTell.Infrastructure.Interfaces.PokerHand
         IPlayerIdentity FindPlayerIdentityFor(string name, string site);
 
         IPlayerIdentity Insert(IPlayerIdentity playerIdentity);
+
+        IList<IPlayerIdentity> GetAll();
     }
 }

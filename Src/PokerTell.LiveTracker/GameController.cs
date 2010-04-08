@@ -137,7 +137,7 @@ namespace PokerTell.LiveTracker
 
         void RegisterEvents()
         {
-            _playerStatisticsUpdater.FinishedUpdatingPlayerStatistics += stats => {
+            _playerStatisticsUpdater.FinishedUpdatingMultiplePlayerStatistics += stats => {
                 _overlayPokerTableStatistics.UpdateWith(stats);
                 _liveStatsPokerTableStatistics.UpdateWith(stats);
             };

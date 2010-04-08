@@ -27,5 +27,7 @@ namespace PokerTell.Infrastructure.Interfaces.Repository
         IPlayerIdentity FindPlayerIdentityFor(string name, string site);
 
         IEnumerable<IConvertedPokerHand> RetrieveHandsFromString(string handHistories);
+
+        IList<IPlayerIdentity> RetrieveAllPlayerIdentities();
     }
 }

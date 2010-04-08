@@ -96,6 +96,7 @@
     <Compile Include="Detailed\DetailedPreFlopStatisticsDescriberSpecs.cs" />
     <Compile Include="Factories\StringToSequenceExtension.cs" />
     <Compile Include="PlayerStatisticsSpecs.cs" />
+    <Compile Include="PlayerStatisticsUpdaterSpecs.cs" />
     <Compile Include="Utilities\AcrossRowsPercentagesCalculatorTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticsSetTests.cs" />
     <Compile Include="Detailed\ActionSequenceStatisticTests.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="ViewModels\Filters\RangeFilterForInputsViewModelTests.cs" />
     <Compile Include="ViewModels\Filters\TimeRangeValueToDisplayConverterTests.cs" />
     <Compile Include="ViewModels\PlayerStatisticsViewModelSpecs.cs" />
+    <Compile Include="ViewModels\RepositoryPlayersStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPostFlopHeroActsStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedPreFlopStatisticsViewModelSpecs.cs" />
     <Compile Include="ViewModels\StatisticsSetDetails\DetailedStatisticsViewModelSpecs.cs" />

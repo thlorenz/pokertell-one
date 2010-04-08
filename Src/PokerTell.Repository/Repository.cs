@@ -99,7 +99,7 @@ namespace PokerTell.Repository
 
         public IEnumerable<IConvertedPokerHand> RetrieveHandsFromFile(string fileName)
         {
-            const int maxTriesToReadFile = 5;
+            const int maxTriesToReadFile = 3;
             string handHistories = ReadHandHistoriesFrom(fileName, maxTriesToReadFile);
 
             if (string.IsNullOrEmpty(handHistories))
@@ -118,6 +118,11 @@ namespace PokerTell.Repository
             }
 
             return _parser.RetrieveAndConvert(handHistories, "Memory");
+        }
+
+        public IList<IPlayerIdentity> RetrieveAllPlayerIdentities()
+        {
+            return _transactionManager.Execute(() => _playerIdentityDao.GetAll());
         }
 
         static string ReadHandHistoriesFrom(string fileName, int remainingTries)

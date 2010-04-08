@@ -1,11 +1,9 @@
-namespace PokerTell.LiveTracker.Tests
+namespace PokerTell.Statistics.Tests
 {
     using System.Collections.Generic;
     using System.Threading;
 
     using Infrastructure.Interfaces.Statistics;
-
-    using Interfaces;
 
     using Machine.Specifications;
 
@@ -22,7 +20,7 @@ namespace PokerTell.LiveTracker.Tests
         protected static IPlayerStatisticsUpdater _sut;
 
         Establish specContext = () => {
-           _bobsStats_Mock = new Mock<IPlayerStatistics>(); 
+            _bobsStats_Mock = new Mock<IPlayerStatistics>(); 
             _tedsStats_Mock = new Mock<IPlayerStatistics>();
             _playerStats_Stub = new[] { _bobsStats_Mock.Object, _tedsStats_Mock.Object };
 
@@ -36,7 +34,7 @@ namespace PokerTell.LiveTracker.Tests
 
             static IEnumerable<IPlayerStatistics> returnedPlayerStatistics;
 
-            Establish context = () => _sut.FinishedUpdatingPlayerStatistics += stats => {
+            Establish context = () => _sut.FinishedUpdatingMultiplePlayerStatistics += stats => {
                 isFinishedWasRaised = true;
                 returnedPlayerStatistics = stats;
             };

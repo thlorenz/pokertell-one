@@ -20,22 +20,12 @@ namespace PokerTell.PokerHand.Tests.Dao
     [TestFixture]
     public class PlayerIdentityDaoTests : InMemoryDatabaseTest
     {
-        #region Constants and Fields
-
         PlayerIdentityDao _sut;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public PlayerIdentityDaoTests()
             : base(typeof(PlayerIdentity).Assembly)
         {
         }
-
-        #endregion
-
-        #region Public Methods
 
         [SetUp]
         public void _Init()
@@ -102,7 +92,49 @@ namespace PokerTell.PokerHand.Tests.Dao
 
             retrievedIdentity.ShouldBeEqualTo(insertedIdentity);
         }
+
+        [Test]
+        public void GetAll_NoPlayerIdentityInDatabase_ReturnsEmpty()
+        {
+            var retrievedIdentities = _sut.GetAll();
+
+            retrievedIdentities.ShouldBeEmpty();
+        }
+
+        [Test]
+        public void GetAll_OnePlayerIdentityInDatabase_ReturnsThatPlayerIdentity()
+        {
+            
+            const string someName = "someName";
+            const string someSite = "PokerStars";
+
+            IPlayerIdentity insertedIdentity = _sut.FindOrInsert(someName, someSite);
+
+            FlushAndClearSession();
+
+            var retrievedIdentities = _sut.GetAll();
+
+            retrievedIdentities.ShouldContain(insertedIdentity);
+        }
         
-        #endregion
+        [Test]
+        public void GetAll_TwoPlayerIdentitiesInDatabase_ReturnsBothPlayerIdentities()
+        {
+            const string firstName = "firstName";
+            const string secondName = "secondName";
+            const string someSite = "PokerStars";
+
+            IPlayerIdentity firstInsertedIdentity = _sut.FindOrInsert(firstName, someSite);
+            IPlayerIdentity secondInsertedIdentity = _sut.FindOrInsert(secondName, someSite);
+
+            FlushAndClearSession();
+
+            var retrievedIdentities = _sut.GetAll();
+
+            retrievedIdentities
+                .ShouldContain(firstInsertedIdentity)
+                .ShouldContain(secondInsertedIdentity)
+                .ShouldHaveCount(2);
+        }
     }
 }

@@ -165,6 +165,7 @@
     <Compile Include="Interfaces\Statistics\IDetailedStatisticsAnalyzerViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IFilterPopupViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IPlayerStatistics.cs" />
+    <Compile Include="Interfaces\Statistics\IPlayerStatisticsUpdater.cs" />
     <Compile Include="Interfaces\Statistics\IRangeFilterForInputsViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IRangeFilterForSelectorsViewModel.cs" />
     <Compile Include="Interfaces\Statistics\IRangeFilterViewModel.cs" />

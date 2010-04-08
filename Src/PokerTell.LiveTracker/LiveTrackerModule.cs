@@ -1,10 +1,7 @@
 namespace PokerTell.LiveTracker
 {
-    using System;
     using System.Reflection;
     using System.Windows.Controls;
-
-    using Infrastructure;
 
     using log4net;
 
@@ -13,21 +10,17 @@ namespace PokerTell.LiveTracker
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
-    using PokerRooms;
-
+    using PokerTell.Infrastructure;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Overlay;
     using PokerTell.LiveTracker.Persistence;
+    using PokerTell.LiveTracker.PokerRooms;
+    using PokerTell.LiveTracker.Tracking;
     using PokerTell.LiveTracker.ViewModels;
+    using PokerTell.LiveTracker.ViewModels.Overlay;
     using PokerTell.LiveTracker.Views;
 
-    using Properties;
-
     using Tools.WPF;
-
-    using Tracking;
-
-    using ViewModels.Overlay;
 
     public class LiveTrackerModule : IModule
     {
@@ -54,9 +47,42 @@ namespace PokerTell.LiveTracker
             Log.Info("got initialized.");
         }
 
+        void ConfigureServicesForTheFirstTime(object ignore)
+        {
+            var liveTrackerSettings = _container
+                .Resolve<ILiveTrackerSettingsViewModel>()
+                .LoadSettings();
+
+            liveTrackerSettings
+                .AutoDetectHandHistoryFoldersCommand.Execute(null);
+
+            liveTrackerSettings
+                .DetectAndSavePreferredSeats();
+
+            liveTrackerSettings
+                .SaveSettingsCommand.Execute(null);
+        }
+
+        void RegisterMenu()
+        {
+            var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
+
+            var liveTrackerSettings = _container
+                .Resolve<ILiveTrackerSettingsViewModel>()
+                .LoadSettings();
+
+            var gamesTracker = _container
+                .Resolve<IGamesTracker>()
+                .InitializeWith(liveTrackerSettings);
+
+            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker, liveTrackerSettings).Create();
+            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(liveTrackerMenuItem);
+        }
+
         void RegisterViewsAndServices()
         {
             _container
+                
                 
                 // LiveTrackerSettings
                 .RegisterType<ILayoutAutoConfigurator, LayoutAutoConfigurator>()
@@ -77,9 +103,9 @@ namespace PokerTell.LiveTracker
 
                 // Table Overlay
                 .RegisterType<ITableOverlaySettingsViewModel, TableOverlaySettingsViewModel>()
-
                 .RegisterType<IHarringtonMViewModel, HarringtonMViewModel>()
-                .RegisterTypeAndConstructor<IOverlayHoleCardsViewModel, OverlayHoleCardsViewModel>(() => _container.Resolve<IOverlayHoleCardsViewModel>())
+                .RegisterTypeAndConstructor<IOverlayHoleCardsViewModel, OverlayHoleCardsViewModel>(
+                () => _container.Resolve<IOverlayHoleCardsViewModel>())
                 .RegisterType<IOverlayBoardViewModel, OverlayBoardViewModel>()
                 .RegisterType<IOverlaySettingsAidViewModel, OverlaySettingsAidViewModel>()
                 .RegisterType<IPlayerStatusViewModel, PlayerStatusViewModel>()
@@ -99,7 +125,6 @@ namespace PokerTell.LiveTracker
                 .RegisterType<IGameHistoryWindowManager, GameHistoryWindowManager>()
 
                 // GameController
-                .RegisterType<IPlayerStatisticsUpdater, PlayerStatisticsUpdater>()
                 .RegisterType<IPokerTableStatisticsWindowManager, PokerTableStatisticsWindowManager>()
                 .RegisterTypeAndConstructor<IGameController, GameController>(() => _container.Resolve<IGameController>())
 
@@ -108,38 +133,6 @@ namespace PokerTell.LiveTracker
                 .RegisterType<INewHandsTracker, NewHandsTracker>(new ContainerControlledLifetimeManager())
                 .RegisterConstructor<IHandHistoryFilesWatcher, HandHistoryFilesWatcher>()
                 .RegisterType<IGamesTracker, GamesTracker>(new ContainerControlledLifetimeManager());
-        }
-
-        void RegisterMenu()
-        {
-            var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
-
-            var liveTrackerSettings = _container
-                .Resolve<ILiveTrackerSettingsViewModel>()
-                .LoadSettings();
-
-            var gamesTracker = _container
-                .Resolve<IGamesTracker>()
-                .InitializeWith(liveTrackerSettings);
-
-            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker, liveTrackerSettings).Create();
-            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(liveTrackerMenuItem);
-        }
-
-        void ConfigureServicesForTheFirstTime(object ignore)
-        {
-            var liveTrackerSettings = _container
-                .Resolve<ILiveTrackerSettingsViewModel>()
-                .LoadSettings();
-
-            liveTrackerSettings
-                .AutoDetectHandHistoryFoldersCommand.Execute(null);
-            
-            liveTrackerSettings
-                .DetectAndSavePreferredSeats();
-
-            liveTrackerSettings
-                .SaveSettingsCommand.Execute(null);
         }
 
         void StartServices(object ignore)

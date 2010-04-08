@@ -5,10 +5,6 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using System.Windows.Controls;
     using System.Windows.Media;
 
-    using Infrastructure;
-
-    using Interfaces;
-
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
@@ -17,25 +13,20 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
     using Moq;
 
-    using Overlay;
-
-    using Persistence;
-
-    using PokerRooms;
+    using PokerTell.Infrastructure;
+    using PokerTell.LiveTracker.Interfaces;
+    using PokerTell.LiveTracker.Overlay;
+    using PokerTell.LiveTracker.Persistence;
+    using PokerTell.LiveTracker.PokerRooms;
+    using PokerTell.LiveTracker.Tracking;
+    using PokerTell.LiveTracker.ViewModels;
+    using PokerTell.LiveTracker.ViewModels.Overlay;
+    using PokerTell.LiveTracker.Views;
+    using PokerTell.LiveTracker.Views.Overlay;
 
     using Tools.Interfaces;
-    using Tools.Validation;
     using Tools.WPF;
     using Tools.WPF.Interfaces;
-    using Tools.WPF.ViewModels;
-
-    using Tracking;
-
-    using ViewModels;
-    using ViewModels.Overlay;
-
-    using Views;
-    using Views.Overlay;
 
     // Resharper disable InconsistentNaming
     public class LiveTrackerModuleMock : IModule
@@ -60,16 +51,32 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
             Log.Info("got initialized.");
         }
 
+        void RegisterMenu()
+        {
+            var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
+
+            var liveTrackerSettings = _container
+                .Resolve<ILiveTrackerSettingsViewModel>()
+                .LoadSettings();
+
+            var gamesTracker = _container
+                .Resolve<IGamesTracker>()
+                .InitializeWith(liveTrackerSettings);
+
+            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker, liveTrackerSettings).Create();
+            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(liveTrackerMenuItem);
+        }
+
         void RegisterViewsAndServices()
         {
             var overlayToTableAttacher_Mock = new Mock<IOverlayToTableAttacher>();
 
             overlayToTableAttacher_Mock.Setup(ta => ta.InitializeWith(
-                It.IsAny<IWindowManager>(),
-                It.IsAny<IDispatcherTimer>(),
-                It.IsAny<IDispatcherTimer>(),
-                It.IsAny<IPokerRoomInfo>(),
-                It.IsAny<string>())).Returns(overlayToTableAttacher_Mock.Object);
+                                                        It.IsAny<IWindowManager>(), 
+                                                        It.IsAny<IDispatcherTimer>(), 
+                                                        It.IsAny<IDispatcherTimer>(), 
+                                                        It.IsAny<IPokerRoomInfo>(), 
+                                                        It.IsAny<string>())).Returns(overlayToTableAttacher_Mock.Object);
 
             _container
 
@@ -95,9 +102,9 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
                 // Table Overlay
                 .RegisterType<ITableOverlaySettingsViewModel, TableOverlaySettingsViewModel>()
-
                 .RegisterType<IHarringtonMViewModel, HarringtonMViewModel>()
-                .RegisterTypeAndConstructor<IOverlayHoleCardsViewModel, OverlayHoleCardsViewModel>(() => _container.Resolve<IOverlayHoleCardsViewModel>())
+                .RegisterTypeAndConstructor<IOverlayHoleCardsViewModel, OverlayHoleCardsViewModel>(
+                () => _container.Resolve<IOverlayHoleCardsViewModel>())
                 .RegisterType<IOverlayBoardViewModel, OverlayBoardViewModel>()
                 .RegisterType<IOverlaySettingsAidViewModel, OverlaySettingsAidViewModel>()
                 .RegisterType<IPlayerStatusViewModel, PlayerStatusViewModel>()
@@ -110,6 +117,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
                 .RegisterType<ILayoutManager, LayoutManager>()
                 .RegisterType<ISeatMapper, SeatMapper>()
                 
+                
                 // Mock
                 // .RegisterType<ITableOverlayWindowManager, TableOverlayWindowManager>()
                 .RegisterType<ITableOverlayWindowManager, TableOverlayWindowManagerMock>()
@@ -120,34 +128,18 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
                 .RegisterType<IGameHistoryWindowManager, GameHistoryWindowManager>()
 
                 // GameController
-                .RegisterType<IPlayerStatisticsUpdater, PlayerStatisticsUpdater>()
                 .RegisterType<IPokerTableStatisticsWindowManager, PokerTableStatisticsWindowManager>()
                 .RegisterTypeAndConstructor<IGameController, GameController>(() => _container.Resolve<IGameController>())
 
                 // GamesTracker
                 .RegisterType<IWatchedDirectoriesOptimizer, WatchedDirectoriesOptimizer>()
                
+                
                 // Mock
                 // .RegisterType<INewHandsTracker, NewHandsTracker>(new ContainerControlledLifetimeManager())
                 // .RegisterConstructor<IHandHistoryFilesWatcher, HandHistoryFilesWatcher>()
                 .RegisterInstance(new Mock<INewHandsTracker>().Object)
                 .RegisterType<IGamesTracker, GamesTracker>(new ContainerControlledLifetimeManager());
-        }
-
-        void RegisterMenu()
-        {
-            var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
-
-            var liveTrackerSettings = _container
-                .Resolve<ILiveTrackerSettingsViewModel>()
-                .LoadSettings();
-
-            var gamesTracker = _container
-                .Resolve<IGamesTracker>()
-                .InitializeWith(liveTrackerSettings);
-
-            MenuItem liveTrackerMenuItem = new LiveTrackerMenuItemFactory(liveTrackerSettingsWindow, gamesTracker, liveTrackerSettings).Create();
-            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(liveTrackerMenuItem);
         }
     }
 
@@ -155,24 +147,31 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     {
         const string DesignerPath = @"C:\SD\PokerTell\Src\Design\Designer\";
 
-        const string PokerStars_2max_Background = "PokerTables/PokerStars/PokerStars.2-max.jpg";
-        const string PokerStars_4max_Background = "PokerTables/PokerStars/PokerStars.4-max.jpg";
-        const string PokerStars_6max_Background = "PokerTables/PokerStars/PokerStars.6-max.jpg";
-        const string PokerStars_7max_Background = "PokerTables/PokerStars/PokerStars.7-max.jpg";
-        const string PokerStars_8max_Background = "PokerTables/PokerStars/PokerStars.8-max.jpg";
-        const string PokerStars_9max_Background = "PokerTables/PokerStars/PokerStars.9-max.jpg";
         const string PokerStars_10max_Background = "PokerTables/PokerStars/PokerStars.10-max.jpg";
+
+        const string PokerStars_2max_Background = "PokerTables/PokerStars/PokerStars.2-max.jpg";
+
+        const string PokerStars_4max_Background = "PokerTables/PokerStars/PokerStars.4-max.jpg";
+
+        const string PokerStars_6max_Background = "PokerTables/PokerStars/PokerStars.6-max.jpg";
+
+        const string PokerStars_7max_Background = "PokerTables/PokerStars/PokerStars.7-max.jpg";
+
+        const string PokerStars_8max_Background = "PokerTables/PokerStars/PokerStars.8-max.jpg";
+
+        const string PokerStars_9max_Background = "PokerTables/PokerStars/PokerStars.9-max.jpg";
 
         static readonly object img = new ImageSourceConverter().ConvertFromString(DesignerPath + PokerStars_9max_Background);
 
         public TableOverlayWindowManagerMock()
-            : base(() => new TableOverlayView {
-                        Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill },
-                        AllowsTransparency = false,
-                        WindowStyle = WindowStyle.ToolWindow,
-                        SizeToContent = SizeToContent.WidthAndHeight
-                    })
-        { 
+            : base(() => new TableOverlayView
+                {
+                    Background = new ImageBrush((ImageSource)img) { Stretch = Stretch.UniformToFill }, 
+                    AllowsTransparency = false, 
+                    WindowStyle = WindowStyle.ToolWindow, 
+                    SizeToContent = SizeToContent.WidthAndHeight
+                })
+        {
         }
     }
 }

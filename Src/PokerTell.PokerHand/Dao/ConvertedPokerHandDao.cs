@@ -36,13 +36,6 @@ namespace PokerTell.PokerHand.Dao
 
             return SetParametersForFindConvertedPokerHand(query, gameId, site)
                 .UniqueResult<IConvertedPokerHand>();
-
-            /* Using Linq
-            return (from hand in _session.Linq<ConvertedPokerHand>()
-                    where hand.GameId == gameId && hand.Site == site
-                    select hand)
-                .SingleOrDefault();
-             */
         }
 
         public IConvertedPokerHand Insert(IConvertedPokerHand convertedPokerHand)
