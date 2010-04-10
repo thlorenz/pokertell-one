@@ -248,6 +248,15 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Popout.
+        /// </summary>
+        public static string OverlayDetailsView_ToolTip_Popout {
+            get {
+                return ResourceManager.GetString("OverlayDetailsView_ToolTip_Popout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;Layouts&gt;
         ///  &lt;Layout TotalSeats=&quot;2&quot;&gt;
