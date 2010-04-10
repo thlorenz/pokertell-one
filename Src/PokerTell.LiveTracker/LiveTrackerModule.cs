@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker
     using System.Reflection;
     using System.Windows.Controls;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;

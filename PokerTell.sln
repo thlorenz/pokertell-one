@@ -109,13 +109,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.PokerHandParsers.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{C9A91C6A-183E-44D6-8B85-55C07071441F}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.Setup", "Src\Deployment\PokerTell.Setup\PokerTell.Setup.vdproj", "{729A9427-0250-4598-9077-6E5A941F3945}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.x64.Setup", "Src\Deployment\PokerTell.Setup\PokerTell.Setup.vdproj", "{729A9427-0250-4598-9077-6E5A941F3945}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.User.Design", "Src\Design\PokerTell.User.Design\PokerTell.User.Design.csproj", "{C7F21E7B-3070-44F2-89D9-C49133D94493}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.WithPlugins.Setup", "Src\Deployment\PokerTell.WithPlugins.Setup\PokerTell.WithPlugins.Setup.vdproj", "{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.Design", "Src\Design\PokerTell.Statistics.Design\PokerTell.Statistics.Design.csproj", "{D648D149-53C3-4649-AB0A-48921CEC5ABC}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.Setup", "Src\Deployment\PokerTell.x64.Setup\PokerTell.x64.Setup.vdproj", "{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -262,6 +264,10 @@ Global
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Debug|Any CPU.ActiveCfg = Debug
+		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Debug|Any CPU.Build.0 = Debug
+		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Release|Any CPU.ActiveCfg = Release
+		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Release|Any CPU.Build.0 = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -313,6 +319,7 @@ Global
 		{C638E665-5926-441B-A74A-32DCBFC7347D} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
 		{729A9427-0250-4598-9077-6E5A941F3945} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
 		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
+		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

@@ -3,6 +3,7 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Collections.Generic;
 
     using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.LiveTracker;
 
     using Microsoft.Practices.Composite.Presentation.Events;
 

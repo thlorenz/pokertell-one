@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker
     using System;
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.Statistics;

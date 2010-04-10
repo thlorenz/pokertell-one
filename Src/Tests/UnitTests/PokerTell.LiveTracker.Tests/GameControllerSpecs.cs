@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Tests
     using System.Collections.Generic;
     using System.Linq;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using Machine.Specifications;
 
     using Moq;

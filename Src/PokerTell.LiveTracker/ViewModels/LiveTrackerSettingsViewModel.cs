@@ -10,6 +10,8 @@ namespace PokerTell.LiveTracker.ViewModels
     using System.Windows.Input;
     using System.Xml.Linq;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure.Events;

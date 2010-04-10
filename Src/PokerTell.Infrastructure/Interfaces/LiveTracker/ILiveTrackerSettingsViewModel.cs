@@ -1,12 +1,8 @@
-namespace PokerTell.LiveTracker.Interfaces
+namespace PokerTell.Infrastructure.Interfaces.LiveTracker
 {
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Windows.Input;
-
-    using Infrastructure.Interfaces;
-
-    using Tools.Interfaces;
 
     public interface ILiveTrackerSettingsViewModel : IFluentInterface, INotifyPropertyChanged
     {

@@ -123,7 +123,6 @@
     <Compile Include="Tracking\GamesTracker.cs" />
     <Compile Include="Interfaces\IGameController.cs" />
     <Compile Include="Interfaces\IGamesTracker.cs" />
-    <Compile Include="Interfaces\ILiveTrackerSettingsViewModel.cs" />
     <Compile Include="Tracking\HandHistoryFilesWatcher.cs">
       <SubType>Component</SubType>
     </Compile>

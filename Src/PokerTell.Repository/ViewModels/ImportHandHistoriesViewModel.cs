@@ -1,22 +1,25 @@
 namespace PokerTell.Repository.ViewModels
 {
     using System;
-    using System.IO;
+    using System.Linq;
     using System.Windows.Forms;
     using System.Windows.Input;
 
     using Microsoft.Practices.Composite.Events;
 
     using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces.LiveTracker;
     using PokerTell.Repository.Interfaces;
     using PokerTell.Repository.Properties;
 
+    using Tools.IO;
     using Tools.WPF;
     using Tools.WPF.ViewModels;
-    using Tools.IO;
 
     public class ImportHandHistoriesViewModel : NotifyPropertyChanged
     {
+        readonly IEventAggregator _eventAggregator;
+
         readonly IHandHistoriesDirectoryImporter _handHistoriesDirectoryImporter;
 
         ICommand _browseCommand;
@@ -27,18 +30,20 @@ namespace PokerTell.Repository.ViewModels
 
         bool _importing;
 
-        readonly IEventAggregator _eventAggregator;
-
         public ImportHandHistoriesViewModel(
             IEventAggregator eventAggregator, 
+            ILiveTrackerSettingsViewModel liveTrackerSettings, 
             IHandHistoriesDirectoryImporter handHistoriesDirectoryImporter)
         {
             _eventAggregator = eventAggregator;
             _handHistoriesDirectoryImporter = handHistoriesDirectoryImporter;
-            const Environment.SpecialFolder programsFolder = Environment.SpecialFolder.ProgramFiles;
-            HandHistoriesDirectory = Environment.GetFolderPath(programsFolder);
 
-            // HandHistoriesDirectory = @"C:\Program Files\PokerStars\HandHistory\renniweg";
+            var firstHandHistoryFolderDefinedInLiveTrackerSettings = liveTrackerSettings
+                .LoadSettings()
+                .HandHistoryFilesPaths
+                .FirstOrDefault();
+
+            HandHistoriesDirectory = firstHandHistoryFolderDefinedInLiveTrackerSettings ?? Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
         }
 
         public ICommand BrowseCommand

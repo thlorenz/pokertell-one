@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.Tracking
     using System.Linq;
     using System.Reflection;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Events;

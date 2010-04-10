@@ -7,6 +7,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using System.Windows.Input;
 
     using Infrastructure.Enumerations.PokerHand;
+    using Infrastructure.Interfaces.LiveTracker;
     using Infrastructure.Interfaces.Repository;
 
     using log4net;

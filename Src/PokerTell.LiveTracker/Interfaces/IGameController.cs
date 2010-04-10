@@ -4,6 +4,7 @@ namespace PokerTell.LiveTracker.Interfaces
     using System.Collections.Generic;
 
     using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.LiveTracker;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 

@@ -10,6 +10,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
     using Events;
 
     using Infrastructure.Events;
+    using Infrastructure.Interfaces.LiveTracker;
 
     using Machine.Specifications;
 

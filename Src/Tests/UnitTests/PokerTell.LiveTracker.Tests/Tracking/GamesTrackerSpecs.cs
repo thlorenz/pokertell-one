@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Tests.Tracking
     using System;
     using System.Collections.Generic;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using Machine.Specifications;
 
     using Microsoft.Practices.Composite.Events;

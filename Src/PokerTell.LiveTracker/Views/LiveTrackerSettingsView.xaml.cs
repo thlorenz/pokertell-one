@@ -3,8 +3,7 @@ namespace PokerTell.LiveTracker.Views
     using System.Windows.Controls;
 
     using Infrastructure;
-
-    using Interfaces;
+    using Infrastructure.Interfaces.LiveTracker;
 
     using Tools;
 

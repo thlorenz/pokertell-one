@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.Views
     using System.Windows.Forms;
     using System.Windows.Input;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using PokerTell.Infrastructure;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Properties;

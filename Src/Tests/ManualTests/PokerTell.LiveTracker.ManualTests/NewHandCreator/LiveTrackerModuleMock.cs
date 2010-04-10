@@ -5,6 +5,8 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using System.Windows.Controls;
     using System.Windows.Media;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
