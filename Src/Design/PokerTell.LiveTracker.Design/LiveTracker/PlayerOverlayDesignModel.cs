@@ -2,11 +2,9 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
 {
     using System.Linq;
 
-    using PokerTell.LiveTracker.Design.Statistics;
+    using Statistics.Design.DetailedStatistics;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.ViewModels.Overlay;
-
-    using Tools.Interfaces;
 
     public class PlayerOverlayDesignModel : PlayerOverlayViewModel
     {

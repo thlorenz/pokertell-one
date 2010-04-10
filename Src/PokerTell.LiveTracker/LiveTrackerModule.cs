@@ -83,7 +83,6 @@ namespace PokerTell.LiveTracker
         {
             _container
                 
-                
                 // LiveTrackerSettings
                 .RegisterType<ILayoutAutoConfigurator, LayoutAutoConfigurator>()
                 .RegisterType<ILiveTrackerSettingsXDocumentHandler, LiveTrackerSettingsXDocumentHandler>()

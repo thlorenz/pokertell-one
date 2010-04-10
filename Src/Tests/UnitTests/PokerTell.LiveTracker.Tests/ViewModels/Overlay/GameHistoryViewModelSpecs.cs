@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 {
+    using System;
     using System.Drawing;
 
     using Infrastructure.Interfaces;
@@ -30,6 +31,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         protected static Mock<ISettings> _settings_Mock;
 
         protected static Mock<IDimensionsViewModel> _dimensionsVM_Mock;
+
+        protected static Mock<IDispatcherTimer> _scrollToNewestHandTimer_Mock;
         
         Establish specContext = () => {
             _handHistoryVM_Mock = new Mock<IHandHistoryViewModel>();
@@ -41,7 +44,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 .Setup(d => d.InitializeWith(Moq.It.IsAny<Rectangle>()))
                 .Returns(_dimensionsVM_Mock.Object);
             
-            _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, new CollectionValidator());
+            _scrollToNewestHandTimer_Mock = new Mock<IDispatcherTimer>();
+
+            _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, _scrollToNewestHandTimer_Mock.Object, new CollectionValidator());
         };
 
         [Subject(typeof(GameHistoryViewModel), "Instantiation")]
@@ -56,7 +61,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                     .Returns(returnedRectangle);
             };
 
-            Because of = () => _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, new CollectionValidator());
+            Because of = () => _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, _scrollToNewestHandTimer_Mock.Object, new CollectionValidator());
 
             It should_ask_the_settings_for_its_dimensions_with_a_default_value
                 = () => _settings_Mock.Verify(s => s.RetrieveRectangle(GameHistoryViewModel.DimensionsKey, Moq.It.IsAny<Rectangle>()));
@@ -65,6 +70,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 = () => _dimensionsVM_Mock.Verify(d => d.InitializeWith(returnedRectangle));
 
             It should_assign_its_dimensions_to_the_initialized_dimensions = () => _sut.Dimensions.ShouldEqual(_dimensionsVM_Mock.Object);
+
+            It should_set_the_interval_of_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.VerifySet(t => t.Interval = Moq.It.IsAny<TimeSpan>());
         }
 
         [Subject(typeof(GameHistoryViewModel), "Save Dimensions")]
@@ -77,7 +84,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
                 _dimensionsVM_Mock
                     .SetupGet(d => d.Rectangle)
                     .Returns(returnedRectangle);
-                _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, new CollectionValidator());
+                _sut = new GameHistoryViewModel(_settings_Mock.Object, _dimensionsVM_Mock.Object, _handHistoryVM_Mock.Object, _scrollToNewestHandTimer_Mock.Object, new CollectionValidator());
             };
 
             Because of = () => _sut.SaveDimensions();
@@ -138,7 +145,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         }
 
         [Subject(typeof(GameHistoryViewModel), "AddNewHand")]
-        public class _when_3_hands_were_added_before_and_the_current_hand_index_is_1_because_the_user_is_browsing : GameHistoryViewModelSpecs
+        public class when_3_hands_were_added_before_and_the_current_hand_index_is_1_because_the_user_is_browsing : GameHistoryViewModelSpecs
         {
             Establish context = () => _sut.AddNewHand(new Mock<IConvertedPokerHand>().Object)
                                           .AddNewHand(new Mock<IConvertedPokerHand>().Object)
@@ -153,6 +160,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_add_the_hand_to_the_History = () => _sut.HandCount.ShouldEqual(4);
 
             It should_leave_the_currenthand_index_at_1 = () => _sut.CurrentHandIndex.ShouldEqual(1);
+
+            It should_not_start_the_scroll_to_newest_hand_timer_again = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Start(), Times.Once());
+
+            It should_stop_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Stop());
         }
 
         [Subject(typeof(GameHistoryViewModel), "CurrentHandIndex")]
@@ -166,6 +177,25 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_update_the_CurrentHandHistory_with_the_hand_at_index_1
                 = () => _handHistoryVM_Mock.Verify(hvm => hvm.UpdateWith(Moq.It.Is<IConvertedPokerHand>(hh => hh.Equals(_hand_Stub.Object))), Times.Exactly(2));
+
+            It should_start_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Start());
+        }
+
+        [Subject(typeof(GameHistoryViewModel), "CurrentHandIndex")]
+        public class when_3_hands_where_added_and_the_current_handindex_is_set_to_2 : GameHistoryViewModelSpecs
+        {
+            Establish context = () => _sut.AddNewHand(new Mock<IConvertedPokerHand>().Object)
+                                          .AddNewHand(new Mock<IConvertedPokerHand>().Object)
+                                          .AddNewHand(_hand_Stub.Object);
+
+            Because of = () => _sut.CurrentHandIndex = 2;
+
+            It should_update_the_CurrentHandHistory_with_the_hand_at_index_2
+                = () => _handHistoryVM_Mock.Verify(hvm => hvm.UpdateWith(Moq.It.Is<IConvertedPokerHand>(hh => hh.Equals(_hand_Stub.Object))), Times.Exactly(2));
+
+            It should_not_start_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Start(), Times.Never());
+
+            It should_stop_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Stop());
         }
 
         [Subject(typeof(GameHistoryViewModel), "CurrentHandIndex")]
@@ -175,6 +205,23 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_not_update_the_CurrentHandHistory
                 = () => _handHistoryVM_Mock.Verify(hvm => hvm.UpdateWith(Moq.It.IsAny<IConvertedPokerHand>()), Times.Never());
+
+            It should_not_start_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Start(), Times.Never());
+        }
+
+        [Subject(typeof(GameHistoryViewModel), "CurrentHandIndex")]
+        public class when_3_hands_where_added_and_the_current_handindex_was_set_to_1_and_the_scroll_to_newest_hand_timer_ticks : GameHistoryViewModelSpecs
+        {
+            Establish context = () => _sut.AddNewHand(new Mock<IConvertedPokerHand>().Object)
+                                          .AddNewHand(_hand_Stub.Object)
+                                          .AddNewHand(new Mock<IConvertedPokerHand>().Object)
+                                          .CurrentHandIndex = 1;
+
+            Because of = () => _scrollToNewestHandTimer_Mock.Raise(t => t.Tick += null, null, null);
+
+            It should_set_the_CurrentHandIndex_to_2 = () => _sut.CurrentHandIndex.ShouldEqual(2);
+
+            It should_stop_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Stop(), Times.Exactly(5));
         }
     }
 }

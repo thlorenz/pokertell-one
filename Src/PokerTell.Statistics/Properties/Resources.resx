@@ -138,6 +138,15 @@
   <data name="InvestigatorView_VisualizeHands" xml:space="preserve">
     <value>Visualize Hands</value>
   </data>
+  <data name="RepositoryPlayersStatisticsView_Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="RepositoryPlayersStatisticsView_Investigator" xml:space="preserve">
+    <value>Investigator</value>
+  </data>
+  <data name="RepositoryPlayersStatisticsView_Players" xml:space="preserve">
+    <value>Players</value>
+  </data>
   <data name="StatisticsSets_CheckOrBet" xml:space="preserve">
     <value>Check or Bet</value>
   </data>

@@ -7,23 +7,35 @@ namespace PokerTell.Statistics
     using System.Reflection;
     using System.Threading;
 
+    using Infrastructure.Interfaces;
+    using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
     using log4net;
 
     using Tools.FunctionalCSharp;
+    using Tools.Interfaces;
 
     public class PlayerStatisticsUpdater : IPlayerStatisticsUpdater
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly BackgroundWorker _workerForCollectionUpdate;
+        IBackgroundWorker _workerForCollectionUpdate;
 
-        BackgroundWorker _workerForSingleStatistic;
+        IBackgroundWorker _workerForSingleStatistic;
 
-        public PlayerStatisticsUpdater()
+        readonly IConstructor<IBackgroundWorker> _backgroundWorkerMake;
+
+        public PlayerStatisticsUpdater(IConstructor<IBackgroundWorker> backgroundWorkerMake)
         {
-            _workerForCollectionUpdate = new BackgroundWorker();
+            _backgroundWorkerMake = backgroundWorkerMake;
+
+            CreateWorkerForCollectionUpdate();
+        }
+
+        void CreateWorkerForCollectionUpdate()
+        {
+            _workerForCollectionUpdate = _backgroundWorkerMake.New;
 
             _workerForCollectionUpdate.DoWork += (_, e) => {
                 // Make sure we parse doubles correctly
@@ -64,28 +76,33 @@ namespace PokerTell.Statistics
         /// <param name="playerStatistics"></param>
         public void Update(IPlayerStatistics playerStatistics)
         {
-            // If it was busy, unsubscribe from RunWorkerCompleted
-            if (_workerForSingleStatistic != null && _workerForSingleStatistic.IsBusy)
-                _workerForSingleStatistic.RunWorkerCompleted -= (_, e) => FinishedUpdatingPlayerStatistics((IPlayerStatistics)e.Result);
-
-            RecreateWorkerToUpdate(playerStatistics);
+            PlayerThatIsCurrentlyUpdated = playerStatistics.PlayerIdentity;
+            CreateWorkerForSingleStatisticUpdate();
 
             _workerForSingleStatistic.RunWorkerAsync(playerStatistics);
         }
 
-        void RecreateWorkerToUpdate(IPlayerStatistics playerStatistics)
+        public IPlayerIdentity PlayerThatIsCurrentlyUpdated { get; protected set; }
+
+        void CreateWorkerForSingleStatisticUpdate()
         {
-            _workerForSingleStatistic = new BackgroundWorker();
-            _workerForSingleStatistic.DoWork += (_, evs) => {
+            _workerForSingleStatistic = _backgroundWorkerMake.New;
+            _workerForSingleStatistic.DoWork += (_, e) => {
                 // Make sure we parse doubles correctly
                 Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US", false);
+
+                var playerStatistics = (IPlayerStatistics)e.Argument;
                 playerStatistics.UpdateStatistics();
-                evs.Result = playerStatistics;
+                e.Result = playerStatistics;
             };
-            _workerForSingleStatistic.RunWorkerCompleted += (_, e) => FinishedUpdatingPlayerStatistics((IPlayerStatistics)e.Result);
+            _workerForSingleStatistic.RunWorkerCompleted += (_, e) => {
+                var playerStatistics = (IPlayerStatistics)e.Result;
+                if (playerStatistics.PlayerIdentity.Equals(PlayerThatIsCurrentlyUpdated))
+                    FinishedUpdatingPlayerStatistics(playerStatistics);
+            };
         }
 
-        public event Action<IEnumerable<IPlayerStatistics>> FinishedUpdatingMultiplePlayerStatistics;
+        public event Action<IEnumerable<IPlayerStatistics>> FinishedUpdatingMultiplePlayerStatistics = delegate { };
 
         public event Action<IPlayerStatistics> FinishedUpdatingPlayerStatistics = delegate { };
     }

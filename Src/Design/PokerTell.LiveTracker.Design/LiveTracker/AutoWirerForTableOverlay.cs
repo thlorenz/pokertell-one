@@ -10,7 +10,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     using Moq;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
-    using PokerTell.LiveTracker.Design.Statistics;
+    using Statistics.Design.DetailedStatistics;
     using PokerTell.LiveTracker.Interfaces;
     using PokerTell.LiveTracker.Overlay;
     using PokerTell.LiveTracker.ViewModels.Overlay;

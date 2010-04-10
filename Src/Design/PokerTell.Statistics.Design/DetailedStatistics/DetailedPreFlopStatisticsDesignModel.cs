@@ -1,4 +1,4 @@
-namespace PokerTell.LiveTracker.Design.Statistics
+namespace PokerTell.Statistics.Design.DetailedStatistics
 {
     using System.Collections.Generic;
 

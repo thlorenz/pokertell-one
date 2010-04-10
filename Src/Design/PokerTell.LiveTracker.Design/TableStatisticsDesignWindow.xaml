@@ -1,4 +1,4 @@
-<Window x:Class="PokerTell.LiveTracker.Design.Statistics.TableStatisticsDesignWindow"
+<Window x:Class="PokerTell.Statistics.Design.DetailedStatistics.TableStatisticsDesignWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="SuperPlayers Table"

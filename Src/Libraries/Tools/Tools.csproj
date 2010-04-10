@@ -90,6 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IBackgroundWorker.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interfaces\IDispatcher.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ExecuteProcess.cs" />

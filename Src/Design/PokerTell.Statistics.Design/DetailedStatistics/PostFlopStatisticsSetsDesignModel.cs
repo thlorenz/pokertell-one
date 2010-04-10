@@ -1,4 +1,4 @@
-namespace PokerTell.LiveTracker.Design.Statistics
+namespace PokerTell.Statistics.Design.DetailedStatistics
 {
     using PokerTell.Statistics.ViewModels;
 
@@ -9,11 +9,12 @@ namespace PokerTell.LiveTracker.Design.Statistics
             HeroXOrHeroBInPositionStatisticsSet = StatisticsSetSummaryDesignModel.GetHeroXOrHeroBSetSummaryDesignModel(1 + seatNumber);
             OppBIntoHeroInPositionStatisticsSet =
                 StatisticsSetSummaryDesignModel.GetReactionStatisticsSetSummaryDesignModel(02 + (3 * +seatNumber), 04 + seatNumber);
+            
 
             TotalCountOutOfPosition = 2345;
             TotalCountInPosition = 1003;
 
-            RegisterEvents();
+            // RegisterEvents();
         }
 
         public int TotalCountInPositionSet

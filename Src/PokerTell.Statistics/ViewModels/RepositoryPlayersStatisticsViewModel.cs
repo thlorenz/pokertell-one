@@ -2,6 +2,7 @@ namespace PokerTell.Statistics.ViewModels
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Windows.Input;
 
     using PokerTell.Infrastructure.Interfaces;
@@ -13,7 +14,7 @@ namespace PokerTell.Statistics.ViewModels
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
-    public class RepositoryPlayersStatisticsViewModel : NotifyPropertyChanged, IRepositoryPlayersStatisticsViewModel
+    public class RepositoryPlayersStatisticsViewModel : ItemsRegionViewModel, IRepositoryPlayersStatisticsViewModel
     {
         readonly IActiveAnalyzablePlayersSelector _activePlayersSelector;
 
@@ -48,9 +49,11 @@ namespace PokerTell.Statistics.ViewModels
             _activePlayersSelector = activePlayersSelector;
             FilterPopup = filterPopupViewModel;
 
-            PlayerIdentities = new List<IPlayerIdentity>(_repository.RetrieveAllPlayerIdentities());
+            PlayerIdentities = new List<IPlayerIdentity>(_repository.RetrieveAllPlayerIdentities().OrderBy(pi => pi.Name));
 
             RegisterEvents();
+
+            HeaderInfo = "Main";
         }
 
         void RegisterEvents()

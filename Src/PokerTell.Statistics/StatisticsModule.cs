@@ -9,6 +9,7 @@ namespace PokerTell.Statistics
 
     using Filters;
 
+    using Infrastructure;
     using Infrastructure.Interfaces.PokerHand;
     using Infrastructure.Interfaces.Statistics;
 
@@ -17,12 +18,17 @@ namespace PokerTell.Statistics
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
+    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
+
+    using Tools.Interfaces;
 
     using ViewModels;
     using ViewModels.Analyzation;
     using ViewModels.StatisticsSetDetails;
+
+    using Views;
 
     public class StatisticsModule : IModule
     {
@@ -43,7 +49,18 @@ namespace PokerTell.Statistics
         {
             RegisterViewsAndServices();
 
+            // Too slow in obtaining all the player identities
+            // GlobalCommands.StartServicesCommand.RegisterCommand(new DelegateCommand<object>(StartServices));
+
             Log.Info("got initialized.");
+        }
+
+        void StartServices(object ignore)
+        {
+            var repositoryPlayersStatisticsView = _container.Resolve<RepositoryPlayersStatisticsView>();
+            var region = _regionManager.Regions[ApplicationProperties.ShellMainRegion];
+            region.Add(repositoryPlayersStatisticsView);
+            region.Activate(repositoryPlayersStatisticsView);
         }
 
         void RegisterViewsAndServices()
@@ -55,6 +72,7 @@ namespace PokerTell.Statistics
                 .RegisterType<IPostFlopStatisticsSetsViewModel, PostFlopStatisticsSetsViewModel>()
 
                 // Statistics and ViewModel
+                .RegisterTypeAndConstructor<IBackgroundWorker, BackgroundWorkerAdapter>()
                 .RegisterTypeAndConstructor<IPlayerStatistics, PlayerStatistics>(() => _container.Resolve<IPlayerStatistics>())
                 .RegisterTypeAndConstructor<IPlayerStatisticsViewModel, PlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>())
                 .RegisterType<IPlayerStatisticsUpdater, PlayerStatisticsUpdater>()
@@ -121,6 +139,10 @@ namespace PokerTell.Statistics
                 .RegisterType<IFilterPopupViewModel, FilterPopupViewModel>()
                 .RegisterConstructor<IAnalyzablePokerPlayersFilterViewModel, AnalyzablePokerPlayersFilterViewModel>()
                 .RegisterType<IAnalyzablePokerPlayersFilterAdjustmentViewModel, AnalyzablePokerPlayersFilterAdjustmentViewModel>()
+
+                //Repository Players Statistics ViewModel
+                .RegisterType<IActiveAnalyzablePlayersSelector, ActiveAnalyzablePlayersSelector>()
+                .RegisterType<IRepositoryPlayersStatisticsViewModel, RepositoryPlayersStatisticsViewModel>()
                 ;
         }
     }

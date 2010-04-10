@@ -122,6 +122,14 @@
     <Resource Include="PokerTables\PokerStars\PokerStars.6-max.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="PokerTables\PokerStars\PokerStars.10-max.jpg" />
+    <Resource Include="PokerTables\PokerStars\PokerStars.2-max.jpg" />
+    <Resource Include="PokerTables\PokerStars\PokerStars.4-max.jpg" />
+    <Resource Include="PokerTables\PokerStars\PokerStars.7-max.jpg" />
+    <Resource Include="PokerTables\PokerStars\PokerStars.8-max.jpg" />
+    <Resource Include="PokerTables\PokerStars\PokerStars.9-max.jpg" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

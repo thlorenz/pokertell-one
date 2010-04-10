@@ -93,23 +93,8 @@
     <Compile Include="LiveTracker\PlayerStatusDesignModel.cs" />
     <Compile Include="PokerHand\DesignHelper.cs" />
     <Compile Include="PokerHand\HandHistoryDesignModel.cs" />
-    <Compile Include="Statistics\DetailedPreFlopStatisticsDesignModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Statistics\PlayerStatisticsDesignModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Statistics\PostFlopStatisticsSetsDesignModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Statistics\PreFlopStatisticsSetsDesignModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Statistics\StatisticsSetSummaryDesignModel.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statistics\TableStatisticsDesignWindow.xaml.cs">
+    <Compile Include="TableStatisticsDesignWindow.xaml.cs">
       <DependentUpon>TableStatisticsDesignWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -138,13 +123,17 @@
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>
       <Name>PokerTell.UnitTests</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PokerTell.Statistics.Design\PokerTell.Statistics.Design.csproj">
+      <Project>{D648D149-53C3-4649-AB0A-48921CEC5ABC}</Project>
+      <Name>PokerTell.Statistics.Design</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="LiveTracker\TableOverlayControllerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Statistics\TableStatisticsDesignWindow.xaml">
+    <Page Include="TableStatisticsDesignWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

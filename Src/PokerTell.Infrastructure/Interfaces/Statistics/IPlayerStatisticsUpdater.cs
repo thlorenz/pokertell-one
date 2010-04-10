@@ -3,6 +3,8 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
     using System;
     using System.Collections.Generic;
 
+    using PokerHand;
+
     public interface IPlayerStatisticsUpdater : IFluentInterface
     {
         void Update(IEnumerable<IPlayerStatistics> playerStatistics);
@@ -17,5 +19,7 @@ namespace PokerTell.Infrastructure.Interfaces.Statistics
         void Update(IPlayerStatistics playerStatistics);
 
         event Action<IPlayerStatistics> FinishedUpdatingPlayerStatistics;
+
+        IPlayerIdentity PlayerThatIsCurrentlyUpdated { get; }
     }
 }

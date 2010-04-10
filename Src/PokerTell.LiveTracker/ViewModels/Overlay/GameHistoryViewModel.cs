@@ -1,5 +1,6 @@
 namespace PokerTell.LiveTracker.ViewModels.Overlay
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
 
@@ -19,7 +20,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
         readonly IList<IConvertedPokerHand> _convertedHands;
 
-        readonly IDimensionsViewModel _dimensions;
+        readonly IDispatcherTimer _scrollToNewestHandTimer;
 
         readonly ISettings _settings;
 
@@ -28,16 +29,22 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         string _tableName;
 
         public GameHistoryViewModel(
-            ISettings settings, IDimensionsViewModel dimensions, IHandHistoryViewModel handHistoryViewModel, ICollectionValidator collectionValidator)
+            ISettings settings, 
+            IDimensionsViewModel dimensions, 
+            IHandHistoryViewModel handHistoryViewModel, 
+            IDispatcherTimer scrollToNewestHandTimer, 
+            ICollectionValidator collectionValidator)
         {
             _settings = settings;
-            _dimensions = dimensions;
             CurrentHandHistory = handHistoryViewModel;
+            _scrollToNewestHandTimer = scrollToNewestHandTimer;
             _collectionValidator = collectionValidator;
 
             Dimensions = dimensions.InitializeWith(settings.RetrieveRectangle(DimensionsKey, new Rectangle(0, 0, 600, 200)));
 
             _convertedHands = new List<IConvertedPokerHand>();
+
+            RegisterEvents();
         }
 
         public IHandHistoryViewModel CurrentHandHistory { get; protected set; }
@@ -53,6 +60,8 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 {
                     CurrentHandHistory.UpdateWith(_convertedHands[_currentHandIndex]);
                     RaisePropertyChanged(() => CurrentHandIndex);
+
+                    MakeSureWeScrollToTheNewestHandShortlyIfNecessary();
                 }
             }
         }
@@ -62,6 +71,11 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         public int HandCount
         {
             get { return _convertedHands.Count; }
+        }
+
+        public bool NewestHandIsDisplayed
+        {
+            get { return HandCount == 0 || CurrentHandIndex == HandCount - 1; }
         }
 
         public string TableName
@@ -78,7 +92,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
         {
             if (!_convertedHands.Contains(convertedPokerHand))
             {
-                bool lastHandIsDisplayed = HandCount == 0 || CurrentHandIndex == HandCount - 1;
+                bool newestHandWasDisplayed = NewestHandIsDisplayed;
 
                 _convertedHands.Add(convertedPokerHand);
 
@@ -87,7 +101,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 RaisePropertyChanged(() => HandCount);
 
                 // only update the display if the user is not currently browsing the hands
-                if (lastHandIsDisplayed)
+                if (newestHandWasDisplayed)
                     CurrentHandIndex = HandCount - 1;
             }
 
@@ -99,6 +113,23 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             _settings.Set(DimensionsKey, Dimensions.Rectangle);
 
             return this;
+        }
+
+        void MakeSureWeScrollToTheNewestHandShortlyIfNecessary()
+        {
+            if (NewestHandIsDisplayed)
+                _scrollToNewestHandTimer.Stop();
+            else
+                _scrollToNewestHandTimer.Start();
+        }
+
+        void RegisterEvents()
+        {
+            _scrollToNewestHandTimer.Interval = TimeSpan.FromSeconds(30.0);
+            _scrollToNewestHandTimer.Tick += (s, e) => {
+                CurrentHandIndex = HandCount - 1;
+                _scrollToNewestHandTimer.Stop();
+            };
         }
     }
 }

@@ -5,27 +5,19 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{32736399-C329-453F-8AE0-A5EF0B916E4B}</ProjectGuid>
+    <ProjectGuid>{D648D149-53C3-4649-AB0A-48921CEC5ABC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PokerTell.UnitTests</RootNamespace>
-    <AssemblyName>PokerTell.UnitTests</AssemblyName>
+    <RootNamespace>PokerTell.Statistics.Design</RootNamespace>
+    <AssemblyName>PokerTell.Statistics.Design</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\Build.Tests\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -39,20 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\Log4Net\log4net.dll</HintPath>
+      <HintPath>..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
     </Reference>
-    <Reference Include="Moq, Version=3.1.416.3, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+    <Reference Include="Moq, Version=4.0.812.4, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\Moq\Moq.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Lib\Nunit\nunit.framework.dll</HintPath>
+      <HintPath>..\..\..\Lib\Moq\Moq.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -64,37 +51,28 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase">
-      <RequiredTargetFramework>3.0</RequiredTargetFramework>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fakes\BackgroundWorkerMock.cs" />
-    <Compile Include="Fakes\MockUserConfiguration.cs" />
-    <Compile Include="Tools\Affirmer.cs" />
-    <Compile Include="Tools\CustomDispatcherTimers.cs" />
-    <Compile Include="Tools\For.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tools\StubBuilder.cs" />
-    <Compile Include="TestWithLog.cs" />
-    <Compile Include="TestWithMockData.cs" />
-    <Compile Include="Tools\StubSetup.cs" />
-    <Compile Include="Tools\StubWith.cs" />
-    <Compile Include="Tools\TestBinarySerialization.cs" />
-    <Compile Include="Tools\ThatStubBuilder.cs" />
-    <Compile Include="Tools\UnitTestingExtensions.cs" />
-    <Compile Include="Tools\ValueInfo.cs" />
-    <Compile Include="Tools\ValueSetup.cs" />
-    <Compile Include="Tools\TestXmlSerialization.cs" />
+    <Compile Include="RepositoryPlayersStatisticsDesignModel.cs" />
+    <Compile Include="DetailedStatistics\DetailedPreFlopStatisticsDesignModel.cs" />
+    <Compile Include="DetailedStatistics\PlayerStatisticsDesignModel.cs" />
+    <Compile Include="DetailedStatistics\PostFlopStatisticsSetsDesignModel.cs" />
+    <Compile Include="DetailedStatistics\PreFlopStatisticsSetsDesignModel.cs" />
+    <Compile Include="DetailedStatistics\StatisticsSetSummaryDesignModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">
+    <ProjectReference Include="..\..\Libraries\Tools\Tools.csproj">
       <Project>{227FB3C9-3DEF-4A56-9190-24B511A5301B}</Project>
       <Name>Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
+    <ProjectReference Include="..\..\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj">
       <Project>{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}</Project>
       <Name>PokerTell.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\PokerTell.Statistics\PokerTell.Statistics.csproj">
+      <Project>{40A1B01E-8BBC-4F9E-B5E8-AA0BE4C70988}</Project>
+      <Name>PokerTell.Statistics</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -105,4 +83,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

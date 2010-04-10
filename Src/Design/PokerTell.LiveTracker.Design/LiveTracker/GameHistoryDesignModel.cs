@@ -10,6 +10,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     using PokerTell.LiveTracker.Design.PokerHand;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
+    using Tools.Interfaces;
     using Tools.Validation;
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
@@ -17,7 +18,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     public class GameHistoryDesignModel : GameHistoryViewModel
     {
         public GameHistoryDesignModel()
-            : base(SettingsStub, new DimensionsViewModel(), HandHistoryDesign.Model, new CollectionValidator())
+            : base(SettingsStub, new DimensionsViewModel(), HandHistoryDesign.Model, new DispatcherTimerAdapter(), new CollectionValidator())
         {
         }
 

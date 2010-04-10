@@ -124,6 +124,33 @@ namespace PokerTell.Statistics.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        public static string RepositoryPlayersStatisticsView_Filter {
+            get {
+                return ResourceManager.GetString("RepositoryPlayersStatisticsView_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Investigator.
+        /// </summary>
+        public static string RepositoryPlayersStatisticsView_Investigator {
+            get {
+                return ResourceManager.GetString("RepositoryPlayersStatisticsView_Investigator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Players.
+        /// </summary>
+        public static string RepositoryPlayersStatisticsView_Players {
+            get {
+                return ResourceManager.GetString("RepositoryPlayersStatisticsView_Players", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check or Bet.
         /// </summary>
         public static string StatisticsSets_CheckOrBet {

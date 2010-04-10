@@ -5,6 +5,8 @@ namespace PokerTell.SessionReview
     using System.Windows;
     using System.Windows.Controls;
 
+    using Infrastructure;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Modularity;
@@ -35,7 +37,7 @@ namespace PokerTell.SessionReview
 
            MenuItem sessionReviewMenuItem = _container.Resolve<SessionReviewMenuItemFactory>().Create();
           
-            _regionManager.Regions["Shell.MainMenuRegion"].Add(sessionReviewMenuItem);
+            _regionManager.Regions[ApplicationProperties.ShellMainMenuRegion].Add(sessionReviewMenuItem);
 
             Log.Info("got initialized.");
         }
