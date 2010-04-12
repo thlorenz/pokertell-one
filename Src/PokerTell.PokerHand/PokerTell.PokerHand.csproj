@@ -195,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\HandHistoryViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\HoleCardsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

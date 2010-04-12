@@ -17,6 +17,8 @@
                        Maximum="{Binding HandCount, Converter={StaticResource CountToMaximumConverter}}"
                        Value="{Binding CurrentHandIndex, Mode=TwoWay}"
                        MinHeight="150"
+                       Width="15"
+                       Margin="0,3"
                        SmallChange="1"
                        LargeChange="10"/>
         </Grid>

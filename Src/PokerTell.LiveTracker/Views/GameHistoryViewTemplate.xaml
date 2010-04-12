@@ -23,7 +23,8 @@
                        LargeChange="5"
                        Value="{Binding CurrentHandIndex, Mode=TwoWay}"
                        MinHeight="150"
-                       Margin="1,0" />
+                       Width="15"
+                       Margin="1,3" />
         </Grid>
     </DataTemplate>
 </ResourceDictionary>

@@ -11,6 +11,8 @@
                     <ResourceDictionary Source="HoleCardsView.xaml" />
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
                     <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
+                    <!-- Needs to appear behind ExpressionDark Dictionary to override ist ListView styles-->
+                    <ResourceDictionary Source="HandHistoryViewStyles.xaml" />
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
@@ -101,7 +103,13 @@
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ContentControl Width="50" Content="{Binding HoleCards}"/>
+                                        <Border Background="Transparent" 
+                                                Width="50"
+                                                CornerRadius="2" 
+                                                Padding="2"
+                                                Visibility="{Binding HoleCards.Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
+                                            <ContentControl  Content="{Binding HoleCards}" Background="Transparent"/>
+                                        </Border>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

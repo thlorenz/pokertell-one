@@ -8,9 +8,7 @@
         <DataTemplate.Resources>
             <Converters:BoolToVisibleOrCollapsedConverter x:Key="BoolToVisibleOrCollapsedConverter"/>
         </DataTemplate.Resources>
-        <Border 
-                Background="White" CornerRadius="2" Padding="2"
-                Visibility="{Binding Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
+     
 
             <StackPanel Orientation="Horizontal"
                         ToolTip="{x:Static Properties:Resources.HandHistoryView_Cards_ToolTip}"
@@ -39,6 +37,5 @@
                 </StackPanel>
             </StackPanel>
             
-        </Border>
     </DataTemplate>
 </ResourceDictionary>
