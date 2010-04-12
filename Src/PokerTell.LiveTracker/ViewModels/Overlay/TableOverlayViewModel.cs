@@ -5,7 +5,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using System.Linq;
     using System.Windows.Input;
 
-    using Infrastructure.Interfaces.Statistics;
+    using Infrastructure.Interfaces.LiveTracker;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -19,56 +19,50 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     {
         readonly IOverlayBoardViewModel _board;
 
-        int _showHoleCardsDuration;
+        readonly IConstructor<IPlayerOverlayViewModel> _playerOverlayViewModelMake;
 
         IEnumerable<IConvertedPokerPlayer> _convertedPokerPlayers;
 
+        bool _detailedStatisticsIsSelected;
+
+        bool _gameHistoryIsPoppedIn;
+
+        bool _gameHistoryIsSelected;
+
+        string _heroName;
+
+        ICommand _hideOverlayDetailsCommand;
+
         ISeatMapper _seatMapper;
 
-        readonly IConstructor<IPlayerOverlayViewModel> _playerOverlayViewModelMake;
+        ICommand _showGameHistoryCommand;
 
-        public TableOverlayViewModel(
-            IOverlayBoardViewModel boardViewModel, 
-            IOverlaySettingsAidViewModel overlaySettingsAid, 
-            IConstructor<IPlayerOverlayViewModel> playerOverlayViewModelMake)
+        int _showHoleCardsDuration;
+
+        ICommand _showLiveStatsCommand;
+
+        bool _showOverlayDetails;
+
+        readonly ILiveTrackerSettingsViewModel _liveTrackerSettings;
+
+        public TableOverlayViewModel(ILiveTrackerSettingsViewModel liveTrackerSettings, IOverlayBoardViewModel boardViewModel, IOverlaySettingsAidViewModel overlaySettingsAid, IConstructor<IPlayerOverlayViewModel> playerOverlayViewModelMake)
         {
+            _liveTrackerSettings = liveTrackerSettings;
             _board = boardViewModel;
             OverlaySettingsAid = overlaySettingsAid;
             _playerOverlayViewModelMake = playerOverlayViewModelMake;
+
+            GameHistoryIsPoppedIn = _liveTrackerSettings.GameHistoryIsPoppedIn;
         }
+
+        public event Action ShowGameHistoryWindow = delegate { };
+
+        public event Action ShowLiveStatsWindow = delegate { };
 
         public IOverlayBoardViewModel Board
         {
             get { return _board; }
         }
-
-        public IPokerTableStatisticsViewModel PokerTableStatisticsViewModel { get; protected set; }
-
-        public IList<IPlayerOverlayViewModel> PlayerOverlays { get; protected set; }
-
-        public ITableOverlaySettingsViewModel OverlaySettings { get; protected set; }
-
-        public IGameHistoryViewModel GameHistory { get; protected set; }
-
-        public IOverlaySettingsAidViewModel OverlaySettingsAid { get; protected set; }
-
-        bool _showOverlayDetails;
-
-        public bool ShowOverlayDetails
-        {
-            get { return _showOverlayDetails; }
-            set
-            {
-                _showOverlayDetails = value;
-                RaisePropertyChanged(() => ShowOverlayDetails);
-            }
-        }
-
-        public event Action ShowLiveStatsWindowRequested = delegate { };
-
-        public event Action ShowGameHistoryWindowRequested = delegate { };
-
-        bool _detailedStatisticsIsSelected;
 
         public bool DetailedStatisticsIsSelected
         {
@@ -80,7 +74,17 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        bool _gameHistoryIsSelected;
+        public IGameHistoryViewModel GameHistory { get; protected set; }
+
+        public bool GameHistoryIsPoppedIn
+        {
+            get { return _gameHistoryIsPoppedIn; }
+            set
+            {
+                _gameHistoryIsPoppedIn = value;
+                RaisePropertyChanged(() => GameHistoryIsPoppedIn);
+            }
+        }
 
         public bool GameHistoryIsSelected
         {
@@ -92,41 +96,24 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             }
         }
 
-        public ITableOverlayViewModel HideAllPlayers()
-        {
-            PlayerOverlays.ForEach(po => po.UpdateStatusWith(null));
-            return this;
-        }
-
-        ICommand _showLiveStatsWindowCommand;
-
-        string _heroName;
-
-        public ICommand ShowLiveStatsWindowCommand
+        public ICommand HideOverlayDetailsCommand
         {
             get
             {
-                return _showLiveStatsWindowCommand ?? (_showLiveStatsWindowCommand = new SimpleCommand
+                return _hideOverlayDetailsCommand ?? (_hideOverlayDetailsCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => ShowLiveStatsWindowRequested()
+                        ExecuteDelegate = arg => ShowOverlayDetails = false
                     });
             }
         }
 
-        ICommand _showGameHistoryWindowCommand;
+        public ITableOverlaySettingsViewModel OverlaySettings { get; protected set; }
 
-        public ICommand ShowGameHistoryWindowCommand
-        {
-            get
-            {
-                return _showGameHistoryWindowCommand ?? (_showGameHistoryWindowCommand = new SimpleCommand
-                    {
-                        ExecuteDelegate = arg => ShowGameHistoryWindowRequested()
-                    });
-            }
-        }
+        public IOverlaySettingsAidViewModel OverlaySettingsAid { get; protected set; }
 
-        ICommand _showGameHistoryCommand;
+        public IList<IPlayerOverlayViewModel> PlayerOverlays { get; protected set; }
+
+        public IPokerTableStatisticsViewModel PokerTableStatisticsViewModel { get; protected set; }
 
         public ICommand ShowGameHistoryCommand
         {
@@ -135,24 +122,45 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 return _showGameHistoryCommand ?? (_showGameHistoryCommand = new SimpleCommand
                     {
                         ExecuteDelegate = arg => {
-                            ShowOverlayDetails = true;
-                            GameHistoryIsSelected = true;
-                        },
+                            if (GameHistoryIsPoppedIn)
+                            {
+                                ShowOverlayDetails = true;
+                                GameHistoryIsSelected = true;
+                            }
+                            else
+                            {
+                                ShowGameHistoryWindow();
+                            }
+                        }, 
                     });
             }
         }
 
-        ICommand _hideOverlayDetailsCommand;
-
-        public ICommand HideOverlayDetailsCommand
+        public ICommand ShowLiveStatsWindowCommand
         {
             get
             {
-                return _hideOverlayDetailsCommand ?? (_hideOverlayDetailsCommand = new SimpleCommand
+                return _showLiveStatsCommand ?? (_showLiveStatsCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg =>  ShowOverlayDetails = false
+                        ExecuteDelegate = arg => ShowLiveStatsWindow()
                     });
             }
+        }
+
+        public bool ShowOverlayDetails
+        {
+            get { return _showOverlayDetails; }
+            set
+            {
+                _showOverlayDetails = value;
+                RaisePropertyChanged(() => ShowOverlayDetails);
+            }
+        }
+
+        public ITableOverlayViewModel HideAllPlayers()
+        {
+            PlayerOverlays.ForEach(po => po.UpdateStatusWith(null));
+            return this;
         }
 
         public ITableOverlayViewModel InitializeWith(
@@ -178,32 +186,6 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             return this;
         }
 
-        void RegisterEvents()
-        {
-            PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
-            PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => {
-                ShowOverlayDetails = true;
-                DetailedStatisticsIsSelected = true;
-            };
-
-            PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => {
-                ShowOverlayDetails = true;
-                DetailedStatisticsIsSelected = true;
-            };
-
-            PlayerOverlays.ForEach(
-                po => po.FilterAdjustmentRequested += playerStatisticsViewModel => PokerTableStatisticsViewModel.DisplayFilterAdjustmentPopup(playerStatisticsViewModel));
-        }
-
-        void CreatePlayerOverlays(int totalSeats)
-        {
-            PlayerOverlays = new List<IPlayerOverlayViewModel>();
-            foreach (var _ in 1.To(totalSeats))
-            {
-                PlayerOverlays.Add(_playerOverlayViewModelMake.New);
-            }
-        }
-
         public ITableOverlayViewModel UpdateWith(IEnumerable<IConvertedPokerPlayer> pokerPlayers, string board)
         {
             _convertedPokerPlayers = pokerPlayers;
@@ -216,6 +198,21 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             ShowBoardAndHoleCards(board);
 
             return this;
+        }
+
+        void CreatePlayerOverlays(int totalSeats)
+        {
+            PlayerOverlays = new List<IPlayerOverlayViewModel>();
+            foreach (var _ in 1.To(totalSeats))
+            {
+                PlayerOverlays.Add(_playerOverlayViewModelMake.New);
+            }
+        }
+
+        int GetMappedSeatIndexFor(int playerSeat)
+        {
+            var mappedSeat = _seatMapper.Map(playerSeat, OverlaySettings.PreferredSeat);
+            return mappedSeat - 1;
         }
 
         void InitializeOverlaySettings(ITableOverlaySettingsViewModel overlaySettings)
@@ -233,6 +230,49 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 UpdatePlayerOverlayStatuses();
                 UpdatePlayerStatistics();
             };
+        }
+
+        void RegisterEvents()
+        {
+            PokerTableStatisticsViewModel.PlayersStatisticsWereUpdated += UpdatePlayerStatistics;
+            PokerTableStatisticsViewModel.UserSelectedStatisticsSet += _ => {
+                ShowOverlayDetails = true;
+                DetailedStatisticsIsSelected = true;
+            };
+
+            PokerTableStatisticsViewModel.UserBrowsedAllHands += _ => {
+                ShowOverlayDetails = true;
+                DetailedStatisticsIsSelected = true;
+            };
+
+            GameHistory.PopMeIn += () => {
+                GameHistoryIsPoppedIn = true;
+                ShowOverlayDetails = true;
+                GameHistoryIsSelected = true;
+
+                UpdateLiveTrackerSettings();
+            };
+
+            GameHistory.PopMeOut += () => {
+                ShowGameHistoryWindow();
+                DetailedStatisticsIsSelected = true;
+                GameHistoryIsPoppedIn = false;
+
+                UpdateLiveTrackerSettings();
+            };
+
+            PlayerOverlays.ForEach(po => po.FilterAdjustmentRequested +=
+                                         playerStatisticsViewModel =>
+                                         PokerTableStatisticsViewModel.DisplayFilterAdjustmentPopup(playerStatisticsViewModel));
+        }
+
+        void UpdateLiveTrackerSettings()
+        {
+            _liveTrackerSettings
+                .LoadSettings()
+                .GameHistoryIsPoppedIn = GameHistoryIsPoppedIn;
+            _liveTrackerSettings
+                .SaveSettings();
         }
 
         void ShowBoardAndHoleCards(string board)
@@ -260,12 +300,6 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
 
                 UpdatePlayerOverlayStatusFor(pokerPlayer, mappedSeatIndex);
             }
-        }
-
-        int GetMappedSeatIndexFor(int playerSeat)
-        {
-            var mappedSeat = _seatMapper.Map(playerSeat, OverlaySettings.PreferredSeat);
-            return mappedSeat - 1;
         }
 
         void UpdatePlayerOverlayStatusFor(IConvertedPokerPlayer pokerPlayer, int index)

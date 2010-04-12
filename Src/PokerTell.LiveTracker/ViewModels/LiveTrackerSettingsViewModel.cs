@@ -42,6 +42,8 @@ namespace PokerTell.LiveTracker.ViewModels
 
         const string ShowTableOverlayElement = "ShowTableOverlay";
 
+        const string GameHistoryIsPoppedInElement = "GameHistoryIsPoppedIn";
+
         readonly IPokerRoomSettingsDetector _autoDetector;
 
         readonly IHandHistoryFolderAutoDetectResultsViewModel _autoDetectResultsViewModel;
@@ -204,15 +206,20 @@ namespace PokerTell.LiveTracker.ViewModels
             {
                 return _saveSettingsCommand ?? (_saveSettingsCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => {
-                            var xDoc = CreateXDocumentFor(this);
-                            _xDocumentHandler.Save(xDoc);
-                            _eventAggregator
-                                .GetEvent<LiveTrackerSettingsChangedEvent>()
-                                .Publish(this);
-                        }
+                        ExecuteDelegate = arg => SaveSettings()
                     });
             }
+        }
+
+        public ILiveTrackerSettingsViewModel SaveSettings()
+        {
+            var xDoc = CreateXDocumentFor(this);
+            _xDocumentHandler.Save(xDoc);
+            _eventAggregator
+                .GetEvent<LiveTrackerSettingsChangedEvent>()
+                .Publish(this);
+
+            return this;
         }
 
         public string SelectedHandHistoryFilesPath { get; set; }
@@ -300,6 +307,8 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
+        public bool GameHistoryIsPoppedIn { get; set; }
+
         public static XDocument CreateXDocumentFor(ILiveTrackerSettingsViewModel lts)
         {
             return
@@ -310,6 +319,7 @@ namespace PokerTell.LiveTracker.ViewModels
                                  new XElement(ShowLiveStatsWindowOnStartupElement, lts.ShowLiveStatsWindowOnStartup), 
                                  new XElement(ShowTableOverlayElement, lts.ShowTableOverlay), 
                                  new XElement(ShowMyStatisticsElement, lts.ShowMyStatistics), 
+                                 new XElement(GameHistoryIsPoppedInElement, lts.GameHistoryIsPoppedIn),
                                  Utils.XElementForCollection(HandHistoryFilesPathsElement, lts.HandHistoryFilesPaths)));
         }
 
@@ -364,6 +374,7 @@ namespace PokerTell.LiveTracker.ViewModels
             ShowTableOverlay = Utils.GetBoolFrom(xml.Element(ShowTableOverlayElement), true);
             ShowMyStatistics = Utils.GetBoolFrom(xml.Element(ShowMyStatisticsElement), false);
             ShowHoleCardsDuration = Utils.GetIntFrom(xml.Element(ShowHoleCardsDurationElement), 5);
+            GameHistoryIsPoppedIn = Utils.GetBoolFrom(xml.Element(GameHistoryIsPoppedInElement), true);
 
             HandHistoryFilesPaths = new ObservableCollection<string>(
                 Utils.GetStringsFrom(xml.Element(HandHistoryFilesPathsElement), new List<string>())
@@ -392,6 +403,7 @@ namespace PokerTell.LiveTracker.ViewModels
             ShowTableOverlay = true;
             ShowMyStatistics = false;
             ShowHoleCardsDuration = 5;
+            GameHistoryIsPoppedIn = true;
 
             HandHistoryFilesPaths = new ObservableCollection<string>();
         }

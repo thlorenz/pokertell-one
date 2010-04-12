@@ -124,6 +124,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             It should_set_HistoryPaths_to_empty = () => _sut.HandHistoryFilesPaths.ShouldBeEmpty();
 
+            It should_set_GameHistoryIsPoppedIn_to_true = () => _sut.GameHistoryIsPoppedIn.ShouldBeTrue();
+
             It should_store_the_HandHistoyFilesPaths_in_an_OvservableCollection = () => _sut.HandHistoryFilesPaths.ShouldBeOfType<ObservableCollection<string>>();
         }
 
@@ -147,6 +149,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                         ShowLiveStatsWindowOnStartup = setTrue, 
                         ShowTableOverlay = setTrue, 
                         ShowMyStatistics = setTrue,
+                        GameHistoryIsPoppedIn = setTrue,
                         ShowHoleCardsDuration = duration
                     };
 
@@ -164,6 +167,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_set_ShowTableOverlay_to_true = () => _sut.ShowTableOverlay.ShouldBeTrue();
 
             It should_set_ShowMyStatistics_to_true = () => _sut.ShowMyStatistics.ShouldBeTrue();
+
+            It should_set_GameHistoryIsPoppedIn_to_true = () => _sut.GameHistoryIsPoppedIn.ShouldBeTrue();
 
             It should_set_HoleCardsDuration_to_1 = () => _sut.ShowHoleCardsDuration.ShouldEqual(duration);
         }
@@ -188,6 +193,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                         ShowLiveStatsWindowOnStartup = setFalse, 
                         ShowTableOverlay = setFalse, 
                         ShowMyStatistics = setFalse,
+                        GameHistoryIsPoppedIn = setFalse,
                         ShowHoleCardsDuration = duration
                     };
 
@@ -205,6 +211,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_set_ShowTableOverlay_to_false = () => _sut.ShowTableOverlay.ShouldBeFalse();
 
             It should_set_ShowMyStatistics_to_false = () => _sut.ShowMyStatistics.ShouldBeFalse();
+
+            It should_set_GameHistoryIsPoppedIn_to_false = () => _sut.GameHistoryIsPoppedIn.ShouldBeFalse();
 
             It should_set_HoleCardsDuration_to_2 = () => _sut.ShowHoleCardsDuration.ShouldEqual(duration);
         }

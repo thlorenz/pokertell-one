@@ -3,12 +3,14 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
     using System;
     using System.Collections.Generic;
     using System.Drawing;
+    using System.Windows.Input;
 
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.LiveTracker.Interfaces;
 
     using Tools.Interfaces;
+    using Tools.WPF;
     using Tools.WPF.Interfaces;
     using Tools.WPF.ViewModels;
 
@@ -131,5 +133,34 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
                 _scrollToNewestHandTimer.Stop();
             };
         }
+
+        ICommand _popoutCommand;
+
+        public ICommand PopoutCommand
+        {
+            get
+            {
+                return _popoutCommand ?? (_popoutCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => PopMeOut()
+                    });
+            }
+        }
+
+        ICommand _popinCommand;
+
+        public ICommand PopinCommand
+        {
+            get
+            {
+                return _popinCommand ?? (_popinCommand = new SimpleCommand {
+                        ExecuteDelegate = arg => PopMeIn()
+                    });
+            }
+        }
+
+        public event Action PopMeOut = delegate { };
+
+        public event Action PopMeIn = delegate { };
     }
 }

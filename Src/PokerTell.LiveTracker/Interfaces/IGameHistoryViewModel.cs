@@ -1,5 +1,8 @@
 namespace PokerTell.LiveTracker.Interfaces
 {
+    using System;
+    using System.Windows.Input;
+
     using Infrastructure.Interfaces;
 
     using PokerTell.Infrastructure.Interfaces.PokerHand;
@@ -18,8 +21,16 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IDimensionsViewModel Dimensions { get; }
 
+        ICommand PopoutCommand { get; }
+
+        ICommand PopinCommand { get; }
+
         IGameHistoryViewModel AddNewHand(IConvertedPokerHand convertedPokerHand);
 
         IGameHistoryViewModel SaveDimensions();
+
+        event Action PopMeOut;
+
+        event Action PopMeIn;
     }
 }

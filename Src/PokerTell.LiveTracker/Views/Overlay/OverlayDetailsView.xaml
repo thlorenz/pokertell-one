@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PokerTell.LiveTracker.Views.Overlay.OverlayDetailsView"
+<UserControl x:Class="PokerTell.LiveTracker.Views.Overlay.OverlayDetailsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools"
@@ -63,11 +63,13 @@
                                             </TabItem>
 
                                             <!-- GameHistory -->
-                                            <TabItem Header="H" IsSelected="{Binding GameHistoryIsSelected, Mode=TwoWay}">
+                                            <TabItem Header="H" 
+                                                     IsSelected="{Binding GameHistoryIsSelected, Mode=TwoWay}" 
+                                                     Visibility="{Binding GameHistoryIsPoppedIn, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}" >
                                                 <!-- This Viewbox makes sure that always the entire history is visible and that the tabitem header keeps its size-->
-                                                <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
-                                             Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
-                                             Stretch="Fill"
+                                            <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
+                                                     Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
+                                                     Stretch="Fill"
                                              >
                                                     <ContentControl Content="{Binding GameHistory}" PreviewMouseWheel="GameHistory_PreviewMouseWheel" />
                                                 </Viewbox>
@@ -82,7 +84,7 @@
                                         <ContentControl Content="{Binding PokerTableStatisticsViewModel.DetailedStatisticsAnalyzer}"
                                                         ContentTemplate="{StaticResource InvestigatorNavigationTemplate}"
                                                         Visibility="{Binding DetailedStatisticsIsSelected, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
-                                        <Button Command="{Binding ShowGameHistoryWindowCommand}"
+                                        <Button Command="{Binding GameHistory.PopoutCommand}"
                                                 ToolTip="{x:Static Properties:Resources.OverlayDetailsView_ToolTip_Popout}"
                                                 Visibility="{Binding GameHistoryIsSelected, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
                                                 Padding="0"

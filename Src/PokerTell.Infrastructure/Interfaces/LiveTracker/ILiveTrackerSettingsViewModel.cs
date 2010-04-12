@@ -34,10 +34,14 @@ namespace PokerTell.Infrastructure.Interfaces.LiveTracker
 
         ICommand DetectPreferredSeatsCommand { get; }
 
+        bool GameHistoryIsPoppedIn { get; set; }
+
         ILiveTrackerSettingsViewModel LoadSettings();
 
         ILiveTrackerSettingsViewModel DetectAndAddHandHistoryFolders();
 
         IEnumerable<string> DetectAndSavePreferredSeats();
+
+        ILiveTrackerSettingsViewModel SaveSettings();
     }
 }

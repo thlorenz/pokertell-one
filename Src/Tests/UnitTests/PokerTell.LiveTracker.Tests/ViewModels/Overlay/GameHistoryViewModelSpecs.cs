@@ -223,5 +223,29 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
             It should_stop_the_scroll_to_newest_hand_timer = () => _scrollToNewestHandTimer_Mock.Verify(t => t.Stop(), Times.Exactly(5));
         }
+
+        [Subject(typeof(GameHistoryViewModel), "Popin Command")]
+        public class when_the_user_wants_to_pop_in_the_game_history : GameHistoryViewModelSpecs
+        {
+            static bool popMeInWasRaised;
+
+            Establish context = () => _sut.PopMeIn += () => popMeInWasRaised = true;
+
+            Because of = () => _sut.PopinCommand.Execute(null);
+
+            It should_let_me_know = () => popMeInWasRaised.ShouldBeTrue();
+        }
+
+        [Subject(typeof(GameHistoryViewModel), "Popout Command")]
+        public class when_the_user_wants_to_pop_out_the_game_history : GameHistoryViewModelSpecs
+        {
+            static bool popMeOutWasRaised;
+
+            Establish context = () => _sut.PopMeOut += () => popMeOutWasRaised = true;
+
+            Because of = () => _sut.PopoutCommand.Execute(null);
+
+            It should_let_me_know = () => popMeOutWasRaised.ShouldBeTrue();
+        }
     }
 }

@@ -281,7 +281,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             Establish context = () => _sut.ShowLiveStatsWindowRequested += () => showLiveStatsWasReraised = true;
 
-            Because of = () => _tableOverlay_Mock.Raise(to => to.ShowLiveStatsWindowRequested += null);
+            Because of = () => _tableOverlay_Mock.Raise(to => to.ShowLiveStatsWindow += null);
 
             It should_let_me_know = () => showLiveStatsWasReraised.ShouldBeTrue();
         }
@@ -293,7 +293,7 @@ namespace PokerTell.LiveTracker.Tests.Overlay
 
             Establish context = () => _sut.ShowGameHistoryWindowRequested += () => showGameHistoryWasReraised = true;
 
-            Because of = () => _tableOverlay_Mock.Raise(to => to.ShowGameHistoryWindowRequested += null);
+            Because of = () => _tableOverlay_Mock.Raise(to => to.ShowGameHistoryWindow += null);
 
             It should_let_me_know = () => showGameHistoryWasReraised.ShouldBeTrue();
         }

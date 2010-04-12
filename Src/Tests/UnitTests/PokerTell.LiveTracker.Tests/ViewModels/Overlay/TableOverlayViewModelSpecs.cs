@@ -3,6 +3,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
     using System;
     using System.Linq;
 
+    using Infrastructure.Interfaces.LiveTracker;
+
     using Machine.Specifications;
 
     using Moq;
@@ -42,6 +44,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
         protected static int _showHoleCardsDuration;
 
+        protected static Mock<ILiveTrackerSettingsViewModel> _liveTrackerSettings_Mock;
+
         static Constructor<IPlayerOverlayViewModel> playerOverlaysConstructor;
 
         Establish specContext = () => {
@@ -50,6 +54,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             _gameHistoryVM_Stub = new Mock<IGameHistoryViewModel>();
             _pokerTableStatisticsVM_Stub = new Mock<IPokerTableStatisticsViewModel>();
             _tableOverlaySettingsVM_Stub = new Mock<ITableOverlaySettingsViewModel>();
+            _liveTrackerSettings_Mock = new Mock<ILiveTrackerSettingsViewModel>();
+            _liveTrackerSettings_Mock
+                .Setup(lts => lts.LoadSettings())
+                .Returns(_liveTrackerSettings_Mock.Object);
+            _liveTrackerSettings_Mock
+                .Setup(lts => lts.SaveSettings())
+                .Returns(_liveTrackerSettings_Mock.Object);
 
             _playerStatus_Ted_Mock = new Mock<IPlayerStatusViewModel>();
             _playerStatus_Bob_Mock = new Mock<IPlayerStatusViewModel>();
@@ -80,7 +91,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
 
                 return _playerOverlay_Bob_VM_Mock.Object;
             });
-            _sut = new TableOverlayViewModel(_boardVM_Mock.Object, _overlaySettingsAidVM_Mock.Object, playerOverlaysConstructor);
+
+            _sut = new TableOverlayViewModel(_liveTrackerSettings_Mock.Object, _boardVM_Mock.Object, _overlaySettingsAidVM_Mock.Object, playerOverlaysConstructor);
         };
 
         public abstract class Ctx_Initialized : TableOverlayViewModelSpecs
@@ -386,16 +398,65 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
         {
             static bool showLiveStatsWindowWasRaised;
 
-            Establish context = () => _sut.ShowLiveStatsWindowRequested += () => showLiveStatsWindowWasRaised = true;
+            Establish context = () => _sut.ShowLiveStatsWindow += () => showLiveStatsWindowWasRaised = true;
 
             Because of = () => _sut.ShowLiveStatsWindowCommand.Execute(null);
 
             It should_let_me_know = () => showLiveStatsWindowWasRaised.ShouldBeTrue();
         }
 
-        [Subject(typeof(TableOverlayViewModel), "ShowGameHistory Command")]
-        public class when_the_user_wants_to_browse_the_game_history : TableOverlayViewModelSpecs
+        [Subject(typeof(TableOverlayViewModel), "PopoutGameHistory")]
+        public class when_the_gamehistory_asks_to_be_popped_out : Ctx_Initialized
         {
+            static bool showGameHistoryWindowWasRaised;
+
+            Establish context = () => {
+                _sut.ShowGameHistoryWindow += () => showGameHistoryWindowWasRaised = true;
+                _sut.GameHistoryIsPoppedIn = true;
+            };
+
+            Because of = () => _gameHistoryVM_Stub.Raise(gh => gh.PopMeOut += null);
+
+            It should_set_GameHistoryIsPoppedIn_to_false = () => _sut.GameHistoryIsPoppedIn.ShouldBeFalse();
+
+            It should_select_the_detailed_statistics = () => _sut.DetailedStatisticsIsSelected.ShouldBeTrue();
+
+            It should_request_to_show_the_game_history_window = () => showGameHistoryWindowWasRaised.ShouldBeTrue();
+
+            It should_load_the_LiveTrackerSettings = () => _liveTrackerSettings_Mock.Verify(lts => lts.LoadSettings());
+
+            It should_set_the_GameHistoryIsPoppedIn_in_the_LiveTrackerSettings_to_false
+                = () => _liveTrackerSettings_Mock.VerifySet(lts => lts.GameHistoryIsPoppedIn = false);
+
+            It should_save_the_LiveTrackerSettings = () => _liveTrackerSettings_Mock.Verify(lts => lts.SaveSettings());
+        }
+
+        [Subject(typeof(TableOverlayViewModel), "PopoutGameHistory")]
+        public class when_the_gamehistory_asks_to_be_popped_in : Ctx_Initialized
+        {
+            Establish context = () => _sut.GameHistoryIsPoppedIn = false;
+
+            Because of = () => _gameHistoryVM_Stub.Raise(gh => gh.PopMeIn += null);
+
+            It should_set_GameHistoryIsPoppedIn_to_true = () => _sut.GameHistoryIsPoppedIn.ShouldBeTrue();
+
+            It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
+
+            It should_select_the_game_history = () => _sut.GameHistoryIsSelected.ShouldBeTrue();
+
+            It should_load_the_LiveTrackerSettings = () => _liveTrackerSettings_Mock.Verify(lts => lts.LoadSettings());
+
+            It should_set_the_GameHistoryIsPoppedIn_in_the_LiveTrackerSettings_to_true
+                = () => _liveTrackerSettings_Mock.VerifySet(lts => lts.GameHistoryIsPoppedIn = true);
+
+            It should_save_the_LiveTrackerSettings = () => _liveTrackerSettings_Mock.Verify(lts => lts.SaveSettings());
+        }
+
+        [Subject(typeof(TableOverlayViewModel), "ShowGameHistory Command")]
+        public class when_the_user_wants_to_browse_the_game_history_and_it_is_popped_in : TableOverlayViewModelSpecs
+        {
+            Establish context = () => _sut.GameHistoryIsPoppedIn = true;
+
             Because of = () => _sut.ShowGameHistoryCommand.Execute(null);
 
             It should_show_the_overlay_details = () => _sut.ShowOverlayDetails.ShouldBeTrue();
@@ -403,16 +464,19 @@ namespace PokerTell.LiveTracker.Tests.ViewModels.Overlay
             It should_select_the_game_history = () => _sut.GameHistoryIsSelected.ShouldBeTrue();
         }
 
-        [Subject(typeof(TableOverlayViewModel), "ShowGameHistoryWindow Command")]
-        public class when_user_wants_to_popout_the_game_history : TableOverlayViewModelSpecs
+        [Subject(typeof(TableOverlayViewModel), "ShowGameHistory Command")]
+        public class when_the_user_wants_to_browse_the_game_history_and_it_is_popped_out : TableOverlayViewModelSpecs
         {
             static bool showGameHistoryWindowWasRaised;
 
-            Establish context = () => _sut.ShowGameHistoryWindowRequested += () => showGameHistoryWindowWasRaised = true;
+            Establish context = () => {
+                _sut.ShowGameHistoryWindow += () => showGameHistoryWindowWasRaised = true;
+                _sut.GameHistoryIsPoppedIn = false;
+            };
 
-            Because of = () => _sut.ShowGameHistoryWindowCommand.Execute(null);
+            Because of = () => _sut.ShowGameHistoryCommand.Execute(null);
 
-            It should_let_me_know = () => showGameHistoryWindowWasRaised.ShouldBeTrue();
+            It should_request_to_show_the_game_history_window = () => showGameHistoryWindowWasRaised.ShouldBeTrue();
         }
 
         [Subject(typeof(TableOverlayViewModel), "HideOVerlayDetailsCommand")]

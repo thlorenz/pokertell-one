@@ -134,8 +134,8 @@ namespace PokerTell.LiveTracker.Overlay
         {
             _overlayToTableAttacher.TableClosed += () => TableClosed();
             _overlayToTableAttacher.TableChanged += _ => _tableOverlay.HideAllPlayers();
-            _tableOverlay.ShowLiveStatsWindowRequested += () => ShowLiveStatsWindowRequested();
-            _tableOverlay.ShowGameHistoryWindowRequested += () => ShowGameHistoryWindowRequested();
+            _tableOverlay.ShowLiveStatsWindow += () => ShowLiveStatsWindowRequested();
+            _tableOverlay.ShowGameHistoryWindow += () => ShowGameHistoryWindowRequested();
         }
 
         public void Dispose()
