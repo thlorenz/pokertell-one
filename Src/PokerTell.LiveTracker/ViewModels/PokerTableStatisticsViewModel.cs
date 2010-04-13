@@ -82,6 +82,20 @@ namespace PokerTell.LiveTracker.ViewModels
             }
         }
 
+        ICommand _browseAllHandsOfSelectedPlayerCommand;
+
+        public ICommand BrowseAllHandsOfSelectedPlayerCommand
+        {
+            get
+            {
+                return _browseAllHandsOfSelectedPlayerCommand ?? (_browseAllHandsOfSelectedPlayerCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => BrowseAllHandsOf(SelectedPlayer),
+                        CanExecuteDelegate = arg => SelectedPlayer != null
+                    });
+            }
+        }
+
         public IList<IPlayerStatisticsViewModel> Players { get; protected set; }
 
         public IPlayerStatisticsViewModel SelectedPlayer

@@ -287,11 +287,38 @@ namespace PokerTell.LiveTracker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse Hands.
+        /// </summary>
+        public static string TableStatisticsView_BrowseAllHandsOfSelectedPlayer {
+            get {
+                return ResourceManager.GetString("TableStatisticsView_BrowseAllHandsOfSelectedPlayer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse all hands of the selected player.
+        /// </summary>
+        public static string TableStatisticsView_BrowseAllHandsOfSelectedPlayer_ToolTip {
+            get {
+                return ResourceManager.GetString("TableStatisticsView_BrowseAllHandsOfSelectedPlayer_ToolTip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string TableStatisticsView_Filter {
             get {
                 return ResourceManager.GetString("TableStatisticsView_Filter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter all hands of the selected player.
+        /// </summary>
+        public static string TableStatisticsView_Filter_ToolTip {
+            get {
+                return ResourceManager.GetString("TableStatisticsView_Filter_ToolTip", resourceCulture);
             }
         }
         

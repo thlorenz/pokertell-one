@@ -54,15 +54,25 @@
                             <TabItem Header="{x:Static GlobalProperties:Resources.Lingo_River}" Content="{Binding SelectedPlayer.RiverStatisticsSets}" ContentTemplate="{StaticResource PostFlopStatisticsSetsViewTemplate}"/>
                         </TabControl>
 
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Top"
+                                    HorizontalAlignment="Right">
+                            <!-- Browse all Hands of selected Player Command -->
+                            <Button Command="{Binding BrowseAllHandsOfSelectedPlayerCommand}" 
+                                    Content="{x:Static Properties:Resources.TableStatisticsView_BrowseAllHandsOfSelectedPlayer}"
+                                    ToolTip="{x:Static Properties:Resources.TableStatisticsView_BrowseAllHandsOfSelectedPlayer_ToolTip}"
+                                    Padding="5, 3"
+                                    Margin="0"
+                                    MaxHeight="22"/>
 
-                        <!-- Filter Command -->
-                        <Button Command="{Binding FilterAdjustmentRequestedCommand}" 
-                                Content="{x:Static Properties:Resources.TableStatisticsView_Filter}"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Right"
-                                Padding="5, 3"
-                                Margin="0"
-                                MaxHeight="22"/>
+                            <!-- Filter Command -->
+                            <Button Command="{Binding FilterAdjustmentRequestedCommand}" 
+                                    Content="{x:Static Properties:Resources.TableStatisticsView_Filter}"
+                                    ToolTip="{x:Static Properties:Resources.TableStatisticsView_Filter_ToolTip}"
+                                    Padding="5, 3" 
+                                    Margin="0"
+                                    MaxHeight="22"/>
+                        </StackPanel>
                     </Grid>
                     <StackPanel Orientation="Vertical">
                         <!-- StatisticsAnalyzer Commanding -->
@@ -82,7 +92,7 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-            
+
             <!-- FilterAdjustmentPopup added last to ensure it is on top of the other controls -->
             <Popup AllowsTransparency="True" IsOpen="{Binding FilterPopup.Show}" PopupAnimation="Scroll" Placement="Mouse"  StaysOpen="False">
                 <ContentControl Content="{Binding FilterPopup.Filter}" />

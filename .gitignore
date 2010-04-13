@@ -21,6 +21,7 @@
 *.log
 *.htm
 *.zip
+*.backup
 [Dd]ebug/
 *.lib
 

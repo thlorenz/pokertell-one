@@ -67,7 +67,7 @@
                                                      IsSelected="{Binding GameHistoryIsSelected, Mode=TwoWay}" 
                                                      Visibility="{Binding GameHistoryIsPoppedIn, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}" >
                                                 <!-- This Viewbox makes sure that always the entire history is visible and that the tabitem header keeps its size-->
-                                            <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
+                                                <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
                                                      Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
                                                      Stretch="Fill"
                                              >
@@ -84,12 +84,32 @@
                                         <ContentControl Content="{Binding PokerTableStatisticsViewModel.DetailedStatisticsAnalyzer}"
                                                         ContentTemplate="{StaticResource InvestigatorNavigationTemplate}"
                                                         Visibility="{Binding DetailedStatisticsIsSelected, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
+
                                         <Button Command="{Binding GameHistory.PopoutCommand}"
                                                 ToolTip="{x:Static Properties:Resources.OverlayDetailsView_ToolTip_Popout}"
                                                 Visibility="{Binding GameHistoryIsSelected, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
-                                                Padding="0"
-                                                FontSize="8">
-                                            <Image Source="../../Resources/PopoutIcon.png"  MaxHeight="15" MaxWidth="15" />
+                                                Margin="1" >
+                                            <Grid Margin="0" Background="Transparent">
+                                                <Path  Margin="5,2.5,2.5,5"
+                                                       VerticalAlignment="Stretch"
+                                                       Fill="{DynamicResource GlyphBrush}"
+                                                       Stretch="Fill"
+                                                       Stroke="{DynamicResource GlyphBrush}"
+                                                       StrokeThickness="1"
+                                                       MinWidth="8"
+                                                       MinHeight="8"
+                                                       Data="M2,0 4,4 2,2.5 0,4"
+                                                       RenderTransformOrigin="0.5,0.5">
+                                                    <Path.RenderTransform>
+                                                        <TransformGroup>
+                                                            <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                                            <SkewTransform AngleX="0" AngleY="0"/>
+                                                            <RotateTransform Angle="45"/>
+                                                            <TranslateTransform X="0" Y="0"/>
+                                                        </TransformGroup>
+                                                    </Path.RenderTransform>
+                                                </Path>
+                                            </Grid>
                                         </Button>
                                         <Button Command="{Binding HideOverlayDetailsCommand}"
                                                 Margin="1" 

@@ -24,6 +24,8 @@ namespace PokerTell.LiveTracker.Interfaces
 
         IFilterPopupViewModel FilterPopup { get; set; }
 
+        ICommand BrowseAllHandsOfSelectedPlayerCommand { get; }
+
         void UpdateWith(IEnumerable<IPlayerStatistics> playersStatistics);
 
         IPlayerStatisticsViewModel GetPlayerStatisticsViewModelFor(string playerName);

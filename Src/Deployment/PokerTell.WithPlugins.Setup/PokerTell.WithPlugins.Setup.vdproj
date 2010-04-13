@@ -2019,18 +2019,18 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:PokerTell"
-        "ProductCode" = "8:{DBFF126D-D7ED-4BD1-B0D1-351C4D3DC8A0}"
-        "PackageCode" = "8:{ABEB3FBE-E7C7-4B79-BFC5-19166C97A2E9}"
+        "ProductCode" = "8:{75A86B19-6B6D-494B-B428-FBB5A9964AE4}"
+        "PackageCode" = "8:{E7BEFA49-A170-41FC-92D3-DA09AB043B36}"
         "UpgradeCode" = "8:{5751CC45-F22D-498F-A117-000C102FB84B}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:0.7.0"
+        "ProductVersion" = "8:0.7.1"
         "Manufacturer" = "8:GetPokerTell"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:http://www.GetPokerTell.com/Support"
-        "Title" = "8:PokerTell.Setup"
+        "Title" = "8:PokerTell.Setup.WithPlugins"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Thorsten Lorenz"
         "Keywords" = "8:"
@@ -2568,7 +2568,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_99B4CF07997D48E78F512A3F4B2A05E5"
             {
-            "SourcePath" = "8:..\\..\\Plugins\\PokerTell.Plugins.InstantHandHistoryReader\\obj\\Debug\\PokerTell.Plugins.InstantHandHistoryReader.dll"
+            "SourcePath" = "8:..\\..\\Plugins\\PokerTell.Plugins.InstantHandHistoryReader\\obj\\Release\\PokerTell.Plugins.InstantHandHistoryReader.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FF04248BFE47403C979BA0F0503277EE"
@@ -2596,7 +2596,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_A16AADDEB7874F928B084ED9AF826579"
             {
-            "SourcePath" = "8:..\\..\\PokerTell\\obj\\Debug\\PokerTell.exe"
+            "SourcePath" = "8:..\\..\\PokerTell\\obj\\Release\\PokerTell.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_C637DD3DDB694A31A0B909DEC0E2C809"
@@ -2624,7 +2624,7 @@
             }
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_C263AC5CEDFA4FB78FCAD3E3E0354E7F"
             {
-            "SourcePath" = "8:..\\..\\Plugins\\PokerTell.Plugins.PlayerPeeker\\obj\\Debug\\PokerTell.Plugins.PlayerPeeker.dll"
+            "SourcePath" = "8:..\\..\\Plugins\\PokerTell.Plugins.PlayerPeeker\\obj\\Release\\PokerTell.Plugins.PlayerPeeker.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_FF04248BFE47403C979BA0F0503277EE"

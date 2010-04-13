@@ -28,9 +28,9 @@ namespace PokerTell.Infrastructure
 
         public const string ShellStatusRegion = "Shell.StatusRegion";
 
-        public const string Version = "0.7.0.0";
+        public const string Version = "0.7.1.0";
 
-        public const double VersionNumber = 0.7;
+        public const double VersionNumber = 0.71;
 
         /// <summary>
         /// Keys used to normalize the true bet sizes

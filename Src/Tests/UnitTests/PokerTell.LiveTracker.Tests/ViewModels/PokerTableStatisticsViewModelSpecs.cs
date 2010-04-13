@@ -203,6 +203,19 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             It should_browse_the_hands_of_the_player = () => _sut.PlayerWhoseHandsWereBrowsed.ShouldEqual(_playerStatisticsVM_Stub.Object);
         }
 
+        [Subject(typeof(PokerTableStatisticsViewModel), "BrowseAllHandsOfSelectedPlayerCommand")]
+        public class when_the_use_wants_to_browse_all_hands_of_the_selected_player : PokerTableStatisticsViewModelSpecs
+        {
+            Establish context = () => {
+                _sut.SelectedPlayer = _playerStatisticsVM_Stub.Object;
+                _sut.PlayerWhoseHandsWereBrowsed = null;
+            };
+
+            Because of = () => _sut.BrowseAllHandsOfSelectedPlayerCommand.Execute(null);
+
+            It should_browse_the_hands_of_the_player = () => _sut.PlayerWhoseHandsWereBrowsed.ShouldEqual(_playerStatisticsVM_Stub.Object);
+        }
+
         [Subject(typeof(PokerTableStatisticsViewModel), "BrowseAllHands")]
         public class when_a_PlayerStatistics_viewmodel_says_that_the_user_wants_to_browse_all_hands_of_the_player : PokerTableStatisticsViewModelSpecs
         {

@@ -38,12 +38,32 @@
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                 <Button Command="{Binding PopinCommand}"
-                    ToolTip="{x:Static Properties:Resources.OverlayDetailsView_ToolTip_Popin}"
-                    Click="CloseButton_Clicked" 
-                    Width="15" Height="15">
-                    <Image Source="../Resources/PopoutIcon.png"  MaxHeight="15" MaxWidth="15" />
+                        ToolTip="{x:Static Properties:Resources.OverlayDetailsView_ToolTip_Popin}"
+                        Click="CloseButton_Clicked" 
+                        Margin="1" >
+                    <Grid Margin="0" Background="Transparent">
+                        <Path  Margin="3,5,5,3"
+                           VerticalAlignment="Stretch"
+                           Fill="{DynamicResource GlyphBrush}"
+                               Stretch="Fill"
+                               Stroke="{DynamicResource GlyphBrush}"
+                               MinWidth="8"
+                               MinHeight="8"
+                               StrokeThickness="1"
+                               Data="M2,0 4,4 2,2.5 0,4"
+                               RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                                    <SkewTransform AngleX="0" AngleY="0"/>
+                                    <RotateTransform Angle="240"/>
+                                    <TranslateTransform X="0" Y="0"/>
+                                </TransformGroup>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Grid>
                 </Button>
-                <Button Click="CloseButton_Clicked" Width="15" Height="15" />
+                <Button Click="CloseButton_Clicked" Width="15" Height="15" Margin="1" />
             </StackPanel>
             <Viewbox Grid.Row="1" Stretch="Fill">
                 <ContentControl Grid.Row="1" Content="{Binding}" />
