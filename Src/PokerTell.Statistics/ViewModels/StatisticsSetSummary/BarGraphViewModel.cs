@@ -1,18 +1,33 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 {
-    using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Windows.Media;
 
-    using Infrastructure.Interfaces.Statistics;
-
-    using Tools.FunctionalCSharp;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
 
     public class BarGraphViewModel : IBarGraphViewModel
     {
-        public static readonly Color[] DefaultColors = new[] { Colors.LightBlue, Colors.Blue, Colors.DarkBlue, Colors.Gold, Colors.DarkOrange, Colors.Red, Colors.DarkRed, Colors.YellowGreen };
+        public static readonly Color[] DefaultColors = new[]
+            { Colors.LightBlue, Colors.Blue, Colors.DarkRed,  Colors.Gold, Colors.DarkBlue, Colors.DarkOrange, Colors.Red, Colors.YellowGreen };
 
+        // Resharper disable InconsistentNaming
+        public static Color BarColor_0 = DefaultColors[0];
+
+        public static Color BarColor_1 = DefaultColors[1];
+
+        public static Color BarColor_2 = DefaultColors[2];
+
+        public static Color BarColor_3 = DefaultColors[3];
+
+        public static Color BarColor_4 = DefaultColors[4];
+
+        public static Color BarColor_5 = DefaultColors[5];
+
+        public static Color BarColor_6 = DefaultColors[6];
+
+        public static Color BarColor_7 = DefaultColors[7];
+
+        // Resharper enable InconsistentNaming
         readonly Color[] _barColors;
 
         public BarGraphViewModel()
@@ -44,7 +59,7 @@ namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
                 Visible = false;
                 return this;
             }
-            
+
             AddBarsAndMakeVisible(percentages);
 
             return this;

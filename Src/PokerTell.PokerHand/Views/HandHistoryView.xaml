@@ -35,6 +35,15 @@
                         <Setter Property="BorderThickness" Value="1"/>
                         <Setter Property="CornerRadius" Value="3"/>
                     </Style>
+                    <Style x:Key="CellContentTextBlockStyle" TargetType="{x:Type TextBlock}">
+                        <Setter Property="Margin" Value="0"/>
+                        <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                        <Setter Property="FontFamily" Value="MS Reference Sans Serif" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="10" />
+                    </Style>
+
                 </Grid.Resources>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -90,14 +99,14 @@
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Position_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Position}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}"/>
+                                        <TextBlock Text="{Binding Position}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Position_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_PlayerName_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding PlayerName}" ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}"/>
+                                        <TextBlock Text="{Binding PlayerName}" ToolTip="{x:Static Properties:Resources.HandHistoryView_PlayerName_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -110,6 +119,7 @@
                                                 Padding="2"
                                                 Visibility="{Binding HoleCards.Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
                                             <ContentControl  Content="{Binding HoleCards}" Background="Transparent"/>
+
                                         </Border>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -117,35 +127,35 @@
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_M_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding M}" ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}"/>
+                                        <TextBlock Text="{Binding M}" ToolTip="{x:Static Properties:Resources.HandHistoryView_M_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Preflop_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock MinWidth="100" Text="{Binding Preflop}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}"/>
+                                        <TextBlock MinWidth="100" Text="{Binding Preflop}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Preflop_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Flop_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock MinWidth="100" Text="{Binding Flop}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}"/>
+                                        <TextBlock MinWidth="100" Text="{Binding Flop}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Flop_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Turn_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock MinWidth="100" Text="{Binding Turn}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}"/>
+                                        <TextBlock MinWidth="100" Text="{Binding Turn}" ToolTip="{x:Static Properties:Resources.HandHistoryView_Turn_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_River_Header}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock MinWidth="100" Text="{Binding River}" ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}"/>
+                                        <TextBlock MinWidth="100" Text="{Binding River}" ToolTip="{x:Static Properties:Resources.HandHistoryView_River_ToolTip}" Style="{StaticResource CellContentTextBlockStyle}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

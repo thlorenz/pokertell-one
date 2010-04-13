@@ -14,10 +14,18 @@
         <Setter Property="Width" Value="4" />
         <Setter Property="Height" Value="4" />
         <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Margin" Value="0,-2" />
     </Style>
-    
-    <SolidColorBrush x:Key="Color_0" Color="LightBlue" />
+
+    <SolidColorBrush x:Key="BarBrush_0" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_0}" />
+    <SolidColorBrush x:Key="BarBrush_1" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_1}" />
+    <SolidColorBrush x:Key="BarBrush_2" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_2}" />
+    <SolidColorBrush x:Key="BarBrush_3" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_3}" />
+    <SolidColorBrush x:Key="BarBrush_4" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_4}" />
+    <SolidColorBrush x:Key="BarBrush_5" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_5}" />
+    <SolidColorBrush x:Key="BarBrush_6" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_6}" />
+    <SolidColorBrush x:Key="BarBrush_7" Color="{x:Static StatisticsSetSummary:BarGraphViewModel.BarColor_7}" />
 
     <!-- DetailedPreFlopStatisticsViewModel -->
     <DataTemplate x:Key="DetailedPreFlopStatisticsDataGridTemplate">
@@ -29,18 +37,72 @@
                     <dg:DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <Grid>
-                                <Ellipse Fill="{StaticResource Color_0}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <Ellipse Fill="{StaticResource BarBrush_0}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
                                 <TextBlock Text="SB" />
                             </Grid>
                         </DataTemplate>
                     </dg:DataGridTextColumn.HeaderTemplate>
                 </dg:DataGridTextColumn>
-                <dg:DataGridTextColumn Header="BB" Binding="{Binding Cells[1].Value}" />
-                <dg:DataGridTextColumn Header="EA" Binding="{Binding Cells[2].Value}" />
-                <dg:DataGridTextColumn Header="MI" Binding="{Binding Cells[3].Value}" />
-                <dg:DataGridTextColumn Header="LT" Binding="{Binding Cells[4].Value}" />
-                <dg:DataGridTextColumn Header="CO" Binding="{Binding Cells[5].Value}" />
-                <dg:DataGridTextColumn Header="BU" Binding="{Binding Cells[6].Value}" />
+                <dg:DataGridTextColumn Binding="{Binding Cells[1].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_1}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="BB " />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[2].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_2}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="EA " />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[3].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_3}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="MI " />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[4].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_4}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="LT " />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[5].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_5}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="CO " />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[6].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_6}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="BU " />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
             </dg:DataGrid.Columns>
             <dg:DataGrid.ToolTip>
                 <TextBlock Text="{Binding StatisticsDescription}"/>
@@ -61,12 +123,66 @@
                          Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
             <dg:DataGrid.Columns>
-                <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
+                <dg:DataGridTextColumn Binding="{Binding Cells[0].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_0}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource VerySmallBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[1].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_1}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource SmallBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[2].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_2}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource MediumBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[3].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_3}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource MediumLargeBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[4].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_4}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource LargeBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[5].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_5}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource VeryLargeBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
             </dg:DataGrid.Columns>
             <dg:DataGrid.ToolTip>
                 <TextBlock Text="{Binding StatisticsDescription}"/>
@@ -77,15 +193,69 @@
     <!--   DetailedPostFlopHeroReactsStatisticsViewModel -->
     <DataTemplate x:Key="DetailedPostFlopHeroReactsStatisticsDataGridTemplate" >
         <dg:DataGrid ItemsSource="{Binding Rows}"
-                         Loaded="DataGrid_Loaded"
+                     Loaded="DataGrid_Loaded"
                      SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
             <dg:DataGrid.Columns>
-                <dg:DataGridTextColumn Header="{StaticResource VerySmallBet}"   Binding="{Binding Cells[0].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource SmallBet}"       Binding="{Binding Cells[1].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource MediumBet}"      Binding="{Binding Cells[2].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource MediumLargeBet}" Binding="{Binding Cells[3].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource LargeBet}"       Binding="{Binding Cells[4].Value}" />
-                <dg:DataGridTextColumn Header="{StaticResource VeryLargeBet}"   Binding="{Binding Cells[5].Value}" />
+                <dg:DataGridTextColumn Binding="{Binding Cells[0].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_0}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource VerySmallBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[1].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_1}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource SmallBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[2].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_2}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource MediumBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[3].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_3}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource MediumLargeBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[4].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_4}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource LargeBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
+                <dg:DataGridTextColumn Binding="{Binding Cells[5].Value}" >
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource BarBrush_5}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="{StaticResource VeryLargeBet}" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
             </dg:DataGrid.Columns>
             <dg:DataGrid.ToolTip>
                 <TextBlock Text="{Binding StatisticsDescription}"/>

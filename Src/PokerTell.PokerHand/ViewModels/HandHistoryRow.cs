@@ -9,7 +9,7 @@ namespace PokerTell.PokerHand.ViewModels
 
     public class HandHistoryRow : IHandHistoryRow
     {
-        const string Indent = "___     ";
+        const string Indent = "___    ";
 
         readonly IConvertedPokerPlayer _pokerPlayer;
 
