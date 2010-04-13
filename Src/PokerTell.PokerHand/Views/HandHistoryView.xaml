@@ -27,6 +27,7 @@
                         <Setter Property="Margin" Value="3,1"/>
                         <Setter Property="Background" Value="Transparent"/>
                         <Setter Property="Foreground" Value="Yellow"/>
+                        <Setter Property="FontFamily" Value="MS Reference Sans Serif" />
                     </Style>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="Margin" Value="2"/>

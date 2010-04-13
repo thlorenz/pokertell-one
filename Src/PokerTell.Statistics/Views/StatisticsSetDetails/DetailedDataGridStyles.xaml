@@ -10,7 +10,6 @@
           <Setter Property="Background" Value="{DynamicResource LightToDarkToLightBorderBrush}"/>
            <Setter Property="BorderBrush" Value="{DynamicResource DarkBorderBrush}"/>
            <Setter Property="BorderThickness" Value="0"/>
-		   
 	</Style>
    
       <Style x:Key="{x:Type dg:DataGridCell}" TargetType="{x:Type dg:DataGridCell}">

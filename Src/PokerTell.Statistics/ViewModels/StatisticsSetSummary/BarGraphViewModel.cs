@@ -1,21 +1,22 @@
 namespace PokerTell.Statistics.ViewModels.StatisticsSetSummary
 {
-    using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Media;
 
     using Infrastructure.Interfaces.Statistics;
 
+    using Tools.FunctionalCSharp;
+
     public class BarGraphViewModel : IBarGraphViewModel
     {
+        public static readonly Color[] DefaultColors = new[] { Colors.LightBlue, Colors.Blue, Colors.DarkBlue, Colors.Gold, Colors.DarkOrange, Colors.Red, Colors.DarkRed, Colors.YellowGreen };
+
         readonly Color[] _barColors;
 
         public BarGraphViewModel()
-            : this(new[]
-                {
-                    Colors.LightBlue, Colors.Blue, Colors.DarkBlue, Colors.Gold, Colors.DarkOrange, Colors.Red,
-                    Colors.DarkRed, Colors.YellowGreen
-                })
+            : this(DefaultColors)
         {
         }
 

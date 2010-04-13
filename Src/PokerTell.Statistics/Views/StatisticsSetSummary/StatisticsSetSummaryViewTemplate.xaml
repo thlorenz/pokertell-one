@@ -8,7 +8,6 @@
         <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     <DataTemplate x:Key="StatisticsSetSummaryViewTemplate" DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" >
-        <!-- DataType="{x:Type ViewModels:StatisticsSetSummaryViewModel}" -->
         <DataTemplate.Resources>
             <ResourceDictionary>
                 <ResourceDictionary.MergedDictionaries>
@@ -16,7 +15,6 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
-        <!-- Background="{DynamicResource LightToDarkToLightBorderBrush}" -->
         <Border MaxHeight="80" MaxWidth="75"
              WPF:CommandBehavior.Event="MouseDown"
              WPF:CommandBehavior.Command="{Binding SelectStatisticsSetCommand}"   

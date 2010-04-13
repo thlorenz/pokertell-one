@@ -30,6 +30,7 @@
                     <Setter Property="BorderBrush" Value="{StaticResource MediumBorderBrush}" />
                     <Setter Property="BorderThickness" Value="0.5" />
                     <Setter Property="CornerRadius" Value="2" />
+                    <Setter Property="Margin" Value="0,2,0,0" />
                 </Style>
             </StackPanel.Resources>
 

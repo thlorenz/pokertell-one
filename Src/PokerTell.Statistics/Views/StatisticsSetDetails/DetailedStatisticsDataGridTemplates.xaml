@@ -2,14 +2,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:System="clr-namespace:System;assembly=mscorlib" 
-    xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" >
+    xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit" 
+    xmlns:StatisticsSetSummary="clr-namespace:PokerTell.Statistics.ViewModels.StatisticsSetSummary" >
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml"/>
         <ResourceDictionary Source="DetailedDataGridStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-
+    <Style TargetType="{x:Type Ellipse}" x:Key="BarGraphLegendEllipseStyle">
+        <Setter Property="Width" Value="4" />
+        <Setter Property="Height" Value="4" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="Margin" Value="0,-2" />
+    </Style>
+    
+    <SolidColorBrush x:Key="Color_0" Color="LightBlue" />
 
     <!-- DetailedPreFlopStatisticsViewModel -->
     <DataTemplate x:Key="DetailedPreFlopStatisticsDataGridTemplate">
@@ -17,7 +25,16 @@
                          Loaded="DataGrid_Loaded"
                          SelectedCellsChanged="DataGrid_SelectedCellsChanged_LimitToCellsOnOneRow">
             <dg:DataGrid.Columns>
-                <dg:DataGridTextColumn Header="SB" Binding="{Binding Cells[0].Value}" />
+                <dg:DataGridTextColumn Binding="{Binding Cells[0].Value}">
+                    <dg:DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Ellipse Fill="{StaticResource Color_0}" Style="{StaticResource BarGraphLegendEllipseStyle}"/>
+                                <TextBlock Text="SB" />
+                            </Grid>
+                        </DataTemplate>
+                    </dg:DataGridTextColumn.HeaderTemplate>
+                </dg:DataGridTextColumn>
                 <dg:DataGridTextColumn Header="BB" Binding="{Binding Cells[1].Value}" />
                 <dg:DataGridTextColumn Header="EA" Binding="{Binding Cells[2].Value}" />
                 <dg:DataGridTextColumn Header="MI" Binding="{Binding Cells[3].Value}" />

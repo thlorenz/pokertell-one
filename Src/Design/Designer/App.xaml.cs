@@ -21,6 +21,7 @@
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    
     // Resharper disable InconsistentNaming
     public partial class App : Application
     {

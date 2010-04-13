@@ -27,7 +27,7 @@
             </Grid.RowDefinitions>
 
             <!-- Top Row -->
-            <Viewbox Grid.Row="0" Width="410" MinHeight="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
+            <Viewbox Grid.Row="0" Width="420" MinHeight="130" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
                 <StackPanel VerticalAlignment="Top" >
                     <!-- Statistics Analyzer -->
                     <ContentControl Content="{Binding DetailedStatisticsAnalyzer.CurrentViewModel}" 

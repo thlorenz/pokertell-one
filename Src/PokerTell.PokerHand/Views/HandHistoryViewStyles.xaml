@@ -59,7 +59,7 @@
                               IsHitTestVisible="False"
                               Opacity="0"
                               StrokeThickness="1" 
-                              Stroke="{DynamicResource BlackColorBrush}" 
+                              Stroke="#FF737373" 
                               Fill="{DynamicResource SelectedBackgroundBrush}"
                               RadiusX="0"
                               RadiusY="0"/>
