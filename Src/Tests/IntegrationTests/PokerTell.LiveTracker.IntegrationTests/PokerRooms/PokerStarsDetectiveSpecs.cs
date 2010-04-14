@@ -28,7 +28,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
             It the_HandHistory_should_contain_PokerStars_slash_HandHistory = () => _sut.HandHistoryDirectory.ShouldContain(@"PokerStars\HandHistory\");
         }
 
-        [Subject(typeof(FullTiltPokerDetective), "DetectPreferredSeats")]
+        [Subject(typeof(PokerStarsDetective), "DetectPreferredSeats")]
         public class given___SeatPref_eq_1_2_3_4_5_neg1_6__ : PokerStarsDetectiveSpecs
         {
             Because of = () => _sut.DetectPreferredSeats(" SeatPref=1 2 3 4 5 -1 6");

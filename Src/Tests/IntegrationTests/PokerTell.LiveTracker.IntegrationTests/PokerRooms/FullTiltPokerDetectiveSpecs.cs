@@ -6,6 +6,8 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
 
     using Machine.Specifications;
 
+    using Properties;
+
     // Resharper disable InconsistentNaming
 
     /// <summary>
@@ -14,7 +16,6 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
     /// </summary>
     public abstract class FullTiltPokerDetectiveSpecs
     {
-        
         protected static IPokerRoomDetective _sut;
 
         Establish specContext = () => _sut = new FullTiltPokerDetective();
@@ -31,5 +32,44 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
             It the_HandHistory_should_contain_Full_Tilt_Poker_slash_HandHistory = () => _sut.HandHistoryDirectory.ShouldContain(@"\Full Tilt Poker\HandHistory");
         }
 
+        [Subject(typeof(FullTiltPokerDetective), "Detect PreferredSeats")]
+        public class given_string_indicating_that_AutoRotate_is_true : FullTiltPokerDetectiveSpecs
+        {
+            Because of = () => _sut.DetectPreferredSeats(Resources.FullTiltPoker_UserPrefs_PreferredSeats_AutoRotateIsTrue);
+
+            It should_detect_the_preferred_Seats = () => _sut.DetectedPreferredSeats.ShouldBeTrue();
+
+            It the_preferred_Seat_for_2_total_players_should_be_1 = () => _sut.PreferredSeats[2].ShouldEqual(1);
+
+            It the_preferred_Seat_for_5_total_players_should_be_3 = () => _sut.PreferredSeats[5].ShouldEqual(3);
+
+            It the_preferred_Seat_for_6_total_players_should_be_3 = () => _sut.PreferredSeats[6].ShouldEqual(3);
+
+            It the_preferred_Seat_for_7_total_players_should_be_4 = () => _sut.PreferredSeats[7].ShouldEqual(4);
+
+            It the_preferred_Seat_for_8_total_players_should_be_4 = () => _sut.PreferredSeats[8].ShouldEqual(4);
+
+            It the_preferred_Seat_for_9_total_players_should_be_5 = () => _sut.PreferredSeats[9].ShouldEqual(5);
+        }
+
+        [Subject(typeof(FullTiltPokerDetective), "Detect PreferredSeats")]
+        public class given_string_indicating_that_AutoRotate_is_false : FullTiltPokerDetectiveSpecs
+        {
+            Because of = () => _sut.DetectPreferredSeats(Resources.FullTiltPoker_UserPrefs_PreferredSeats_AutoRotateIsFalse);
+
+            It should_detect_the_preferred_Seats = () => _sut.DetectedPreferredSeats.ShouldBeTrue();
+
+            It the_preferred_Seat_for_2_total_players_should_be_0 = () => _sut.PreferredSeats[2].ShouldEqual(0);
+
+            It the_preferred_Seat_for_5_total_players_should_be_0 = () => _sut.PreferredSeats[5].ShouldEqual(0);
+
+            It the_preferred_Seat_for_6_total_players_should_be_0 = () => _sut.PreferredSeats[6].ShouldEqual(0);
+
+            It the_preferred_Seat_for_7_total_players_should_be_0 = () => _sut.PreferredSeats[7].ShouldEqual(0);
+
+            It the_preferred_Seat_for_8_total_players_should_be_0 = () => _sut.PreferredSeats[8].ShouldEqual(0);
+
+            It the_preferred_Seat_for_9_total_players_should_be_0 = () => _sut.PreferredSeats[9].ShouldEqual(0);
+        }
     }
 }
