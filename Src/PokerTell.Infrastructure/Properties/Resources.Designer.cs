@@ -142,6 +142,15 @@ namespace PokerTell.Infrastructure.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide.
+        /// </summary>
+        public static string Commands_Hide {
+            get {
+                return ResourceManager.GetString("Commands_Hide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import.
         /// </summary>
         public static string Commands_Import {

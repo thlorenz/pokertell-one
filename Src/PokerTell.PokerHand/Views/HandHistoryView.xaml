@@ -18,7 +18,7 @@
         </DataTemplate.Resources>
         <Border
          Margin="5"
-         Background="{DynamicResource ControlBackgroundBrush}"
+         Background="Transparent"
          CornerRadius="5"
          Padding="5">
             <Grid>
@@ -31,6 +31,7 @@
                     </Style>
                     <Style TargetType="{x:Type Border}">
                         <Setter Property="Margin" Value="2"/>
+                        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}" />
                         <Setter Property="BorderBrush" Value="{StaticResource LightBorderBrush}"/>
                         <Setter Property="BorderThickness" Value="1"/>
                         <Setter Property="CornerRadius" Value="3"/>
@@ -51,7 +52,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <!-- HandHeader-->
-                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Stretch" Orientation="Horizontal" >
                     <!-- Select Checkbox -->
                     <CheckBox Width="Auto"
                               HorizontalAlignment="Left"
@@ -59,8 +60,6 @@
                               IsChecked="{Binding IsSelected}"
                               Margin="2,2,5,2"
                               Visibility="{Binding ShowSelectOption, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"/>
-                    <!-- Board -->
-                    <ContentControl MinWidth="80" Content="{Binding Board}" ToolTip="Board"/>
                     <!-- Blinds Ante and TotalPlayers -->
                     <Border>
                         <TextBlock ToolTip="Big Blind/Small Blind (Ante) [Total Players]">
@@ -74,6 +73,8 @@
                      </TextBlock.Text>
                         </TextBlock>
                     </Border>
+                    <!-- Board -->
+                    <ContentControl MinWidth="80" Content="{Binding Board}" ToolTip="Board"/>
                     <!-- Date and Time -->
                     <Border>
                         <TextBlock Text="{Binding TimeStamp}" ToolTip="Time and Date"/>
@@ -88,7 +89,13 @@
                     </Border>
                 </StackPanel>
                 <!-- Players Grid -->
-                <ListView Grid.Row="1" ItemsSource="{Binding PlayerRows}" SelectedIndex="{Binding SelectedRow}" >
+                <ListView Grid.Row="1"
+                          ItemsSource="{Binding PlayerRows}" 
+                          SelectedIndex="{Binding SelectedRow}"
+                          BorderThickness="0" 
+                          Background="Transparent" 
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
                     <ListView.View>
                         <GridView AllowsColumnReorder="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                             <GridView.ColumnHeaderTemplate>
@@ -110,16 +117,15 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}">
+                            <GridViewColumn Header="{x:Static Properties:Resources.HandHistoryView_Cards_Header}" Width="54">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <Border Background="Transparent" 
                                                 Width="50"
                                                 CornerRadius="2" 
-                                                Padding="2"
+                                                Padding="0"
                                                 Visibility="{Binding HoleCards.Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
                                             <ContentControl  Content="{Binding HoleCards}" Background="Transparent"/>
-
                                         </Border>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

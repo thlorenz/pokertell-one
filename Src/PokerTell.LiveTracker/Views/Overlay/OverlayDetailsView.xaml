@@ -3,7 +3,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ctrl="clr-namespace:Tools.WPF.Controls;assembly=Tools"
     xmlns:Overlay="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
-    xmlns:Properties="clr-namespace:PokerTell.LiveTracker.Properties" >
+    xmlns:Properties="clr-namespace:PokerTell.LiveTracker.Properties"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure" >
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -38,7 +39,7 @@
                                      Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
                                      Stretch="Fill">
                                 <Grid>
-                                    <TabControl TabStripPlacement="Top">
+                                    <TabControl TabStripPlacement="Top" Background="Transparent">
                                         <TabControl.Items>
                                             <TabItem Header="S" IsSelected="{Binding DetailedStatisticsIsSelected, Mode=TwoWay}" >
                                                 <StackPanel Orientation="Horizontal" PreviewMouseWheel="DetailedStatistics_PreviewMouseWheel">
@@ -65,12 +66,11 @@
                                             <!-- GameHistory -->
                                             <TabItem Header="H" 
                                                      IsSelected="{Binding GameHistoryIsSelected, Mode=TwoWay}" 
-                                                     Visibility="{Binding GameHistoryIsPoppedIn, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}" >
+                                                     Visibility="{Binding GameHistoryIsPoppedIn, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
                                                 <!-- This Viewbox makes sure that always the entire history is visible and that the tabitem header keeps its size-->
                                                 <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
                                                      Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
-                                                     Stretch="Fill"
-                                             >
+                                                     Stretch="Fill" >
                                                     <ContentControl Content="{Binding GameHistory}" PreviewMouseWheel="GameHistory_PreviewMouseWheel" />
                                                 </Viewbox>
                                             </TabItem>
@@ -88,6 +88,8 @@
                                         <Button Command="{Binding GameHistory.PopoutCommand}"
                                                 ToolTip="{x:Static Properties:Resources.OverlayDetailsView_ToolTip_Popout}"
                                                 Visibility="{Binding GameHistoryIsSelected, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}"
+                                                Width="18" 
+                                                Height="18"
                                                 Margin="1" >
                                             <Grid Margin="0" Background="Transparent">
                                                 <Path  Margin="5,2.5,2.5,5"
@@ -112,9 +114,10 @@
                                             </Grid>
                                         </Button>
                                         <Button Command="{Binding HideOverlayDetailsCommand}"
-                                                Margin="1" 
-                                                Width="15" 
-                                                Height="15" />
+                                                ToolTip="{x:Static GlobalProperties:Resources.Commands_Hide}"
+                                                Width="18" 
+                                                Height="18"
+                                                Margin="1" />
                                     </StackPanel>
 
                                     <!-- Visualize Hands Popup -->

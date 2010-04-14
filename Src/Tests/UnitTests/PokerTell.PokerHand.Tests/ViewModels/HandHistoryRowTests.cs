@@ -65,8 +65,8 @@ namespace PokerTell.PokerHand.Tests.ViewModels
         {
             InitPokerPlayerInSmallBlind();
 
-            const string Indent = "___     ";
-            Assert.That(_handHistoryRow.Preflop.StartsWith(Indent));
+            const string indentationStart = "___";
+            Assert.That(_handHistoryRow.Preflop.StartsWith(indentationStart));
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Properties="clr-namespace:PokerTell.LiveTracker.Properties"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure" 
     Title="GameHistoryView" 
     AllowsTransparency="True"
     Background="Transparent"
@@ -22,14 +23,14 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
-    <Border BorderBrush="{StaticResource LightToDarkToLightBorderBrush}" 
+    <Border BorderBrush="{StaticResource DarkBorderBrush}" 
             BorderThickness="2"
             CornerRadius="5" 
-            Background="{StaticResource LightToDarkToLightBorderBrush}"
+            Background="{StaticResource LightBorderBrush}"
             Padding="3, 0, 3, 15">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="20" />
+                <RowDefinition MaxHeight="22" />
                 <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="{Binding TableName}" VerticalAlignment="Top" Foreground="White" FontSize="12" Margin="7, 2"/>
@@ -40,7 +41,9 @@
                 <Button Command="{Binding PopinCommand}"
                         ToolTip="{x:Static Properties:Resources.OverlayDetailsView_ToolTip_Popin}"
                         Click="CloseButton_Clicked" 
-                        Margin="1" >
+                        Margin="1" 
+                        MinWidth="20"
+                        MinHeight="20">
                     <Grid Margin="0" Background="Transparent">
                         <Path  Margin="3,5,5,3"
                            VerticalAlignment="Stretch"
@@ -63,10 +66,16 @@
                         </Path>
                     </Grid>
                 </Button>
-                <Button Click="CloseButton_Clicked" Width="15" Height="15" Margin="1" />
+                <Button Click="CloseButton_Clicked" 
+                        ToolTip="{x:Static GlobalProperties:Resources.Commands_Hide}"
+                        MinWidth="20"
+                        MinHeight="20"
+                        Margin="1" />
             </StackPanel>
-            <Viewbox Grid.Row="1" Stretch="Fill">
-                <ContentControl Grid.Row="1" Content="{Binding}" />
+            <Viewbox Grid.Row="1" Stretch="Fill" VerticalAlignment="Top" >
+                <Border Background="{StaticResource ControlBackgroundBrush}" CornerRadius="2">
+                    <ContentControl Grid.Row="1" Content="{Binding}" />
+                </Border>
             </Viewbox>
         </Grid>
     </Border>

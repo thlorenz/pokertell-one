@@ -28,11 +28,13 @@
 
             <!-- Top Row -->
             <Viewbox Grid.Row="0" Width="420" MinHeight="130" HorizontalAlignment="Stretch" VerticalAlignment="Top" Stretch="Fill">
-                <StackPanel VerticalAlignment="Top" >
-                    <!-- Statistics Analyzer -->
-                    <ContentControl Content="{Binding DetailedStatisticsAnalyzer.CurrentViewModel}" 
+                <StackPanel VerticalAlignment="Top">
+                    <Border Background="{StaticResource ControlBackgroundBrush}" CornerRadius="3" Padding="2">
+                        <!-- Statistics Analyzer -->
+                        <ContentControl Content="{Binding DetailedStatisticsAnalyzer.CurrentViewModel}" 
                                     ContentTemplate="{StaticResource DetailedStatisticsWithInformationPanelViewTemplate}"
                                     HorizontalContentAlignment="Stretch"/>
+                    </Border>
                     <Popup AllowsTransparency="False" IsOpen="{Binding  DetailedStatisticsAnalyzer.ShowPopup}" PopupAnimation="Scroll" Placement="Center"  StaysOpen="False">
                         <ContentControl Content="{Binding  DetailedStatisticsAnalyzer.PopupViewModel}" />
                     </Popup>

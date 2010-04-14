@@ -1,6 +1,7 @@
 ﻿<Window x:Class="PokerTell.LiveTracker.Views.PokerTableStatisticsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure" 
     Title="PokerTableStatisticsView" 
     AllowsTransparency="True"
     Background="Transparent"
@@ -32,12 +33,15 @@
                 <RowDefinition Height="20" />
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Text="{Binding TableName}" VerticalAlignment="Top" Foreground="White" FontSize="12" Margin="7, 2"/>
+            <TextBlock Grid.Row="0" Text="{Binding TableName}" VerticalAlignment="Top" Foreground="{StaticResource WhiteColorBrush}" FontSize="12" Margin="7, 2"/>
             <Button Grid.Row="0" 
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Right" 
-                        Click="CloseButton_Clicked" 
-                        Width="15" Height="15" />
+                    ToolTip="{x:Static GlobalProperties:Resources.Commands_Hide}"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right" 
+                    Click="CloseButton_Clicked" 
+                    MinWidth="20"
+                    MinHeight="20"
+                    Margin="1" />
             <Viewbox Grid.Row="1" Stretch="Fill">
                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource TableStatisticsViewTemplate}" />
             </Viewbox>

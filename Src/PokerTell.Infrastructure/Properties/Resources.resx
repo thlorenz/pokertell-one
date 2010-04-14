@@ -144,6 +144,9 @@
   <data name="Commands_DontSend" xml:space="preserve">
     <value>Don't Send</value>
   </data>
+  <data name="Commands_Hide" xml:space="preserve">
+    <value>Hide</value>
+  </data>
   <data name="Commands_Import" xml:space="preserve">
     <value>Import</value>
   </data>

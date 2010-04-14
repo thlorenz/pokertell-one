@@ -1959,6 +1959,7 @@
         </Setter>
     </Style>
     <Style TargetType="{x:Type TabControl}">
+        <Setter Property="Background" Value="{DynamicResource LightBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -1971,7 +1972,7 @@
                             <RowDefinition Height="Auto" x:Name="RowDefinition0" />
                             <RowDefinition Height="*" x:Name="RowDefinition1" />
                         </Grid.RowDefinitions>
-                        <Border CornerRadius="2,2,0,0" Background="{DynamicResource LightBrush}" x:Name="border">
+                        <Border CornerRadius="2,2,0,0" Background="{TemplateBinding Background}" x:Name="border">
                             <TabPanel x:Name="HeaderPanel" IsItemsHost="true" Panel.ZIndex="1" KeyboardNavigation.TabIndex="1" RenderTransformOrigin="0.5,0.5" Width="Auto" Height="Auto">
                                 <TabPanel.LayoutTransform>
                                     <TransformGroup>
@@ -2751,7 +2752,7 @@
         </Setter>
     </Style>
     <Style TargetType="{x:Type ListView}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
         <Setter Property="BorderBrush" Value="{StaticResource ListBorder}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Foreground" Value="#FF042271" />
@@ -2762,7 +2763,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListView}">
-                    <Border x:Name="Bd" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0,0,0,0" BorderBrush="{DynamicResource DefaultedBorderBrush}" Background="{DynamicResource ControlBackgroundBrush}">
+                    <Border x:Name="Bd" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="0,0,0,0" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}">
 
                         <ScrollViewer Padding="{TemplateBinding Padding}" Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />

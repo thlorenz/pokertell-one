@@ -52,7 +52,7 @@ namespace PokerTell.LiveTracker.ViewModels.Overlay
             OverlaySettingsAid = overlaySettingsAid;
             _playerOverlayViewModelMake = playerOverlayViewModelMake;
 
-            GameHistoryIsPoppedIn = _liveTrackerSettings.GameHistoryIsPoppedIn;
+            GameHistoryIsPoppedIn = _liveTrackerSettings.LoadSettings().GameHistoryIsPoppedIn;
         }
 
         public event Action ShowGameHistoryWindow = delegate { };
