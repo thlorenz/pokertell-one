@@ -57,7 +57,14 @@ namespace PokerTell.Plugins.PlayerPeeker
 
             _wbb = new WebBrowser { ScriptErrorsSuppressed = true };
             _wbb.DocumentCompleted += WebBrowser_DocumentCompleted;
+           
+            PersistState();
+        }
 
+        public void ActivateAndRestore()
+        {
+            Activate();
+            WindowState = FormWindowState.Normal;
             PersistState();
         }
 

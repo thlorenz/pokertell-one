@@ -7,12 +7,14 @@ namespace PokerTell.Plugins.PlayerPeeker.Interfaces
     {
         event Action ResetRequested;
 
-        void NewPlayersFound(IEnumerable<string>  newPlayers);
-
-        void Show();
-
         void Close();
 
         void Dispose();
+
+        void NewPlayersFound(IEnumerable<string> newPlayers);
+
+        void Show();
+
+        void ActivateAndRestore();
     }
 }

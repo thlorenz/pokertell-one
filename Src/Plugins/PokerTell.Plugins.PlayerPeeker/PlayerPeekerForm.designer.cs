@@ -219,6 +219,7 @@ namespace PokerTell.Plugins.PlayerPeeker
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximumSize = new System.Drawing.Size(660, 800);
             this.Name = "PlayerPeekerForm";
+            this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "PlayerPeeker";

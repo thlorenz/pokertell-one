@@ -1,14 +1,19 @@
 namespace PokerTell.Plugins.PlayerPeeker
 {
+    using System;
     using System.Linq;
-
-    using Infrastructure.Events;
-    using Infrastructure.Interfaces;
-
-    using Interfaces;
+    using System.Windows;
+    using System.Windows.Controls;
 
     using Microsoft.Practices.Composite.Events;
+    using Microsoft.Practices.Composite.Presentation.Commands;
     using Microsoft.Practices.Composite.Presentation.Events;
+
+    using PokerTell.Infrastructure.Events;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Plugins.PlayerPeeker.Interfaces;
+
+    using Tools.WPF;
 
     public class PlayerPeekerService
     {
@@ -26,13 +31,31 @@ namespace PokerTell.Plugins.PlayerPeeker
             RegisterEvents();
         }
 
-        void RegisterEvents()
+        public Button ShowPlayerPeekerButton
         {
-            const bool keepMeAlive = true;
+            get
+            {
+                return new Button
+                    {
+                        Command = new SimpleCommand
+                            {
+                                ExecuteDelegate = args => _playerPeekerForm.ActivateAndRestore(), 
+                                CanExecuteDelegate = args => _playerPeekerForm != null
+                            }, 
+                        Content = "P", 
+                        Width = 20, 
+                        Height = 20, 
+                        Padding = new Thickness(3)
+                    };
+            }
+        }
 
-            _eventAggregator
-                .GetEvent<NewHandEvent>()
-                .Subscribe(AddNewPlayersToPlayerPeekerForm, ThreadOption.UIThread, keepMeAlive);
+        void AddNewPlayersToPlayerPeekerForm(NewHandEventArgs args)
+        {
+            if (_playerPeekerForm == null)
+                CreateAndShowPlayerPeekerForm();
+
+            _playerPeekerForm.NewPlayersFound(args.ConvertedPokerHand.Players.Select(p => p.Name));
         }
 
         void CreateAndShowPlayerPeekerForm()
@@ -48,12 +71,13 @@ namespace PokerTell.Plugins.PlayerPeeker
             _playerPeekerForm.Show();
         }
 
-        void AddNewPlayersToPlayerPeekerForm(NewHandEventArgs args)
+        void RegisterEvents()
         {
-            if (_playerPeekerForm == null)
-                CreateAndShowPlayerPeekerForm();
-            
-            _playerPeekerForm.NewPlayersFound(args.ConvertedPokerHand.Players.Select(p => p.Name));           
+            const bool keepMeAlive = true;
+
+            _eventAggregator
+                .GetEvent<NewHandEvent>()
+                .Subscribe(AddNewPlayersToPlayerPeekerForm, ThreadOption.UIThread, keepMeAlive);
         }
     }
 }

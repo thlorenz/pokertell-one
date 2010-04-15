@@ -7,6 +7,7 @@ namespace PokerTell.Plugins.PlayerPeeker
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Presentation.Commands;
+    using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
     using PokerTell.Infrastructure;
@@ -19,8 +20,11 @@ namespace PokerTell.Plugins.PlayerPeeker
 
         readonly IUnityContainer _container;
 
-        public PlayerPeekerModule(IUnityContainer container)
+        readonly IRegionManager _regionManager;
+
+        public PlayerPeekerModule(IUnityContainer container, IRegionManager regionManager)
         {
+            _regionManager = regionManager;
             _container = container;
         }
 
@@ -36,7 +40,8 @@ namespace PokerTell.Plugins.PlayerPeeker
 
         void StartServices(object ignore)
         {
-            _container.Resolve<PlayerPeekerService>();
+            var playerPeekerService = _container.Resolve<PlayerPeekerService>();
+            _regionManager.RegisterViewWithRegion(ApplicationProperties.TableOverlayToolBarRegion, () => playerPeekerService.ShowPlayerPeekerButton);
 
             Log.Info("started services");
         }

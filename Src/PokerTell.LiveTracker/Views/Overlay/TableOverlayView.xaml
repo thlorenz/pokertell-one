@@ -1,8 +1,10 @@
 ﻿<Window x:Class="PokerTell.LiveTracker.Views.Overlay.TableOverlayView"
    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+   xmlns:cal="http://www.codeplex.com/CompositeWPF"
    xmlns:Overlay="clr-namespace:PokerTell.LiveTracker.ViewModels.Overlay"
    xmlns:Views="clr-namespace:PokerTell.LiveTracker.Views.Overlay"
+   xmlns:Infrastructure="clr-namespace:PokerTell.Infrastructure;assembly=PokerTell.Infrastructure"
     AllowsTransparency="True"
     Background="Transparent"
     WindowStyle="None"    
@@ -54,12 +56,17 @@
                         </Grid>
                     </Viewbox>
                     <StackPanel  Grid.Row="0" Grid.RowSpan="2" Orientation="Horizontal" 
-                               Margin="5,0,70,0"
+                                
+                               Margin="5,0,80,0"
                                HorizontalAlignment="Right"
                               >
                         <ContentControl Content="{Binding OverlaySettings}" Opacity="0.98"/>
                         <Button Content="S" Width="20" Height="20" VerticalAlignment="Top" Command="{Binding ShowLiveStatsWindowCommand}" Margin="1,3,0,0" />
                         <Button Content="H" Width="20" Height="20" VerticalAlignment="Top" Command="{Binding ShowGameHistoryCommand}" Margin="1,3,0,0" />
+                        <ItemsControl cal:RegionManager.RegionName="{x:Static Infrastructure:ApplicationProperties.TableOverlayToolBarRegion}" 
+                                 Margin="1,3"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Top" />
                     </StackPanel>
                 </Grid>
             </DataTemplate>

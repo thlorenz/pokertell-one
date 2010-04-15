@@ -38,7 +38,7 @@ namespace PokerTell.LiveTracker.ManualTests
                 .AddModule(typeof(StatisticsModule), typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name)
                 .AddModule(typeof(LiveTrackerModuleMock), typeof(StatisticsModule).Name, typeof(RepositoryModule).Name, typeof(PokerHandModule).Name, typeof(UserModule).Name);
 
-            // AddAvailablePluginsTo(catalog);
+             AddAvailablePluginsTo(catalog);
 
             return catalog;
         }
