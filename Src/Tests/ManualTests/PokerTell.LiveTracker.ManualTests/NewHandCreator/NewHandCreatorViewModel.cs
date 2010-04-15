@@ -87,8 +87,6 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         readonly IUnityContainer _container;
 
-        IGamesTracker _gamesTracker;
-
         readonly IRepository _repository;
 
         public ICommand SendCommand
@@ -104,7 +102,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         void CreateHandAndTriggerEvent()
         {
-            var hand = new ConvertedPokerHand(PokerSites.FullTiltPoker, _gameId++, DateTime.Now, 30, 15, TotalSeats)
+            var hand = new ConvertedPokerHand(PokerSites.PokerStars, _gameId++, DateTime.Now, 30, 15, TotalSeats)
                 {
                     TotalSeats = TotalSeats,
                     TableName = TableName, 
@@ -136,7 +134,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         public void StartTracking()
         {
-            _gamesTracker = _container
+           _container
                 .Resolve<IGamesTracker>()
                 .InitializeWith(_container.Resolve<ILiveTrackerSettingsViewModel>().LoadSettings())
                 .StartTracking(PathToHandHistoryFile);

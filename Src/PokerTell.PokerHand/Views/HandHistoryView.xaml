@@ -16,11 +16,10 @@
                 </ResourceDictionary.MergedDictionaries>
             </ResourceDictionary>
         </DataTemplate.Resources>
-        <Border
-         Margin="5"
-         Background="Transparent"
-         CornerRadius="5"
-         Padding="5">
+        <Border Margin="0"
+                Background="Transparent"
+                CornerRadius="5"
+                Padding="0">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="{x:Type TextBlock}">

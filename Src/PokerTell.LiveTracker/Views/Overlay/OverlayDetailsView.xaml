@@ -48,9 +48,9 @@
                                                          Stretch="Fill">
                                                         <StackPanel DataContext="{Binding PokerTableStatisticsViewModel.DetailedStatisticsAnalyzer}" VerticalAlignment="Top" >
                                                             <!-- Statistics Analyzer -->
-                                                            <ContentControl Content="{Binding CurrentViewModel}" 
-                                                        ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}"
-                                                        HorizontalContentAlignment="Stretch"/>
+                                                            <ContentControl Content="{Binding CurrentViewModel}"
+                                                                            ContentTemplate="{StaticResource DetailedStatisticsViewTemplate}" 
+                                                                            HorizontalContentAlignment="Stretch"/>
 
                                                         </StackPanel>
                                                     </Viewbox>
@@ -71,7 +71,9 @@
                                                 <Viewbox Width="{Binding OverlaySettings.OverlayDetailsWidth, Mode=TwoWay}" 
                                                      Height="{Binding OverlaySettings.OverlayDetailsHeight, Mode=TwoWay}"
                                                      Stretch="Fill" >
-                                                    <ContentControl Content="{Binding GameHistory}" PreviewMouseWheel="GameHistory_PreviewMouseWheel" />
+                                                    <ContentControl Content="{Binding GameHistory}" 
+                                                                    PreviewMouseWheel="GameHistory_PreviewMouseWheel" 
+                                                                    HorizontalContentAlignment="Stretch"/>
                                                 </Viewbox>
                                             </TabItem>
                                         </TabControl.Items>

@@ -137,6 +137,7 @@
                 Margin="5">
                     <Border CornerRadius="10"
                             Margin="5, 20, 5, 10"
+                            Padding="2,5"
                             Background="{DynamicResource ControlBackgroundBrush}">
                         <ItemsControl ItemsSource="{Binding HandHistoriesOnPage}" />
                     </Border>
