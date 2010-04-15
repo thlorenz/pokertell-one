@@ -51,10 +51,10 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
             Player4 = new PlayerViewModel("bigbiskit", 4, true, "As Kh");
             Player5 = new PlayerViewModel("MegVSPrime", 5, true, "As Kh");
             Player6 = new PlayerViewModel("PokerHnd", 6, true, "As Kh");
-            Player7 = new PlayerViewModel("primzahl", 7, true, "As Kh");
-            Player8 = new PlayerViewModel("Przemo High", 8, true, "As Kh");
-            Player9 = new PlayerViewModel("Tx Maniac", 9, true, "As Kh");
-            Player10 = new PlayerViewModel("PokerHnd", 10, true, "As Kh");
+            Player7 = new PlayerViewModel("primzahl", 7, false, "As Kh");
+            Player8 = new PlayerViewModel("Przemo High", 8, false, "As Kh");
+            Player9 = new PlayerViewModel("Tx Maniac", 9, false, "As Kh");
+            Player10 = new PlayerViewModel("PokerHnd", 10, false, "As Kh");
         }
 
         public string TableName { get; set; }
@@ -104,7 +104,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         void CreateHandAndTriggerEvent()
         {
-            var hand = new ConvertedPokerHand(PokerSites.PokerStars, _gameId++, DateTime.Now, 30, 15, TotalSeats)
+            var hand = new ConvertedPokerHand(PokerSites.FullTiltPoker, _gameId++, DateTime.Now, 30, 15, TotalSeats)
                 {
                     TotalSeats = TotalSeats,
                     TableName = TableName, 

@@ -41,9 +41,7 @@ namespace PokerTell.LiveTracker.PokerRooms
         /// When AutoRotate is selected, Full Tilt will seat the player in the bottom Center which corresponds to the following seats for the different max players:
         /// Max     CenterSeat
         ///  2      1
-        ///  5      3
         ///  6      3
-        ///  7      4
         ///  8      4
         ///  9      5
         /// </summary>
@@ -69,9 +67,7 @@ namespace PokerTell.LiveTracker.PokerRooms
                     PreferredSeats = new Dictionary<int, int>
                         {
                             { 2, 1 }, 
-                            { 5, 3 }, 
                             { 6, 3 }, 
-                            { 7, 4 }, 
                             { 8, 4 }, 
                             { 9, 5 }, 
                         };
@@ -79,9 +75,7 @@ namespace PokerTell.LiveTracker.PokerRooms
                     PreferredSeats = new Dictionary<int, int>
                         {
                             { 2, 0 }, 
-                            { 5, 0 }, 
                             { 6, 0 }, 
-                            { 7, 0 }, 
                             { 8, 0 }, 
                             { 9, 0 }, 
                         };

@@ -66,7 +66,6 @@
                 new Logger(ApplicationProperties.ApplicationName)
                    .InitializeConsoleAppender(Level.Debug)
                    .InitializeRollingFileAppender(Files.LocalUserAppDataPath + @"\" + Files.LogFile, 5, Level.Debug);
-
                 
                 _bootStrapper = new Bootstrapper();
                 _bootStrapper.Run();

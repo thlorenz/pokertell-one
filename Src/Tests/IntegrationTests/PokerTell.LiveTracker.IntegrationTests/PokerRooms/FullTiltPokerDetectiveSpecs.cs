@@ -12,7 +12,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
 
     /// <summary>
     /// These specs assume that a FullTiltPoker client is installed and the following:
-    ///     - a HandHistoryDirectory is defined in the user.ini
+    ///     - a HandHistoryDirectory is defined in the machine.prefs
     /// </summary>
     public abstract class FullTiltPokerDetectiveSpecs
     {
@@ -41,11 +41,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
 
             It the_preferred_Seat_for_2_total_players_should_be_1 = () => _sut.PreferredSeats[2].ShouldEqual(1);
 
-            It the_preferred_Seat_for_5_total_players_should_be_3 = () => _sut.PreferredSeats[5].ShouldEqual(3);
-
             It the_preferred_Seat_for_6_total_players_should_be_3 = () => _sut.PreferredSeats[6].ShouldEqual(3);
-
-            It the_preferred_Seat_for_7_total_players_should_be_4 = () => _sut.PreferredSeats[7].ShouldEqual(4);
 
             It the_preferred_Seat_for_8_total_players_should_be_4 = () => _sut.PreferredSeats[8].ShouldEqual(4);
 
@@ -61,11 +57,7 @@ namespace PokerTell.LiveTracker.IntegrationTests.PokerRooms
 
             It the_preferred_Seat_for_2_total_players_should_be_0 = () => _sut.PreferredSeats[2].ShouldEqual(0);
 
-            It the_preferred_Seat_for_5_total_players_should_be_0 = () => _sut.PreferredSeats[5].ShouldEqual(0);
-
             It the_preferred_Seat_for_6_total_players_should_be_0 = () => _sut.PreferredSeats[6].ShouldEqual(0);
-
-            It the_preferred_Seat_for_7_total_players_should_be_0 = () => _sut.PreferredSeats[7].ShouldEqual(0);
 
             It the_preferred_Seat_for_8_total_players_should_be_0 = () => _sut.PreferredSeats[8].ShouldEqual(0);
 
