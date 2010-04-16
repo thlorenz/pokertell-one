@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
-    public class GameTypeParser : Base.GameTypeParser
+    public class GameTypeParser : Base.GameTypeParser, IPokerStarsGameTypeParser
     {
         const string PokerStarsGameTypePattern = @"(Hold'em|Holdem) (?<GameType>(Limit|Pot Limit|No Limit))";
 

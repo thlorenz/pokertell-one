@@ -1,20 +1,14 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class SmallBlindPlayerNameParser : Base.SmallBlindPlayerNameParser
+    using Interfaces.Parsers;
+
+    public class SmallBlindPlayerNameParser : Base.SmallBlindPlayerNameParser, IFullTiltPokerSmallBlindPlayerNameParser 
     {
-        #region Constants and Fields
-
         const string FullTiltSmallBlindPattern = @"(?<PlayerName>.+) posts the small blind";
-
-        #endregion
-
-        #region Properties
 
         protected override string SmallBlindPattern
         {
             get { return FullTiltSmallBlindPattern; }
         }
-
-        #endregion
     }
 }

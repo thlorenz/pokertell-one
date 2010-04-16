@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class BlindsParser : Base.BlindsParser
+    using Interfaces.Parsers;
+
+    public class BlindsParser : Base.BlindsParser, IPokerStarsBlindsParser 
     {
         const string PokerStarsBlindsPattern =
             @"\(" + SharedPatterns.RatioPattern + @"/" + SharedPatterns.Ratio2Pattern;

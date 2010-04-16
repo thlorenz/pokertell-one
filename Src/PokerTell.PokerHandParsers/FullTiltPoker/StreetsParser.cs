@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class StreetsParser : Base.StreetsParser
+    using Interfaces.Parsers;
+
+    public class StreetsParser : Base.StreetsParser, IFullTiltPokerStreetsParser 
     {
 
         const string FullTiltFlopPattern = @"\*\*\* FLOP \*\*\*";

@@ -2,7 +2,9 @@ namespace PokerTell.PokerHandParsers.Base
 {
     using System.Text.RegularExpressions;
 
-    public abstract class HoleCardsParser
+    using Interfaces.Parsers;
+
+    public abstract class HoleCardsParser : IHoleCardsParser
     {
         protected const string HoleCardsPattern =
             @".+\[" +
@@ -20,7 +22,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string ShownOrMuckedHoleCardsPattern { get; }
 
-        public virtual HoleCardsParser Parse(string handHistory, string playerName)
+        public virtual IHoleCardsParser Parse(string handHistory, string playerName)
         {
             _handHistory = handHistory;
             _playerName = Regex.Escape(playerName);

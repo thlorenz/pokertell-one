@@ -1,16 +1,12 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class TimeStampParser : Base.TimeStampParser
-    {
-        #region Constants and Fields
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
+    public class TimeStampParser : Base.TimeStampParser, IFullTiltPokerTimeStampParser
+    {
         const string FullTiltDatePattern = @"(?<Year>\d{4})/(?<Month>\d{2})/(?<Day>\d{2})";
 
         const string FullTiltTimePattern = @"(?<Hour>\d{1,2}):(?<Minute>\d{2}):(?<Second>\d{2})";
-
-        #endregion
-
-        #region Properties
 
         protected override string DatePattern
         {
@@ -21,7 +17,5 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
         {
             get { return FullTiltTimePattern; }
         }
-
-        #endregion
     }
 }

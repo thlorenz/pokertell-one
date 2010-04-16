@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class HoleCardsParser : Base.HoleCardsParser
+    using Interfaces.Parsers;
+
+    public class HoleCardsParser : Base.HoleCardsParser, IPokerStarsHoleCardsParser 
     {
         const string DealtToPattern = @"Dealt to ";
 

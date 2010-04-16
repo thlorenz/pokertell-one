@@ -1,8 +1,11 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class TableNameParser : Base.TableNameParser
+    using Interfaces.Parsers;
+
+    public class TableNameParser : Base.TableNameParser, IFullTiltPokerTableNameParser 
     {
-        internal const string FullTiltTableNamePattern = @".*Table (?<TableName>[^-]+) ";
+        // First part matches Tourneys, Sit'n Go s etc., decond part matches CashTables
+        internal const string FullTiltTableNamePattern = @"((?<TableName>\(\d+\), Table \d+ )|(Table (?<TableName>[^-]+) ))";
 
         protected override string TableNamePattern
         {

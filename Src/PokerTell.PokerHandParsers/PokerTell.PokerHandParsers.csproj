@@ -59,8 +59,25 @@
   <ItemGroup>
     <Compile Include="Base\GameTypeParser.cs" />
     <Compile Include="Base\HeroNameParser.cs" />
+    <Compile Include="Interfaces\Parsers\IBoardParser.cs" />
+    <Compile Include="Interfaces\Parsers\ITotalSeatsParser.cs" />
+    <Compile Include="Interfaces\Parsers\ITotalPotParser.cs" />
+    <Compile Include="Interfaces\Parsers\ITimeStampParser.cs" />
+    <Compile Include="Interfaces\Parsers\ITableNameParser.cs" />
+    <Compile Include="Interfaces\Parsers\IStreetsParser.cs" />
+    <Compile Include="Interfaces\Parsers\ISmallBlindPlayerNameParser.cs" />
+    <Compile Include="Interfaces\Parsers\IPlayerSeatsParser.cs" />
+    <Compile Include="Interfaces\Parsers\IPlayerActionsParser.cs" />
+    <Compile Include="Interfaces\Parsers\IHoleCardsParser.cs" />
+    <Compile Include="Interfaces\Parsers\IHeroNameParser.cs" />
+    <Compile Include="Interfaces\Parsers\IHandHeaderParser.cs" />
+    <Compile Include="Interfaces\Parsers\IGameTypeParser.cs" />
+    <Compile Include="Interfaces\Parsers\IAnteParser.cs" />
+    <Compile Include="Interfaces\Parsers\IBlindsParser.cs" />
     <Compile Include="FullTiltPoker\GameTypeParser.cs" />
     <Compile Include="FullTiltPoker\HeroNameParser.cs" />
+    <Compile Include="Interfaces\ITotalSeatsForTournamentsRecordKeeper.cs" />
+    <Compile Include="TotalSeatsForTournamentsRecordKeeper.cs" />
     <Compile Include="PokerHandParsers.cs" />
     <Compile Include="Base\BlindsParser.cs" />
     <Compile Include="Base\AnteParser.cs" />

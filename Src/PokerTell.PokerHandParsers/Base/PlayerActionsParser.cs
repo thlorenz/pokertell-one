@@ -4,11 +4,13 @@ namespace PokerTell.PokerHandParsers.Base
     using System.Collections.Generic;
     using System.Text.RegularExpressions;
 
+    using Interfaces.Parsers;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    public abstract class PlayerActionsParser
+    public abstract class PlayerActionsParser : IPlayerActionsParser
     {
         public IDictionary<ActionTypes, string> ActionStrings;
 
@@ -34,7 +36,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string WinningPattern { get; }
 
-        public virtual PlayerActionsParser Parse(string streetHistory, string playerName)
+        public virtual IPlayerActionsParser Parse(string streetHistory, string playerName)
         {
             _streetHistory = streetHistory;
             _playerName = Regex.Escape(playerName);

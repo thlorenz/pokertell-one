@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class StreetsParser : Base.StreetsParser
+    using Interfaces.Parsers;
+
+    public class StreetsParser : Base.StreetsParser, IPokerStarsStreetsParser 
     {
         const string PokerStarsFlopPattern = @"\*\*\* FLOP \*\*\*";
 

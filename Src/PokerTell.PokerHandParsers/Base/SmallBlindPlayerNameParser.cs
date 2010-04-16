@@ -1,22 +1,18 @@
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
-    public abstract class SmallBlindPlayerNameParser
-    {
-        #region Properties
+    using System.Text.RegularExpressions;
 
+    using Interfaces.Parsers;
+
+    public abstract class SmallBlindPlayerNameParser : ISmallBlindPlayerNameParser
+    {
         public bool IsValid { get; protected set; }
 
         public string SmallBlindPlayerName { get; protected set; }
 
         protected abstract string SmallBlindPattern { get; }
 
-        #endregion
-
-        #region Public Methods
-
-        public virtual SmallBlindPlayerNameParser Parse(string handHistory)
+        public virtual ISmallBlindPlayerNameParser Parse(string handHistory)
         {
             Match smallBlindPlayerName = MatchSmallBlindPlayerName(handHistory);
 
@@ -30,10 +26,6 @@ namespace PokerTell.PokerHandParsers.Base
             return this;
         }
 
-        #endregion
-
-        #region Methods
-
         void ExtractSmallBlindPlayerName(Match smallBlindPlayerName)
         {
             SmallBlindPlayerName = smallBlindPlayerName.Groups["PlayerName"].Value;
@@ -43,7 +35,5 @@ namespace PokerTell.PokerHandParsers.Base
         {
             return Regex.Match(handHistory, SmallBlindPattern, RegexOptions.IgnoreCase);
         }
-
-        #endregion
     }
 }

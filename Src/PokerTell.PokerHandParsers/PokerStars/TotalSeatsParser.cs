@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class TotalSeatsParser : Base.TotalSeatsParser
+    using Interfaces.Parsers;
+
+    public class TotalSeatsParser : Base.TotalSeatsParser, IPokerStarsTotalSeatsParser 
     {
         const string PokerStarsTotalSeatsPattern = 
             TableNameParser.PokerStarsTableNamePattern + @" +(?<TotalSeats>[0-9]{1,2})-max";

@@ -1,20 +1,14 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class SmallBlindPlayerNameParser : Base.SmallBlindPlayerNameParser
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
+
+    public class SmallBlindPlayerNameParser : Base.SmallBlindPlayerNameParser, IPokerStarsSmallBlindPlayerNameParser
     {
-        #region Constants and Fields
-
         const string PokerStarsSmallBlindPattern = @"(?<PlayerName>.+): posts small blind";
-
-        #endregion
-
-        #region Properties
 
         protected override string SmallBlindPattern
         {
             get { return PokerStarsSmallBlindPattern; }
         }
-
-        #endregion
     }
 }

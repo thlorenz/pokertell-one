@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class TableNameParser : Base.TableNameParser
+    using Interfaces.Parsers;
+
+    public class TableNameParser : Base.TableNameParser, IPokerStarsTableNameParser 
     {
         internal const string PokerStarsTableNamePattern = @".*Table ['](?<TableName>.*[^'])[']";
 

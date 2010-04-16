@@ -1,9 +1,11 @@
-using System;
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
-    public abstract class TotalPotParser
+    using System;
+    using System.Text.RegularExpressions;
+
+    using Interfaces.Parsers;
+
+    public abstract class TotalPotParser : ITotalPotParser
     {
         public bool IsValid { get; protected set; }
 
@@ -11,7 +13,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string TotalPotPattern { get; }
 
-        public TotalPotParser Parse(string handHistory)
+        public ITotalPotParser Parse(string handHistory)
         {
             Match totalPot = MatchTotalPot(handHistory);
             IsValid = totalPot.Success;
@@ -24,14 +26,14 @@ namespace PokerTell.PokerHandParsers.Base
             return this;
         }
 
-        Match MatchTotalPot(string handHistory)
-        {
-            return Regex.Match(handHistory, TotalPotPattern, RegexOptions.IgnoreCase);
-        }
-
         void ExtractTotalPot(Match totalPot)
         {
             TotalPot = Convert.ToDouble(totalPot.Groups["Ratio"].Value.Replace(",", string.Empty));
+        }
+
+        Match MatchTotalPot(string handHistory)
+        {
+            return Regex.Match(handHistory, TotalPotPattern, RegexOptions.IgnoreCase);
         }
     }
 }

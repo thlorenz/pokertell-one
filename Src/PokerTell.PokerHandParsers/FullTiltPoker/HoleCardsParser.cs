@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class HoleCardsParser : PokerStars.HoleCardsParser
+    using Interfaces.Parsers;
+
+    public class HoleCardsParser : PokerStars.HoleCardsParser, IFullTiltPokerHoleCardsParser 
     {
     }
 }

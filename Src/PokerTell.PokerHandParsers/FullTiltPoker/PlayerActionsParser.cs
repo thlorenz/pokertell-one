@@ -1,10 +1,12 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
+    using Interfaces.Parsers;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    public class PlayerActionsParser : Base.PlayerActionsParser
+    public class PlayerActionsParser : Base.PlayerActionsParser, IFullTiltPokerPlayerActionsParser 
     {
         const string FullTiltAllinBetPattern = @".+" + SharedPatterns.RatioPattern + @", and is all in";
 

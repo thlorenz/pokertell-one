@@ -1,22 +1,20 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using Infrastructure;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
 
     public class PokerHandParser : PokerTell.PokerHandParsers.PokerHandParser
     {
-        #region Constructors and Destructors
-
         public PokerHandParser(
-            IConstructor<IAquiredPokerHand> aquiredHandMake,
-            IConstructor<IAquiredPokerPlayer> aquiredPlayerMake,
-            IConstructor<IAquiredPokerRound> aquiredRoundMake,
+            IConstructor<IAquiredPokerHand> aquiredHandMake, 
+            IConstructor<IAquiredPokerPlayer> aquiredPlayerMake, 
+            IConstructor<IAquiredPokerRound> aquiredRoundMake, 
             IConstructor<IAquiredPokerAction> aquiredActionMake)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
             Site = PokerSites.PokerStars;
-            
+
             AnteParser = new AnteParser();
             BlindsParser = new BlindsParser();
             BoardParser = new BoardParser();
@@ -33,7 +31,5 @@ namespace PokerTell.PokerHandParsers.PokerStars
             TotalSeatsParser = new TotalSeatsParser();
             GameTypeParser = new GameTypeParser();
         }
-
-        #endregion
     }
 }

@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    using System;
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
-    public class HeroNameParser : Base.HeroNameParser
+    public class HeroNameParser : Base.HeroNameParser, IPokerStarsHeroNameParser
     {
         const string PokerStarsHeroNamePattern = @"Dealt to (?<HeroName>.+) \[" + SharedPatterns.CardPattern;
 

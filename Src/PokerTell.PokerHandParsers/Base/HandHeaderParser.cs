@@ -1,22 +1,33 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
-    public abstract class HandHeaderParser
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+
+    using Interfaces.Parsers;
+
+    public abstract class HandHeaderParser : IHandHeaderParser
     {
-        public bool IsValid { get; protected set; }
-        
+        public ulong GameId { get; protected set; }
+
         public bool IsTournament { get; protected set; }
 
-        public ulong GameId { get; protected set; }
+        public bool IsValid { get; protected set; }
 
         public ulong TournamentId { get; protected set; }
 
         protected abstract string HeaderPattern { get; }
 
-        public virtual HandHeaderParser Parse(string handHistory)
+        public virtual IList<HeaderMatchInformation> FindAllHeaders(string handHistories)
+        {
+            var allHeaders = Regex.Matches(handHistories, HeaderPattern, RegexOptions.IgnoreCase);
+
+            return (from Match header in allHeaders
+                    let gameId = ExtractGameId(header)
+                    select new HeaderMatchInformation(gameId, header)).ToList();
+        }
+
+        public virtual IHandHeaderParser Parse(string handHistory)
         {
             var header = MatchHeader(handHistory);
             IsValid = header.Success;
@@ -28,20 +39,6 @@ namespace PokerTell.PokerHandParsers.Base
             }
 
             return this;
-        }
-
-        public virtual IList<HeaderMatchInformation> FindAllHeaders(string handHistories)
-        {
-            var allHeaders = Regex.Matches(handHistories, HeaderPattern, RegexOptions.IgnoreCase);
-
-            return (from Match header in allHeaders
-                    let gameId = ExtractGameId(header)
-                    select new HeaderMatchInformation(gameId, header)).ToList();
-        }
-
-        protected virtual Match MatchHeader(string handHistory)
-        {
-            return Regex.Match(handHistory, HeaderPattern, RegexOptions.IgnoreCase);
         }
 
         protected virtual ulong ExtractGameId(Match header)
@@ -57,6 +54,10 @@ namespace PokerTell.PokerHandParsers.Base
                                : 0;
         }
 
+        protected virtual Match MatchHeader(string handHistory)
+        {
+            return Regex.Match(handHistory, HeaderPattern, RegexOptions.IgnoreCase);
+        }
 
         public class HeaderMatchInformation
         {

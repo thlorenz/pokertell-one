@@ -2,7 +2,9 @@ namespace PokerTell.PokerHandParsers.Base
 {
     using System.Text.RegularExpressions;
 
-    public abstract class HeroNameParser
+    using Interfaces.Parsers;
+
+    public abstract class HeroNameParser : IHeroNameParser
     {
         protected abstract string HeroNamePattern { get; }
 
@@ -10,7 +12,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         public bool IsValid { get; protected set; }
 
-        public HeroNameParser Parse(string handHistory)
+        public IHeroNameParser Parse(string handHistory)
         {
             Match hero = MatchTableName(handHistory);
             IsValid = hero.Success;

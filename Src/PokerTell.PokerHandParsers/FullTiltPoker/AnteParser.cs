@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    public class AnteParser : Base.AnteParser
+    using Interfaces.Parsers;
+
+    public class AnteParser : Base.AnteParser, IFullTiltPokerAnteParser 
     {
         const string FullTiltAntePattern = @" Ante " + SharedPatterns.RatioPattern + " - ";
 

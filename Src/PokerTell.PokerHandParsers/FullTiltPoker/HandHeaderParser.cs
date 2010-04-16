@@ -2,10 +2,10 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
     using System.Text.RegularExpressions;
 
-    public class HandHeaderParser : Base.HandHeaderParser
-    {
-        #region Constants and Fields
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
+    public class HandHeaderParser : Base.HandHeaderParser, IFullTiltPokerHandHeaderParser 
+    {
         const string FullTiltHeaderPattern =
             @"((Full Tilt Poker Game)|(FullTiltPoker Game)) " +
             @"[#](?<GameId>[0-9]+)[:].+" +
@@ -13,20 +13,12 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 
         const string TournamentPattern = @"(\((?<TournamentId>[0-9]+)\),) +Table";
 
-        #endregion
-
-        #region Properties
-
         protected override string HeaderPattern
         {
             get { return FullTiltHeaderPattern; }
         }
 
-        #endregion
-
-        #region Public Methods
-
-        public override Base.HandHeaderParser Parse(string handHistory)
+        public override IHandHeaderParser Parse(string handHistory)
         {
             Match header = MatchHeader(handHistory);
             IsValid = header.Success;
@@ -40,10 +32,6 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             return this;
         }
 
-        #endregion
-
-        #region Methods
-
         void ExtractTournamentId(string handHistory)
         {
             Match tournament = Regex.Match(handHistory, TournamentPattern, RegexOptions.IgnoreCase);
@@ -52,7 +40,5 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
                                ? ulong.Parse(tournament.Groups["TournamentId"].Value)
                                : 0;
         }
-
-        #endregion
     }
 }

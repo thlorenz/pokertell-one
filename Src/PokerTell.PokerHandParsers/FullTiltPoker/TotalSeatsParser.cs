@@ -2,29 +2,21 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
     using System.Text.RegularExpressions;
 
-    public class TotalSeatsParser : Base.TotalSeatsParser
-    {
-        #region Constants and Fields
+    using Interfaces.Parsers;
 
+    public class TotalSeatsParser : Base.TotalSeatsParser, IFullTiltPokerTotalSeatsParser 
+    {
         const string FullTiltTotalSeatsPattern =
             TableNameParser.FullTiltTableNamePattern + @"\((?<TotalSeats>[0-9]{1,2}) max\) ";
 
         const string HeadsUpPattern = TableNameParser.FullTiltTableNamePattern + @"\(heads up\) ";
-
-        #endregion
-
-        #region Properties
 
         protected override string TotalSeatsPattern
         {
             get { return FullTiltTotalSeatsPattern; }
         }
 
-        #endregion
-
-        #region Public Methods
-
-        public override Base.TotalSeatsParser Parse(string handHistory)
+        public override ITotalSeatsParser Parse(string handHistory)
         {
             IsValid = !string.IsNullOrEmpty(handHistory);
 
@@ -46,10 +38,6 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             return this;
         }
 
-        #endregion
-
-        #region Methods
-
         static Match MatchHeadsUp(string handHistory)
         {
             return Regex.Match(handHistory, HeadsUpPattern, RegexOptions.IgnoreCase);
@@ -59,7 +47,5 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
         {
             TotalSeats = 9;
         }
-
-        #endregion
     }
 }

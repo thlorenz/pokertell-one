@@ -1,6 +1,8 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
-    public class AnteParser : Base.AnteParser
+    using Interfaces.Parsers;
+
+    public class AnteParser : Base.AnteParser, IPokerStarsAnteParser 
     {
         const string PokerStarsAntePattern = @"posts the ante " + SharedPatterns.RatioPattern;
 

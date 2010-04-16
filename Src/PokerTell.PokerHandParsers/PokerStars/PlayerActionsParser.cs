@@ -1,10 +1,12 @@
 namespace PokerTell.PokerHandParsers.PokerStars
 {
+    using Interfaces.Parsers;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
 
-    public class PlayerActionsParser : Base.PlayerActionsParser
+    public class PlayerActionsParser : Base.PlayerActionsParser, IPokerStarsPlayerActionsParser 
     {
         const string PokerStarsAllinBetPattern = @": .+" + SharedPatterns.RatioPattern + @" and is all-in";
 

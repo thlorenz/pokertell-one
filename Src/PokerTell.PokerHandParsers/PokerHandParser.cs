@@ -421,7 +421,7 @@ namespace PokerTell.PokerHandParsers
             }
         }
 
-        void ParseTotalSeats()
+        protected virtual void ParseTotalSeats()
         {
             if (TotalSeatsParser.Parse(_handHistory).IsValid)
             {

@@ -1,23 +1,19 @@
-using System;
-using System.Text.RegularExpressions;
-
 namespace PokerTell.PokerHandParsers.Base
 {
-    public abstract class AnteParser
-    {
-        #region Properties
+    using System;
+    using System.Text.RegularExpressions;
 
+    using Interfaces.Parsers;
+
+    public abstract class AnteParser : IAnteParser
+    {
         public double Ante { get; protected set; }
 
         public bool IsValid { get; protected set; }
 
         protected abstract string AntePattern { get; }
 
-        #endregion
-
-        #region Public Methods
-
-        public virtual AnteParser Parse(string handHistory)
+        public virtual IAnteParser Parse(string handHistory)
         {
             Match ante = MatchTotalPot(handHistory);
             IsValid = ante.Success;
@@ -26,12 +22,9 @@ namespace PokerTell.PokerHandParsers.Base
             {
                 ExtractTotalPot(ante);
             }
+
             return this;
         }
-
-        #endregion
-
-        #region Methods
 
         protected virtual void ExtractTotalPot(Match ante)
         {
@@ -42,7 +35,5 @@ namespace PokerTell.PokerHandParsers.Base
         {
             return Regex.Match(handHistory, AntePattern, RegexOptions.IgnoreCase);
         }
-
-        #endregion
     }
 }

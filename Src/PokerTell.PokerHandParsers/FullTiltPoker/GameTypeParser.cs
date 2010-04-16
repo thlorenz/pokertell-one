@@ -1,8 +1,8 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    using System;
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
-    public class GameTypeParser : Base.GameTypeParser
+    public class GameTypeParser : Base.GameTypeParser, IFullTiltPokerGameTypeParser
     {
         const string FullTiltGameTypePattern = @"- (?<GameType>(Limit|Pot Limit|No Limit)) (Hold'em|Holdem) -";
 

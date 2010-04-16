@@ -2,7 +2,9 @@ namespace PokerTell.PokerHandParsers.Base
 {
     using System.Text.RegularExpressions;
 
-    public abstract class TableNameParser
+    using Interfaces.Parsers;
+
+    public abstract class TableNameParser : ITableNameParser
     {
         public bool IsValid { get; protected set; }
 
@@ -10,7 +12,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string TableNamePattern { get; }
 
-        public TableNameParser Parse(string handHistory)
+        public ITableNameParser Parse(string handHistory)
         {
             Match table = MatchTableName(handHistory);
             IsValid = table.Success;

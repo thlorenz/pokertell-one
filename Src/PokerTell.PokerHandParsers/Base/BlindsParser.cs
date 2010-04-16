@@ -3,7 +3,9 @@ namespace PokerTell.PokerHandParsers.Base
     using System;
     using System.Text.RegularExpressions;
 
-    public abstract class BlindsParser
+    using Interfaces.Parsers;
+
+    public abstract class BlindsParser : IBlindsParser
     {
         public bool IsValid { get; protected set; }
 
@@ -13,7 +15,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string BlindsPattern { get; }
 
-        public virtual BlindsParser Parse(string handHistory)
+        public virtual IBlindsParser Parse(string handHistory)
         {
             Match blinds = MatchBlinds(handHistory);
             IsValid = blinds.Success;

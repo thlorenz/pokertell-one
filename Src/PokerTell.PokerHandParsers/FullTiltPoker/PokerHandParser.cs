@@ -1,6 +1,7 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
     using System;
+    using System.Collections.Generic;
 
     using Infrastructure;
     using Infrastructure.Interfaces;
@@ -8,6 +9,9 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 
     public class PokerHandParser : PokerTell.PokerHandParsers.PokerHandParser
     {
+
+        readonly TotalSeatsParser _fullTiltTotalSeatsParser;
+
         public PokerHandParser(
             IConstructor<IAquiredPokerHand> aquiredHandMake,
             IConstructor<IAquiredPokerPlayer> aquiredPlayerMake,
@@ -30,8 +34,28 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             TableNameParser = new TableNameParser();
             TimeStampParser = new TimeStampParser();
             TotalPotParser = new TotalPotParser();
-            TotalSeatsParser = new TotalSeatsParser();
+
+            _fullTiltTotalSeatsParser = new TotalSeatsParser();
+            TotalSeatsParser = _fullTiltTotalSeatsParser;
             GameTypeParser = new GameTypeParser();
+        }
+
+        protected override void ParseTotalSeats()
+        {
+            if (HandHeaderParser.IsTournament)
+            {
+                // set record
+                // set is tournament
+                
+                base.ParseTotalSeats();
+
+                // update record
+            }
+            else
+            {
+                base.ParseTotalSeats();
+            }
+
         }
     }
 }

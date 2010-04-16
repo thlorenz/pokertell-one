@@ -2,11 +2,13 @@ namespace PokerTell.PokerHandParsers.Base
 {
     using System.Text.RegularExpressions;
 
+    using Interfaces.Parsers;
+
     using PokerTell.Infrastructure.Enumerations.PokerHand;
 
     using Tools.FunctionalCSharp;
 
-    public abstract class GameTypeParser
+    public abstract class GameTypeParser : IGameTypeParser
     {
         public bool IsValid { get; protected set; }
 
@@ -14,7 +16,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string GameTypePattern { get; }
 
-        public virtual GameTypeParser Parse(string handHistory)
+        public virtual IGameTypeParser Parse(string handHistory)
         {
             Match gameTypeMatch = MatchGameType(handHistory);
             IsValid = gameTypeMatch.Success;

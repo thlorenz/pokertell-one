@@ -4,9 +4,11 @@ namespace PokerTell.PokerHandParsers.Base
     using System.Reflection;
     using System.Text.RegularExpressions;
 
+    using Interfaces.Parsers;
+
     using log4net;
 
-    public abstract class StreetsParser
+    public abstract class StreetsParser : IStreetsParser
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -44,7 +46,7 @@ namespace PokerTell.PokerHandParsers.Base
 
         protected abstract string TurnPattern { get; }
 
-        public StreetsParser Parse(string handHistory)
+        public IStreetsParser Parse(string handHistory)
         {
             _handHistory = handHistory;
             _summary = MatchSummary();
