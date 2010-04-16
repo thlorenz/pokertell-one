@@ -1,43 +1,63 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
-    using System;
-    using System.Collections.Generic;
+    using Interfaces;
 
-    using Infrastructure;
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure;
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
     public class PokerHandParser : PokerTell.PokerHandParsers.PokerHandParser
     {
+        readonly IFullTiltPokerTotalSeatsParser _fullTiltTotalSeatsParser;
 
-        readonly TotalSeatsParser _fullTiltTotalSeatsParser;
+        readonly ITotalSeatsForTournamentsRecordKeeper _totalSeatsForTournamentsRecordKeeper;
 
         public PokerHandParser(
-            IConstructor<IAquiredPokerHand> aquiredHandMake,
-            IConstructor<IAquiredPokerPlayer> aquiredPlayerMake,
-            IConstructor<IAquiredPokerRound> aquiredRoundMake,
-            IConstructor<IAquiredPokerAction> aquiredActionMake)
+            IConstructor<IAquiredPokerHand> aquiredHandMake, 
+            IConstructor<IAquiredPokerPlayer> aquiredPlayerMake, 
+            IConstructor<IAquiredPokerRound> aquiredRoundMake, 
+            IConstructor<IAquiredPokerAction> aquiredActionMake, 
+            IFullTiltPokerAnteParser anteParser, 
+            IFullTiltPokerBlindsParser blindsParser, 
+            IFullTiltPokerBoardParser boardParser, 
+            IFullTiltPokerGameTypeParser gameTypeParser, 
+            IFullTiltPokerHandHeaderParser handHeaderParser, 
+            IFullTiltPokerHeroNameParser heroNameParser, 
+            IFullTiltPokerHoleCardsParser holeCardsParser, 
+            IFullTiltPokerPlayerActionsParser playerActionsParser, 
+            IFullTiltPokerPlayerSeatsParser playerSeatsParser, 
+            IFullTiltPokerSmallBlindPlayerNameParser smallBlindPlayerNameParser, 
+            IFullTiltPokerStreetsParser streetsParser, 
+            IFullTiltPokerTableNameParser tableNameParser, 
+            IFullTiltPokerTimeStampParser timeStampParser, 
+            IFullTiltPokerTotalPotParser totalPotParser, 
+            IFullTiltPokerTotalSeatsParser totalSeatsParser,
+            ITotalSeatsForTournamentsRecordKeeper totalSeatsForTournamentsRecordKeeper)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
             Site = PokerSites.FullTiltPoker;
 
-            AnteParser = new AnteParser();
-            BlindsParser = new BlindsParser();
-            BoardParser = new BoardParser();
-            HandHeaderParser = new HandHeaderParser();
-            HeroNameParser = new HeroNameParser();
-            HoleCardsParser = new HoleCardsParser();
-            PlayerActionsParser = new PlayerActionsParser(_aquiredActionMake);
-            PlayerSeatsParser = new PlayerSeatsParser();
-            SmallBlindPlayerNameParser = new SmallBlindPlayerNameParser();
-            StreetsParser = new StreetsParser();
-            TableNameParser = new TableNameParser();
-            TimeStampParser = new TimeStampParser();
-            TotalPotParser = new TotalPotParser();
+            AnteParser = anteParser;
+            BlindsParser = blindsParser;
+            BoardParser = boardParser;
+            HandHeaderParser = handHeaderParser;
+            HeroNameParser = heroNameParser;
+            HoleCardsParser = holeCardsParser;
+            PlayerActionsParser = playerActionsParser;
+            PlayerSeatsParser = playerSeatsParser;
+            SmallBlindPlayerNameParser = smallBlindPlayerNameParser;
+            StreetsParser = streetsParser;
+            TableNameParser = tableNameParser;
+            TimeStampParser = timeStampParser;
+            TotalPotParser = totalPotParser;
 
-            _fullTiltTotalSeatsParser = new TotalSeatsParser();
+            _fullTiltTotalSeatsParser = totalSeatsParser;
             TotalSeatsParser = _fullTiltTotalSeatsParser;
-            GameTypeParser = new GameTypeParser();
+            
+            GameTypeParser = gameTypeParser;
+
+            _totalSeatsForTournamentsRecordKeeper = totalSeatsForTournamentsRecordKeeper;
         }
 
         protected override void ParseTotalSeats()
@@ -46,7 +66,6 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             {
                 // set record
                 // set is tournament
-                
                 base.ParseTotalSeats();
 
                 // update record
@@ -55,7 +74,6 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             {
                 base.ParseTotalSeats();
             }
-
         }
     }
 }

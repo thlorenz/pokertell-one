@@ -5,6 +5,8 @@ namespace PokerTell.PokerHandParsers
     using System.Reflection;
     using System.Text;
 
+    using Interfaces.Parsers;
+
     using log4net;
 
     using PokerTell.Infrastructure.Interfaces;
@@ -16,37 +18,37 @@ namespace PokerTell.PokerHandParsers
     {
         protected readonly IConstructor<IAquiredPokerAction> _aquiredActionMake;
 
-        protected AnteParser AnteParser;
+        protected IAnteParser AnteParser;
 
-        protected BlindsParser BlindsParser;
+        protected IBlindsParser BlindsParser;
 
-        protected BoardParser BoardParser;
+        protected IBoardParser BoardParser;
 
-        protected GameTypeParser GameTypeParser;
+        protected IGameTypeParser GameTypeParser;
 
-        protected HandHeaderParser HandHeaderParser;
+        protected IHandHeaderParser HandHeaderParser;
 
-        protected HeroNameParser HeroNameParser;
+        protected IHeroNameParser HeroNameParser;
 
-        protected HoleCardsParser HoleCardsParser;
+        protected IHoleCardsParser HoleCardsParser;
 
-        protected PlayerActionsParser PlayerActionsParser;
+        protected IPlayerActionsParser PlayerActionsParser;
 
-        protected PlayerSeatsParser PlayerSeatsParser;
+        protected IPlayerSeatsParser PlayerSeatsParser;
 
         protected string Site;
 
-        protected SmallBlindPlayerNameParser SmallBlindPlayerNameParser;
+        protected ISmallBlindPlayerNameParser SmallBlindPlayerNameParser;
 
-        protected StreetsParser StreetsParser;
+        protected IStreetsParser StreetsParser;
 
-        protected TableNameParser TableNameParser;
+        protected ITableNameParser TableNameParser;
 
-        protected TimeStampParser TimeStampParser;
+        protected ITimeStampParser TimeStampParser;
 
-        protected TotalPotParser TotalPotParser;
+        protected ITotalPotParser TotalPotParser;
 
-        protected TotalSeatsParser TotalSeatsParser;
+        protected ITotalSeatsParser TotalSeatsParser;
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);

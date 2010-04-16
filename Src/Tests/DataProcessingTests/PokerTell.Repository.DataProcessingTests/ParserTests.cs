@@ -9,6 +9,9 @@ namespace PokerTell.Repository.DataProcessingTests
 
     using NUnit.Framework;
 
+    using PokerHandParsers.Interfaces;
+    using PokerHandParsers.Interfaces.Parsers;
+
     using PokerTell.Infrastructure.Interfaces.PokerHand;
     using PokerTell.Infrastructure.Interfaces.PokerHandParsers;
     using PokerTell.PokerHand.Analyzation;
@@ -37,6 +40,42 @@ namespace PokerTell.Repository.DataProcessingTests
                 .RegisterType<IPokerActionConverter, PokerActionConverter>()
                 .RegisterType<IPokerRoundsConverter, PokerRoundsConverter>()
                 .RegisterTypeAndConstructor<IPokerHandConverter, PokerHandConverter>(() => _container.Resolve<IPokerHandConverter>())
+
+                // PokerStars
+                .RegisterType<IPokerStarsAnteParser, PokerHandParsers.PokerStars.AnteParser>()
+                .RegisterType<IPokerStarsBlindsParser, PokerHandParsers.PokerStars.BlindsParser>()
+                .RegisterType<IPokerStarsBoardParser, PokerHandParsers.PokerStars.BoardParser>()
+                .RegisterType<IPokerStarsGameTypeParser, PokerHandParsers.PokerStars.GameTypeParser>()
+                .RegisterType<IPokerStarsHandHeaderParser, PokerHandParsers.PokerStars.HandHeaderParser>()
+                .RegisterType<IPokerStarsHeroNameParser, PokerHandParsers.PokerStars.HeroNameParser>()
+                .RegisterType<IPokerStarsHoleCardsParser, PokerHandParsers.PokerStars.HoleCardsParser>()
+                .RegisterType<IPokerStarsPlayerActionsParser, PokerHandParsers.PokerStars.PlayerActionsParser>()
+                .RegisterType<IPokerStarsPlayerSeatsParser, PokerHandParsers.PokerStars.PlayerSeatsParser>()
+                .RegisterType<IPokerStarsSmallBlindPlayerNameParser, PokerHandParsers.PokerStars.SmallBlindPlayerNameParser>()
+                .RegisterType<IPokerStarsStreetsParser, PokerHandParsers.PokerStars.StreetsParser>()
+                .RegisterType<IPokerStarsTableNameParser, PokerHandParsers.PokerStars.TableNameParser>()
+                .RegisterType<IPokerStarsTimeStampParser, PokerHandParsers.PokerStars.TimeStampParser>()
+                .RegisterType<IPokerStarsTotalPotParser, PokerHandParsers.PokerStars.TotalPotParser>()
+                .RegisterType<IPokerStarsTotalSeatsParser, PokerHandParsers.PokerStars.TotalSeatsParser>()
+
+                // FullTiltPoker
+                .RegisterType<IFullTiltPokerAnteParser, PokerHandParsers.FullTiltPoker.AnteParser>()
+                .RegisterType<IFullTiltPokerBlindsParser, PokerHandParsers.FullTiltPoker.BlindsParser>()
+                .RegisterType<IFullTiltPokerBoardParser, PokerHandParsers.FullTiltPoker.BoardParser>()
+                .RegisterType<IFullTiltPokerGameTypeParser, PokerHandParsers.FullTiltPoker.GameTypeParser>()
+                .RegisterType<IFullTiltPokerHandHeaderParser, PokerHandParsers.FullTiltPoker.HandHeaderParser>()
+                .RegisterType<IFullTiltPokerHeroNameParser, PokerHandParsers.FullTiltPoker.HeroNameParser>()
+                .RegisterType<IFullTiltPokerHoleCardsParser, PokerHandParsers.FullTiltPoker.HoleCardsParser>()
+                .RegisterType<IFullTiltPokerPlayerActionsParser, PokerHandParsers.FullTiltPoker.PlayerActionsParser>()
+                .RegisterType<IFullTiltPokerPlayerSeatsParser, PokerHandParsers.FullTiltPoker.PlayerSeatsParser>()
+                .RegisterType<IFullTiltPokerSmallBlindPlayerNameParser, PokerHandParsers.FullTiltPoker.SmallBlindPlayerNameParser>()
+                .RegisterType<IFullTiltPokerStreetsParser, PokerHandParsers.FullTiltPoker.StreetsParser>()
+                .RegisterType<IFullTiltPokerTableNameParser, PokerHandParsers.FullTiltPoker.TableNameParser>()
+                .RegisterType<IFullTiltPokerTimeStampParser, PokerHandParsers.FullTiltPoker.TimeStampParser>()
+                .RegisterType<IFullTiltPokerTotalPotParser, PokerHandParsers.FullTiltPoker.TotalPotParser>()
+                .RegisterType<IFullTiltPokerTotalSeatsParser, PokerHandParsers.FullTiltPoker.TotalSeatsParser>()
+
+                .RegisterType<ITotalSeatsForTournamentsRecordKeeper, PokerHandParsers.TotalSeatsForTournamentsRecordKeeper>(new ContainerControlledLifetimeManager())
                 .RegisterType<RepositoryParser>();
         }
 
@@ -52,7 +91,7 @@ namespace PokerTell.Repository.DataProcessingTests
 
             var repositoryParser = _container.Resolve<RepositoryParser>();
 
-            const string batchDirectory = @"C:\SD\PokerTell\TestData\HandHistories\FullTilt\Batches\New\";
+            const string batchDirectory = @"C:\SD\PokerTell\TestData\HandHistories\FullTilt\OneFile\";
 
             ParseDirectoryWithParser(batchDirectory, repositoryParser, printConvertedHands);
         }

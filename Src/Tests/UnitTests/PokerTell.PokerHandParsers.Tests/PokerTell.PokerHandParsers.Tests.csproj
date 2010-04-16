@@ -107,6 +107,9 @@
     <Compile Include="Base\TableNameParserTests.cs" />
     <Compile Include="Base\TimeStampParserTests.cs" />
     <Compile Include="Base\TotalSeatsParserTests.cs" />
+    <Compile Include="TotalSeatsForTournamentsRecordKeeperSpecs.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">

@@ -3,6 +3,7 @@ namespace PokerTell.PokerHandParsers.PokerStars
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces;
     using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.PokerHandParsers.Interfaces.Parsers;
 
     public class PokerHandParser : PokerTell.PokerHandParsers.PokerHandParser
     {
@@ -10,26 +11,41 @@ namespace PokerTell.PokerHandParsers.PokerStars
             IConstructor<IAquiredPokerHand> aquiredHandMake, 
             IConstructor<IAquiredPokerPlayer> aquiredPlayerMake, 
             IConstructor<IAquiredPokerRound> aquiredRoundMake, 
-            IConstructor<IAquiredPokerAction> aquiredActionMake)
+            IConstructor<IAquiredPokerAction> aquiredActionMake, 
+            IPokerStarsAnteParser anteParser, 
+            IPokerStarsBlindsParser blindsParser, 
+            IPokerStarsBoardParser boardParser, 
+            IPokerStarsGameTypeParser gameTypeParser, 
+            IPokerStarsHandHeaderParser handHeaderParser, 
+            IPokerStarsHeroNameParser heroNameParser, 
+            IPokerStarsHoleCardsParser holeCardsParser, 
+            IPokerStarsPlayerActionsParser playerActionsParser, 
+            IPokerStarsPlayerSeatsParser playerSeatsParser, 
+            IPokerStarsSmallBlindPlayerNameParser smallBlindPlayerNameParser, 
+            IPokerStarsStreetsParser streetsParser, 
+            IPokerStarsTableNameParser tableNameParser, 
+            IPokerStarsTimeStampParser timeStampParser, 
+            IPokerStarsTotalPotParser totalPotParser, 
+            IPokerStarsTotalSeatsParser totalSeatsParser)
             : base(aquiredHandMake, aquiredPlayerMake, aquiredRoundMake, aquiredActionMake)
         {
             Site = PokerSites.PokerStars;
 
-            AnteParser = new AnteParser();
-            BlindsParser = new BlindsParser();
-            BoardParser = new BoardParser();
-            HandHeaderParser = new HandHeaderParser();
-            HeroNameParser = new HeroNameParser();
-            HoleCardsParser = new HoleCardsParser();
-            PlayerActionsParser = new PlayerActionsParser(_aquiredActionMake);
-            PlayerSeatsParser = new PlayerSeatsParser();
-            SmallBlindPlayerNameParser = new SmallBlindPlayerNameParser();
-            StreetsParser = new StreetsParser();
-            TableNameParser = new TableNameParser();
-            TimeStampParser = new TimeStampParser();
-            TotalPotParser = new TotalPotParser();
-            TotalSeatsParser = new TotalSeatsParser();
-            GameTypeParser = new GameTypeParser();
+            AnteParser = anteParser;
+            BlindsParser = blindsParser;
+            BoardParser = boardParser;
+            HandHeaderParser = handHeaderParser;
+            HeroNameParser = heroNameParser;
+            HoleCardsParser = holeCardsParser;
+            PlayerActionsParser = playerActionsParser;
+            PlayerSeatsParser = playerSeatsParser;
+            SmallBlindPlayerNameParser = smallBlindPlayerNameParser;
+            StreetsParser = streetsParser;
+            TableNameParser = tableNameParser;
+            TimeStampParser = timeStampParser;
+            TotalPotParser = totalPotParser;
+            TotalSeatsParser = totalSeatsParser;
+            GameTypeParser = gameTypeParser;
         }
     }
 }
