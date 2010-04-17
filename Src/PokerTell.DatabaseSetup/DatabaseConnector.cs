@@ -85,13 +85,13 @@ namespace PokerTell.DatabaseSetup
 
                 if (_dataProviderInfo.IsEmbedded)
                 {
-                    managedDatabase = new EmbeddedManagedDatabase(DataProvider, _dataProviderInfo);
+                    managedDatabase = new EmbeddedManagedDatabase().InitializeWith(DataProvider, _dataProviderInfo);
                     return new DatabaseManager(managedDatabase, _databaseSettings);
                 }
 
                 if (DataProvider.IsConnectedToServer)
                 {
-                    managedDatabase = new ExternalManagedDatabase(DataProvider, _dataProviderInfo);
+                    managedDatabase = new ExternalManagedDatabase().InitializeWith(DataProvider, _dataProviderInfo);
                     return new DatabaseManager(managedDatabase, _databaseSettings);
                 }
             }

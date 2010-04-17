@@ -9,49 +9,13 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
     public interface IDataProvider : IDisposable
     {
-        #region Properties
-
         IDbConnection Connection { get; }
-
-        bool IsConnectedToServer { get; }
-
-        bool IsConnectedToDatabase { get; }
-
-        string ParameterPlaceHolder { get; set; }
 
         string DatabaseName { get; set; }
 
-        Configuration NHibernateConfiguration { get; }
+        bool IsConnectedToDatabase { get; }
 
-        #endregion
-
-        #region Public Methods
-
-        void Connect(string connString, IDataProviderInfo dataProviderInfo);
-
-        int ExecuteNonQuery(string nonQuery);
-
-        IDataReader ExecuteQuery(string query);
-
-        object ExecuteScalar(string query);
-
-        IDbCommand GetCommand();
-
-        string ListInstalledProviders();
-
-        string ToString();
-
-        #endregion
-
-        DataTable GetDataTableFor(string query);
-
-        /// <summary>
-        /// Executes an SqlQuery and adds all values in the specified column to a list
-        /// </summary>
-        /// <param name="query">Sql Query to be executed</param>
-        /// <param name="column">Number of the column to get the results from</param>
-        /// <returns>List of values found in the specified column</returns>
-        IList<T> ExecuteQueryGetColumn<T>(string query, int column);
+        bool IsConnectedToServer { get; }
 
         /// <summary>
         /// Builds an NHibernate Session Factory using the Connection String from the current database connection and
@@ -61,6 +25,34 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         /// <returns>Newly created NHibernate SessionFactory or null if DataProvider was not connected.</returns>
         ISessionFactory NewSessionFactory { get; }
 
+        Configuration NHibernateConfiguration { get; }
+
+        string ParameterPlaceHolder { get; set; }
+
         ISessionFactory BuildSessionFactory();
+
+        void Connect(string connString, IDataProviderInfo dataProviderInfo);
+
+        int ExecuteNonQuery(string nonQuery);
+
+        IDataReader ExecuteQuery(string query);
+
+        /// <summary>
+        /// Executes an SqlQuery and adds all values in the specified column to a list
+        /// </summary>
+        /// <param name="query">Sql Query to be executed</param>
+        /// <param name="column">Number of the column to get the results from</param>
+        /// <returns>List of values found in the specified column</returns>
+        IList<T> ExecuteQueryGetColumn<T>(string query, int column);
+
+        object ExecuteScalar(string query);
+
+        IDbCommand GetCommand();
+
+        DataTable GetDataTableFor(string query);
+
+        string ListInstalledProviders();
+
+        string ToString();
     }
 }

@@ -54,6 +54,8 @@ namespace PokerTell.DatabaseSetup
                 .RegisterInstance(dataProviderInfos)
                 .RegisterType<IDatabaseSettings, DatabaseSettings>()
                 .RegisterType<IDatabaseManager, DatabaseManager>()
+                .RegisterType<IExternalManagedDatabase, ExternalManagedDatabase>()
+                .RegisterType<IEmbeddedManagedDatabase, EmbeddedManagedDatabase>()
                 
                 .RegisterType<ConfigureMySqlDataProviderViewModel>()
                 .RegisterType<ConfigureMySqlDataProviderView>()

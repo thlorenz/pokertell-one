@@ -4,8 +4,6 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
     public interface IDatabaseSettings
     {
-        #region Public Methods
-
         bool ConnectionStringExistsFor(IDataProviderInfo dataProviderInfo);
 
         IEnumerable<IDataProviderInfo> GetAvailableProviders();
@@ -34,7 +32,5 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         IDatabaseSettings SetCurrentDataProviderTo(IDataProviderInfo dataProviderInfo);
 
         IDatabaseSettings SetServerConnectStringFor(IDataProviderInfo dataProviderInfo, string serverConnectString);
-
-        #endregion
     }
 }

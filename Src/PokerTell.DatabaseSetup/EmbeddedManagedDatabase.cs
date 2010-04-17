@@ -15,20 +15,20 @@ namespace PokerTell.DatabaseSetup
 
     using Properties;
 
-    public class EmbeddedManagedDatabase : IManagedDatabase
+    public class EmbeddedManagedDatabase : IEmbeddedManagedDatabase
     {
         const string FileExtension = "db3";
 
         static readonly ILog Log =
             LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        readonly string _databaseDirectory;
+        string _databaseDirectory;
 
-        readonly IDataProvider _dataProvider;
+        IDataProvider _dataProvider;
 
-        readonly IDataProviderInfo _dataProviderInfo;
+        IDataProviderInfo _dataProviderInfo;
 
-        public EmbeddedManagedDatabase(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
+        public IManagedDatabase InitializeWith(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
         {
             _dataProviderInfo = dataProviderInfo;
             _dataProvider = dataProvider;
@@ -36,6 +36,8 @@ namespace PokerTell.DatabaseSetup
             _databaseDirectory = string.Format("{0}\\{1}\\", Files.LocalUserAppDataPath, Files.DataFolder);
 
             ValidateDatabaseDirectoryAndRecreateIfNeccessary();
+
+            return this;
         }
 
         public string ConnectionString { get; private set; }

@@ -2,18 +2,16 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 {
     using System.Collections.Generic;
 
-    public interface IDataProviderInfos
+    public interface IDataProviderInfos : IFluentInterface
     {
-        #region Properties
-
         IEnumerable<IDataProviderInfo> Supported { get; }
 
-        #endregion
+        IDataProviderInfo MySqlProviderInfo { get; }
 
-        #region Public Methods
+        IDataProviderInfo SQLiteProviderInfo { get; }
+
+        IDataProviderInfo PostgresProviderInfo { get; }
 
         IDataProviderInfos Support(IDataProviderInfo dataProviderInfo);
-
-        #endregion
     }
 }

@@ -11,11 +11,11 @@ namespace PokerTell.DatabaseSetup
     using PokerTell.DatabaseSetup.Properties;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
-    public class ExternalManagedDatabase : IManagedDatabase
+    public class ExternalManagedDatabase : IExternalManagedDatabase
     {
-        readonly IDataProvider _dataProvider;
+        IDataProvider _dataProvider;
 
-        readonly IDataProviderInfo _dataProviderInfo;
+        IDataProviderInfo _dataProviderInfo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExternalManagedDatabase"/> class. 
@@ -29,10 +29,12 @@ namespace PokerTell.DatabaseSetup
         /// <param name="dataProviderInfo">
         /// External: MySql, Postgres etc.
         /// </param>
-        public ExternalManagedDatabase(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
+        public IManagedDatabase InitializeWith(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
         {
             _dataProviderInfo = dataProviderInfo;
             _dataProvider = dataProvider;
+
+            return this;
         }
 
         public string ConnectionString { get; private set; }

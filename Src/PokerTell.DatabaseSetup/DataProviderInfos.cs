@@ -25,10 +25,25 @@ namespace PokerTell.DatabaseSetup
 
         public IEnumerable<IDataProviderInfo> Supported
         {
-           get
+            get
             {
                 return _supportedDataProviders;
             }
+        }
+
+        public IDataProviderInfo MySqlProviderInfo
+        {
+            get { return new MySqlInfo(); }
+        }
+
+        public IDataProviderInfo SQLiteProviderInfo
+        {
+            get { return new SqLiteInfo(); }
+        }
+
+        public IDataProviderInfo PostgresProviderInfo
+        {
+            get { return null; }
         }
     }
 }

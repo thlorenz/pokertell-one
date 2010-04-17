@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\NHibernate\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Machine.Specifications, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\MSpec\Machine.Specifications.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Composite, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Composite.dll</HintPath>
@@ -84,6 +88,7 @@
     <Compile Include="RepositoryParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryTests.cs" />
+    <Compile Include="ViewModels\DatabaseImportViewModelSpecs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\Tools\Tools.csproj">

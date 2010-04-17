@@ -104,6 +104,7 @@
     <Compile Include="RepositoryDatabase.cs" />
     <Compile Include="RepositoryModule.cs" />
     <Compile Include="RepositoryParser.cs" />
+    <Compile Include="ViewModels\DatabaseImportViewModel.cs" />
     <Compile Include="ViewModels\RepositoryMenuItemsViewModel.cs" />
     <Compile Include="ViewModels\ImportHandHistoriesViewModel.cs" />
     <Compile Include="Views\ImportHandHistoriesView.xaml.cs">
@@ -141,4 +142,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

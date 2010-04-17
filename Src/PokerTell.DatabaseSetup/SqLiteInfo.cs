@@ -7,8 +7,6 @@ namespace PokerTell.DatabaseSetup
     using NHibernate.Dialect;
     using NHibernate.Driver;
 
-    using Properties;
-
     public class SqLiteInfo : IDataProviderInfo
     {
         public string FullName

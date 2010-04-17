@@ -61,6 +61,42 @@ namespace PokerTell.Repository.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        public static string DatabaseImportView_Application {
+            get {
+                return ResourceManager.GetString("DatabaseImportView_Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database.
+        /// </summary>
+        public static string DatabaseImportView_Database {
+            get {
+                return ResourceManager.GetString("DatabaseImportView_Database", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Provider.
+        /// </summary>
+        public static string DatabaseImportView_Provider {
+            get {
+                return ResourceManager.GetString("DatabaseImportView_Provider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Database From.
+        /// </summary>
+        public static string DatabaseImportView_Title {
+            get {
+                return ResourceManager.GetString("DatabaseImportView_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Import Hand Histories.
         /// </summary>
         public static string ImportHandHistoriesViewModel_Title {
@@ -75,15 +111,6 @@ namespace PokerTell.Repository.Properties {
         public static string Info_HandHistoriesDirectoryImportCompleted {
             get {
                 return ResourceManager.GetString("Info_HandHistoriesDirectoryImportCompleted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Transfer Databases.
-        /// </summary>
-        public static string TransferDatabasesViewModel_Title {
-            get {
-                return ResourceManager.GetString("TransferDatabasesViewModel_Title", resourceCulture);
             }
         }
     }

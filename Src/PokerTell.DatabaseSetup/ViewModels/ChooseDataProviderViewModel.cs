@@ -1,35 +1,28 @@
 namespace PokerTell.DatabaseSetup.ViewModels
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows.Input;
 
-    using Infrastructure.Events;
-
-    using Interfaces;
-
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.DatabaseSetup.Interfaces;
     using PokerTell.DatabaseSetup.Properties;
+    using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     using Tools.WPF;
 
     public class ChooseDataProviderViewModel : IComboBoxDialogViewModel
     {
-        #region Constants and Fields
-
         readonly IList<IDataProviderInfo> _availableProviders;
-
-        readonly IEventAggregator _eventAggregator;
 
         readonly IDatabaseSettings _databaseSettings;
 
-        #endregion
+        readonly IEventAggregator _eventAggregator;
 
-        #region Constructors and Destructors
+        ICommand _saveSettingsCommand;
 
         public ChooseDataProviderViewModel(IEventAggregator eventAggregator, IDatabaseSettings databaseSettings)
         {
@@ -39,28 +32,12 @@ namespace PokerTell.DatabaseSetup.ViewModels
             InitAvailableItems();
         }
 
-        void PublishWarning()
+        public string ActionName
         {
-            var userMessage = new UserMessageEventArgs(
-                UserMessageTypes.Warning, Resources.Warning_NoConfiguredDataProvidersFoundInSettings);
-            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+            get { return Infrastructure.Properties.Resources.Commands_Save; }
         }
 
-        #endregion
-
-        #region Properties
-
-       void InitAvailableItems()
-       {
-           AvailableItems = new ObservableCollection<string>(
-               from providerInfo in _availableProviders
-               orderby providerInfo.NiceName
-               select providerInfo.NiceName);
-        }
-
-       public ObservableCollection<string> AvailableItems { get; private set; }
-       
-        ICommand _saveSettingsCommand;
+        public ObservableCollection<string> AvailableItems { get; private set; }
 
         public ICommand CommitActionCommand
         {
@@ -76,32 +53,13 @@ namespace PokerTell.DatabaseSetup.ViewModels
             }
         }
 
-        void SaveSettings()
-        {
-            var selectedProvider = (from providerInfo in _availableProviders
-                                   where providerInfo.NiceName.Equals(SelectedItem)
-                                   select providerInfo).First();
-            
-            _databaseSettings.SetCurrentDataProviderTo(selectedProvider);
-        }
-
-        void PublishInfoMessage()
-        {
-            string msg = string.Format(Resources.Info_DataProviderChosen, SelectedItem);
-            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
-            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
-        }
+        public bool IsValid { get; private set; }
 
         public string SelectedItem { get; set; }
 
         public string Title
         {
             get { return Resources.ChooseDataProviderViewModel_Title; }
-        }
-
-        public string ActionName
-        {
-            get { return Infrastructure.Properties.Resources.Commands_Save; }
         }
 
         public IComboBoxDialogViewModel DetermineSelectedItem()
@@ -121,8 +79,35 @@ namespace PokerTell.DatabaseSetup.ViewModels
             return this;
         }
 
-        public bool IsValid { get; private set; }
+        void InitAvailableItems()
+        {
+            AvailableItems = new ObservableCollection<string>(
+                from providerInfo in _availableProviders
+                orderby providerInfo.NiceName
+                select providerInfo.NiceName);
+        }
 
-        #endregion
+        void PublishInfoMessage()
+        {
+            string msg = string.Format(Resources.Info_DataProviderChosen, SelectedItem);
+            var userMessage = new UserMessageEventArgs(UserMessageTypes.Info, msg);
+            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+        }
+
+        void PublishWarning()
+        {
+            var userMessage = new UserMessageEventArgs(
+                UserMessageTypes.Warning, Resources.Warning_NoConfiguredDataProvidersFoundInSettings);
+            _eventAggregator.GetEvent<UserMessageEvent>().Publish(userMessage);
+        }
+
+        void SaveSettings()
+        {
+            var selectedProvider = (from providerInfo in _availableProviders
+                                    where providerInfo.NiceName.Equals(SelectedItem)
+                                    select providerInfo).First();
+
+            _databaseSettings.SetCurrentDataProviderTo(selectedProvider);
+        }
     }
 }
