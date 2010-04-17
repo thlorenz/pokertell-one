@@ -59,7 +59,7 @@ namespace PokerTell.PokerHandParsers
 
         readonly IConstructor<IAquiredPokerRound> _aquiredRoundMake;
 
-        string _handHistory;
+        protected string _handHistory;
 
         public PokerHandParser(
             IConstructor<IAquiredPokerHand> aquiredHandMake, 
@@ -73,7 +73,7 @@ namespace PokerTell.PokerHandParsers
             _aquiredHandMake = aquiredHandMake;
         }
 
-        public IAquiredPokerHand AquiredPokerHand { get; private set; }
+        public IAquiredPokerHand AquiredPokerHand { get; protected set; }
 
         public bool IsValid { get; private set; }
 

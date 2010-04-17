@@ -17,5 +17,8 @@ namespace PokerTell.PokerHandParsers.Interfaces.Parsers
 
     public interface IFullTiltPokerTotalSeatsParser : ITotalSeatsParser
     {
+        bool IsTournament { get; set; }
+
+        int TotalSeatsRecord { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 namespace PokerTell.PokerHandParsers.FullTiltPoker
 {
+    using System.Linq;
+
     using Interfaces.Parsers;
 
     public class PlayerSeatsParser : Base.PlayerSeatsParser, IFullTiltPokerPlayerSeatsParser 
@@ -12,6 +14,11 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
         protected override string SeatPattern
         {
             get { return FullTiltSeatPattern; }
+        }
+
+        public int HighestSeatNumber
+        {
+            get { return PlayerSeats.Keys.Max(); }
         }
     }
 }

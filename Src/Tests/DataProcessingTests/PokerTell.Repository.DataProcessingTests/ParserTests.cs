@@ -133,6 +133,7 @@ namespace PokerTell.Repository.DataProcessingTests
                     if (printConverted)
                     {
                         PrintToConsole(convertedPokerHands);
+                        
                     }
 
                     fileCounter++;
@@ -151,6 +152,7 @@ namespace PokerTell.Repository.DataProcessingTests
         {
             foreach (IConvertedPokerHand hand in hands)
             {
+                Console.Write("TotalSeats: {0}", hand.TotalSeats);
                 Console.WriteLine(hand);
             }
         }

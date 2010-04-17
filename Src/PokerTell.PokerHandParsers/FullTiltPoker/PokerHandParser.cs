@@ -41,6 +41,7 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             AnteParser = anteParser;
             BlindsParser = blindsParser;
             BoardParser = boardParser;
+            GameTypeParser = gameTypeParser;
             HandHeaderParser = handHeaderParser;
             HeroNameParser = heroNameParser;
             HoleCardsParser = holeCardsParser;
@@ -55,20 +56,25 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
             _fullTiltTotalSeatsParser = totalSeatsParser;
             TotalSeatsParser = _fullTiltTotalSeatsParser;
             
-            GameTypeParser = gameTypeParser;
-
             _totalSeatsForTournamentsRecordKeeper = totalSeatsForTournamentsRecordKeeper;
         }
 
+        /// <summary>
+        /// Assumes that the HandHeader was parsed before since it relies on information obtained during that step
+        /// </summary>
         protected override void ParseTotalSeats()
         {
+            _fullTiltTotalSeatsParser.IsTournament = HandHeaderParser.IsTournament;
+
             if (HandHeaderParser.IsTournament)
             {
-                // set record
-                // set is tournament
+                _fullTiltTotalSeatsParser.TotalSeatsRecord =
+                    _totalSeatsForTournamentsRecordKeeper.GetTotalSeatsRecordFor(HandHeaderParser.TournamentId);
+
                 base.ParseTotalSeats();
 
-                // update record
+                if (_fullTiltTotalSeatsParser.IsValid)
+                    _totalSeatsForTournamentsRecordKeeper.SetTotalSeatsRecordIfItIsOneFor(HandHeaderParser.TournamentId, _fullTiltTotalSeatsParser.TotalSeats);
             }
             else
             {

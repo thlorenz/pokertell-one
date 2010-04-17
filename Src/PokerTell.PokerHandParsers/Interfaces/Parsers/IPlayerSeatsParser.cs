@@ -20,5 +20,6 @@ namespace PokerTell.PokerHandParsers.Interfaces.Parsers
 
     public interface IFullTiltPokerPlayerSeatsParser : IPlayerSeatsParser
     {
+        int HighestSeatNumber { get; }
     }
 }

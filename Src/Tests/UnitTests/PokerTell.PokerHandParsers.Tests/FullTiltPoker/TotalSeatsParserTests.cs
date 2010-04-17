@@ -1,5 +1,9 @@
 namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 {
+    using Interfaces.Parsers;
+
+    using Moq;
+
     using PokerTell.PokerHandParsers.Base;
 
     public class TotalSeatsParserTests : Base.TotalSeatsParserTests
@@ -11,7 +15,7 @@ namespace PokerTell.PokerHandParsers.Tests.FullTiltPoker
 
         protected override TotalSeatsParser GetTotalSeatsParser()
         {
-            return new PokerTell.PokerHandParsers.FullTiltPoker.TotalSeatsParser();
+            return new PokerTell.PokerHandParsers.FullTiltPoker.TotalSeatsParser(new Mock<IFullTiltPokerPlayerSeatsParser>().Object);
         }
 
         protected override string ValidTotalSeats(int totalSeats)

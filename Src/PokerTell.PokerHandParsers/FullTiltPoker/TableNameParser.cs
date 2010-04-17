@@ -4,8 +4,11 @@ namespace PokerTell.PokerHandParsers.FullTiltPoker
 
     public class TableNameParser : Base.TableNameParser, IFullTiltPokerTableNameParser 
     {
-        // First part matches Tourneys, Sit'n Go s etc., decond part matches CashTables
-        internal const string FullTiltTableNamePattern = @"((?<TableName>\(\d+\), Table \d+ )|(Table (?<TableName>[^-]+) ))";
+        internal const string FullTiltCashTableNamePattern = @"(Table (?<TableName>[^-]+) )";
+
+        internal const string FullTiltTournamentTableNamePattern = @"(?<TableName>\(\d+\), Table \d+ )";
+
+        const string FullTiltTableNamePattern = "(" + FullTiltCashTableNamePattern + "|" + FullTiltTournamentTableNamePattern + ")";
 
         protected override string TableNamePattern
         {

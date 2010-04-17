@@ -39,6 +39,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Microsoft.Practices\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Moq, Version=4.0.812.4, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Lib\Moq\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Lib\Nunit\nunit.framework.dll</HintPath>
@@ -66,11 +70,13 @@
     <Compile Include="FullTiltPoker\HoleCardsParserTests.cs" />
     <Compile Include="FullTiltPoker\PlayerActionsParserTests.cs" />
     <Compile Include="FullTiltPoker\PlayerSeatsParserTests.cs" />
+    <Compile Include="FullTiltPoker\PokerHandParserSpecs.cs" />
     <Compile Include="FullTiltPoker\SmallBlindPlayerNameParserTests.cs" />
     <Compile Include="FullTiltPoker\StreetsParserTests.cs" />
     <Compile Include="FullTiltPoker\TableNameParserTests.cs" />
     <Compile Include="FullTiltPoker\TimeStampParserTests.cs" />
     <Compile Include="FullTiltPoker\TotalPotParserTests.cs" />
+    <Compile Include="FullTiltPoker\TotalSeatsParserExtraSpecs.cs" />
     <Compile Include="FullTiltPoker\TotalSeatsParserTests.cs" />
     <Compile Include="Base\GameTypeParserTests.cs" />
     <Compile Include="Base\HeroNameParserTests.cs" />
