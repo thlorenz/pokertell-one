@@ -109,7 +109,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.PokerHandParsers.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{C9A91C6A-183E-44D6-8B85-55C07071441F}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.x64.Setup", "Src\Deployment\PokerTell.Setup\PokerTell.Setup.vdproj", "{729A9427-0250-4598-9077-6E5A941F3945}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.Setup", "Src\Deployment\PokerTell.Setup\PokerTell.Setup.vdproj", "{729A9427-0250-4598-9077-6E5A941F3945}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.User.Design", "Src\Design\PokerTell.User.Design\PokerTell.User.Design.csproj", "{C7F21E7B-3070-44F2-89D9-C49133D94493}"
 EndProject
@@ -117,7 +117,9 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.WithPlugins.Setup
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.Design", "Src\Design\PokerTell.Statistics.Design\PokerTell.Statistics.Design.csproj", "{D648D149-53C3-4649-AB0A-48921CEC5ABC}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.Setup", "Src\Deployment\PokerTell.x64.Setup\PokerTell.x64.Setup.vdproj", "{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.x64.Setup", "Src\Deployment\PokerTell.x64.Setup\PokerTell.x64.Setup.vdproj", "{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Repository.Design", "Src\Design\PokerTell.Repository.Design\PokerTell.Repository.Design.csproj", "{1CAA37EC-1215-41A4-B59E-4C1C037293E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -268,6 +270,10 @@ Global
 		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Debug|Any CPU.Build.0 = Debug
 		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Release|Any CPU.ActiveCfg = Release
 		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Release|Any CPU.Build.0 = Release
+		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -309,6 +315,7 @@ Global
 		{C001E0E9-9278-4C30-A756-EA599DEC7426} = {C867FE86-BEEA-4337-A0E4-678C8E48BF65}
 		{C7F21E7B-3070-44F2-89D9-C49133D94493} = {C867FE86-BEEA-4337-A0E4-678C8E48BF65}
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC} = {C867FE86-BEEA-4337-A0E4-678C8E48BF65}
+		{1CAA37EC-1215-41A4-B59E-4C1C037293E6} = {C867FE86-BEEA-4337-A0E4-678C8E48BF65}
 		{134B575D-D973-4691-AC8E-3DB0E19D26C5} = {BE3038E0-B795-49E6-9955-CEF4EA796F93}
 		{8D965387-4FD2-4AF8-B369-14B28BCB9BD6} = {1FBB26EB-AD14-451D-85F5-22A897CC33B5}
 		{D69E7BA2-6666-4A43-A9F3-C50A240FB0D0} = {0C0C549B-906B-444C-83A8-179673E1849D}

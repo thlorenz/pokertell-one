@@ -127,12 +127,19 @@
     <value>Data Provider</value>
   </data>
   <data name="DatabaseImportView_Title" xml:space="preserve">
-    <value>Import Database From</value>
+    <value>Import Database</value>
   </data>
   <data name="ImportHandHistoriesViewModel_Title" xml:space="preserve">
     <value>Import Hand Histories</value>
   </data>
   <data name="Info_HandHistoriesDirectoryImportCompleted" xml:space="preserve">
     <value>Successfully imported {0} hands.</value>
+  </data>
+  <data name="Warning_DataProviderUnavailable" xml:space="preserve">
+    <value>The {0} data provider has not been connected yet.
+You may do this via the Database Menu.
+This is the first step in order to import databases from {1}.
+
+Additionally, in order to import a database from {1} you also need to make sure to export it to a {0} data provider.</value>
   </data>
 </root>

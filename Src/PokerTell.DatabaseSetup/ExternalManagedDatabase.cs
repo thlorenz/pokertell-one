@@ -3,6 +3,7 @@ namespace PokerTell.DatabaseSetup
     using System;
     using System.Collections.Generic;
     using System.Data;
+    using System.Linq;
 
     using Infrastructure;
 
@@ -110,14 +111,23 @@ namespace PokerTell.DatabaseSetup
 
         /// <summary>
         /// Examines all tables in all databases.
-        /// If the actionhhd table is contained, the database name is included
+        /// If the convertedpokerhands table is contained, the database name is included
         /// </summary>
         /// <returns></returns>
         public IEnumerable<string> GetAllPokerTellDatabaseNames()
         {
-            var allDatabaseNames = GetAllDatabaseNames();
+            return GetNamesOfAllDatabasesWhoseFirstTableIs("convertedpokerhands");
+        }
 
-            return GetNamesOfAllDatabasesThatContainConvertedPokerHandsTableFrom(allDatabaseNames);
+        public IEnumerable<string> GetAllPokerOfficeDatabaseNames()
+        {
+            return GetAllDatabaseNames()
+                .Where(name => name.Equals("pokeroffice") || name.EndsWith("_podb"));
+        }
+
+        public IEnumerable<string> GetAllPokerTrackerDatabaseNames()
+        {
+            throw new NotImplementedException();
         }
 
         public string GetNameFor(string databaseInUse)
@@ -125,8 +135,10 @@ namespace PokerTell.DatabaseSetup
             return databaseInUse;
         }
 
-        IEnumerable<string> GetNamesOfAllDatabasesThatContainConvertedPokerHandsTableFrom(IEnumerable<string> allDatabaseNames)
+        IEnumerable<string> GetNamesOfAllDatabasesWhoseFirstTableIs(string firstTableName)
         {
+            var allDatabaseNames = GetAllDatabaseNames();
+
             foreach (string databaseName in allDatabaseNames)
             {
                 string query = string.Format("USE `{0}`; SHOW TABLES;", databaseName);
@@ -136,7 +148,7 @@ namespace PokerTell.DatabaseSetup
                     while (dr.Read())
                     {
                         string tableName = dr[0].ToString();
-                        if (tableName.Equals("convertedpokerhands"))
+                        if (tableName.Equals(firstTableName))
                         {
                             yield return databaseName;
                         }

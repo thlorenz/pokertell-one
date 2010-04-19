@@ -1,7 +1,5 @@
 ﻿namespace PokerTell.User.Views
 {
-    using System.Windows;
-
     using ViewModels;
 
     /// <summary>

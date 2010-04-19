@@ -1,0 +1,74 @@
+﻿<ToolsViews:DialogView x:Class="PokerTell.Repository.Views.DatabaseImportView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:GlobalProperties="clr-namespace:PokerTell.Infrastructure.Properties;assembly=PokerTell.Infrastructure"
+    xmlns:ToolsViews="clr-namespace:Tools.WPF.Views;assembly=Tools"
+    xmlns:ViewModels="clr-namespace:PokerTell.Repository.ViewModels"
+    xmlns:Properties="clr-namespace:PokerTell.Repository.Properties"
+                       
+    AllowsTransparency="True"
+    Background="Transparent"
+    WindowStyle="None"
+    ShowInTaskbar="True"   
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    MouseDown="WindowBorder_MouseDown"
+    Title="{x:Static Properties:Resources.DatabaseImportView_Title}">
+    <ToolsViews:DialogView.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type ViewModels:DatabaseImportViewModel}">
+
+                <StackPanel HorizontalAlignment="Center">
+                    <Border Background="{DynamicResource DarkToLightBorderBrush}" CornerRadius="10, 10, 0, 0" Margin="2" Padding="5">
+                        <Label Content="{x:Static Properties:Resources.DatabaseImportView_Title}" Margin="5, 5, 5, 15 "/>
+                    </Border>
+                    <Border Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Margin="2" Padding="5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" MinHeight="100" MaxHeight="200">
+                            <StackPanel.Resources>
+                                <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource {x:Type GroupBox}}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Stretch"/>
+                                    <Setter Property="Margin" Value="3"/>
+                                    <Setter Property="Padding" Value="3"/>
+                                    <Setter Property="Background" Value="{StaticResource LightBorderBrush}"/>
+                                </Style>
+                                <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
+                                    <Setter Property="MinWidth" Value="100"/>
+                                    <Setter Property="MinHeight" Value="130"/>
+                                </Style>
+                            </StackPanel.Resources>
+                            <GroupBox Header="{x:Static Properties:Resources.DatabaseImportView_Application}">
+                                <ListBox HorizontalAlignment="Center"
+                                         ItemsSource="{Binding SupportedApplications}" 
+                                         SelectedItem="{Binding SelectedApplication, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </GroupBox>
+                            <GroupBox Header="{x:Static Properties:Resources.DatabaseImportView_Provider}">
+                                <ListBox HorizontalAlignment="Center"
+                                         DisplayMemberPath="NiceName"
+                                         ItemsSource="{Binding DataProvidersInfos}" 
+                                         SelectedItem="{Binding SelectedDataProviderInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </GroupBox>
+                            <GroupBox Header="{x:Static Properties:Resources.DatabaseImportView_Database}">
+                                <ListBox HorizontalAlignment="Center"
+                                         ItemsSource="{Binding DatabaseNames}"
+                                         MinWidth="150"/>
+                            </GroupBox>
+                        </StackPanel>
+                    </Border>
+                    <Border Background="{DynamicResource LightToDarkBorderBrush}" CornerRadius="0, 0, 10, 10" Margin="2" Padding="5">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Content="{x:Static GlobalProperties:Resources.Commands_Import}" Padding="5" Margin="5"/>
+                            <Button Content="{x:Static GlobalProperties:Resources.Commands_Close}" Click="Close_Click" Padding="5" Margin="5"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ToolsViews:DialogView.Resources>
+    
+    <ContentControl Content="{Binding}" />
+</ToolsViews:DialogView >

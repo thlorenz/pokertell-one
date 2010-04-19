@@ -3,28 +3,17 @@
     using System.Collections.Generic;
     using System.Windows.Controls;
 
-    using Properties;
-
-    using ViewModels;
+    using PokerTell.Repository.Properties;
+    using PokerTell.Repository.ViewModels;
 
     public class RepositoryMenuItemFactory
     {
-        #region Constants and Fields
-
         readonly RepositoryMenuItemsViewModel _viewModel;
-
-        #endregion
-
-        #region Constructors and Destructors
 
         public RepositoryMenuItemFactory(RepositoryMenuItemsViewModel viewModel)
         {
             _viewModel = viewModel;
         }
-
-        #endregion
-
-        #region Public Methods
 
         public List<MenuItem> Create()
         {
@@ -32,14 +21,17 @@
                 {
                     new MenuItem
                         {
-                            Header = Resources.ImportHandHistoriesViewModel_Title,
+                            Header = Resources.ImportHandHistoriesViewModel_Title, 
                             Command = _viewModel.ImportHandHistoriesCommand
+                        },
+                    new MenuItem
+                        {
+                            Header = Resources.DatabaseImportView_Title, 
+                            Command = _viewModel.ImportDatabaseCommand
                         }
                 };
 
             return menuItems;
         }
-
-        #endregion
     }
 }

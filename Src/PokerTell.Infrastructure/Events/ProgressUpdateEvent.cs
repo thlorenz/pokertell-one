@@ -31,6 +31,7 @@ namespace PokerTell.Infrastructure.Events
 
     public enum ProgressTypes
     {
-        HandHistoriesDirectoryImport
+        HandHistoriesDirectoryImport,
+        DatabaseImport
     }
 }

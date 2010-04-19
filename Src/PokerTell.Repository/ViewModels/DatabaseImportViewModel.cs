@@ -3,41 +3,52 @@ namespace PokerTell.Repository.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows.Input;
 
+    using Microsoft.Practices.Composite.Events;
+
+    using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+    using PokerTell.Repository.Interfaces;
+    using PokerTell.Repository.Properties;
 
-    using Tools.WPF.ViewModels;
     using Tools.FunctionalCSharp;
+    using Tools.WPF;
+    using Tools.WPF.ViewModels;
 
-    public class DatabaseImportViewModel : NotifyPropertyChanged
+    public class DatabaseImportViewModel : NotifyPropertyChanged, IDatabaseImportViewModel
     {
-        public const string ApplicationPokerOffice = "PokerOffice";
-
-        public const string ApplicationPokerTell = "PokerTell";
-
-        public const string ApplicationPokerTracker = "PokerTracker";
-
         readonly IDatabaseConnector _databaseConnector;
+
+        readonly IDatabaseImporter _databaseImporter;
 
         readonly IDatabaseSettings _databaseSettings;
 
+        readonly IDataProviderInfos _dataProviderInfos;
+
         readonly IEmbeddedManagedDatabase _embeddedManagedDatabase;
+
+        readonly IEventAggregator _eventAggregator;
 
         readonly IExternalManagedDatabase _externalManagedDatabase;
 
-        string _selectedApplication;
+        ICommand _importDatabaseCommand;
+
+        PokerStatisticsApplications _selectedApplication;
 
         IDataProviderInfo _selectedDataProviderInfo;
 
-        readonly IDataProviderInfos _dataProviderInfos;
-
         public DatabaseImportViewModel(
-            IDataProviderInfos dataProviderInfos,
+            IEventAggregator eventAggregator, 
+            IDatabaseImporter databaseImporter, 
+            IDataProviderInfos dataProviderInfos, 
             IDatabaseSettings databaseSettings, 
             IDatabaseConnector databaseConnector, 
             IExternalManagedDatabase externalManagedDatabase, 
             IEmbeddedManagedDatabase embeddedManagedDatabase)
         {
+            _eventAggregator = eventAggregator;
+            _databaseImporter = databaseImporter;
             _dataProviderInfos = dataProviderInfos;
             _databaseSettings = databaseSettings;
             _databaseConnector = databaseConnector;
@@ -47,17 +58,117 @@ namespace PokerTell.Repository.ViewModels
             DataProvidersInfos = new ObservableCollection<IDataProviderInfo>();
             DatabaseNames = new ObservableCollection<string>();
 
-            SelectedApplication = ApplicationPokerTell;
+            SelectedApplication = PokerStatisticsApplications.PokerTell;
         }
 
-        void UpdatePokerTellDatabaseNamesForSelectedDataProvider()
-        {
-            DatabaseNames.Clear();
+        public IList<string> DatabaseNames { get; protected set; }
 
+        string _selectedDatabaseName;
+
+        public string SelectedDatabaseName
+        {
+            get { return _selectedDatabaseName; }
+            set
+            {
+                _selectedDatabaseName = value;
+                RaisePropertyChanged(() => SelectedDatabaseName);
+            }
+        }
+
+        public IList<IDataProviderInfo> DataProvidersInfos { get; protected set; }
+
+        public ICommand ImportDatabaseCommand
+        {
+            get
+            {
+                return _importDatabaseCommand ?? (_importDatabaseCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => _databaseImporter.ImportFrom(SelectedApplication, SelectedDatabaseName, _databaseConnector.DataProvider), 
+                        CanExecuteDelegate = arg => SelectedDataProviderInfo != null && SelectedDatabaseName != null && ! _databaseImporter.IsBusy
+                    });
+            }
+        }
+
+        public PokerStatisticsApplications SelectedApplication
+        {
+            get { return _selectedApplication; }
+            set
+            {
+                _selectedApplication = value;
+                RaisePropertyChanged(() => SelectedApplication);
+
+                ShowTheAvailableDataProvidersForTheSelectedApplication();
+            }
+        }
+
+        public IDataProviderInfo SelectedDataProviderInfo
+        {
+            get { return _selectedDataProviderInfo; }
+            set
+            {
+                _selectedDataProviderInfo = value;
+
+                DatabaseNames.Clear();
+
+                if (SelectedDataProviderInfo != null)
+                {
+                    ConnectToServerOfSelectedDataProvider();
+
+                    if (SelectedApplication == PokerStatisticsApplications.PokerTell)
+                        InitializeManagedDatabaseAndAddPokerTellDatabaseNames();
+                    else
+                    {
+                        InitializeExternalManagedDatabase();
+                        switch (SelectedApplication)
+                        {
+                            case PokerStatisticsApplications.PokerOffice:
+                                AddPokerOfficeDatabaseNames();
+                                break;
+                            case PokerStatisticsApplications.PokerTracker:
+                                AddPokerTrackerDatabaseNames();
+                                break;
+                        }
+                    }
+                }
+
+                RaisePropertyChanged(() => SelectedDataProviderInfo);
+            }
+        }
+
+        public IList<PokerStatisticsApplications> SupportedApplications
+        {
+            get { return new List<PokerStatisticsApplications> { PokerStatisticsApplications.PokerTell, PokerStatisticsApplications.PokerOffice, PokerStatisticsApplications.PokerTracker }; }
+        }
+
+        void AddPokerOfficeDatabaseNames()
+        {
+            _externalManagedDatabase
+                .GetAllPokerOfficeDatabaseNames()
+                .ForEach(name => DatabaseNames.Add(name));
+        }
+
+        void AddPokerTrackerDatabaseNames()
+        {
+            _externalManagedDatabase
+                .GetAllPokerTrackerDatabaseNames()
+                .ForEach(name => DatabaseNames.Add(name));
+        }
+
+        void ConnectToServerOfSelectedDataProvider()
+        {
             _databaseConnector
                 .InitializeWith(SelectedDataProviderInfo)
                 .ConnectToServer();
+        }
 
+        void InitializeExternalManagedDatabase()
+        {
+            _externalManagedDatabase
+                .InitializeWith(_databaseConnector.DataProvider, SelectedDataProviderInfo);
+        }
+
+        void InitializeManagedDatabaseAndAddPokerTellDatabaseNames()
+        {
             if (SelectedDataProviderInfo.IsEmbedded)
             {
                 _embeddedManagedDatabase
@@ -72,22 +183,8 @@ namespace PokerTell.Repository.ViewModels
                     .GetAllPokerTellDatabaseNames()
                     .ForEach(name => DatabaseNames.Add(name));
             }
-        }
 
-        public IList<IDataProviderInfo> DataProvidersInfos { get; protected set; }
-
-        public IList<string> DatabaseNames { get; protected set; }
-
-        public string SelectedApplication
-        {
-            get { return _selectedApplication; }
-            set
-            {
-                _selectedApplication = value;
-                RaisePropertyChanged(() => SelectedApplication);
-
-                ShowTheAvailableDataProvidersForTheSelectedApplication();
-            }
+            RaisePropertyChanged(() => DatabaseNames);
         }
 
         void ShowTheAvailableDataProvidersForTheSelectedApplication()
@@ -96,57 +193,48 @@ namespace PokerTell.Repository.ViewModels
 
             switch (SelectedApplication)
             {
-                case ApplicationPokerOffice:
+                case PokerStatisticsApplications.PokerOffice:
                     {
                         var providerForPokerOffice = _dataProviderInfos.MySqlProviderInfo;
-                  
+
                         if (_databaseSettings.ProviderIsAvailable(providerForPokerOffice))
                             DataProvidersInfos.Add(providerForPokerOffice);
+                        else
+                            ShowUserWarningAboutUnavailableDataProvider(providerForPokerOffice.NiceName);
 
-                        SelectedDataProviderInfo = providerForPokerOffice;
                         break;
                     }
 
-                case ApplicationPokerTracker:
+                case PokerStatisticsApplications.PokerTracker:
                     {
                         var providerForPokerTracker = _dataProviderInfos.PostgresProviderInfo;
-                  
+
                         if (_databaseSettings.ProviderIsAvailable(providerForPokerTracker))
                             DataProvidersInfos.Add(providerForPokerTracker);
+                        else
+                            ShowUserWarningAboutUnavailableDataProvider(providerForPokerTracker.NiceName);
 
-                        SelectedDataProviderInfo = providerForPokerTracker;
                         break;
                     }
 
-                case ApplicationPokerTell:
+                case PokerStatisticsApplications.PokerTell:
                     {
                         _databaseSettings.GetAvailableProviders()
                             .ForEach(dp => DataProvidersInfos.Add(dp));
 
-                        SelectedDataProviderInfo = DataProvidersInfos.First();
-
                         break;
                     }
             }
+
+            SelectedDataProviderInfo = DataProvidersInfos.FirstOrDefault();
         }
 
-        public IDataProviderInfo SelectedDataProviderInfo
+        void ShowUserWarningAboutUnavailableDataProvider(string providerName)
         {
-            get { return _selectedDataProviderInfo; }
-            set
-            {
-                _selectedDataProviderInfo = value;
-                RaisePropertyChanged(() => SelectedDataProviderInfo);
-
-                if (SelectedDataProviderInfo != null)
-                    if (SelectedApplication == ApplicationPokerTell)
-                        UpdatePokerTellDatabaseNamesForSelectedDataProvider();
-            }
-        }
-
-        public IList<string> SupportedApplications
-        {
-            get { return new List<string> { ApplicationPokerTell, ApplicationPokerOffice, ApplicationPokerTracker }; }
+            var msg = string.Format(Resources.Warning_DataProviderUnavailable, providerName, SelectedApplication);
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Publish(new UserMessageEventArgs(UserMessageTypes.Warning, msg));
         }
     }
 }

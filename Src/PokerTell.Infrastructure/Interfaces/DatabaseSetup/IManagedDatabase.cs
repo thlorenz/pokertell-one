@@ -44,6 +44,9 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
     public interface IExternalManagedDatabase : IManagedDatabase
     {
+        IEnumerable<string> GetAllPokerOfficeDatabaseNames();
+
+        IEnumerable<string> GetAllPokerTrackerDatabaseNames();
     }
 
     public interface IEmbeddedManagedDatabase : IManagedDatabase

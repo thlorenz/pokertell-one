@@ -88,7 +88,7 @@ namespace PokerTell.Repository.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Import Database From.
+        ///   Looks up a localized string similar to Import Database.
         /// </summary>
         public static string DatabaseImportView_Title {
             get {
@@ -111,6 +111,19 @@ namespace PokerTell.Repository.Properties {
         public static string Info_HandHistoriesDirectoryImportCompleted {
             get {
                 return ResourceManager.GetString("Info_HandHistoriesDirectoryImportCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} data provider has not been connected yet.
+        ///You may do this via the Database Menu.
+        ///This is the first step in order to import databases from {1}.
+        ///
+        ///Additionally, in order to import a database from {1} you also need to make sure to export it to a {0} data provider..
+        /// </summary>
+        public static string Warning_DataProviderUnavailable {
+            get {
+                return ResourceManager.GetString("Warning_DataProviderUnavailable", resourceCulture);
             }
         }
     }

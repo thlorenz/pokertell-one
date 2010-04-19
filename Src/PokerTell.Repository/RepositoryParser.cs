@@ -46,7 +46,6 @@ namespace PokerTell.Repository
             
             IPokerHandParser parser = FindCorrectParserFor(handHistories);
 
-
             bool didNotFindParser = parser == null;
 
             if (didNotFindParser)

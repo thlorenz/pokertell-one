@@ -117,7 +117,7 @@ namespace PokerTell.Repository
                 return Enumerable.Empty<IConvertedPokerHand>();
             }
 
-            return _parser.RetrieveAndConvert(handHistories, "Memory");
+            return _parser.RetrieveAndConvert(handHistories, "Memory or Database");
         }
 
         public IList<IPlayerIdentity> RetrieveAllPlayerIdentities()

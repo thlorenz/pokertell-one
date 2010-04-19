@@ -66,7 +66,8 @@ namespace PokerTell.Repository
                 .RegisterType<IHandHistoriesDirectoryImporter, HandHistoriesDirectoryImporter>(new ContainerControlledLifetimeManager())
 
                 // ViewModels
-                .RegisterType<ImportHandHistoriesViewModel>(new ContainerControlledLifetimeManager());
+                .RegisterType<ImportHandHistoriesViewModel>(new ContainerControlledLifetimeManager())
+                .RegisterType<IDatabaseImportViewModel, DatabaseImportViewModel>(new ContainerControlledLifetimeManager());
 
             _container
                 .Resolve<RepositoryMenuItemFactory>()
