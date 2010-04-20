@@ -14,7 +14,7 @@ namespace PokerTell.DatabaseSetup
 
     public class ExternalManagedDatabase : IExternalManagedDatabase
     {
-        IDataProvider _dataProvider;
+        public IDataProvider DataProvider { get;  protected set; }
 
         IDataProviderInfo _dataProviderInfo;
 
@@ -33,7 +33,7 @@ namespace PokerTell.DatabaseSetup
         public IManagedDatabase InitializeWith(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
         {
             _dataProviderInfo = dataProviderInfo;
-            _dataProvider = dataProvider;
+            DataProvider = dataProvider;
 
             return this;
         }
@@ -47,15 +47,10 @@ namespace PokerTell.DatabaseSetup
 
         public IManagedDatabase ChooseDatabase(string databaseName)
         {
-            var connectionInfo = new DatabaseConnectionInfo(_dataProvider.Connection.ConnectionString);
+            var connectionInfo = new DatabaseConnectionInfo(DataProvider.Connection.ConnectionString);
             ConnectionString = string.Format("{0} Database = {1};", connectionInfo.ServerConnectString, databaseName);
 
-            _dataProvider.Connect(ConnectionString, _dataProviderInfo);
-
-            string nonQuery = string.Format("USE `{0}`;", databaseName);
-            _dataProvider.ExecuteNonQuery(nonQuery);
-
-            _dataProvider.BuildSessionFactory();
+            DataProvider.Connect(ConnectionString, _dataProviderInfo);
 
             return this;
         }
@@ -63,7 +58,7 @@ namespace PokerTell.DatabaseSetup
         public IManagedDatabase CreateDatabase(string databaseName)
         {
             string nonQuery = string.Format(Resources.Sql_Queries_CreateDatabase, databaseName);
-            _dataProvider.ExecuteNonQuery(nonQuery);
+            DataProvider.ExecuteNonQuery(nonQuery);
 
             ChooseDatabase(databaseName);
 
@@ -72,15 +67,17 @@ namespace PokerTell.DatabaseSetup
 
         public IManagedDatabase CreateTables()
         {
-            new SchemaExport(_dataProvider.NHibernateConfiguration)
-                .Execute(false, true, false, _dataProvider.Connection, null);
+            DataProvider.BuildSessionFactory();
+
+            new SchemaExport(DataProvider.NHibernateConfiguration)
+                .Execute(false, true, false, DataProvider.Connection, null);
 
             return this;
         }
 
         public IManagedDatabase VersionDatabase(string databaseName)
         {
-            _dataProvider.ExecuteNonQuery(string.Format(Resources.Sql_Queries_External_InsertVersionNumber, databaseName, ApplicationProperties.VersionNumber));
+            DataProvider.ExecuteNonQuery(string.Format(Resources.Sql_Queries_External_InsertVersionNumber, databaseName, ApplicationProperties.VersionNumber));
             return this;
         }
 
@@ -88,7 +85,7 @@ namespace PokerTell.DatabaseSetup
         {
             string query = Resources.Sql_Queries_ShowDatabases;
 
-            using (IDataReader dr = _dataProvider.ExecuteQuery(query))
+            using (IDataReader dr = DataProvider.ExecuteQuery(query))
             {
                 while (dr.Read())
                 {
@@ -105,7 +102,7 @@ namespace PokerTell.DatabaseSetup
         public IManagedDatabase DeleteDatabase(string databaseName)
         {
             string nonQuery = string.Format(Resources.Sql_Queries_DropDatabase, databaseName);
-            _dataProvider.ExecuteNonQuery(nonQuery);
+            DataProvider.ExecuteNonQuery(nonQuery);
             return this;
         }
 
@@ -143,7 +140,7 @@ namespace PokerTell.DatabaseSetup
             {
                 string query = string.Format("USE `{0}`; SHOW TABLES;", databaseName);
 
-                using (IDataReader dr = _dataProvider.ExecuteQuery(query))
+                using (IDataReader dr = DataProvider.ExecuteQuery(query))
                 {
                     while (dr.Read())
                     {
@@ -162,7 +159,7 @@ namespace PokerTell.DatabaseSetup
             var allDatabases = new List<string>();
             const string query = "SHOW DATABASES;";
 
-            using (IDataReader dr = _dataProvider.ExecuteQuery(query))
+            using (IDataReader dr = DataProvider.ExecuteQuery(query))
             {
                 while (dr.Read())
                 {

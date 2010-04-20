@@ -85,6 +85,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\DatabaseImporterSpecs.cs" />
+    <Compile Include="Database\PokerOfficeHandHistoryRetrieverSpecs.cs" />
+    <Compile Include="Database\PokerTellHandHistoryRetrieverSpecs.cs" />
     <Compile Include="Fakes\ConvertedPokerHandStub.cs" />
     <Compile Include="InMemoryDatabaseTest.cs" />
     <Compile Include="NHibernate\SessionFactoryManagerTests.cs" />

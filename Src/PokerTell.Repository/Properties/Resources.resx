@@ -132,6 +132,9 @@
   <data name="ImportHandHistoriesViewModel_Title" xml:space="preserve">
     <value>Import Hand Histories</value>
   </data>
+  <data name="Info_DatabaseImportCompleted" xml:space="preserve">
+    <value>Successfully imported {0} hands from the {1} database.</value>
+  </data>
   <data name="Info_HandHistoriesDirectoryImportCompleted" xml:space="preserve">
     <value>Successfully imported {0} hands.</value>
   </data>

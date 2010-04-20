@@ -11,7 +11,7 @@ namespace PokerTell.Repository.Interfaces
 
         int HandHistoriesCount { get; }
 
-        IEnumerable<string> GetNext(int numberOfHandHistories);
+        IEnumerable<string> GetNext(int batchSize);
 
         IHandHistoryRetriever Using(IDataProvider dataProvider);
     }

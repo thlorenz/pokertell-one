@@ -52,7 +52,7 @@ namespace PokerTell.Repository.Tests.ViewModels
         static IEnumerable<string> _pokerOfficeDatabaseNames_Stub;
         static IEnumerable<string> _pokerTrackerDatabaseNames_Stub;
 
-        static DatabaseImportViewModel _sut;
+        static DatabaseImportViewModelSut _sut;
 
         Establish specContext = () => {
             _eventAggregator = new EventAggregator();
@@ -125,7 +125,7 @@ namespace PokerTell.Repository.Tests.ViewModels
                 .Setup(emdb => emdb.GetAllPokerTellDatabaseNames())
                 .Returns(_sqliteDatabaseNames_Stub);
 
-            _sut = new DatabaseImportViewModel(_eventAggregator, 
+            _sut = new DatabaseImportViewModelSut(_eventAggregator, 
                                                _databaseImporter_Mock.Object,
                                                _dataProviderInfos_Stub.Object,
                                                _databaseSettings_Stub.Object,
@@ -184,6 +184,9 @@ namespace PokerTell.Repository.Tests.ViewModels
                 _sut.DatabaseNames.ShouldContain(SecondPokerOfficeDatabase);
                 _sut.DatabaseNames.Count.ShouldEqual(2);
             };
+
+            It should_set_the_current_managed_database_to_the_external_managed_database
+                = () => _sut.CurrentManagedDatabase.ShouldEqual(_externalManagedDatabase_Mock.Object);
         }
 
         [Subject(typeof(DatabaseImportViewModel), "SelectApplication")]
@@ -223,6 +226,9 @@ namespace PokerTell.Repository.Tests.ViewModels
                 _sut.DatabaseNames.ShouldContain(SecondPokerTrackerDatabase);
                 _sut.DatabaseNames.Count.ShouldEqual(2);
             };
+
+            It should_set_the_current_managed_database_to_the_external_managed_database
+                = () => _sut.CurrentManagedDatabase.ShouldEqual(_externalManagedDatabase_Mock.Object);
         }
 
         [Subject(typeof(DatabaseImportViewModel), "SelectedApplication")]
@@ -258,6 +264,9 @@ namespace PokerTell.Repository.Tests.ViewModels
                 _sut.DatabaseNames.ShouldContain(FirstEmbeddedDatabase);
                 _sut.DatabaseNames.ShouldContain(SecondEmbeddedDatabase);
             };
+
+            It should_set_the_current_managed_database_to_the_embedded_managed_database
+                = () => _sut.CurrentManagedDatabase.ShouldEqual(_embeddedManagedDatabase_Mock.Object);
         }
 
         [Subject(typeof(DatabaseImportViewModel), "SelectApplication")]
@@ -383,17 +392,45 @@ namespace PokerTell.Repository.Tests.ViewModels
         [Subject(typeof(DatabaseImportViewModel), "ImportDatabaseCommand")]
         public class when_the_import_database_command_is_executed_and_the_selected_application_is_PokerOFfice : DatabaseImportViewModelSpecs
         {
+            static Mock<IDataProvider> currentDataProvider_Stub;
+            static Mock<IManagedDatabase> currentManagedDatabase_Mock;
             const string selectedDatabaseName = "some Name";
  
             Establish context = () => {
+                currentDataProvider_Stub = new Mock<IDataProvider>();
+                currentManagedDatabase_Mock = new Mock<IManagedDatabase>();
+                currentManagedDatabase_Mock
+                    .SetupGet(mdb => mdb.DataProvider)
+                    .Returns(currentDataProvider_Stub.Object);
+
                 _sut.SelectedApplication = PokerStatisticsApplications.PokerOffice;
+                _sut.CurrentManagedDatabase = currentManagedDatabase_Mock.Object;
                 _sut.SelectedDatabaseName = selectedDatabaseName;
             };
             
             Because of = () => _sut.ImportDatabaseCommand.Execute(null);
 
-            It should_tell_the_database_importer_to_import_PokerOffice_data_from_the_seleted_database_using_the_dataprovider_returned_by_the_database_connector
-                = () => _databaseImporter_Mock.Verify(dbi => dbi.ImportFrom(PokerStatisticsApplications.PokerOffice, selectedDatabaseName, _dataProvider_Stub.Object));
+            It should_tell_the_current_managed_database_to_choose_the_database_with_the_selected_database_name
+                = () => currentManagedDatabase_Mock.Verify(mdb => mdb.ChooseDatabase(selectedDatabaseName));
+
+            It should_tell_the_database_importer_to_import_PokerOffice_data_from_the_seleted_database_using_the_dataprovider_of_the_current_managed_database
+                = () => _databaseImporter_Mock.Verify(dbi => dbi.ImportFrom(PokerStatisticsApplications.PokerOffice, selectedDatabaseName, currentDataProvider_Stub.Object));
         }
+    }
+
+    public class DatabaseImportViewModelSut : DatabaseImportViewModel
+    {
+        public DatabaseImportViewModelSut(IEventAggregator eventAggregator, IDatabaseImporter databaseImporter, IDataProviderInfos dataProviderInfos, IDatabaseSettings databaseSettings, IDatabaseConnector databaseConnector, IExternalManagedDatabase externalManagedDatabase, IEmbeddedManagedDatabase embeddedManagedDatabase)
+            : base(eventAggregator, databaseImporter, dataProviderInfos, databaseSettings, databaseConnector, externalManagedDatabase, embeddedManagedDatabase)
+        {
+        }
+
+
+        public IManagedDatabase CurrentManagedDatabase
+        {
+            get { return _currentManagedDatabase; }
+            set { _currentManagedDatabase = value; }
+        }
+
     }
 }

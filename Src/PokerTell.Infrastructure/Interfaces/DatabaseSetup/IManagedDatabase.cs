@@ -11,6 +11,8 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 
         IDataProviderInfo DataProviderInfo { get; }
 
+        IDataProvider DataProvider { get; }
+
         IManagedDatabase ChooseDatabase(string databaseName);
 
         IManagedDatabase CreateDatabase(string databaseName);

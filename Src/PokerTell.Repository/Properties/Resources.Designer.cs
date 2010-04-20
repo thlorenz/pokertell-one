@@ -106,6 +106,15 @@ namespace PokerTell.Repository.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Successfully imported {0} hands from the {1} database..
+        /// </summary>
+        public static string Info_DatabaseImportCompleted {
+            get {
+                return ResourceManager.GetString("Info_DatabaseImportCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Successfully imported {0} hands..
         /// </summary>
         public static string Info_HandHistoriesDirectoryImportCompleted {

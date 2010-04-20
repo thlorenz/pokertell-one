@@ -32,6 +32,8 @@ namespace PokerTell.Repository.ViewModels
 
         readonly IExternalManagedDatabase _externalManagedDatabase;
 
+        protected IManagedDatabase _currentManagedDatabase;
+
         ICommand _importDatabaseCommand;
 
         PokerStatisticsApplications _selectedApplication;
@@ -83,7 +85,10 @@ namespace PokerTell.Repository.ViewModels
             {
                 return _importDatabaseCommand ?? (_importDatabaseCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => _databaseImporter.ImportFrom(SelectedApplication, SelectedDatabaseName, _databaseConnector.DataProvider), 
+                        ExecuteDelegate = arg => {
+                            _currentManagedDatabase.ChooseDatabase(SelectedDatabaseName);
+                            _databaseImporter.ImportFrom(SelectedApplication, SelectedDatabaseName, _currentManagedDatabase.DataProvider);
+                        }, 
                         CanExecuteDelegate = arg => SelectedDataProviderInfo != null && SelectedDatabaseName != null && ! _databaseImporter.IsBusy
                     });
             }
@@ -163,7 +168,7 @@ namespace PokerTell.Repository.ViewModels
 
         void InitializeExternalManagedDatabase()
         {
-            _externalManagedDatabase
+            _currentManagedDatabase = _externalManagedDatabase
                 .InitializeWith(_databaseConnector.DataProvider, SelectedDataProviderInfo);
         }
 
@@ -175,6 +180,7 @@ namespace PokerTell.Repository.ViewModels
                     .InitializeWith(_databaseConnector.DataProvider, SelectedDataProviderInfo)
                     .GetAllPokerTellDatabaseNames()
                     .ForEach(name => DatabaseNames.Add(name));
+                _currentManagedDatabase = _embeddedManagedDatabase;
             }
             else
             {
@@ -182,6 +188,7 @@ namespace PokerTell.Repository.ViewModels
                     .InitializeWith(_databaseConnector.DataProvider, SelectedDataProviderInfo)
                     .GetAllPokerTellDatabaseNames()
                     .ForEach(name => DatabaseNames.Add(name));
+                _currentManagedDatabase = _externalManagedDatabase;
             }
 
             RaisePropertyChanged(() => DatabaseNames);

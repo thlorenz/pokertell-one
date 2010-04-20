@@ -24,14 +24,14 @@ namespace PokerTell.DatabaseSetup
 
         string _databaseDirectory;
 
-        IDataProvider _dataProvider;
+        public IDataProvider DataProvider { get; protected set; }
 
         IDataProviderInfo _dataProviderInfo;
 
         public IManagedDatabase InitializeWith(IDataProvider dataProvider, IDataProviderInfo dataProviderInfo)
         {
             _dataProviderInfo = dataProviderInfo;
-            _dataProvider = dataProvider;
+            DataProvider = dataProvider;
 
             _databaseDirectory = string.Format("{0}\\{1}\\", Files.LocalUserAppDataPath, Files.DataFolder);
 
@@ -51,7 +51,7 @@ namespace PokerTell.DatabaseSetup
         {
             ConnectionString = "data source = " + FullPathFor(databaseName);
 
-            _dataProvider.Connect(ConnectionString, _dataProviderInfo);
+            DataProvider.Connect(ConnectionString, _dataProviderInfo);
 
             return this;
         }
@@ -63,17 +63,17 @@ namespace PokerTell.DatabaseSetup
 
         public IManagedDatabase CreateTables()
         {
-            _dataProvider.BuildSessionFactory();
+            DataProvider.BuildSessionFactory();
 
-            new SchemaExport(_dataProvider.NHibernateConfiguration)
-                .Execute(false, true, false, _dataProvider.Connection, null);
+            new SchemaExport(DataProvider.NHibernateConfiguration)
+                .Execute(false, true, false, DataProvider.Connection, null);
 
             return this;
         }
 
         public IManagedDatabase VersionDatabase(string databaseName)
         {
-            _dataProvider.ExecuteNonQuery(string.Format(Resources.Sql_Queries_Embedded_InsertVersionNumber, ApplicationProperties.VersionNumber));
+            DataProvider.ExecuteNonQuery(string.Format(Resources.Sql_Queries_Embedded_InsertVersionNumber, ApplicationProperties.VersionNumber));
             return this;
         }
 

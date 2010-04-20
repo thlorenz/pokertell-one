@@ -4,6 +4,8 @@ namespace PokerTell.Repository.Interfaces
 
     public interface IDatabaseImporter
     {
+        int BatchSize { get; set; }
+
         bool IsBusy { get; }
 
         IDatabaseImporter ImportFrom(PokerStatisticsApplications pokerStatisticsApplication, string databaseName, IDataProvider dataProvider);

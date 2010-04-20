@@ -1,20 +1,29 @@
 namespace PokerTell.Repository.Database
 {
     using System.Linq;
-
-    using Infrastructure.Events;
+    using System.Threading;
 
     using Microsoft.Practices.Composite.Events;
 
+    using PokerTell.Infrastructure.Events;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.Repository;
     using PokerTell.Repository.Interfaces;
+    using PokerTell.Repository.Properties;
 
     using Tools.Interfaces;
 
     public class DatabaseImporter : IDatabaseImporter
     {
-        public const int BatchSize = 50;
+        protected string _databaseName;
+
+        protected int _numberOfHandsAttemptedToImport;
+
+        protected int _numberOfHandsSuccessfullyImported;
+
+        protected int _numberOfHandsToImport;
+
+        const int DefaultBatchSize = 50;
 
         readonly IBackgroundWorker _backgroundWorker;
 
@@ -27,9 +36,6 @@ namespace PokerTell.Repository.Database
         readonly IPokerTrackerHandHistoryRetriever _pokerTrackerHandHistoryRetriever;
 
         readonly IRepository _repository;
-
-        protected int _numberOfHandsToImport;
-
 
         public DatabaseImporter(
             IEventAggregator eventAggregator, 
@@ -45,14 +51,26 @@ namespace PokerTell.Repository.Database
             _pokerTellHandHistoryRetriever = pokerTellHandHistoryRetriever;
             _pokerOfficeHandHistoryRetriever = pokerOfficeHandHistoryRetriever;
             _pokerTrackerHandHistoryRetriever = pokerTrackerHandHistoryRetriever;
+
+            BatchSize = DefaultBatchSize;
         }
+
+        public int BatchSize { get; set; }
 
         public bool IsBusy { get; protected set; }
 
+        /// <summary>
+        /// Assumes that the dataprovider has been connected to the given database.
+        /// </summary>
+        /// <param name="pokerStatisticsApplication"></param>
+        /// <param name="databaseName"></param>
+        /// <param name="dataProvider"></param>
+        /// <returns></returns>
         public IDatabaseImporter ImportFrom(PokerStatisticsApplications pokerStatisticsApplication, string databaseName, IDataProvider dataProvider)
         {
+            _databaseName = databaseName;
+
             IsBusy = true;
-            dataProvider.ExecuteNonQuery(string.Format("Use `{0}`;", databaseName));
 
             switch (pokerStatisticsApplication)
             {
@@ -70,21 +88,64 @@ namespace PokerTell.Repository.Database
             return this;
         }
 
+        protected void FinishedImportingHandHistories()
+        {
+            PublishUserMessageAboutFinishedImport();
+
+            ReportProgress(100);
+            IsBusy = false;
+        }
+
         protected virtual void ImportHandHistoriesUsing(IHandHistoryRetriever handHistoryRetriever)
         {
-            _numberOfHandsToImport = handHistoryRetriever.HandHistoriesCount;
-            
-            ReportProgress(0);
+            PrepareToImportHandHistoriesUsing(handHistoryRetriever);
 
+            _backgroundWorker.DoWork += (s, e) => {
+                if (_numberOfHandsToImport > 0)
+                {
+                    while (!handHistoryRetriever.IsDone)
+                    {
+                        ImportNextBatchOfHandHistoriesUsing(handHistoryRetriever);
+                    }
+                }
+            };
+            _backgroundWorker.RunWorkerCompleted += (s, e) => FinishedImportingHandHistories();
+
+            _backgroundWorker.RunWorkerAsync();
+        }
+
+        protected void ImportNextBatchOfHandHistoriesUsing(IHandHistoryRetriever handHistoryRetriever)
+        {
             var nextBatchOfHandHistories =
                 handHistoryRetriever
                     .GetNext(BatchSize)
                     .Aggregate(string.Empty, (collectedSoFar, currentHandHistory) => collectedSoFar + "\n\n" + currentHandHistory);
-          
+
+            _numberOfHandsAttemptedToImport += BatchSize;
+
             var convertedHands =
                 _repository
                     .RetrieveHandsFromString(nextBatchOfHandHistories);
             _repository.InsertHands(convertedHands);
+
+            _numberOfHandsSuccessfullyImported += convertedHands.Count();
+
+            ReportProgress(_numberOfHandsAttemptedToImport * 100 / _numberOfHandsToImport);
+        }
+
+        protected void PrepareToImportHandHistoriesUsing(IHandHistoryRetriever handHistoryRetriever)
+        {
+            _numberOfHandsToImport = handHistoryRetriever.HandHistoriesCount;
+            ReportProgress(0);
+            IsBusy = true;
+        }
+
+        void PublishUserMessageAboutFinishedImport()
+        {
+            var msg = string.Format(Resources.Info_DatabaseImportCompleted, _numberOfHandsSuccessfullyImported, _databaseName);
+            _eventAggregator
+                .GetEvent<UserMessageEvent>()
+                .Publish(new UserMessageEventArgs(UserMessageTypes.Info, msg));
         }
 
         void ReportProgress(int percentage)

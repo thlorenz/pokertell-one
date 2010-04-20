@@ -10,6 +10,8 @@ namespace PokerTell.Repository
     using Microsoft.Practices.Composite.Regions;
     using Microsoft.Practices.Unity;
 
+    using Moq;
+
     using PokerTell.Infrastructure;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
     using PokerTell.Infrastructure.Interfaces.Repository;
@@ -64,6 +66,15 @@ namespace PokerTell.Repository
                 .RegisterType<IRepositoryParser, RepositoryParser>(new ContainerControlledLifetimeManager())
                 .RegisterType<IRepository, Repository>(new PerThreadLifetimeManager())
                 .RegisterType<IHandHistoriesDirectoryImporter, HandHistoriesDirectoryImporter>(new ContainerControlledLifetimeManager())
+
+                // Database Import
+                .RegisterType<IPokerTellHandHistoryRetriever, PokerTellHandHistoryRetriever>()
+                .RegisterType<IPokerOfficeHandHistoryRetriever, PokerOfficeHandHistoryRetriever>()
+                
+                // for now no POkerTracker support
+                .RegisterInstance(new Mock<IPokerTrackerHandHistoryRetriever>().Object)
+                
+                .RegisterType<IDatabaseImporter, DatabaseImporter>()
 
                 // ViewModels
                 .RegisterType<ImportHandHistoriesViewModel>(new ContainerControlledLifetimeManager())
