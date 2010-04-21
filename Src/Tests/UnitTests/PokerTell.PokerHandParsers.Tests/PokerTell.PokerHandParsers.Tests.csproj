@@ -94,6 +94,7 @@
     <Compile Include="Base\BoardParserTests.cs" />
     <Compile Include="PokerStars\AnteParserTests.cs" />
     <Compile Include="Base\AnteParserTests.cs" />
+    <Compile Include="PokerStars\TableNameParserSpecs.cs" />
     <Compile Include="PokerStars\TotalPotParserTests.cs" />
     <Compile Include="Base\HoleCardsParserTests.cs" />
     <Compile Include="Base\PlayerActionsParserTests.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="PokerStars\SmallBlindPlayerNameParserTests.cs" />
     <Compile Include="PokerStars\TableNameParserTests.cs" />
     <Compile Include="PokerStars\TimeStampParserTests.cs" />
+    <Compile Include="PokerStars\TotalSeatsParserSpecs.cs" />
     <Compile Include="PokerStars\TotalSeatsParserTests.cs" />
     <Compile Include="Base\BlindsParserTests.cs" />
     <Compile Include="Base\HandHeaderParserTests.cs" />
@@ -113,6 +115,11 @@
     <Compile Include="Base\TableNameParserTests.cs" />
     <Compile Include="Base\TimeStampParserTests.cs" />
     <Compile Include="Base\TotalSeatsParserTests.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="TotalSeatsForTournamentsRecordKeeperSpecs.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -138,6 +145,12 @@
       <Project>{32736399-C329-453F-8AE0-A5EF0B916E4B}</Project>
       <Name>PokerTell.UnitTests</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

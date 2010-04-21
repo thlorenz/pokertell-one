@@ -91,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database\DatabaseImporter.cs" />
-    <Compile Include="Database\PokerOfficeHandHistoryRetriever .cs" />
+    <Compile Include="Database\PokerOfficeHandHistoryRetriever.cs" />
     <Compile Include="Database\PokerTellHandHistoryRetriever.cs" />
     <Compile Include="Interfaces\IHandHistoryRetrievers.cs" />
     <Compile Include="Interfaces\ITransactionManager.cs" />

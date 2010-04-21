@@ -2,13 +2,18 @@ namespace PokerTell.Repository.Database
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
 
     using Infrastructure.Interfaces.DatabaseSetup;
 
     using Interfaces;
 
+    using log4net;
+
     public class PokerOfficeHandHistoryRetriever : IPokerOfficeHandHistoryRetriever
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public const string NumberOfCashGameHistoriesQuery = "Select Count(*) From handhistory;";
 
         public const string NumberOfTournamentHistoriesQuery = "Select Count(*) From thandhistory;";
@@ -53,7 +58,12 @@ namespace PokerTell.Repository.Database
             var max = _lastCashGameTableRowRetrieved + 1 + batchSize;
 
             var nextHandHistories = QueryHandHistories(min, max);
-          
+
+            foreach (var handHistory in nextHandHistories)
+            {
+                Log.Debug(handHistory + "\n\n");
+            }
+
             _lastCashGameTableRowRetrieved = max;
 
             _doneWithCashGameHandHistories = _lastCashGameTableRowRetrieved + 1 >= _numberOfCashGameHandHistories;
@@ -93,8 +103,11 @@ namespace PokerTell.Repository.Database
             _lastCashGameTableRowRetrieved = -1;
             _lastTournamentTableRowRetrieved = -1;
 
-            _numberOfCashGameHandHistories = (int)_dataProvider.ExecuteScalar(NumberOfCashGameHistoriesQuery);
-            _numberOfTournamentHandHistories = (int) _dataProvider.ExecuteScalar(NumberOfTournamentHistoriesQuery);
+            if (!int.TryParse(_dataProvider.ExecuteScalar(NumberOfCashGameHistoriesQuery).ToString(), out _numberOfCashGameHandHistories))
+                _numberOfCashGameHandHistories = 0;
+
+            if (!int.TryParse(_dataProvider.ExecuteScalar(NumberOfTournamentHistoriesQuery).ToString(), out _numberOfTournamentHandHistories))
+                _numberOfTournamentHandHistories = 0;
 
             return this;
         }

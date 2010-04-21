@@ -12,7 +12,7 @@ namespace PokerTell.PokerHandParsers.Tests.PokerStars
         protected override string ValidTotalSeats(int totalSeats)
         {
             // Table 'Abastumani VII' 9-max 
-            return string.Format("Table 'SomeName' {0}-max", totalSeats);
+            return string.Format("Table 'SomeName' {0}-max ", totalSeats);
         }
     }
 }
