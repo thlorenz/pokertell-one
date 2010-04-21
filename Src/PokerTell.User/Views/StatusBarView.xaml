@@ -1,44 +1,61 @@
 ﻿<StatusBar  x:Class="PokerTell.User.Views.StatusBarView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Background="Transparent"       
-    >
+    xmlns:ViewModels="clr-namespace:PokerTell.User.ViewModels"
+    xmlns:Properties="clr-namespace:PokerTell.User.Properties"
+    Background="Transparent" >
+    <StatusBar.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/Converters.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/PokerTell.Infrastructure;component/Views/ExpressionDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type ViewModels:StatusBarViewModel}">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="3"/>
+                            <Setter Property="BorderThickness" Value="2"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource ShadeBrush}"/>
+                            <Setter Property="Padding" Value="5"/>
+                            <Setter Property="Margin" Value="1"/>
+                        </Style>
+                        <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
+                            <ProgressBar Maximum="100"
+                                         Minimum="0"
+                                         Height="10"
+                                         Width="80" 
+                                         Value="{Binding PercentCompleted}"
+                                         Margin="5,0"/>
+                        </DataTemplate>
+                    </StackPanel.Resources>
 
-    <StackPanel Orientation="Horizontal">
-       
-        <StackPanel.Resources>
-            <Style TargetType="{x:Type Border}">
-                <Setter Property="CornerRadius" Value="3"/>
-                <Setter Property="BorderThickness" Value="2"/>
-                <Setter Property="BorderBrush" Value="{StaticResource ShadeBrush}"/>
-                <Setter Property="Padding" Value="5"/>
-                <Setter Property="Margin" Value="1"/>
-            </Style>
-        </StackPanel.Resources>
-        
-        <!-- Database Connection Status -->
-        <Border>
-            <Label Content="{Binding DatabaseStatus, Mode=OneWay}" />
-        </Border>    
+                    <!-- Database Connection Status -->
+                    <Border>
+                        <Label Content="{Binding DatabaseStatus, Mode=OneWay}" />
+                    </Border>
 
-        <!-- Import HandHistories from Directory Status-->
-        <Border DataContext="{Binding HandHistoriesDirectoryImportProgress}"
-                Visibility="{Binding Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
-            <StackPanel Orientation="Horizontal">
+                    <!-- Import HandHistories from Directory Status-->
+                    <Border Visibility="{Binding HandHistoriesDirectoryImportProgress.Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{x:Static Properties:Resources.StatusBarView_ImportingHandHistories}" HorizontalAlignment="Left"/>
+                            <ContentControl Content="{Binding HandHistoriesDirectoryImportProgress}" />
+                        </StackPanel>
+                    </Border>
 
-                <Label Content="Importing Hand Histories" HorizontalAlignment="Left"/>
-
-                <ProgressBar Maximum="100"
-                             Minimum="0"
-                             Height="10"
-                             Width="80" 
-                             Value="{Binding PercentCompleted}"
-                             Margin="5,0"/>
-
-            </StackPanel>
-        </Border>
-
-    </StackPanel>
+                    <!-- Import Databse Status-->
+                    <Border Visibility="{Binding DatabaseImportProgress.Visible, Converter={StaticResource BoolToVisibleOrCollapsedConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{x:Static Properties:Resources.StatusBarView_ImportingDatabase}" HorizontalAlignment="Left"/>
+                            <ContentControl Content="{Binding DatabaseImportProgress}" />
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </StatusBar.Resources>
+    
+    <ContentControl Content="{Binding}" />
 </StatusBar>
 
 <!--

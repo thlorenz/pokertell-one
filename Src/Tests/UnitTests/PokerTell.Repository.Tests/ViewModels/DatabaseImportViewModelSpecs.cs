@@ -416,6 +416,32 @@ namespace PokerTell.Repository.Tests.ViewModels
             It should_tell_the_database_importer_to_import_PokerOffice_data_from_the_seleted_database_using_the_dataprovider_of_the_current_managed_database
                 = () => _databaseImporter_Mock.Verify(dbi => dbi.ImportFrom(PokerStatisticsApplications.PokerOffice, selectedDatabaseName, currentDataProvider_Stub.Object));
         }
+
+        [Subject(typeof(DatabaseImportViewModel), "Database importer busy state")]
+        public class when_not_currently_importing_and_the_database_importer_says_he_got_busy : DatabaseImportViewModelSpecs
+        {
+            const bool notCurrentlyImporting = true;
+            const bool isBusy = true;
+
+            Establish context = () => _sut.Set_NotCurrentlyImporting(notCurrentlyImporting);
+
+            Because of = () => _databaseImporter_Mock.Raise(dbi => dbi.IsBusyChanged += null, isBusy);
+
+            It should_set_NotCurrentlyImporting_to_false = () => _sut.NotCurrentlyImporting.ShouldBeFalse();
+        }
+
+        [Subject(typeof(DatabaseImportViewModel), "Database importer busy state")]
+        public class when_currently_importing_and_the_database_importer_says_he_is_not_busy_anymore : DatabaseImportViewModelSpecs
+        {
+            const bool notCurrentlyImporting = false;
+            const bool isBusy = false;
+
+            Establish context = () => _sut.Set_NotCurrentlyImporting(notCurrentlyImporting);
+
+            Because of = () => _databaseImporter_Mock.Raise(dbi => dbi.IsBusyChanged += null, isBusy);
+
+            It should_set_NotCurrentlyImporting_to_true = () => _sut.NotCurrentlyImporting.ShouldBeTrue();
+        }
     }
 
     public class DatabaseImportViewModelSut : DatabaseImportViewModel
@@ -425,6 +451,11 @@ namespace PokerTell.Repository.Tests.ViewModels
         {
         }
 
+        public DatabaseImportViewModelSut Set_NotCurrentlyImporting(bool notCurrentlyImporting)
+        {
+            NotCurrentlyImporting = notCurrentlyImporting;;
+            return this;
+        }
 
         public IManagedDatabase CurrentManagedDatabase
         {

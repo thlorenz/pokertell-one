@@ -20,5 +20,7 @@ namespace PokerTell.Repository.Interfaces
         ICommand ImportDatabaseCommand { get; }
 
         string SelectedDatabaseName { get; set; }
+
+        bool NotCurrentlyImporting { get; }
     }
 }

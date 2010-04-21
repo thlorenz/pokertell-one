@@ -1,5 +1,6 @@
 namespace PokerTell.Repository.Database
 {
+    using System;
     using System.Linq;
     using System.Threading;
 
@@ -57,7 +58,19 @@ namespace PokerTell.Repository.Database
 
         public int BatchSize { get; set; }
 
-        public bool IsBusy { get; protected set; }
+        bool _isBusy;
+
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            protected set 
+            { 
+                _isBusy = value;
+                IsBusyChanged(IsBusy);
+            }
+        }
+
+        public event Action<bool> IsBusyChanged = delegate { };
 
         /// <summary>
         /// Assumes that the dataprovider has been connected to the given database.

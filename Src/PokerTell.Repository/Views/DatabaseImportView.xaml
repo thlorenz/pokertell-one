@@ -27,7 +27,7 @@
                         <Label Content="{x:Static Properties:Resources.DatabaseImportView_Title}" Margin="5, 5, 5, 15 "/>
                     </Border>
                     <Border Background="{DynamicResource LightToDarkToLightBorderBrush}" CornerRadius="3" Margin="2" Padding="5">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" MinHeight="100" MaxHeight="200">
+                        <StackPanel IsEnabled="{Binding NotCurrentlyImporting}" Orientation="Horizontal" VerticalAlignment="Top" MinHeight="100" MaxHeight="200">
                             <StackPanel.Resources>
                                 <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource {x:Type GroupBox}}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>

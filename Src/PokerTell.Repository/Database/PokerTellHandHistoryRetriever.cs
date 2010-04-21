@@ -55,7 +55,8 @@ namespace PokerTell.Repository.Database
             IsDone = false;
             _lastRowRetrieved = -1;
 
-            _numberOfHandHistories = (int)_dataProvider.ExecuteScalar(NumberOfHandHistoriesQuery);
+            if (!int.TryParse(_dataProvider.ExecuteScalar(NumberOfHandHistoriesQuery).ToString(), out _numberOfHandHistories))
+                _numberOfHandHistories = 0;
 
             return this;
         }

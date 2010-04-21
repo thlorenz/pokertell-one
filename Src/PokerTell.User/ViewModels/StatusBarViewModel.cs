@@ -14,14 +14,13 @@
     {
         readonly IEventAggregator _eventAggregator;
 
-        readonly IProgressViewModel _handHistoriesDirectoryImportProgress;
-
         string _databaseStatus;
 
-        public StatusBarViewModel(IEventAggregator eventAggregator, IProgressViewModel handHistoriesDirectoryImportProgress)
+        public StatusBarViewModel(IEventAggregator eventAggregator, IProgressViewModel handHistoriesDirectoryImportProgress, IProgressViewModel databaseImportProgress)
         {
-            _handHistoriesDirectoryImportProgress = handHistoriesDirectoryImportProgress;
             _eventAggregator = eventAggregator;
+            HandHistoriesDirectoryImportProgress = handHistoriesDirectoryImportProgress;
+            DatabaseImportProgress = databaseImportProgress;
 
             const bool keepSubscriberReferenceAlive = true;
             _eventAggregator
@@ -43,16 +42,20 @@
             }
         }
 
-        public IProgressViewModel HandHistoriesDirectoryImportProgress
-        {
-            get { return _handHistoriesDirectoryImportProgress; }
-        }
+        public IProgressViewModel HandHistoriesDirectoryImportProgress { get; protected set; }
+
+        public IProgressViewModel DatabaseImportProgress { get; protected set; }
 
         void HandleProgressUpdateEvent(ProgressUpdateEventArgs arg)
         {
-            if (arg.ProgressType.Equals(ProgressTypes.HandHistoriesDirectoryImport))
+            switch (arg.ProgressType)
             {
-                _handHistoriesDirectoryImportProgress.PercentCompleted = arg.PercentCompleted;
+                case ProgressTypes.HandHistoriesDirectoryImport:
+                    HandHistoriesDirectoryImportProgress.PercentCompleted = arg.PercentCompleted;
+                    break;
+                case ProgressTypes.DatabaseImport:
+                    DatabaseImportProgress.PercentCompleted = arg.PercentCompleted;
+                    break;
             }
         }
 

@@ -1,5 +1,7 @@
 namespace PokerTell.Repository.Interfaces
 {
+    using System;
+
     using Infrastructure.Interfaces.DatabaseSetup;
 
     public interface IDatabaseImporter
@@ -9,5 +11,7 @@ namespace PokerTell.Repository.Interfaces
         bool IsBusy { get; }
 
         IDatabaseImporter ImportFrom(PokerStatisticsApplications pokerStatisticsApplication, string databaseName, IDataProvider dataProvider);
+
+        event Action<bool> IsBusyChanged;
     }
 }

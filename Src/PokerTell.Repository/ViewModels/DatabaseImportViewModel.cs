@@ -1,5 +1,6 @@
 namespace PokerTell.Repository.ViewModels
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -60,7 +61,16 @@ namespace PokerTell.Repository.ViewModels
             DataProvidersInfos = new ObservableCollection<IDataProviderInfo>();
             DatabaseNames = new ObservableCollection<string>();
 
+            NotCurrentlyImporting = true;
+
             SelectedApplication = PokerStatisticsApplications.PokerTell;
+
+            RegisterEvents();
+        }
+
+        void RegisterEvents()
+        {
+            _databaseImporter.IsBusyChanged += isBusy => NotCurrentlyImporting = !isBusy;
         }
 
         public IList<string> DatabaseNames { get; protected set; }
@@ -74,6 +84,18 @@ namespace PokerTell.Repository.ViewModels
             {
                 _selectedDatabaseName = value;
                 RaisePropertyChanged(() => SelectedDatabaseName);
+            }
+        }
+
+        bool _notCurrentlyImporting;
+
+        public bool NotCurrentlyImporting
+        {
+            get { return _notCurrentlyImporting; }
+            protected set
+            {
+                _notCurrentlyImporting = value;
+                RaisePropertyChanged(() => NotCurrentlyImporting);
             }
         }
 

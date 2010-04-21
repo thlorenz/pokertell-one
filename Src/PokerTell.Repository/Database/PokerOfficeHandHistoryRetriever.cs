@@ -12,8 +12,6 @@ namespace PokerTell.Repository.Database
 
     public class PokerOfficeHandHistoryRetriever : IPokerOfficeHandHistoryRetriever
     {
-        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         public const string NumberOfCashGameHistoriesQuery = "Select Count(*) From handhistory;";
 
         public const string NumberOfTournamentHistoriesQuery = "Select Count(*) From thandhistory;";
@@ -58,11 +56,6 @@ namespace PokerTell.Repository.Database
             var max = _lastCashGameTableRowRetrieved + 1 + batchSize;
 
             var nextHandHistories = QueryHandHistories(min, max);
-
-            foreach (var handHistory in nextHandHistories)
-            {
-                Log.Debug(handHistory + "\n\n");
-            }
 
             _lastCashGameTableRowRetrieved = max;
 

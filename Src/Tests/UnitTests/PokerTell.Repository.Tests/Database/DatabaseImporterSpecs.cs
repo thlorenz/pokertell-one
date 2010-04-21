@@ -277,6 +277,27 @@ namespace PokerTell.Repository.Tests.Database
             It should_let_the_user_know_what_database_it_imported_the_hands_from
                 = () => userMessageAboutImportedHands.ShouldContain(databaseName);
         }
+
+        [Subject(typeof(DatabaseImporter), "IsBusy changed")]
+        public class when_the_busy_status_changed : DatabaseImporterSpecs
+        {
+            static bool isBusyChangedWasRaised;
+
+            static bool isBusyChangedWasRaisedWith;
+            const bool newBusyState = true;
+
+
+            Establish context = () => _sut.IsBusyChanged += arg => {
+                isBusyChangedWasRaised = true;
+                isBusyChangedWasRaisedWith = arg;
+            };
+
+            Because of = () => _sut.Set_IsBusy(newBusyState);
+
+            It should_let_me_know = () => isBusyChangedWasRaised.ShouldBeTrue();
+
+            It should_pass_the_new_busy_state = () => isBusyChangedWasRaisedWith.ShouldEqual(newBusyState);
+        }
     }
 
     public class DatabaseImporterSut : DatabaseImporter

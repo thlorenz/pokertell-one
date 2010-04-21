@@ -183,6 +183,24 @@ namespace PokerTell.User.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Importing database.
+        /// </summary>
+        public static string StatusBarView_ImportingDatabase {
+            get {
+                return ResourceManager.GetString("StatusBarView_ImportingDatabase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importing hand histories.
+        /// </summary>
+        public static string StatusBarView_ImportingHandHistories {
+            get {
+                return ResourceManager.GetString("StatusBarView_ImportingHandHistories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to We are very sorry ...
         ///
         ///Something unexpected occurred, and PokerTell will have to close.
