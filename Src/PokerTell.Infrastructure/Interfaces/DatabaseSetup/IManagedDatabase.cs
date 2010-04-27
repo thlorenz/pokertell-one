@@ -2,9 +2,6 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
 {
     using System.Collections.Generic;
 
-    using DatabaseSetup;
-    using DatabaseSetup;
-
     public interface IManagedDatabase
     {
         string ConnectionString { get; }

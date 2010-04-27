@@ -24,6 +24,12 @@ namespace PokerTell.UnitTests.Fakes
 
         public event EventHandler Disposed;
 
+        void InvokeDisposed(EventArgs e)
+        {
+            EventHandler disposed = Disposed;
+            if (disposed != null) disposed(this, e);
+        }
+
         public event DoWorkEventHandler DoWork
         {
             add { DoWorkEventHandler = value; }

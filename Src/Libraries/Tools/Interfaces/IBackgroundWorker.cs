@@ -6,7 +6,35 @@ namespace Tools.Interfaces
 
     public interface IBackgroundWorker
     {
+        event EventHandler Disposed;
+
+        event DoWorkEventHandler DoWork;
+
+        event ProgressChangedEventHandler ProgressChanged;
+
+        event RunWorkerCompletedEventHandler RunWorkerCompleted;
+
+        bool CancellationPending { get; }
+
+        IContainer Container { get; }
+
+        bool IsBusy { get; }
+
+        ISite Site { get; set; }
+
+        bool WorkerReportsProgress { get; set; }
+
+        bool WorkerSupportsCancellation { get; set; }
+
         void CancelAsync();
+
+        ObjRef CreateObjRef(Type requestedType);
+
+        void Dispose();
+
+        object GetLifetimeService();
+
+        object InitializeLifetimeService();
 
         void ReportProgress(int percentProgress);
 
@@ -16,35 +44,7 @@ namespace Tools.Interfaces
 
         void RunWorkerAsync(object argument);
 
-        bool CancellationPending { get; }
-
-        bool IsBusy { get; }
-
-        bool WorkerReportsProgress { get; set; }
-
-        bool WorkerSupportsCancellation { get; set; }
-
-        ISite Site { get; set; }
-
-        IContainer Container { get; }
-
-        event DoWorkEventHandler DoWork;
-
-        event ProgressChangedEventHandler ProgressChanged;
-
-        event RunWorkerCompletedEventHandler RunWorkerCompleted;
-
-        void Dispose();
-
         string ToString();
-
-        event EventHandler Disposed;
-
-        object GetLifetimeService();
-
-        object InitializeLifetimeService();
-
-        ObjRef CreateObjRef(Type requestedType);
     }
 
     public class BackgroundWorkerAdapter : BackgroundWorker, IBackgroundWorker

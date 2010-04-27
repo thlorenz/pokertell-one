@@ -296,6 +296,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Program Files\Kaxaml\$(TargetFileName)" /Y</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Users\Thorsten\Documents\XAML Documents\$(TargetFileName)" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

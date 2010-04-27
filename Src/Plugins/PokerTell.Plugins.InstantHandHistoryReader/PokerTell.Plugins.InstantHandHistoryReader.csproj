@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{5B654EE9-2E7C-4DA0-9DF3-279FC11B3553}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\..\..\bin\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -89,7 +89,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\SD\PokerTell\Build\Debug\Plugins\$(TargetFileName)" /Y
-copy "$(TargetDir)$(TargetFileName)" "C:\SD\PokerTell\Src\Tests\ManualTests\PokerTell.LiveTracker.ManualTests\bin\Debug\Plugins\$(TargetFileName)" /Y</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)$(TargetFileName)" "C:\Dev\Projects\PokerTell\Build\Debug\Plugins\$(TargetFileName)" /Y
+copy "$(TargetDir)$(TargetFileName)" "C:\Dev\Projects\PokerTell\Src\Tests\ManualTests\PokerTell.LiveTracker.ManualTests\bin\Debug\Plugins\$(TargetFileName)" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>

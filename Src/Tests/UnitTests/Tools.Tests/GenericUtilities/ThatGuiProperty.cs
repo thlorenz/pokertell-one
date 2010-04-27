@@ -17,6 +17,8 @@ namespace Tools.Tests.GenericUtilities
     using Tools.GenericUtilities;
     using Tools.Serialization;
 
+    using PokerTell.UnitTests.Tools;
+
     [TestFixture]
     public class ThatGuiProperty : TestWithLog
     {
@@ -111,17 +113,11 @@ namespace Tools.Tests.GenericUtilities
             double yFactor = 3.4;
             const string val = "theValue";
             
-            
             GuiProperty<string> original = new GuiProperty<string>(val, xFactor, yFactor);
             original.Location = new Point(20, 20);
-            
-            string fileName = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) 
-                + @"\temp\guiProperty.xml";
-            
-            XmlStandardSerializer.SerializeObjectGraph(original, fileName);
-            var deserialized = (GuiProperty<string>)
-                XmlStandardSerializer.DeserializeObjectGraph(fileName, typeof(GuiProperty<string>));
-            
+
+            var deserialized = original.XmlDeserializedInMemory();
+
             Assert.That(deserialized.LocationRelative, Is.EqualTo(original.LocationRelative));
             Assert.That(deserialized.Content, Is.Not.EqualTo(original.Content));
             Assert.That(deserialized.Location, Is.Not.EqualTo(original.Location));
