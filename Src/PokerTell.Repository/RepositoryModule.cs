@@ -69,6 +69,7 @@ namespace PokerTell.Repository
 
                 // Database Import
                 .RegisterType<IPokerTellHandHistoryRetriever, PokerTellHandHistoryRetriever>()
+                .RegisterType<IPokerTrackerHandHistoryRetriever, PokerTrackerHandHistoryRetriever>()
                 .RegisterType<IPokerOfficeHandHistoryRetriever, PokerOfficeHandHistoryRetriever>()
                 
                 // for now no POkerTracker support
