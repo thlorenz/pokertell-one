@@ -6,6 +6,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
     using System.Text.RegularExpressions;
     using System.Windows.Input;
 
+    using Base;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Events;
@@ -17,7 +19,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
     using Tools.WPF;
 
-    public class ConfigureMySqlDataProviderViewModel : ConfigureDataProviderViewModel
+    public class ConfigureMySqlDataProviderViewModel : ConfigureDataProviderViewModelBase
     {
         static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

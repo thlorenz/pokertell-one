@@ -105,16 +105,20 @@ namespace PokerTell.DatabaseSetup.ViewModels
             {
                 return _configureMySqlProviderCommand ?? (_configureMySqlProviderCommand = new SimpleCommand
                     {
-                        ExecuteDelegate = arg => {
-                            try
-                            {
-                                _container.Resolve<ConfigureMySqlDataProviderView>().ShowDialog();
-                            }
-                            catch (Exception excep)
-                            {
-                                Console.WriteLine(excep.ToString());
-                            }
-                        }
+                        ExecuteDelegate = arg => _container.Resolve<ConfigureMySqlDataProviderView>().ShowDialog()
+                    });
+            }
+        }
+
+        ICommand _configurePostgreSqlProviderCommand;
+
+        public ICommand ConfigurePostgreSqlProviderCommand
+        {
+            get
+            {
+                return _configurePostgreSqlProviderCommand ?? (_configurePostgreSqlProviderCommand = new SimpleCommand
+                    {
+                        ExecuteDelegate = arg => _container.Resolve<ConfigurePostgreSqlDataProviderView>().ShowDialog()
                     });
             }
         }

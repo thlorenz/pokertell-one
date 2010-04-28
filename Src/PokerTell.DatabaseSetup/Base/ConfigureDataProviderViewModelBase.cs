@@ -1,24 +1,23 @@
-namespace PokerTell.DatabaseSetup.ViewModels
+namespace PokerTell.DatabaseSetup.Base
 {
     using System;
     using System.Reflection;
     using System.Windows.Input;
 
+    using Infrastructure.Events;
+    using Infrastructure.Interfaces.DatabaseSetup;
+
     using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
-    using PokerTell.DatabaseSetup.Properties;
-    using PokerTell.Infrastructure.Events;
-    using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
+    using Properties;
 
     using Tools.WPF;
     using Tools.WPF.ViewModels;
 
-    public abstract class ConfigureDataProviderViewModel : NotifyPropertyChanged
+    public abstract class ConfigureDataProviderViewModelBase : NotifyPropertyChanged
     {
-        #region Constants and Fields
-
         protected readonly IEventAggregator _eventAggregator;
 
         protected string _serverConnectString;
@@ -46,11 +45,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         string _userName;
 
-        #endregion
-
-        #region Constructors and Destructors
-
-        protected ConfigureDataProviderViewModel(
+        protected ConfigureDataProviderViewModelBase(
             IEventAggregator eventAggregator, 
             IDatabaseSettings databaseSettings, 
             IDatabaseConnector databaseConnector)
@@ -59,10 +54,6 @@ namespace PokerTell.DatabaseSetup.ViewModels
             _eventAggregator = eventAggregator;
             _databaseSettings = databaseSettings;
         }
-
-        #endregion
-
-        #region Properties
 
         public ICommand CancelCommand
         {
@@ -151,11 +142,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
 
         protected abstract IDataProviderInfo DataProviderInfo { get; }
 
-        #endregion
-
-        #region Public Methods
-
-        public ConfigureDataProviderViewModel Initialize()
+        public ConfigureDataProviderViewModelBase Initialize()
         {
             _databaseConnector.InitializeWith(DataProviderInfo);
             try
@@ -176,11 +163,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
             return InitializeWithDefaults();
         }
 
-        #endregion
-
-        #region Methods
-
-        protected ConfigureDataProviderViewModel InititializeWith(string serverName, string userName, string password)
+        protected ConfigureDataProviderViewModelBase InititializeWith(string serverName, string userName, string password)
         {
             ServerName = serverName;
             UserName = userName;
@@ -188,7 +171,7 @@ namespace PokerTell.DatabaseSetup.ViewModels
             return this;
         }
 
-        ConfigureDataProviderViewModel InitializeWithDefaults()
+        ConfigureDataProviderViewModelBase InitializeWithDefaults()
         {
             return InititializeWith("localhost", "root", string.Empty);
         }
@@ -204,10 +187,8 @@ namespace PokerTell.DatabaseSetup.ViewModels
         {
             _serverConnectString = new DatabaseConnectionInfo(ServerName, UserName, Password).ServerConnectString;
             _databaseConnector.TryToConnectToServerUsing(_serverConnectString, true);
-          
+
             _connectionIsValid = _databaseConnector.DataProvider != null && _databaseConnector.DataProvider.IsConnectedToServer;
         }
-
-        #endregion
     }
 }

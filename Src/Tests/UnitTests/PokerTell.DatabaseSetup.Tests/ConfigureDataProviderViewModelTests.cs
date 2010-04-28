@@ -2,6 +2,8 @@ namespace PokerTell.DatabaseSetup.Tests
 {
     using System;
 
+    using Base;
+
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Unity;
 
@@ -9,7 +11,6 @@ namespace PokerTell.DatabaseSetup.Tests
 
     using NUnit.Framework;
 
-    using PokerTell.DatabaseSetup.ViewModels;
     using PokerTell.Infrastructure.Interfaces.DatabaseSetup;
 
     public class ConfigureDataProviderViewModelTests
@@ -77,7 +78,7 @@ namespace PokerTell.DatabaseSetup.Tests
             _container
                 .RegisterInstance(settingsMock.Object);
 
-            ConfigureDataProviderViewModel sut = _container
+            ConfigureDataProviderViewModelBase sut = _container
                 .Resolve<ConfigureDataProviderViewModelMock>()
                 .Initialize();
 
@@ -237,7 +238,7 @@ namespace PokerTell.DatabaseSetup.Tests
         #endregion
     }
 
-    internal class ConfigureDataProviderViewModelMock : ConfigureDataProviderViewModel
+    internal class ConfigureDataProviderViewModelMock : ConfigureDataProviderViewModelBase
     {
         #region Constructors and Destructors
 

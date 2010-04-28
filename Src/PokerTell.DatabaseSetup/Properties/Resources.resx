@@ -415,4 +415,10 @@ INSERT INTO version (Id, Number) values (0, {0});</value>
 DELETE FROM version WHERE Id = 0;
 INSERT INTO version (Id, Number) values (0, {1});</value>
   </data>
+  <data name="ConfigurePostgreSqlProviderView_Title" xml:space="preserve">
+    <value>PostgreSql Database Configuration</value>
+  </data>
+  <data name="DatabaseSetupMenu_ConfigurePostgreSqlServer_Header" xml:space="preserve">
+    <value>Configure PostgreSql Server</value>
+  </data>
 </root>

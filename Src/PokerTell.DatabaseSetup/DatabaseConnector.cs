@@ -1,6 +1,9 @@
 namespace PokerTell.DatabaseSetup
 {
     using System;
+    using System.Reflection;
+
+    using log4net;
 
     using Microsoft.Practices.Composite.Events;
 
@@ -10,6 +13,8 @@ namespace PokerTell.DatabaseSetup
 
     public class DatabaseConnector : IDatabaseConnector
     {
+        static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         readonly IDatabaseSettings _databaseSettings;
 
         readonly IEventAggregator _eventAggregator;
@@ -158,6 +163,7 @@ namespace PokerTell.DatabaseSetup
                 }
                 catch (Exception excep)
                 {
+                    Log.Error("ServerconnectString: " + serverConnectString, excep);
                     PublishErrorMessage(
                         string.Format(Resources.Error_UnableToConnectToServer, _dataProviderInfo.NiceName), excep);
                     return;

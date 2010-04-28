@@ -5,8 +5,6 @@ namespace PokerTell.DatabaseSetup
 
     public class DatabaseConnectionInfo
     {
-        #region Constructors and Destructors
-
         public DatabaseConnectionInfo(string server, string user, string password)
         {
             InitializeWith(server, user, password, null);
@@ -17,14 +15,46 @@ namespace PokerTell.DatabaseSetup
             ExtractConnectionDetailsAndInitializeFrom(connString);
         }
 
+        public string Database { get; protected set; }
+
+        public string Password { get; protected set; }
+
+        public string Server { get; protected set; }
+
+        /// <summary>
+        /// Connection string to connect to server only
+        /// </summary>
+        /// <exception cref="DatabaseConnectionInfoInvalidException">not at least user and server are specified</exception>
+        public string ServerConnectString
+        {
+            get { return GetServerConnectString(); }
+        }
+
+        public string User { get; protected set; }
+
+        public bool IsValidForDatabaseConnection()
+        {
+            return IsValidForServerOnlyConnection() && !string.IsNullOrEmpty(Database);
+        }
+
+        public bool IsValidForServerOnlyConnection()
+        {
+            return !string.IsNullOrEmpty(Server) && !string.IsNullOrEmpty(User);
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Database: {0}, Password: {1}, Server: {2}, User: {3}", Database, Password, Server, User);
+        }
+
         void ExtractConnectionDetailsAndInitializeFrom(string connString)
         {
             if (!string.IsNullOrEmpty(connString))
             {
-                const string patServer = @"Data Source\s*=\s*(?<serverName>[^;\b]+)";
-                const string patUser = @"User\sID\s*=\s*(?<userName>[^;\b]+)";
+                const string patServer = @"(Data Source|host)\s*=\s*(?<serverName>[^;\b]+)";
+                const string patUser = @"(User\sID|user)\s*=\s*(?<userName>[^;\b]+)";
                 const string patPassword = @"(pwd|password)\s*=\s*(?<password>('(([^'])|(''))+'|[^';\b]+))";
-                const string patDatabase = @"(Initial Catalog|Database)\s*=\s*(?<databaseName>[^;\b]+)";
+                const string patDatabase = @"(Initial Catalog|Database|dbname)\s*=\s*(?<databaseName>[^;\b]+)";
                 const string patDatabaseFromFileName = @"Data Source.*=.*\w:\\(.+\\)*(?<databaseName>.+)[.]db3";
 
                 Match m = Regex.Match(connString, patDatabaseFromFileName, RegexOptions.IgnoreCase);
@@ -52,45 +82,6 @@ namespace PokerTell.DatabaseSetup
             }
         }
 
-        #endregion
-
-        #region Properties
-
-        public string Database { get; protected set; }
-
-        public string Password { get; protected set; }
-
-        public string Server { get; protected set; }
-
-        /// <summary>
-        /// Connection string to connect to server only
-        /// </summary>
-        /// <exception cref="DatabaseConnectionInfoInvalidException">not at least user and server are specified</exception>
-        public string ServerConnectString
-        {
-            get { return GetServerConnectString(); }
-        }
-
-        public string User { get; protected set; }
-
-        #endregion
-
-        #region Public Methods
-
-        public bool IsValidForDatabaseConnection()
-        {
-            return IsValidForServerOnlyConnection() && !string.IsNullOrEmpty(Database);
-        }
-
-        public bool IsValidForServerOnlyConnection()
-        {
-            return !string.IsNullOrEmpty(Server) && !string.IsNullOrEmpty(User);
-        }
-
-        #endregion
-
-        #region Methods
-
         /// <summary>
         /// DatabaseConnection string 
         /// </summary>
@@ -103,8 +94,9 @@ namespace PokerTell.DatabaseSetup
                 throw new DatabaseConnectionInfoInvalidException("Need to at least have server and user specified");
             }
 
-            string connString = string.Format("data source = {0}; user id = {1};", Server, User);
+           //  string connString = string.Format("data source = {0}; user id = {1};", Server, User);
 
+            string connString = string.Format("host = {0}; user = {1};", Server, User);
             if (! string.IsNullOrEmpty(Password))
             {
                 connString += string.Format(" password = {0};", Password);
@@ -120,24 +112,13 @@ namespace PokerTell.DatabaseSetup
             Password = password;
             Database = database;
         }
-
-        #endregion
-
-       public override string ToString()
-        {
-            return string.Format("Database: {0}, Password: {1}, Server: {2}, User: {3}", Database, Password, Server, User);
-        }
     }
 
     public class DatabaseConnectionInfoInvalidException : Exception
     {
-        #region Constructors and Destructors
-
         public DatabaseConnectionInfoInvalidException(string message)
             : base(message)
         {
         }
-
-        #endregion
     }
 }

@@ -64,6 +64,13 @@
                         Header = Resources.DatabaseSetupMenu_ConfigureMySqlServer_Header, 
                         Command = _viewModel.ConfigureMySqlProviderCommand
                     });
+
+            menuItem.Items.Add(
+                new MenuItem
+                    {
+                        Header = Resources.DatabaseSetupMenu_ConfigurePostgreSqlServer_Header, 
+                        Command = _viewModel.ConfigurePostgreSqlProviderCommand
+                    });
             return menuItem;
         }
     }

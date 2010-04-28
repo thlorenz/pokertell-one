@@ -88,6 +88,10 @@
     <Reference Include="NHibernate.ByteCode.LinFu">
       <HintPath>..\..\Lib\NHibernate\NHibernate.ByteCode.LinFu.dll</HintPath>
     </Reference>
+    <Reference Include="Npgsql, Version=2.0.9.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\Npgsql\Npgsql.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
