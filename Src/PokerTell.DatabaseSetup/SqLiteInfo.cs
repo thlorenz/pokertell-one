@@ -29,6 +29,11 @@ namespace PokerTell.DatabaseSetup
             get { return "@"; }
         }
 
+        public string ShowAllTablesQuery
+        {
+            get { throw new NotImplementedException("Does not apply to embedded SQLite databases"); }
+        }
+
         public string NHibernateDialect
         {
             get { return typeof(SQLiteDialect).AssemblyQualifiedName; }

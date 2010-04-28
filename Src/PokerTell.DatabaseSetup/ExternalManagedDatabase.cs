@@ -124,7 +124,7 @@ namespace PokerTell.DatabaseSetup
 
         public IEnumerable<string> GetAllPokerTrackerDatabaseNames()
         {
-            throw new NotImplementedException();
+            return GetNamesOfAllDatabasesWhoseFirstTableIs("holdem_cache");
         }
 
         public string GetNameFor(string databaseInUse)
@@ -138,7 +138,7 @@ namespace PokerTell.DatabaseSetup
 
             foreach (string databaseName in allDatabaseNames)
             {
-                string query = string.Format("USE `{0}`; SHOW TABLES;", databaseName);
+                string query = string.Format(_dataProviderInfo.ShowAllTablesQuery, databaseName);
 
                 using (IDataReader dr = DataProvider.ExecuteQuery(query))
                 {

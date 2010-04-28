@@ -77,10 +77,15 @@ namespace PokerTell.DatabaseSetup
                 .Resolve<IDatabaseSettings>()
                 .SetCurrentDataProviderTo(new SqLiteInfo());
 
-            var databaseManager =
+            var embeddedManagedDatabase =
                 _container
                     .RegisterType<IDataProviderInfo, SqLiteInfo>()
-                    .RegisterType<IManagedDatabase, EmbeddedManagedDatabase>()
+                    .Resolve<IEmbeddedManagedDatabase>()
+                    .InitializeWith(_container.Resolve<IDataProvider>(), _container.Resolve<IDataProviderInfo>());
+
+            var databaseManager =
+                _container.CreateChildContainer()
+                    .RegisterInstance(embeddedManagedDatabase)
                     .Resolve<IDatabaseManager>();
 
             if (!databaseManager.DatabaseExists(firstDatabase))

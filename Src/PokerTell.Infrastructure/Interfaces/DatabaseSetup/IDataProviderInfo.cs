@@ -13,5 +13,7 @@ namespace PokerTell.Infrastructure.Interfaces.DatabaseSetup
         string NiceName { get; }
 
         string ParameterPlaceHolder { get; }
+
+        string ShowAllTablesQuery { get; }
     }
 }

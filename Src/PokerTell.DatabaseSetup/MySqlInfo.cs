@@ -1,14 +1,16 @@
 namespace PokerTell.DatabaseSetup
 {
+    using System;
+
     using NHibernate.Dialect;
     using NHibernate.Driver;
 
     using Infrastructure.Interfaces.DatabaseSetup;
 
-    using Properties;
-
     public class MySqlInfo : IDataProviderInfo
     {
+        const string MySqlShowTablesQuery = "USE `{0}`; SHOW TABLES;";
+
         public string FullName
         {
             get { return "MySql.Data"; }
@@ -27,6 +29,11 @@ namespace PokerTell.DatabaseSetup
         public string ParameterPlaceHolder
         {
             get { return "?"; }
+        }
+
+        public string ShowAllTablesQuery
+        {
+            get { return MySqlShowTablesQuery; }
         }
 
         public string NHibernateDialect

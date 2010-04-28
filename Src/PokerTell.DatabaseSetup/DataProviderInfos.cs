@@ -43,7 +43,7 @@ namespace PokerTell.DatabaseSetup
 
         public IDataProviderInfo PostgresProviderInfo
         {
-            get { return null; }
+            get { return new PostgreSqlInfo(); }
         }
     }
 }
