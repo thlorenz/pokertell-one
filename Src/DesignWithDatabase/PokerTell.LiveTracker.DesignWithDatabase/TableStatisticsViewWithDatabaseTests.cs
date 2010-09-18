@@ -62,7 +62,7 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
 
             const string salemorguy = "salemorguy";
             const string greystoke = "Greystoke-11";
-            const string renniweg = "renniweg";
+           // const string renniweg = "renniweg";
 
             var eventAggregator = new EventAggregator();
 

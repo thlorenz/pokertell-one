@@ -33,8 +33,6 @@ namespace Tools.WPF.Controls
 
         Color m_color;
 
-        readonly Color startingColor;
-
         public Color SelectedColor
         {
             get { return m_color; }
@@ -42,7 +40,7 @@ namespace Tools.WPF.Controls
 
         public Color StartingColor
         {
-            get { return startingColor; }
+            get { return cPicker.SelectedColor; }
             set { cPicker.SelectedColor = value; }
         }
     }

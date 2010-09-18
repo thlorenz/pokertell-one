@@ -4,6 +4,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
+    using Microsoft.Practices.Unity;
 
     using Infrastructure.Interfaces.LiveTracker;
 
@@ -11,7 +12,6 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.Regions;
-    using Microsoft.Practices.Unity;
 
     using Moq;
 
@@ -55,7 +55,7 @@ namespace PokerTell.LiveTracker.ManualTests.NewHandCreator
 
         void RegisterMenu()
         {
-            var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
+            var liveTrackerSettingsWindow = new WindowManager(() => _container.Resolve<LiveTrackerSettingsView>());
 
             var liveTrackerSettings = _container
                 .Resolve<ILiveTrackerSettingsViewModel>()

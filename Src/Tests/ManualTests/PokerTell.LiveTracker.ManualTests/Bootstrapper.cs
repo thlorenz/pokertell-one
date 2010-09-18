@@ -7,6 +7,7 @@ namespace PokerTell.LiveTracker.ManualTests
 
     using Microsoft.Practices.Composite.Modularity;
     using Microsoft.Practices.Composite.UnityExtensions;
+    using Microsoft.Practices.Unity;
 
     using NewHandCreator;
 

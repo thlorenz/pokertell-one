@@ -1,12 +1,12 @@
 namespace Tools.Tests.WPF
 {
     using System;
+    using System.Threading;
     using System.Windows;
 
     using Machine.Specifications;
 
     using Moq;
-
     using Tools.WPF;
 
     using It = Machine.Specifications.It;

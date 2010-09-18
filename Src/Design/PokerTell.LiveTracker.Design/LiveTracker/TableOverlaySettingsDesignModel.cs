@@ -4,7 +4,7 @@ namespace PokerTell.LiveTracker.Design.LiveTracker
     using System.Windows;
 
     using Interfaces;
-
+    using Microsoft.Practices.Unity;
     using PokerTell.LiveTracker.ViewModels.Overlay;
 
     using Tools.WPF.Interfaces;

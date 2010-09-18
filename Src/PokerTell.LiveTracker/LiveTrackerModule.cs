@@ -67,7 +67,7 @@ namespace PokerTell.LiveTracker
 
         void RegisterMenu()
         {
-            var liveTrackerSettingsWindow = new WindowManager(_container.Resolve<LiveTrackerSettingsView>);
+            var liveTrackerSettingsWindow = new WindowManager(() => _container.Resolve<LiveTrackerSettingsView>());
 
             var liveTrackerSettings = _container
                 .Resolve<ILiveTrackerSettingsViewModel>()

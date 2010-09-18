@@ -83,11 +83,8 @@ namespace Microsoft.Practices.Unity
             if (container != null)
             {
                 container
-                    .RegisterType<TInterface, TConcreteType>()
-                    .Configure<InjectedMembers>()
-                    .ConfigureInjectionFor<TConcreteType>(new InjectionConstructor())
-                    .Container
-                    .RegisterInstance<IConstructor<TInterface>>(new Constructor<TInterface>(container.Resolve<TInterface>));
+                    .RegisterType<TInterface, TConcreteType>(new InjectionConstructor())
+                    .RegisterInstance<IConstructor<TInterface>>(new Constructor<TInterface>(() => container.Resolve<TInterface>()));
             }
             else
             {

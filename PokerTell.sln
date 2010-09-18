@@ -1,8 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell", "Src\PokerTell\PokerTell.csproj", "{B0D177B0-E505-4A72-B272-FE2E0F22F2C6}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{8C4FA786-4A2A-4269-B6FB-9D74D49C31B0}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\ChangeLog.doc = Docs\ChangeLog.doc
@@ -15,21 +13,39 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{CE3DA4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{5887697F-2781-46CB-9975-6D1589FD6F8E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63AB677D-684A-4519-BB8B-C9E27B4AD558}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{655CFEEA-C653-4DD4-B889-7A6496BB38E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrameworkTests", "FrameworkTests", "{3F69FD20-BEB5-47F1-9E47-97B37794B693}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{81D4959A-E771-4F3A-BEE1-73A0E3B65104}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{C867FE86-BEEA-4337-A0E4-678C8E48BF65}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesignWithDatabase", "DesignWithDatabase", "{BE3038E0-B795-49E6-9955-CEF4EA796F93}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PerformanceTests", "PerformanceTests", "{1FBB26EB-AD14-451D-85F5-22A897CC33B5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProcessingTests", "DataProcessingTests", "{0C0C549B-906B-444C-83A8-179673E1849D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ManualTests", "ManualTests", "{C07B75F9-36B9-4C24-ABFC-7292778DFD3E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{F248A269-BE65-466C-B8D3-B742F655EE4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{C9A91C6A-183E-44D6-8B85-55C07071441F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell", "Src\PokerTell\PokerTell.csproj", "{B0D177B0-E505-4A72-B272-FE2E0F22F2C6}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Src\Libraries\Tools\Tools.csproj", "{227FB3C9-3DEF-4A56-9190-24B511A5301B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Infrastructure", "Src\PokerTell.Infrastructure\PokerTell.Infrastructure.csproj", "{04BE82E4-C33D-4FA4-BE78-FCC86A86589D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.PokerHand", "Src\PokerTell.PokerHand\PokerTell.PokerHand.csproj", "{AED2AF8D-6A36-4120-AFE8-51CF822FEE7B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63AB677D-684A-4519-BB8B-C9E27B4AD558}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{655CFEEA-C653-4DD4-B889-7A6496BB38E9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.UnitTests", "Src\Tests\UnitTests\PokerTell.UnitTests\PokerTell.UnitTests.csproj", "{32736399-C329-453F-8AE0-A5EF0B916E4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.Tests", "Src\Tests\UnitTests\Tools.Tests\Tools.Tests.csproj", "{0BDCA341-B5F6-4097-81FA-90B2F4322673}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrameworkTests", "FrameworkTests", "{3F69FD20-BEB5-47F1-9E47-97B37794B693}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicrosoftPractices.Tests", "Src\Tests\FrameworkTests\MicrosoftPractices.Tests\MicrosoftPractices.Tests.csproj", "{E927DD4D-0312-4433-984D-7D676BD37AF4}"
 EndProject
@@ -44,8 +60,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.PokerHandParsers", "Src\PokerTell.PokerHandParsers\PokerTell.PokerHandParsers.csproj", "{C43F98A6-E5E2-4DC1-A7B4-003BEDC62E85}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.PokerHandParsers.Tests", "Src\Tests\UnitTests\PokerTell.PokerHandParsers.Tests\PokerTell.PokerHandParsers.Tests.csproj", "{4B758D6F-F662-4A08-B913-1404C32111FD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IntegrationTests", "IntegrationTests", "{81D4959A-E771-4F3A-BEE1-73A0E3B65104}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.DatabaseSetup", "Src\PokerTell.DatabaseSetup\PokerTell.DatabaseSetup.csproj", "{37A0380D-A3ED-46B8-8A04-0871E916E41C}"
 EndProject
@@ -69,31 +83,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker", "Sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.Tests", "Src\Tests\UnitTests\PokerTell.LiveTracker.Tests\PokerTell.LiveTracker.Tests.csproj", "{43B9562E-BE85-4EF2-93BF-A9CEE5118863}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Design", "Design", "{C867FE86-BEEA-4337-A0E4-678C8E48BF65}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.Design", "Src\Design\PokerTell.LiveTracker.Design\PokerTell.LiveTracker.Design.csproj", "{67BBDF8C-B679-423D-9CC1-9BF14A5B2DB5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designer", "Src\Design\Designer\Designer.csproj", "{C001E0E9-9278-4C30-A756-EA599DEC7426}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DesignWithDatabase", "DesignWithDatabase", "{BE3038E0-B795-49E6-9955-CEF4EA796F93}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.DesignWithDatabase", "Src\DesignWithDatabase\PokerTell.LiveTracker.DesignWithDatabase\PokerTell.LiveTracker.DesignWithDatabase.csproj", "{134B575D-D973-4691-AC8E-3DB0E19D26C5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PerformanceTests", "PerformanceTests", "{1FBB26EB-AD14-451D-85F5-22A897CC33B5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Repository.PerformanceTests", "Src\Tests\PerformanceTests\PokerTell.Repository.PerformanceTests\PokerTell.Repository.PerformanceTests.csproj", "{8D965387-4FD2-4AF8-B369-14B28BCB9BD6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataProcessingTests", "DataProcessingTests", "{0C0C549B-906B-444C-83A8-179673E1849D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Repository.DataProcessingTests", "Src\Tests\DataProcessingTests\PokerTell.Repository.DataProcessingTests\PokerTell.Repository.DataProcessingTests.csproj", "{D69E7BA2-6666-4A43-A9F3-C50A240FB0D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.IntegrationTests", "Src\Tests\IntegrationTests\PokerTell.LiveTracker.IntegrationTests\PokerTell.LiveTracker.IntegrationTests.csproj", "{BCAB9E17-3B22-4442-9E4F-88E609FD0AA5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ManualTests", "ManualTests", "{C07B75F9-36B9-4C24-ABFC-7292778DFD3E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.LiveTracker.ManualTests", "Src\Tests\ManualTests\PokerTell.LiveTracker.ManualTests\PokerTell.LiveTracker.ManualTests.csproj", "{31266E2A-C49A-48E0-8A31-5B6FBD9DC87E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{F248A269-BE65-466C-B8D3-B742F655EE4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Plugins.InstantHandHistoryReader", "Src\Plugins\PokerTell.Plugins.InstantHandHistoryReader\PokerTell.Plugins.InstantHandHistoryReader.csproj", "{5B654EE9-2E7C-4DA0-9DF3-279FC11B3553}"
 EndProject
@@ -107,19 +109,143 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Plugins.PlayerPee
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.PokerHandParsers.IntegrationTests", "Src\Tests\IntegrationTests\PokerTell.PokerHandParsers.IntegrationTests\PokerTell.PokerHandParsers.IntegrationTests.csproj", "{E3D002FD-3A5D-43EE-B02C-D0B1E2A0C62F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{C9A91C6A-183E-44D6-8B85-55C07071441F}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.Setup", "Src\Deployment\PokerTell.Setup\PokerTell.Setup.vdproj", "{729A9427-0250-4598-9077-6E5A941F3945}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.User.Design", "Src\Design\PokerTell.User.Design\PokerTell.User.Design.csproj", "{C7F21E7B-3070-44F2-89D9-C49133D94493}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.WithPlugins.Setup", "Src\Deployment\PokerTell.WithPlugins.Setup\PokerTell.WithPlugins.Setup.vdproj", "{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Statistics.Design", "Src\Design\PokerTell.Statistics.Design\PokerTell.Statistics.Design.csproj", "{D648D149-53C3-4649-AB0A-48921CEC5ABC}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PokerTell.x64.Setup", "Src\Deployment\PokerTell.x64.Setup\PokerTell.x64.Setup.vdproj", "{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PokerTell.Repository.Design", "Src\Design\PokerTell.Repository.Design\PokerTell.Repository.Design.csproj", "{1CAA37EC-1215-41A4-B59E-4C1C037293E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CAL", "CAL", "{5622FBF1-7067-4151-9C3E-0E1236276D8D}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\CAL\Microsoft.Practices.Composite.dll = Lib\CAL\Microsoft.Practices.Composite.dll
+		Lib\CAL\Microsoft.Practices.Composite.dll.CodeAnalysisLog.xml = Lib\CAL\Microsoft.Practices.Composite.dll.CodeAnalysisLog.xml
+		Lib\CAL\Microsoft.Practices.Composite.dll.lastcodeanalysissucceeded = Lib\CAL\Microsoft.Practices.Composite.dll.lastcodeanalysissucceeded
+		Lib\CAL\Microsoft.Practices.Composite.pdb = Lib\CAL\Microsoft.Practices.Composite.pdb
+		Lib\CAL\Microsoft.Practices.Composite.Presentation.dll = Lib\CAL\Microsoft.Practices.Composite.Presentation.dll
+		Lib\CAL\Microsoft.Practices.Composite.Presentation.dll.CodeAnalysisLog.xml = Lib\CAL\Microsoft.Practices.Composite.Presentation.dll.CodeAnalysisLog.xml
+		Lib\CAL\Microsoft.Practices.Composite.Presentation.dll.lastcodeanalysissucceeded = Lib\CAL\Microsoft.Practices.Composite.Presentation.dll.lastcodeanalysissucceeded
+		Lib\CAL\Microsoft.Practices.Composite.Presentation.pdb = Lib\CAL\Microsoft.Practices.Composite.Presentation.pdb
+		Lib\CAL\Microsoft.Practices.Composite.Presentation.XML = Lib\CAL\Microsoft.Practices.Composite.Presentation.XML
+		Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.dll = Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.dll
+		Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.dll.CodeAnalysisLog.xml = Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.dll.CodeAnalysisLog.xml
+		Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.dll.lastcodeanalysissucceeded = Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.dll.lastcodeanalysissucceeded
+		Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.pdb = Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.pdb
+		Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.XML = Lib\CAL\Microsoft.Practices.Composite.UnityExtensions.XML
+		Lib\CAL\Microsoft.Practices.Composite.XML = Lib\CAL\Microsoft.Practices.Composite.XML
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interactivity", "Interactivity", "{40713EA9-C865-4771-B29C-81E839EC49E1}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Interactivity\Microsoft.Expression.Interactions.dll = Lib\Interactivity\Microsoft.Expression.Interactions.dll
+		Lib\Interactivity\Microsoft.Expression.Interactions.xml = Lib\Interactivity\Microsoft.Expression.Interactions.xml
+		Lib\Interactivity\System.Windows.Interactivity.dll = Lib\Interactivity\System.Windows.Interactivity.dll
+		Lib\Interactivity\System.Windows.Interactivity.xml = Lib\Interactivity\System.Windows.Interactivity.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Log4Net", "Log4Net", "{72BE7156-67E8-4B20-82CC-EE1E81F603AC}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Log4Net\log4net.dll = Lib\Log4Net\log4net.dll
+		Lib\Log4Net\log4net.xml = Lib\Log4Net\log4net.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Moq", "Moq", "{0C76C61C-B1DA-4807-B79C-6CB147D59802}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Moq\Castle.Core.dll = Lib\Moq\Castle.Core.dll
+		Lib\Moq\Castle.Core.xml = Lib\Moq\Castle.Core.xml
+		Lib\Moq\Moq.dll = Lib\Moq\Moq.dll
+		Lib\Moq\Moq.xml = Lib\Moq\Moq.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSpec", "MSpec", "{CA29975C-FF24-4214-BA78-31F371D0CA76}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\MSpec\Machine.Specifications.dll = Lib\MSpec\Machine.Specifications.dll
+		Lib\MSpec\Machine.Specifications.dll.tdnet = Lib\MSpec\Machine.Specifications.dll.tdnet
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NHibernate", "NHibernate", "{E0E15EFE-7A19-4BB8-8F1B-F715B0643635}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\NHibernate\Antlr3.Runtime.dll = Lib\NHibernate\Antlr3.Runtime.dll
+		Lib\NHibernate\Castle.Core.dll = Lib\NHibernate\Castle.Core.dll
+		Lib\NHibernate\Castle.Core.xml = Lib\NHibernate\Castle.Core.xml
+		Lib\NHibernate\Castle.DynamicProxy2.dll = Lib\NHibernate\Castle.DynamicProxy2.dll
+		Lib\NHibernate\Castle.DynamicProxy2.xml = Lib\NHibernate\Castle.DynamicProxy2.xml
+		Lib\NHibernate\Iesi.Collections.dll = Lib\NHibernate\Iesi.Collections.dll
+		Lib\NHibernate\Iesi.Collections.xml = Lib\NHibernate\Iesi.Collections.xml
+		Lib\NHibernate\NHibernate.ByteCode.Castle.dll = Lib\NHibernate\NHibernate.ByteCode.Castle.dll
+		Lib\NHibernate\NHibernate.ByteCode.Castle.xml = Lib\NHibernate\NHibernate.ByteCode.Castle.xml
+		Lib\NHibernate\NHibernate.dll = Lib\NHibernate\NHibernate.dll
+		Lib\NHibernate\NHibernate.xml = Lib\NHibernate\NHibernate.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NUnit", "NUnit", "{16FA6861-0605-4941-8969-69A46264B056}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\NUnit\nunit.framework.dll = Lib\NUnit\nunit.framework.dll
+		Lib\NUnit\nunit.framework.xml = Lib\NUnit\nunit.framework.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System.Data.SQLite", "System.Data.SQLite", "{D5F03271-59BC-409C-A373-FF70EEE7FB8E}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\System.Data.SQLite\System.Data.SQLite.DLL = Lib\System.Data.SQLite\System.Data.SQLite.DLL
+		Lib\System.Data.SQLite\System.Data.SQLite.Linq.dll = Lib\System.Data.SQLite\System.Data.SQLite.Linq.dll
+		Lib\System.Data.SQLite\System.Data.SQLite.XML = Lib\System.Data.SQLite\System.Data.SQLite.XML
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity", "Unity", "{18D4B692-BD79-4906-AF8A-1DDE23F34F9A}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\Unity\Microsoft.Practices.ObjectBuilder2.dll = Lib\Unity\Microsoft.Practices.ObjectBuilder2.dll
+		Lib\Unity\Microsoft.Practices.ObjectBuilder2.xml = Lib\Unity\Microsoft.Practices.ObjectBuilder2.xml
+		Lib\Unity\Microsoft.Practices.ServiceLocation.dll = Lib\Unity\Microsoft.Practices.ServiceLocation.dll
+		Lib\Unity\Microsoft.Practices.ServiceLocation.xml = Lib\Unity\Microsoft.Practices.ServiceLocation.xml
+		Lib\Unity\Microsoft.Practices.Unity.Configuration.dll = Lib\Unity\Microsoft.Practices.Unity.Configuration.dll
+		Lib\Unity\Microsoft.Practices.Unity.Configuration.XML = Lib\Unity\Microsoft.Practices.Unity.Configuration.XML
+		Lib\Unity\Microsoft.Practices.Unity.dll = Lib\Unity\Microsoft.Practices.Unity.dll
+		Lib\Unity\Microsoft.Practices.Unity.Interception.Configuration.dll = Lib\Unity\Microsoft.Practices.Unity.Interception.Configuration.dll
+		Lib\Unity\Microsoft.Practices.Unity.Interception.Configuration.xml = Lib\Unity\Microsoft.Practices.Unity.Interception.Configuration.xml
+		Lib\Unity\Microsoft.Practices.Unity.Interception.dll = Lib\Unity\Microsoft.Practices.Unity.Interception.dll
+		Lib\Unity\Microsoft.Practices.Unity.Interception.xml = Lib\Unity\Microsoft.Practices.Unity.Interception.xml
+		Lib\Unity\Microsoft.Practices.Unity.xml = Lib\Unity\Microsoft.Practices.Unity.xml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPFToolkit", "WPFToolkit", "{83011A88-5C8D-4F22-BDB0-31DBD5AB0DAE}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.dll = Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.dll
+		Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.Expression.Design.dll = Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.Expression.Design.dll
+		Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.Expression.Design.pdb = Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.Expression.Design.pdb
+		Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.pdb = Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.pdb
+		Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.VisualStudio.Design.dll = Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.VisualStudio.Design.dll
+		Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.VisualStudio.Design.pdb = Lib\WPFToolkit\System.Windows.Controls.DataVisualization.Toolkit.VisualStudio.Design.pdb
+		Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.Design.dll = Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.Design.dll
+		Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.Design.pdb = Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.Design.pdb
+		Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.dll = Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.dll
+		Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.pdb = Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.pdb
+		Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.VisualStudio.Design.dll = Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.VisualStudio.Design.dll
+		Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.VisualStudio.Design.pdb = Lib\WPFToolkit\System.Windows.Controls.Input.Toolkit.VisualStudio.Design.pdb
+		Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.Design.dll = Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.Design.dll
+		Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.Design.pdb = Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.Design.pdb
+		Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.dll = Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.dll
+		Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.pdb = Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.pdb
+		Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.VisualStudio.Design.dll = Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.VisualStudio.Design.dll
+		Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.VisualStudio.Design.pdb = Lib\WPFToolkit\System.Windows.Controls.Layout.Toolkit.VisualStudio.Design.pdb
+		Lib\WPFToolkit\WPFToolkit.Design.dll = Lib\WPFToolkit\WPFToolkit.Design.dll
+		Lib\WPFToolkit\WPFToolkit.Design.pdb = Lib\WPFToolkit\WPFToolkit.Design.pdb
+		Lib\WPFToolkit\WPFToolkit.dll = Lib\WPFToolkit\WPFToolkit.dll
+		Lib\WPFToolkit\WPFToolkit.pdb = Lib\WPFToolkit\WPFToolkit.pdb
+		Lib\WPFToolkit\WPFToolkit.VisualStudio.Design.dll = Lib\WPFToolkit\WPFToolkit.VisualStudio.Design.dll
+		Lib\WPFToolkit\WPFToolkit.VisualStudio.Design.pdb = Lib\WPFToolkit\WPFToolkit.VisualStudio.Design.pdb
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "x64", "x64", "{2620998D-1946-4A60-9465-A34B155851EE}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\System.Data.SQLite\x64\System.Data.SQLite.DLL = Lib\System.Data.SQLite\x64\System.Data.SQLite.DLL
+		Lib\System.Data.SQLite\x64\System.Data.SQLite.lib = Lib\System.Data.SQLite\x64\System.Data.SQLite.lib
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MySql", "MySql", "{F264B80A-D3AC-40E5-B3F0-47ACCCA2EC40}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\MySql\MySql.Data.dll = Lib\MySql\MySql.Data.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -251,25 +377,13 @@ Global
 		{E3D002FD-3A5D-43EE-B02C-D0B1E2A0C62F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E3D002FD-3A5D-43EE-B02C-D0B1E2A0C62F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3D002FD-3A5D-43EE-B02C-D0B1E2A0C62F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{729A9427-0250-4598-9077-6E5A941F3945}.Debug|Any CPU.ActiveCfg = Debug
-		{729A9427-0250-4598-9077-6E5A941F3945}.Debug|Any CPU.Build.0 = Debug
-		{729A9427-0250-4598-9077-6E5A941F3945}.Release|Any CPU.ActiveCfg = Release
-		{729A9427-0250-4598-9077-6E5A941F3945}.Release|Any CPU.Build.0 = Release
 		{C7F21E7B-3070-44F2-89D9-C49133D94493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C7F21E7B-3070-44F2-89D9-C49133D94493}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7F21E7B-3070-44F2-89D9-C49133D94493}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Debug|Any CPU.ActiveCfg = Debug
-		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Debug|Any CPU.Build.0 = Debug
-		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Release|Any CPU.ActiveCfg = Release
-		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4}.Release|Any CPU.Build.0 = Release
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D648D149-53C3-4649-AB0A-48921CEC5ABC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Debug|Any CPU.ActiveCfg = Debug
-		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Debug|Any CPU.Build.0 = Debug
-		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Release|Any CPU.ActiveCfg = Release
-		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91}.Release|Any CPU.Build.0 = Release
 		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CAA37EC-1215-41A4-B59E-4C1C037293E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -324,12 +438,17 @@ Global
 		{B0ED6758-25FD-4708-BAB4-C689E376FE55} = {C07B75F9-36B9-4C24-ABFC-7292778DFD3E}
 		{5B654EE9-2E7C-4DA0-9DF3-279FC11B3553} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
 		{C638E665-5926-441B-A74A-32DCBFC7347D} = {F248A269-BE65-466C-B8D3-B742F655EE4E}
-		{729A9427-0250-4598-9077-6E5A941F3945} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
-		{C2DD2D98-5DB7-4DEE-9164-956285D29FC4} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
-		{B50F4773-2877-4B35-9A65-C1FCFA2B3D91} = {C9A91C6A-183E-44D6-8B85-55C07071441F}
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
+		{5622FBF1-7067-4151-9C3E-0E1236276D8D} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{40713EA9-C865-4771-B29C-81E839EC49E1} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{72BE7156-67E8-4B20-82CC-EE1E81F603AC} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{0C76C61C-B1DA-4807-B79C-6CB147D59802} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{CA29975C-FF24-4214-BA78-31F371D0CA76} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{E0E15EFE-7A19-4BB8-8F1B-F715B0643635} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{16FA6861-0605-4941-8969-69A46264B056} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{D5F03271-59BC-409C-A373-FF70EEE7FB8E} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{18D4B692-BD79-4906-AF8A-1DDE23F34F9A} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{83011A88-5C8D-4F22-BDB0-31DBD5AB0DAE} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{F264B80A-D3AC-40E5-B3F0-47ACCCA2EC40} = {A572B92B-E490-48B2-ABE3-3FBEA6ECFD1F}
+		{2620998D-1946-4A60-9465-A34B155851EE} = {D5F03271-59BC-409C-A373-FF70EEE7FB8E}
 	EndGlobalSection
 EndGlobal

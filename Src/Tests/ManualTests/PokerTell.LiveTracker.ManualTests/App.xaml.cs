@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
     using System.Windows;
-
+    using Microsoft.Practices.Unity;
     using Infrastructure;
 
     using log4net;

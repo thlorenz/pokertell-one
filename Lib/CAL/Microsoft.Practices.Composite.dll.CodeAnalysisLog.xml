@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 10.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="10.0">
+ <Targets>
+  <Target Name="C:\dev\citi\citivelocity\trunk\CAL\Composite\bin\Release\Microsoft.Practices.Composite.dll">
+   <Modules>
+    <Module Name="microsoft.practices.composite.dll">
+     <Namespaces>
+      <Namespace Name="Microsoft.Practices.Composite">
+       <Types>
+        <Type Name="CollectionExtensions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AddRange`1(System.Collections.ObjectModel.Collection`1&lt;!!0&gt;,System.Collections.Generic.IEnumerable`1&lt;!!0&gt;)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite" File="CollectionExtensions.cs" Line="38">In externally visible method 'CollectionExtensions.AddRange&lt;T&gt;(this Collection&lt;T&gt;, IEnumerable&lt;T&gt;)', validate parameter 'collection' before using it.</Issue>
+            </Message>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite" File="CollectionExtensions.cs" Line="36">In externally visible method 'CollectionExtensions.AddRange&lt;T&gt;(this Collection&lt;T&gt;, IEnumerable&lt;T&gt;)', validate parameter 'items' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ServiceLocatorExtensions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#TryResolve(Microsoft.Practices.ServiceLocation.IServiceLocator,System.Type)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite" File="ServiceLocatorExtensions.cs" Line="39">In externally visible method 'ServiceLocatorExtensions.TryResolve(this IServiceLocator, Type)', validate parameter 'locator' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Microsoft.Practices.Composite.Events">
+       <Types>
+        <Type Name="BackgroundEventSubscription`1" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#InvokeAction(System.Action`1&lt;!0&gt;,!0)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Name="NonExceptionEdge" Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Events" File="BackgroundEventSubscription.cs" Line="48">In method 'BackgroundEventSubscription&lt;TPayload&gt;.InvokeAction(Action&lt;TPayload&gt;, TPayload)', call System.IDisposable.Dispose on object 'worker' before all references to it are out of scope.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="EventBase" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#InternalSubscribe(Microsoft.Practices.Composite.Events.IEventSubscription)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Events" File="EventBase.cs" Line="49">In externally visible method 'EventBase.InternalSubscribe(IEventSubscription)', validate parameter 'eventSubscription' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="EventSubscription`1" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#InvokeAction(System.Action`1&lt;!0&gt;,!0)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Events" File="EventSubscription.cs" Line="123">In externally visible method 'EventSubscription&lt;TPayload&gt;.InvokeAction(Action&lt;TPayload&gt;, TPayload)', validate parameter 'action' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Microsoft.Practices.Composite.Modularity">
+       <Types>
+        <Type Name="DirectoryModuleCatalog" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#BuildChildDomain(System.AppDomain)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="DirectoryModuleCatalog.Desktop.cs" Line="113">In externally visible method 'DirectoryModuleCatalog.BuildChildDomain(AppDomain)', validate parameter 'parentDomain' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="FileModuleTypeLoader" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Name="NonExceptionEdge" Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="FileModuleTypeLoader.Desktop.cs" Line="33">In method 'FileModuleTypeLoader.FileModuleTypeLoader()', call System.IDisposable.Dispose on object 'new AssemblyResolver()' before all references to it are out of scope.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#BeginLoadModuleType(Microsoft.Practices.Composite.Modularity.ModuleInfo,Microsoft.Practices.Composite.Modularity.ModuleTypeLoadedCallback)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="FileModuleTypeLoader.Desktop.cs" Line="72">In externally visible method 'FileModuleTypeLoader.BeginLoadModuleType(ModuleInfo, ModuleTypeLoadedCallback)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="FileModuleTypeLoader.Desktop.cs" Line="79">In externally visible method 'FileModuleTypeLoader.BeginLoadModuleType(ModuleInfo, ModuleTypeLoadedCallback)', validate parameter 'callback' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#CanLoadModuleType(Microsoft.Practices.Composite.Modularity.ModuleInfo)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="FileModuleTypeLoader.Desktop.cs" Line="58">In externally visible method 'FileModuleTypeLoader.CanLoadModuleType(ModuleInfo)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleCatalog" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor(System.Collections.Generic.IEnumerable`1&lt;Microsoft.Practices.Composite.Modularity.ModuleInfo&gt;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleCatalog.cs" Line="69">In externally visible method 'ModuleCatalog.ModuleCatalog(IEnumerable&lt;ModuleInfo&gt;)', validate parameter 'modules' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AddGroup(Microsoft.Practices.Composite.Modularity.InitializationMode,System.String,Microsoft.Practices.Composite.Modularity.ModuleInfo[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="2" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleCatalog.cs" Line="363">In externally visible method 'ModuleCatalog.AddGroup(InitializationMode, string, params ModuleInfo[])', validate parameter 'moduleInfos' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AddModule(System.Type,Microsoft.Practices.Composite.Modularity.InitializationMode,System.String[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleCatalog.cs" Line="278">In externally visible method 'ModuleCatalog.AddModule(Type, InitializationMode, params string[])', validate parameter 'moduleType' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SolveDependencies(System.Collections.Generic.IEnumerable`1&lt;Microsoft.Practices.Composite.Modularity.ModuleInfo&gt;)" Kind="Method" Static="True" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleCatalog.cs" Line="382">In externally visible method 'ModuleCatalog.SolveDependencies(IEnumerable&lt;ModuleInfo&gt;)', validate parameter 'modules' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ValidateDependencies(System.Collections.Generic.IEnumerable`1&lt;Microsoft.Practices.Composite.Modularity.ModuleInfo&gt;)" Kind="Method" Static="True" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleCatalog.cs" Line="415">In externally visible method 'ModuleCatalog.ValidateDependencies(IEnumerable&lt;ModuleInfo&gt;)', validate parameter 'modules' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleConfigurationElementCollection" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor(Microsoft.Practices.Composite.Modularity.ModuleConfigurationElement[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleConfigurationElementCollection.cs" Line="43">In externally visible method 'ModuleConfigurationElementCollection.ModuleConfigurationElementCollection(ModuleConfigurationElement[])', validate parameter 'modules' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#FindAll(System.Predicate`1&lt;Microsoft.Practices.Composite.Modularity.ModuleConfigurationElement&gt;)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleConfigurationElementCollection.cs" Line="120">In externally visible method 'ModuleConfigurationElementCollection.FindAll(Predicate&lt;ModuleConfigurationElement&gt;)', validate parameter 'match' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleInfo" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor(System.String,System.String,System.String[])" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="2" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInfo.cs" Line="46">In externally visible method 'ModuleInfo.ModuleInfo(string, string, params string[])', validate parameter 'dependsOn' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleInfoGroup" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#ForwardValues(Microsoft.Practices.Composite.Modularity.ModuleInfo)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInfoGroup.cs" Line="78">In externally visible method 'ModuleInfoGroup.ForwardValues(ModuleInfo)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleInfoGroupExtensions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AddModule(Microsoft.Practices.Composite.Modularity.ModuleInfoGroup,System.String,System.Type,System.String[])" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInfoGroupExtensions.cs" Line="47">In externally visible method 'ModuleInfoGroupExtensions.AddModule(this ModuleInfoGroup, string, Type, params string[])', validate parameter 'moduleInfoGroup' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AddModule(Microsoft.Practices.Composite.Modularity.ModuleInfoGroup,System.Type,System.String[])" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInfoGroupExtensions.cs" Line="64">In externally visible method 'ModuleInfoGroupExtensions.AddModule(this ModuleInfoGroup, Type, params string[])', validate parameter 'moduleType' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleInitializer" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#HandleModuleInitializationError(Microsoft.Practices.Composite.Modularity.ModuleInfo,System.String,System.Exception)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInitializer.cs" Line="96">In externally visible method 'ModuleInitializer.HandleModuleInitializationError(ModuleInfo, string, Exception)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+            <Message Id="2" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInitializer.cs" Line="96">In externally visible method 'ModuleInitializer.HandleModuleInitializationError(ModuleInfo, string, Exception)', validate parameter 'exception' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#Initialize(Microsoft.Practices.Composite.Modularity.ModuleInfo)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleInitializer.cs" Line="63">In externally visible method 'ModuleInitializer.Initialize(ModuleInfo)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ModuleManager" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#HandleModuleTypeLoadingError(Microsoft.Practices.Composite.Modularity.ModuleInfo,System.Exception)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleManager.cs" Line="128">In externally visible method 'ModuleManager.HandleModuleTypeLoadingError(ModuleInfo, Exception)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleManager.cs" Line="128">In externally visible method 'ModuleManager.HandleModuleTypeLoadingError(ModuleInfo, Exception)', validate parameter 'exception' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#ModuleNeedsRetrieval(Microsoft.Practices.Composite.Modularity.ModuleInfo)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Modularity" File="ModuleManager.cs" Line="98">In externally visible method 'ModuleManager.ModuleNeedsRetrieval(ModuleInfo)', validate parameter 'moduleInfo' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Microsoft.Practices.Composite.Regions">
+       <Types>
+        <Type Name="RegionManagerExtensions" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Add(Microsoft.Practices.Composite.Regions.IRegionCollection,System.String,Microsoft.Practices.Composite.Regions.IRegion)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Regions" File="RegionManagerExtensions.cs" Line="105">In externally visible method 'RegionManagerExtensions.Add(this IRegionCollection, string, IRegion)', validate parameter 'regionCollection' before using it.</Issue>
+            </Message>
+            <Message Id="2" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Regions" File="RegionManagerExtensions.cs" Line="95">In externally visible method 'RegionManagerExtensions.Add(this IRegionCollection, string, IRegion)', validate parameter 'region' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#AddToRegion(Microsoft.Practices.Composite.Regions.IRegionManager,System.String,System.Object)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:37:48Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite\Regions" File="RegionManagerExtensions.cs" Line="40">In externally visible method 'RegionManagerExtensions.AddToRegion(this IRegionManager, string, object)', validate parameter 'regionManager' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="Dispose objects before losing scope" Category="Microsoft.Reliability" CheckId="CA2000">
+   <Name>Dispose objects before losing scope</Name>
+   <Description>If a disposable object is not explicitly disposed before all references to it are out of scope, the object will be disposed at some indeterminate time when the garbage collector runs the finalizer of the object. Because an exceptional event might occur that will prevent the finalizer of the object from running, the object should be explicitly disposed instead.</Description>
+   <Resolution Name="NonExceptionEdge">In method {0}, call System.IDisposable.Dispose on object {1} before all references to it are out of scope.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182289(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="10.0.0.0" />
+  </Rule>
+  <Rule TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062">
+   <Name>Validate arguments of public methods</Name>
+   <Description>All reference arguments passed to externally visible methods should be checked against null (Nothing in VB). If appropriate, throw a System.ArgumentNullException when the argument is null.</Description>
+   <Resolution Name="Default">In externally visible method {0}, validate parameter '{1}' before using it.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182182(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="10.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

@@ -1,0 +1,306 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="c:\program files (x86)\microsoft visual studio 10.0\team tools\static analysis tools\fxcop\Xml\CodeAnalysisReport.xsl"?>
+<FxCopReport Version="10.0">
+ <Targets>
+  <Target Name="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\bin\Release\Microsoft.Practices.Composite.Presentation.dll">
+   <Modules>
+    <Module Name="microsoft.practices.composite.presentation.dll">
+     <Namespaces>
+      <Namespace Name="Microsoft.Practices.Composite.Presentation.Commands">
+       <Types>
+        <Type Name="ButtonBaseClickCommandBehavior" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor(System.Windows.Controls.Primitives.ButtonBase)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="ButtonBaseClickCommandBehavior.cs" Line="38">In externally visible method 'ButtonBaseClickCommandBehavior.ButtonBaseClickCommandBehavior(ButtonBase)', validate parameter 'clickableObject' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="Click" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#GetCommand(System.Windows.Controls.Primitives.ButtonBase)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="Click.cs" Line="77">In externally visible method 'Click.GetCommand(ButtonBase)', validate parameter 'buttonBase' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetCommandParameter(System.Windows.Controls.Primitives.ButtonBase)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="Click.cs" Line="99">In externally visible method 'Click.GetCommandParameter(ButtonBase)', validate parameter 'buttonBase' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetCommand(System.Windows.Controls.Primitives.ButtonBase,System.Windows.Input.ICommand)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="Click.cs" Line="66">In externally visible method 'Click.SetCommand(ButtonBase, ICommand)', validate parameter 'buttonBase' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetCommandParameter(System.Windows.Controls.Primitives.ButtonBase,System.Object)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="Click.cs" Line="88">In externally visible method 'Click.SetCommandParameter(ButtonBase, object)', validate parameter 'buttonBase' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="CompositeCommand" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#RegisterCommand(System.Windows.Input.ICommand)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="CompositeCommand.cs" Line="79">In externally visible method 'CompositeCommand.RegisterCommand(ICommand)', validate parameter 'command' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#UnregisterCommand(System.Windows.Input.ICommand)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Commands" File="CompositeCommand.cs" Line="106">In externally visible method 'CompositeCommand.UnregisterCommand(ICommand)', validate parameter 'command' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Microsoft.Practices.Composite.Presentation.Regions">
+       <Types>
+        <Type Name="ContentControlRegionAdapter" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Adapt(Microsoft.Practices.Composite.Regions.IRegion,System.Windows.Controls.ContentControl)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="ContentControlRegionAdapter.cs" Line="49">In externally visible method 'ContentControlRegionAdapter.Adapt(IRegion, ContentControl)', validate parameter 'regionTarget' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="DefaultRegionManagerAccessor" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
+         <Members>
+          <Member Name="#GetRegionManager(System.Windows.DependencyObject)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="DefaultRegionManagerAccessor.cs" Line="55">In externally visible method 'DefaultRegionManagerAccessor.GetRegionManager(DependencyObject)', validate parameter 'element' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetRegionName(System.Windows.DependencyObject)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="DefaultRegionManagerAccessor.cs" Line="45">In externally visible method 'DefaultRegionManagerAccessor.GetRegionName(DependencyObject)', validate parameter 'element' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="ItemsControlRegionAdapter" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Adapt(Microsoft.Practices.Composite.Regions.IRegion,System.Windows.Controls.ItemsControl)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="ItemsControlRegionAdapter.cs" Line="61">In externally visible method 'ItemsControlRegionAdapter.Adapt(IRegion, ItemsControl)', validate parameter 'region' before using it.</Issue>
+            </Message>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="ItemsControlRegionAdapter.cs" Line="47">In externally visible method 'ItemsControlRegionAdapter.Adapt(IRegion, ItemsControl)', validate parameter 'regionTarget' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RegionAdapterBase`1" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AttachDefaultBehaviors(Microsoft.Practices.Composite.Regions.IRegion,!0)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionAdapterBase.cs" Line="99">In externally visible method 'RegionAdapterBase&lt;T&gt;.AttachDefaultBehaviors(IRegion, T)', validate parameter 'region' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RegionAdapterMappings" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#GetMapping(System.Type)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="controlType" TypeName="Literals should be spelled correctly" Category="Microsoft.Naming" CheckId="CA2204" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionAdapterMappings.cs" Line="82">Correct the spelling of the unrecognized token 'controlType' in the literal '"controlType"'.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RegionContext" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#GetObservableContext(System.Windows.DependencyObject)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionContext.cs" Line="50">In externally visible method 'RegionContext.GetObservableContext(DependencyObject)', validate parameter 'view' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RegionManager" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#GetObservableRegion(System.Windows.DependencyObject)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="99">In externally visible method 'RegionManager.GetObservableRegion(DependencyObject)', validate parameter 'view' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetRegionContext(System.Windows.DependencyObject)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="181">In externally visible method 'RegionManager.GetRegionContext(DependencyObject)', validate parameter 'target' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetRegionManager(System.Windows.DependencyObject)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="147">In externally visible method 'RegionManager.GetRegionManager(DependencyObject)', validate parameter 'target' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#GetRegionName(System.Windows.DependencyObject)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="80">In externally visible method 'RegionManager.GetRegionName(DependencyObject)', validate parameter 'regionTarget' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetRegionContext(System.Windows.DependencyObject,System.Object)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="191">In externally visible method 'RegionManager.SetRegionContext(DependencyObject, object)', validate parameter 'target' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetRegionManager(System.Windows.DependencyObject,Microsoft.Practices.Composite.Regions.IRegionManager)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="157">In externally visible method 'RegionManager.SetRegionManager(DependencyObject, IRegionManager)', validate parameter 'target' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+          <Member Name="#SetRegionName(System.Windows.DependencyObject,System.String)" Kind="Method" Static="True" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="69">In externally visible method 'RegionManager.SetRegionName(DependencyObject, string)', validate parameter 'regionTarget' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="RegionManager+RegionCollection" Kind="Class" Accessibility="Private" ExternallyVisible="False">
+         <Members>
+          <Member Name="#Add(Microsoft.Practices.Composite.Regions.IRegion)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="RegionManager.cs" Line="308">In externally visible method 'RegionManager.RegionCollection.Add(IRegion)', validate parameter 'region' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="SelectorRegionAdapter" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#AttachBehaviors(Microsoft.Practices.Composite.Regions.IRegion,System.Windows.Controls.Primitives.Selector)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions" File="SelectorRegionAdapter.cs" Line="61">In externally visible method 'SelectorRegionAdapter.AttachBehaviors(IRegion, Selector)', validate parameter 'region' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Microsoft.Practices.Composite.Presentation.Regions.Behaviors">
+       <Types>
+        <Type Name="AutoPopulateRegionBehavior" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#OnViewRegistered(System.Object,Microsoft.Practices.Composite.Regions.ViewRegisteredEventArgs)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message Id="1" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions\Behaviors" File="AutoPopulateRegionBehavior.cs" Line="106">In externally visible method 'AutoPopulateRegionBehavior.OnViewRegistered(object, ViewRegisteredEventArgs)', validate parameter 'e' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+        <Type Name="DelayedRegionCreationBehavior" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#CreateRegion(System.Windows.DependencyObject,System.String)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="0" TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062" Status="Active" Created="2010-09-13 18:38:05Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="C:\dev\citi\citivelocity\trunk\CAL\Composite.Presentation\Regions\Behaviors" File="DelayedRegionCreationBehavior.cs" Line="136">In externally visible method 'DelayedRegionCreationBehavior.CreateRegion(DependencyObject, string)', validate parameter 'targetElement' before using it.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+     </Namespaces>
+    </Module>
+   </Modules>
+  </Target>
+ </Targets>
+ <Rules>
+  <Rule TypeName="Literals should be spelled correctly" Category="Microsoft.Naming" CheckId="CA2204">
+   <Name>Literals should be spelled correctly</Name>
+   <Description>This rule parses the literal string into words, tokenizing compound words, and checks the spelling of each word/token.</Description>
+   <Resolution Name="Default">Correct the spelling of the unrecognized token '{0}' in the literal '{1}'.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/bb264488(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="10.0.0.0" />
+  </Rule>
+  <Rule TypeName="Validate arguments of public methods" Category="Microsoft.Design" CheckId="CA1062">
+   <Name>Validate arguments of public methods</Name>
+   <Description>All reference arguments passed to externally visible methods should be checked against null (Nothing in VB). If appropriate, throw a System.ArgumentNullException when the argument is null.</Description>
+   <Resolution Name="Default">In externally visible method {0}, validate parameter '{1}' before using it.</Resolution>
+   <Owner>RuleOwner</Owner>
+   <Url>http://msdn.microsoft.com/library/ms182182(VS.100).aspx</Url>
+   <Email />
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="dataflowrules.dll" Version="10.0.0.0" />
+  </Rule>
+ </Rules>
+ <Localized>
+  <String Key="Category">Category</String>
+  <String Key="Certainty">Certainty</String>
+  <String Key="CollapseAll">Collapse All</String>
+  <String Key="CheckId">Check Id</String>
+  <String Key="Error">Error</String>
+  <String Key="Errors">error(s)</String>
+  <String Key="ExpandAll">Expand All</String>
+  <String Key="Help">Help</String>
+  <String Key="Line">Line</String>
+  <String Key="Messages">message(s)</String>
+  <String Key="LocationNotStoredInPdb">[Location not stored in Pdb]</String>
+  <String Key="Project">Project</String>
+  <String Key="Resolution">Resolution</String>
+  <String Key="Rule">Rule</String>
+  <String Key="RuleFile">Rule File</String>
+  <String Key="RuleDescription">Rule Description</String>
+  <String Key="Source">Source</String>
+  <String Key="Status">Status</String>
+  <String Key="Target">Target</String>
+  <String Key="Warning">Warning</String>
+  <String Key="Warnings">warning(s)</String>
+  <String Key="ReportTitle">Code Analysis Report</String>
+ </Localized>
+</FxCopReport>

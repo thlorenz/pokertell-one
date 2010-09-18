@@ -4,7 +4,7 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-
+    using Microsoft.Practices.Unity;
     using Moq;
 
     using PokerTell.LiveTracker.Design.LiveTracker;

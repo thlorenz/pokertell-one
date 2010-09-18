@@ -4,7 +4,6 @@
 *.exp
 *.pdb
 *.dll
-*.DLL
 *.user
 *.aps
 *.pch
@@ -21,13 +20,14 @@
 *.log
 *.htm
 *.zip
-*.backup
 [Dd]ebug/
 *.lib
 
 
 *.sbr
 Thumbs.db
+*.ReSharper
+
 [Ll]ib/
 [Rr]elease*/
 [Dd]ebug*/
@@ -38,17 +38,9 @@ _ReSharper.*/
 bin/
 obj/
 [Bb]uild/
-[Bb]uild.Design/
-[Bb]uild.Tests/*.Tests/
-[Bb]uild.Tests/*.xml
-[Bb]uild.Tests/*.config
-[Bb]uild.Tests/*.soap
-[Bb]uild.Tests/*.DLL
-
-TestData/
-*.fsproj
+[Bb]uild.[Ss]pecs/
 *.resharper.user
 *.db*
-*.cd
+
 
 
