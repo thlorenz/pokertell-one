@@ -194,8 +194,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "System.Data.SQLite", "Syste
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unity", "Unity", "{18D4B692-BD79-4906-AF8A-1DDE23F34F9A}"
 	ProjectSection(SolutionItems) = preProject
-		Lib\Unity\Microsoft.Practices.ObjectBuilder2.dll = Lib\Unity\Microsoft.Practices.ObjectBuilder2.dll
-		Lib\Unity\Microsoft.Practices.ObjectBuilder2.xml = Lib\Unity\Microsoft.Practices.ObjectBuilder2.xml
 		Lib\Unity\Microsoft.Practices.ServiceLocation.dll = Lib\Unity\Microsoft.Practices.ServiceLocation.dll
 		Lib\Unity\Microsoft.Practices.ServiceLocation.xml = Lib\Unity\Microsoft.Practices.ServiceLocation.xml
 		Lib\Unity\Microsoft.Practices.Unity.Configuration.dll = Lib\Unity\Microsoft.Practices.Unity.Configuration.dll
