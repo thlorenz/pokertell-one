@@ -22,7 +22,7 @@
 *.zip
 [Dd]ebug/
 *.lib
-
+TestResult.xml
 
 *.sbr
 Thumbs.db

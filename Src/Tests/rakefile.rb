@@ -27,14 +27,16 @@ task :run_specs do
 
 	mspec_runner_exe = File.join(TOOLS_PATH, "mspec", "mspec.exe")
   console_silent_flag = output_silent ? '--silent' : ''
-	mspec_runner_argument = "\"#{mspec_runner_exe}\" \"#{spec_dlls}\" #{console_silent_flag} "
+	mspec_runner_argument = "\"#{mspec_runner_exe}\" #{spec_dlls} #{console_silent_flag} "
 
   nunit_runner_exe = File.join(TOOLS_PATH,"NUnit/bin/net-2.0", "nunit-console.exe")
   console_silent_flag = output_silent ? '' : '' # '/labels'
-  nunit_runner_argument = "\"#{nunit_runner_exe}\" \"#{spec_dlls}\" #{console_silent_flag} /nologo /nodots "
+  nunit_runner_argument = "\"#{nunit_runner_exe}\" #{spec_dlls} #{console_silent_flag} /nologo /nodots "
 
   system mspec_runner_argument
+  puts "\n===============================================================================================\n\n"
   system nunit_runner_argument
+  puts "\n===============================================================================================\n"
 
 end
 
