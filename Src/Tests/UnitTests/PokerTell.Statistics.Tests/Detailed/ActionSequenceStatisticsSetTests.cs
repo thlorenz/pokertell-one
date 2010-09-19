@@ -166,25 +166,23 @@ namespace PokerTell.Statistics.Tests.Detailed
             var statistics = new List<IActionSequenceStatistic> { _statisticMock.Object };
 
             var sut = new ActionSequenceStatisticsSet(
-                _calculatorMock.Object,
-                statistics,
-                SomePlayer,
-                SomeActionSequence,
+                _calculatorMock.Object, 
+                statistics, 
+                SomePlayer, 
+                SomeActionSequence, 
                 SomeRaisedOrNotRaised);
 
-            Expression<Predicate<Func<int, int>>> getColumnCountsExpression =
-                func => func(0) == columnCount;
+            Expression<Func<Func<int, int>, bool>> getColumnCountsExpression = func => func(0) == columnCount;
 
             var analyzablePokerPlayers = new[] { _playerMock.Object };
             sut.UpdateWith(analyzablePokerPlayers);
 
-            // TODO: Fix this
-            //_calculatorMock.Verify(
-            //    pc => pc.CalculatePercentages(
-            //              It.IsAny<Func<int>>(),
-            //              It.Is(getColumnCountsExpression),
-            //              It.IsAny<Func<int, int, int>>(),
-            //              It.IsAny<Action<int, int, int>>()));
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.IsAny<Func<int>>(),
+                          It.Is(getColumnCountsExpression), 
+                          It.IsAny<Func<int, int, int>>(), 
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [Test]
@@ -198,18 +196,17 @@ namespace PokerTell.Statistics.Tests.Detailed
                 SomeActionSequence,
                 SomeRaisedOrNotRaised);
 
-            Expression<Predicate<Func<int>>> getRowCountsExpression = func => func() == statistics.Count;
+            Expression<Func<Func<int>, bool>> getRowCountsExpression = func => func() == statistics.Count;
 
             var analyzablePokerPlayers = new[] { _playerMock.Object };
             sut.UpdateWith(analyzablePokerPlayers);
 
-            // TODO: Fix this
-            //_calculatorMock.Verify(
-            //    pc => pc.CalculatePercentages(
-            //              It.Is(getRowCountsExpression),
-            //              It.IsAny<Func<int, int>>(),
-            //              It.IsAny<Func<int, int, int>>(),
-            //              It.IsAny<Action<int, int, int>>()));
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.Is(getRowCountsExpression),
+                          It.IsAny<Func<int, int>>(),
+                          It.IsAny<Func<int, int, int>>(),
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [Test]

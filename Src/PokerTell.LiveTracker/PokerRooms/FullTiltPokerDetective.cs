@@ -51,7 +51,7 @@ namespace PokerTell.LiveTracker.PokerRooms
         /// <BOOL Value="true"/> 
         /// </KEY>
         /// </remarks>
-        /// <param name="settings"></param>
+        /// <param name="settings">FullTilt Settings</param>
         public void DetectPreferredSeats(string settings)
         {
             const string autoRotatePattern = "\\<.*KEY.+Name=\\\"AutoRotate\\\".*>.*\\n\r\n\\<BOOL.+Value=.*\\\"(?<AutoRotate>(true|false))\".* />";
@@ -101,10 +101,7 @@ namespace PokerTell.LiveTracker.PokerRooms
 
             try
             {
-                if (File.Exists(userPrefsPath))
-                    return File.ReadAllText(userPrefsPath);
-
-                return string.Empty;
+                return File.Exists(userPrefsPath) ? File.ReadAllText(userPrefsPath) : string.Empty;
             }
             catch (Exception excep)
             {

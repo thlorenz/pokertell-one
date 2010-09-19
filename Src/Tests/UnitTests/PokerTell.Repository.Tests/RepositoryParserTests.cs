@@ -149,7 +149,7 @@
             RetrieveAndConvert_ParserSeparateHandHistoriesReturnsNonEmpty_CallsConvertOnConverterOnceWithThatHistory()
         {
             const int extractedGameId = 1;
-            Expression<Predicate<IAquiredPokerHand>> handToBeConverted = h => h.GameId == extractedGameId;
+            Expression<Func<IAquiredPokerHand, bool>> handToBeConverted = h => h.GameId == extractedGameId;
             Mock<IPokerHandParser> stubParser =
                 ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(extractedGameId);
 
@@ -160,9 +160,8 @@
             var repositoryParser = new RepositoryParser(_parsers, new Constructor<IPokerHandConverter>(() => mockConverter.Object));
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
-            // TODO: Fix this
-            //mockConverter.Verify(
-            //    c => c.ConvertAquiredHand(It.Is(handToBeConverted)), Times.Once());
+            mockConverter.Verify(
+                c => c.ConvertAquiredHand(It.Is(handToBeConverted)), Times.Once());
         }
 
         [Test]
@@ -189,7 +188,7 @@
         public void RetrieveAndConvert_SameHandTwice_CallsConvertOnConverterOnlyOnce()
         {
             const int extractedGameId = 1;
-            Expression<Predicate<IAquiredPokerHand>> handToBeConverted = h => h.GameId == extractedGameId;
+            Expression<Func<IAquiredPokerHand, bool>> handToBeConverted = h => h.GameId == extractedGameId;
             Mock<IPokerHandParser> stubParser =
                 ParserThatRecognizesAndSeparatesHandsAndParseSetsAquiredHandTo(extractedGameId);
 
@@ -201,9 +200,8 @@
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
             repositoryParser.RetrieveAndConvert(SomeHandHistoriesString, FileName);
 
-            // TODO: Fix this
-            //mockConverter.Verify(
-            //    c => c.ConvertAquiredHand(It.Is(handToBeConverted)), Times.Once());
+            mockConverter.Verify(
+                c => c.ConvertAquiredHand(It.Is(handToBeConverted)), Times.Once());
         }
 
         [Test]

@@ -58,18 +58,17 @@ namespace PokerTell.Statistics.Tests.Detailed
                 SomeStreet,
                 SomeInPosition);
 
-            Expression<Predicate<Func<int, int>>> getColumnCountsExpression =
+            Expression<Func<Func<int, int>, bool>> getColumnCountsExpression =
                 func => func(0) == columnCount;
 
             sut.UpdateWith(new[] { _playerStub.Object });
 
-            // TODO: Fix this
-            //_calculatorMock.Verify(
-            //    pc => pc.CalculatePercentages(
-            //              It.IsAny<Func<int>>(),
-            //              It.Is(getColumnCountsExpression),
-            //              It.IsAny<Func<int, int, int>>(),
-            //              It.IsAny<Action<int, int, int>>()));
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.IsAny<Func<int>>(),
+                          It.Is(getColumnCountsExpression),
+                          It.IsAny<Func<int, int, int>>(),
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [Test]
@@ -82,17 +81,16 @@ namespace PokerTell.Statistics.Tests.Detailed
                 SomeStreet,
                 SomeInPosition);
 
-            Expression<Predicate<Func<int>>> getRowCountsExpression = func => func() == 1;
+            Expression<Func<Func<int>, bool>> getRowCountsExpression = func => func() == 1;
 
             sut.UpdateWith(new[] { _playerStub.Object });
 
-            // TODO: Fix this
-            //_calculatorMock.Verify(
-            //    pc => pc.CalculatePercentages(
-            //              It.Is(getRowCountsExpression),
-            //              It.IsAny<Func<int, int>>(),
-            //              It.IsAny<Func<int, int, int>>(),
-            //              It.IsAny<Action<int, int, int>>()));
+            _calculatorMock.Verify(
+                pc => pc.CalculatePercentages(
+                          It.Is(getRowCountsExpression),
+                          It.IsAny<Func<int, int>>(),
+                          It.IsAny<Func<int, int, int>>(),
+                          It.IsAny<Action<int, int, int>>()));
         }
 
         [SetUp]
