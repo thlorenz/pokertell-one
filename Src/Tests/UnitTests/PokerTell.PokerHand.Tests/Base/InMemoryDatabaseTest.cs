@@ -3,10 +3,8 @@ namespace PokerTell.PokerHand.Tests.Base
     using System;
     using System.Reflection;
 
-    using log4net.Core;
-
     using NHibernate;
-    using NHibernate.ByteCode.Castle;
+    using NHibernate.ByteCode.LinFu;
     using NHibernate.Cfg;
     using NHibernate.Dialect;
     using NHibernate.Driver;

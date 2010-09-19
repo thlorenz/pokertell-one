@@ -167,14 +167,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NHibernate", "NHibernate", "{E0E15EFE-7A19-4BB8-8F1B-F715B0643635}"
 	ProjectSection(SolutionItems) = preProject
 		Lib\NHibernate\Antlr3.Runtime.dll = Lib\NHibernate\Antlr3.Runtime.dll
-		Lib\NHibernate\Castle.Core.dll = Lib\NHibernate\Castle.Core.dll
-		Lib\NHibernate\Castle.Core.xml = Lib\NHibernate\Castle.Core.xml
-		Lib\NHibernate\Castle.DynamicProxy2.dll = Lib\NHibernate\Castle.DynamicProxy2.dll
-		Lib\NHibernate\Castle.DynamicProxy2.xml = Lib\NHibernate\Castle.DynamicProxy2.xml
 		Lib\NHibernate\Iesi.Collections.dll = Lib\NHibernate\Iesi.Collections.dll
 		Lib\NHibernate\Iesi.Collections.xml = Lib\NHibernate\Iesi.Collections.xml
-		Lib\NHibernate\NHibernate.ByteCode.Castle.dll = Lib\NHibernate\NHibernate.ByteCode.Castle.dll
-		Lib\NHibernate\NHibernate.ByteCode.Castle.xml = Lib\NHibernate\NHibernate.ByteCode.Castle.xml
+		Lib\NHibernate\LinFu.DynamicProxy.dll = Lib\NHibernate\LinFu.DynamicProxy.dll
+		Lib\NHibernate\NHibernate.ByteCode.LinFu.dll = Lib\NHibernate\NHibernate.ByteCode.LinFu.dll
+		Lib\NHibernate\NHibernate.ByteCode.LinFu.pdb = Lib\NHibernate\NHibernate.ByteCode.LinFu.pdb
+		Lib\NHibernate\NHibernate.ByteCode.LinFu.xml = Lib\NHibernate\NHibernate.ByteCode.LinFu.xml
 		Lib\NHibernate\NHibernate.dll = Lib\NHibernate\NHibernate.dll
 		Lib\NHibernate\NHibernate.xml = Lib\NHibernate\NHibernate.xml
 	EndProjectSection

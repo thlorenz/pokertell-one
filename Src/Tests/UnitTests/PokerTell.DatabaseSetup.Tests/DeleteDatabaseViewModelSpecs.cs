@@ -1,7 +1,6 @@
 namespace PokerTell.DatabaseSetup.Tests
 {
     using System;
-    using System.Linq.Expressions;
 
     using Infrastructure.Events;
     using Infrastructure.Interfaces.DatabaseSetup;

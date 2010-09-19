@@ -2,42 +2,31 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
 {
     using System;
     using System.Windows;
-
-    using DesignWindows;
-
-    using Infrastructure.Interfaces;
-    using Infrastructure.Interfaces.PokerHand;
-    using Infrastructure.Interfaces.Repository;
-    using Infrastructure.Interfaces.Statistics;
-    using Infrastructure.Services;
-
-    using IntegrationTests;
-
     using Microsoft.Practices.Composite.Events;
     using Microsoft.Practices.Unity;
-
     using Moq;
-
-    using PokerHand.Analyzation;
-    using PokerHand.Dao;
-    using PokerHand.ViewModels.Design;
-
-    using Repository;
-    using Repository.Interfaces;
-    using Repository.NHibernate;
-
-    using Statistics;
-    using Statistics.Analyzation;
-    using Statistics.Detailed;
-    using Statistics.Filters;
-    using Statistics.Interfaces;
-    using Statistics.ViewModels;
-    using Statistics.ViewModels.Analyzation;
-    using Statistics.ViewModels.StatisticsSetDetails;
-
+    using PokerTell.Infrastructure.Interfaces;
+    using PokerTell.Infrastructure.Interfaces.PokerHand;
+    using PokerTell.Infrastructure.Interfaces.Repository;
+    using PokerTell.Infrastructure.Interfaces.Statistics;
+    using PokerTell.Infrastructure.Services;
+    using PokerTell.IntegrationTests;
+    using PokerTell.LiveTracker.DesignWithDatabase.DesignWindows;
+    using PokerTell.LiveTracker.ViewModels;
+    using PokerTell.PokerHand.Analyzation;
+    using PokerTell.PokerHand.Dao;
+    using PokerTell.PokerHand.ViewModels.Design;
+    using PokerTell.Repository;
+    using PokerTell.Repository.Interfaces;
+    using PokerTell.Repository.NHibernate;
+    using PokerTell.Statistics;
+    using PokerTell.Statistics.Analyzation;
+    using PokerTell.Statistics.Detailed;
+    using PokerTell.Statistics.Interfaces;
+    using PokerTell.Statistics.ViewModels;
+    using PokerTell.Statistics.ViewModels.Analyzation;
+    using PokerTell.Statistics.ViewModels.StatisticsSetDetails;
     using Tools.WPF.Interfaces;
-
-    using ViewModels;
 
     public class TableStatisticsViewWithDatabaseTests : DatabaseConnectedPerformanceTests
     {
@@ -56,14 +45,14 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
         {
             Func<string, IPlayerStatistics> get =
                 playerName => _container
-                                  .Resolve<IPlayerStatistics>()
-                                  .InitializePlayer(playerName, PokerStars)
-                                  .UpdateStatistics();
+                    .Resolve<IPlayerStatistics>()
+                    .InitializePlayer(playerName, PokerStars)
+                    .UpdateStatistics();
 
             const string salemorguy = "salemorguy";
             const string greystoke = "Greystoke-11";
-           // const string renniweg = "renniweg";
 
+            // const string renniweg = "renniweg";
             var eventAggregator = new EventAggregator();
 
             var detailedPreFlopStatisticsViewModelMake =
@@ -77,31 +66,36 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                     () => _container.Resolve<DetailedPostFlopHeroReactsStatisticsViewModel>());
 
             var detailedStatisticsAnalyzerViewModel =
-                new DetailedStatisticsAnalyzerViewModel(detailedPreFlopStatisticsViewModelMake, 
-                                                        detailedPostFlopHeroActsStatisticsViewModelMake, 
-                                                        detailedPostFlopHeroReactsStatisticsViewModelMake, 
-                                                        new Mock<IRepositoryHandBrowserViewModel>().Object);
+                new DetailedStatisticsAnalyzerViewModel(
+                    detailedPreFlopStatisticsViewModelMake, 
+                    detailedPostFlopHeroActsStatisticsViewModelMake, 
+                    detailedPostFlopHeroReactsStatisticsViewModelMake, 
+                    new Mock<IRepositoryHandBrowserViewModel>().Object);
 
             // TODO: Before this test will work again, we will have to specify the settings and dimensions mocks otherwise it will either
-            //       fail or have size 0, 0
-            var tableStatisticsViewModel = new PokerTableStatisticsViewModel(new Mock<ISettings>().Object,
-                new Mock<IDimensionsViewModel>().Object,
-                new Constructor<IPlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>()),
+            // fail or have size 0, 0
+            var tableStatisticsViewModel = new PokerTableStatisticsViewModel(
+                new Mock<ISettings>().Object, 
+                new Mock<IDimensionsViewModel>().Object, 
+                new Constructor<IPlayerStatisticsViewModel>(() => _container.Resolve<IPlayerStatisticsViewModel>()), 
                 detailedStatisticsAnalyzerViewModel, 
-                new Mock<IActiveAnalyzablePlayersSelector>().Object,
+                new Mock<IActiveAnalyzablePlayersSelector>().Object, 
                 new Mock<IFilterPopupViewModel>().Object);
-            var designWindow = new TableStatisticsDesignWindow(eventAggregator, 
-                                                               _container.Resolve<IRepositoryHandBrowserViewModel>())
+            var designWindow = new TableStatisticsDesignWindow(
+                eventAggregator, 
+                _container.Resolve<IRepositoryHandBrowserViewModel>())
                 {
-                    Topmost = true, DataContext = tableStatisticsViewModel 
+                    Topmost = true, 
+                    DataContext = tableStatisticsViewModel
                 };
 
-            tableStatisticsViewModel.UpdateWith(new[]
-                {
-                    //  get(renniweg), 
-                    get(greystoke), 
-                    get(salemorguy)
-                });
+            tableStatisticsViewModel.UpdateWith(
+                new[]
+                    {
+                        // get(renniweg), 
+                        get(greystoke), 
+                        get(salemorguy)
+                    });
 
             designWindow.ShowDialog();
             return designWindow;
@@ -138,7 +132,6 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
                 /*
                  * Statistics
                 */
-
                 .RegisterType<IPlayerStatistics, PlayerStatistics>()
 
                 // RaiseReactionAnalyzation

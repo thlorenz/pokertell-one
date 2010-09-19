@@ -4,7 +4,7 @@ namespace PokerTell.Repository.Tests
     using System.Reflection;
 
     using global::NHibernate;
-    using global::NHibernate.ByteCode.Castle;
+    using global::NHibernate.ByteCode.LinFu;
     using global::NHibernate.Cfg;
     using global::NHibernate.Dialect;
     using global::NHibernate.Driver;
