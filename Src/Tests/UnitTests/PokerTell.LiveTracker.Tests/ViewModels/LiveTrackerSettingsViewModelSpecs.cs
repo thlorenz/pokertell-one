@@ -47,10 +47,11 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
         protected static Mock<ILayoutAutoConfigurator> _layoutAutoConfigurator_Mock;
 
-        Establish specContext = () => {
+        Establish specContext = () =>
+        {
             _eventAggregator = new EventAggregator();
             _xDocumentHandler_Mock = new LiveTrackerSettingsXDocumentHandlerMock();
-            
+
             _autoDetector_Mock = new Mock<IPokerRoomSettingsDetector>();
             _autoDetector_Mock
                 .Setup(ad => ad.InitializeWith(Moq.It.IsAny<IEnumerable<IPokerRoomInfo>>()))
@@ -71,13 +72,14 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             _layoutAutoConfigurator_Mock = new Mock<ILayoutAutoConfigurator>();
 
             if (_layoutAutoConfigurator_Mock != null)
-                _sut = new LiveTrackerSettingsViewModel(_eventAggregator,
-                                                        _xDocumentHandler_Mock,
-                                                        _autoDetector_Mock.Object,
-                                                        _autoDetectResultsVM_Mock.Object,
-                                                        _autoDetectResultsWindow_Mock.Object, 
-                                                        _layoutAutoConfigurator_Mock.Object, 
-                                                        _pokerRoomInfoLocator_Stub.Object);
+                _sut = new LiveTrackerSettingsViewModel(
+                    _eventAggregator,
+                    _xDocumentHandler_Mock,
+                    _autoDetector_Mock.Object,
+                    _autoDetectResultsVM_Mock.Object,
+                    _autoDetectResultsWindow_Mock.Object,
+                    _layoutAutoConfigurator_Mock.Object,
+                    _pokerRoomInfoLocator_Stub.Object);
         };
 
         [Subject(typeof(LiveTrackerSettingsViewModel), "Load")]
@@ -87,9 +89,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             const string notExisitingPath = "doesn't exist";
 
-            Establish context = () => {
-                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _layoutAutoConfigurator_Mock.Object, _pokerRoomInfoLocator_Stub.Object)
-                    { HandHistoryFilesPaths = new[] { existingPath, notExisitingPath } };
+            Establish context = () =>
+            {
+                var settings = new LiveTrackerSettingsViewModel(_eventAggregator, new Mock<ILiveTrackerSettingsXDocumentHandler>().Object, _autoDetector_Mock.Object, _autoDetectResultsVM_Mock.Object, _autoDetectResultsWindow_Mock.Object, _layoutAutoConfigurator_Mock.Object, _pokerRoomInfoLocator_Stub.Object) { HandHistoryFilesPaths = new[] { existingPath, notExisitingPath } };
 
                 _xDocumentHandler_Mock.DocumentToLoad = LiveTrackerSettingsViewModel.CreateXDocumentFor(settings);
             };
@@ -136,7 +138,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             const int duration = 1;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 var settings = new LiveTrackerSettingsViewModel(_eventAggregator,
                                                                 new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,
                                                                 _autoDetector_Mock.Object,
@@ -145,9 +148,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                                                                 _layoutAutoConfigurator_Mock.Object,
                                                                 _pokerRoomInfoLocator_Stub.Object)
                     {
-                        AutoTrack = setTrue, 
-                        ShowLiveStatsWindowOnStartup = setTrue, 
-                        ShowTableOverlay = setTrue, 
+                        AutoTrack = setTrue,
+                        ShowLiveStatsWindowOnStartup = setTrue,
+                        ShowTableOverlay = setTrue,
                         ShowMyStatistics = setTrue,
                         GameHistoryIsPoppedIn = setTrue,
                         ShowHoleCardsDuration = duration
@@ -180,7 +183,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             const int duration = 2;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 var settings = new LiveTrackerSettingsViewModel(_eventAggregator,
                                                                 new Mock<ILiveTrackerSettingsXDocumentHandler>().Object,
                                                                 _autoDetector_Mock.Object,
@@ -189,9 +193,9 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
                                                                 _layoutAutoConfigurator_Mock.Object,
                                                                 _pokerRoomInfoLocator_Stub.Object)
                     {
-                        AutoTrack = setFalse, 
-                        ShowLiveStatsWindowOnStartup = setFalse, 
-                        ShowTableOverlay = setFalse, 
+                        AutoTrack = setFalse,
+                        ShowLiveStatsWindowOnStartup = setFalse,
+                        ShowTableOverlay = setFalse,
                         ShowMyStatistics = setFalse,
                         GameHistoryIsPoppedIn = setFalse,
                         ShowHoleCardsDuration = duration
@@ -226,12 +230,14 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             static ILiveTrackerSettingsViewModel passedPayload;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryFilesPaths = new[] { "somePath" };
                 expectedDocument = LiveTrackerSettingsViewModel.CreateXDocumentFor(_sut);
                 _eventAggregator
                     .GetEvent<LiveTrackerSettingsChangedEvent>()
-                    .Subscribe(payload => {
+                    .Subscribe(payload =>
+                    {
                         settingsChangedWasRaised = true;
                         passedPayload = payload;
                     });
@@ -269,7 +275,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
             const string firstPath = "first Path";
             const string secondPath = "second Path";
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryFilesPaths = new List<string> { firstPath, secondPath };
                 _sut.SelectedHandHistoryFilesPath = secondPath;
             };
@@ -296,7 +303,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         public class when_the_given_path_is_not_a_valid_path : LiveTrackerSettingsViewModelSpecs
         {
             Because of = () => _sut.HandHistoryPathToBeAdded = "illegal path";
-           
+
             It should_not_be_possible_to_add_it = () => _sut.AddHandHistoryPathCommand.CanExecute(null).ShouldBeFalse();
         }
 
@@ -304,7 +311,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         public class when_the_given_path_is_a_valid_path : LiveTrackerSettingsViewModelSpecs
         {
             Because of = () => _sut.HandHistoryPathToBeAdded = @"C:\";
-           
+
             It should_be_possible_to_add_it = () => _sut.AddHandHistoryPathCommand.CanExecute(null).ShouldBeTrue();
         }
 
@@ -313,7 +320,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         {
             const string pathToBeAdded = "to be added Path";
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryPathToBeAdded = pathToBeAdded;
                 _sut.HandHistoryFilesPaths = new List<string>();
             };
@@ -328,11 +336,12 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         [Subject(typeof(LiveTrackerSettingsViewModel), "Add Hand History path")]
         public class when_the_user_executes_the_add_folder_command_and_the_folder_was_not_added_yet_but_the_path_has_leading_and_trailing_spaces : LiveTrackerSettingsViewModelSpecs
         {
-            
+
             const string pathToBeAdded = "  to be added Path  ";
             const string pathToBeAddedWithoutSpaces = "to be added Path";
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryPathToBeAdded = pathToBeAdded;
                 _sut.HandHistoryFilesPaths = new List<string>();
             };
@@ -351,7 +360,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             static bool userWasWarned;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryPathToBeAdded = pathToBeAdded;
                 _sut.HandHistoryFilesPaths = new List<string> { pathToBeAdded };
                 _eventAggregator
@@ -371,9 +381,10 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         [Subject(typeof(LiveTrackerSettingsViewModel), "AutoDetectHandHistoryFoldersCommand")]
         public class when_the_user_wants_to_autodetect_the_HandHistory_folders_and_no_HandHistoryFolders_are_currently_tracked : LiveTrackerSettingsViewModelSpecs
         {
-           static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
+            static IEnumerable<IPokerRoomInfo> pokerRoomInfos_Stub;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
                 _pokerRoomInfoLocator_Stub
                     .SetupGet(il => il.SupportedPokerRoomInfos)
@@ -387,7 +398,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             It should_tell_the_autoDetector_to_detect_handHistoryFolders = () => _autoDetector_Mock.Verify(ad => ad.DetectHandHistoryFolders());
 
-            It should_initialize_the_autodetectresults_viewmodel_with_the_autodetector 
+            It should_initialize_the_autodetectresults_viewmodel_with_the_autodetector
                 = () => _autoDetectResultsVM_Mock.Verify(dr => dr.InitializeWith(_autoDetector_Mock.Object));
 
             It should_set_the_datacontext_of_the_autodetectresults_window_to_the_autodetectresults_viewmodel
@@ -401,7 +412,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
         {
             const string detectedHandHistoryFolder = "someFolder";
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryFilesPaths = new List<string>();
                 _autoDetector_Mock
                     .SetupGet(ad => ad.PokerRoomsWithDetectedHandHistoryDirectories)
@@ -420,7 +432,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             const string secondDetectedHandHistoryFolder = "another Folder";
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 _sut.HandHistoryFilesPaths = new List<string> { secondDetectedHandHistoryFolder };
                 _autoDetector_Mock
                     .SetupGet(ad => ad.PokerRoomsWithDetectedHandHistoryDirectories)
@@ -445,7 +458,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             static ITuple<string, IDictionary<int, int>> returnedPreferredSeatsForRoom;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 preferredSeats_Stub = new Dictionary<int, int> { { 2, 1 } };
                 returnedPreferredSeatsForRoom = Tuple.New(site, preferredSeats_Stub);
 
@@ -484,7 +498,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             static UserMessageEventArgs passedPayload;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 preferredSeats_Stub = new Dictionary<int, int> { { 2, 1 } };
                 returnedPreferredSeatsForRoom = Tuple.New(site, preferredSeats_Stub);
 
@@ -498,12 +513,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
                 _eventAggregator
                     .GetEvent<UserMessageEvent>()
-                    .Subscribe(payload => {
+                    .Subscribe(payload =>
+                    {
                         publishUserMessageWasRaised = true;
                         passedPayload = payload;
-                    }, 
-                    ThreadOption.PublisherThread, 
-                    false, 
+                    },
+                    ThreadOption.PublisherThread,
+                    false,
                     args => args.MessageType == UserMessageTypes.Info);
             };
 
@@ -516,7 +532,7 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             It should_tell_the_layoutAutoConfigurator_to_configure_the_preferred_seats_for_the_pokerroom
                 = () => _layoutAutoConfigurator_Mock.Verify(lac => lac.ConfigurePreferredSeats(site, preferredSeats_Stub));
-            
+
             It should_let_the_user_know_about_the_preferred_seats_that_got_configured = () => publishUserMessageWasRaised.ShouldBeTrue();
 
             It should_include_the_site_whose_preferred_seat_got_configured_in_the_message = () => passedPayload.UserMessage.ShouldContain(site);
@@ -530,7 +546,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             const string site = "SomeSite";
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
                 _pokerRoomInfoLocator_Stub
                     .SetupGet(il => il.SupportedPokerRoomInfos)
@@ -564,7 +581,8 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
             static UserMessageEventArgs passedPayload;
 
-            Establish context = () => {
+            Establish context = () =>
+            {
                 pokerRoomInfos_Stub = new[] { new Mock<IPokerRoomInfo>().Object };
                 _pokerRoomInfoLocator_Stub
                     .SetupGet(il => il.SupportedPokerRoomInfos)
@@ -575,12 +593,13 @@ namespace PokerTell.LiveTracker.Tests.ViewModels
 
                 _eventAggregator
                     .GetEvent<UserMessageEvent>()
-                    .Subscribe(payload => {
+                    .Subscribe(payload =>
+                    {
                         publishUserWarningWasRaised = true;
                         passedPayload = payload;
-                    }, 
-                    ThreadOption.PublisherThread, 
-                    false, 
+                    },
+                    ThreadOption.PublisherThread,
+                    false,
                     args => args.MessageType == UserMessageTypes.Warning);
             };
 

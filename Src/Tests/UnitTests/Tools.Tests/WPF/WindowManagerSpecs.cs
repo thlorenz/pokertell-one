@@ -9,7 +9,7 @@ namespace Tools.Tests.WPF
     using Moq;
     using Tools.WPF;
 
-    using It = Machine.Specifications.It;
+    using it = Machine.Specifications.It;
 
     // Resharper disable InconsistentNaming
     public abstract class WindowManagerSpecs
@@ -36,9 +36,9 @@ namespace Tools.Tests.WPF
 
             Because of = () => targetWindow = _sut.Window;
 
-            It should_be_created = () => _creationsCounter.ShouldEqual(1);
-
-            It should_return_the_window_that_is_created_via_the_passed_function = () => targetWindow.ShouldEqual(_window_Mock.Object);
+            it should_be_created = () => _creationsCounter.ShouldEqual(1);
+           
+            it should_return_the_window_that_is_created_via_the_passed_function = () => targetWindow.ShouldEqual(_window_Mock.Object);
         }
 
         [Subject(typeof(WindowManager), "LazyCreation")]
@@ -52,9 +52,9 @@ namespace Tools.Tests.WPF
 
             Because of = () => targetWindow = _sut.Window;
 
-            It should_not_be_created_again = () => _creationsCounter.ShouldEqual(1);
+            it should_not_be_created_again = () => _creationsCounter.ShouldEqual(1);
 
-            It should_return_the_window_that_was_created_previously = () => targetWindow.ShouldEqual(previouslyCreatedWindow);
+            it should_return_the_window_that_was_created_previously = () => targetWindow.ShouldEqual(previouslyCreatedWindow);
         }
 
         [Subject(typeof(WindowManager), "Closing Window")]
@@ -70,17 +70,25 @@ namespace Tools.Tests.WPF
 
             Because of = () => window.Close();
 
-            It should_set_the_window_to_null_to_force_recreation = () => _sut._Window.ShouldBeNull();
+            it should_set_the_window_to_null_to_force_recreation = () => _sut._Window.ShouldBeNull();
         }
 
         [Subject(typeof(WindowManager), "Dispose")]
         public class when_Manager_is_disposed_and_the_window_was_not_created_yet : WindowManagerSpecs
         {
+            static bool windowWasClosed;
+            Establish catchClose = () => {
+                var win = new Window();
+                win.Closed += (s, e) => windowWasClosed = true;
+                _sut = new WindowManagerSut(() => win);
+            };
+
             Because of = () => _sut.Dispose();
 
-            It should_not_close_the_window = () => _window_Mock.Verify(w => w.Close(), Times.Never());
+            it should_not_close_the_window = () => windowWasClosed.ShouldBeFalse();
 
-            It should_set_the_window_to_null_to_force_recreation = () => _sut._Window.ShouldBeNull();
+            it should_set_the_window_to_null_to_force_recreation = () => _sut._Window.ShouldBeNull();
+            
         }
     }
 

@@ -19,13 +19,10 @@ namespace PokerTell.LiveTracker.DesignWithDatabase
         static readonly IRaiseReactionStatisticsBuilder RaiseReactionStatisticsBuilder =
             new Mock<IRaiseReactionStatisticsBuilder>().Object;
 
-
         public void TableStatisticsViewTemplate()
         {
             var designWindow = new TableStatisticsDesignWindow(new EventAggregator(), HandBrowserViewModelStub) { Topmost = true };
             designWindow.ShowDialog();
         }
-
-        
     }
 }
